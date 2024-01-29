@@ -39,11 +39,11 @@ class SuperAdminSeeder extends Seeder
         ]);
         $rsOffice->assignRole('Rs_Admin');
 
-        $rsOffice = User::create([
+        $broker = User::create([
             'name' => 'Broker',
             'email' => 'Broker@test.com',
             'password' => Hash::make('12345678')
         ]);
-        $rsOffice->assignRole('Broker');
+        $broker->assignRole('Broker');
     }
 }
