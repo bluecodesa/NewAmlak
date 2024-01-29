@@ -8,16 +8,16 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:create-role|edit-role|delete-role', ['only' => ['index','show']]);
-        $this->middleware('permission:create-role', ['only' => ['create','store']]);
-        $this->middleware('permission:edit-role', ['only' => ['edit','update']]);
+        $this->middleware('permission:create-role|edit-role|delete-role', ['only' => ['index', 'show']]);
+        $this->middleware('permission:create-role', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit-role', ['only' => ['edit', 'update']]);
         $this->middleware('permission:delete-role', ['only' => ['destroy']]);
     }
     /**
@@ -25,9 +25,8 @@ class RoleController extends Controller
      */
     public function index(): View
     {
-        return view('roles.index', [
-            'roles' => Role::orderBy('id','DESC')->paginate(6)
-        ]);
+        $roles =  Role::orderBy('id', 'DESC')->paginate(6);
+        return view('roles.index', get_defined_vars());
     }
 
     /**
@@ -35,9 +34,8 @@ class RoleController extends Controller
      */
     public function create(): View
     {
-        return view('roles.create', [
-            'permissions' => Permission::get()
-        ]);
+        $permissions = Permission::get();
+        return view('roles.create', get_defined_vars());
     }
 
     /**
@@ -52,16 +50,12 @@ class RoleController extends Controller
         $role->syncPermissions($permissions);
 
         return redirect()->route('roles.index')
-                ->withSuccess('New role is added successfully.');
+            ->withSuccess('New role is added successfully.');
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Role $role): View
     {
-        $rolePermissions = Permission::join("role_has_permissions","permission_id","=","id")
-            ->where("role_id",$role->id)
+        $rolePermissions = Permission::join("role_has_permissions", "permission_id", "=", "id")
+            ->where("role_id", $role->id)
             ->select('name')
             ->get();
         return view('roles.show', [
@@ -75,11 +69,11 @@ class RoleController extends Controller
      */
     public function edit(Role $role): View
     {
-        if($role->name=='App_SuperAdmin'){
+        if ($role->name == 'App_SuperAdmin') {
             abort(403, 'SUPER ADMIN ROLE CAN NOT BE EDITED');
         }
 
-        $rolePermissions = DB::table("role_has_permissions")->where("role_id",$role->id)
+        $rolePermissions = DB::table("role_has_permissions")->where("role_id", $role->id)
             ->pluck('permission_id')
             ->all();
 
@@ -104,7 +98,7 @@ class RoleController extends Controller
         $role->syncPermissions($permissions);
 
         return redirect()->back()
-                ->withSuccess('Role is updated successfully.');
+            ->withSuccess(__('Role is updated successfully.'));
     }
 
     /**
@@ -112,14 +106,14 @@ class RoleController extends Controller
      */
     public function destroy(Role $role): RedirectResponse
     {
-        if($role->name=='App_SuperAdmin'){
-            abort(403, 'SUPER ADMIN ROLE CAN NOT BE DELETED');
+        if ($role->name == 'App_SuperAdmin') {
+            abort(403, __('SUPER ADMIN ROLE CAN NOT BE DELETED'));
         }
-        if(auth()->user()->hasRole($role->name)){
-            abort(403, 'CAN NOT DELETE SELF ASSIGNED ROLE');
+        if (auth()->user()->hasRole($role->name)) {
+            abort(403, __('CAN NOT DELETE SELF ASSIGNED ROLE'));
         }
         $role->delete();
         return redirect()->route('roles.index')
-                ->withSuccess('Role is deleted successfully.');
+            ->withSuccess(__('Role is deleted successfully.'));
     }
 }

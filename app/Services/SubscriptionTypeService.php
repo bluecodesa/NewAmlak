@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
-
-
-
-
 class SubscriptionTypeService
 {
     public function calculateRange($counts)
@@ -59,7 +55,8 @@ class SubscriptionTypeService
             'subscriptions' => $types,
             'status_filter' => $status_filter, 'period_filter' => $period_filter, 'price_filter' => $price_filter,
             'prices' => $prices
-        ]);    }
+        ]);
+    }
 
     // ... other methods
 
@@ -93,42 +90,42 @@ class SubscriptionTypeService
     public function store(Request $request)
     {
 
-     $period = $request['period'];
-     $period_type = $request['period_type'];
+        $period = $request['period'];
+        $period_type = $request['period_type'];
 
-    $this->validateSubscription($request, $period, $period_type);
+        $this->validateSubscription($request, $period, $period_type);
 
-    $subscriptionType = SubscriptionType::create($request->all());
+        $subscriptionType = SubscriptionType::create($request->all());
 
-    $roles = $request->input('roles', []);
-    $subscriptionType->syncRoles($roles);
+        $roles = $request->input('roles', []);
+        $subscriptionType->syncRoles($roles);
 
-    // Flash a success message to the session
-    toastr()->success("تم اضافة نوع الاشتراك بنجاح");
+        // Flash a success message to the session
+        toastr()->success("تم اضافة نوع الاشتراك بنجاح");
 
-    // Redirect back to the index page or any other page you prefer
-    return redirect()->route('SubscriptionTypes.index');
-}
+        // Redirect back to the index page or any other page you prefer
+        return redirect()->route('SubscriptionTypes.index');
+    }
 
     public function update(Request $request, $id)
     {
         // ... (same as in the repository)
         $period = $request['period'];
-    $period_type = $request['period_type'];
-    $type = SubscriptionType::find($id);
+        $period_type = $request['period_type'];
+        $type = SubscriptionType::find($id);
 
-    $this->validateSubscription($request, $period, $period_type, $type);
+        $this->validateSubscription($request, $period, $period_type, $type);
 
-    if ($this->shouldUpdateType($request, $type)) {
-        SubscriptionType::where(['id' => $id])->update(['is_deleted' => 1]);
-        SubscriptionType::create($request->all());
-    } else {
-        $type->update($request->all());
-    }
+        if ($this->shouldUpdateType($request, $type)) {
+            SubscriptionType::where(['id' => $id])->update(['is_deleted' => 1]);
+            SubscriptionType::create($request->all());
+        } else {
+            $type->update($request->all());
+        }
 
-    toastr()->success("تم تعديل نوع الاشتراك بنجاح");
+        toastr()->success("تم تعديل نوع الاشتراك بنجاح");
 
-    return redirect()->route('SubscriptionTypes.index');
+        return redirect()->route('SubscriptionTypes.index');
     }
 
     private function validateSubscription($request, $period, $period_type, $type = null)
@@ -148,10 +145,10 @@ class SubscriptionTypeService
     }
 
     private function shouldUpdateType($request, $type)
-{
-    return $request->price != $type->price || $request->period != $type->period ||
-        $request->period_type != $type->period_type;
-}
+    {
+        return $request->price != $type->price || $request->period != $type->period ||
+            $request->period_type != $type->period_type;
+    }
 
 
     public function edit($id)
@@ -168,21 +165,18 @@ class SubscriptionTypeService
     {
         // ... (same as in the repository)
         return SubscriptionType::find($id);
-
     }
 
     public function getBy($arr)
     {
         // ... (same as in the repository)
         return SubscriptionType::where($arr)->get();
-
     }
 
     public function getAll()
     {
         // ... (same as in the repository)
         return SubscriptionType::where('is_deleted', 0)->get();
-
     }
 
     public function deleteMultiType($array)
@@ -192,7 +186,6 @@ class SubscriptionTypeService
         SubscriptionType::whereIn('id', $ids)->update(['is_deleted' => 1]);
         toastr()->success("تم الحذف  بنجاح");
         return  back();
-
     }
 
     public function deleteType($id)

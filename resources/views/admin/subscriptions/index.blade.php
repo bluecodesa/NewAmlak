@@ -1,20 +1,6 @@
 @extends('layouts.app')
-@section('title')
-    انواع الاشتراكات
-
-@stop
+@section('title', 'انواع الاشتراكات')
 @section('content')
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="content">
 
         <div class="col-md-12 col-lg-12 mb-4">
@@ -43,43 +29,43 @@
                                 </div>
                                 <div class="w-auto">
                                     <span>مدة الاشتراك</span>
-                                    <select
-                                    class="form-control form-control-sm"  @if ($period_filter != 'all') checked @endif "
-                                        id="period_filter" required name="period_filter">
-                                        <option value="all" @if ($period_filter == 'all') {{ 'selected' }} @endif>
-                                            اختر </option>
-                                        <option value="day" @if ($period_filter == 'day') {{ 'selected' }} @endif>
-                                            يوم
-                                        </option>
-                                        <option value="week" @if ($period_filter == 'week') {{ 'selected' }} @endif>
-                                            اسبوع
-                                        </option>
+                                    <select class="form-control form-control-sm"
+                                        @if ($period_filter != 'all') checked @endif "
+                                                        id="period_filter" required name="period_filter">
+                                                        <option value="all" @if ($period_filter == 'all') {{ 'selected' }} @endif>
+                                                            اختر </option>
+                                                        <option value="day" @if ($period_filter == 'day') {{ 'selected' }} @endif>
+                                                            يوم
+                                                        </option>
+                                                        <option value="week" @if ($period_filter == 'week') {{ 'selected' }} @endif>
+                                                            اسبوع
+                                                        </option>
 
-                                        <option value="month" @if ($period_filter == 'month') {{ 'selected' }} @endif>
-                                            شهر
+                                                        <option value="month" @if ($period_filter == 'month') {{ 'selected' }} @endif>
+                                                            شهر
+                                                        </option>
+                                                        <option value="year"
+                                                            @if ($period_filter == 'year') {{ 'selected' }} @endif>
+                                                            سنة
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="w-auto">
+                                                    <span>السعر</span>
+
+                                                    <select
+                                                        class="form-control select-input  @if ($price_filter != 'all') checked @endif "
+                                                        id="price_filter" required name="price_filter">
+
+                                                        <option value="all"
+                                                            @if ($price_filter == 'all') {{ 'selected' }} @endif>
+                                                            اختر </option>
+
+                                                            @foreach ($prices as $price)
+                                        <option value="{{ $price }}"
+                                            @if ($price_filter == $price) {{ 'selected' }} @endif>
+                                            {{ $price }} ريال فيما اقل
                                         </option>
-                                        <option value="year"
-                                            @if ($period_filter == 'year') {{ 'selected' }} @endif>
-                                            سنة
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="w-auto">
-                                    <span>السعر</span>
-
-                                    <select
-                                        class="form-control select-input  @if ($price_filter != 'all') checked @endif "
-                                        id="price_filter" required name="price_filter">
-
-                                        <option value="all"
-                                            @if ($price_filter == 'all') {{ 'selected' }} @endif>
-                                            اختر </option>
-
-                                        @foreach ($prices as $price)
-                                            <option value="{{ $price }}"
-                                                @if ($price_filter == $price) {{ 'selected' }} @endif>
-                                                {{ $price }} ريال فيما اقل
-                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -96,7 +82,7 @@
                                     if ($status_filter != 'all') {
                                         $filter_counter++;
                                     }
-
+                                    
                                     ?>
 
                                     @if ($filter_counter > 0)
@@ -144,7 +130,8 @@
                             تصدير</button>
                     </div>
 
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <tr>
                                 <th>
@@ -213,7 +200,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if($sub->hasRole('Broker'))
+                                        @if ($sub->hasRole('Broker'))
                                             مسوق
                                         @elseif($sub->hasRole('Rs_Admin'))
                                             مكتب
@@ -227,14 +214,22 @@
                                     <td>{{ $sub->status == 1 ? 'فعال' : 'غير فعال' }}</td>
                                     <td class="noExl">
                                         <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-three-dots-vertical"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                                                 </svg>
                                             </button>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="{{ route('SubscriptionTypes.edit', $sub->id) }}">تعديل</a>
-                                                <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal1" data-id="{{ $sub->id }}"
+                                            <div class="dropdown-menu dropdown-menu-right"
+                                                aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item"
+                                                    href="{{ route('SubscriptionTypes.edit', $sub->id) }}">تعديل</a>
+                                                <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal1"
+                                                    data-id="{{ $sub->id }}"
                                                     onclick="document.querySelector('a.contnue_delete').dataset['id'] = this.dataset['id']">حذف</a>
                                             </div>
                                         </div>
@@ -301,7 +296,7 @@
             )
                 flag = true;
 
-                if (!flag && !document.querySelector('#subscriptionsForm a.clear-filter')) event.preventDefault();
+            if (!flag && !document.querySelector('#subscriptionsForm a.clear-filter')) event.preventDefault();
 
         });
 
