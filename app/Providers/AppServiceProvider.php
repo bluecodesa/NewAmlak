@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Interfaces\SubscriptionTypesRepositoryInterface;
+use App\Models\Setting;
 use App\Repositories\SubscriptionTypesRepository;
 
 
@@ -33,5 +34,11 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
 
 
+        view()->composer('*', function ($view) { {
+
+                $sitting =   Setting::first();
+                $view->with('sitting', $sitting);
+            }
+        });
     }
 }

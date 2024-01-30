@@ -23,28 +23,14 @@ use App\Http\Controllers\SubscriptionTypesController;
 //     return view('welcome');
 // });
 
-Auth::routes();
-
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-
-
-Route::resources([
-    'roles' => RoleController::class,
-    'users' => UserController::class,
-
-]);
-// routes/web.php
-
-
-
-Route::get('/offices/create', [OfficeController::class, 'create'])->name('offices.create');
-Route::post('/offices/store', [OfficeController::class, 'store'])->name('offices.store');
-
-//subscription
-Route::get('subscriptionTypes', [SubscriptionTypesController::class, 'index'])->name('SubscriptionTypes.index');
-Route::get('/subscriptionTypes/create', [SubscriptionTypesController::class, 'create'])->name('SubscriptionTypes.create');
-Route::post('SubscriptionTypes/create', [SubscriptionTypesController::class, 'store'])->name('SubscriptionTypes.store');
-Route::get('SubscriptionTypes/edit/{id}', [SubscriptionTypesController::class, 'edit'])->name('SubscriptionTypes.edit');
-
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+    ],
+    function () {
+        Auth::routes();
+    }
+);

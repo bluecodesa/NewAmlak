@@ -21,9 +21,7 @@ class SubscriptionTypeService
         if (count($uniqueCounts) <= 1) {
             return $uniqueCounts ? [$uniqueCounts[0]] : [0];
         }
-
         sort($uniqueCounts);
-
         $min = 0;
         $max = end($uniqueCounts);
 
@@ -32,17 +30,13 @@ class SubscriptionTypeService
 
         $result = [];
 
-        for ($i = 0; $i < $diff; $i++) {
-            if ($min < $diff) {
-                $min += $period;
-                $result[] = $min;
-            } else {
-                break;
-            }
+        for ($i = 1; $i <= 2; $i++) {
+            $result[] = $min + $i * $period;
         }
-
+        $result[] = $max;
         return $result;
     }
+
 
     public function index($status_filter, $period_filter, $price_filter)
     {
@@ -51,7 +45,7 @@ class SubscriptionTypeService
 
         $types = $types->get();
 
-        return view('admin.subscriptions.index', [
+        return view('Admin.admin.subscriptions.index', [
             'subscriptions' => $types,
             'status_filter' => $status_filter, 'period_filter' => $period_filter, 'price_filter' => $price_filter,
             'prices' => $prices
@@ -83,7 +77,7 @@ class SubscriptionTypeService
         $allowedRoles = ['Rs_admin', 'Broker'];
         $roles = Role::whereIn('name', $allowedRoles)->get();
 
-        return view('admin.subscriptions.create')->with('roles', $roles);
+        return view('Admin.admin.subscriptions.create')->with('roles', $roles);
     }
 
 
@@ -125,7 +119,7 @@ class SubscriptionTypeService
 
         toastr()->success("تم تعديل نوع الاشتراك بنجاح");
 
-        return redirect()->route('SubscriptionTypes.index');
+        return redirect()->route('Admin.SubscriptionTypes.index');
     }
 
     private function validateSubscription($request, $period, $period_type, $type = null)
@@ -153,12 +147,11 @@ class SubscriptionTypeService
 
     public function edit($id)
     {
-        // ... (same as in the repository)
         $sub = $this->find($id);
         $users = Subscription::where('subscriptions_type', $sub->period)->get();
         $access = count($users) > 0 ? false : true;
 
-        return view('admin.subscriptions.edit', ['sub' => $sub, 'access' => $access]);
+        return view('Admin.admin.subscriptions.edit', ['sub' => $sub, 'access' => $access]);
     }
 
     public function find($id)

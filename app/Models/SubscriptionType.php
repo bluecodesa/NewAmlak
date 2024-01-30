@@ -9,7 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class SubscriptionType extends Model
 {
-    use HasFactory , HasRoles;
+    use HasFactory, HasRoles;
 
     protected $table = 'subscription_types';
 
@@ -26,8 +26,25 @@ class SubscriptionType extends Model
         return $this->belongsToMany(Role::class, 'subscription_type_roles', 'subscription_type_id', 'role_id');
     }
 
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+
+    public function getPeriodTypeAttribute()
+    {
+        $periodType = $this->attributes['period_type'];
+        if ($periodType == 'week') {
+            return 'اسابيع';
+        } elseif ($periodType == 'month') {
+            return 'شهور';
+        } elseif ($periodType == 'year') {
+            return 'سنة';
+        } elseif ($periodType == 'day') {
+            return 'يوم';
+        }
+        return $periodType;
     }
 }
