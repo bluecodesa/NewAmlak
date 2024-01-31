@@ -35,6 +35,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
+        $models = Permission::distinct()->pluck('model')->toArray();
         return view('Admin.roles.permissions.create', get_defined_vars());
     }
 

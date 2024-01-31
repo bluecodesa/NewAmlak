@@ -37,6 +37,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
+        .required-color {
+            color: red;
+        }
+
         body,
         h4,
         h5,
