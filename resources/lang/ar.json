@@ -36,7 +36,22 @@
     "ar": "بالعربية",
     "en": "بالانجليزية",
     "save": "حفظ",
+    "Cancel": "الغاء",
     "Edit Permission": "تعديل صلاحية موجودة",
     "New Permission is added successfully": "الصلاحية الجديدة تم اضافتها بنجاح",
-    "Update successfully": "تم التحديث بنجاح"
+    "Update successfully": "تم التحديث بنجاح",
+    "Website name ar": " اسم عنوان المنصه بالعربي",
+    "Website name en": " اسم عنوان المنصه بالانجليزيه",
+    "URL": "رابط الموقع",
+    "Logo": "لوجو المنصه",
+    "Color": "تخصيص لون للمنصه",
+    "Settings": "الاعدادات",
+    "PayTabs": "بوابات الدفع",
+    "Api Key": "باي تابس api key",
+    ""
+
+
+
+
+
 }

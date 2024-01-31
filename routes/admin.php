@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubscriptionTypesController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,8 @@ Route::group(
                 'offices' => OfficeController::class,
                 'SubscriptionTypes' => SubscriptionTypesController::class,
                 'Permissions' => PermissionController::class,
+                'settings' => SettingController::class,
+
             ]);
         });
     }
