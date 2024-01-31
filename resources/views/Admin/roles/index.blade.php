@@ -44,6 +44,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('Name')</th>
+                                            <th>@lang('type permission')</th>
                                             <th>@lang('Action')</th>
 
                                         </tr>
@@ -51,8 +52,9 @@
                                     <tbody>
                                         @forelse ($roles as $role)
                                             <tr>
-                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <th>{{ $loop->iteration }}</th>
                                                 <td>{{ $role->name }}</td>
+                                                <td>{{ __($role->type) }}</td>
                                                 <td>
                                                     <form action="{{ route('Admin.roles.destroy', $role->id) }}"
                                                         method="post">
