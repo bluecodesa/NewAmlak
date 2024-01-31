@@ -12,13 +12,9 @@
                             <h4 class="page-title">
                                 @lang('Add New Permission')</h4>
                         </div>
-
-                    </div> <!-- end row -->
+                    </div>
                 </div>
-                <!-- end page-title -->
-
                 <div class="row">
-
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
@@ -44,16 +40,15 @@
                                             <div class="form-check mb-2">
                                                 <input class="form-check-input" type="radio" name="type" value="admin"
                                                     id="customradio1" checked="">
-                                                <label class="form-check-label" for="customradio1">@lang('admin')</label>
+                                                <label class="form-check-label" for="customradio1">@lang('Admin')</label>
                                             </div>
                                             <div class="form-check mb-2 mx-2">
                                                 <input class="form-check-input" type="radio" name="type" value="user"
                                                     id="customradio2" checked="">
-                                                <label class="form-check-label" for="customradio2">@lang('user')</label>
+                                                <label class="form-check-label" for="customradio2">@lang('User')</label>
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <div class="col-12">
                                         <button class="btn btn-primary" type="submit">@lang('save')</button>

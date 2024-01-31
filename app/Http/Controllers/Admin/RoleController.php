@@ -44,12 +44,17 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request): RedirectResponse
     {
+
+        $permissions = $request->input('permission', []);
+        foreach ($permissions as $permission) {
+
+            if (!Permission::where('name', $permission)->exists()) {
+                return redirect()->back()->withErrors(['permission' => "The permission '{$permission}' does not exist."]);
+            }
+        }
         $role = Role::create(['name' => $request->name]);
-
-        $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();
-
+        $role->update($request->all());
         $role->syncPermissions($permissions);
-
         return redirect()->route('roles.index')
             ->withSuccess('New role is added successfully.');
     }
@@ -85,16 +90,9 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $permissions = $request->input('permission', []);
-        foreach ($permissions as $permission) {
-            if (!Permission::where('name', $permission)->exists()) {
-                return redirect()->back()->withErrors(['permission' => "The permission '{$permission}' does not exist."]);
-            }
-        }
-
-        $role->update($request->all());
+        $permissions = Permission::whereIn('id', $request->permission)->get();
+        $role->update($request->except('permission'));
         $role->syncPermissions($permissions);
-
         $users = User::whereHas('roles', function ($q) use ($role) {
             $q->where('name', $role->name);
         })->get();
