@@ -39,8 +39,12 @@
 
                                     <div class="form-group col-md-6">
                                         <label>@lang('Model') </label>
-                                        <input type="text" required name="model" value="{{ $Permission->model }}"
-                                            class="form-control">
+                                        <select class="form-control" name="model" required>
+                                            <option disabled selected value="">@lang('Model')</option>
+                                            @foreach ($sections as $section)
+                                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
 
@@ -50,7 +54,8 @@
                                             <div class="form-check mb-2">
                                                 <input class="form-check-input" type="radio" name="type" value="admin"
                                                     id="customradio1" {{ $Permission->type == 'admin' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="customradio1">@lang('Admin')</label>
+                                                <label class="form-check-label"
+                                                    for="customradio1">@lang('Admin')</label>
                                             </div>
                                             <div class="form-check mb-2 mx-2">
                                                 <input class="form-check-input" type="radio" name="type" value="user"

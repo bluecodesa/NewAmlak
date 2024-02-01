@@ -34,8 +34,7 @@
                         "></i><span> @lang('Subscriber management')<span
                                 class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
-                        <li><a href="email-inbox.html">@lang('List subscribers')</a></li>
-                        <li><a href="email-read.html">@lang('List invoices')</a></li>
+                        <li><a href="{{ route('Admin.Sections.index') }}">@lang('sections')</a></li>
                         <li><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Subscriptions')</a></li>
                     </ul>
                 </li>
