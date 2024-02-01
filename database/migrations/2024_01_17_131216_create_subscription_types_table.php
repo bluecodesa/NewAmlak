@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subscription_types', function (Blueprint $table) {
-            $table->id();
-            // $table->foreignId('user_id')->constrained(); // Add this line for foreign key
+            $table->increments('id');
             $table->integer('period')->nullable();
             $table->string('period_type')->nullable();
             $table->string('price')->nullable();
             $table->string('status')->nullable();
+            $table->boolean('is_show')->default(0)->nullable();
             $table->tinyInteger('is_deleted')->default(0);
             $table->timestamps();
         });

@@ -41,6 +41,20 @@
             color: red;
         }
 
+        .sub-input {
+            position: absolute;
+            left: 1px;
+            top: 0;
+            background-color: #2f419c;
+            height: 100%;
+            color: white;
+            line-height: 2.6;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            padding: 0px 20px;
+            border: 1px solid #2f419c;
+        }
+
         body,
         h4,
         h5,

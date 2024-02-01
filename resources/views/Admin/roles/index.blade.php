@@ -57,33 +57,33 @@
                                                 </td>
                                                 <td>{{ __($role->type) }}</td>
                                                 <td>
-                                                    <form action="{{ route('Admin.roles.destroy', $role->id) }}"
-                                                        method="post">
-                                                        @csrf
-                                                        @method('DELETE')
 
-                                                        <a href="{{ route('Admin.roles.show', $role->id) }}"
-                                                            class="btn btn-warning btn-sm"><i class="bi bi-eye"></i>
-                                                            @lang('Show')</a>
+                                                    <a href="{{ route('Admin.roles.show', $role->id) }}"
+                                                        class="btn btn-outline-warning btn-sm waves-effect waves-light"><i
+                                                            class="bi bi-eye"></i>
+                                                        @lang('Show')</a>
 
-                                                        @if ($role->name != 'Super Admin')
-                                                            @can('edit-role')
-                                                                <a href="{{ route('Admin.roles.edit', $role->id) }}"
-                                                                    class="btn btn-primary btn-sm"><i
-                                                                        class="bi bi-pencil-square"></i>
-                                                                    @lang('Edit')</a>
-                                                            @endcan
+                                                    <a href="{{ route('Admin.roles.edit', $role->id) }}"
+                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
 
-                                                            @can('delete-role')
-                                                                @if ($role->name != Auth::user()->hasRole($role->name))
-                                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                                        onclick="return confirm('Do you want to delete this role?');"><i
-                                                                            class="bi bi-trash"></i> @lang('Delete')</button>
-                                                                @endif
-                                                            @endcan
-                                                        @endif
 
-                                                    </form>
+
+                                                    @can('delete-role')
+                                                        <a href="javascript:void(0);"
+                                                            onclick="event.preventDefault();document.getElementById('delete-form-{{ $role->id }}').submit();"
+                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                            @lang('Delete')
+                                                        </a>
+                                                        <form id="delete-form-{{ $role->id }}"
+                                                            action="{{ route('Admin.roles.destroy', $role->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    @endcan
+
+
+
                                                 </td>
                                             </tr>
                                         @empty

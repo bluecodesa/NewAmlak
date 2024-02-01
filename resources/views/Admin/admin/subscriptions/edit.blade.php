@@ -33,8 +33,10 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                                 @include('Admin.layouts.Inc._errors')
-                                <form action="{{ route('Admin.SubscriptionTypes.store') }}" method="POST">
+                                <form action="{{ route('Admin.SubscriptionTypes.update', $SubscriptionType->id) }}"
+                                    method="POST">
                                     @csrf
+                                    @method('PUT')
                                     <div class="form-row">
 
                                         @foreach (config('translatable.locales') as $locale)
@@ -44,22 +46,27 @@
                                                         {{ __('Name') }} {{ __($locale) }} <span
                                                             class="required-color">*</span></label>
                                                     <input type="text" required id="modalRoleName"
-                                                        name="{{ $locale }}[name]" class="form-control"
+                                                        name="{{ $locale }}[name]"
+                                                        value="{{ $SubscriptionType->translate($locale)->name }}"
+                                                        class="form-control"
                                                         placeholder="{{ __('Name') }} {{ __($locale) }}">
                                                 </div>
                                             </div>
                                         @endforeach
-
+                                        @php
+                                            $days = ['day', 'week', 'month', 'year'];
+                                        @endphp
                                         <div class="col-md-6 mb-3">
                                             <label for="period">@lang('Required subscription period')</label>
                                             <div class="wrapper" style="position: relative; ">
-                                                <input type="number" name="period" id="period" class="form-control"
-                                                    min="1" required />
+                                                <input type="number" value="{{ $SubscriptionType->period }}" name="period"
+                                                    id="period" class="form-control" min="1" required />
                                                 <select name="period_type" id="period_type" class="sub-input">
-                                                    <option value="day">@lang('day')</option>
-                                                    <option value="week">@lang('week')</option>
-                                                    <option value="month">@lang('month')</option>
-                                                    <option value="year">@lang('year')</option>
+                                                    @foreach ($days as $type)
+                                                        <option value="{{ $type }}"
+                                                            {{ $SubscriptionType->period_type == __($type) ? 'selected' : '' }}>
+                                                            @lang($type)</option>
+                                                    @endforeach
 
                                                 </select>
                                             </div>
@@ -68,30 +75,32 @@
                                             <label for="price"> @lang('the amount')</label><br />
                                             <div class="wrapper" style="position: relative; ">
 
-                                                <input type="text" name="price" id="price" class="form-control"
-                                                    required min="0" />
-                                                <span class="sub-input">SAR
+                                                <input type="text" name="price" value="{{ $SubscriptionType->price }}"
+                                                    id="price" class="form-control" required min="0" />
+                                                <span class="sub-input">@lang('SAR')
                                                 </span>
                                             </div>
 
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <p>@lang('status')</p>
-                                            <input type="radio" id="active" name="status" value="1" checked
-                                                required>
+                                            <input type="radio" id="active" name="status" value="{{ 1 }}"
+                                                {{ $SubscriptionType->status == 1 ? 'checked' : '' }} required>
                                             <label for="active">@lang('active')</label>
                                             <br />
-                                            <input type="radio" id="inactive" name="status" value="0">
+                                            <input type="radio" id="inactive" name="status" value="{{ 0 }}"
+                                                {{ $SubscriptionType->status == 0 ? 'checked' : '' }}>
                                             <label for="inactive">@lang('inactive')</label>
                                         </div>
 
                                         <div class="col-md-3 mb-3">
                                             <p>@lang('appear')</p>
                                             <input type="radio" id="show" name="is_show" value="{{ 1 }}"
-                                                checked required>
+                                                {{ $SubscriptionType->is_show == 1 ? 'checked' : '' }} required>
                                             <label for="show">@lang('show')</label>
                                             <br />
-                                            <input type="radio" id="hide" name="is_show" value="{{ 0 }}">
+                                            <input type="radio" id="hide" name="is_show" value="{{ 0 }}"
+                                                {{ $SubscriptionType->is_show == 0 ? 'checked' : '' }}>
                                             <label for="hide">@lang('hide')</label>
                                         </div>
 
@@ -100,6 +109,7 @@
                                             @foreach ($roles as $role)
                                                 <div class="form-check">
                                                     <input type="checkbox" id="{{ $role->id }}" name="roles[]"
+                                                        @if (in_array($role->id, $rolesIds)) checked @endif
                                                         value="{{ $role->id }}">
                                                     <label class="form-check-label"
                                                         for="{{ $role->id }}">{{ $role->name }}</label>
@@ -112,6 +122,7 @@
                                             @foreach ($sections as $section)
                                                 <div class="form-check">
                                                     <input type="checkbox" id="{{ $section->id }}" name="sections[]"
+                                                        @if (in_array($section->id, $sectionIds)) checked @endif
                                                         value="{{ $section->id }}">
                                                     <label class="form-check-label"
                                                         for="{{ $section->id }}">{{ $section->name }}</label>

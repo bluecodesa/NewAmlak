@@ -4,8 +4,11 @@
 
 namespace App\Services;
 
+use App\Models\Section;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
+use App\Models\SubscriptionTypeRole;
+use App\Models\SubscriptionTypeSection;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -73,53 +76,75 @@ class SubscriptionTypeService
 
     public function create()
     {
-        // $roles = Role::all();
-        $allowedRoles = ['Rs_admin', 'Broker'];
-        $roles = Role::whereIn('name', $allowedRoles)->get();
-
-        return view('Admin.admin.subscriptions.create')->with('roles', $roles);
+        $roles = Role::where('type', 'user')->get();
+        $sections = Section::get();
+        return view('Admin.admin.subscriptions.create', get_defined_vars());
     }
 
 
     public function store(Request $request)
     {
 
+        $rules = [];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('subscription_type_translations', 'name')]];
+        }
+        $rules += [
+            'period' => 'required',
+            'period_type' => 'required',
+            'roles*' => 'required',
+            'sections*' => 'required',
+        ];
+        $request->validate($rules);
         $period = $request['period'];
         $period_type = $request['period_type'];
 
         $this->validateSubscription($request, $period, $period_type);
 
-        $subscriptionType = SubscriptionType::create($request->all());
+        $subscriptionType = SubscriptionType::create($request->except(['roles', 'sections']));
 
-        $roles = $request->input('roles', []);
-        $subscriptionType->syncRoles($roles);
-
-        // Flash a success message to the session
-        toastr()->success("تم اضافة نوع الاشتراك بنجاح");
-
-        // Redirect back to the index page or any other page you prefer
-        return redirect()->route('SubscriptionTypes.index');
-    }
-
-    public function update(Request $request, $id)
-    {
-        // ... (same as in the repository)
-        $period = $request['period'];
-        $period_type = $request['period_type'];
-        $type = SubscriptionType::find($id);
-
-        $this->validateSubscription($request, $period, $period_type, $type);
-
-        if ($this->shouldUpdateType($request, $type)) {
-            SubscriptionType::where(['id' => $id])->update(['is_deleted' => 1]);
-            SubscriptionType::create($request->all());
-        } else {
-            $type->update($request->all());
+        foreach ($request->sections as $section) {
+            SubscriptionTypeSection::create(['subscription_type_id' => $subscriptionType->id, 'section_id' => $section]);
         }
 
-        toastr()->success("تم تعديل نوع الاشتراك بنجاح");
+        foreach ($request->roles as $role) {
+            SubscriptionTypeRole::create(['subscription_type_id' => $subscriptionType->id, 'role_id' => $role]);
+        }
 
-        return redirect()->route('Admin.SubscriptionTypes.index');
+        return redirect()->route('Admin.SubscriptionTypes.index')
+            ->withSuccess(__('added successfully'));
+    }
+
+    public function update(Request $request,  $id)
+    {
+        $subscriptionType = SubscriptionType::find($id);
+        $rules = [];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('subscription_type_translations', 'name')->ignore($subscriptionType->id, 'subscription_type_id')]];
+        }
+        $rules += [
+            'period' => 'required',
+            'period_type' => 'required',
+            'roles*' => 'required',
+            'sections*' => 'required',
+        ];
+        $request->validate($rules);
+
+        $period = $request['period'];
+        $period_type = $request['period_type'];
+
+        // $this->validateSubscription($request, $period, $period_type);
+
+        $subscriptionType->update($request->except(['roles', 'sections']));
+
+        // Sync sections
+        $subscriptionType->sections()->sync($request->sections);
+
+        // Sync roles
+        $subscriptionType->roles()->sync($request->roles);
+
+        return redirect()->route('Admin.SubscriptionTypes.index')
+            ->withSuccess(__('Update successfully'));
     }
 
     private function validateSubscription($request, $period, $period_type, $type = null)
@@ -129,14 +154,17 @@ class SubscriptionTypeService
             'status' => 'required',
             'period' => [
                 'required',
-                Rule::unique('subscription_types')->ignore($type ? $type->id : null)->where(function ($query) use ($period, $period_type) {
-                    return $query->where('period', $period)
-                        ->where('period_type', $period_type)
-                        ->where('is_deleted', 0);
-                }),
+                Rule::unique('subscription_types')
+                    ->ignore($type ? $type->id : null)
+                    ->where(function ($query) use ($period, $period_type) {
+                        return $query->where('period', $period)
+                            ->where('period_type', $period_type)
+                            ->where('is_deleted', 0);
+                    }),
             ],
         ], ['period.unique' => "تم اضافة هذا الاشتراك من قبل"]);
     }
+
 
     private function shouldUpdateType($request, $type)
     {
@@ -147,17 +175,19 @@ class SubscriptionTypeService
 
     public function edit($id)
     {
-        $sub = $this->find($id);
-        $users = Subscription::where('subscriptions_type', $sub->period)->get();
-        $access = count($users) > 0 ? false : true;
+        $SubscriptionType = $this->find($id);
 
-        return view('Admin.admin.subscriptions.edit', ['sub' => $sub, 'access' => $access]);
+        $roles = Role::where('type', 'user')->get();
+        $sections = Section::get();
+        $rolesIds = $SubscriptionType->RolesData->pluck('role_id')->toArray();
+        $sectionIds = $SubscriptionType->SectionData->pluck('section_id')->toArray();
+        return view('Admin.admin.subscriptions.edit', get_defined_vars());
     }
 
     public function find($id)
     {
         // ... (same as in the repository)
-        return SubscriptionType::find($id);
+        return SubscriptionType::with(['SectionData', 'RolesData'])->find($id);
     }
 
     public function getBy($arr)
@@ -183,9 +213,8 @@ class SubscriptionTypeService
 
     public function deleteType($id)
     {
-        // ... (same as in the repository)
         SubscriptionType::where(['id' => $id])->update(['is_deleted' => 1]);
-        toastr()->success("تم حذف نوع الاشتراك بنجاح");
-        return  back();
+        return redirect()->route('Admin.SubscriptionTypes.index')
+            ->withSuccess(__('Deleted successfully'));
     }
 }

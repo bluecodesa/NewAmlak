@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
@@ -9,41 +10,46 @@ use Spatie\Permission\Traits\HasRoles;
 
 class SubscriptionType extends Model
 {
-    use HasFactory, HasRoles;
 
-    protected $table = 'subscription_types';
-
-    protected $fillable = [
-        'is_deleted',
-        'period',
-        'period_type',
-        'price',
-        'status',
-    ];
+    use Translatable;
+    public $translatedAttributes = ['name'];
+    protected $guarded = [];
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'subscription_type_roles', 'subscription_type_id', 'role_id');
+        return $this->belongsToMany(Role::class, 'subscription_type_roles');
     }
 
-
-    public function user()
+    public function RolesData()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(SubscriptionTypeRole::class, 'subscription_type_id');
     }
+
+
+    public function sections()
+    {
+        return $this->belongsToMany(Section::class, 'subscription_type_sections');
+    }
+
+    public function SectionData()
+    {
+        return $this->hasMany(SubscriptionTypeSection::class, 'subscription_type_id');
+    }
+
+
 
 
     public function getPeriodTypeAttribute()
     {
         $periodType = $this->attributes['period_type'];
         if ($periodType == 'week') {
-            return 'اسابيع';
+            return __('week');
         } elseif ($periodType == 'month') {
-            return 'شهور';
+            return __('month');
         } elseif ($periodType == 'year') {
-            return 'سنة';
+            return __('year');
         } elseif ($periodType == 'day') {
-            return 'يوم';
+            return __('day');
         }
         return $periodType;
     }

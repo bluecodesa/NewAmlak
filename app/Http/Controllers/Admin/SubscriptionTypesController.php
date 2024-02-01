@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Interfaces\SubscriptionTypesRepositoryInterface;
 use App\Http\Requests\SubscriptionTypeRequest;
-
+use App\Models\SubscriptionType;
+use Illuminate\Http\Request;
 
 class SubscriptionTypesController extends Controller
 {
@@ -50,7 +51,7 @@ class SubscriptionTypesController extends Controller
 
     // ...
 
-    public function update(SubscriptionTypeRequest $request, $id)
+    public function update(Request $request, $id)
     {
         return $this->subtypeRepo->update($request, $id);
     }
@@ -60,8 +61,10 @@ class SubscriptionTypesController extends Controller
         return $this->subtypeRepo->deleteMultiType($array);
     }
 
-    public function deleteType($id)
+    public function destroy($id)
     {
-        return $this->subtypeRepo->deleteType($id);
+        SubscriptionType::where(['id' => $id])->update(['is_deleted' => 1]);
+        return redirect()->route('Admin.SubscriptionTypes.index')
+            ->withSuccess(__('Deleted successfully'));
     }
 }
