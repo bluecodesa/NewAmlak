@@ -15,7 +15,7 @@ class SectionController extends Controller
     public function index()
     {
         $sections = Section::get();
-        return view('Admin.section.index', get_defined_vars());
+        return view('Admin.Section.index', get_defined_vars());
     }
 
     /**
@@ -23,7 +23,7 @@ class SectionController extends Controller
      */
     public function create()
     {
-        return view('Admin.section.create', get_defined_vars());
+        return view('Admin.Section.create', get_defined_vars());
     }
 
     /**
@@ -55,7 +55,7 @@ class SectionController extends Controller
      */
     public function edit(Section $Section)
     {
-        return view('Admin.section.edit', get_defined_vars());
+        return view('Admin.Section.edit', get_defined_vars());
     }
 
     /**

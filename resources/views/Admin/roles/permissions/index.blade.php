@@ -52,8 +52,7 @@
                                                 <th>{{ $index + 1 }}</th>
                                                 <td>{{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}
                                                 </td>
-                                                <th>{{ __($permission->model) }}</th>
-
+                                                <td>{{ $permission->SectionDate->name ?? '' }}</td>
                                                 <td>
 
                                                     <a href="{{ route('Admin.Permissions.edit', $permission->id) }}"
