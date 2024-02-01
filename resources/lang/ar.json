@@ -70,9 +70,15 @@
     "Logo": "لوجو المنصه",
     "Color": "تخصيص لون للمنصه",
     "Settings": "الاعدادات",
+    "Website Setting": "اعدادات المنصه",
     "PayTabs": "بوابات الدفع",
-    "user": "مستخدم",
-    "admin": "اداري",
-    "Api Key": "باي تابس api key",
-    "user type": "نوع المستخدم"
+    "Api Key PayTabs": "باي تابس api key",
+    "Profile Id PayTabs": "باي تابس profile id",
+    "Notification Mange": "اداره التنبيهات",
+    "Gallary Mange": "اداره المعرض"
+
+
+
+
+
 }

@@ -11,6 +11,7 @@ return [
     |
     */
     'locales' => [
+
         'ar',
         'en',
         // 'es' => [
@@ -146,4 +147,5 @@ return [
         'prefix' => '%',
         'suffix' => '%',
     ],
+
 ];
