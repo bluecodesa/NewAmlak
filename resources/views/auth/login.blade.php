@@ -62,7 +62,13 @@
                     <div class="form-group">
                         <div class="col-12">
                             <label>الايميل</label>
-                            <input class="form-control" type="email" required placeholder="الايميل" name="email">
+                            <input class="form-control @error('user_name') is-invalid @enderror" type="text" required
+                                placeholder="الايميل" name="user_name">
+                            @error('user_name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
 
