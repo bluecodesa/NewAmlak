@@ -44,7 +44,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('Name')</th>
-                                            <th>@lang('user type')</th>
+                                            <th>@lang('Role type')</th>
                                             <th>@lang('Action')</th>
 
                                         </tr>
