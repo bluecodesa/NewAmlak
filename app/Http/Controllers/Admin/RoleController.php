@@ -44,12 +44,11 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request): RedirectResponse
     {
-
         $permissions = Permission::whereIn('id', $request->permission)->get();
         $role = Role::create(['name' => $request->name]);
         $role->update($request->all());
         $role->syncPermissions($permissions);
-        return redirect()->route('roles.index')
+        return redirect()->route('Admin.roles.index')
             ->withSuccess('New role is added successfully.');
     }
     public function show(Role $role)
