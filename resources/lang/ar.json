@@ -53,9 +53,13 @@
     "Logo": "لوجو المنصه",
     "Color": "تخصيص لون للمنصه",
     "Settings": "الاعدادات",
-    "Website setting": "اعدادات المنصه",
+    "Website Setting": "اعدادات المنصه",
     "PayTabs": "بوابات الدفع",
-    "Api Key": "باي تابس api key"
+    "Api Key PayTabs": "باي تابس api key",
+    "Profile Id PayTabs": "باي تابس profile id",
+    "Notification Mange": "اداره التنبيهات",
+    "Gallary Mange": "اداره المعرض"
+
 
 
 
