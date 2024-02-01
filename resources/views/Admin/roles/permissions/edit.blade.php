@@ -27,13 +27,13 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="form-group col-md-6">
-                                        <label>@lang('Name') @lang('en')</label>
-                                        <input type="text" required value="{{ $Permission->name }}" name="name"
+                                        <label>@lang('Name') @lang('ar')</label>
+                                        <input type="text" required value="{{ $Permission->name_ar }}" name="name_ar"
                                             class="form-control">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>@lang('Name') @lang('ar')</label>
-                                        <input type="text" required value="{{ $Permission->name_ar }}" name="name_ar"
+                                        <input type="text" required value="{{ $Permission->name }}" name="name"
                                             class="form-control">
                                     </div>
 
