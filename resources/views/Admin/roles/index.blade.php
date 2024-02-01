@@ -44,16 +44,17 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('Name')</th>
-                                            <th>@lang('type permission')</th>
+                                            <th>@lang('user type')</th>
                                             <th>@lang('Action')</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($roles as $role)
+                                        @forelse ($roles as $index=> $role)
                                             <tr>
-                                                <th>{{ $loop->iteration }}</th>
-                                                <td>{{ $role->name }}</td>
+                                                <th>{{ $index + 1 }}</th>
+                                                <td>{{ app()->getLocale() == 'ar' ? $role->name_ar : $role->name }}
+                                                </td>
                                                 <td>{{ __($role->type) }}</td>
                                                 <td>
                                                     <form action="{{ route('Admin.roles.destroy', $role->id) }}"
