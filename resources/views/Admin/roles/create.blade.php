@@ -29,16 +29,6 @@
                                     @method('post')
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <label class="form-label"
-                                                for="modalRoleName">{{ __('Enter the name of the role in English') }} <span
-                                                    class="required-color">*</span></label>
-                                            <input type="text" required id="modalRoleName" name="name"
-                                                class="form-control"
-                                                placeholder="{{ __('Enter the name of the role in English') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="mb-3">
                                             <label class="form-label" for="modalRoleNamear">
                                                 {{ __('Enter the name of the role in Arabic') }} <span
                                                     class="required-color">*</span></label>
@@ -47,8 +37,20 @@
                                                 placeholder="{{ __('Enter the name of the role in Arabic') }}">
                                         </div>
                                     </div>
+
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label class="form-label"
+                                                for="modalRoleName">{{ __('Enter the name of the role in English') }} <span
+                                                    class="required-color">*</span></label>
+                                            <input type="text" required id="modalRoleName" name="name"
+                                                class="form-control"
+                                                placeholder="{{ __('Enter the name of the role in English') }}">
+                                        </div>
+                                    </div>
+
                                     <div class="col-4">
-                                        <label class="form-label" for="modalRoleNamear"> @lang('Role type') <span
+                                        <label class="form-label" for="modalRoleNamear"> @lang('user type') <span
                                                 class="required-color">*</span></label>
                                         <div class="d-flex">
                                             <div class="form-check mb-2">

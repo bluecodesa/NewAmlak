@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <label class="form-label" for="modalRoleNamear"> @lang('type permission') <span
+                                        <label class="form-label" for="modalRoleNamear"> @lang('user type') <span
                                                 class="required-color">*</span></label>
                                         <div class="d-flex">
                                             <div class="form-check mb-2">

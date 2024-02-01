@@ -45,13 +45,7 @@ class RoleController extends Controller
     public function store(StoreRoleRequest $request): RedirectResponse
     {
 
-        $permissions = $request->input('permission', []);
-        foreach ($permissions as $permission) {
-
-            if (!Permission::where('name', $permission)->exists()) {
-                return redirect()->back()->withErrors(['permission' => "The permission '{$permission}' does not exist."]);
-            }
-        }
+        $permissions = Permission::whereIn('id', $request->permission)->get();
         $role = Role::create(['name' => $request->name]);
         $role->update($request->all());
         $role->syncPermissions($permissions);

@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <label class="form-label" for="modalRoleNamear"> @lang('Role type')</label>
+                                        <label class="form-label" for="modalRoleNamear"> @lang('user type')</label>
                                         <div class="d-flex">
                                             <div class="form-check mb-2">
                                                 <input class="form-check-input TypeUser" data-hide="admin" type="radio"

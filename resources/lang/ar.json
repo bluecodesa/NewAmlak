@@ -49,5 +49,6 @@
     "PayTabs": "بوابات الدفع",
     "user": "مستخدم",
     "admin": "اداري",
-    "Api Key": "باي تابس api key"
+    "Api Key": "باي تابس api key",
+    "user type": "نوع المستخدم"
 }
