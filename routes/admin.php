@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SubscriptionTypesController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
@@ -40,6 +41,8 @@ Route::group(
                 'SubscriptionTypes' => SubscriptionTypesController::class,
                 'Permissions' => PermissionController::class,
                 'settings' => SettingController::class,
+                'Sections' => SectionController::class,
+
 
             ]);
         });

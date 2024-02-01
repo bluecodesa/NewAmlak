@@ -27,30 +27,35 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="form-group col-md-6">
-                                        <label>@lang('Name') @lang('en')</label>
-                                        <input type="text" required value="{{ $Permission->name }}" name="name"
+                                        <label>@lang('Name') @lang('ar')</label>
+                                        <input type="text" required value="{{ $Permission->name_ar }}" name="name_ar"
                                             class="form-control">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>@lang('Name') @lang('ar')</label>
-                                        <input type="text" required value="{{ $Permission->name_ar }}" name="name_ar"
+                                        <input type="text" required value="{{ $Permission->name }}" name="name"
                                             class="form-control">
                                     </div>
 
                                     <div class="form-group col-md-6">
                                         <label>@lang('Model') </label>
-                                        <input type="text" required name="model" value="{{ $Permission->model }}"
-                                            class="form-control">
+                                        <select class="form-control" name="model" required>
+                                            <option disabled selected value="">@lang('Model')</option>
+                                            @foreach ($sections as $section)
+                                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
 
                                     <div class="col-4">
-                                        <label class="form-label" for="modalRoleNamear"> @lang('type permission')</label>
+                                        <label class="form-label" for="modalRoleNamear"> @lang('user type')</label>
                                         <div class="d-flex">
                                             <div class="form-check mb-2">
                                                 <input class="form-check-input" type="radio" name="type" value="admin"
                                                     id="customradio1" {{ $Permission->type == 'admin' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="customradio1">@lang('Admin')</label>
+                                                <label class="form-check-label"
+                                                    for="customradio1">@lang('Admin')</label>
                                             </div>
                                             <div class="form-check mb-2 mx-2">
                                                 <input class="form-check-input" type="radio" name="type" value="user"

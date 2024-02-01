@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
+use App\Models\Section;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +36,8 @@ class PermissionController extends Controller
      */
     public function create()
     {
+        $sections = Section::all();
+        $models = Permission::distinct()->pluck('model')->toArray();
         return view('Admin.roles.permissions.create', get_defined_vars());
     }
 
@@ -72,6 +75,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $Permission)
     {
+        $sections = Section::all();
         return view('Admin.roles.permissions.edit', get_defined_vars());
     }
 

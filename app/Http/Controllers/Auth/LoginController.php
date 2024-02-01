@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -28,11 +30,24 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    public function login(Request $request)
+
+    {
+        $input = $request->all();
+
+        $this->validate($request, [
+            'user_name' => 'required',
+            'password' => 'required',
+        ]);
+        $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
+        if (auth()->attempt(array($fieldType => $input['user_name'], 'password' => $input['password']))) {
+            return redirect()->route('home');
+        } else {
+
+            return back()->with('sorry', 'Email-Address And Password Are Wrong.');
+        }
+    }
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');

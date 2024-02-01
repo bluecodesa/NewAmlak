@@ -21,31 +21,40 @@
                                 <form action="{{ route('Admin.Permissions.store') }}" method="POST" class="row">
                                     @csrf
                                     <div class="form-group col-md-6">
-                                        <label>@lang('Name') @lang('en')</label>
-                                        <input type="text" required name="name" class="form-control">
+                                        <label>@lang('Name') @lang('ar') <span class="required-color">*</span>
+                                        </label>
+                                        <input type="text" required name="name_ar" class="form-control">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>@lang('Name') @lang('ar')</label>
+                                        <label>@lang('Name') @lang('en') <span
+                                                class="required-color">*</span></label>
                                         <input type="text" required name="name_ar" class="form-control">
                                     </div>
 
                                     <div class="form-group col-md-6">
                                         <label>@lang('Model') </label>
-                                        <input type="text" required name="model" class="form-control">
+                                        <select class="form-control" name="model" required>
+                                            <option disabled selected value="">@lang('Model')</option>
+                                            @foreach ($sections as $section)
+                                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                     <div class="col-4">
-                                        <label class="form-label" for="modalRoleNamear"> @lang('type permission')</label>
+                                        <label class="form-label" for="modalRoleNamear"> @lang('user type') <span
+                                                class="required-color">*</span></label>
                                         <div class="d-flex">
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="type" value="admin"
-                                                    id="customradio1" checked="">
+                                                <input class="form-check-input" type="radio" required name="type"
+                                                    value="admin" id="customradio1" checked="">
                                                 <label class="form-check-label" for="customradio1">@lang('Admin')</label>
                                             </div>
                                             <div class="form-check mb-2 mx-2">
                                                 <input class="form-check-input" type="radio" name="type" value="user"
                                                     id="customradio2" checked="">
-                                                <label class="form-check-label" for="customradio2">@lang('User')</label>
+                                                <label class="form-check-label"
+                                                    for="customradio2">@lang('User')</label>
                                             </div>
                                         </div>
                                     </div>
@@ -65,6 +74,5 @@
         <!-- container-fluid -->
 
     </div>
-
 
 @endsection

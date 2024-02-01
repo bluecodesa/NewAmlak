@@ -42,15 +42,18 @@
                                         <tr>
                                             <th>#</th>
                                             <th>@lang('Name')</th>
+                                            <th>@lang('Model')</th>
                                             <th>@lang('Action')</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($permissions as $index=> $permission)
                                             <tr>
-                                                <th scope="row">{{ $index + 1 }}</th>
+                                                <th>{{ $index + 1 }}</th>
                                                 <td>{{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}
                                                 </td>
+                                                <th>{{ __($permission->model) }}</th>
+
                                                 <td>
 
                                                     <a href="{{ route('Admin.Permissions.edit', $permission->id) }}"

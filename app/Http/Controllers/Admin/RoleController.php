@@ -26,7 +26,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles =  Role::orderBy('id', 'DESC')->paginate(6);
+        $roles =  Role::orderBy('id', 'DESC')->paginate(50);
         return view('Admin.roles.index', get_defined_vars());
     }
 
@@ -44,18 +44,11 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request): RedirectResponse
     {
-
-        $permissions = $request->input('permission', []);
-        foreach ($permissions as $permission) {
-
-            if (!Permission::where('name', $permission)->exists()) {
-                return redirect()->back()->withErrors(['permission' => "The permission '{$permission}' does not exist."]);
-            }
-        }
+        $permissions = Permission::whereIn('id', $request->permission)->get();
         $role = Role::create(['name' => $request->name]);
         $role->update($request->all());
         $role->syncPermissions($permissions);
-        return redirect()->route('roles.index')
+        return redirect()->route('Admin.roles.index')
             ->withSuccess('New role is added successfully.');
     }
     public function show(Role $role)

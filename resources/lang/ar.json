@@ -17,6 +17,11 @@
     "Action": "الاجراء",
     "Email": "البريد الالكتروني",
     "Role type": "نوع الدور",
+    "sections": "الاقسام",
+    "section": "القسم",
+    "Add": "اضافة",
+    "Add New Section": "اضافة قسم جديد",
+    "Edit Section": "تعديل القسم",
     "Name": "الاسم",
     "Enter the name of the role in English": "ادخل اسم الدور بالانجليزية",
     "Enter the name of the role in Arabic": "ادخل اسم الدور بالعربية",
@@ -26,7 +31,7 @@
     "You can not be able to revert this!": "لن تتمكن من التراجع عن هذا !",
     "Yes, delete it!": "نعم، احذفه !",
     "Add New Permission": "إضافة صلاحية جديد",
-    "Model": "الجدول",
+    "Model": "القسم",
     "type permission": "نوع الصلاحية",
     "User": "مستخدم",
     "Select/Deselect All": "تحديد/إلغاء تحديد الكل",
@@ -39,7 +44,9 @@
     "Cancel": "الغاء",
     "Edit Permission": "تعديل صلاحية موجودة",
     "New Permission is added successfully": "الصلاحية الجديدة تم اضافتها بنجاح",
+    "added successfully": "تم الاضافة بنجاح",
     "Update successfully": "تم التحديث بنجاح",
+    "Deleted successfully": "تم الحذف بنجاح",
     "Website name ar": " اسم عنوان المنصه بالعربي",
     "Website name en": " اسم عنوان المنصه بالانجليزيه",
     "URL": "رابط الموقع",
@@ -48,10 +55,7 @@
     "Settings": "الاعدادات",
     "Website setting": "اعدادات المنصه",
     "PayTabs": "بوابات الدفع",
-    "Api Key": "باي تابس api key",
-    "PayTab Id": "باي تابس profile id",
-    "Notification mange": "ادارة التنبيهات",
-    "Gallary mange": "ادارة المعرض"
+    "Api Key": "باي تابس api key"
 
 
 

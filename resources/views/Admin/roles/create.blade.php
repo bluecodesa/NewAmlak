@@ -29,22 +29,29 @@
                                     @method('post')
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <label class="form-label"
-                                                for="modalRoleName">{{ __('Enter the name of the role in English') }}</label>
-                                            <input type="text" id="modalRoleName" name="name" class="form-control"
-                                                placeholder="{{ __('Enter the name of the role in English') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="mb-3">
                                             <label class="form-label" for="modalRoleNamear">
-                                                {{ __('Enter the name of the role in Arabic') }}</label>
-                                            <input type="text" id="modalRoleName" name="name_ar" class="form-control"
+                                                {{ __('Enter the name of the role in Arabic') }} <span
+                                                    class="required-color">*</span></label>
+                                            <input type="text" required id="modalRoleName" name="name_ar"
+                                                class="form-control"
                                                 placeholder="{{ __('Enter the name of the role in Arabic') }}">
                                         </div>
                                     </div>
+
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label class="form-label"
+                                                for="modalRoleName">{{ __('Enter the name of the role in English') }} <span
+                                                    class="required-color">*</span></label>
+                                            <input type="text" required id="modalRoleName" name="name"
+                                                class="form-control"
+                                                placeholder="{{ __('Enter the name of the role in English') }}">
+                                        </div>
+                                    </div>
+
                                     <div class="col-4">
-                                        <label class="form-label" for="modalRoleNamear"> @lang('Role type')</label>
+                                        <label class="form-label" for="modalRoleNamear"> @lang('user type') <span
+                                                class="required-color">*</span></label>
                                         <div class="d-flex">
                                             <div class="form-check mb-2">
                                                 <input class="form-check-input TypeUser" data-hide="admin" type="radio"
@@ -60,7 +67,7 @@
                                     </div>
 
                                     <div class="col-12 mt-3">
-                                        <h4>@lang('Permissions')</h4>
+                                        <h4>@lang('Permissions') <span class="required-color">*</span></h4>
                                         <!-- Permission table -->
                                         <div class="mb-3">
                                             <div class="col-12" id="Select_All">
@@ -74,7 +81,8 @@
                                             </div>
                                             <div class="col-12" id="permissions">
                                                 @foreach ($permissions->groupBy('model') as $model => $permissions)
-                                                    <div class="col-md-12 col-xl-12 {{ $permissions[0]->type }}">
+                                                    <div class="col-md-12 col-xl-12 {{ $permissions[0]->type }}"
+                                                        style="display: none;">
                                                         <div class="card shadow-none bg-transparent border-primary mb-0">
                                                             <div class="card-body p-3 px-0">
                                                                 <h4 class="card-title">{{ __($model) }}</h4>
@@ -120,14 +128,11 @@
                                         <!-- Permission table -->
                                     </div>
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-main me-1">
-                                            <i class="fe-check"></i>
+                                        <button type="submit" class="btn btn-primary me-1">
+
                                             {{ __('save') }}
                                         </button>
-                                        <button type="reset" class="btn btn-outline-info">
-                                            <i class="fe-x-circle"></i>
-                                            {{ __('cancle') }}
-                                        </button>
+
                                     </div>
                                 </form>
 
