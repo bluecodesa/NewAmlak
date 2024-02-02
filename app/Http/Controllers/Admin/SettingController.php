@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Models\PaymentGateway;
+
 
 class SettingController extends Controller
 {
@@ -14,6 +16,7 @@ class SettingController extends Controller
      public function index()
      {
          $settings = Setting::first(); // Assuming only one row in the settings table
+        $paymentGateway = PaymentGateway::all();
          return view('Admin.settings.index', get_defined_vars());
      }
 
@@ -64,4 +67,12 @@ class SettingController extends Controller
     {
         //
     }
+
+    public function editPaymentGatewayForm($id)
+    {
+        $paymentGateway = PaymentGateway::find($id);
+
+        return view('Admin.settings.edit',get_defined_vars());
+    }
+
 }

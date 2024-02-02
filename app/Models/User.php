@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SubscriptionType::class);
     }
+
+    public function paymentGateways()
+    {
+        return $this->hasMany(PaymentGateway::class);
+    }
 }

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use PaymentGatewaysSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             SuperAdminSeeder::class,
             SubscriptionTypesSeeder::class,
-            CitiesTableSeeder::class
+            CitiesTableSeeder::class,
+            PaymentGatewaysSeeder::class
 
         ]);
     }

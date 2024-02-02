@@ -1,101 +1,38 @@
-@extends('Admin.layouts.app')
-
-@section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <div class="float-start">
-                        Edit User
-                    </div>
-                    <div class="float-end">
-                        <a href="{{ route('Admin.users.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('Admin.users.update', $user->id) }}" method="post">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="mb-3 row">
-                            <label for="name" class="col-md-4 col-form-label text-md-end text-start">Name</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" name="name" value="{{ $user->name }}">
-                                @if ($errors->has('name'))
-                                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="email" class="col-md-4 col-form-label text-md-end text-start">Email
-                                Address</label>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" value="{{ $user->email }}">
-                                @if ($errors->has('email'))
-                                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="password" class="col-md-4 col-form-label text-md-end text-start">Password</label>
-                            <div class="col-md-6">
-                                <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                    id="password" name="password">
-                                @if ($errors->has('password'))
-                                    <span class="text-danger">{{ $errors->first('password') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="password_confirmation"
-                                class="col-md-4 col-form-label text-md-end text-start">Confirm Password</label>
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation">
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label for="roles" class="col-md-4 col-form-label text-md-end text-start">Roles</label>
-                            <div class="col-md-6">
-                                <select class="form-select @error('roles') is-invalid @enderror" multiple aria-label="Roles"
-                                    id="roles" name="roles[]">
-                                    @forelse ($roles as $role)
-                                        @if ($role != 'Super Admin')
-                                            <option value="{{ $role }}"
-                                                {{ in_array($role, $userRoles ?? []) ? 'selected' : '' }}>
-                                                {{ $role }}
-                                            </option>
-                                        @else
-                                            @if (Auth::user()->hasRole('Super Admin'))
-                                                <option value="{{ $role }}"
-                                                    {{ in_array($role, $userRoles ?? []) ? 'selected' : '' }}>
-                                                    {{ $role }}
-                                                </option>
-                                            @endif
-                                        @endif
-
-                                    @empty
-                                    @endforelse
-                                </select>
-                                @if ($errors->has('roles'))
-                                    <span class="text-danger">{{ $errors->first('roles') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Update User">
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">@lang('Edit') @lang("PayTabs")</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-@endsection
+    <div class="modal-body">
+        <form action="{{ route('update-payment-gateway', ['id' => $paymentGateway->id]) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <div class="form-group">
+                <label for="name">@lang('Name')</label>
+                <input name="name" class="form-control" type="text" id="name" value="{{ old('name', $paymentGateway->name) }}">
+            </div>
+
+            <div class="form-group">
+                <label>@lang('Api Key PayTabs')</label>
+                <input name="api_key_paytabs" class="form-control" type="text" id="title_ar_modal" value="{{ old('api_key_paytabs', $paymentGateway->api_key_paytabs) }}">
+            </div>
+
+            <div class="form-group">
+                <label>@lang('Profile Id PayTabs')</label>
+                <input name="profile_id_paytabs" class="form-control" type="text" id="title_en_modal" value="{{ old('profile_id_paytabs', $paymentGateway->profile_id_paytabs) }}">
+            </div>
+
+            <div class="form-group">
+                <label for="client_key">@lang('Client Key')</label>
+                <input name="client_key" class="form-control" type="text" id="client_key" value="{{ old('client_key', $paymentGateway->client_key) }}">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('save')</button>
+            </div>
+        </form>
+</div>

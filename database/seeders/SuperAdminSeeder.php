@@ -17,7 +17,8 @@ class SuperAdminSeeder extends Seeder
         //
         // Creating Super Admin User
         $superAdmin = User::create([
-            'name' => 'Super Admin Ezzat',
+            'name' => 'Super Admin',
+            'user_name' => 'super_admin',
             'email' => 'superadmin@test.com',
             'password' => Hash::make('12345678')
         ]);
@@ -25,7 +26,8 @@ class SuperAdminSeeder extends Seeder
 
         // Creating Admin User
         $admin = User::create([
-            'name' => 'Admin Ezzat',
+            'name' => 'Admin',
+            'user_name' => 'admin',
             'email' => 'admin@test.com',
             'password' => Hash::make('12345678')
         ]);
@@ -33,7 +35,8 @@ class SuperAdminSeeder extends Seeder
 
         // Creating Product Manager User
         $rsOffice = User::create([
-            'name' => 'User Ezzat',
+            'name' => 'User',
+            'user_name' => 'user',
             'email' => 'user@test.com',
             'password' => Hash::make('12345678')
         ]);
@@ -41,6 +44,7 @@ class SuperAdminSeeder extends Seeder
 
         $broker = User::create([
             'name' => 'Broker',
+            'user_name' => 'broker',
             'email' => 'Broker@test.com',
             'password' => Hash::make('12345678')
         ]);

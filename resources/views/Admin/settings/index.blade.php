@@ -276,11 +276,11 @@
                                                                         @lang('PayTabs')</h4>
                                                                 </div>
                                                                 <div class="col-md-6" style="text-align: end">
-                                                                    @can('create-role')
-                                                                        <a href="{{ route('Admin.roles.create') }}"
-                                                                            class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light"><i
-                                                                                class="bi bi-plus-circle"></i> @lang('Add New Payment')</a>
-                                                                    @endcan
+                                                                    @can('create-payment')
+                                                                    <a href="#" class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light" data-toggle="modal" data-target="#addNewPaymentModal">
+                                                                        <i class="bi bi-plus-circle"></i> @lang('Add New Payment')
+                                                                    </a>
+                                                                     @endcan
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -303,22 +303,31 @@
                                                             <div class="form-group col-md-12">
                                                                 <label>@lang('Api Key PayTabs')</label>
                                                                     <input name="title_ar" class="form-control" type="text" id="title_ar"
-                                                                 value="{{ $settings->title ?? '' }}">
+                                                                 value="" disabled>
                                                             </div>
 
                                                             <div class="form-group col-md-12">
                                                                 <label>@lang('Profile Id PayTabs')</label>
 
-                                                                    <input name="title_en" class="form-control" type="text" id="title_en">
+                                                                    <input name="title_en" class="form-control" type="text" id="title_en" disabled>
 
                                                             </div>
 
 
                                                             <div class="col-12">
-                                                                <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('save')</button>
-                                                                  <button type="reset" class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
-
-                                                             </div>
+                                                                    <div class="form-check mb-2">
+                                                                        <input class="form-check-input" data-hide="disable" type="radio"
+                                                                            name="type" value="disable" id="customradio1" checked="">
+                                                                        <label class="form-check-label" for="customradio1">@lang('Enable')</label>
+                                                                    </div>
+                                                                    <div class="form-check mb-2">
+                                                                        <input class="form-check-input" data-hide="enable" type="radio"
+                                                                            name="type" value="enable" id="customradio2" checked="">
+                                                                        <label class="form-check-label" for="customradio2">@lang('Disable')</label>
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#editModal">
+                                                                        @lang('Edit')
+                                                                    </button>                                                             </div>
                                                          </form>
                                                     </div>
                                                 </div>
@@ -349,4 +358,120 @@
     </div>
     <!-- container-fluid -->
     </div>
+
+
+
+    <!-- Modal for Add New Payment -->
+<div class="modal fade" id="addNewPaymentModal" tabindex="-1" role="dialog" aria-labelledby="addNewPaymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addNewPaymentModalLabel">@lang('Add New Payment')</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label for="name">@lang('Name')</label>
+                        <input name="name" class="form-control" type="text" id="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="api_key">@lang('Api Key PayTabs')</label>
+                        <input name="api_key" class="form-control" type="text" id="api_key">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile_id">@lang('Profile Id PayTabs')</label>
+                        <input name="profile_id" class="form-control" type="text" id="profile_id">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="client_key">@lang('Client Key')</label>
+                        <input name="client_key" class="form-control" type="text" id="client_key">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">@lang('save')</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal structure -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">@lang('Edit') @lang("PayTabs")</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="form-group">
+                        <label for="name">@lang('Name')</label>
+                        <input name="name" class="form-control" type="text" id="name" value="">
+                        {{-- {{ old('name', $paymentGateway->name) }} --}}
+                    </div>
+
+                    <div class="form-group">
+                        <label>@lang('Api Key PayTabs')</label>
+                        <input name="api_key_paytabs" class="form-control" type="text" id="title_ar_modal" value="">
+                        {{-- {{ old('api_key_paytabs', $paymentGateway->api_key_paytabs) }} --}}
+                    </div>
+
+                    <div class="form-group">
+                        <label>@lang('Profile Id PayTabs')</label>
+                        <input name="profile_id_paytabs" class="form-control" type="text" id="title_en_modal" value="">
+                        {{-- {{ old('profile_id_paytabs', $paymentGateway->profile_id_paytabs) }} --}}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="client_key">@lang('Client Key')</label>
+                        <input name="client_key" class="form-control" type="text" id="client_key" value="">
+                        {{-- {{ old('client_key', $paymentGateway->client_key) }} --}}
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('save')</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#editModal').on('show.bs.modal', function (event) {
+            // Triggered when the modal is about to be shown
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var title_ar = button.data('title-ar'); // Extract info from data-* attributes
+            var title_en = button.data('title-en');
+
+            // Set the input values in the modal
+            $('#title_ar_modal').val(title_ar);
+            $('#title_en_modal').val(title_en);
+        });
+    });
+</script>
+
+
+
 @endsection
