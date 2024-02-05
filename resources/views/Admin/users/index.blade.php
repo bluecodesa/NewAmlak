@@ -10,13 +10,13 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6">
                             <h4 class="page-title">
-                                @lang('Types subscriptions')</h4>
+                                @lang('User management')</h4>
 
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
 
-                                <li class="breadcrumb-item ">@lang('Types subscriptions') </li>
+                                <li class="breadcrumb-item ">@lang('User management') </li>
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.index') }}">
                                         Amlak</a></li>
                             </ol>
@@ -33,14 +33,15 @@
 
                                 <h4 class="mt-0 header-title">
                                     @can('create-user')
-                                        <a href="{{ route('Admin.users.create') }}" class="btn btn-success btn-sm my-2"><i
+                                        <a href="{{ route('Admin.users.create') }}" class="btn btn-primary btn-sm"><i
                                                 class="bi bi-plus-circle"></i>
-                                            Add New User</a>
+                                           @lang('Add New Admin') </a>
                                     @endcan
                                 </h4>
-                                <table id="datatable-buttons"
-                                    class="table table-striped table-bordered dt-responsive nowrap"
-                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+                                    <table  id="datatable-buttons"  class="table  table-striped">
+
+                             
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
@@ -114,7 +115,7 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-
+                                </div>
                             </div>
                         </div>
                     </div> <!-- end col -->

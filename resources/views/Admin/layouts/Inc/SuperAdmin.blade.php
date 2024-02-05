@@ -1,4 +1,4 @@
-<div class="left side-menu">
+<div class="left side-menu" id="left-side-menu">
     <div class="slimscroll-menu" id="remove-scroll">
 
         <!--- Sidemenu -->
@@ -31,7 +31,7 @@
                         "></i><span> @lang('User management')<span
                                 class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
-                        <li><a href="{{ route('Admin.users.index') }}">@lang('User management')</a></li>
+                        <li><a href="{{ route('Admin.users.index') }}">@lang('Users')</a></li>
                         <li><a href="{{ route('Admin.Sections.index') }}">@lang('sections')</a></li>
                         @can('read-Permissions')
                             <li><a href="{{ route('Admin.Permissions.index') }}">@lang('Permissions')</a></li>

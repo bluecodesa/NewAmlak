@@ -40,9 +40,9 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('Admin.users.create', [
-            'roles' => Role::pluck('name')->all()
-        ]);
+        $roles = Role::where('type', 'admin')->pluck('name')->all();
+
+        return view('Admin.users.create',get_defined_vars());
     }
 
     /**
@@ -56,7 +56,7 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->roles);
 
-        return redirect()->route('users.index')
+        return redirect()->route('Admin.users.index')
             ->withSuccess('New user is added successfully.');
     }
 
@@ -122,7 +122,7 @@ class UserController extends Controller
 
         $user->syncRoles([]);
         $user->delete();
-        return redirect()->route('users.index')
+        return redirect()->route('Admin.users.index')
             ->withSuccess('User is deleted successfully.');
     }
 }

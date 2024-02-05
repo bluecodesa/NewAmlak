@@ -17,7 +17,9 @@ class SettingController extends Controller
      {
          $settings = Setting::first(); // Assuming only one row in the settings table
          $paymentGateways = PaymentGateway::all();
-         // dd($paymentGateway);
+        //  $titleArabic = $settings->translate('ar')->title;
+        // $titleEnglish = $settings->translate('en')->title;
+        //  // dd($paymentGateway);
          return view('Admin.settings.index', get_defined_vars());
      }
 
@@ -56,10 +58,33 @@ class SettingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, Setting $setting)
+{
+    $request->validate([
+        'ar.title' => 'required|string',
+        'en.title' => 'required|string',
+        'facebook' => 'nullable|url',
+        'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'color' => 'nullable|string',
+    ]);
+
+    foreach (config('translatable.locales') as $locale) {
+        $setting->translateOrNew($locale)->title = $request->input("$locale.title");
     }
+
+    $setting->facebook = $request->input('url');
+
+    if ($request->hasFile('icon')) {
+        $iconPath = $request->file('icon')->store('logos', 'public');
+        $setting->icon = $iconPath;
+    }
+
+    $setting->color = $request->input('color');
+
+    $setting->save();
+
+    return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
+}
 
     /**
      * Remove the specified resource from storage.
@@ -89,7 +114,7 @@ class SettingController extends Controller
 
 public function createPaymentGateway(Request $request)
 {
-    
+
     $request->validate([
         'name' => 'required|string',
         'api_key' => 'required|string',
@@ -97,19 +122,19 @@ public function createPaymentGateway(Request $request)
         'client_key' => 'required|string',
     ]);
 
-     
+
       $user = auth()->user();
-    
+
     $paymentGateway = new PaymentGateway();
     $paymentGateway->name = $request->input('name');
     $paymentGateway->api_key_paytabs = $request->input('api_key');
     $paymentGateway->profile_id_paytabs = $request->input('profile_id');
     $paymentGateway->client_key = $request->input('client_key');
-    $paymentGateway->status = 1; 
+    $paymentGateway->status = 1;
 
 
     $paymentGateway->user()->associate($user);
-    
+
     $paymentGateway->save();
 
     return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway created successfully.'));

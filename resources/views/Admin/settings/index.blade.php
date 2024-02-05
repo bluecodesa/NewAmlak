@@ -54,27 +54,29 @@
                                                     <div class="col-12">
                                                         <div class="card m-b-30">
                                                             <div class="card-body">
-                                                                <form action="" method="POST" enctype="multipart/form-data" class="row">
+                                                                <form action="{{ route('Admin.settings.update', $settings->id) }}" method="POST" enctype="multipart/form-data" class="row">
                                                                     @csrf
                                                                     @method('PUT')
-
+                                                                    @foreach (config('translatable.locales') as $locale)
                                                                     <div class="form-group col-md-6">
-                                                                        <label for="title_ar">@lang('Website name ar')</label>
-                                                                     <input name="title_ar" class="form-control" type="text" id="title_ar" value="{{ $settings->title ?? '' }}">
+                                                                        <label for="title_ar">{{ __('Website name') }} {{ __($locale) }} </label>
+                                                                     <input name="{{ $locale }}[title]" class="form-control" type="text"
+                                                                     id="title_{{ $locale }}" value="{{ $settings->translate($locale)->title ?? '' }}"
+                                                                     placeholder="{{ __('Website name') }} {{ __($locale) }}">
                                                                     </div>
-
-
+                                                                    @endforeach
+{{--
                                                                     <div class="form-group col-md-6">
                                                                         <label for="title_en" >@lang('Website name en')</label>
 
                                                                             <input name="title_en" class="form-control" type="text" id="title_en" value="{{ $settings->title ?? '' }}">
 
                                                                     </div>
-
+                                                                    @endforeach --}}
                                                                     <div class="form-group col-md-6">
                                                                         <label for="url">@lang('URL')</label>
 
-                                                                            <input name="url" class="form-control" type="url" value="{{ $settings->url ?? '' }}" id="url">
+                                                                            <input name="url" class="form-control" type="url" value="{{ $settings->facebook ?? '' }}" id="url">
 
                                                                     </div>
 
@@ -92,8 +94,7 @@
                                                                     </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="color">@lang('Color')</label>
-                                                                            <input name="color" class="form-control" type="color" value="{{ $settings->color ?? '#30419b' }}" id="color">
-
+                                                                        <input name="color" class="form-control" type="color" value="{{ $settings->color ?? '#30419b' }}" id="color">
                                                                     </div>
 
                                                                     <div class="col-12">
@@ -459,6 +460,17 @@
         });
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#color').change(function () {
+            var color = $(this).val();
+            $('#left-side-menu').css('background-color', color);
+        });
+    });
+</script>
+
 
 
 
