@@ -115,7 +115,8 @@
                                                 aria-labelledby="v-pills-profile-tab">
 
                                                 <!-- card paytabs -->
-                                                <div class="page-title-box">
+
+                                              <div class="page-title-box">
                                                     <div class="card m-b-30">
                                                         <div class="card-body">
                                                             <div class="row align-items-center">
@@ -134,6 +135,7 @@
                                                         </div>
 
                                                     </div> <!-- end row -->
+                                                </div>
                                         <div class="row">
                                             @foreach($paymentGateways as $paymentGateway)
                                             <div class="col-12">
@@ -180,14 +182,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-@endforeach
-                                        </div>
-                                            </div>
-                                        </div>
+                                             </div>
+                                    </div>
+                                        @endforeach
+
+                                </div>
+
+
+
                                                 <!-- end card paytabs -->
 
 
-                                            </div>
+                </div>
+
 
                                              <!-- بوابات الدفع -->
 
@@ -412,18 +419,18 @@
                     </div>
 
                     <!-- Add this inside the form for updating -->
-<div class="col-12">
-    <div class="form-check mb-2">
-        <input class="form-check-input" type="radio"
-            name="status" value="1" id="customradio1" {{ $paymentGateway->status == 1 ? 'checked' : '' }}>
-        <label class="form-check-label" for="customradio1">@lang('Enable')</label>
-    </div>
-    <div class="form-check mb-2">
-        <input class="form-check-input" type="radio"
-            name="status" value="0" id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }}>
-        <label class="form-check-label" for="customradio2">@lang('Disable')</label>
-    </div>
-</div>
+                        <div class="col-12">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio"
+                                    name="status" value="1" id="customradio1" {{ $paymentGateway->status == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="customradio1">@lang('Enable')</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio"
+                                    name="status" value="0" id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="customradio2">@lang('Disable')</label>
+                            </div>
+                        </div>
 
 
                     <div class="modal-footer">
@@ -433,6 +440,7 @@
                 </form>
         </div>
     </div>
+</div>
 </div>
 
 
