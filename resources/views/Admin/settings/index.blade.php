@@ -151,12 +151,12 @@
 
                                                             <div class="form-group col-md-12">
                                                                 <label>@lang('Api Key PayTabs')</label>
-                                                                <input name="api_key_paytabs" class="form-control" type="text" id="title_ar" value="{{ $paymentGateway->api_key_paytabs ?? '' }}" disabled>
+                                                                <input name="api_key_paytabs" class="form-control" type="password" id="title_ar" value="{{ $paymentGateway->api_key_paytabs ?? '' }}" disabled>
                                                             </div>
 
                                                             <div class="form-group col-md-12">
                                                                 <label>@lang('Profile Id PayTabs')</label>
-                                                                <input name="profile_id_paytabs" class="form-control" type="text" id="title_en" value="{{ $paymentGateway->profile_id_paytabs ?? '' }}" disabled>
+                                                                <input name="profile_id_paytabs" class="form-control" type="password" id="title_en" value="{{ $paymentGateway->profile_id_paytabs ?? '' }}" disabled>
                                                             </div>
 
 
