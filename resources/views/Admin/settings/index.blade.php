@@ -113,38 +113,79 @@
                                              <!-- بوابات الدفع -->
                                             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                                                 aria-labelledby="v-pills-profile-tab">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="card m-b-30">
-                                                            <div class="card-body">
-                                                                <form action="" method="POST" enctype="multipart/form-data" class="row">
-                                                                    @csrf
-                                                                    @method('PUT')
 
-                                                                    <div class="form-group col-md-6">
-                                                                        <label>@lang('Api Key PayTabs')</label>
-                                                                            <input name="title_ar" class="form-control" type="text" id="title_ar"
-                                                                         value="{{ $settings->title ?? '' }}">
+                                                <!-- card paytabs -->
+                                                <div class="page-title-box">
+                                                    <div class="card m-b-30">
+                                                        <div class="card-body">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-sm-6">
+                                                                    <h4 class="page-title">
+                                                                        @lang('PayTabs')</h4>
+                                                                </div>
+                                                                <div class="col-md-6" style="text-align: end">
+                                                                    @can('create-payment')
+                                                                    <a href="#" class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light" data-toggle="modal" data-target="#addNewPaymentModal">
+                                                                        <i class="bi bi-plus-circle"></i> @lang('Add New Payment')
+                                                                    </a>
+                                                                     @endcan
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div> <!-- end row -->
+                                        <div class="row">
+                                            @foreach($paymentGateways as $paymentGateway)
+                                            <div class="col-12">
+                                                <div class="card m-b-30">
+                                            <div class="form-group col-md-6">
+                                                <div class="card payment" style="width: 18rem;" data-toggle="modal" data-target="#exampleModal">
+                                                    <div class="payment-img-container">
+                                                        <img class="card-img-top" src="https://dev.tryamlak.com/dashboard/assets/images/paytabs.png" alt="Card image cap">
+                                                    </div>
+
+                                                    <div class="card-body">
+                                                        <form action="{{ route('Admin.payment-gateways.edit', ['id' => $paymentGateway->id]) }}" method="GET" enctype="multipart/form-data" class="row">
+                                                            @csrf
+                                                            @method('PUT')
+
+                                                            <div class="form-group col-md-12">
+                                                                <label>@lang('Api Key PayTabs')</label>
+                                                                <input name="api_key_paytabs" class="form-control" type="text" id="title_ar" value="{{ $paymentGateway->api_key_paytabs ?? '' }}" disabled>
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label>@lang('Profile Id PayTabs')</label>
+                                                                <input name="profile_id_paytabs" class="form-control" type="text" id="title_en" value="{{ $paymentGateway->profile_id_paytabs ?? '' }}" disabled>
+                                                            </div>
+
+
+                                                            <div class="col-12">
+
+                                                                    <div class="form-check mb-2">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="status" value="1" id="customradio1" {{ $paymentGateway->status == 1 ? 'checked' : '' }} disabled>
+                                                                        <label class="form-check-label" for="customradio1">@lang('Enable')</label>
                                                                     </div>
-
-                                                                    <div class="form-group col-md-6">
-                                                                        <label>@lang('Profile Id PayTabs')</label>
-
-                                                                            <input name="title_en" class="form-control" type="text" id="title_en">
-
+                                                                    <div class="form-check mb-2">
+                                                                        <input class="form-check-input" type="radio"
+                                                                            name="status" value="0" id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }} disabled>
+                                                                        <label class="form-check-label" for="customradio2">@lang('Disable')</label>
                                                                     </div>
-
-
-                                                                    <div class="col-12">
-                                                                        <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('save')</button>
-                                                                          <button type="reset" class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
-
-                                                                     </div>
-                                                                 </form>
-                                                             </div>
-                                                         </div>
+                                                                    <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#editModal">
+                                                                        @lang('Edit')
+                                                                    </button>
+                                                                </div>
+                                                         </form>
                                                     </div>
                                                 </div>
+                                            </div>
+@endforeach
+                                        </div>
+                                            </div>
+                                        </div>
+                                                <!-- end card paytabs -->
+
 
                                             </div>
 
@@ -266,78 +307,6 @@
                                                 aria-labelledby="v-pills-settings-tab">
 
 
-                                                <!-- card paytabs -->
-                                                <div class="page-title-box">
-                                                    <div class="card m-b-30">
-                                                        <div class="card-body">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-sm-6">
-                                                                    <h4 class="page-title">
-                                                                        @lang('PayTabs')</h4>
-                                                                </div>
-                                                                <div class="col-md-6" style="text-align: end">
-                                                                    @can('create-payment')
-                                                                    <a href="#" class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light" data-toggle="modal" data-target="#addNewPaymentModal">
-                                                                        <i class="bi bi-plus-circle"></i> @lang('Add New Payment')
-                                                                    </a>
-                                                                     @endcan
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div> <!-- end row -->
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="card m-b-30">
-                                            <div class="form-group col-md-6">
-                                                <div class="card payment" style="width: 18rem;" data-toggle="modal" data-target="#exampleModal">
-                                                    <div class="payment-img-container">
-                                                        <img class="card-img-top" src="https://dev.tryamlak.com/dashboard/assets/images/paytabs.png" alt="Card image cap">
-                                                    </div>
-
-                                                    <div class="card-body">
-                                                        <form action="" method="POST" enctype="multipart/form-data" >
-                                                            @csrf
-                                                            @method('PUT')
-
-                                                            <div class="form-group col-md-12">
-                                                                <label>@lang('Api Key PayTabs')</label>
-                                                                    <input name="title_ar" class="form-control" type="text" id="title_ar"
-                                                                 value="" disabled>
-                                                            </div>
-
-                                                            <div class="form-group col-md-12">
-                                                                <label>@lang('Profile Id PayTabs')</label>
-
-                                                                    <input name="title_en" class="form-control" type="text" id="title_en" disabled>
-
-                                                            </div>
-
-
-                                                            <div class="col-12">
-                                                                    <div class="form-check mb-2">
-                                                                        <input class="form-check-input" data-hide="disable" type="radio"
-                                                                            name="type" value="disable" id="customradio1" checked="">
-                                                                        <label class="form-check-label" for="customradio1">@lang('Enable')</label>
-                                                                    </div>
-                                                                    <div class="form-check mb-2">
-                                                                        <input class="form-check-input" data-hide="enable" type="radio"
-                                                                            name="type" value="enable" id="customradio2" checked="">
-                                                                        <label class="form-check-label" for="customradio2">@lang('Disable')</label>
-                                                                    </div>
-                                                                    <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#editModal">
-                                                                        @lang('Edit')
-                                                                    </button>                                                             </div>
-                                                         </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                            </div>
-                                        </div>
-                                                <!-- end card paytabs -->
-
 
                                             </div>
                                         </div>
@@ -372,7 +341,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('Admin.create-payment-gateway') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="name">@lang('Name')</label>
@@ -418,33 +387,44 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('Admin.update-payment-gateway', ['id' => $paymentGateway->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
                     <div class="form-group">
                         <label for="name">@lang('Name')</label>
-                        <input name="name" class="form-control" type="text" id="name" value="">
-                        {{-- {{ old('name', $paymentGateway->name) }} --}}
+                        <input name="name" class="form-control" type="text" id="name" value="{{ old('name', $paymentGateway->name) }}">
                     </div>
 
                     <div class="form-group">
                         <label>@lang('Api Key PayTabs')</label>
-                        <input name="api_key_paytabs" class="form-control" type="text" id="title_ar_modal" value="">
-                        {{-- {{ old('api_key_paytabs', $paymentGateway->api_key_paytabs) }} --}}
+                        <input name="api_key_paytabs" class="form-control" type="text" id="api_key_paytabs" value="{{ old('api_key_paytabs', $paymentGateway->api_key_paytabs) }}">
                     </div>
 
                     <div class="form-group">
                         <label>@lang('Profile Id PayTabs')</label>
-                        <input name="profile_id_paytabs" class="form-control" type="text" id="title_en_modal" value="">
-                        {{-- {{ old('profile_id_paytabs', $paymentGateway->profile_id_paytabs) }} --}}
+                        <input name="profile_id_paytabs" class="form-control" type="text" id="profile_id_paytabs" value="{{ old('profile_id_paytabs', $paymentGateway->profile_id_paytabs) }}">
                     </div>
 
                     <div class="form-group">
                         <label for="client_key">@lang('Client Key')</label>
-                        <input name="client_key" class="form-control" type="text" id="client_key" value="">
-                        {{-- {{ old('client_key', $paymentGateway->client_key) }} --}}
+                        <input name="client_key" class="form-control" type="text" id="client_key" value="{{ old('client_key', $paymentGateway->client_key) }}">
                     </div>
+
+                    <!-- Add this inside the form for updating -->
+<div class="col-12">
+    <div class="form-check mb-2">
+        <input class="form-check-input" type="radio"
+            name="status" value="1" id="customradio1" {{ $paymentGateway->status == 1 ? 'checked' : '' }}>
+        <label class="form-check-label" for="customradio1">@lang('Enable')</label>
+    </div>
+    <div class="form-check mb-2">
+        <input class="form-check-input" type="radio"
+            name="status" value="0" id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }}>
+        <label class="form-check-label" for="customradio2">@lang('Disable')</label>
+    </div>
+</div>
+
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>

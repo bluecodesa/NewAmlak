@@ -16,7 +16,8 @@ class SettingController extends Controller
      public function index()
      {
          $settings = Setting::first(); // Assuming only one row in the settings table
-        $paymentGateway = PaymentGateway::all();
+         $paymentGateways = PaymentGateway::all();
+         // dd($paymentGateway);
          return view('Admin.settings.index', get_defined_vars());
      }
 
@@ -72,7 +73,47 @@ class SettingController extends Controller
     {
         $paymentGateway = PaymentGateway::find($id);
 
-        return view('Admin.settings.edit',get_defined_vars());
+        return view('Admin.settings.index', compact('paymentGateway'));
     }
+
+    public function updatePaymentGatewayStatus(Request $request, $id)
+{
+    $paymentGateway = PaymentGateway::findOrFail($id);
+    $paymentGateway->status = $request->input('status');
+    $paymentGateway->save();
+
+    return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway status updated successfully.'));
+}
+
+
+
+public function createPaymentGateway(Request $request)
+{
+    
+    $request->validate([
+        'name' => 'required|string',
+        'api_key' => 'required|string',
+        'profile_id' => 'required|string',
+        'client_key' => 'required|string',
+    ]);
+
+     
+      $user = auth()->user();
+    
+    $paymentGateway = new PaymentGateway();
+    $paymentGateway->name = $request->input('name');
+    $paymentGateway->api_key_paytabs = $request->input('api_key');
+    $paymentGateway->profile_id_paytabs = $request->input('profile_id');
+    $paymentGateway->client_key = $request->input('client_key');
+    $paymentGateway->status = 1; 
+
+
+    $paymentGateway->user()->associate($user);
+    
+    $paymentGateway->save();
+
+    return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway created successfully.'));
+}
+
 
 }
