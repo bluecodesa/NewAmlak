@@ -104,85 +104,85 @@
 
                                 <div class="col-md-12">
                                     <div class="table-responsive b-0" data-pattern="priority-columns">
-                                    <table  id="datatable-buttons"  class="table  table-striped">    
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>@lang('Name')</th>
-                                                <th>مدة الاشتراك</th>
-                                                <th>نوع الاشتراك</th>
-                                                <th> @lang('role name') </th>
-                                                <th> السعر</th>
-                                                <th>الحالة</th>
-                                                <th class="noExl"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($subscriptions as $index => $sub)
+                                        <table id="datatable-buttons" class="table  table-striped">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $sub->name }}</td>
-                                                    <td>
-                                                        @if ($sub->price > 0)
-                                                            <span class="badge badge-pill badge-warning"
-                                                                style="background-color: #add0e87d;color: #497AAC;">
-                                                                {{ $sub->period . ' ' . $sub->period_type }}
-                                                            </span>
-                                                        @else
-                                                            <span class="badge badge-pill badge-warning">
-                                                                {{ $sub->period . ' ' . $sub->period_type }}
-                                                            </span>
-                                                        @endif
-
-                                                    </td>
-
-                                                    <td>
-                                                        @if ($sub->price > 0)
-                                                            <span class="badge badge-pill badge-warning"
-                                                                style="background-color: #add0e87d;color: #497AAC;">@lang('paid')</span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-pill badge-warning">@lang('free')</span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @foreach ($sub->RolesData as $role)
-                                                            {{ $role->RoleData->name ?? '' }}
-                                                            @if (!$loop->last)
-                                                                ,
-                                                            @endif
-                                                        @endforeach
-                                                    </td>
-
-                                                    <td>{{ $sub->price }} <sup>@lang('SAR')</sup> </td>
-
-                                                    <td>{{ $sub->status == 1 ? __('active') : __('inactive') }}</td>
-
-                                                    <td>
-
-                                                        <a href="{{ route('Admin.SubscriptionTypes.edit', $sub->id) }}"
-                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                        <a href="javascript:void(0);"
-                                                            onclick="event.preventDefault();document.getElementById('delete-form-{{ $sub->id }}').submit();"
-                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                            @lang('Delete')
-                                                        </a>
-                                                        <form id="delete-form-{{ $sub->id }}"
-                                                            action="{{ route('Admin.SubscriptionTypes.destroy', $sub->id) }}"
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-
-                                                    </td>
-
-
-
+                                                    <th>#</th>
+                                                    <th>@lang('Name')</th>
+                                                    <th>مدة الاشتراك</th>
+                                                    <th>نوع الاشتراك</th>
+                                                    <th> @lang('role name') </th>
+                                                    <th> السعر</th>
+                                                    <th>الحالة</th>
+                                                    <th class="noExl"></th>
                                                 </tr>
-                                            @endforeach
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($subscriptions as $index => $sub)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $sub->name }}</td>
+                                                        <td>
+                                                            @if ($sub->price > 0)
+                                                                <span class="badge badge-pill badge-warning"
+                                                                    style="background-color: #add0e87d;color: #497AAC;">
+                                                                    {{ $sub->period . ' ' . $sub->period_type }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge badge-pill badge-warning">
+                                                                    {{ $sub->period . ' ' . $sub->period_type }}
+                                                                </span>
+                                                            @endif
 
-                                        </tbody>
-                                    </table>
+                                                        </td>
+
+                                                        <td>
+                                                            @if ($sub->price > 0)
+                                                                <span class="badge badge-pill badge-warning"
+                                                                    style="background-color: #add0e87d;color: #497AAC;">@lang('paid')</span>
+                                                            @else
+                                                                <span
+                                                                    class="badge badge-pill badge-warning">@lang('free')</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @foreach ($sub->RolesData as $role)
+                                                                {{ $role->RoleData->name ?? '' }}
+                                                                @if (!$loop->last)
+                                                                    ,
+                                                                @endif
+                                                            @endforeach
+                                                        </td>
+
+                                                        <td>{{ $sub->price }} <sup>@lang('SAR')</sup> </td>
+
+                                                        <td>{{ $sub->status == 1 ? __('active') : __('inactive') }}</td>
+
+                                                        <td>
+
+                                                            <a href="{{ route('Admin.SubscriptionTypes.edit', $sub->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                            <a href="javascript:void(0);"
+                                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $sub->id }}').submit();"
+                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                                @lang('Delete')
+                                                            </a>
+                                                            <form id="delete-form-{{ $sub->id }}"
+                                                                action="{{ route('Admin.SubscriptionTypes.destroy', $sub->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                @endforeach
+
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
 

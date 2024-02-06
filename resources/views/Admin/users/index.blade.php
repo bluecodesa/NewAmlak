@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Types subscriptions'))
+@section('title', __('User management'))
 @section('content')
 
     <div class="content-page">
@@ -13,14 +13,7 @@
                                 @lang('User management')</h4>
 
                         </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-right">
 
-                                <li class="breadcrumb-item ">@lang('User management') </li>
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.index') }}">
-                                        Amlak</a></li>
-                            </ol>
-                        </div>
                     </div> <!-- end row -->
                 </div>
                 <!-- end page-title -->
@@ -35,86 +28,87 @@
                                     @can('create-user')
                                         <a href="{{ route('Admin.users.create') }}" class="btn btn-primary btn-sm"><i
                                                 class="bi bi-plus-circle"></i>
-                                           @lang('Add New Admin') </a>
+                                            @lang('Add New Admin') </a>
                                     @endcan
                                 </h4>
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
-                                    <table  id="datatable-buttons"  class="table  table-striped">
-
-                             
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">@lang('Name')</th>
-                                            <th scope="col">@lang('Email')</th>
-                                            <th scope="col">@lang('Roles')</th>
-                                            <th scope="col">@lang('Permissions')</th>
-                                            <th scope="col">@lang('Action')</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($users as $user)
+                                    <table id="datatable-buttons" class="table  table-striped">
+                                        <thead>
                                             <tr>
-                                                <th scope="row">{{ $loop->iteration }}</th>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>
-                                                    @forelse ($user->getRoleNames() as $role)
-                                                        <span class="badge badge-primary">{{ $role }}</span>
-                                                    @empty
-                                                    @endforelse
-                                                </td>
-                                                <td class="align-middle">
-                                                    @foreach ($user->getAllPermissions() as $permission)
-                                                        {{ $permission->name }}<br>
-                                                    @endforeach
-                                                </td>
-                                                <td>
-                                                    <form action="{{ route('Admin.users.destroy', $user->id) }}"
-                                                        method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-
-                                                        <a href="{{ route('Admin.users.show', $user->id) }}"
-                                                            class="btn btn-warning btn-sm"><i class="bi bi-eye"></i>
-                                                            @lang('Show')</a>
-
-                                                        @if (in_array('Super Admin', $user->getRoleNames()->toArray() ?? []))
-                                                            @if (Auth::user()->hasRole('Super Admin'))
-                                                                <a href="{{ route('users.edit', $user->id) }}"
-                                                                    class="btn btn-primary btn-sm"><i
-                                                                        class="bi bi-pencil-square"></i>
-                                                                    @lang('Edit')</a>
-                                                            @endif
-                                                        @else
-                                                            @can('edit-user')
-                                                                <a href="{{ route('Admin.users.edit', $user->id) }}"
-                                                                    class="btn btn-primary btn-sm"><i
-                                                                        class="bi bi-pencil-square"></i>
-                                                                    @lang('Edit')</a>
-                                                            @endcan
-
-                                                            @can('delete-user')
-                                                                @if (Auth::user()->id != $user->id)
-                                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                                        onclick="return confirm('Do you want to delete this user?');"><i
-                                                                            class="bi bi-trash"></i> @lang('Delete')</button>
-                                                                @endif
-                                                            @endcan
-                                                        @endif
-
-                                                    </form>
-                                                </td>
+                                                <th scope="col">#</th>
+                                                <th scope="col">@lang('Name')</th>
+                                                <th scope="col">@lang('Email')</th>
+                                                <th scope="col">@lang('Roles')</th>
+                                                <th scope="col">@lang('sections')</th>
+                                                <th scope="col">@lang('Action')</th>
                                             </tr>
-                                        @empty
-                                            <td colspan="5">
-                                                <span class="text-danger">
-                                                    <strong>No User Found!</strong>
-                                                </span>
-                                            </td>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($users as $user)
+                                                <tr>
+                                                    <th scope="row">{{ $loop->iteration }}</th>
+                                                    <td>{{ $user->name }}</td>
+                                                    <td>{{ $user->email }}</td>
+                                                    <td>
+                                                        {{ $user->roles[0]->name }}
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        @foreach ($user->getAllPermissions()->unique('section_id') as $permission)
+                                                            <span
+                                                                class="badge badge-primary">{{ $permission->SectionDate->name ?? '' }}</span>
+                                                            @if (!$loop->last)
+                                                                ,
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td>
+                                                        <form action="{{ route('Admin.users.destroy', $user->id) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <a href="{{ route('Admin.users.show', $user->id) }}"
+                                                                class="btn btn-outline-warning btn-sm waves-effect waves-light"><i
+                                                                    class="bi bi-eye"></i>
+                                                                @lang('Show')</a>
+
+                                                            @if (in_array('Super Admin', $user->getRoleNames()->toArray() ?? []))
+                                                                @if (Auth::user()->hasRole('Super Admin'))
+                                                                    <a href="{{ route('users.edit', $user->id) }}"
+                                                                        class="btn btn-primary btn-sm"><i
+                                                                            class="bi bi-pencil-square"></i>
+                                                                        @lang('Edit')</a>
+                                                                @endif
+                                                            @else
+                                                                @can('edit-user')
+                                                                    <a href="{{ route('Admin.users.edit', $user->id) }}"
+                                                                        class="btn btn-outline-info btn-sm waves-effect waves-light"><i
+                                                                            class="bi bi-pencil-square"></i>
+                                                                        @lang('Edit')</a>
+                                                                @endcan
+
+                                                                @can('delete-user')
+                                                                    @if (Auth::user()->id != $user->id)
+                                                                        <button type="submit"
+                                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light "
+                                                                            onclick="return confirm('Do you want to delete this user?');"><i
+                                                                                class="bi bi-trash"></i>
+                                                                            @lang('Delete')</button>
+                                                                    @endif
+                                                                @endcan
+                                                            @endif
+
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <td colspan="5">
+                                                    <span class="text-danger">
+                                                        <strong>No User Found!</strong>
+                                                    </span>
+                                                </td>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

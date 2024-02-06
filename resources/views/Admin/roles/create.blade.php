@@ -50,7 +50,7 @@
                                     </div>
 
                                     <div class="col-4">
-                                        <label class="form-label" for="modalRoleNamear"> @lang('user type') <span
+                                        <label class="form-label" for="modalRoleNamear"> @lang('Role type') <span
                                                 class="required-color">*</span></label>
                                         <div class="d-flex">
                                             <div class="form-check mb-2">
