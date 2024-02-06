@@ -21,7 +21,9 @@
                         "></i><span> @lang('Subscriber management')<span
                                 class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
+                        <li><a href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
                         <li><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Subscriptions')</a></li>
+                        <li><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Bills')</a></li>
                     </ul>
                 </li>
 

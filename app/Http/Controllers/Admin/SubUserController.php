@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
-use App\Models\Subscription;
+use App\Models\SubUser;
 use Illuminate\Http\Request;
 
-class SubscriptionController extends Controller
+class SubUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,6 +13,7 @@ class SubscriptionController extends Controller
     public function index()
     {
         //
+        $subscribers = SubUser::first(); // Assuming only one row in the settings table
 
     }
 
@@ -23,10 +23,7 @@ class SubscriptionController extends Controller
     public function create()
     {
         //
-        return view('Admin.admin.subscriptions.create');
     }
-
-    
 
     /**
      * Store a newly created resource in storage.

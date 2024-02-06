@@ -10,20 +10,8 @@ class Subscription extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'office_id',
-        'new_by_admin',
-        'is_deleted',
-        'notified',
-        'subscription_type_id',
-        'is_renewed',
-        'date_start',
-        'date_end',
-        'extended_date',
-        'total',
-        'payment_type',
-        'status',
-    ];
+    protected $guarded = [];
+
 
     public function rsOffice()
     {

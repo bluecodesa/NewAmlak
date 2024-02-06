@@ -11,15 +11,8 @@ class SubUser extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'offices_id',
-        'user_id',
-        'email',
-        'is_default',
-        'pass_from_admin',
-        'password',
-        'userType',
-    ];
+    protected $guarded = [];
+
 
     public function rsOffice()
     {
