@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\General;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\PaymentGateway;
@@ -41,9 +42,10 @@ class RegionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $cities = City::where('region_id', $id)->get();
+        return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
 
     public function edit($id)

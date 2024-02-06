@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\SubUserController;
+use App\Http\Controllers\Admin\Users\DeveloperController;
 use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -54,7 +55,7 @@ Route::group(
                 'Sections' => SectionController::class,
                 'Region' => RegionController::class,
                 'City' => CityController::class,
-
+                'Developer' => DeveloperController::class,
             ]);
         });
     }
