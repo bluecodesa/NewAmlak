@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SubscriptionTypesController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\SubUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +44,7 @@ Route::group(
                 'users' => UserController::class,
                 'offices' => OfficeController::class,
                 'SubscriptionTypes' => SubscriptionTypesController::class,
-                'Subscribers' => SubscriptionController::class,
+                'Subscribers' => SubUserController::class,
                 'Permissions' => PermissionController::class,
                 'settings' => SettingController::class,
                 'Sections' => SectionController::class,

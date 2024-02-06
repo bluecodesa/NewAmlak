@@ -13,7 +13,8 @@ class SubUserController extends Controller
     public function index()
     {
         //
-        $subscribers = SubUser::first(); // Assuming only one row in the settings table
+        $subscribers = SubUser::all(); // Assuming only one row in the settings table
+        return view('Admin.subscribers.index', get_defined_vars());
 
     }
 
