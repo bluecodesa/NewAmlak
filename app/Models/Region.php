@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class Region extends Model
 {
     protected $guarded = [];
 
-
-    public function region()
+    public function cities()
     {
-        return $this->belongsTo(Region::class);
+        return $this->hasMany(City::class);
     }
 }
