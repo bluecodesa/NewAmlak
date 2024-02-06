@@ -1,47 +1,72 @@
 @extends('Admin.layouts.app')
-
+@section('title', __('User management'))
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <div class="float-start">
-                        User Information
-                    </div>
-                    <div class="float-end">
-                        <a href="{{ route('users.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
-                    </div>
+
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">
+                                @lang('User Information')</h4>
+                        </div>
+
+                    </div> <!-- end row -->
                 </div>
-                <div class="card-body">
+                <!-- end page-title -->
 
-                    <div class="mb-3 row">
-                        <label for="name"
-                            class="col-md-4 col-form-label text-md-end text-start"><strong>Name:</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            {{ $user->name }}
-                        </div>
-                    </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <div class="mb-3 row">
+                                    <label for="name"
+                                        class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('Name'):</strong></label>
+                                    <div class="col-md-6" style="line-height: 35px;">
+                                        {{ $user->name }}
+                                    </div>
+                                </div>
 
-                    <div class="mb-3 row">
-                        <label for="email" class="col-md-4 col-form-label text-md-end text-start"><strong>Email
-                                Address:</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            {{ $user->email }}
-                        </div>
-                    </div>
+                                <div class="mb-3 row">
+                                    <label for="email" class="col-md-4 col-form-label text-md-end text-start"><strong>
+                                            @lang('Email')</strong></label>
+                                    <div class="col-md-6" style="line-height: 35px;">
+                                        {{ $user->email }}
+                                    </div>
+                                </div>
 
-                    <div class="mb-3 row">
-                        <label for="roles"
-                            class="col-md-4 col-form-label text-md-end text-start"><strong>Roles:</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            @forelse ($user->getRoleNames() as $role)
-                                <span class="badge bg-primary">{{ $role }}</span>
-                            @empty
-                            @endforelse
+                                <div class="mb-3 row">
+                                    <label for="roles"
+                                        class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('Roles')</strong></label>
+                                    <div class="col-md-6" style="line-height: 35px;">
+                                        <span class="badge badge-primary">{{ $user->roles[0]->name ?? '' }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="roles"
+                                        class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('sections')</strong></label>
+                                    <div class="col-md-6" style="line-height: 35px;">
+                                        @foreach ($user->getAllPermissions()->unique('section_id') as $permission)
+                                            <span
+                                                class="badge badge-primary">{{ $permission->SectionDate->name ?? '' }}</span>
+                                            @if (!$loop->last)
+                                                ,
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div> <!-- end col -->
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+
         </div>
+        <!-- container-fluid -->
+
     </div>
 @endsection

@@ -10,7 +10,6 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -64,9 +63,7 @@ class UserController extends Controller
      */
     public function show(User $user): View
     {
-        return view('Admin.users.show', [
-            'user' => $user
-        ]);
+        return view('Admin.users.show', get_defined_vars());
     }
 
     /**
