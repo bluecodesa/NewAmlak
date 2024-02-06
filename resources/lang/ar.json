@@ -80,9 +80,26 @@
     "Add New Payment": "اضافه بوابه جديده",
     "Disable": "غير فعال",
     "Enable": "فعال",
-    "Subscribers": "المشركين",
+    "Subscribers": "المشتركين",
     "Bills": "الفواتير",
-    "Add New Subscriber": "اضافة مشترك جديد"
+    "Add New Subscriber": "اضافة مشترك جديد",
+    "Subscriber Name": "اسم المشترك",
+    "Subscription Time": "مدة الاشتراك",
+    "Subscription Type": "نوع الاشتراك",
+    "Subscription Status": "حالة الاشتراك",
+    "Subscription Start": "بداية الاشتراك",
+    "Subscription End": "نهاية الاشتراك",
+    "Number of Clients": "عدد العملاء",
+    "Subscriber City": " المدينة",
+    "Broker": "مسوق عقاري",
+    "Office": "مكتب",
+    "Add Broker": "اضافة مسوق",
+    "Add Office": "اضافة مكتب"
+
+
+
+
+
 
 
 
