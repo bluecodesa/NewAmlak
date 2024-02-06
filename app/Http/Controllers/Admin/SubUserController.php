@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\Broker;
+use App\Models\City;
+use App\Models\SubscriptionType;
 use App\Models\SubUser;
 use Illuminate\Http\Request;
 
@@ -13,7 +16,10 @@ class SubUserController extends Controller
     public function index()
     {
         //
-        $subscribers = SubUser::all(); // Assuming only one row in the settings table
+        $subscribers = SubUser::all();
+        $brokers=Broker::all();
+        $subscriptionTypes = SubscriptionType::all();
+        $cities = City::all();
         return view('Admin.subscribers.index', get_defined_vars());
 
     }
@@ -30,9 +36,56 @@ class SubUserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+{
+    $rules = $request->validate([
+        'name' => 'required|string',
+        'license_number' => 'required|string',
+        'email' => 'required|email|unique:brokers,email',
+        'mobile' => 'required|string',
+        'city' => 'required|string',
+        'password' => 'required|string|min:8|confirmed',
+        'subscription_type' => 'required|string',
+        'id_number' => 'required|string',
+    ]);
+
+    // Create a new Broker instance and fill it with validated data
+    $broker = new Broker();
+    $broker->fill($request->all());
+    $broker->password = bcrypt($request->password); // Hash the password before saving
+    $broker->save();
+
+    return redirect()->route('Admin.Subscribers.index')
+        ->with('success', 'Broker created successfully.');
+}
+
+    public function createBrokerSubscribers(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:brokers,email',
+            'license_number' => 'required|string',
+            'mobile' => 'required|string',
+            'city' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+            'subscription_type' => 'required|string',
+            'id_number' => 'required|string',
+        ]);
+
+        Broker::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'license_number' => $request->license_number,
+            'mobile' => $request->mobile,
+            'city' => $request->city,
+            'password' => bcrypt($request->password),
+            'subscription_type' => $request->subscription_type,
+            'id_number' => $request->id_number,
+        ]);
+
+        return redirect()->route('Admin.Subscribers.index')
+            ->with('success', 'Broker added successfully.');
     }
+
 
     /**
      * Display the specified resource.
