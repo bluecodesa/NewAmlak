@@ -112,7 +112,12 @@ class RoleController extends Controller
         if (auth()->user()->hasRole($role->name)) {
             abort(403, __('CAN NOT DELETE SELF ASSIGNED ROLE'));
         }
-        $role->delete();
+        try {
+            $role->delete();
+        } catch (\Throwable $th) {
+            return back()->with('sorry', __('This role was not enabled because it was linked to a subscription'));
+        }
+
         return redirect()->route('Admin.roles.index')
             ->withSuccess(__('Role is deleted successfully.'));
     }
