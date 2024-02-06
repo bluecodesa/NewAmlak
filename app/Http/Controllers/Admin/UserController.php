@@ -10,7 +10,6 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -38,11 +37,11 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
-        $roles = Role::where('type', 'admin')->pluck('name')->all();
+        $roles = Role::where('type', 'admin')->get();
 
-        return view('Admin.users.create',get_defined_vars());
+        return view('Admin.users.create', get_defined_vars());
     }
 
     /**
@@ -50,12 +49,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        $input = $request->all();
-        $input['password'] = Hash::make($request->password);
-
-        $user = User::create($input);
-        $user->assignRole($request->roles);
-
+        $request_data = $request->except('roles', 'password');
+        $request_data['password'] = bcrypt($request->password);
+        $role = Role::find($request->roles);
+        $user =   User::create($request_data);
+        $user->assignRole($role->name);
         return redirect()->route('Admin.users.index')
             ->withSuccess('New user is added successfully.');
     }
@@ -65,9 +63,7 @@ class UserController extends Controller
      */
     public function show(User $user): View
     {
-        return view('Admin.users.show', [
-            'user' => $user
-        ]);
+        return view('Admin.users.show', get_defined_vars());
     }
 
     /**
@@ -75,18 +71,13 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        // Check Only Super Admin can update his own Profile
         if ($user->hasRole('App_SuperAdmin')) {
             if ($user->id != auth()->user()->id) {
                 abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
             }
         }
-
-        return view('Admin.users.edit', [
-            'user' => $user,
-            'roles' => Role::pluck('name')->all(),
-            'userRoles' => $user->roles->pluck('name')->all()
-        ]);
+        $roles = Role::where('type', 'admin')->get();
+        return view('Admin.users.edit', get_defined_vars());
     }
 
     /**
@@ -94,20 +85,19 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        $input = $request->all();
-
-        if (!empty($request->password)) {
-            $input['password'] = Hash::make($request->password);
+        $request_data  = $request->only(['password']);
+        if ($request->password) {
+            $request_data['password'] = bcrypt($request->password);
         } else {
-            $input = $request->except('password');
+            $request_data['password'] = $user->password;
         }
-
-        $user->update($input);
-
-        $user->syncRoles($request->roles);
-
-        return redirect()->back()
-            ->withSuccess('User is updated successfully.');
+        $user->update($request_data);
+        if ($request->role) {
+            $role = Role::find($request->role);
+            $user->assignRole($role->name);
+        }
+        return redirect()->route('Admin.users.index')
+            ->withSuccess('Update successfully');
     }
 
     /**
