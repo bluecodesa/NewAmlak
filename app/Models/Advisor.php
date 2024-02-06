@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Advisor extends Model
 {
-    use HasFactory;
+    protected $guarded = [];
+
+    public function CityData()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
 }

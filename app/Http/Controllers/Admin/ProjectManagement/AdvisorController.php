@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Users;
+namespace App\Http\Controllers\Admin\ProjectManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
-use App\Models\Developer;
+use App\Models\Advisor;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\PaymentGateway;
 use App\Models\Region;
 use Illuminate\Validation\Rule;
 
-class DeveloperController extends Controller
+class AdvisorController extends Controller
 {
     public function index()
     {
-        $developers = Developer::all();
-        return view('Admin.users.Developer.index', get_defined_vars());
+        $developers = Advisor::all();
+        return view('Admin.ProjectManagement.Advisor.index', get_defined_vars());
     }
 
     /**
@@ -26,7 +26,7 @@ class DeveloperController extends Controller
     {
         $Regions = Region::all();
         $cities = City::all();
-        return view('Admin.users.Developer.create', get_defined_vars());
+        return view('Admin.ProjectManagement.Advisor.create', get_defined_vars());
     }
 
     /**
@@ -40,18 +40,18 @@ class DeveloperController extends Controller
             'email' => [
                 'required',
                 'email',
-                Rule::unique('developers')->ignore($request->id), // Assuming you might want to ignore a given ID for uniqueness.
-                'max:255' // Updated to 255, which is a common max length for emails. Adjust if needed.
+                Rule::unique('advisors')->ignore($request->id),
+                'max:255'
             ],
             'phone' => [
                 'required',
-                Rule::unique('developers')->ignore($request->id), // Add ignore if this is an update operation.
+                Rule::unique('advisors')->ignore($request->id),
                 'max:25'
             ],
         ];
         $request->validate($rules);
-        Developer::create($request->all());
-        return redirect()->route('Admin.Developer.index')->with('success', __('added successfully'));
+        Advisor::create($request->all());
+        return redirect()->route('Admin.Advisor.index')->with('success', __('added successfully'));
     }
 
     /**
@@ -65,37 +65,37 @@ class DeveloperController extends Controller
     public function edit($id)
     {
         $Regions = Region::all();
-        $developer = Developer::find($id);
+        $developer = Advisor::find($id);
         $cities = City::all();
-        return view('Admin.users.Developer.edit', get_defined_vars());
+        return view('Admin.ProjectManagement.Advisor.edit', get_defined_vars());
     }
 
     public function update(Request $request, $id)
     {
-        $developer = Developer::find($id);
+        $developer = Advisor::find($id);
         $rules = [
             'name' => 'required|string|max:255',
             'city_id' => 'required',
             'email' => [
                 'required',
                 'email',
-                Rule::unique('developers')->ignore($developer->id), // Assuming you might want to ignore a given ID for uniqueness.
+                Rule::unique('advisors')->ignore($developer->id), // Assuming you might want to ignore a given ID for uniqueness.
                 'max:255' // Updated to 255, which is a common max length for emails. Adjust if needed.
             ],
             'phone' => [
                 'required',
-                Rule::unique('developers')->ignore($developer->id), // Add ignore if this is an update operation.
+                Rule::unique('advisors')->ignore($developer->id), // Add ignore if this is an update operation.
                 'max:25'
             ],
         ];
         $request->validate($rules);
         $developer->update($request->all());
-        return redirect()->route('Admin.Developer.index')->with('success', __('Update successfully'));
+        return redirect()->route('Admin.Advisor.index')->with('success', __('Update successfully'));
     }
 
     public function destroy(string $id)
     {
-        Developer::find($id)->delete();
-        return redirect()->route('Admin.Developer.index')->with('success', __('Deleted successfully'));
+        Advisor::find($id)->delete();
+        return redirect()->route('Admin.Advisor.index')->with('success', __('Deleted successfully'));
     }
 }
