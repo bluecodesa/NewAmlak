@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->default('Amalk')->nullable();
             $table->string('icon')->default()->nullable();
             $table->longText('about')->nullable();
             $table->longText('contact_us')->nullable();
