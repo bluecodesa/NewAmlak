@@ -50,6 +50,9 @@
                                 class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li><a href="{{ route('Admin.settings.index') }}">@lang('Settings')</a></li>
+                        <li><a href="{{ route('Admin.Region.index') }}">@lang('Regions')</a></li>
+                        <li><a href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
+
 
                     </ul>
                 </li>

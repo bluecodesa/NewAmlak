@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css"
         integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         .required-color {
@@ -72,10 +73,6 @@
             border-radius: 8px;
             border: 1px solid silver;
         }
-
-
-
-
     </style>
 
 </head>
@@ -141,7 +138,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
+
     <script>
         var success = '{{ Session::has('success') }}';
         var sorry = '{{ Session::has('sorry') }}';
@@ -162,6 +159,22 @@
                 focus: true // set focus to editable area after initializing summernote
             });
         });
+
+        function handleDelete(id) {
+            Swal.fire({
+                title: '@lang('Are you sure')',
+                text: "@lang('You can not be able to revert this!')",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '@lang('Yes, delete it!')'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
     </script>
     @stack('scripts')
 
