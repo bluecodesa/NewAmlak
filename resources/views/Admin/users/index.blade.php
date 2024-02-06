@@ -50,7 +50,7 @@
                                                     <td>{{ $user->name }}</td>
                                                     <td>{{ $user->email }}</td>
                                                     <td>
-                                                        {{ $user->roles[0]->name }}
+                                                        {{ $user->roles[0]->name ?? '' }}
                                                     </td>
                                                     <td class="align-middle">
                                                         @foreach ($user->getAllPermissions()->unique('section_id') as $permission)
