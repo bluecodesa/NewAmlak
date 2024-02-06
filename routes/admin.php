@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\General\CityController;
+use App\Http\Controllers\Admin\General\RegionController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\SubUserController;
+use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -48,7 +51,8 @@ Route::group(
                 'Permissions' => PermissionController::class,
                 'settings' => SettingController::class,
                 'Sections' => SectionController::class,
-
+                'Region' => RegionController::class,
+                'City' => CityController::class,
 
             ]);
         });

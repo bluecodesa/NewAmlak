@@ -10,8 +10,8 @@ class City extends Model
     protected $guarded = [];
 
 
-    public function region()
+    public function RegionData()
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Region::class, 'region_id');
     }
 }

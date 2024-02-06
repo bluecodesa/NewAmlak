@@ -163,7 +163,7 @@
                                                             <a href="{{ route('Admin.SubscriptionTypes.edit', $sub->id) }}"
                                                                 class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
                                                             <a href="javascript:void(0);"
-                                                                onclick="event.preventDefault();document.getElementById('delete-form-{{ $sub->id }}').submit();"
+                                                                onclick="handleDelete('{{ $sub->id }}')"
                                                                 class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
                                                                 @lang('Delete')
                                                             </a>
