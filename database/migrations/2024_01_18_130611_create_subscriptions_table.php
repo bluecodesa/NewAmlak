@@ -24,7 +24,6 @@ class CreateSubscriptionsTable extends Migration
             $table->string('status');
             $table->tinyInteger('is_deleted')->default(0);
             $table->timestamps();
-
             $table->foreign('office_id')->references('id')->on('offices');
             // $table->foreignId('subscription_type_id')->constrained('subscription_types');
         });

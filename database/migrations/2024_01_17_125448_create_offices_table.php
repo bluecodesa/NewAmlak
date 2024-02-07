@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('CRN')->nullable();
-            $table->string('Company_name');
+            $table->string('company_name');
             $table->string('city');
             $table->string('status');
             $table->tinyInteger('is_deleted')->default(0);

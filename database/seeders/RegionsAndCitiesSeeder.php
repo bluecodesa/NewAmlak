@@ -78,11 +78,15 @@ class RegionsAndCitiesSeeder extends Seeder
 
         // Iterate over the regions and insert them along with their cities
         foreach ($data['regions'] as $regionData) {
-            $region = Region::create(['name' => $regionData['name']]);
+            $region = Region::create([
+                'ar' => ['name' => $regionData['name']],
+                'en' => ['name' => $regionData['name'] . '_en']
+            ]);
 
             foreach ($regionData['cities'] as $cityName) {
                 City::create([
-                    'name' => $cityName,
+                    'ar' => ['name' => $cityName],
+                    'en' => ['name' => $cityName . '_en'],
                     'region_id' => $region->id
                 ]);
             }

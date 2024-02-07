@@ -12,34 +12,48 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('Edit')</h4>
+                                        @lang('Edit') : {{ $District->name }} </h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Admin.Region.update', $Region->id) }}" method="POST"
+                                <form action="{{ route('Admin.District.update', $District->id) }}" method="POST"
                                     class="row">
                                     @csrf
                                     @method('PUT')
                                     @foreach (config('translatable.locales') as $locale)
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <div class="mb-3">
                                                 <label class="form-label">
                                                     {{ __('Name') }} {{ __($locale) }} <span
                                                         class="required-color">*</span></label>
                                                 <input type="text" required id="modalRoleName"
-                                                    value="{{ $Region->translate($locale)->name }}"
+                                                    value="{{ $District->translate($locale)->name }}"
                                                     name="{{ $locale }}[name]" class="form-control"
                                                     placeholder="{{ __('Name') }} {{ __($locale) }}">
                                             </div>
                                         </div>
                                     @endforeach
+
+                                    <div class="form-group col-md-4">
+                                        <label>@lang('city') </label>
+                                        <select class="form-control" name="city_id" required>
+                                            <option disabled value="">@lang('city')</option>
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}"
+                                                    {{ $city->id == $District->city_id ? 'selected' : '' }}>
+                                                    {{ $city->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary me-1">
 

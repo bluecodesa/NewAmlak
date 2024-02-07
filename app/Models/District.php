@@ -6,15 +6,14 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class District extends Model
 {
     use Translatable;
     public $translatedAttributes = ['name'];
     protected $guarded = [];
 
-
-    public function RegionData()
+    public function CityData()
     {
-        return $this->belongsTo(Region::class, 'region_id');
+        return $this->belongsTo(City::class, 'city_id');
     }
 }
