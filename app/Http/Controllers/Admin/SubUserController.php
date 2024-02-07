@@ -48,6 +48,10 @@ class SubUserController extends Controller
     public function show(string $id)
     {
         //
+        $broker = Broker::findOrFail($id);
+
+        return view('Admin.subscribers.brokers.show', get_defined_vars());
+
     }
 
     /**

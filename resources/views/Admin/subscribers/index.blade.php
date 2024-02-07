@@ -69,6 +69,7 @@
                                                 <td>{{ $brokerSubscriber->subscription_end }}</td>
                                                 <td>
                                                     <a href="{{ route('Admin.edit-broker-subscribers', $brokerSubscriber->id) }}" class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                    <a href="{{ route('Admin.Subscribers.show', $brokerSubscriber->id) }}" class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Show')</a>
                                                     <a href="javascript:void(0);" onclick="handleDelete('{{ $brokerSubscriber->id }}')" class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
                                                     <form id="delete-form-{{ $brokerSubscriber->id }}" action="{{ route('Admin.delete-broker-subscribers', $brokerSubscriber->id) }}" method="POST" style="display: none;">
                                                         @csrf
