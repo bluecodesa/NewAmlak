@@ -51,7 +51,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($brokers as $brokerSubscriber)
+                                            @foreach ($subscribers as $brokerSubscriber)
                                                 <tr>
                                                     <td>{{ $brokerSubscriber->id }}</td>
                                                     <td>{{ $brokerSubscriber->name }}</td>
