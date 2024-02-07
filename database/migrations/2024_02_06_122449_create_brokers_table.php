@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('mobile');
             $table->string('city');
             $table->string('password');
-            $table->string('subscription_type');
+            $table->unsignedInteger('subscription_type_id');
             $table->string('id_number');
+            $table->foreign('subscription_type_id')->references('id')->on('subscription_types')->onDelete('cascade');
             $table->timestamps();
         });
     }

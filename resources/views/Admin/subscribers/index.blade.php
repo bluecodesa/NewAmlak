@@ -213,8 +213,9 @@ aria-hidden="true">
                         <label for="subscription" class="col-md-4 col-form-label text-md-end text-start">@lang(' نوع الاشتراك')</label>
                         <div class="col-md-6">
                         <select class="form-control" id="subscription_type" name="subscription_type">
-                        @foreach ($subscriptionTypes as $type)
-                        <option value="{{ $type->id }}">{{ $type->period }} {{ $type->period_type }} - {{ $type->price }} - {{ $type->status }}</option>
+                            <option value="">إختر</option>
+                            @foreach ($subscriptionTypes as $type)
+                        <option value="{{ $type->id }}">{{ $type->period }} {{ $type->period_type }} - {{ $type->price }}</option>
                         @endforeach
                         </select>
                         </div>

@@ -53,4 +53,9 @@ class SubscriptionType extends Model
         }
         return $periodType;
     }
+
+    public function brokers()
+    {
+        return $this->hasMany(Broker::class);
+    }
 }

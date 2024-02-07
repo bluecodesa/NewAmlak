@@ -10,4 +10,9 @@ class Broker extends Model
     use HasFactory;
     protected $guarded = [];
 
+
+    public function subscriptionType()
+    {
+        return $this->belongsTo(SubscriptionType::class);
+    }
 }

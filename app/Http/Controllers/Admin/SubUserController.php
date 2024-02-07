@@ -18,7 +18,7 @@ class SubUserController extends Controller
         //
         $subscribers = SubUser::all();
         $brokers=Broker::all();
-        $subscriptionTypes = SubscriptionType::all();
+        $subscriptionTypes = SubscriptionType::where('status', 1)->get();
         $cities = City::all();
         return view('Admin.subscribers.index', get_defined_vars());
 
@@ -48,16 +48,19 @@ class SubUserController extends Controller
         'id_number' => 'required|string',
     ]);
 
-    $broker = new Broker();
-    $broker->name = $request->name;
-    $broker->license_number = $request->license_number;
-    $broker->email = $request->email;
-    $broker->mobile = $request->mobile;
-    $broker->city = $request->city;
-    $broker->password = bcrypt($request->password);
-    $broker->subscription_type = $request->subscription_type;
-    $broker->id_number = $request->id_number;
-    $broker->save();
+    $subscriptionType = SubscriptionType::findOrFail($request->subscription_type);
+
+
+    Broker::create([
+        'name' => $request->name,
+        'license_number' => $request->license_number,
+        'email' => $request->email,
+        'mobile' => $request->mobile,
+        'city' => $request->city,
+        'password' => bcrypt($request->password),
+        'subscription_type_id' => $subscriptionType->id, // Associate the subscription type ID
+        'id_number' => $request->id_number,
+    ]);
 
     return redirect()->route('Admin.Subscribers.index')
         ->with('success', 'Broker created successfully.');
