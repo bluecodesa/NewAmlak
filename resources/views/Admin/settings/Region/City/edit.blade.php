@@ -27,16 +27,21 @@
                                 <form action="{{ route('Admin.City.update', $City->id) }}" method="POST" class="row">
                                     @csrf
                                     @method('PUT')
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">
-                                                {{ __('Name') }} <span class="required-color">*</span></label>
-                                            <input type="text" required value="{{ $City->name }}" id="modalRoleName"
-                                                name="name" class="form-control" placeholder="{{ __('Name') }}">
+                                    @foreach (config('translatable.locales') as $locale)
+                                        <div class="col-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    {{ __('Name') }} {{ __($locale) }} <span
+                                                        class="required-color">*</span></label>
+                                                <input type="text" required id="modalRoleName"
+                                                    value="{{ $City->translate($locale)->name }}"
+                                                    name="{{ $locale }}[name]" class="form-control"
+                                                    placeholder="{{ __('Name') }} {{ __($locale) }}">
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endforeach
 
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>@lang('Region') </label>
                                         <select class="form-control" name="region_id" required>
                                             <option disabled value="">@lang('Region')</option>

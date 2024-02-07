@@ -33,7 +33,9 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $rules = [];
-        $rules += ['name' => ['required', Rule::unique('cities', 'name')]];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('city_translations', 'name')]];
+        }
         $request->validate($rules);
         City::create($request->all());
         return redirect()->route('Admin.City.index')->with('success', __('added successfully'));
@@ -59,7 +61,9 @@ class CityController extends Controller
     {
         $City = City::find($id);
         $rules = [];
-        $rules += ['name' => ['required', Rule::unique('cities', 'name')->ignore($City->id, 'id')]];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('city_translations', 'name')->ignore($City->id, 'city_id')]];
+        }
         $request->validate($rules);
         $City->update($request->all());
         return redirect()->route('Admin.City.index')->with('success', __('Update successfully'));

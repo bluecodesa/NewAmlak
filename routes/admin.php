@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\General\CityController;
+use App\Http\Controllers\Admin\General\DistrictController;
 use App\Http\Controllers\Admin\General\RegionController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -55,6 +56,7 @@ Route::group(
                 'Sections' => SectionController::class,
                 'Region' => RegionController::class,
                 'City' => CityController::class,
+                'District' => DistrictController::class,
                 'Developer' => DeveloperController::class,
                 'Advisor' => AdvisorController::class,
             ]);

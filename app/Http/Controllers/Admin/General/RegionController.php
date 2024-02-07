@@ -33,7 +33,11 @@ class RegionController extends Controller
     public function store(Request $request)
     {
         $rules = [];
-        $rules += ['name' => ['required', Rule::unique('regions', 'name')]];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('region_translations', 'name')]];
+        }
+        $request->validate($rules);
+
         $request->validate($rules);
         Region::create($request->all());
         return redirect()->route('Admin.Region.index')->with('success', __('added successfully'));
@@ -58,7 +62,9 @@ class RegionController extends Controller
     {
         $Region = Region::find($id);
         $rules = [];
-        $rules += ['name' => ['required', Rule::unique('regions', 'name')->ignore($Region->id, 'id')]];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('region_translations', 'name')->ignore($Region->id, 'region_id')]];
+        }
         $request->validate($rules);
         $Region->update($request->all());
         return redirect()->route('Admin.Region.index')->with('success', __('Update successfully'));

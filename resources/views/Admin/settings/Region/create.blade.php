@@ -28,14 +28,18 @@
                                     @csrf
                                     @method('post')
 
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">
-                                                {{ __('Name') }} <span class="required-color">*</span></label>
-                                            <input type="text" required id="modalRoleName" name="name"
-                                                class="form-control" placeholder="{{ __('Name') }}">
+                                    @foreach (config('translatable.locales') as $locale)
+                                        <div class="col-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    {{ __('Name') }} {{ __($locale) }} <span
+                                                        class="required-color">*</span></label>
+                                                <input type="text" required id="modalRoleName"
+                                                    name="{{ $locale }}[name]" class="form-control"
+                                                    placeholder="{{ __('Name') }} {{ __($locale) }}">
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endforeach
 
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary me-1">

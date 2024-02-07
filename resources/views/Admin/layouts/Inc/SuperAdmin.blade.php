@@ -51,6 +51,9 @@
                         <li><a href="{{ route('Admin.settings.index') }}">@lang('Settings')</a></li>
                         <li><a href="{{ route('Admin.Region.index') }}">@lang('Regions')</a></li>
                         <li><a href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
+                        <li><a href="{{ route('Admin.District.index') }}">@lang('districts')</a></li>
+
+
                     </ul>
                 </li>
 
