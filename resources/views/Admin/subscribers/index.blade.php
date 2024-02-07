@@ -141,7 +141,7 @@
     </div>
 
     <!-- Add New Broker Modal -->
-    <div class="modal fade" id="addBrokerModal" tabindex="-1" role="dialog" aria-labelledby="addBrokerModalLabel"
+    {{-- <div class="modal fade" id="addBrokerModal" tabindex="-1" role="dialog" aria-labelledby="addBrokerModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -251,6 +251,6 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
     </div>
 @endsection
