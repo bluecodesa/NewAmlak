@@ -51,6 +51,7 @@
                                                     <td>{{ $user->email }}</td>
                                                     <td>
                                                         {{ $user->roles[0]->name ?? '' }}
+
                                                     </td>
                                                     <td class="align-middle">
                                                         @foreach ($user->getAllPermissions()->unique('section_id') as $permission)
@@ -62,42 +63,38 @@
                                                         @endforeach
                                                     </td>
                                                     <td>
-                                                        <form action="{{ route('Admin.users.destroy', $user->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <a href="{{ route('Admin.users.show', $user->id) }}"
-                                                                class="btn btn-outline-warning btn-sm waves-effect waves-light"><i
-                                                                    class="bi bi-eye"></i>
-                                                                @lang('Show')</a>
 
-                                                            @if (in_array('Super Admin', $user->getRoleNames()->toArray() ?? []))
-                                                                @if (Auth::user()->hasRole('Super Admin'))
-                                                                    <a href="{{ route('users.edit', $user->id) }}"
-                                                                        class="btn btn-primary btn-sm"><i
-                                                                            class="bi bi-pencil-square"></i>
-                                                                        @lang('Edit')</a>
-                                                                @endif
-                                                            @else
-                                                                @can('edit-user')
-                                                                    <a href="{{ route('Admin.users.edit', $user->id) }}"
-                                                                        class="btn btn-outline-info btn-sm waves-effect waves-light"><i
-                                                                            class="bi bi-pencil-square"></i>
-                                                                        @lang('Edit')</a>
-                                                                @endcan
+                                                        <a href="{{ route('Admin.users.show', $user->id) }}"
+                                                            class="btn btn-outline-warning btn-sm waves-effect waves-light"><i
+                                                                class="bi bi-eye"></i>
+                                                            @lang('Show')</a>
 
-                                                                @can('delete-user')
-                                                                    @if (Auth::user()->id != $user->id)
-                                                                        <button type="submit"
-                                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light "
-                                                                            onclick="return confirm('Do you want to delete this user?');"><i
-                                                                                class="bi bi-trash"></i>
-                                                                            @lang('Delete')</button>
-                                                                    @endif
-                                                                @endcan
+                                                        @if (in_array('Super Admin', $user->getRoleNames()->toArray() ?? []))
+                                                            @if (Auth::user()->hasRole('Super Admin'))
+                                                                <a href="{{ route('users.edit', $user->id) }}"
+                                                                    class="btn btn-primary btn-sm"><i
+                                                                        class="bi bi-pencil-square"></i>
+                                                                    @lang('Edit')</a>
                                                             @endif
+                                                        @else
+                                                            @can('delete-user')
+                                                                <a href="{{ route('Admin.users.edit', $user->id) }}"
+                                                                    class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                                <a href="javascript:void(0);"
+                                                                    onclick="handleDelete('{{ $user->id }}')"
+                                                                    class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                                    @lang('Delete')
+                                                                </a>
+                                                                <form id="delete-form-{{ $user->id }}"
+                                                                    action="{{ route('Admin.users.destroy', $user->id) }}"
+                                                                    method="POST" style="display: none;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                </form>
+                                                            @endcan
+                                                        @endif
 
-                                                        </form>
+
                                                     </td>
                                                 </tr>
                                             @empty

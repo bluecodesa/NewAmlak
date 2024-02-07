@@ -39,7 +39,6 @@
                             <li><a href="{{ route('Admin.Permissions.index') }}">@lang('Permissions')</a></li>
                         @endcan
                         <li><a href="{{ route('Admin.roles.index') }}">@lang('Roles')</a></li>
-                        <li><a href="{{ route('Admin.Developer.index') }}">@lang('developers')</a></li>
                     </ul>
                 </li>
 
@@ -52,12 +51,19 @@
                         <li><a href="{{ route('Admin.settings.index') }}">@lang('Settings')</a></li>
                         <li><a href="{{ route('Admin.Region.index') }}">@lang('Regions')</a></li>
                         <li><a href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
-
-
-
                     </ul>
                 </li>
 
+
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                            @lang('project management')<span class="float-right menu-arrow"><i
+                                    class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{ route('Admin.Developer.index') }}">@lang('developers')</a></li>
+                        <li><a href="{{ route('Admin.Advisor.index') }}">@lang('advisors')</a></li>
+                    </ul>
+                </li>
 
             </ul>
 

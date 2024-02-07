@@ -4,14 +4,15 @@ use App\Http\Controllers\Admin\General\CityController;
 use App\Http\Controllers\Admin\General\RegionController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
+use App\Http\Controllers\Admin\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SubscriptionTypesController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\SubUserController;
-use App\Http\Controllers\Admin\Users\DeveloperController;
+use App\Http\Controllers\Admin\UserController;
 use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,7 @@ Route::group(
                 'Region' => RegionController::class,
                 'City' => CityController::class,
                 'Developer' => DeveloperController::class,
+                'Advisor' => AdvisorController::class,
             ]);
         });
     }
