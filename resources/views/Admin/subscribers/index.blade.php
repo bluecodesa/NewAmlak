@@ -28,68 +28,63 @@
                 <!-- end page-title -->
 
                 <div class="row">
-
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
-
-                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>@lang('Subscriber Name')</th>
-                                            <th>@lang('Subscription Type')</th>
-                                            <th>@lang('Subscription Time')</th>
-                                            <th>@lang('Subscription Status')</th>
-                                            <th>@lang('Number of Clients')</th>
-                                            <th>@lang('Subscriber City')</th>
-                                            <th>@lang('Subscription Start')</th>
-                                            <th>@lang('Subscription End')</th>
-                                            <th>@lang('Action')</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($brokers as $brokerSubscriber)
-                                        <tr>
-                                            <td>{{ $brokerSubscriber->id }}</td>
-                                            <td>{{ $brokerSubscriber->name }}</td>
-                                            <td>{{ $brokerSubscriber->subscription_type }}</td>
-                                            <td>{{ $brokerSubscriber->subscription_time }}</td>
-                                            <td>{{ $brokerSubscriber->subscription_status }}</td>
-                                            <td>{{ $brokerSubscriber->number_of_clients }}</td>
-                                            <td>{{ $brokerSubscriber->subscriber_city }}</td>
-                                            <td>{{ $brokerSubscriber->subscription_start }}</td>
-                                            <td>{{ $brokerSubscriber->subscription_end }}</td>
-
+                                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>@lang('Subscriber Name')</th>
+                                                <th>@lang('Subscription Type')</th>
+                                                <th>@lang('Subscription Time')</th>
+                                                <th>@lang('Subscription Status')</th>
+                                                <th>@lang('Number of Clients')</th>
+                                                <th>@lang('Subscriber City')</th>
+                                                <th>@lang('Subscription Start')</th>
+                                                <th>@lang('Subscription End')</th>
+                                                <th>@lang('Action')</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($brokers as $brokerSubscriber)
+                                            <tr>
+                                                <td>{{ $brokerSubscriber->id }}</td>
+                                                <td>{{ $brokerSubscriber->name }}</td>
                                                 <td>
-                                                    <a href="{{ route('Admin.Subscribers.edit', $brokerSubscriber->id) }}"
-                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                    <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $brokerSubscriber->id }}')"
-                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                        @lang('Delete')
-                                                    </a>
-                                                    <form id="delete-form-{{ $brokerSubscriber->id }}"
-                                                        action="{{ route('Admin.Subscribers.destroy', $brokerSubscriber->id) }}" method="POST"
-                                                        style="display: none;">
+                                                    @if ($brokerSubscriber->subscriptionType->price > 0)
+                                                        <span class="badge badge-pill badge-warning"
+                                                            style="background-color: #add0e87d;color: #497AAC;">@lang('paid')</span>
+                                                    @else
+                                                        <span
+                                                            class="badge badge-pill badge-warning">@lang('free')</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $brokerSubscriber->subscription_time }}</td>
+                                                <td>{{ $brokerSubscriber->subscription_status }}</td>
+                                                <td>{{ $brokerSubscriber->number_of_clients }}</td>
+                                                <td>{{ $brokerSubscriber->city }}</td>
+                                                <td>{{ $brokerSubscriber->subscription_start }}</td>
+                                                <td>{{ $brokerSubscriber->subscription_end }}</td>
+                                                <td>
+                                                    <a href="{{ route('Admin.edit-broker-subscribers', $brokerSubscriber->id) }}" class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                    <a href="javascript:void(0);" onclick="handleDelete('{{ $brokerSubscriber->id }}')" class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                    <form id="delete-form-{{ $brokerSubscriber->id }}" action="{{ route('Admin.delete-broker-subscribers', $brokerSubscriber->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-
-
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div> <!-- end col -->
-                </div> <!-- end col -->
-            </div> <!-- end row -->
+                </div> <!-- end row -->
+
 
         </div>
         <!-- container-fluid -->
@@ -147,7 +142,7 @@ aria-hidden="true">
             </div>
             <div class="modal-body">
                 <!-- Add Broker Form -->
-                <form action="{{ route('Admin.Subscribers.store') }}" method="POST">
+                <form action="{{ route('Admin.create-broker-subscribers') }}" method="POST">
                     @csrf
 
                     @if ($errors->any())
@@ -158,7 +153,7 @@ aria-hidden="true">
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                    @endif
 
                     <div class="mb-3 row">
                         <label for="name" class="col-md-4 col-form-label text-md-end text-start">@lang('الاسم رباعي')</label>

@@ -54,30 +54,27 @@
                                         </div>
                                     </div>
 
-
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label">
-                                                {{ __('password') }} <span class="required-color">*</span></label>
-                                            <input name="password" type="password" value=""
-                                                class="form-control @error('password') is-invalid @enderror"
-                                                placeholder="{{ __('password') }}">
+                                                {{ __('password') }} <span class="required-color">*</span>
+                                            </label>
+                                            <input name="password" type="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('password') }}">
                                             @if ($errors->has('password'))
                                                 <span class="text-danger">{{ $errors->first('password') }}</span>
                                             @endif
                                         </div>
                                     </div>
 
-
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label">
-                                                {{ __('Confirm Password') }} <span class="required-color">*</span></label>
-                                            <input name="password_confirmation" type="password" value=""
-                                                class="form-control" placeholder="{{ __('Confirm Password') }}">
-
+                                                {{ __('Confirm Password') }} <span class="required-color">*</span>
+                                            </label>
+                                            <input name="password_confirmation" type="password" class="form-control" placeholder="{{ __('Confirm Password') }}">
                                         </div>
                                     </div>
+
 
                                     <div class="form-group col-md-4">
                                         <label>@lang('role name')<span class="required-color">*</span> </label>
@@ -94,7 +91,7 @@
 
 
                                     <div class="col-md-12">
-                                        <input type="submit" class="btn btn-primary" value="@lang('Add New Admin')">
+                                        <input type="submit" class="btn btn-primary" value="@lang('save')">
                                     </div>
 
                                 </form>

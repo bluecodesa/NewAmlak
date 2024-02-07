@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class UpdateUserRequest extends FormRequest
 {
@@ -23,9 +25,16 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:250',
-            'email' => 'required|string|email:rfc,dns|max:250|unique:users,email,' . $this->user->id,
+            'email' => [
+                'required',
+                'string',
+                'email:rfc,dns',
+                'max:250',
+                // Exclude the current user's email from the unique check
+                Rule::unique('users')->ignore($this->user->id),
+            ],
             'password' => 'nullable|string|min:8|confirmed',
-            'roles' => 'required'
+            'roles' => 'required',
         ];
     }
 }

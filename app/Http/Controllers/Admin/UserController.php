@@ -83,22 +83,36 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
-    {
-        $request_data  = $request->only(['password']);
-        if ($request->password) {
-            $request_data['password'] = bcrypt($request->password);
-        } else {
-            $request_data['password'] = $user->password;
-        }
-        $user->update($request_data);
-        if ($request->role) {
-            $role = Role::find($request->role);
-            $user->assignRole($role->name);
-        }
-        return redirect()->route('Admin.users.index')
-            ->withSuccess('Update successfully');
+/**
+ * Update the specified resource in storage.
+ */
+/**
+ * Update the specified resource in storage.
+ */
+public function update(UpdateUserRequest $request, User $user): RedirectResponse
+{
+    // Extract name, email, and password fields from the request data
+    $request_data = $request->only(['name', 'email', 'password']);
+
+    // Hash the password if it's included in the request data
+    if ($request->password) {
+        $request_data['password'] = bcrypt($request->password);
     }
+
+    // Update the user with the extracted data
+    $user->update($request_data);
+
+    // Use $request->roles instead of $request->role
+    if ($request->roles) {
+        $role = Role::find($request->roles);
+        $user->syncRoles([$role->name]); // Use syncRoles to replace all roles with the new one
+    }
+
+    return redirect()->route('Admin.users.index')
+        ->withSuccess('Update successfully');
+}
+
+
 
     /**
      * Remove the specified resource from storage.
