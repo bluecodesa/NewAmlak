@@ -43,7 +43,6 @@ Route::group(
             Route::get('/payment-gateways/{id}/edit', [SettingController::class, 'editPaymentGatewayForm'])->name('payment-gateways.edit');
             Route::put('/payment-gateways/{id}', [SettingController::class, 'updatePaymentGatewayStatus'])->name('update-payment-gateway');
             Route::post('/payment-gateways/create', [SettingController::class, 'createPaymentGateway'])->name('create-payment-gateway');
-            Route::post('/broker_subscribers/create', [SubUserController::class, 'createBrokerSubscribers'])->name('create-broker-subscribers');
             Route::resources([
                 'roles' => RoleController::class,
                 'users' => UserController::class,

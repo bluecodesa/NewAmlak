@@ -37,7 +37,7 @@ class SubUserController extends Controller
      */
     public function store(Request $request)
 {
-    $rules = $request->validate([
+    $request->validate([
         'name' => 'required|string',
         'license_number' => 'required|string',
         'email' => 'required|email|unique:brokers,email',
@@ -48,16 +48,20 @@ class SubUserController extends Controller
         'id_number' => 'required|string',
     ]);
 
-    // Create a new Broker instance and fill it with validated data
     $broker = new Broker();
-    $broker->fill($request->all());
-    $broker->password = bcrypt($request->password); // Hash the password before saving
+    $broker->name = $request->name;
+    $broker->license_number = $request->license_number;
+    $broker->email = $request->email;
+    $broker->mobile = $request->mobile;
+    $broker->city = $request->city;
+    $broker->password = bcrypt($request->password);
+    $broker->subscription_type = $request->subscription_type;
+    $broker->id_number = $request->id_number;
     $broker->save();
 
     return redirect()->route('Admin.Subscribers.index')
         ->with('success', 'Broker created successfully.');
 }
-
     public function createBrokerSubscribers(Request $request)
     {
         $request->validate([

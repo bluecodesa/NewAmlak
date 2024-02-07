@@ -32,6 +32,7 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
 
                                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
@@ -60,20 +61,30 @@
                                             <td>{{ $brokerSubscriber->subscriber_city }}</td>
                                             <td>{{ $brokerSubscriber->subscription_start }}</td>
                                             <td>{{ $brokerSubscriber->subscription_end }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.broker-subscribers.edit', $brokerSubscriber->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                                <form action="{{ route('admin.broker-subscribers.destroy', $brokerSubscriber->id) }}" method="POST" style="display: inline-block;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                                </form>
+
+                                                <td>
+                                                    <a href="{{ route('Admin.Subscribers.edit', $brokerSubscriber->id) }}"
+                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                    <a href="javascript:void(0);"
+                                                        onclick="handleDelete('{{ $brokerSubscriber->id }}')"
+                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                        @lang('Delete')
+                                                    </a>
+                                                    <form id="delete-form-{{ $brokerSubscriber->id }}"
+                                                        action="{{ route('Admin.Subscribers.destroy', $brokerSubscriber->id) }}" method="POST"
+                                                        style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+
+
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
 
-
+                                </div>
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -138,6 +149,17 @@ aria-hidden="true">
                 <!-- Add Broker Form -->
                 <form action="{{ route('Admin.Subscribers.store') }}" method="POST">
                     @csrf
+
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                     <div class="mb-3 row">
                         <label for="name" class="col-md-4 col-form-label text-md-end text-start">@lang('الاسم رباعي')</label>
                         <div class="col-md-6">
@@ -182,9 +204,9 @@ aria-hidden="true">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="confirm_password" class="col-md-4 col-form-label text-md-end text-start">@lang('تأكيد كلمة المرور')</label>
+                        <label for="password_confirmation" class="col-md-4 col-form-label text-md-end text-start">@lang('تأكيد كلمة المرور')</label>
                         <div class="col-md-6">
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                         </div>
                     </div>
                     <div class="mb-3 row">
