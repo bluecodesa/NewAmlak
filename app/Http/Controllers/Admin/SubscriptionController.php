@@ -22,6 +22,7 @@ class SubscriptionController extends Controller
     public function index()
     {
         $subscribers = Subscription::all();
+
         return view('Admin.subscribers.index', get_defined_vars());
     }
 
@@ -65,9 +66,9 @@ class SubscriptionController extends Controller
             'password' => 'required|string|max:255',
         ];
         $messages = [
-            'name.required' => 'The name field is required.',
-            'email.required' => 'The email field is required.',
-            'presenter_number.required' => 'The presenter_number field is required.',
+            'name.required' => 'The ' . __('name') . ' field is required.',
+            'email.required' => 'The ' . __('email') . ' field is required.',
+            'presenter_number.required' => 'The ' . __('Company representative number') . ' field is required.',
         ];
         $request->validate($rules, $messages);
         $user = User::create([
@@ -95,7 +96,8 @@ class SubscriptionController extends Controller
             'end_date' => '2024-04-10',
             'total' => '200'
         ]);
-        return $request;
+        return redirect()->route('Admin.Subscribers.index')
+            ->withSuccess(__('added successfully'));
     }
 
     /**

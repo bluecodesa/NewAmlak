@@ -51,12 +51,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($subscribers as $brokerSubscriber)
+                                            @foreach ($subscribers as $index => $subscriber)
                                                 <tr>
-                                                    <td>{{ $brokerSubscriber->id }}</td>
-                                                    <td>{{ $brokerSubscriber->name }}</td>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $subscriber->OfficeData->UserData->name ?? '' }}</td>
                                                     <td>
-                                                        @if ($brokerSubscriber->subscriptionType->price > 0)
+                                                        @if ($subscriber->SubscriptionTypeData->price > 0)
                                                             <span class="badge badge-pill badge-warning"
                                                                 style="background-color: #add0e87d;color: #497AAC;">@lang('paid')</span>
                                                         @else
@@ -64,20 +64,21 @@
                                                                 class="badge badge-pill badge-warning">@lang('free')</span>
                                                         @endif
                                                     </td>
-                                                    <td>{{ $brokerSubscriber->subscription_time }}</td>
-                                                    <td>{{ $brokerSubscriber->subscription_status }}</td>
-                                                    <td>{{ $brokerSubscriber->number_of_clients }}</td>
-                                                    <td>{{ $brokerSubscriber->city }}</td>
-                                                    <td>{{ $brokerSubscriber->subscription_start }}</td>
-                                                    <td>{{ $brokerSubscriber->subscription_end }}</td>
+                                                    <td>{{ $subscriber->SubscriptionTypeData->period . ' ' . __($subscriber->SubscriptionTypeData->period_type) }}
+                                                    </td>
+                                                    <td>{{ __($subscriber->status) }}</td>
+                                                    <td>{{ $subscriber->number_of_clients }}</td>
+                                                    <td>{{ $subscriber->OfficeData->CityData->name ?? '' }}</td>
+                                                    <td>{{ $subscriber->start_date }}</td>
+                                                    <td>{{ $subscriber->end_date }}</td>
                                                     <td>
-                                                        <a href="{{ route('Admin.edit-broker-subscribers', $brokerSubscriber->id) }}"
+                                                        <a href="{{ route('Admin.edit-broker-subscribers', $subscriber->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
                                                         <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $brokerSubscriber->id }}')"
+                                                            onclick="handleDelete('{{ $subscriber->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                        <form id="delete-form-{{ $brokerSubscriber->id }}"
-                                                            action="{{ route('Admin.delete-broker-subscribers', $brokerSubscriber->id) }}"
+                                                        <form id="delete-form-{{ $subscriber->id }}"
+                                                            action="{{ route('Admin.delete-broker-subscribers', $subscriber->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')

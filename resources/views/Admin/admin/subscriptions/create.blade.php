@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Add New Section'))
+@section('title', __('Add New Subscriber'))
 @section('content')
 
     <div class="content-page">
@@ -12,7 +12,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('Add New Section')</h4>
+                                        @lang('Add New Subscriber')</h4>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                         <label for="CR_number"> @lang('Commercial Registration No') </label>
                                         <span class="not_required">(@lang('optional'))</span>
                                         <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')"
-                                            id="CR_number" name="CRN" value="">
+                                            id="CR_number" required="hhhh" name="CRN" value="">
                                     </div>
                                     <div class="col-md-4 mb-4">
                                         <label for="Company_name">@lang('Company Name') <span
@@ -52,7 +52,6 @@
                                     <div class="col-md-4 mb-4">
                                         <label for="contract">@lang('Company logo')</label>
                                         <span class="not_required">(@lang('optional'))</span>
-
                                         <input type="file" class="form-control" id="company_logo" name="company_logo"
                                             accept="image/png, image/jpg, image/jpeg">
                                     </div>
@@ -78,8 +77,6 @@
 
                                         </div>
                                     </div>
-
-
                                     <div class="form-group col-md-4">
                                         <label>@lang('Region') </label>
                                         <select class="form-control" id="Region_id" required>
@@ -112,7 +109,8 @@
                                         </select>
                                     </div>
                                     <div class="col-6 mb-4">
-                                        <label for="password"> @lang('password') <span class="text-danger">*</span></label>
+                                        <label for="password"> @lang('password') <span
+                                                class="text-danger">*</span></label>
 
                                         <input type="password" class="form-control" id="password" name="password"
                                             required="" placeholder="@lang('password')">

@@ -9,8 +9,13 @@ class Office extends Model
 {
     protected $guarded = [];
 
-    public function user()
+    public function UserData()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function CityData()
+    {
+        return $this->belongsTo(City::class, 'city_id');
     }
 }
