@@ -10,22 +10,23 @@ class CreateSubscriptionsTable extends Migration
     public function up()
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('office_id')->unsigned();
-            $table->tinyInteger('new_by_admin')->default(0);
-            $table->tinyInteger('notified')->default(0);
-            $table->integer('subscription_type_id')->nullable();
-            $table->tinyInteger('is_renewed')->default(0);
-            $table->string('date_start')->nullable();
-            $table->string('date_end')->nullable();
-            $table->string('extended_date')->nullable();
-            $table->string('total')->nullable();
-            $table->string('payment_type')->nullable();
+            $table->increments('id');
+            $table->unsignedBigInteger('office_id')->nullable();
+            $table->integer('broker_id')->unsigned()->nullable();
+            $table->integer('subscription_type_id')->unsigned()->nullable();
             $table->string('status');
-            $table->tinyInteger('is_deleted')->default(0);
+            $table->boolean('renewed_by_admin')->default(0);
+            $table->boolean('notified')->default(0);
+            $table->boolean('is_end')->default(0);
+            $table->boolean('is_new')->default(0);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->integer('total')->nullable();
+            $table->string('payment_type')->nullable();
+            $table->foreign('subscription_type_id')->references('id')->on('subscription_types')->onDelete('cascade');
+            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
+            $table->foreign('broker_id')->references('id')->on('brokers')->onDelete('cascade');
             $table->timestamps();
-            $table->foreign('office_id')->references('id')->on('offices');
-            // $table->foreignId('subscription_type_id')->constrained('subscription_types');
         });
     }
 

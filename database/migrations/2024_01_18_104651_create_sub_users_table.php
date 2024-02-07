@@ -28,4 +28,3 @@ class CreateSubUsersTable extends Migration
         Schema::dropIfExists('sub_users');
     }
 }
-

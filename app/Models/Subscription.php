@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
-    use HasFactory;
+
 
     protected $guarded = [];
 
 
-    public function rsOffice()
+    public function OfficeData()
     {
         return $this->belongsTo(office::class, 'office_id');
     }
 
-    public function subscriptionType()
+    public function SubscriptionType()
     {
         return $this->belongsTo(SubscriptionType::class, 'subscription_type_id');
     }

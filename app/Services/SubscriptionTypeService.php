@@ -48,7 +48,7 @@ class SubscriptionTypeService
 
         $types = $types->get();
 
-        return view('Admin.admin.subscriptions.index', [
+        return view('Admin.admin.Subscriptions.SubscriptionType.index', [
             'subscriptions' => $types,
             'status_filter' => $status_filter, 'period_filter' => $period_filter, 'price_filter' => $price_filter,
             'prices' => $prices
@@ -78,7 +78,7 @@ class SubscriptionTypeService
     {
         $roles = Role::where('type', 'user')->get();
         $sections = Section::get();
-        return view('Admin.admin.subscriptions.create', get_defined_vars());
+        return view('Admin.admin.Subscriptions.SubscriptionType.create', get_defined_vars());
     }
 
 
@@ -181,7 +181,7 @@ class SubscriptionTypeService
         $sections = Section::get();
         $rolesIds = $SubscriptionType->RolesData->pluck('role_id')->toArray();
         $sectionIds = $SubscriptionType->SectionData->pluck('section_id')->toArray();
-        return view('Admin.admin.subscriptions.edit', get_defined_vars());
+        return view('Admin.admin.Subscriptions.SubscriptionType.edit', get_defined_vars());
     }
 
     public function find($id)

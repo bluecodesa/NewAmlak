@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
 use App\Models\City;
@@ -16,12 +17,11 @@ class SubUserController extends Controller
     public function index()
     {
         //
-        $subscribers = SubUser::all();
-        $brokers=Broker::all();
+        // $subscribers = SubUser::all();
+        $brokers = Broker::all();
         $subscriptionTypes = SubscriptionType::where('status', 1)->get();
         $cities = City::all();
         return view('Admin.subscribers.index', get_defined_vars());
-
     }
 
     /**
@@ -36,9 +36,9 @@ class SubUserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-   //
-}
+    {
+        //
+    }
 
 
 
@@ -77,32 +77,32 @@ class SubUserController extends Controller
     public function createBrokerSubscribers(Request $request)
     {
         $request->validate([
-        'name' => 'required|string',
-        'license_number' => 'required|string',
-        'email' => 'required|email|unique:brokers,email',
-        'mobile' => 'required|string',
-        'city' => 'required|string',
-        'password' => 'required|string|min:8|confirmed',
-        'subscription_type' => 'required|string',
-        'id_number' => 'required|string',
+            'name' => 'required|string',
+            'license_number' => 'required|string',
+            'email' => 'required|email|unique:brokers,email',
+            'mobile' => 'required|string',
+            'city' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+            'subscription_type' => 'required|string',
+            'id_number' => 'required|string',
         ]);
 
         $subscriptionType = SubscriptionType::findOrFail($request->subscription_type);
 
 
-         Broker::create([
-        'name' => $request->name,
-        'license_number' => $request->license_number,
-        'email' => $request->email,
-        'mobile' => $request->mobile,
-        'city' => $request->city,
-        'password' => bcrypt($request->password),
-        'subscription_type_id' => $subscriptionType->id, // Associate the subscription type ID
-        'id_number' => $request->id_number,
+        Broker::create([
+            'name' => $request->name,
+            'license_number' => $request->license_number,
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'city' => $request->city,
+            'password' => bcrypt($request->password),
+            'subscription_type_id' => $subscriptionType->id, // Associate the subscription type ID
+            'id_number' => $request->id_number,
         ]);
 
         return redirect()->route('Admin.Subscribers.index')
-        ->with('success', 'Broker created successfully.');
+            ->with('success', 'Broker created successfully.');
     }
 
     public function editbroker($id)
@@ -150,5 +150,4 @@ class SubUserController extends Controller
         $broker->delete();
         return redirect()->route('Admin.Subscribers.index')->with('success', 'Broker deleted successfully.');
     }
-
 }

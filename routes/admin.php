@@ -56,7 +56,7 @@ Route::group(
                 'users' => UserController::class,
                 'offices' => OfficeController::class,
                 'SubscriptionTypes' => SubscriptionTypesController::class,
-                'Subscribers' => SubUserController::class,
+                'Subscribers' => SubscriptionController::class,
                 'Permissions' => PermissionController::class,
                 'settings' => SettingController::class,
                 'Sections' => SectionController::class,
@@ -66,6 +66,7 @@ Route::group(
                 'Developer' => DeveloperController::class,
                 'Advisor' => AdvisorController::class,
             ]);
+            Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
         });
     }
 );
