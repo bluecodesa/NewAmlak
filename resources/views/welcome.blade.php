@@ -1100,18 +1100,17 @@
             }
         </script>
     @endif
-    {{-- @include('inc.register') --}}
+    @include('Admin.admin.auth.register')
 
     <!-- Modal -->
 
-    {{-- @if ($home_only == 0) --}}
+
         <script>
             window.onload = function() {
                 document.querySelector('a#pay-btnn').click();
 
             }
         </script>
-        {{-- @include('inc.payModal') --}}
         <style>
             .modal.show .modal-dialog {
                 width: 58%;
@@ -1143,7 +1142,7 @@
             }
 
         </style>
-    {{-- @endif --}}
+
 
 
     <!--end footer-->
@@ -1157,4 +1156,54 @@
  <script type="text/javascript" id="zsiqchat">var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "siqf8adecbae539f10442e3263a1c7449fe02f8434ebbe72fa0f7a759edb7870245", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zohopublic.com/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);</script>
 
     @endpush
+
+<!--add new subscribers-->
+<div class="modal fade" id="addSubscriberModal" tabindex="-1" role="dialog"
+    aria-labelledby="addSubscriberModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSubscriberModalLabel">@lang('Add New Subscriber')</h5>
+                <p style="text-align: center;font-weight: 900; margin-bottom: 25px;">
+                    نوع الحساب</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-deck">
+                    <!-- Add New Office Card -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="row account_row">
+                                    <div class="col-sm-12 col-md-6 account_type next-step">
+                                        <div class="img-smm">
+                                            <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}"
+                                                class="img-fluid">
+                                        </div>
+                                        <p>مكتب</p>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 account_type">
+                                        <div class="img-smm-y">
+                                            <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }} "
+                                                class="img-fluid">
+                                        </div>
+                                        <p>مسوق عقاري</p>
+                                    </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Add New Broker Card -->
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
 @endsection

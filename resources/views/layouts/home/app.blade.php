@@ -59,7 +59,7 @@
                             <a href="{{ route('login') }}">
                                 <div class="btn btn-new-b ArFont" style="margin-right: 9px;"> تسجيل الدخول</div>
                             </a>
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModalCenter"
+                            <a href="" data-toggle="modal" data-target="#addSubscriberModal"
                                 style="margin-right: 9px;" onclick="tabsFunc()">
 
 
