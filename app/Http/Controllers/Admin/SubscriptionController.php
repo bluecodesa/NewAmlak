@@ -10,6 +10,7 @@ use App\Models\Region;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -52,6 +53,9 @@ class SubscriptionController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
+            'city_id' => 'required|exists:cities,id',
+            'company_logo' => 'required|file',
+            'subscription_type_id' => 'required|exists:subscription_types,id',
             'CRN' => [
                 'required',
                 Rule::unique('offices'),
@@ -71,11 +75,21 @@ class SubscriptionController extends Controller
             'presenter_number.required' => 'The ' . __('Company representative number') . ' field is required.',
         ];
         $request->validate($rules, $messages);
+
+        if ($request->company_logo) {
+            $file = $request->File('company_logo');
+            $ext  =  uniqid() . '.' . $file->clientExtension();
+            $file->move(public_path() . '/Offices/' . 'Logos/', $ext);
+            $request_data['company_logo'] = '/Offices/' . 'Logos/' . $ext;
+        }
+
         $user = User::create([
+            'is_office' => 1,
             'name' => $request->name,
             'email' => $request->email,
             'user_name' => uniqid(),
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'avatar' => $request_data['company_logo'],
         ]);
 
         $office = Office::create([
@@ -86,14 +100,18 @@ class SubscriptionController extends Controller
             'created_by' => Auth::id(),
             'presenter_name' => $request->presenter_name,
             'presenter_number' => $request->presenter_number,
+            'company_logo' => $request_data['company_logo'],
         ]);
-        $Subscription  = Subscription::create([
+        $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
+        Subscription::create([
             'office_id' => $office->id,
             'subscription_type_id' => $request->subscription_type_id,
             'status' => 'new',
             'is_new' => 1,
             'start_date' => now(),
-            'end_date' => '2024-04-10',
+            'end_date' => $endDate,
             'total' => '200'
         ]);
         return redirect()->route('Admin.Subscribers.index')

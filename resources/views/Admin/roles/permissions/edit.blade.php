@@ -22,6 +22,8 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                @include('Admin.layouts.Inc._errors')
+
                                 <form action="{{ route('Admin.Permissions.update', $Permission->id) }}" method="POST"
                                     class="row">
                                     @csrf
@@ -32,17 +34,19 @@
                                             class="form-control">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>@lang('Name') @lang('ar')</label>
+                                        <label>@lang('Name') @lang('en')</label>
                                         <input type="text" required value="{{ $Permission->name }}" name="name"
                                             class="form-control">
                                     </div>
 
                                     <div class="form-group col-md-6">
                                         <label>@lang('Model') </label>
-                                        <select class="form-control" name="model" required>
-                                            <option disabled selected value="">@lang('Model')</option>
+                                        <select class="form-control" name="section_id" required>
+                                            <option disabled value="">@lang('Model')</option>
                                             @foreach ($sections as $section)
-                                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                                                <option value="{{ $section->id }}"
+                                                    {{ $section->id == $Permission->section_id ? 'selected' : '' }}>
+                                                    {{ $section->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

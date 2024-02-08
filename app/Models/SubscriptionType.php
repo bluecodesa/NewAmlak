@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Astrotomic\Translatable\Translatable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
@@ -57,5 +58,34 @@ class SubscriptionType extends Model
     public function brokers()
     {
         return $this->hasMany(Broker::class);
+    }
+
+
+    public function calculateEndDate($startDate, $extraDaysPerPeriod = 0)
+    {
+        $date = new Carbon($startDate);
+        $periodType = $this->period_type; // Assuming period_type attribute exists
+        $numberToAdd = $this->period; // Assuming number_to_add attribute exists
+
+        switch ($periodType) {
+            case 'day':
+                $date->addDays($numberToAdd + ($extraDaysPerPeriod * $numberToAdd));
+                break;
+            case 'week':
+                $date->addDays(($numberToAdd * 7) + ($extraDaysPerPeriod * $numberToAdd));
+                break;
+            case 'month':
+                for ($i = 0; $i < $numberToAdd; $i++) {
+                    $date->addMonthsNoOverflow(1);
+                    if ($extraDaysPerPeriod > 0) {
+                        $date->addDays($extraDaysPerPeriod);
+                    }
+                }
+                break;
+            default:
+                throw new \InvalidArgumentException("Invalid period type: $periodType");
+        }
+
+        return $date;
     }
 }
