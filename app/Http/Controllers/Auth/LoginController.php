@@ -41,7 +41,7 @@ class LoginController extends Controller
         ]);
         $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
         if (auth()->attempt(array($fieldType => $input['user_name'], 'password' => $input['password']))) {
-            return redirect()->route('home');
+            return redirect()->route('Admin.home');
         } else {
 
             return back()->with('sorry', 'Email-Address And Password Are Wrong.');

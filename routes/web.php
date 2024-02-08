@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -19,20 +20,25 @@ use App\Http\Controllers\SubscriptionTypesController;
 |
 */
 
-// Route::get('/welcome', function () {
-//     return view('welcome');
-// });
-
+Route::get('/', function () {
+    return view('Home.home');
+})->name('welcome');
 
 
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath','web']
     ],
     function () {
         Auth::routes();
-        Route::get('/', 'Admin\HomeController@index')->name('home');
-        
+        Route::prefix('app')->name('Home.')->group(function () {
+            Route::get('/', 'HomeController@index')->name('home');
+            Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
+            Route::get('create-broker', [HomeController::class, 'createBroker'])->name('Brokers.CreateBroker');
+
+        });
     }
 );
+
+

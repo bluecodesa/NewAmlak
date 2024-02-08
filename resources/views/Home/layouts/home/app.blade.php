@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-@include('layouts.home.head')
+@include('Home.layouts.home.head')
 
 
 
@@ -99,10 +99,10 @@
 
 
 
-    @include('layouts.home.footer')
+    @include('Home.layouts.home.footer')
 
 
-    @include('layouts.home.footer-scripts')
+    @include('Home.layouts.home.footer-scripts')
 
     @stack('home-scripts')
 
