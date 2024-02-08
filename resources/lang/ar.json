@@ -70,6 +70,8 @@
     "save": "حفظ",
     "Cancel": "الغاء",
     "paid": "مدفوع",
+    "amount": "القيمة",
+    "invoices": "الفواتير",
     "free": "مجاني",
     "role name": "اسم الدور",
     "Edit Permission": "تعديل صلاحية موجودة",
@@ -88,6 +90,7 @@
     "active": "فعال",
     "inactive": "غير فعال",
     "day": "يوم",
+    "pending": "مُعلق (بنتظار الدفع)",
     "appear": "تظهر",
     "show": "تظهر",
     "hide": "لا تظهر",
@@ -128,6 +131,17 @@
     "Mobile Whats app": "رقم الجوال (واتس اب)",
     "City": "المدينه",
     "id number": "رقم الهوية",
-    "mobile": "رقم الجوال"
+    "mobile": "رقم الجوال",
+    "view": "عرض",
+    "Invoice": "الفاتورة",
+    "From": "من",
+    "To": "الي",
+    "service type": "نوع الخدمة",
+    "quantity": "الكمية",
+    "Total": "الاجمالي",
+    "Invoice details": "تفاصيل الفاتورة",
+    "Created Date": "تاريخ الانشاء",
+    "Subtotal": "المجموع الفرعي",
+    "Value added tax": "ضريبة القيمة المضافة"
 
 }

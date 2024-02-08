@@ -18,10 +18,11 @@ class CreateSubscriptionsTable extends Migration
             $table->boolean('renewed_by_admin')->default(0);
             $table->boolean('notified')->default(0);
             $table->boolean('is_end')->default(0);
+            $table->boolean('is_start')->default(0);
             $table->boolean('is_new')->default(0);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->integer('total')->nullable();
+            $table->double('total', 8, 2)->nullable();
             $table->string('payment_type')->nullable();
             $table->foreign('subscription_type_id')->references('id')->on('subscription_types')->onDelete('cascade');
             $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
