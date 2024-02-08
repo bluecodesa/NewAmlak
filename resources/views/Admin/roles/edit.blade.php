@@ -82,7 +82,8 @@
                                                     <div class="col-md-12 col-xl-12 {{ $permissions[0]->type }}">
                                                         <div class="card shadow-none bg-transparent border-primary mb-0">
                                                             <div class="card-body p-3 px-0">
-                                                                <h4 class="card-title">{{ __($model) }}</h4>
+                                                                <h4 class="card-title">
+                                                                    {{ $permissions[0]->SectionDate->name }}</h4>
                                                                 <div class="row">
                                                                     <div class="col-12">
                                                                         <div class="form-check">
@@ -108,7 +109,8 @@
                                                                                     id="{{ $item->id }}" />
                                                                                 <label class="form-check-label"
                                                                                     for="{{ $item->id }}">
-                                                                                    {{ __($item->name) }} </label>
+                                                                                    {{ app()->getLocale() == 'ar' ? $item->name_ar : $item->name }}
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     @endforeach
@@ -125,14 +127,11 @@
                                         <!-- Permission table -->
                                     </div>
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-main me-1">
-                                            <i class="fe-check"></i>
+                                        <button type="submit" class="btn btn-primary me-1">
                                             {{ __('save') }}
                                         </button>
-                                        <button type="reset" class="btn btn-outline-info">
-                                            <i class="fe-x-circle"></i>
-                                            {{ __('cancle') }}
-                                        </button>
+
+
                                     </div>
                                 </form>
 

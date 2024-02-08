@@ -18,6 +18,7 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                @include('Admin.layouts.Inc._errors')
                                 <form action="{{ route('Admin.Permissions.store') }}" method="POST" class="row">
                                     @csrf
                                     <div class="form-group col-md-6">
@@ -28,7 +29,7 @@
                                     <div class="form-group col-md-6">
                                         <label>@lang('Name') @lang('en') <span
                                                 class="required-color">*</span></label>
-                                        <input type="text" required name="name_ar" class="form-control">
+                                        <input type="text" required name="name" class="form-control">
                                     </div>
 
                                     <div class="form-group col-md-6">
