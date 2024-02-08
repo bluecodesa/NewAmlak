@@ -34,7 +34,7 @@
 
                                     <div class="form-group col-md-6">
                                         <label>@lang('Model') </label>
-                                        <select class="form-control" name="model" required>
+                                        <select class="form-control" name="section_id" required>
                                             <option disabled selected value="">@lang('Model')</option>
                                             @foreach ($sections as $section)
                                                 <option value="{{ $section->id }}">{{ $section->name }}</option>

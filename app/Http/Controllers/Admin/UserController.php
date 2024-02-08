@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function index(): View
     {
-        $users =  User::latest('id')->paginate(6);
+        $users =  User::getAdmins();
         return view('Admin.users.index', get_defined_vars());
     }
 
@@ -53,6 +53,7 @@ class UserController extends Controller
         $request_data = $request->except('roles', 'password');
         $request_data['password'] = bcrypt($request->password);
         $role = Role::find($request->roles);
+        $request_data['is_admin'] = true;
         $user =   User::create($request_data);
         $user->assignRole($role->name);
         return redirect()->route('Admin.users.index')
