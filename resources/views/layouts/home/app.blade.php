@@ -61,8 +61,7 @@
                             </a>
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModalCenter"
                                 style="margin-right: 9px;" onclick="tabsFunc()">
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModalCenter"
-                                style="margin-right: 9px;" onclick="tabsFunc()">
+
 
                                 <div class="btn btn-new ArFont"> سجل معنا الآن </div>
                             </a>
