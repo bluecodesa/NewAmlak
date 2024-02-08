@@ -43,7 +43,6 @@
                         @auth
 
                             @if (Session::has('gallery_name') && Session::has('gallery'))
-
                                 <li class="nav-item">
                                     <a class="nav-link"
                                         href="{{ route('galleryOffice', Session::get('gallery_name')) }}">المعرض</a>
@@ -70,9 +69,16 @@
                             <a href="">
                                 <div class="btn btn-new-b ArFont" style="margin-right: 9px;">لوحة التحكم</div>
                             </a>
-                            <a href="{{ route('logout') }}">
-                                <div class="btn btn-new ArFont" style="margin-right: 9px;">تسجيل خروج</div>
+
+
+                            <a class="btn btn-new ArFont" style="margin-right: 9px;" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="fe-log-out"></i><span style="margin-left:10px">تسجيل
+                                    خروج</span>
                             </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
 
 
                         @endauth
@@ -108,48 +114,48 @@
 
     <script>
         function tabsFunc() {
-                $('.nav-tabs > li a[title]').tooltip();
+            $('.nav-tabs > li a[title]').tooltip();
 
-                $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 
-                    var target = $(e.target);
+                var target = $(e.target);
 
-                    if (target.parent().hasClass('disabled')) {
-                        return false;
-                    }
-                });
-
-                $(".next-step").click(function(e) {
-
-                    var active = $('.wizard .nav-tabs li.active');
-                    active.next().removeClass('disabled');
-                    nextTab(active);
-
-                });
-                $(".prev-step").click(function(e) {
-                    if (document.querySelector('.alert.alert-danger'))
-                        document.querySelector('.alert.alert-danger').style.display = "none"
-
-                    var active = $('.wizard .nav-tabs li.active');
-                    prevTab(active);
-
-                });
-            }
-
-
-            function nextTab(elem) {
-                $(elem).next().find('a[data-toggle="tab"]').click();
-            }
-
-            function prevTab(elem) {
-                $(elem).prev().find('a[data-toggle="tab"]').click();
-            }
-
-
-            $('.nav-tabs').on('click', 'li', function() {
-                $('.nav-tabs li.active').removeClass('active');
-                $(this).addClass('active');
+                if (target.parent().hasClass('disabled')) {
+                    return false;
+                }
             });
+
+            $(".next-step").click(function(e) {
+
+                var active = $('.wizard .nav-tabs li.active');
+                active.next().removeClass('disabled');
+                nextTab(active);
+
+            });
+            $(".prev-step").click(function(e) {
+                if (document.querySelector('.alert.alert-danger'))
+                    document.querySelector('.alert.alert-danger').style.display = "none"
+
+                var active = $('.wizard .nav-tabs li.active');
+                prevTab(active);
+
+            });
+        }
+
+
+        function nextTab(elem) {
+            $(elem).next().find('a[data-toggle="tab"]').click();
+        }
+
+        function prevTab(elem) {
+            $(elem).prev().find('a[data-toggle="tab"]').click();
+        }
+
+
+        $('.nav-tabs').on('click', 'li', function() {
+            $('.nav-tabs li.active').removeClass('active');
+            $(this).addClass('active');
+        });
     </script>
 
 </body>

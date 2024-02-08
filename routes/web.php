@@ -28,7 +28,7 @@ Route::get('/', function () {
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath','web']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'web']
     ],
     function () {
         Auth::routes();
@@ -36,9 +36,6 @@ Route::group(
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
             Route::get('create-broker', [HomeController::class, 'createBroker'])->name('Brokers.CreateBroker');
-
         });
     }
 );
-
-
