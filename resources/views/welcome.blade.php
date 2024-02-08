@@ -1163,7 +1163,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addSubscriberModalLabel">@lang('Add New Subscriber')</h5>
+                {{-- <h5 class="modal-title" id="addSubscriberModalLabel"></h5> --}}
                 <p style="text-align: center;font-weight: 900; margin-bottom: 25px;">
                     نوع الحساب</p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

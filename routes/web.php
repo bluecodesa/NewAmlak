@@ -33,5 +33,6 @@ Route::group(
     function () {
         Auth::routes();
         Route::get('/', 'Admin\HomeController@index')->name('home');
+        
     }
 );
