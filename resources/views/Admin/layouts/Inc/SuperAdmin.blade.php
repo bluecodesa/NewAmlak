@@ -23,7 +23,7 @@
                     <ul class="submenu">
                         <li><a href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
                         <li><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Subscriptions')</a></li>
-                        <li><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Bills')</a></li>
+                        <li><a href="{{ route('Admin.SystemInvoice.index') }}">@lang('Bills')</a></li>
                     </ul>
                 </li>
 

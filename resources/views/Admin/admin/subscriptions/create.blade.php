@@ -51,10 +51,13 @@
                                     </div>
 
                                     <div class="col-md-4 mb-4">
-                                        <label for="contract">@lang('Company logo')</label>
+                                        <label for="company_logo">@lang('Company logo')</label>
                                         <span class="not_required">(@lang('optional'))</span>
-                                        <input type="file" class="form-control" id="company_logo" name="company_logo"
-                                            accept="image/png, image/jpg, image/jpeg">
+                                        <input type="file" class="form-control d-none" id="company_logo"
+                                            name="company_logo" accept="image/png, image/jpg, image/jpeg">
+                                        <!-- Image preview with default image -->
+                                        <img id="company_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
+                                            class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
                                     </div>
 
                                     <div class="col-md-4 mb-4">
@@ -163,6 +166,26 @@
                         });
                     },
                 });
+            });
+            //
+            $('#company_logo_preview').click(function() {
+                $('#company_logo').click(); // Trigger file input click on image click
+            });
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#company_logo_preview').attr('src', e.target.result); // Update the preview image
+                    };
+
+                    reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+                }
+            }
+
+            $("#company_logo").change(function() {
+                readURL(this); // Call readURL function when a file is selected
             });
         </script>
     @endpush

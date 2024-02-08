@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Subscribers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
@@ -9,6 +9,7 @@ use App\Models\Office;
 use App\Models\Region;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
+use App\Models\SystemInvoice;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -43,11 +44,6 @@ class SubscriptionController extends Controller
         return view('Admin.admin.subscriptions.create');
     }
 
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $rules = [
@@ -105,14 +101,33 @@ class SubscriptionController extends Controller
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
         $startDate = Carbon::now();
         $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
+        if ($subscriptionType->price > 0) {
+            $SubType = 'paid';
+            $status = 'pending';
+        } else {
+            $SubType = 'free';
+            $status = 'paid';
+        }
         Subscription::create([
             'office_id' => $office->id,
             'subscription_type_id' => $request->subscription_type_id,
-            'status' => 'new',
+            'status' => $status,
+            'is_start' => $status == 'pending' ? 0 : 1,
             'is_new' => 1,
-            'start_date' => now(),
+            'start_date' => now()->format('Y-m-d'),
             'end_date' => $endDate,
             'total' => '200'
+        ]);
+
+        SystemInvoice::create([
+            'office_id' => $office->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => $SubType,
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV_' . uniqid(),
         ]);
         return redirect()->route('Admin.Subscribers.index')
             ->withSuccess(__('added successfully'));

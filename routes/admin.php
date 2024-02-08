@@ -9,9 +9,10 @@ use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
 use App\Http\Controllers\Admin\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SectionController;
-use App\Http\Controllers\Admin\SubscriptionTypesController;
 use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
+use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
+use App\Http\Controllers\Admin\Subscribers\SystemInvoiceController;
 use App\Http\Controllers\Admin\SubUserController;
 use App\Http\Controllers\Admin\UserController;
 use App\Models\City;
@@ -65,6 +66,8 @@ Route::group(
                 'District' => DistrictController::class,
                 'Developer' => DeveloperController::class,
                 'Advisor' => AdvisorController::class,
+                'SystemInvoice' => SystemInvoiceController::class,
+
             ]);
             Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
         });
