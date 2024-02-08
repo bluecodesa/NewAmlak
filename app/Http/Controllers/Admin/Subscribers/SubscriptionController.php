@@ -41,7 +41,10 @@ class SubscriptionController extends Controller
 
     public function createBroker()
     {
-        return view('Admin.admin.subscriptions.create');
+        $Regions = Region::all();
+        $cities = City::all();
+        $subscriptionTypes = SubscriptionType::all();
+        return view('Admin.admin.subscriptions.create', get_defined_vars());
     }
 
     public function store(Request $request)
