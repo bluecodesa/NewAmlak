@@ -10,6 +10,7 @@ use App\Models\Region;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -49,12 +50,11 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        // return SubscriptionType::find($request->subscription_type_id);
-
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
             'city_id' => 'required|exists:cities,id',
+            'company_logo' => 'required|file',
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'CRN' => [
                 'required',
@@ -102,13 +102,16 @@ class SubscriptionController extends Controller
             'presenter_number' => $request->presenter_number,
             'company_logo' => $request_data['company_logo'],
         ]);
-        $Subscription  = Subscription::create([
+        $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
+        Subscription::create([
             'office_id' => $office->id,
             'subscription_type_id' => $request->subscription_type_id,
             'status' => 'new',
             'is_new' => 1,
             'start_date' => now(),
-            'end_date' => '2024-04-10',
+            'end_date' => $endDate,
             'total' => '200'
         ]);
         return redirect()->route('Admin.Subscribers.index')
