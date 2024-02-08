@@ -25,6 +25,7 @@ class SubscriptionController extends Controller
     {
         $subscribers = Subscription::all();
         $cities = City::all();
+        $subscriptionTypes = SubscriptionType::all();
         return view('Admin.subscribers.index', get_defined_vars());
     }
 
