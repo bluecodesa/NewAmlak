@@ -96,7 +96,6 @@
                                     <div class="form-group col-md-4">
                                         <label>@lang('city') </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
-
                                         </select>
                                     </div>
 

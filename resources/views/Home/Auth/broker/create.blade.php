@@ -67,8 +67,7 @@
                     </div>
                     <div class="mb-3 row">
                         <div class="col-md-6">
-                            <label for="email" class="col-form-label"
-                            >@lang('Email')</label>
+                            <label for="email" class="col-form-label">@lang('Email')</label>
                             <input type="email" class="form-control" id="email" name="email">
                         </div>
 
@@ -80,8 +79,7 @@
                     <div class="mb-3 row">
 
                         <div class="col-md-6">
-                            <label for="city" class="col-form-label"
-                            >@lang('City')</label>
+                            <label for="city" class="col-form-label">@lang('City')</label>
                             <select class="form-control" id="city" required name="city">
                                 <option value="">إختر</option>
                                 @foreach ($cities as $city)
@@ -93,53 +91,46 @@
                             </select>
 
                         </div>
-                            <div class="col-md-6">
-                                <label for="subscription" class="col-form-label"
-                                >@lang('Subscription Type')</label>
-                                <select class="form-control" id="subscription_type" name="subscription_type">
-                                    <option value="">إختر</option>
-                                    @foreach ($subscriptionTypes as $type)
-                                        <option value="{{ $type->id }}">{{ $type->period }} {{ $type->period_type }}
-                                            - {{ $type->price }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="col-md-6">
+                            <label for="subscription" class="col-form-label">@lang('Subscription Type')</label>
+                            <select class="form-control" id="subscription_type" name="subscription_type">
+                                <option value="">إختر</option>
+                                @foreach ($subscriptionTypes as $type)
+                                    <option value="{{ $type->id }}">{{ $type->period }} {{ $type->period_type }}
+                                        - {{ $type->price }}</option>
+                                @endforeach
+                            </select>
                         </div>
-
                     </div>
+
                     <div class="mb-3 row">
 
-                    <div class="col-md-6">
-                        <label for="password" class="col-form-label"
-                    >@lang('password')</label>
-
-                    <input type="password" class="form-control" id="password" name="password">
+                        <div class="col-md-6">
+                            <label for="password" class="col-form-label">@lang('password')</label>
+                            <input type="password" class="form-control" id="password" name="password">
                         </div>
 
-                      <div class="col-md-6">
-                        <label for="password_confirmation" class="col-form-label"
-                        >@lang('Confirm Password')</label>
-
+                        <div class="col-md-6">
+                            <label for="password_confirmation" class="col-form-label">@lang('Confirm Password')</label>
                             <input type="password" class="form-control" id="password_confirmation"
                                 name="password_confirmation">
                         </div>
                     </div>
 
 
-            <div class="mb-3 row">
-               <div class="col-md-6">
-                <label for="id_number"
-                class="col-form-label">@lang('id number')</label>
-                    <input type="text" class="form-control" id="id_number" name="id_number">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-4"></div>
-                <div class="col-md-8">
-                    <button type="submit" class="btn btn-primary">@lang('save')</button>
-                </div>
-            </div>
-            </form>
+                    <div class="mb-3 row">
+                        <div class="col-md-6">
+                            <label for="id_number" class="col-form-label">@lang('id number')</label>
+                            <input type="text" class="form-control" id="id_number" name="id_number">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-8">
+                            <button type="submit" class="btn btn-primary">@lang('save')</button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
         </div>
