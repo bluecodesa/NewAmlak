@@ -15,7 +15,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light container">
                 <div class="navbar-nav align-items-start ">
 
-                    <a class="navbar-brand" href="{{ route('home') }}">
+                    <a class="navbar-brand" href="">
                         <img src="{{ asset('HOME_PAGE/images/amlak1.svg') }}" height="50" class="logo-light-mode"
                             alt="">
                     </a>
@@ -61,6 +61,9 @@
                             </a>
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModalCenter"
                                 style="margin-right: 9px;" onclick="tabsFunc()">
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModalCenter"
+                                style="margin-right: 9px;" onclick="tabsFunc()">
+
                                 <div class="btn btn-new ArFont"> سجل معنا الآن </div>
                             </a>
                         @endguest

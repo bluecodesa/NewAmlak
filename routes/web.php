@@ -19,9 +19,9 @@ use App\Http\Controllers\SubscriptionTypesController;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+// Route::get('/welcome', function () {
+//     return view('welcome');
+// });
 
 
 

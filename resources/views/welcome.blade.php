@@ -21,7 +21,7 @@
                                 data-target="#exampleModalCenter" id="open-poop">سجل معنا الآن</a>
                         @endguest
                         @auth
-                            <a class="btn btn-new ArFont" href="">سجل معنا الآن</a>
+                            <a class="btn btn-new ArFont" href="{{ route('Admin.login') }}">سجل معنا الآن</a>
                         @endauth
                     </div>
                 </div>
