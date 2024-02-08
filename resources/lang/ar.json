@@ -123,5 +123,12 @@
     "Office": "مكتب",
     "Add Broker": "اضافة مسوق",
     "Add Office": "اضافة مكتب",
-    "file": "ملف"
+    "file": "ملف",
+    "Broker name": "الاسم رباعي",
+    "license number": "رقم رخصة فال",
+    "Mobile Whats app": "رقم الجوال (واتس اب)",
+    "City": "المدينه",
+    "id number": "رقم الهوية",
+    "mobile": "رقم الجوال"
+
 }

@@ -1,140 +1,1160 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.home.app')
+@section('content')
+    <!--end header-->
+    <!-- Navbar End -->
 
-        <title>Laravel</title>
+    <!-- Start Hero -->
+    <a class="dropdown-item"hidden id="pay-btnn" data-toggle="modal" data-target="#payModal">دفع</a>
+    <section class="home container" id="home">
+        <div class="row align-items-center mt-5 mt-sm-0">
+            <div class="col-md-6">
+                <div class="title-heading text-center text-md-start">
+                    <div class="img-smm">
+                        <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}" class="img-fluid" />
+                    </div>
+                    <h6 class="heading mb-3 mt-2 ArFont">أملاك خيارك الأول لإدارة الأملاك العقارية</h6>
+                    <p class="">منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين</p>
+                    <p class="">* التسجيل لا يتطلب بطاقة ائتمانية</p>
+                    <div class="mt-4">
+                        @guest
+                            <a class="btn btn-new ArFont" href="javascript:void(0)" data-toggle="modal" onclick="tabsFunc()"
+                                data-target="#exampleModalCenter" id="open-poop">سجل معنا الآن</a>
+                        @endguest
+                        @auth
+                            <a class="btn btn-new ArFont" href="">سجل معنا الآن</a>
+                        @endauth
+                    </div>
+                </div>
+            </div>
+            <!--end col-->
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+            <div class="col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                <div class="freelance-hero position-relative">
+                    <div class="position-relative">
+                        <img src="{{ asset('HOME_PAGE/images/new/Group104105.png') }}" class="mx-auto d-block img-fluid"
+                            alt=""
+                            style="height: auto;
+                            width: 100%;
+                            border-radius: 49px;
+                            object-fit: cover;">
 
-        <!-- Styles -->
-        <style>
-            /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Figtree, sans-serif;font-feature-settings:normal}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mx-6{margin-left:1.5rem;margin-right:1.5rem}.ml-4{margin-left:1rem}.mt-16{margin-top:4rem}.mt-6{margin-top:1.5rem}.mt-4{margin-top:1rem}.-mt-px{margin-top:-1px}.mr-1{margin-right:0.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.h-16{height:4rem}.h-7{height:1.75rem}.h-6{height:1.5rem}.h-5{height:1.25rem}.min-h-screen{min-height:100vh}.w-auto{width:auto}.w-16{width:4rem}.w-7{width:1.75rem}.w-6{width:1.5rem}.w-5{width:1.25rem}.max-w-7xl{max-width:80rem}.shrink-0{flex-shrink:0}.scale-100{--tw-scale-x:1;--tw-scale-y:1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.items-center{align-items:center}.justify-center{justify-content:center}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.self-center{align-self:center}.rounded-lg{border-radius:0.5rem}.rounded-full{border-radius:9999px}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity))}.bg-dots-darker{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E")}.from-gray-700\/50{--tw-gradient-from:rgb(55 65 81 / 0.5);--tw-gradient-to:rgb(55 65 81 / 0);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0);--tw-gradient-stops:var(--tw-gradient-from), transparent, var(--tw-gradient-to)}.bg-center{background-position:center}.stroke-red-500{stroke:#ef4444}.stroke-gray-400{stroke:#9ca3af}.p-6{padding:1.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.text-center{text-align:center}.text-right{text-align:right}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-gray-500\/20{--tw-shadow-color:rgb(107 114 128 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\:bg-red-500 *::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.selection\:bg-red-500::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.hover\:text-gray-900:hover{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.hover\:text-gray-700:hover{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.focus\:rounded-sm:focus{border-radius:0.125rem}.focus\:outline:focus{outline-style:solid}.focus\:outline-2:focus{outline-width:2px}.focus\:outline-red-500:focus{outline-color:#ef4444}.group:hover .group-hover\:stroke-gray-600{stroke:#4b5563}.z-10{z-index: 10}@media (prefers-reduced-motion: no-preference){.motion-safe\:hover\:scale-\[1\.01\]:hover{--tw-scale-x:1.01;--tw-scale-y:1.01;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}@media (prefers-color-scheme: dark){.dark\:bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:bg-gray-800\/50{background-color:rgb(31 41 55 / 0.5)}.dark\:bg-red-800\/20{background-color:rgb(153 27 27 / 0.2)}.dark\:bg-dots-lighter{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E")}.dark\:bg-gradient-to-bl{background-image:linear-gradient(to bottom left, var(--tw-gradient-stops))}.dark\:stroke-gray-600{stroke:#4b5563}.dark\:text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:shadow-none{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.dark\:ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.dark\:ring-inset{--tw-ring-inset:inset}.dark\:ring-white\/5{--tw-ring-color:rgb(255 255 255 / 0.05)}.dark\:hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.group:hover .dark\:group-hover\:stroke-gray-400{stroke:#9ca3af}}@media (min-width: 640px){.sm\:fixed{position:fixed}.sm\:top-0{top:0px}.sm\:right-0{right:0px}.sm\:ml-0{margin-left:0px}.sm\:flex{display:flex}.sm\:items-center{align-items:center}.sm\:justify-center{justify-content:center}.sm\:justify-between{justify-content:space-between}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:gap-8{gap:2rem}.lg\:p-8{padding:2rem}}
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-            @if (Route::has('login'))
-                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+                    </div>
+                </div>
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+
+        <!--end container-->
+    </section>
+    <!--end section-->
+    <!-- End Hero -->
+
+
+    <!-- Start -->
+    <section class="system container">
+        <div class="row align-items-center">
+            <div class="sec-title">
+                <h4>أملاك نظام إدارة متطور</h4>
+                <p>حلول تقنية متطورة تلبي جميع أعمالك</p>
+            </div>
+            <div class="row-cols">
+                <div class="row">
+                    <div class="col-md-3 system-col">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/Group104104.png') }}" height="50"
+                                class="logo-light-mode  fixed-img" alt="">
+                            <img src="{{ asset('HOME_PAGE/images/new/seo-and-web.png') }}" height="50"
+                                class="logo-light-mode  hover-img" alt="">
+                        </div>
+                        <div class="content">
+                            <h5>علاقات العملاء</h5>
+                            <p>من خلال منصة مخصصة لعملائك تستطيع استقبال طلبات الصيانة والشكاوى</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 system-col">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/project-management-_2_.png') }}" height="50"
+                                class="logo-light-mode fixed-img" alt="">
+                            <img src="{{ asset('HOME_PAGE/images/new/pp.png') }}" height="50"
+                                class="logo-light-mode  hover-img" alt="">
+                        </div>
+                        <div class="content">
+                            <h5>التنبيهات للعقود</h5>
+                            <p>من خلال لوحة التحكم الخاصة بك يمكنك متابعة جميع عقود عملائك ومعرفة عدد الأيام
+                                المتبقية لانتهاء العقد</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 system-col">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/home-_2_.png') }}" height="50"
+                                class="logo-light-mode fixed-img" alt="">
+                            <img src="{{ asset('HOME_PAGE/images/new/444.png') }}" height="50"
+                                class="logo-light-mode  hover-img" alt="">
+                        </div>
+                        <div class="content">
+                            <h5>ملفات مشتركة</h5>
+                            <p>من خلال النظام يمكنكم مشاركة وتبادل الملفات وحفظها واسترجاعها عند الحاجة.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 system-col">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/house.png') }}" height="50"
+                                class="logo-light-mode fixed-img" alt="">
+                            <img src="{{ asset('HOME_PAGE/images/new/11111.png') }}" height="50"
+                                class="logo-light-mode hover-img" alt="">
+                        </div>
+                        <div class="content">
+                            <h5>دعم فني متقدم 24/7</h5>
+                            <p>تقدم أملاك دعم فني متقدم خلال 24/7 لجميع التحديات التقنية التي تواجه أعمالك.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--end row-->
+        <!--end container-->
+    </section>
+
+    <section class="promotion container">
+        <div class="promo-details">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>ماذا تنتظر !؟</h4>
+                    <h4>انضم لنا الآن</h4>
+                    <p>واجهة سهلة الإستخدام بمميزات متعددة</p>
+                </div>
+                <div class="col-md-4">
+                    @guest
+                        <a class="btn btn-new-b ArFont" href="javascript:void(0)" data-toggle="modal" onclick="tabsFunc()"
+                            data-target="#exampleModalCenter">سجل معنا الآن</a>
+                    @endguest
                     @auth
-                        <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                        @endif
+                        <a class="btn btn-new-b ArFont" href="">سجل معنا الآن</a>
                     @endauth
                 </div>
-            @endif
+            </div>
+        </div>
+    </section>
 
-            <div class="max-w-7xl mx-auto p-6 lg:p-8">
-                <div class="flex justify-center">
-                    <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto bg-gray-100 dark:bg-gray-900">
-                        <path d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z" fill="#FF2D20"/>
-                    </svg>
+
+    <section class="features container" id="features">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="sec-title">
+                    <h4>مميزات أملاك</h4>
+                    <p>تم تصميم نظام أملاك وفق خطوات مدروسة بعناية ليوفر أعلى درجات الاحترافية في إدارة متطلبات القطاع
+                        العقاري</p>
                 </div>
+            </div>
 
-                <div class="mt-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                        <a href="https://laravel.com/docs" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Documentation</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-                                </p>
+            <div class="features-container">
+                <div class="row text-first">
+                    <div class="col-md-6">
+                        <div class="content">
+                            <div class="img-smm">
+                                <img src="{{ asset('HOME_PAGE/images/new/dashboard-_3_.png') }}" class="img-fluid" />
                             </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <a href="https://laracasts.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laracasts</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                </p>
-                            </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <a href="https://laravel-news.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laravel News</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                </p>
-                            </div>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Forge</a>, <a href="https://vapor.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Vapor</a>, <a href="https://nova.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Nova</a>, and <a href="https://envoyer.io" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Telescope</a>, and more.
-                                </p>
-                            </div>
+                            <h4>لوحة تحكم سهلة الإستخدام</h4>
+                            <p>يقدم لك نظام أملاك أفضل الطرق الاحترافية لإدارة علاقات العملاء من خلال استقبال طلبات
+                                الصيانة والشكاوى من المنصة ومعرفة حالة الطلب لدي العميل من غير التواصل معه بشكل مباشر
+                                .</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/4.png') }}" class="img-fluid" />
                         </div>
                     </div>
                 </div>
 
-                <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
-                        <div class="flex items-center gap-4">
-                            <a href="https://github.com/sponsors/taylorotwell" class="group inline-flex items-center hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="-mt-px mr-1 w-5 h-5 stroke-gray-400 dark:stroke-gray-600 group-hover:stroke-gray-600 dark:group-hover:stroke-gray-400">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                </svg>
-                                Sponsor
+                <div class="row img-first">
+                    <div class="col-md-6">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/Group103411.png') }}" class="img-fluid" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="content">
+                            <div class="img-smm-y">
+                                <img src="{{ asset('HOME_PAGE/images/new/contract-_1_.png') }}" class="img-fluid" />
+                            </div>
+                            <h4>إدارة عقود عملائك بشكل محكم</h4>
+                            <p>تستطيع إضافة عقد لكل عميل بطريقة سريعه جداًً مع إمكانية تعديل عمولة المكتب لكل عقد وإضافة
+                                مصاريف الخدمات الأخرى أيضاً حسب الحاجة.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row text-first">
+                    <div class="col-md-6">
+                        <div class="content">
+                            <div class="img-smm">
+                                <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}" class="img-fluid" />
+                            </div>
+                            <h4>إدارة المشاريع بكل تفاصيلها</h4>
+                            <p>يتيح لك نظام أملاك إضافة كافة تفاصيل مشاريعك على جميع المستويات حتى العقارات و الوحدات
+                                أيضاً.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/3.png') }}" class="img-fluid" />
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row img-first">
+                    <div class="col-md-6">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/2.png') }}" class="img-fluid " />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="content">
+                            <div class="img-smm-y">
+                                <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }}" class="img-fluid" />
+                            </div>
+                            <h4>إدارة مستخدمي للنظام</h4>
+                            <p>تستطيع إضافة مستخدم/موظف جديد ومنحه الصلاحيات المطلوبة حسب حاجة العمل.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row text-first">
+
+                    <div class="col-md-6">
+                        <div class="content">
+                            <div class="img-smm">
+                                <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }}" class="img-fluid" />
+                            </div>
+                            <h4>إدارة علاقات العملاء</h4>
+                            <p>يقدم لك نظام أملاك أفضل الطرق الاحترافية لإدارة علاقات العملاء من خلال استقبال طلبات
+                                الصيانة والشكاوى من المنصة ومعرفة حالة الطلب دون الحاجة إلى التواصل مع العملاء بشكل
+                                مباشر.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/edara.png') }}" class="img-fluid" />
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row img-first">
+                    <div class="col-md-6">
+                        <div class="img soon">
+                            <img src="{{ asset('HOME_PAGE/images/new/5.png') }}" class="img-fluid " />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="content">
+                            <div class="img-smm">
+                                <img src="{{ asset('HOME_PAGE/images/new/dashboard-_3_.png') }}" class="img-fluid" />
+                            </div>
+                            <h4>إدارة التنبيهات</h4>
+                            <p>يقدم لك نظام أملاك خيارات مختلفة لإرسال الإشعارات ورسائل التذكير التلقائية لعملائك عبر
+                                خدمة الواتس اب أو البريد الإلكتروني أو ال SMS.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row img-first">
+
+                    <div class="col-md-6">
+                        <div class="content">
+                            <div class="img-smm-y">
+                                <img src="{{ asset('HOME_PAGE/images/new/Group103560.png') }}" class="img-fluid" />
+                            </div>
+                            <h4>شارك عروض التأجير مع عملائك</h4>
+                            <p>من خلال منصة أملاك تستطيع إعداد عروض التأجير ومشاركتها مع عملائك المحتملين بطريقة
+                                احترافية و تفصيلية.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="img soon">
+                            <img src="{{ asset('HOME_PAGE/images/new/gghh.png') }}" class="img-fluid " />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing container" id="pricing">
+        <div class="row align-items-center">
+            <div class="sec-title">
+                <h4>باقات وأسعار أملاك</h4>
+                <p>توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
+            </div>
+        </div>
+
+        <div class="pricing-container desktop">
+            <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
+                <div class="row first-fix">
+                    <div class="col-3" style="padding-top: 50px;">
+                        <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
+                            ابدأ معنا الآن
+                            <br />واختر خطتك !
+                        </h5>
+                        <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
+                    </div>
+                    <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
+                        <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
+                            <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
+                        </div>
+                        <h5>مجانية</h5>
+                        <p><span class="yel-price">0</span> رس </p>
+                    </div>
+                    <div class="col-3 custom-grad"
+                        style="border-top-right-radius: 41px;padding-top: 50px; border-top-left-radius: 41px;">
+                        <div class="img-smm-y" style="margin: auto;background-color: #fff;">
+                            <img src="{{ asset('HOME_PAGE/images/new/Star.png') }}" class="img-fluid" />
+                        </div>
+                        <h5>شهرية</h5>
+                        <p class="change_period first"><span class="yel-price">49</span><span class="month"> رس /
+                                شهريا</span></p>
+                    </div>
+                    <div class="col-3 center-price soooon" style="padding-top: 50px; ">
+                        <div class="soon-feature">
+                            <div class="img-smm-y" style="margin: auto">
+                                <img src="{{ asset('HOME_PAGE/images/new/medal.png') }}" class="img-fluid" />
+                            </div>
+                            <h5>سنوية</h5>
+                            <p class="change_period second"><span class="yel-price">?</span><span class="month"> رس
+                                    /
+                                    شهريا</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-check form-switch">
+                            <div class="check">
+                                <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
+                                <div class="check2" onclick="changePeriod(2)">سنوي</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+                        @guest
+                            <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
+                                data-target="#exampleModalCenter">ابدأ الآن</a>
+                        @endguest
+                        @auth
+                            <a class="btn btn-new2 ArFont" href="">ابدأ الآن</a>
+                        @endauth
+                    </div>
+                    <div class="col-3 custom-grad" style="padding-bottom: 30px">
+                        @guest
+                            <a class="btn btn-new-b ArFont" href="javascript:void(0)" data-toggle="modal"
+                                data-target="#exampleModalCenter">ابدأ الآن</a>
+                        @endguest
+                        @auth
+                            <a class="btn btn-new-b ArFont" href="">ابدأ الآن</a>
+                        @endauth
+                    </div>
+                    <div class="col-3 center-price soon-feature"
+                        style="padding-bottom: 30px ;border-left: 1px solid #e3e1e1;">
+                        <a class="btn  ArFont" disabled
+                            style=" border: 1px solid #497aac;color: #060D07;  border-radius: 25px; background-color: #fff;    cursor: auto;">ابدأ
+                            الآن</a>
+                    </div>
+                </div>
+                <div class="row" style="background-color:#F6F9FC ;">
+                    <div class="col-3">
+                        <p>مدة الاشتراك</p>
+                    </div>
+                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                        <p>اسبوع</p>
+                    </div>
+                    <div class="col-3 custom-grad">
+                        <p>شهر</p>
+                    </div>
+                    <div class="col-3 center-price soon-feature" style="border-left: 1px solid #e3e1e1;">
+                        <p>12 شهر </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <p>عدد لا محدود من ملاك العقارات</p>
+                    </div>
+                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+
+
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                        fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+                    <div class="col-3 custom-grad">
+                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                        </p>
+                    </div>
+                    <div class="col-3 center-price soon-feature">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="row" style="background-color:#F6F9FC">
+                    <div class="col-3">
+                        <p>عدد لا محدود من العقارات</p>
+                    </div>
+                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+                    <div class="col-3 custom-grad">
+                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                        </p>
+                    </div>
+                    <div class="col-3 center-price soon-feature">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <p>عدد لا محدود من العملاء</p>
+                    </div>
+                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+                    <div class="col-3 custom-grad">
+                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                        </p>
+                    </div>
+                    <div class="col-3 center-price soon-feature">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="row" style="background-color:#F6F9FC ;">
+                    <div class="col-3">
+                        <p>عدد لا محدود من العقود</p>
+                    </div>
+                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+                    <div class="col-3 custom-grad">
+                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                        </p>
+                    </div>
+                    <div class="col-3 center-price soon-feature">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <p>عدد لا محدود من المستخدمين</p>
+                    </div>
+                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+                    <div class="col-3 custom-grad"
+                        style="border-bottom-left-radius: 41px;
+                border-bottom-right-radius: 41px;">
+                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                        </p>
+                    </div>
+                    <div class="col-3 center-price soon-feature">
+                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                style="width: 20px;
+                    fill: #497aac;">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                            </svg>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-container mobile">
+            <div class="row">
+                <div class="col-12" style="padding-top: 5px;">
+                    <h5
+                        style="font-size: 28px!important;
+                    font-weight: 900!important;
+                    line-height: 1.50em;">
+                        ابدأ معنا الآن
+                        واختر خطتك !
+                    </h5>
+                    <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
+                    <div class="form-check form-switch">
+                        <div class="check">
+                            <div class="check1 active-check">شهري</div>
+                            <div class="check2">سنوي</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 center-price" style="padding-top: 30px;">
+                    <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
+                        <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
+                    </div>
+                    <h5>مجانية</h5>
+                    <p><span class="yel-price">0</span> رس / شهريا</p>
+                </div>
+                <div class="col-4 custom-grad"
+                    style="border-top-right-radius: 41px;padding-top: 30px;
+                border-top-left-radius: 41px;">
+                    <div class="img-smm-y" style="margin: auto;background-color: #fff;">
+                        <img src="{{ asset('HOME_PAGE/images/new/Star.png') }}" class="img-fluid" />
+                    </div>
+                    <h5>شهرية</h5>
+                    <p><span class="yel-price">49</span> رس / شهريا</p>
+                </div>
+                <div class="col-4 center-price soooon" style="padding-top: 30px;">
+                    <div class="soon-feature">
+                        <div class="img-smm-y" style="margin: auto">
+                            <img src="{{ asset('HOME_PAGE/images/new/medal.png') }}" class="img-fluid" />
+                        </div>
+                        <h5>سنوية</h5>
+                        <p><span class="yel-price">؟</span> رس / شهريا</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-4 center-price" style="padding-bottom: 30px">
+                    @guest
+                        <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
+                            data-target="#exampleModalCenter">ابدأ الآن</a>
+                    @endguest
+                    @auth
+                        <a class="btn btn-new2 ArFont" href="">ابدأ الآن</a>
+                    @endauth
+                </div>
+                <div class="col-4 custom-grad" style="padding-bottom: 30px">
+                    @guest
+                        <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
+                            data-target="#exampleModalCenter">ابدأ الآن</a>
+                    @endguest
+                    @auth
+                        <a class="btn btn-new2 ArFont" href="">ابدأ الآن</a>
+                    @endauth
+                </div>
+                <div class="col-4 center-price soon-feature" style="padding-bottom: 30px">
+                    <a class="btn ArFont" disabled
+                        style="    border: 1px solid #497aac;
+    color: #060D07;
+    border-radius: 25px;
+    background-color: #fff;    cursor: auto;    min-width: fit-content;
+    padding: 0 11px;
+    min-height: 40px;
+    margin: auto;
+    border-radius: 12px;">ابدأ
+                        الآن</a>
+                </div>
+            </div>
+            <div class="col-12">
+                <p>مدة الاشتراك</p>
+            </div>
+            <div class="row" style="background-color:#F6F9FC">
+                <div class="col-4 center-price">
+                    <p>اسبوع</p>
+                </div>
+                <div class="col-4 custom-grad">
+                    <p>شهر</p>
+                </div>
+                <div class="col-4 center-price soon-feature">
+                    <p>12 شهر </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>عدد لا محدود من ملاك العقارات</p>
+                </div>
+                <div class="col-4 center-price">
+
+
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                        fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+                <div class="col-4 custom-grad">
+                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                    </p>
+                </div>
+                <div class="col-4 center-price soon-feature">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+
+            </div>
+            <div class="row" style="background-color:#F6F9FC">
+                <div class="col-12">
+                    <p>عدد لا محدود من العقارات</p>
+                </div>
+                <div class="col-4 center-price">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+                <div class="col-4 custom-grad">
+                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                    </p>
+                </div>
+                <div class="col-4 center-price soon-feature">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>عدد لا محدود من العملاء</p>
+                </div>
+                <div class="col-4 center-price">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+                <div class="col-4 custom-grad">
+                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                    </p>
+                </div>
+                <div class="col-4 center-price soon-feature">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+
+            </div>
+            <div class="row" style="background-color:#F6F9FC">
+                <div class="col-12">
+                    <p>عدد لا محدود من العقود</p>
+                </div>
+                <div class="col-4 center-price">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+                <div class="col-4 custom-grad">
+                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                    </p>
+                </div>
+                <div class="col-4 center-price soon-feature">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>عدد لا محدود من المستخدمين</p>
+                </div>
+                <div class="col-4 center-price">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+                <div class="col-4 custom-grad"
+                    style="border-bottom-left-radius: 41px;
+                border-bottom-right-radius: 41px;">
+                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
+                    </p>
+                </div>
+                <div class="col-4 center-price soon-feature">
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            style="width: 20px;
+                    fill: #497aac;">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                        </svg>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <section class="services container">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="sec-title">
+                    <h4>خدمات أملاك</h4>
+                    <p>نحرص على تطوير خدمات تقنية متميزة واحترافية تساهم في تبسيط ادارة اعمالك العقارية، كما تضمن املاك سرية
+                        وتوافرية بياناتك بشكل دائم عبر استخدام احدث التقنيات المبتكرة.</p>
+                </div>
+            </div>
+
+            <div class="services-container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="img">
+                            <img src="{{ asset('HOME_PAGE/images/new/mockup.png') }}" alt="" class="img-fluid">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-top: 20px">
+
+
+
+
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            </ol>
+                            <span class="yel-price">
+                                نظام أملاك
+                            </span>
+                            <div class="carousel-inner">
+
+                                <div class="carousel-item active">
+                                    <div class="service-content">
+
+                                        <h5>إدارة الملاك و المستأجرين</h5>
+                                        <p>إدارة كاملة للملاك، و دعم جميع تفاصيل المشروعات العقارية على مستوى العقارات
+                                            والوحدات </p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="service-content">
+
+                                        <h5>إدارة المستأجرين</h5>
+                                        <p>إدارة كاملة للمستأجرين، و دعم جميع تفاصيل المشروعات العقارية على مستوى
+                                            العقارات والوحدات </p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="service-content">
+                                        <h5>إضافة تفاصيل العقارات والوحدات</h5>
+                                        <p>يمكنك إضافة كافة التفاصيل المتعلقة بالعقار أو الوحدة </p>
+                                    </div>
+                                </div>
+
+                                <div class="carousel-item">
+                                    <div class="service-content">
+                                        <h5>طريقة مبتكرة لمتابعة تحصيل الإيجارات وأقساط البيع</h5>
+                                        <p>يمكنك متابعة حالة العقد و الدفعات المستحقة لكل عميل كما يوفر النظام طرق
+                                            مختلفة للسداد و استعراض الفواتير وإيصالات الدفع </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
                             </a>
                         </div>
-                    </div>
 
-                    <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                     </div>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+    </section>
+    <section class="promotion container">
+        <div class="promo-details">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>ماذا تنتظر !؟</h4>
+                    <h4>انضم إلى أملاك الآن</h4>
+                    <p>واجهة سهلة الإستخدام بمميزات متعددة</p>
+                </div>
+                <div class="col-md-4">
+                    @guest
+                        <a class="btn btn-new-b ArFont" href="javascript:void(0)" data-toggle="modal" onclick="tabsFunc()"
+                            data-target="#exampleModalCenter">سجل معنا الآن</a>
+                    @endguest
+                    @auth
+                        <a class="btn btn-new-b ArFont" href="">سجل معنا الآن</a>
+                    @endauth
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq container">
+        <div class="row align-items-center">
+            <div class="sec-title">
+                <h4>الأسئلة الشائعة</h4>
+                <p>لديك سؤال!؟ تحقق من هذه الأجوبة</p>
+            </div>
+        </div>
+        <div class="faq-container">
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            ما هي منصة أملاك؟ </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            هي منصة إلكترونية تم تصميمها بإتقان لتوفير حلول متكاملة لجميع الخدمات العقارية بطريقة سهلة
+                            وشاملة لكافة المهام والإجراءات الخاصة بالمكاتب العقارية و إدارة العقارات والوحدات السكنية
+                            والتجارية على السواء. تهدف أملاك إلى إدارة جميع مستويات المشروعات العقارية بدءا من الوحدات
+                            وصولا إلى المشروعات عبر نظام متطور وحلول تقنية مبتكرة تهدف إلى القيام بجميع الاعمال عن بعد
+                            بجودة وموثوقية عالية، عبر استقطاب العديد من الخبرات الإدارية و التسويقية والمحاسبية ذات
+                            الكفاءة العالية.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            ما هي خطط الأسعار المتاحة للاشتراك في منصة أملاك؟</button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            توفر منصة أملاك مجموعة متنوعة من خطط الأسعار لتناسب منشأتك بشكل متكامل وتلبي جميع الخدمات
+                            التي تحتاجها.
+                            <ul style="list-style:none">
+                                <li>- اشتراك مجاني (فترة تجريبية)</li>
+                                <li>- اشتراك شهري</li>
+                                <li>- اشتراك سنوي (قريبا)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                            aria-controls="flush-collapseThree">
+                            ما هي الاجراءات اللازمة للتسجيل على منصة أملاك؟
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse"
+                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            للتسجيل و الانضمام إلى نظام أملاك يجب مليء فورم التسجيل عبر الضغط على زر "سجل معنا الآن" و
+                            ادخال بيانات شركتك:
+                            <ul style="list-style:none;">
+                                <li>-اسم الشركة</li>
+                                <li>-البريد الإلكتروني</li>
+                                <li>-شعار الشركة</li>
+                                <li>-اسم ورقم هاتف ممثل الشركة</li>
+                                <li>-اختيار نوع الاشتراك في النظام</li>
+                            </ul>
+                            بعد ذلك سوف يكون حسابك جاهزاً لتبدأ تجربة متميزة ومبتكرة لإدارة مشروعك العقاري.
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseFour" aria-expanded="false"
+                            aria-controls="flush-collapseFour">
+                            ماذا أفعل عندما تواجهني مشكلة أثناء استخدامي لمنصة أملاك؟ </button>
+                    </h2>
+                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            عندما تواجهك مشكلة أو إذا كان لديك شكوى أو اقتراحات يمكنك فتح تذكرة دعم فني بسهولة من خلال
+                            حسابك على المنصة و سوف يصلك الرد من فريق الدعم في اسرع وقت.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="clients container">
+        <div class="row align-items-center">
+            <div class="sec-title">
+                <h4>شركاء النجاح</h4>
+                <p>نتشرف بثقة و دعم العديد من المؤسسات حول المملكة</p>
+            </div>
+        </div>
+
+
+        <div class="clients-container">
+            <div class="container text-center my-3">
+                <div class="row mx-auto my-auto justify-content-center">
+                    <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-img">
+                                            <img src="{{ asset('HOME_PAGE/images/new/partners/1.png') }}" alt=""
+                                                class="img-fluid kenan" style="width:100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-img">
+                                            <img src="{{ asset('HOME_PAGE/images/new/partners/2.png') }}" alt=""
+                                                class="img-fluid kenan" style="width:100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-img">
+                                            <img src="{{ asset('HOME_PAGE/images/new/partners/3.png') }}" alt=""
+                                                class="img-fluid kenan" style="width:100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-img">
+                                            <img src="{{ asset('HOME_PAGE/images/new/partners/4.png') }}" alt=""
+                                                class="img-fluid kenan" style="width:100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-img">
+                                            <img src="{{ asset('HOME_PAGE/images/new/partners/5.png') }}" alt=""
+                                                class="img-fluid kenan" style="width:100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-img">
+                                            <img src="{{ asset('HOME_PAGE/images/new/partners/6.png') }}" alt=""
+                                                class="img-fluid kenan" style="width:100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="col-md-2">
+                                    <div class="card">
+                                        <div class="card-img">
+                                            <img src="{{ asset('HOME_PAGE/images/new/partners/7.png') }}" alt=""
+                                                class="img-fluid kenan" style="width:100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Footer Start -->
+    @if ($errors->any())
+        <script>
+            window.onload = function() {
+                document.querySelector('a#open-poop').click();
+                document.querySelector('.next-step').click();
+            }
+        </script>
+    @endif
+    {{-- @include('inc.register') --}}
+
+    <!-- Modal -->
+
+    {{-- @if ($home_only == 0) --}}
+        <script>
+            window.onload = function() {
+                document.querySelector('a#pay-btnn').click();
+
+            }
+        </script>
+        {{-- @include('inc.payModal') --}}
+        <style>
+            .modal.show .modal-dialog {
+                width: 58%;
+                transform: none;
+                top: 4%;
+                max-width: initial;
+                margin-bottom: 50px;
+            }
+
+            .details.row {
+                border: 2px solid #F5D566C7;
+                border-radius: 17px;
+                padding: 10px;
+                margin: auto;
+            }
+
+            button.btn.btn-primary.modal-submit {
+                background: #497AAC 0% 0% no-repeat padding-box;
+                box-shadow: 0px 8px 20px #91C0E973;
+                border-radius: 9px;
+                line-height: 1.8em;
+                width: 100%;
+            }
+
+            .modal-dialog p,
+            .modal-dialog span,
+            .modal-dialog strong {
+                color: #2B3641
+            }
+
+        </style>
+    {{-- @endif --}}
+
+
+    <!--end footer-->
+    <!-- Footer End -->
+    <style>.zsiq_theme1.zsiq_floatmain {
+
+    display: none!important;
+}</style>
+
+    @push('home-scripts')
+ <script type="text/javascript" id="zsiqchat">var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "siqf8adecbae539f10442e3263a1c7449fe02f8434ebbe72fa0f7a759edb7870245", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zohopublic.com/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);</script>
+
+    @endpush
+@endsection

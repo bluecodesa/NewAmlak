@@ -81,17 +81,15 @@
                                                                     </div>
 
 
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="logo" >@lang('Logo')</label>
-
-                                                                            @if(isset($settings) && $settings->icon)
+                                                                        <div class="form-group col-md-6">
+                                                                        <label for="logo">@lang('Logo')</label>
+                                                                        @if(isset($settings) && $settings->icon)
                                                                             <img src="{{ asset($settings->icon) }}" alt="Current Logo" width="100px">
                                                                         @else
                                                                             <p>No logo uploaded yet.</p>
                                                                         @endif
-                                                                            <input name="icon" class="form-control" type="file" id="logo" accept="image/png, image/jpg, image/jpeg">
-
-                                                                    </div>
+                                                                        <input name="icon" class="form-control" type="file" id="logo" accept="image/png, image/jpg, image/jpeg">
+                                                                        </div>
                                                                     <div class="form-group col-md-6">
                                                                         <label for="color">@lang('Color')</label>
                                                                         <input name="color" class="form-control" type="color" value="{{ $settings->color ?? '#30419b' }}" id="color">

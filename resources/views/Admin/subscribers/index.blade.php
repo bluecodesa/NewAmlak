@@ -169,35 +169,35 @@
 
                         <div class="mb-3 row">
                             <label for="name"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('الاسم رباعي')</label>
+                                class="col-md-4 col-form-label text-md-end text-start">@lang('Broker name')</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" id="name" name="name">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="license_number"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('رقم رخصة فال')</label>
+                                class="col-md-4 col-form-label text-md-end text-start">@lang('license number')</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" id="license_number" name="license_number">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="email"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('البريد الالكتروني')</label>
+                                class="col-md-4 col-form-label text-md-end text-start">@lang('Email')</label>
                             <div class="col-md-6">
                                 <input type="email" class="form-control" id="email" name="email">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="mobile"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('رقم الجوال (واتس اب)')</label>
+                                class="col-md-4 col-form-label text-md-end text-start">@lang('Mobile Whats app')</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" id="mobile" name="mobile">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="city"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('المدينة')</label>
+                                class="col-md-4 col-form-label text-md-end text-start">@lang('City')</label>
                             <div class="col-md-6">
                                 <select class="form-control" id="city" required name="city">
                                     <option value="">إختر</option>
@@ -212,14 +212,14 @@
                         </div>
                         <div class="mb-3 row">
                             <label for="password"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('كلمة المرور')</label>
+                                class="col-md-4 col-form-label text-md-end text-start">@lang('password')</label>
                             <div class="col-md-6">
                                 <input type="password" class="form-control" id="password" name="password">
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="password_confirmation"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('تأكيد كلمة المرور')</label>
+                                class="col-md-4 col-form-label text-md-end text-start">@lang('Confirm Password')</label>
                             <div class="col-md-6">
                                 <input type="password" class="form-control" id="password_confirmation"
                                     name="password_confirmation">
@@ -227,7 +227,7 @@
                         </div>
                         <div class="mb-3 row">
                             <label for="subscription"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang(' نوع الاشتراك')</label>
+                                class="col-md-4 col-form-label text-md-end text-start">@lang('Subscription Type')</label>
                             <div class="col-md-6">
                                 <select class="form-control" id="subscription_type" name="subscription_type">
                                     <option value="">إختر</option>
@@ -241,7 +241,7 @@
                 </div>
                 <div class="mb-3 row">
                     <label for="id_number"
-                        class="col-md-4 col-form-label text-md-end text-start">@lang('رقم الهوية')</label>
+                        class="col-md-4 col-form-label text-md-end text-start">@lang('id number')</label>
                     <div class="col-md-6">
                         <input type="text" class="form-control" id="id_number" name="id_number">
                     </div>

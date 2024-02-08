@@ -74,10 +74,26 @@ class SettingController extends Controller
 
     $setting->facebook = $request->input('url');
 
+
+
     if ($request->hasFile('icon')) {
-        $iconPath = $request->file('icon')->store('logos', 'public');
-        $setting->icon = $iconPath;
+
+        if ($setting->icon) {
+            $previousIconPath = public_path($setting->icon);
+            if (file_exists($previousIconPath)) {
+                unlink($previousIconPath);
+            }
+        }
+
+
+        $file = $request->file('icon');
+        $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+        $destinationPath = public_path('logos');
+        $file->move($destinationPath, $fileName);
+        $setting->icon = 'logos/' . $fileName;
     }
+
+
 
     $setting->color = $request->input('color');
 

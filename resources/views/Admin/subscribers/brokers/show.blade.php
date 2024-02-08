@@ -29,7 +29,7 @@
                                     <div class="col-md-12">
                                         <div class="row align-items-center">
                                             <div class="col-md-7" style="display: flex;margin-bottom: 30px;align-items: center;">
-                                                <img src="https://dev.tryamlak.com/RS_logos/1704727579.jpg" class="avatar-img " width="50px" style="border-radius: 12px;margin-left: 15px;">
+                                                <img src="" class="avatar-img " width="50px" style="border-radius: 12px;margin-left: 15px;">
                                                 <h4 class="mb-3"></h4>
                                             </div>
                                         </div>
@@ -46,11 +46,11 @@
                                                     </div>
 
                                                     <div class="col-md-6 mb-3">
-                                                        <label for="validationCustom04">رقم المسوق</label>
+                                                        <label for="validationCustom04">@lang('mobile') @lang('Broker')</label>
                                                         <input type="text" class="form-control" id="validationCustom03" disabled="" value="{{ $broker->mobile }}">
                                                     </div>
                                                     <div class="col-md-6 mb-3">
-                                                        <label for="validationCustom04">البريد الالكتروني</label>
+                                                        <label for="validationCustom04">@lang('Email')</label>
                                                         <input type="text" class="form-control" id="validationCustom03" disabled="" value="{{ $broker->email }}">
                                                     </div>
                                                 </div>
