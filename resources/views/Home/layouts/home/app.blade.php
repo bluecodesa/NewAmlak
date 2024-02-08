@@ -70,7 +70,6 @@
                                 <div class="btn btn-new-b ArFont" style="margin-right: 9px;">لوحة التحكم</div>
                             </a>
 
-
                             <a class="btn btn-new ArFont" style="margin-right: 9px;" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 <i class="fe-log-out"></i><span style="margin-left:10px">تسجيل
