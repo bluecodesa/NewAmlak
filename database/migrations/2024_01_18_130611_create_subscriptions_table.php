@@ -20,6 +20,7 @@ class CreateSubscriptionsTable extends Migration
             $table->boolean('is_end')->default(0);
             $table->boolean('is_start')->default(0);
             $table->boolean('is_new')->default(0);
+            $table->boolean('is_suspend')->default(0);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->double('total', 8, 2)->nullable();

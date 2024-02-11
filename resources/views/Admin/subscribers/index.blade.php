@@ -72,13 +72,18 @@
                                                     <td>{{ $subscriber->start_date }}</td>
                                                     <td>{{ $subscriber->end_date }}</td>
                                                     <td>
-                                                        <a href="{{ route('Admin.edit-broker-subscribers', $subscriber->id) }}"
-                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @if ($subscriber->is_suspend)
+                                                            <a href="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @else
+                                                            <a href="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @endif
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $subscriber->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
                                                         <form id="delete-form-{{ $subscriber->id }}"
-                                                            action="{{ route('Admin.delete-broker-subscribers', $subscriber->id) }}"
+                                                            action="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')
@@ -143,8 +148,8 @@
 
     <!-- Add New Broker Modal -->
 
-{{-- <div class="modal fade" id="addBrokerModal" tabindex="-1" role="dialog" aria-labelledby="addBrokerModalLabel" --}}
-        {{-- aria-hidden="true">
+    {{-- <div class="modal fade" id="addBrokerModal" tabindex="-1" role="dialog" aria-labelledby="addBrokerModalLabel" --}}
+    {{-- aria-hidden="true">
 
     <div class="modal fade" id="addBrokerModal" tabindex="-1" role="dialog" aria-labelledby="addBrokerModalLabel"
         aria-hidden="true">

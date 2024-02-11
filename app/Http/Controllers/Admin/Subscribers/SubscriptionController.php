@@ -18,9 +18,6 @@ use Illuminate\Validation\Rule;
 
 class SubscriptionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $subscribers = Subscription::all();
@@ -110,7 +107,7 @@ class SubscriptionController extends Controller
             $status = 'pending';
         } else {
             $SubType = 'free';
-            $status = 'paid';
+            $status = 'active';
         }
         Subscription::create([
             'office_id' => $office->id,
