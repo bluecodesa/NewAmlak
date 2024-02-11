@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('advisors'))
+@section('title', __('developers'))
 @section('content')
 
     <div class="content-page">
@@ -10,7 +10,7 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6">
                             <h4 class="page-title">
-                                @lang('advisors')</h4>
+                                @lang('developers')</h4>
 
                         </div>
 
@@ -24,6 +24,13 @@
                         <div class="card m-b-30">
                             <div class="card-body">
 
+                                <h4 class="mt-0 header-title">
+
+                                    <a href="{{ route('Office.Developer.create') }}" class="btn btn-primary btn-sm"><i
+                                            class="bi bi-plus-circle"></i>
+                                        @lang('Add New Developer') </a>
+
+                                </h4>
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
                                     <table id="datatable-buttons" class="table  table-striped">
                                         <thead>
@@ -33,29 +40,27 @@
                                                 <th scope="col">@lang('Email')</th>
                                                 <th scope="col">@lang('phone')</th>
                                                 <th scope="col">@lang('city')</th>
-                                                <th scope="col">@lang('Office')</th>
                                                 <th scope="col">@lang('Action')</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($developers as $Advisor)
+                                            @foreach ($developers as $developer)
                                                 <tr>
                                                     <th scope="row">{{ $loop->iteration }}</th>
-                                                    <td>{{ $Advisor->name }}</td>
-                                                    <td>{{ $Advisor->email }}</td>
-                                                    <td>{{ $Advisor->phone }}</td>
-                                                    <td>{{ $Advisor->CityData->name }}</td>
-                                                    <td>{{ $Advisor->OfficeData->company_name }}</td>
+                                                    <td>{{ $developer->name }}</td>
+                                                    <td>{{ $developer->email }}</td>
+                                                    <td>{{ $developer->phone }}</td>
+                                                    <td>{{ $developer->CityData->name }}</td>
                                                     <td>
-                                                        <a href="{{ route('Admin.Advisor.edit', $Advisor->id) }}"
+                                                        <a href="{{ route('Office.Developer.edit', $developer->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
                                                         <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $Advisor->id }}')"
+                                                            onclick="handleDelete('{{ $developer->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
                                                             @lang('Delete')
                                                         </a>
-                                                        <form id="delete-form-{{ $Advisor->id }}"
-                                                            action="{{ route('Admin.Advisor.destroy', $Advisor->id) }}"
+                                                        <form id="delete-form-{{ $developer->id }}"
+                                                            action="{{ route('Office.Developer.destroy', $developer->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')

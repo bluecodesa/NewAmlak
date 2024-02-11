@@ -53,6 +53,12 @@ class User extends Authenticatable
     }
 
 
+    public function UserOfficeData()
+    {
+        return $this->hasOne(Office::class, 'user_id');
+    }
+
+
     public static function getAdmins()
     {
         return self::where('is_admin', 1)->get();

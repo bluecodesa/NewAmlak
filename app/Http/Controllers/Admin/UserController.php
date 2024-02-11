@@ -41,7 +41,6 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::where('type', 'admin')->get();
-
         return view('Admin.users.create', get_defined_vars());
     }
 

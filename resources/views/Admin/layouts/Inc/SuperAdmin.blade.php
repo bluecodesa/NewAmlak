@@ -65,6 +65,8 @@
                     <ul class="submenu">
                         <li><a href="{{ route('Admin.Developer.index') }}">@lang('developers')</a></li>
                         <li><a href="{{ route('Admin.Advisor.index') }}">@lang('advisors')</a></li>
+                        <li><a href="{{ route('Admin.Owner.index') }}">@lang('owners')</a></li>
+                        <li><a href="{{ route('Admin.Employee.index') }}">@lang('employees')</a></li>
                     </ul>
                 </li>
 

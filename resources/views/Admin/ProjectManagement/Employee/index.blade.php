@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('advisors'))
+@section('title', __('employees'))
 @section('content')
 
     <div class="content-page">
@@ -10,7 +10,7 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6">
                             <h4 class="page-title">
-                                @lang('advisors')</h4>
+                                @lang('employees')</h4>
 
                         </div>
 
@@ -23,7 +23,6 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
-
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
                                     <table id="datatable-buttons" class="table  table-striped">
                                         <thead>
@@ -38,24 +37,24 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($developers as $Advisor)
+                                            @foreach ($employees as $employee)
                                                 <tr>
                                                     <th scope="row">{{ $loop->iteration }}</th>
-                                                    <td>{{ $Advisor->name }}</td>
-                                                    <td>{{ $Advisor->email }}</td>
-                                                    <td>{{ $Advisor->phone }}</td>
-                                                    <td>{{ $Advisor->CityData->name }}</td>
-                                                    <td>{{ $Advisor->OfficeData->company_name }}</td>
+                                                    <td>{{ $employee->UserData->name ?? '' }}</td>
+                                                    <td>{{ $employee->UserData->email ?? '' }}</td>
+                                                    <td>{{ $employee->UserData->phone ?? '' }}</td>
+                                                    <td>{{ $employee->CityData->name ?? '' }}</td>
+                                                    <td>{{ $employee->OfficeData->company_name ?? '' }}</td>
                                                     <td>
-                                                        <a href="{{ route('Admin.Advisor.edit', $Advisor->id) }}"
+                                                        <a href="{{ route('Admin.Employee.edit', $employee->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
                                                         <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $Advisor->id }}')"
+                                                            onclick="handleDelete('{{ $employee->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
                                                             @lang('Delete')
                                                         </a>
-                                                        <form id="delete-form-{{ $Advisor->id }}"
-                                                            action="{{ route('Admin.Advisor.destroy', $Advisor->id) }}"
+                                                        <form id="delete-form-{{ $employee->id }}"
+                                                            action="{{ route('Admin.Employee.destroy', $employee->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')
