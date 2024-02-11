@@ -18,7 +18,6 @@ use Illuminate\Validation\Rule;
 
 class SubscriptionController extends Controller
 {
-
     public function index()
     {
         $subscribers = Subscription::all();

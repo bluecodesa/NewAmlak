@@ -72,8 +72,13 @@
                                                     <td>{{ $subscriber->start_date }}</td>
                                                     <td>{{ $subscriber->end_date }}</td>
                                                     <td>
-                                                        <a href="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
-                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @if ($subscriber->is_suspend)
+                                                            <a href="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @else
+                                                            <a href="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @endif
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $subscriber->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
