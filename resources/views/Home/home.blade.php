@@ -1092,15 +1092,103 @@
 
 
     <!-- Footer Start -->
-    @if ($errors->any())
-        <script>
-            window.onload = function() {
-                document.querySelector('a#open-poop').click();
-                document.querySelector('.next-step').click();
-            }
-        </script>
-    @endif
-    @include('Admin.admin.auth.register')
+  <footer class="footer" id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-6  col-12 mb-0 mb-md-4 pb-0 pb-md-2 first">
+                    <a href="#" class="logo-footer">
+                        <img src="https://tryamlak.com/HOME_PAGE/images/amlak1.svg" height="40" alt="">
+                    </a>
+                    <p>خيارك الأول لإدارة العقارات عبر منصة متكاملة تخدم مدراء العقارات، والملاك والمستأجرين</p>
+                    <div class="sub">
+                        <h5>سجل معنا ليصلك كل جديد</h5>
+                        <form siq_id="autopick_9535">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <div class="foot-subscribe foot-white mb-3">
+
+                                        <div class="form-icon position-relative">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail fea icon-sm icons"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                            <input type="email" name="email" id="emailsubscribe" class="form-control bg-light border ps-5 rounded ArFont" placeholder="ادخل بريدك الالكتروني" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="d-grid">
+                                        <input type="submit" id="submitsubscribe" name="send" class="btn btn-new ArFont" value="تسجيل">
+                                    </div>
+                                </div>
+                                <!--end col-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--end col-->
+
+                <div class="col-lg-2 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0 second">
+                    <h5 class="text-dark footer-head">عن بلوكود</h5>
+                    <ul class="list-unstyled footer-list mt-4">
+                        <li><a href="https://bluecode.sa/about" target="_blank">من نحن</a></li>
+                        <li><a href="https://bluecode.sa/services" target="_blank">خدماتنا</a></li>
+                        <li><a href="https://bluecode.sa/products" target="_blank">منتجاتنا</a></li>
+                        <li><a href="https://bluecode.sa/projects" target="_blank">مشاريعنا</a></li>
+                    </ul>
+                </div>
+                <!--end col-->
+
+                <div class="col-lg-2 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0 third">
+                    <h5 class="text-dark footer-head ArFont">روابط مهمة</h5>
+                    <ul class="list-unstyled footer-list mt-4">
+                        <li><a href="#">الشروط
+                                والاحكام
+                            </a></li>
+                        <li><a href="#">
+                                سياسة الخصوصية</a></li>
+                        <li><a href="#">
+                                ملفات التوثيق</a></li>
+                    </ul>
+                </div>
+                <!--end col-->
+
+                <div class="col-lg-3 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0 fourth">
+                    <h5 class="text-dark footer-head ArFont">تواصل معنا</h5>
+                    <ul class="list-unstyled footer-list mt-4" style="list-style: none;padding-right: 0px!important;">
+                        <li><a href="#" class="d-flex">
+                                <div class="img-smm-div">
+                                    <img src="https://tryamlak.com/HOME_PAGE/images/new/Location.png" class="img-fluid">
+                                </div>
+
+                                المملكة العربية السعودية
+                                <br>
+                                (الرياض - جدة - الدمام)
+                            </a></li>
+                        <li><a href="mailto:hi@bluecode.sa">
+                                <div class="img-smm-div">
+                                    <img src="https://tryamlak.com/HOME_PAGE/images/new/Iconly-Bold-Message.png" class="img-fluid">
+                                </div>
+                                hi@bluecode.sa
+                            </a></li>
+                        <li><a href="tel:+966500334691">
+                                <div class="img-smm-div">
+                                    <img src="https://tryamlak.com/HOME_PAGE/images/new/Iconly-Bold-Call.png" class="img-fluid">
+                                </div>
+                                <p style="direction: ltr;display: inline-block;">+966 50 033 4691</p>
+                            </a></li>
+
+                        <li><a href="https://twitter.com/tryamlak" target="_blank">
+                                <div class="img-smm-div">
+                                    <img src="https://tryamlak.com/HOME_PAGE/images/new/icons8-twitter-48.png" class="img-fluid">
+                                </div>
+                                <p style="direction: ltr;display: inline-block;">@tryamlak</p>
+                            </a></li>
+                    </ul>
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
+    </footer>
 
     <!-- Modal -->
 
@@ -1204,6 +1292,7 @@
         </div>
 
     </div>
+</div>
 </div>
 
 <script>
