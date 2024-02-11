@@ -33,14 +33,14 @@
     <!-- Begin page -->
     <div class="accountbg"></div>
     <div class="home-btn d-none d-sm-block">
-        <a href="index.html" class="text-white"><i class="fas fa-home h2"></i></a>
+        <a href="{{ route('welcome') }}" class="text-white"><i class="fas fa-home h2"></i></a>
     </div>
     <div class="wrapper-page">
         <div class="card card-pages shadow-none">
 
             <div class="card-body">
                 <div class="text-center m-t-0 m-b-15">
-                    <a href="index.html" class="logo logo-admin"><img src="{{ url($sitting->icon) }}" alt=""
+                    <a href="{{ route('welcome') }}" class="logo logo-admin"><img src="{{ url($sitting->icon) }}" alt=""
                             height="24"></a>
                 </div>
                 <h5 class="font-18 text-center">@lang('sign in') </h5>
