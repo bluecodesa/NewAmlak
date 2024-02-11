@@ -18,4 +18,9 @@ class Office extends Model
     {
         return $this->belongsTo(City::class, 'city_id');
     }
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class, 'office_id');
+    }
 }

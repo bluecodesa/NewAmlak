@@ -154,5 +154,10 @@
 
     </div>
     <!-- Top Bar End -->
-    @include('Admin.layouts.Inc.SuperAdmin')
+    @if (Auth::user()->is_admin)
+        @include('Admin.layouts.Inc.SuperAdmin')
+    @endif
+    @if (Auth::user()->is_office)
+        @include('Admin.layouts.Inc.Office')
+    @endif
 @endauth

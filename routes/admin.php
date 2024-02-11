@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
 use App\Http\Controllers\Admin\ProjectManagement\DeveloperController;
+use App\Http\Controllers\Admin\ProjectManagement\EmployeeController;
+use App\Http\Controllers\Admin\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SettingController;
@@ -67,7 +69,8 @@ Route::group(
                 'Developer' => DeveloperController::class,
                 'Advisor' => AdvisorController::class,
                 'SystemInvoice' => SystemInvoiceController::class,
-
+                'Owner' => OwnerController::class,
+                'Employee' => EmployeeController::class,
             ]);
             Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
         });

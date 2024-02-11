@@ -13,4 +13,9 @@ class Developer extends Model
     {
         return $this->belongsTo(City::class, 'city_id');
     }
+
+    public function OfficeData()
+    {
+        return $this->belongsTo(Office::class, 'office_id');
+    }
 }
