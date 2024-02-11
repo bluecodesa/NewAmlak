@@ -57,17 +57,20 @@
 
                     <div class="mb-3 row">
                         <div class="col-md-6">
-                            <label for="name" class="col-form-label">@lang('Broker name')</label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
+
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="license_number" class="col-form-label">@lang('license number')</label>
-                            <input type="text" class="form-control" id="license_number" name="license_number">
+                            <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
+
+                            <input type="text" class="form-control" id="license_number" name="license_number" required>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col-md-6">
-                            <label for="email" class="col-form-label">@lang('Email')</label>
+                            <label for="email">@lang('Email')<span class="text-danger">*</span></label>
+
                             <input type="email" class="form-control" id="email" name="email">
                         </div>
 
@@ -78,26 +81,32 @@
                     </div>
                     <div class="mb-3 row">
 
-                        <div class="col-md-6">
-                            <label for="city" class="col-form-label">@lang('City')</label>
-                            <select class="form-control" id="city" required name="city">
-                                <option value="">إختر</option>
-                                @foreach ($cities as $city)
-                                    <option value="{{ $city->name }}"
-                                        @if (old('city') == $city->name) {{ 'selected' }} @endif>
-                                        {{ $city->name }}
-                                    </option>
+                        <div class="form-group col-md-4">
+                            <label>@lang('Region') </label>
+                            <select class="form-control" id="Region_id" required>
+                                <option disabled selected value="">@lang('Region')</option>
+                                @foreach ($Regions as $Region)
+                                    <option value="{{ $Region->id }}"
+                                        data-url="{{ route('Admin.Region.show', $Region->id) }}">
+                                        {{ $Region->name }}</option>
                                 @endforeach
                             </select>
-
                         </div>
-                        <div class="col-md-6">
-                            <label for="subscription" class="col-form-label">@lang('Subscription Type')</label>
-                            <select class="form-control" id="subscription_type" name="subscription_type">
-                                <option value="">إختر</option>
-                                @foreach ($subscriptionTypes as $type)
-                                    <option value="{{ $type->id }}">{{ $type->period }} {{ $type->period_type }}
-                                        - {{ $type->price }}</option>
+
+                        <div class="form-group col-md-4">
+                            <label>@lang('city') </label>
+                            <select class="form-control" name="city_id" id="CityDiv" required>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+                            <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
+                            <select type="package" class="form-control" name="subscription_type_id"
+                                required="">
+                                <option value="" selected disabled> @lang('Subscription Type') </option>
+                                @foreach ($subscriptionTypes as $subscriptionType)
+                                    <option value="{{ $subscriptionType->id }}">
+                                        {{ $subscriptionType->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -106,14 +115,15 @@
                     <div class="mb-3 row">
 
                         <div class="col-md-6">
-                            <label for="password" class="col-form-label">@lang('password')</label>
-                            <input type="password" class="form-control" id="password" name="password">
+                            <label for="password"> @lang('password') <span
+                                class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="password" name="password" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="password_confirmation" class="col-form-label">@lang('Confirm Password')</label>
-                            <input type="password" class="form-control" id="password_confirmation"
-                                name="password_confirmation">
+                            <label for="password_confirmation"> @lang('Confirm Password') <span
+                                class="text-danger">*</span></label>            <input type="password" class="form-control" id="password_confirmation"
+                                name="password_confirmation" required>
                         </div>
                     </div>
 
@@ -131,6 +141,7 @@
                         </div>
                     </div>
                 </form>
+
             </div>
 
         </div>

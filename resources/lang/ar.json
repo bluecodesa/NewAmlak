@@ -146,5 +146,7 @@
     "Invoice details": "تفاصيل الفاتورة",
     "Created Date": "تاريخ الانشاء",
     "Subtotal": "المجموع الفرعي",
-    "Value added tax": "ضريبة القيمة المضافة"
+    "Value added tax": "ضريبة القيمة المضافة",
+    "Sorry, page not found": "عذرا.. الصفحه غير موجوة",
+    "Back to Dashboard": "الرجوع الي لوحة التحكم"
 }

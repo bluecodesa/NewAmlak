@@ -1,4 +1,3 @@
-<!-- Modal structure update the payment  -->
 <div class="modal fade" id="editModal{{ $paymentGateway->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

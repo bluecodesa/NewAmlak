@@ -160,8 +160,8 @@ class SettingController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'api_key' => 'required|string',
-            'profile_id' => 'required|string',
+            'api_key_paytabs' => 'required|string',
+            'profile_id_paytabs' => 'required|string',
             'client_key' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image file
             'status' => 'required|in:0,1', // Validate status field
@@ -170,11 +170,20 @@ class SettingController extends Controller
         $paymentGateway = PaymentGateway::findOrFail($id);
 
         // Update fields
-        $paymentGateway->fill($request->except('image')); // Fill all fields except image
+        $paymentGateway->fill($request->except('image', 'status')); // Fill all fields except image and status
         $paymentGateway->status = $request->input('status'); // Update status separately
 
         // Handle file upload
         if ($request->hasFile('image')) {
+            // Remove previous image if exists
+            if ($paymentGateway->image) {
+                $previousImagePath = public_path($paymentGateway->image);
+                if (file_exists($previousImagePath)) {
+                    unlink($previousImagePath);
+                }
+            }
+
+            // Upload new image
             $file = $request->file('image');
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('dashboard_files/images/payments');
