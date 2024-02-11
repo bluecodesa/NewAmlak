@@ -59,20 +59,12 @@
                                                                     @method('PUT')
                                                                     @foreach (config('translatable.locales') as $locale)
                                                                     <div class="form-group col-md-6">
-                                                                        <label for="title_ar">{{ __('Website name') }} {{ __($locale) }} </label>
+                                                                        <label for="title_ar">{{ __('Website Name') }} {{ __($locale) }} </label>
                                                                      <input name="{{ $locale }}[title]" class="form-control" type="text"
                                                                      id="title_{{ $locale }}" value="{{ $settings->translate($locale)->title ?? '' }}"
-                                                                     placeholder="{{ __('Website name') }} {{ __($locale) }}">
+                                                                     placeholder="{{ __('Website Name') }} {{ __($locale) }}">
                                                                     </div>
-                                                                    @endforeach
-{{--
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="title_en" >@lang('Website name en')</label>
-
-                                                                            <input name="title_en" class="form-control" type="text" id="title_en" value="{{ $settings->title ?? '' }}">
-
-                                                                    </div>
-                                                                    @endforeach --}}
+@endforeach
                                                                     <div class="form-group col-md-6">
                                                                         <label for="url">@lang('URL')</label>
 
@@ -225,9 +217,6 @@
                                             </div>
                                             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
                                                 aria-labelledby="v-pills-settings-tab">
-
-
-
                                             </div>
 
 
@@ -352,18 +341,24 @@
                 <form action="{{ route('Admin.create-payment-gateway') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                        <label for="name">@lang('Name')</label>
-                        <input name="name" class="form-control" type="text" id="name">
+
+                          <label class="form-label">  @lang('Name') <span
+                               class="required-color">*</span></label>
+                        <input name="name" class="form-control" type="text" id="name" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="api_key">@lang('Api Key PayTabs')</label>
-                        <input name="api_key" class="form-control" type="text" id="api_key">
+
+                        <label class="form-label">@lang('Api Key PayTabs') <span
+                            class="required-color">*</span></label>
+                        <input name="api_key" class="form-control" type="text" id="api_key" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="profile_id">@lang('Profile Id PayTabs')</label>
-                        <input name="profile_id" class="form-control" type="text" id="profile_id">
+
+                        <label class="form-label">@lang('Profile Id PayTabs') <span
+                            class="required-color">*</span></label>
+                        <input name="profile_id" class="form-control" type="text" id="profile_id" required>
                     </div>
 
                     <div class="form-group">
@@ -374,7 +369,7 @@
                   <input type="hidden" name="status" value="1">
 
                     <div class="form-group">
-                        <label for="image">@lang('Image')</label>
+                        <label for="image">@lang('Payment Image')</label>
                         <input type="file" name="image" class="form-control-file" id="image">
                     </div>
 
@@ -407,18 +402,23 @@
                     @method('PUT')
 
                     <div class="form-group">
-                        <label for="name">@lang('Name')</label>
-                        <input name="name" class="form-control" type="text" id="name" value="{{ old('name', $paymentGateway->name) }}">
+                        <label class="form-label">
+                            {{ __('Name') }} <span class="required-color">*</span></label>
+                        <input name="name" class="form-control" type="text" id="name" value="{{ old('name', $paymentGateway->name) }}" required>
                     </div>
 
                     <div class="form-group">
-                        <label>@lang('Api Key PayTabs')</label>
-                        <input name="api_key_paytabs" class="form-control" type="text" id="api_key_paytabs" value="{{ old('api_key_paytabs', $paymentGateway->api_key_paytabs) }}">
+
+                        <label class="form-label"> @lang('Api Key PayTabs') <span
+                            class="required-color">*</span></label>
+                     <input name="api_key_paytabs" required class="form-control" type="text" id="api_key_paytabs" value="{{ old('api_key_paytabs', $paymentGateway->api_key_paytabs) }}">
                     </div>
 
                     <div class="form-group">
-                        <label>@lang('Profile Id PayTabs')</label>
-                        <input name="profile_id_paytabs" class="form-control" type="text" id="profile_id_paytabs" value="{{ old('profile_id_paytabs', $paymentGateway->profile_id_paytabs) }}">
+
+                        <label class="form-label"> @lang('Profile Id PayTabs') <span
+                            class="required-color">*</span></label>
+                         <input name="profile_id_paytabs" required class="form-control" type="text" id="profile_id_paytabs" value="{{ old('profile_id_paytabs', $paymentGateway->profile_id_paytabs) }}">
                     </div>
 
                     <div class="form-group">
@@ -438,11 +438,12 @@
                                     name="status" value="0" id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }}>
                                 <label class="form-check-label" for="customradio2">@lang('Disable')</label>
                             </div>
+
                         </div>
                         <div class="form-group">
-                        <label for="image">@lang('Image')</label>
+                        <label for="image">@lang('Payment Image')</label>
                         <input type="file" name="image" class="form-control-file" id="image">
-                    </div>
+                         </div>
 
 
                     <div class="modal-footer">
