@@ -15,13 +15,12 @@ class SettingController extends Controller
 
      public function index()
      {
-         $settings = Setting::first(); // Assuming only one row in the settings table
+         $settings = Setting::first();
          $paymentGateways = PaymentGateway::all();
-        //  $titleArabic = $settings->translate('ar')->title;
-        // $titleEnglish = $settings->translate('en')->title;
-        //  // dd($paymentGateway);
          return view('Admin.settings.index', get_defined_vars());
      }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -114,47 +113,86 @@ class SettingController extends Controller
     {
         $paymentGateway = PaymentGateway::find($id);
 
-        return view('Admin.settings.index', compact('paymentGateway'));
+        return view('Admin.settings.edit',  get_defined_vars());
     }
 
-    public function updatePaymentGatewayStatus(Request $request, $id)
-{
-    $paymentGateway = PaymentGateway::findOrFail($id);
-    $paymentGateway->status = $request->input('status');
-    $paymentGateway->save();
-
-    return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway status updated successfully.'));
-}
 
 
 
-public function createPaymentGateway(Request $request)
-{
 
-    $request->validate([
-        'name' => 'required|string',
-        'api_key' => 'required|string',
-        'profile_id' => 'required|string',
-        'client_key' => 'required|string',
-    ]);
+    public function createPaymentGateway(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'api_key' => 'required|string',
+            'profile_id' => 'required|string',
+            'client_key' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user_id = auth()->id();
+
+        $paymentGateway = new PaymentGateway();
+        $paymentGateway->name = $request->input('name');
+        $paymentGateway->api_key_paytabs = $request->input('api_key');
+        $paymentGateway->profile_id_paytabs = $request->input('profile_id');
+        $paymentGateway->client_key = $request->input('client_key');
+        $paymentGateway->status = 1; // Set default status to 1 (enabled)
+
+        // Handle file upload
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('dashboard_files/images/payments');
+            $file->move($destinationPath, $fileName);
+            $paymentGateway->image = 'dashboard_files/images/payments/' . $fileName;
+        }
+
+        $paymentGateway->user_id = $user_id;
+
+        $paymentGateway->save();
+
+        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway created successfully.'));
+    }
 
 
-      $user = auth()->user();
 
-    $paymentGateway = new PaymentGateway();
-    $paymentGateway->name = $request->input('name');
-    $paymentGateway->api_key_paytabs = $request->input('api_key');
-    $paymentGateway->profile_id_paytabs = $request->input('profile_id');
-    $paymentGateway->client_key = $request->input('client_key');
-    $paymentGateway->status = 1;
+    public function updatePaymentGateway(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'api_key' => 'required|string',
+            'profile_id' => 'required|string',
+            'client_key' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:0,1',
+        ]);
+
+        $paymentGateway = PaymentGateway::findOrFail($id);
+
+        // Update fields
+        $paymentGateway->name = $request->input('name');
+        $paymentGateway->api_key_paytabs = $request->input('api_key');
+        $paymentGateway->profile_id_paytabs = $request->input('profile_id');
+        $paymentGateway->client_key = $request->input('client_key');
+        $paymentGateway->status = $request->input('status');
+
+        // Handle file upload
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('dashboard_files/images/payments');
+            $file->move($destinationPath, $fileName);
+            $paymentGateway->image = 'dashboard_files/images/payments/' . $fileName;
+        }
+
+        $paymentGateway->save();
+
+        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
+    }
 
 
-    $paymentGateway->user()->associate($user);
 
-    $paymentGateway->save();
-
-    return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway created successfully.'));
-}
 
 
 }

@@ -46,7 +46,7 @@ Route::group(
         Route::prefix('app')->name('Admin.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('/payment-gateways/{id}/edit', [SettingController::class, 'editPaymentGatewayForm'])->name('payment-gateways.edit');
-            Route::put('/payment-gateways/{id}', [SettingController::class, 'updatePaymentGatewayStatus'])->name('update-payment-gateway');
+            Route::put('/payment-gateways/{id}', [SettingController::class, 'updatePaymentGateway'])->name('update-payment-gateway');
             Route::post('/payment-gateways/create', [SettingController::class, 'createPaymentGateway'])->name('create-payment-gateway');
             Route::post('/create-broker-subscribers', [SubUserController::class, 'createBrokerSubscribers'])->name('create-broker-subscribers');
             Route::get('/update-broker-subscribers/{id}', [SubUserController::class, 'editbroker'])->name('edit-broker-subscribers');
