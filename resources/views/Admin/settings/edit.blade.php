@@ -1,6 +1,7 @@
+@foreach($paymentGateways as $paymentGateway)
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">@lang('Edit') @lang("PayTabs")</h5>
+        <h5 class="modal-title" id="editModal{{ $paymentGateway->id }}">@lang('Edit') @lang("PayTabs")</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -32,7 +33,9 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('save')</button>
+                <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('Save')</button>
             </div>
         </form>
+    </div>
 </div>
+@endforeach

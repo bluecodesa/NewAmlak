@@ -281,7 +281,7 @@
                                             name="status" value="0" id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }} disabled>
                                         <label class="form-check-label" for="customradio2">@lang('Disable')</label>
                                     </div>
-                                    <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#editModal">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#editModal{{ $paymentGateway->id }}">
                                         @lang('Edit')
                                     </button>
                                 </div>
@@ -328,135 +328,18 @@
 
 
     <!-- Modal for Add New Payment -->
-<div class="modal fade" id="addNewPaymentModal" tabindex="-1" role="dialog" aria-labelledby="addNewPaymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addNewPaymentModalLabel">@lang('Add New Payment')</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('Admin.create-payment-gateway') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
+    @include('Admin.settings.Payments.create-modal')
 
-                          <label class="form-label">  @lang('Name') <span
-                               class="required-color">*</span></label>
-                        <input name="name" class="form-control" type="text" id="name" required>
-                    </div>
-
-                    <div class="form-group">
-
-                        <label class="form-label">@lang('Api Key PayTabs') <span
-                            class="required-color">*</span></label>
-                        <input name="api_key" class="form-control" type="text" id="api_key" required>
-                    </div>
-
-                    <div class="form-group">
-
-                        <label class="form-label">@lang('Profile Id PayTabs') <span
-                            class="required-color">*</span></label>
-                        <input name="profile_id" class="form-control" type="text" id="profile_id" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="client_key">@lang('Client Key')</label>
-                        <input name="client_key" class="form-control" type="text" id="client_key">
-                    </div>
-
-                  <input type="hidden" name="status" value="1">
-
-                    <div class="form-group">
-                        <label for="image">@lang('Payment Image')</label>
-                        <input type="file" name="image" class="form-control-file" id="image">
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">@lang('save')</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
 
 <!-- Modal structure update the payment  -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">@lang('Edit') @lang("PayTabs")</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('Admin.update-payment-gateway', ['id' => $paymentGateway->id]) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="form-group">
-                        <label class="form-label">
-                            {{ __('Name') }} <span class="required-color">*</span></label>
-                        <input name="name" class="form-control" type="text" id="name" value="{{ old('name', $paymentGateway->name) }}" required>
-                    </div>
-
-                    <div class="form-group">
-
-                        <label class="form-label"> @lang('Api Key PayTabs') <span
-                            class="required-color">*</span></label>
-                     <input name="api_key_paytabs" required class="form-control" type="text" id="api_key_paytabs" value="{{ old('api_key_paytabs', $paymentGateway->api_key_paytabs) }}">
-                    </div>
-
-                    <div class="form-group">
-
-                        <label class="form-label"> @lang('Profile Id PayTabs') <span
-                            class="required-color">*</span></label>
-                         <input name="profile_id_paytabs" required class="form-control" type="text" id="profile_id_paytabs" value="{{ old('profile_id_paytabs', $paymentGateway->profile_id_paytabs) }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="client_key">@lang('Client Key')</label>
-                        <input name="client_key" class="form-control" type="text" id="client_key" value="{{ old('client_key', $paymentGateway->client_key) }}">
-                    </div>
-
-                    <!-- Add this inside the form for updating -->
-                        <div class="col-12">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio"
-                                    name="status" value="1" id="customradio1" {{ $paymentGateway->status == 1 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="customradio1">@lang('Enable')</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio"
-                                    name="status" value="0" id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="customradio2">@lang('Disable')</label>
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                        <label for="image">@lang('Payment Image')</label>
-                        <input type="file" name="image" class="form-control-file" id="image">
-                         </div>
+@foreach($paymentGateways as $paymentGateway)
+@include('Admin.settings.Payments.edit-modal', ['paymentGateway' => $paymentGateway])
 
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('save')</button>
-                    </div>
-                </form>
-        </div>
-    </div>
-    </div>
-</div>
-
-
+@endforeach
 
 <script>
     $(document).ready(function() {

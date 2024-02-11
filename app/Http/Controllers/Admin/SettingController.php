@@ -112,10 +112,8 @@ class SettingController extends Controller
     public function editPaymentGatewayForm($id)
     {
         $paymentGateway = PaymentGateway::find($id);
-
-        return view('Admin.settings.edit',  get_defined_vars());
+        return view('Admin.settings.Payments.edit-modal', get_defined_vars());
     }
-
 
 
 
@@ -157,6 +155,7 @@ class SettingController extends Controller
 
 
 
+
     public function updatePaymentGateway(Request $request, $id)
     {
         $request->validate([
@@ -164,18 +163,15 @@ class SettingController extends Controller
             'api_key' => 'required|string',
             'profile_id' => 'required|string',
             'client_key' => 'required|string',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|in:0,1',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image file
+            'status' => 'required|in:0,1', // Validate status field
         ]);
 
         $paymentGateway = PaymentGateway::findOrFail($id);
 
         // Update fields
-        $paymentGateway->name = $request->input('name');
-        $paymentGateway->api_key_paytabs = $request->input('api_key');
-        $paymentGateway->profile_id_paytabs = $request->input('profile_id');
-        $paymentGateway->client_key = $request->input('client_key');
-        $paymentGateway->status = $request->input('status');
+        $paymentGateway->fill($request->except('image')); // Fill all fields except image
+        $paymentGateway->status = $request->input('status'); // Update status separately
 
         // Handle file upload
         if ($request->hasFile('image')) {
@@ -190,6 +186,7 @@ class SettingController extends Controller
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
+
 
 
 
