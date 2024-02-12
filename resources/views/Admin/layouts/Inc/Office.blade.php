@@ -21,6 +21,7 @@
                             @lang('project management')<span class="float-right menu-arrow"><i
                                     class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
+                        <li><a href="{{ route('Office.Project.index') }}">@lang('Projects')</a></li>
                         <li><a href="{{ route('Office.Developer.index') }}">@lang('developers')</a></li>
                         <li><a href="{{ route('Office.Advisor.index') }}">@lang('advisors')</a></li>
                         <li><a href="{{ route('Office.Owner.index') }}">@lang('owners')</a></li>
