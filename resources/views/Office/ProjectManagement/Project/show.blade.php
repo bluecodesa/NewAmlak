@@ -122,7 +122,7 @@
                                                 <th>@lang('Type use')</th>
                                                 <th>@lang('Employee Name')</th>
                                                 <th>@lang('owner name')</th>
-                                                <th>@lang('Unit or property')</th>
+                                                {{-- <th>@lang('Unit or property')</th> --}}
                                                 <th>@lang('Instrument number')</th>
                                                 <th>@lang('Action')</th>
                                             </tr>
@@ -138,15 +138,16 @@
                                                     <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
                                                     <td>{{ $property->EmployeeData->UserData->name ?? '' }}</td>
                                                     <td>{{ $property->OwnerData->name ?? '' }}</td>
-                                                    <td>
-                                                        {{ $property->is_rs == 0 ? __('property') : __('Unit') }}
-                                                    </td>
+                                                    {{-- <td>
+                                                        {{ $property->is_divided == 1 ? __('property') : __('Unit') }}
+                                                    </td> --}}
                                                     <td>{{ $property->instrument_number ?? '' }}</td>
 
                                                     <td>
-
-                                                        <a href="{{ route('Office.Project.show', $property->id) }}"
-                                                            class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
+                                                        @if ($property->is_divided == 1)
+                                                            <a href="{{ route('Office.Project.show', $property->id) }}"
+                                                                class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
+                                                        @endif
 
                                                         <a href="{{ route('Office.Project.show', $property->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>

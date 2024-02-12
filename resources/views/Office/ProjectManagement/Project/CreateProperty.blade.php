@@ -121,12 +121,12 @@
                                             </select>
                                         </div>
                                         @php
-                                            $typeunits = [1 => 'Unit', 0 => 'property'];
+                                            $typeunits = [1 => 'Divides', 0 => 'Not divided'];
                                         @endphp
                                         <div class="form-group col-md-3">
-                                            <label>@lang('Unit or property') <span class="required-color">*</span> </label>
-                                            <select class="form-control" name="is_rs" required>
-                                                <option disabled selected value="">@lang('Unit or property')</option>
+                                            <label>@lang('Divided into units') <span class="required-color">*</span> </label>
+                                            <select class="form-control" name="is_divided" required>
+                                                <option disabled selected value="">@lang('Divided into units')</option>
                                                 @foreach ($typeunits as $index => $item)
                                                     <option value="{{ $index }}">
                                                         {{ __($item) }}</option>

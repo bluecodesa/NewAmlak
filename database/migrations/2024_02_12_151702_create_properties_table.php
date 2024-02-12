@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('owner_id')->unsigned()->nullable();
             $table->integer('employee_id')->unsigned()->nullable();
             $table->integer('property_type_id')->unsigned()->nullable();
-            $table->boolean('is_rs')->default(0)->nullable();
+            $table->boolean('is_divided')->default(0)->nullable();
             $table->string('location')->nullable();
             $table->string('lat_long')->nullable();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
