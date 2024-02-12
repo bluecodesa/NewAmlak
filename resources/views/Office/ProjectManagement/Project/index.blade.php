@@ -22,6 +22,10 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                <div class="card-title">
+                                    <a href="{{ route('Office.Project.create') }}"
+                                        class="btn btn-primary waves-effect waves-light">@lang('Add New')</a>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6 col-xl-3">
 

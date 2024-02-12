@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Office\ProjectManagement;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Advisor;
+use App\Models\Developer;
+use App\Models\Employee;
+use App\Models\Owner;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\PaymentGateway;
@@ -28,7 +31,11 @@ class ProjectController extends Controller
     {
         $Regions = Region::all();
         $cities = City::all();
-        return view('Office.ProjectManagement.Advisor.create', get_defined_vars());
+        $advisors = Advisor::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        $developers = Developer::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        $owners = Owner::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        $employees = Employee::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        return view('Office.ProjectManagement.Project.create', get_defined_vars());
     }
 
     /**

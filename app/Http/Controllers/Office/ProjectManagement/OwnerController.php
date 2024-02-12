@@ -68,7 +68,7 @@ class OwnerController extends Controller
     public function edit($id)
     {
         $Regions = Region::all();
-        $developer = Advisor::find($id);
+        $Owner = Owner::find($id);
         $cities = City::all();
         return view('Office.ProjectManagement.Owner.edit', get_defined_vars());
     }

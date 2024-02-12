@@ -28,32 +28,12 @@
                                     @csrf
                                     @method('post')
 
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">
-                                                {{ __('Name') }} <span class="required-color">*</span></label>
-                                            <input type="text" required id="modalRoleName" name="name"
-                                                class="form-control" placeholder="{{ __('Name') }}">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label"> @lang('Email') <span
-                                                    class="required-color">*</span></label>
-                                            <input type="email" required name="email" class="form-control"
-                                                placeholder="@lang('Email')">
-                                        </div>
-                                    </div>
-
-
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label class="form-label"> @lang('phone') <span
-                                                    class="required-color">*</span></label>
-                                            <input type="text" required name="phone" class="form-control"
-                                                placeholder="@lang('phone')">
+                                            <label class="form-label">
+                                                {{ __('project name') }} <span class="required-color">*</span></label>
+                                            <input type="text" required id="modalRoleName" name="name"
+                                                class="form-control" placeholder="{{ __('project name') }}">
                                         </div>
                                     </div>
 
@@ -73,6 +53,52 @@
                                         <label>@lang('city') </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
 
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('Developer name') </label>
+                                        <select class="form-control" name="developer_id" required>
+                                            <option disabled selected value="">@lang('Developer name')</option>
+                                            @foreach ($developers as $developer)
+                                                <option value="{{ $developer->id }}">
+                                                    {{ $developer->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('Advisor name') </label>
+                                        <select class="form-control" name="advisor_id" required>
+                                            <option disabled selected value="">@lang('Advisor name')</option>
+                                            @foreach ($advisors as $advisor)
+                                                <option value="{{ $advisor->id }}">
+                                                    {{ $advisor->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('Employee Name') </label>
+                                        <select class="form-control" name="employee_id" required>
+                                            <option disabled selected value="">@lang('Employee Name')</option>
+                                            @foreach ($owners as $owner)
+                                                <option value="{{ $owner->id }}">
+                                                    {{ $owner->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('name owner') </label>
+                                        <select class="form-control" name="owner_id" required>
+                                            <option disabled selected value="">@lang('name owner')</option>
+                                            @foreach ($owners as $owner)
+                                                <option value="{{ $owner->id }}">
+                                                    {{ $owner->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
