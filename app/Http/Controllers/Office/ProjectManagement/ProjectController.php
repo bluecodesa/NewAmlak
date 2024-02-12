@@ -156,12 +156,14 @@ class ProjectController extends Controller
         $request_data['project_id'] = $id;
 
         $Property = Property::create($request_data);
-        foreach ($request->images as  $item) {
-            $ext  =  uniqid() . '.' . $item->clientExtension();
-            $item->move(public_path() . '/Offices/Projects/Property/', $ext);
-            $request_image['image'] = '/Offices/Projects/Property/' .  $ext;
-            $request_image['property_id'] = $Property->id;
-            PropertyImage::create($request_image);
+        if ($request->images) {
+            foreach ($request->images as  $item) {
+                $ext  =  uniqid() . '.' . $item->clientExtension();
+                $item->move(public_path() . '/Offices/Projects/Property/', $ext);
+                $request_image['image'] = '/Offices/Projects/Property/' .  $ext;
+                $request_image['property_id'] = $Property->id;
+                PropertyImage::create($request_image);
+            }
         }
         return redirect()->route('Office.Project.show', $id)->with('success', __('added successfully'));
     }
