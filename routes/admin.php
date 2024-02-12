@@ -73,6 +73,8 @@ Route::group(
                 'Employee' => EmployeeController::class,
             ]);
             Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
+            Route::post('Subscribers.CreateBroker', [SubscriptionController::class, 'storeBroker'])->name('Subscribers.CreateBroker');
+
         });
         Route::fallback(function () {
             return response()->view('errors.error', [], 404);

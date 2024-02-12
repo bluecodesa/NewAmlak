@@ -28,7 +28,7 @@
 
                         <label class="form-label">@lang('Profile Id PayTabs') <span
                             class="required-color">*</span></label>
-                        <input name="profile_id" class="form-control" type="text" id="profile_id" required  pattern="[0-9]*" inputmode="numeric">
+                        <input name="profile_id" class="form-control" type="text" id="profile_id" required  maxlength="9"  pattern="[0-9]*" inputmode="numeric">
                     </div>
 
                     <div class="form-group">
