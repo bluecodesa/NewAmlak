@@ -68,9 +68,9 @@
 
 
 
-                                                    @can('delete-role')
+                                                        @can('delete-role')
                                                         <a href="javascript:void(0);"
-                                                            onclick="event.preventDefault();document.getElementById('delete-form-{{ $role->id }}').submit();"
+                                                            onclick="handleDelete('{{ $role->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
                                                             @lang('Delete')
                                                         </a>

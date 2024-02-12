@@ -42,6 +42,7 @@
                                         </select>
                                     </div>
 
+
                                     <div class="col-4">
                                         <label class="form-label" for="modalRoleNamear"> @lang('user type') <span
                                                 class="required-color">*</span></label>

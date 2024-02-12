@@ -74,7 +74,11 @@ Route::group(
             ]);
             Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
         });
-    }
+        Route::fallback(function () {
+            return response()->view('errors.error', [], 404);
+        });
+    },
+
 );
 
 
@@ -87,3 +91,4 @@ Route::group(
         // Auth::routes();
     }
 );
+

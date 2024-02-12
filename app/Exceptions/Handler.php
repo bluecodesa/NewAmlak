@@ -33,7 +33,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof NotFoundHttpException) {
+        if ($exception instanceof NotFoundHttpException || $this->isHttpException($exception)) {
             return response()->view('errors.error', [], 404);
         }
 

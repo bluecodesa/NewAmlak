@@ -47,17 +47,50 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(StoreUserRequest $request): RedirectResponse
+    // {
+    //     $request_data = $request->except('roles', 'password');
+    //     $request_data['password'] = bcrypt($request->password);
+    //     $role = Role::find($request->roles);
+    //     $request_data['is_admin'] = true;
+    //     $user =   User::create($request_data);
+    //     $user->assignRole($role->name);
+    //     return redirect()->route('Admin.users.index')
+    //         ->withSuccess('New user is added successfully.');
+    // }
+
+
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        $request_data = $request->except('roles', 'password');
-        $request_data['password'] = bcrypt($request->password);
-        $role = Role::find($request->roles);
-        $request_data['is_admin'] = true;
-        $user =   User::create($request_data);
-        $user->assignRole($role->name);
+        $validatedData = $request->validated();
+
+        $validatedData['password'] = bcrypt($validatedData['password']);
+
+
+        $roles = $validatedData['roles'];
+        unset($validatedData['roles']);
+
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+
+        // Set is_admin to true
+        $validatedData['is_admin'] = true;
+
+        $user = User::create($validatedData);
+
+        foreach ($roles as $roleId) {
+            $role = Role::find($roleId);
+            if ($role) {
+                $user->assignRole($role->name);
+            }
+        }
+
         return redirect()->route('Admin.users.index')
             ->withSuccess('New user is added successfully.');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -92,10 +125,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        // Extract name, email, and password fields from the request data
         $request_data = $request->only(['name', 'email', 'password']);
 
-        // Hash the password if it's included in the request data
         if ($request->password) {
             $request_data['password'] = bcrypt($request->password);
         } else {
@@ -107,7 +138,7 @@ class UserController extends Controller
 
         if ($request->roles) {
             $role = Role::find($request->roles);
-            $user->syncRoles([$role->name]); // Use syncRoles to replace all roles with the new one
+            $user->syncRoles([$role->name]);
         }
 
         return redirect()->route('Admin.users.index')
@@ -119,16 +150,37 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    // public function destroy(User $user): RedirectResponse
+    // {
+    //     // About if user is Super Admin or User ID belongs to Auth User
+    //     if ($user->hasRole('App_SuperAdmin') || $user->id == auth()->user()->id) {
+    //         abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
+    //     }
+
+    //     $user->syncRoles([]);
+    //     $user->delete();
+    //     return redirect()->route('Admin.users.index')
+    //         ->withSuccess('User is deleted successfully.');
+    // }
+
     public function destroy(User $user): RedirectResponse
-    {
-        // About if user is Super Admin or User ID belongs to Auth User
-        if ($user->hasRole('App_SuperAdmin') || $user->id == auth()->user()->id) {
-            abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
+{
+    $authenticatedUser = auth()->user();
+
+    if ($authenticatedUser->id === 1) {
+        if ($user->id === 1) {
+            return redirect()->route('Admin.users.index')->withError('Super Admin with ID 1 cannot be deleted.');
         }
+
 
         $user->syncRoles([]);
         $user->delete();
-        return redirect()->route('Admin.users.index')
-            ->withSuccess('User is deleted successfully.');
+
+        return redirect()->route('Admin.users.index')->withSuccess('User is deleted successfully.');
     }
+
+
+    abort(403, 'You are not authorized to delete this user.');
+}
+
 }

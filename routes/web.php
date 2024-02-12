@@ -37,5 +37,9 @@ Route::group(
             Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
             Route::get('create-broker', [HomeController::class, 'createBroker'])->name('Brokers.CreateBroker');
         });
+        Route::fallback(function () {
+            return response()->view('errors.error', [], 404);
+        });
     }
 );
+

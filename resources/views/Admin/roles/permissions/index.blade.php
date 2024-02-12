@@ -57,8 +57,8 @@
 
                                                     <a href="{{ route('Admin.Permissions.edit', $permission->id) }}"
                                                         class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                    <a href="javascript:void(0);"
-                                                        onclick="event.preventDefault();document.getElementById('delete-form-{{ $permission->id }}').submit();"
+                                                        <a href="javascript:void(0);"
+                                                        onclick="handleDelete('{{ $permission->id }}')"
                                                         class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
                                                         @lang('Delete')
                                                     </a>
@@ -93,3 +93,4 @@
     </div>
 
 @endsection
+
