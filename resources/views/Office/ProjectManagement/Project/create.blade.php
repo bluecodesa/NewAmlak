@@ -102,6 +102,25 @@
                                         </select>
                                     </div>
 
+                                    <div class="col-sm-12 col-md-6 mb-3">
+                                        <label class="form-label">@lang('location name')</label>
+                                        <input type="text" required name="name" id="myAddressBar" class="form-control"
+                                            placeholder="@lang('location name')" value="{{ old('name') }}" />
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 mb-3">
+                                        <label class="form-label">@lang('address')</label>
+                                        <input type="text" required name="address" id="address" class="form-control"
+                                            placeholder="@lang('address')" value="{{ old('address') }}" />
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 mb-3">
+                                        <label class="form-label">@lang('lat&long')</label>
+                                        <input type="text" required readonly name="lat_long" id="location_tag"
+                                            class="form-control" placeholder="@lang('lat&long')"
+                                            value="{{ old('location_tag') }}" />
+                                    </div>
+
 
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary me-1">
@@ -139,6 +158,27 @@
                             $(this).fadeIn('fast');
                         });
                     },
+                });
+            });
+            //
+            $("#myAddressBar").on("keyup", function() {
+                // This function will be called every time a key is pressed in the input field
+                var input = document.getElementById("myAddressBar");
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                var place = autocomplete.getPlace();
+
+                // Listen for the place_changed event
+                google.maps.event.addListener(autocomplete, "place_changed", function() {
+                    // Get the selected place
+                    var place = autocomplete.getPlace();
+
+                    // Get the details of the selected place
+                    var address = place.formatted_address;
+                    var lat = place.geometry.location.lat();
+                    var long = place.geometry.location.lng();
+                    $("#address").val(address);
+                    $("#location_tag").val(lat + "," + long);
+                    // Log the details to the console (or do something else with them)
                 });
             });
         </script>

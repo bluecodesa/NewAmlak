@@ -20,6 +20,9 @@
     <link href="{{ url('dashboard_files/assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/icons.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/default.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
     <!-- DataTables -->
     <link href="{{ url('dashboard_files/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
         type="text/css" />
@@ -29,13 +32,9 @@
     <!-- Responsive datatable examples -->
     <link href="{{ url('dashboard_files/plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet"
         type="text/css" />
-
-    <link href="http://fonts.cdnfonts.com/css/tajawal" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css"
-        integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
+    <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
     <style>
         .required-color {
@@ -98,6 +97,8 @@
     <script src="{{ url('dashboard_files/assets/js/jquery.slimscroll.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/waves.min.js') }}"></script>
 
+
+
     <!--Morris Chart-->
     <script src="{{ url('dashboard_files/plugins/morris/morris.min.js') }}"></script>
     <script src="{{ url('dashboard_files/plugins/raphael/raphael.min.js') }}"></script>
@@ -125,20 +126,11 @@
     <!-- App js -->
     <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
     <script src="{{ url('dashboard_files/plugins/summernote/summernote-bs4.min.js') }}"></script>
-    {{-- <script src="{{ url('dashboard_files/assets/js/main.js') }}"></script> --}}
-
-    <script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/alertify.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-    <!-- Default theme -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-    <!-- Semantic UI theme -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
-    <!-- Bootstrap theme -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places" async
+        defer></script>
+    <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script>
     <script>
         var success = '{{ Session::has('success') }}';
         var sorry = '{{ Session::has('sorry') }}';
