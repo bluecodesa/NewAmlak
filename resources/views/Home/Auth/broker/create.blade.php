@@ -75,9 +75,17 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="mobile" class="col-form-label">@lang('Mobile Whats app')</label>
-                            <input type="text" class="form-control" id="mobile" name="mobile">
-                        </div>
+                            <label for="mobile">@lang('Mobile Whats app')<span
+                                class="text-danger">*</span></label>
+                        <div style="position:relative">
+
+                            <input type="tel" class="form-control" id="mobile" minlength="9"
+                                maxlength="9" pattern="[0-9]*"
+                                oninvalid="setCustomValidity('Please enter 9 numbers.')"
+                                onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
+                                name="mobile" required="" value="">
+
+                        </div></div>
                     </div>
                     <div class="mb-3 row">
 

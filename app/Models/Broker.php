@@ -15,4 +15,14 @@ class Broker extends Model
     {
         return $this->belongsTo(SubscriptionType::class);
     }
+
+    public function UserData()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function CityData()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
 }

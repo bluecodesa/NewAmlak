@@ -20,7 +20,7 @@ class SubscriptionController extends Controller
 {
     public function index()
     {
-        $subscribers = Subscription::all();
+        $subscribers = Subscription::with(['OfficeData.UserData', 'BrokerData.UserData'])->get();
         $cities = City::all();
         $subscriptionTypes = SubscriptionType::all();
         return view('Admin.subscribers.index', get_defined_vars());
@@ -165,4 +165,78 @@ class SubscriptionController extends Controller
     {
         //
     }
+
+
+    public function storeBroker(Request $request)
+{
+    $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users|max:255',
+        'mobile' => 'required|unique:brokers,mobile|digits:9',
+        'city_id' => 'required|exists:cities,id',
+        'subscription_type_id' => 'required|exists:subscription_types,id',
+        'license_number' => 'required|string|max:255|unique:brokers,broker_license',
+        'password' => 'required|string|max:255|confirmed',
+    ];
+
+    $messages = [
+        'name.required' => __('The name field is required.'),
+        'email.required' => __('The email field is required.'),
+        'mobile.required' => __('The mobile field is required.'),
+        'license_number.required' => __('The license number field is required.'),
+        'password.required' => __('The password field is required.'),
+    ];
+
+    $request->validate($rules, $messages);
+
+    $user = User::create([
+        'is_broker' => 1,
+        'name' => $request->name,
+        'email' => $request->email,
+        'user_name' => uniqid(),
+        'password' => bcrypt($request->password),
+    ]);
+
+    $broker = Broker::create([
+        'user_id' => $user->id,
+        'broker_license' => $request->license_number,
+        'mobile' => $request->mobile,
+        'city_id' => $request->city_id,
+        'id_number' => $request->id_number,
+    ]);
+
+    $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
+        if ($subscriptionType->price > 0) {
+            $SubType = 'paid';
+            $status = 'pending';
+        } else {
+            $SubType = 'free';
+            $status = 'active';
+        }
+        Subscription::create([
+            'broker_id' => $broker->id,
+            'subscription_type_id' => $request->subscription_type_id,
+            'status' => $status,
+            'is_start' => $status == 'pending' ? 0 : 1,
+            'is_new' => 1,
+            'start_date' => now()->format('Y-m-d'),
+            'end_date' => $endDate,
+            'total' => '200'
+        ]);
+        SystemInvoice::create([
+            'broker_id' => $broker->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => $SubType,
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV_' . uniqid(),
+        ]);
+
+    return redirect()->route('Admin.Subscribers.index')->withSuccess(__('Broker created successfully.'));
+}
+
 }

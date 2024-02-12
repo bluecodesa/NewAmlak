@@ -54,7 +54,13 @@
                                             @foreach ($subscribers as $index => $subscriber)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $subscriber->OfficeData->UserData->name ?? '' }}</td>
+                                                    <td>
+                                                        @if ($subscriber->office_id)
+                                                            {{ $subscriber->OfficeData->UserData->name ?? '' }}
+                                                        @elseif ($subscriber->broker_id)
+                                                            {{ $subscriber->BrokerData->UserData->name ?? '' }}
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         @if ($subscriber->SubscriptionTypeData->price > 0)
                                                             <span class="badge badge-pill badge-warning"
@@ -68,8 +74,14 @@
                                                     </td>
                                                     <td>{{ __($subscriber->status) }}</td>
                                                     <td>{{ $subscriber->number_of_clients }}</td>
-                                                    <td>{{ $subscriber->OfficeData->CityData->name ?? '' }}</td>
-                                                    <td>{{ $subscriber->start_date }}</td>
+                                                    <td>
+                                                        @if ($subscriber->office_id)
+                                                            {{ $subscriber->OfficeData->CityData->name ?? '' }}
+                                                        @endif
+                                                        @if ($subscriber->broker_id)
+                                                            {{ $subscriber->BrokerData->CityData->name ?? '' }}
+                                                        @endif
+                                                    </td>                                                    <td>{{ $subscriber->start_date }}</td>
                                                     <td>{{ $subscriber->end_date }}</td>
                                                     <td>
                                                         @if ($subscriber->is_suspend)
