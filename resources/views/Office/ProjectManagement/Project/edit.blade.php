@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('owners'))
+@section('title', __('Edit') . ' ' . $project->name)
 @section('content')
 
     <div class="content-page">
@@ -12,7 +12,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('Edit') : {{ $Owner->name }} </h4>
+                                        @lang('Edit') : {{ $project->name }} </h4>
                                 </div>
                             </div>
                         </div>
@@ -24,62 +24,124 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Office.Owner.update', $Owner->id) }}" method="POST" class="row">
+                                <form action="{{ route('Office.Project.update', $project->id) }}" method="POST"
+                                    class="row" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-3">
                                         <div class="mb-3">
                                             <label class="form-label">
-                                                {{ __('Name') }} <span class="required-color">*</span></label>
-                                            <input type="text" value="{{ $Owner->name }}" required id="modalRoleName"
-                                                name="name" class="form-control" placeholder="{{ __('Name') }}">
+                                                {{ __('project name') }} <span class="required-color">*</span></label>
+                                            <input type="text" value="{{ $project->name }}" required id="modalRoleName"
+                                                name="name" class="form-control" placeholder="{{ __('project name') }}">
                                         </div>
                                     </div>
 
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label"> @lang('Email') <span
-                                                    class="required-color">*</span></label>
-                                            <input type="email" value="{{ $Owner->email }}" required name="email"
-                                                class="form-control" placeholder="@lang('Email')">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label"> @lang('phone') <span
-                                                    class="required-color">*</span></label>
-                                            <input type="text" required value="{{ $Owner->phone }}" name="phone"
-                                                class="form-control" placeholder="@lang('phone')">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label>@lang('Region') <span class="required-color">*</span> </label>
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('Region') </label>
                                         <select class="form-control" id="Region_id" required>
-                                            <option disabled value="">@lang('Region')</option>
+                                            <option disabled value="">@lang('Region') <span
+                                                    class="required-color">*</span></option>
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
-                                                    data-url="{{ route('Admin.Region.show', $Region->id) }}"
-                                                    {{ $Region->id == $Owner->CityData->RegionData->id ? 'selected' : '' }}>
+                                                    {{ $Region->id == $project->Region_id ? 'selected' : '' }}
+                                                    data-url="{{ route('Admin.Region.show', $Region->id) }}">
                                                     {{ $Region->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>@lang('city') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
-                                            <option disabled value="">@lang('city')</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}"
-                                                    {{ $city->id == $Owner->city_id ? 'selected' : '' }}>
+                                                    {{ $city->id == $project->city_id ? 'selected' : '' }}>
                                                     {{ $city->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
+
+                                    <div class="col-sm-12 col-md-3 mb-3">
+                                        <label class="form-label">@lang('location name') <span
+                                                class="required-color">*</span></label>
+                                        <input type="text" required name="location" id="myAddressBar"
+                                            class="form-control" placeholder="@lang('location name')"
+                                            value="{{ $project->location }}" />
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('Developer name') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="developer_id" required>
+                                            <option disabled value="">@lang('Developer name')</option>
+                                            @foreach ($developers as $developer)
+                                                <option value="{{ $developer->id }}"
+                                                    {{ $developer->id == $project->developer_id ? 'selected' : '' }}>
+                                                    {{ $developer->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('Advisor name') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="advisor_id" required>
+                                            <option disabled selected value="">@lang('Advisor name')</option>
+                                            @foreach ($advisors as $advisor)
+                                                <option value="{{ $advisor->id }}"
+                                                    {{ $advisor->id == $project->advisor_id ? 'selected' : '' }}>
+                                                    {{ $advisor->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('Employee Name') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="employee_id" required>
+                                            <option disabled value="">@lang('Employee Name')</option>
+                                            @foreach ($employees as $employee)
+                                                <option value="{{ $employee->id }}"
+                                                    {{ $employee->id == $project->employee_id ? 'selected' : '' }}>
+                                                    {{ $employee->UserData->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('name owner') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="owner_id" required>
+                                            <option disabled selected value="">@lang('name owner')</option>
+                                            @foreach ($owners as $owner)
+                                                <option value="{{ $owner->id }}"
+                                                    {{ $owner->id == $project->owner_id ? 'selected' : '' }}>
+                                                    {{ $owner->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col-sm-12 col-md-12 mb-3">
+                                        <label class="form-label">@lang('Project photo') </label>
+                                        <input type="file" name="image" class="dropify"
+                                            data-default-file="{{ url($project->image) }}" />
+                                    </div>
+
+
+                                    {{--
+                                    <div class="col-sm-12 col-md-6 mb-3">
+                                        <label class="form-label">@lang('address')</label>
+                                        <input type="text" required name="address" id="address" class="form-control"
+                                            placeholder="@lang('address')" value="{{ old('address') }}" />
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 mb-3">
+                                        <label class="form-label">@lang('lat&long')</label>
+                                        <input type="text" required readonly name="lat_long" id="location_tag"
+                                            class="form-control" placeholder="@lang('lat&long')"
+                                            value="{{ old('location_tag') }}" />
+                                    </div> --}}
 
 
                                     <div class="col-12">
@@ -118,6 +180,27 @@
                             $(this).fadeIn('fast');
                         });
                     },
+                });
+            });
+            //
+            $("#myAddressBar").on("keyup", function() {
+                // This function will be called every time a key is pressed in the input field
+                var input = document.getElementById("myAddressBar");
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                var place = autocomplete.getPlace();
+
+                // Listen for the place_changed event
+                google.maps.event.addListener(autocomplete, "place_changed", function() {
+                    // Get the selected place
+                    var place = autocomplete.getPlace();
+
+                    // Get the details of the selected place
+                    var address = place.formatted_address;
+                    var lat = place.geometry.location.lat();
+                    var long = place.geometry.location.lng();
+                    // $("#address").val(address);
+                    // $("#location_tag").val(lat + "," + long);
+                    // Log the details to the console (or do something else with them)
                 });
             });
         </script>
