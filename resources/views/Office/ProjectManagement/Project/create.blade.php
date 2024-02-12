@@ -24,11 +24,12 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Office.Owner.store') }}" method="POST" class="row">
+                                <form action="{{ route('Office.Project.store') }}" method="POST" class="row"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('post')
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="mb-3">
                                             <label class="form-label">
                                                 {{ __('project name') }} <span class="required-color">*</span></label>
@@ -37,10 +38,11 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>@lang('Region') </label>
                                         <select class="form-control" id="Region_id" required>
-                                            <option disabled selected value="">@lang('Region')</option>
+                                            <option disabled selected value="">@lang('Region') <span
+                                                    class="required-color">*</span></option>
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
                                                     data-url="{{ route('Admin.Region.show', $Region->id) }}">
@@ -49,15 +51,23 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-4">
-                                        <label>@lang('city') </label>
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('city') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
 
                                         </select>
                                     </div>
 
+                                    <div class="col-sm-12 col-md-3 mb-3">
+                                        <label class="form-label">@lang('location name') <span
+                                                class="required-color">*</span></label>
+                                        <input type="text" required name="location" id="myAddressBar"
+                                            class="form-control" placeholder="@lang('location name')"
+                                            value="{{ old('location name') }}" />
+                                    </div>
+
                                     <div class="form-group col-md-3">
-                                        <label>@lang('Developer name') </label>
+                                        <label>@lang('Developer name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="developer_id" required>
                                             <option disabled selected value="">@lang('Developer name')</option>
                                             @foreach ($developers as $developer)
@@ -69,7 +79,7 @@
 
 
                                     <div class="form-group col-md-3">
-                                        <label>@lang('Advisor name') </label>
+                                        <label>@lang('Advisor name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="advisor_id" required>
                                             <option disabled selected value="">@lang('Advisor name')</option>
                                             @foreach ($advisors as $advisor)
@@ -80,21 +90,21 @@
                                     </div>
 
                                     <div class="form-group col-md-3">
-                                        <label>@lang('Employee Name') </label>
+                                        <label>@lang('Employee Name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="employee_id" required>
                                             <option disabled selected value="">@lang('Employee Name')</option>
-                                            @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}">
-                                                    {{ $owner->name }}</option>
+                                            @foreach ($employees as $employee)
+                                                <option value="{{ $employee->id }}">
+                                                    {{ $employee->UserData->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
 
                                     <div class="form-group col-md-3">
-                                        <label>@lang('name owner') </label>
+                                        <label>@lang('owner name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="owner_id" required>
-                                            <option disabled selected value="">@lang('name owner')</option>
+                                            <option disabled selected value="">@lang('owner name')</option>
                                             @foreach ($owners as $owner)
                                                 <option value="{{ $owner->id }}">
                                                     {{ $owner->name }}</option>
@@ -102,12 +112,14 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-12 col-md-6 mb-3">
-                                        <label class="form-label">@lang('location name')</label>
-                                        <input type="text" required name="name" id="myAddressBar" class="form-control"
-                                            placeholder="@lang('location name')" value="{{ old('name') }}" />
+
+                                    <div class="col-sm-12 col-md-12 mb-3">
+                                        <label class="form-label">@lang('Project photo') </label>
+                                        <input type="file" name="image" class="dropify" data-default-file="" />
                                     </div>
 
+
+                                    {{--
                                     <div class="col-sm-12 col-md-6 mb-3">
                                         <label class="form-label">@lang('address')</label>
                                         <input type="text" required name="address" id="address" class="form-control"
@@ -119,7 +131,7 @@
                                         <input type="text" required readonly name="lat_long" id="location_tag"
                                             class="form-control" placeholder="@lang('lat&long')"
                                             value="{{ old('location_tag') }}" />
-                                    </div>
+                                    </div> --}}
 
 
                                     <div class="col-12">
@@ -176,8 +188,8 @@
                     var address = place.formatted_address;
                     var lat = place.geometry.location.lat();
                     var long = place.geometry.location.lng();
-                    $("#address").val(address);
-                    $("#location_tag").val(lat + "," + long);
+                    // $("#address").val(address);
+                    // $("#location_tag").val(lat + "," + long);
                     // Log the details to the console (or do something else with them)
                 });
             });

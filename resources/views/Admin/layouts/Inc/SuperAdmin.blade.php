@@ -53,6 +53,8 @@
                         <li><a href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
                         <li><a href="{{ route('Admin.District.index') }}">@lang('districts')</a></li>
 
+                        <li><a href="{{ route('Admin.PropertyType.index') }}">@lang('Property Types')</a></li>
+                        <li><a href="{{ route('Admin.PropertyUsage.index') }}">@lang('property usages')</a></li>
 
                     </ul>
                 </li>

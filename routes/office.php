@@ -37,6 +37,7 @@ Route::group(
                 'Employee' => EmployeeController::class,
                 'Project' => ProjectController::class,
             ]);
+            Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
         });
     }
 );

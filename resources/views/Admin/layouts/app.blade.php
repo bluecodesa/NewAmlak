@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <title> {{ $sitting->title }} - @yield ('title')</title>
-    <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
+    <meta content="{{ $sitting->title }}" name="description" />
     <meta content="Themesdesign" name="author" />
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
 
     <!--Morris Chart CSS -->
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
@@ -34,8 +34,6 @@
         type="text/css" />
     <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
     <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
-
     <style>
         .required-color {
             color: red;
@@ -58,6 +56,8 @@
         body,
         h4,
         h5,
+        h6,
+        h3,
         strong,
         label span,
         * {
@@ -96,6 +96,7 @@
     <script src="{{ url('dashboard_files/assets/js/metismenu.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/jquery.slimscroll.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/waves.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/dropify.js') }}"></script>
 
 
 
@@ -126,12 +127,17 @@
     <!-- App js -->
     <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
     <script src="{{ url('dashboard_files/plugins/summernote/summernote-bs4.min.js') }}"></script>
+    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places"
+        defer></script> --}}
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places" async
         defer></script>
+
+
     <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script>
     <script>
+        $('.dropify').dropify();
         var success = '{{ Session::has('success') }}';
         var sorry = '{{ Session::has('sorry') }}';
 
