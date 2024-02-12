@@ -75,7 +75,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('Number Properties') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $project->PropertiesProject->count() }}
+                                                                {{ $project->PropertiesProject->count() }} @lang('property')
                                                             </span>
                                                         </h6>
                                                     </div>
