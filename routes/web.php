@@ -20,6 +20,16 @@ use App\Http\Controllers\SubscriptionTypesController;
 |
 */
 
+Route::get('/clear', function () {
+    $exitCode = Artisan::call('config:cache');
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('view:clear');
+    $exitCode = Artisan::call('route:clear');
+    // $exitCode = Artisan::call('route:cache');
+    // $exitCode = Artisan::call('optimize');
+    return '<h1>Cache facade value cleared</h1>';
+});
+
 Route::get('/', function () {
     return view('Home.home');
 })->name('welcome');

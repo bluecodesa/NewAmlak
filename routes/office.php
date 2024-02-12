@@ -5,6 +5,7 @@ use App\Http\Controllers\Office\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Office\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Office\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
+use App\Http\Controllers\Office\ProjectManagement\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,6 +35,7 @@ Route::group(
                 'Advisor' => AdvisorController::class,
                 'Owner' => OwnerController::class,
                 'Employee' => EmployeeController::class,
+                'Project' => ProjectController::class,
             ]);
         });
     }
