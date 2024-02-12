@@ -25,8 +25,8 @@
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
                                 <div class="card-body">
-                                    <form action="{{ route('Office.Project.store') }}" method="POST" class="row"
-                                        enctype="multipart/form-data">
+                                    <form action="{{ route('Office.Project.StoreProperty', $project->id) }}" method="POST"
+                                        class="row" enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
                                         <div class="col-md-4">
@@ -96,7 +96,7 @@
 
 
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label>@lang('Employee Name') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="employee_id" required>
                                                 <option disabled value="">@lang('Employee Name')</option>
@@ -109,7 +109,7 @@
                                         </div>
 
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label>@lang('owner name') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="owner_id" required>
                                                 <option disabled selected value="">@lang('owner name')</option>
@@ -120,8 +120,21 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        @php
+                                            $typeunits = [1 => 'Unit', 0 => 'property'];
+                                        @endphp
+                                        <div class="form-group col-md-3">
+                                            <label>@lang('Unit or property') <span class="required-color">*</span> </label>
+                                            <select class="form-control" name="is_rs" required>
+                                                <option disabled selected value="">@lang('Unit or property')</option>
+                                                @foreach ($typeunits as $index => $item)
+                                                    <option value="{{ $index }}">
+                                                        {{ __($item) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
+                                        <div class="col-sm-12 col-md-3 mb-3">
                                             <label class="form-label">@lang('Instrument number') <span
                                                     class="required-color">*</span></label>
                                             <input type="text" required name="instrument_number" class="form-control"
@@ -130,12 +143,11 @@
 
 
                                         <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label">@lang('Project photo') </label>
-                                            <input type="file" name="image" class="dropify" data-default-file="" />
+                                            <label class="form-label">@lang('Pictures property') </label>
+                                            <input type="file" name="images[]" multiple class="dropify"
+                                                accept="image/jpeg, image/png" />
+
                                         </div>
-
-
-
 
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary me-1">

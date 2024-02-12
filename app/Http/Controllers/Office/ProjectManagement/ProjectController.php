@@ -12,6 +12,8 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\PaymentGateway;
 use App\Models\Project;
+use App\Models\Property;
+use App\Models\PropertyImage;
 use App\Models\PropertyType;
 use App\Models\PropertyUsage;
 use App\Models\Region;
@@ -62,6 +64,8 @@ class ProjectController extends Controller
             $ext  =  uniqid() . '.' . $file->clientExtension();
             $file->move(public_path() . '/Offices/' . 'Projects/', $ext);
             $request_data['image'] = '/Offices/' . 'Projects/' . $ext;
+        } else {
+            $request_data['image'] = '/Offices/Projects/default.svg';
         }
         Project::create($request_data);
         return redirect()->route('Office.Project.index')->with('success', __('added successfully'));
@@ -73,6 +77,7 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::find($id);
+        // $project->PropertiesProject
         return view('Office.ProjectManagement.Project.show', get_defined_vars());
     }
 
@@ -108,6 +113,8 @@ class ProjectController extends Controller
             $ext  =  uniqid() . '.' . $file->clientExtension();
             $file->move(public_path() . '/Offices/' . 'Projects/', $ext);
             $request_data['image'] = '/Offices/' . 'Projects/' . $ext;
+        } else {
+            $request_data['image'] = '/Offices/Projects/default.svg';
         }
         $project->update($request_data);
         return redirect()->route('Office.Project.index')->with('success', __('Update successfully'));
@@ -115,8 +122,8 @@ class ProjectController extends Controller
 
     public function destroy(string $id)
     {
-        Advisor::find($id)->delete();
-        return redirect()->route('Office.Advisor.index')->with('success', __('Deleted successfully'));
+        Project::find($id)->delete();
+        return redirect()->route('Office.Project.index')->with('success', __('Deleted successfully'));
     }
     function CreateProperty($id)
     {
@@ -130,5 +137,32 @@ class ProjectController extends Controller
         $employees = Employee::where('office_id', Auth::user()->UserOfficeData->id)->get();
 
         return view('Office.ProjectManagement.Project.CreateProperty', get_defined_vars());
+    }
+
+    function StoreProperty(Request $request, $id)
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'city_id' => 'required|exists:cities,id',
+            'property_type_id' => 'required|exists:property_types,id',
+            'property_usage_id' => 'required|exists:property_usages,id',
+            'employee_id' => 'required|exists:employees,id',
+            'owner_id' => 'required|exists:owners,id',
+        ];
+        $request->validate($rules);
+        $request_data = $request->except('images');
+        $request_data['office_id'] = Auth::user()->UserOfficeData->id;
+        $request_data['project_id'] = $id;
+
+        $Property = Property::create($request_data);
+        foreach ($request->images as  $item) {
+            $ext  =  uniqid() . '.' . $item->clientExtension();
+            $item->move(public_path() . '/Offices/Projects/Property/', $ext);
+            $request_image['image'] = '/Offices/Projects/Property/' .  $ext;
+            $request_image['property_id'] = $Property->id;
+            PropertyImage::create($request_image);
+        }
+        return redirect()->route('Office.Project.show', $id)->with('success', __('added successfully'));
     }
 }
