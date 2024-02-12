@@ -96,7 +96,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <img class="rounded mr-2" alt="200x200" style="width: 100%;"
+                                        <img class="rounded mr-2" alt="200x200" style="width: 100%;height: 86%;"
                                             src="{{ url($project->image) }}" data-holder-rendered="true">
                                     </div>
                                 </div>
