@@ -29,7 +29,7 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label class="form-label">
                                                     {{ __('property name') }} <span class="required-color">*</span></label>
@@ -38,27 +38,32 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>@lang('Region') </label>
                                             <select class="form-control" id="Region_id" required>
-                                                <option disabled selected value="">@lang('Region') <span
+                                                <option disabled value="">@lang('Region') <span
                                                         class="required-color">*</span></option>
                                                 @foreach ($Regions as $Region)
                                                     <option value="{{ $Region->id }}"
-                                                        data-url="{{ route('Admin.Region.show', $Region->id) }}">
+                                                        data-url="{{ route('Admin.Region.show', $Region->id) }}"
+                                                        {{ $project->CityData->RegionData->id == $Region->id ? 'selected' : '' }}>
                                                         {{ $Region->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>@lang('city') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="city_id" id="CityDiv" required>
-
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}"
+                                                        {{ $project->city_id == $city->id ? 'selected' : '' }}>
+                                                        {{ $city->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-3 mb-3">
+                                        <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label">@lang('location') <span
                                                     class="required-color">*</span></label>
                                             <input type="text" required name="location" id="myAddressBar"
@@ -67,7 +72,7 @@
                                         </div>
 
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>@lang('Property type') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="property_type_id" required>
                                                 <option disabled selected value="">@lang('Property type')</option>
@@ -78,7 +83,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>@lang('Type use') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="property_usage_id" required>
                                                 <option disabled selected value="">@lang('Type use')</option>
@@ -91,27 +96,36 @@
 
 
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>@lang('Employee Name') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="employee_id" required>
-                                                <option disabled selected value="">@lang('Employee Name')</option>
+                                                <option disabled value="">@lang('Employee Name')</option>
                                                 @foreach ($employees as $employee)
-                                                    <option value="{{ $employee->id }}">
+                                                    <option value="{{ $employee->id }}"
+                                                        {{ $project->employee_id == $employee->id ? 'selected' : '' }}>
                                                         {{ $employee->UserData->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>@lang('owner name') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="owner_id" required>
                                                 <option disabled selected value="">@lang('owner name')</option>
                                                 @foreach ($owners as $owner)
-                                                    <option value="{{ $owner->id }}">
+                                                    <option value="{{ $owner->id }}"
+                                                        {{ $project->owner_id == $owner->id ? 'selected' : '' }}>
                                                         {{ $owner->name }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-4 mb-3">
+                                            <label class="form-label">@lang('Instrument number') <span
+                                                    class="required-color">*</span></label>
+                                            <input type="text" required name="instrument_number" class="form-control"
+                                                placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
                                         </div>
 
 
@@ -119,6 +133,8 @@
                                             <label class="form-label">@lang('Project photo') </label>
                                             <input type="file" name="image" class="dropify" data-default-file="" />
                                         </div>
+
+
 
 
                                         <div class="col-12">

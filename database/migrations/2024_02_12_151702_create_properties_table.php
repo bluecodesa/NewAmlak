@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->unsignedBigInteger('office_id')->nullable();
             $table->integer('broker_id')->unsigned()->nullable();
+            $table->string('instrument_number')->unique()->nullable();
             $table->integer('project_id')->unsigned()->nullable();
             $table->integer('property_usage_id')->unsigned()->nullable();
             $table->integer('city_id')->unsigned()->nullable();
