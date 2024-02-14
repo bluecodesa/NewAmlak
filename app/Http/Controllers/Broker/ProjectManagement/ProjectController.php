@@ -51,8 +51,8 @@ class ProjectController extends Controller
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'city_id' => 'required|exists:cities,id',
-            'developer_id' => 'required|exists:developers,id',
-            'advisor_id' => 'required|exists:advisors,id',
+            'developer_id' => 'nullable|exists:developers,id',
+            'advisor_id' => 'nullable|exists:advisors,id',
             'owner_id' => 'required|exists:owners,id',
         ];
         $request_data = $request->all();

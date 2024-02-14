@@ -38,7 +38,6 @@
                                                 <th>#</th>
                                                 <th>@lang('project name')</th>
                                                 <th>@lang('Developer name')</th>
-                                                <th>@lang('Employee Name')</th>
                                                 <th>@lang('Advisor name')</th>
                                                 <th>@lang('owner name')</th>
                                                 <th>@lang('city')</th>
@@ -53,7 +52,6 @@
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $project->name ?? '' }}</td>
                                                     <td>{{ $project->DeveloperData->name ?? '' }}</td>
-                                                    <td>{{ $project->EmployeeData->UserData->name ?? '' }}</td>
                                                     <td>{{ $project->AdvisorData->name ?? '' }}</td>
                                                     <td>{{ $project->OwnerData->name ?? '' }}</td>
                                                     <td>{{ $project->CityData->name ?? '' }}</td>
