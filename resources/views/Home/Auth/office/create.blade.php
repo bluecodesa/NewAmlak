@@ -50,7 +50,7 @@
                             height="24"></a>
                 </div>
                 <h5 class="font-18 text-center">@lang('sign in') </h5>
-                <form action="{{ route('Admin.Subscribers.store') }}" method="POST" class="row" enctype="multipart/form-data">
+                <form action="{{ route('Home.Offices.CreateOffice') }}" method="POST" class="row" enctype="multipart/form-data">
                     @csrf
                     @method('post')
 
@@ -85,11 +85,12 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>@lang('Region')</label>
-                            <select class="form-control" id="Region_id" required>
+                            <label>@lang('Region') </label>
+                            <select class="form-control" id="Region_id" name="region_id" required>
                                 <option disabled selected value="">@lang('Region')</option>
                                 @foreach ($Regions as $Region)
-                                    <option value="{{ $Region->id }}" data-url="{{ route('Admin.Region.show', $Region->id) }}">
+                                    <option value="{{ $Region->id }}"
+                                        data-url="{{ route('Home.Region.show', $Region->id) }}">
                                         {{ $Region->name }}</option>
                                 @endforeach
                             </select>
@@ -185,6 +186,47 @@
 
     <!-- App js -->
     <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+       $(document).ready(function() {
+    $('#Region_id').on('change', function() {
+        var selectedOption = $(this).find(':selected');
+        var url = selectedOption.data('url');
+        $.ajax({
+            type: "get",
+            url: url,
+            beforeSend: function() {
+                $('#CityDiv').fadeOut('fast');
+            },
+            success: function(data) {
+                $('#CityDiv').fadeOut('fast', function() {
+                    // Empty the city select element
+                    $(this).empty();
+                    // Append the new options based on the received data
+                    $.each(data, function(key, city) {
+                        $('#CityDiv').append($('<option>', {
+                            value: city.id,
+                            text: city.name
+                        }));
+                    });
+                    // Fade in the city select element with new options
+                    $(this).fadeIn('fast');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+    </script>
+
+
+
+
 
 </body>
 

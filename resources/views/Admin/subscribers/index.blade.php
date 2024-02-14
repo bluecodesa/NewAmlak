@@ -40,6 +40,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>@lang('Subscriber Name')</th>
+                                                <th>@lang('Account Type')</th>
                                                 <th>@lang('Subscription Type')</th>
                                                 <th>@lang('Subscription Time')</th>
                                                 <th>@lang('Subscription Status')</th>
@@ -62,6 +63,13 @@
                                                         @endif
                                                     </td>
                                                     <td>
+                                                        @if ($subscriber->office_id)
+                                                            @lang('Office')
+                                                        @elseif ($subscriber->broker_id)
+                                                        @lang('Broker')
+                                                        @endif
+                                                    </td>
+                                                    <td>
                                                         @if ($subscriber->SubscriptionTypeData->price > 0)
                                                             <span class="badge badge-pill badge-warning"
                                                                 style="background-color: #add0e87d;color: #497AAC;">@lang('paid')</span>
@@ -81,7 +89,9 @@
                                                         @if ($subscriber->broker_id)
                                                             {{ $subscriber->BrokerData->CityData->name ?? '' }}
                                                         @endif
-                                                    </td>                                                    <td>{{ $subscriber->start_date }}</td>
+                                                    </td>
+
+                                                    <td>{{ $subscriber->start_date }}</td>
                                                     <td>{{ $subscriber->end_date }}</td>
                                                     <td>
                                                         @if ($subscriber->is_suspend)

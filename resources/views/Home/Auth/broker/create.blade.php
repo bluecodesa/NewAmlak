@@ -42,7 +42,7 @@
                     <a href="{{ route('welcome') }}" class="logo logo-admin"><img src="{{ url($sitting->icon) }}" alt="" height="24"></a>
                 </div>
                 <h5 class="font-18 text-center">@lang('register') </h5>
-                <form action="{{ route('Admin.create-broker-subscribers') }}" method="POST">
+                <form action="{{ route('Home.Brokers.CreateBroker') }}" method="POST">
                     @csrf
 
                     @if ($errors->any())
@@ -91,11 +91,11 @@
 
                         <div class="form-group col-md-4">
                             <label>@lang('Region') </label>
-                            <select class="form-control" id="Region_id" required>
+                            <select class="form-control" id="Region_id" name="region_id" required>
                                 <option disabled selected value="">@lang('Region')</option>
                                 @foreach ($Regions as $Region)
                                     <option value="{{ $Region->id }}"
-                                        data-url="{{ route('Admin.Region.show', $Region->id) }}">
+                                        data-url="{{ route('Home.Region.show', $Region->id) }}">
                                         {{ $Region->name }}</option>
                                 @endforeach
                             </select>
@@ -156,6 +156,7 @@
     </div>
     <!-- END wrapper -->
 
+
     <!-- jQuery  -->
     <script src="{{ url('dashboard_files/assets/js/jquery.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -165,6 +166,46 @@
 
     <!-- App js -->
     <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
+
+
+    <!-- Custom  js -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+       $(document).ready(function() {
+    $('#Region_id').on('change', function() {
+        var selectedOption = $(this).find(':selected');
+        var url = selectedOption.data('url');
+        $.ajax({
+            type: "get",
+            url: url,
+            beforeSend: function() {
+                $('#CityDiv').fadeOut('fast');
+            },
+            success: function(data) {
+                $('#CityDiv').fadeOut('fast', function() {
+                    // Empty the city select element
+                    $(this).empty();
+                    // Append the new options based on the received data
+                    $.each(data, function(key, city) {
+                        $('#CityDiv').append($('<option>', {
+                            value: city.id,
+                            text: city.name
+                        }));
+                    });
+                    // Fade in the city select element with new options
+                    $(this).fadeIn('fast');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+    </script>
+
 
 </body>
 

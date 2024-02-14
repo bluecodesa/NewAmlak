@@ -46,6 +46,11 @@ Route::group(
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
             Route::get('create-broker', [HomeController::class, 'createBroker'])->name('Brokers.CreateBroker');
+            Route::post('create-office', [HomeController::class, 'storeOffice'])->name('Offices.CreateOffice');
+            Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
+            Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
+
+
         });
         Route::fallback(function () {
             return response()->view('errors.error', [], 404);
