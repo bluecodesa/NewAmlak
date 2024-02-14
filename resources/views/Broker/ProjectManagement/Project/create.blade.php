@@ -70,6 +70,7 @@
                                         <label>@lang('Developer name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="developer_id" required>
                                             <option disabled selected value="">@lang('Developer name')</option>
+                                            <option value="">@lang('Not found')</option>
                                             @foreach ($developers as $developer)
                                                 <option value="{{ $developer->id }}">
                                                     {{ $developer->name }}</option>
@@ -82,6 +83,7 @@
                                         <label>@lang('Advisor name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="advisor_id" required>
                                             <option disabled selected value="">@lang('Advisor name')</option>
+                                            <option value="">@lang('Not found')</option>
                                             @foreach ($advisors as $advisor)
                                                 <option value="{{ $advisor->id }}">
                                                     {{ $advisor->name }}</option>
