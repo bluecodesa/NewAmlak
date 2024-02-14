@@ -45,7 +45,7 @@
                                                     <td>{{ $Advisor->email }}</td>
                                                     <td>{{ $Advisor->phone }}</td>
                                                     <td>{{ $Advisor->CityData->name }}</td>
-                                                    <td>{{ $Advisor->OfficeData->company_name }}</td>
+                                                    <td>{{ $Advisor->OfficeData->company_name ?? '' }}</td>
                                                     <td>
                                                         <a href="{{ route('Admin.Advisor.edit', $Advisor->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
