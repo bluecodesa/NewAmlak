@@ -160,4 +160,7 @@
     @if (Auth::user()->is_office)
         @include('Admin.layouts.Inc.Office')
     @endif
+    @if (Auth::user()->is_broker)
+        @include('Admin.layouts.Inc.Broker')
+    @endif
 @endauth

@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasOne(Office::class, 'user_id');
     }
 
+    public function UserBrokerData()
+    {
+        return $this->hasOne(Broker::class, 'user_id');
+    }
+
 
     public static function getAdmins()
     {

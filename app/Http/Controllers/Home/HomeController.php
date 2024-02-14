@@ -45,7 +45,7 @@ class HomeController extends Controller
     public function showRegion($id)
 {
     $region = Region::findOrFail($id);
-    $cities = $region->cities; // Assuming cities are defined as a relationship in Region model
+    $cities = $region->cities;
     return response()->json($cities);
 }
 
