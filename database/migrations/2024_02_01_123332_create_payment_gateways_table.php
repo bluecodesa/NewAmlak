@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('api_key_paytabs');
             $table->integer('profile_id_paytabs');
-            $table->string('client_key');
+            $table->string('client_key')->nullable();
             $table->enum('status', [0, 1])->default(1);
             $table->timestamps();
         });

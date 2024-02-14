@@ -135,9 +135,8 @@ class SettingController extends Controller
         $paymentGateway->api_key_paytabs = $request->input('api_key');
         $paymentGateway->profile_id_paytabs = $request->input('profile_id');
         $paymentGateway->client_key = $request->input('client_key');
-        $paymentGateway->status = 1; // Set default status to 1 (enabled)
 
-        // Handle file upload
+
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
@@ -162,20 +161,17 @@ class SettingController extends Controller
             'name' => 'required|string',
             'api_key_paytabs' => 'required|string',
             'profile_id_paytabs' => 'required|string',
-            'client_key' => 'required|string',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image file
-            'status' => 'required|in:0,1', // Validate status field
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:0,1',
         ]);
 
         $paymentGateway = PaymentGateway::findOrFail($id);
 
-        // Update fields
-        $paymentGateway->fill($request->except('image', 'status')); // Fill all fields except image and status
-        $paymentGateway->status = $request->input('status'); // Update status separately
+        $paymentGateway->fill($request->except('image', 'status'));
+        $paymentGateway->status = $request->input('status');
 
-        // Handle file upload
         if ($request->hasFile('image')) {
-            // Remove previous image if exists
+            // Delete previous image
             if ($paymentGateway->image) {
                 $previousImagePath = public_path($paymentGateway->image);
                 if (file_exists($previousImagePath)) {
@@ -183,7 +179,7 @@ class SettingController extends Controller
                 }
             }
 
-            // Upload new image
+            // Upload and save new image
             $file = $request->file('image');
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('dashboard_files/images/payments');
@@ -191,12 +187,11 @@ class SettingController extends Controller
             $paymentGateway->image = 'dashboard_files/images/payments/' . $fileName;
         }
 
+        // Save the payment gateway
         $paymentGateway->save();
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
-
-
 
 
 
