@@ -38,6 +38,7 @@ Route::group(
                 'Project' => ProjectController::class,
             ]);
             Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
+            Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');
         });
     }
 );

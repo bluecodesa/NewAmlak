@@ -33,4 +33,9 @@ class Project extends Model
     {
         return $this->belongsTo(Advisor::class, 'advisor_id');
     }
+
+    public function PropertiesProject()
+    {
+        return $this->hasMany(Property::class, 'project_id');
+    }
 }
