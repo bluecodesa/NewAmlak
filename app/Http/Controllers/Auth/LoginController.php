@@ -64,7 +64,15 @@ class LoginController extends Controller
 
         if (auth()->attempt([$fieldType => $input['user_name'], 'password' => $input['password']])) {
             $user = Auth::user();
-            $subscription = Subscription::where('office_id', $user->id)->orWhere('broker_id', $user->id)->first();
+        if ($user->is_office) {
+
+         $subscription = Subscription::where('office_id', $user->UserOfficeData->id)
+                                ->first();
+            } elseif ($user->is_broker) {
+
+                  $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)
+                                ->first();
+            }
 
             if ($subscription && $subscription->status === 'pending') {
                 return redirect()->route('Admin.home')->with('showPendingPaymentPopup', true);
@@ -75,8 +83,6 @@ class LoginController extends Controller
             return back()->with('sorry', 'Email-Address And Password Are Wrong.');
         }
     }
-
-
 
 
     public function __construct()

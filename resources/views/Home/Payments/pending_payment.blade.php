@@ -1,6 +1,3 @@
-@extends('Admin.layouts.app')
-@section('title', __('pending_payment'))
-@section('content')
 
   <div class="wrapper-page" style="width: 50%;">
       <div class="card card-pages shadow-none">

@@ -124,6 +124,7 @@
     <!-- App js -->
     <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
 
+
 </body>
 
 </html>

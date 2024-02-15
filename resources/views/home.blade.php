@@ -407,13 +407,18 @@
         <!-- content -->
     </div>
 
+
+<!-- Pending Payment Modal -->
 <div id="pendingPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pendingPaymentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-         @include('Home.Payments.pending_payment')
+            @include('Home.Payments.pending_payment')
         </div>
     </div>
 </div>
+
+
+
 
 <script>
     @if(session('showPendingPaymentPopup'))
@@ -425,8 +430,6 @@
 
 
 @endsection
-
-
 
 
 
