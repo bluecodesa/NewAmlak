@@ -239,4 +239,9 @@ class SubscriptionController extends Controller
     return redirect()->route('Admin.Subscribers.index')->withSuccess(__('Broker created successfully.'));
 }
 
+public function viewPending(){
+    return view('Home.Payments.pending_payment');
+}
+
+
 }

@@ -46,7 +46,11 @@ class LoginController extends Controller
 
             return back()->with('sorry', 'Email-Address And Password Are Wrong.');
         }
+
+
     }
+
+
 
     public function __construct()
     {

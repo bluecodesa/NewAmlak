@@ -68,4 +68,6 @@ class User extends Authenticatable
     {
         return self::where('is_admin', 1)->get();
     }
+
+
 }

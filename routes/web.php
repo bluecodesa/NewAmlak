@@ -6,7 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OfficeController;
-use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\SubscriptionTypesController;
 
 /*
@@ -54,6 +54,10 @@ Route::group(
         });
 
     }
+
+
 );
+Route::get('/pending', [SubscriptionController::class, 'viewPending'])->name('pending');
+
 
 
