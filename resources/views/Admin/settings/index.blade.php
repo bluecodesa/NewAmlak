@@ -461,9 +461,9 @@
                                                 <div class="page-title-box">
                                                     <div class="card m-b-30">
                                                         <div class="card-body">
-                                                            <h4>
-                                                                @lang('Domain settings')
-                                                            </h4>
+                                                            <h6>
+                                                                @lang('Set home page login page')
+                                                            </h6>
                                                             <div class="col-12">
                                                                 <input type="checkbox"
                                                                     data-url="{{ route('Admin.Setting.ChangeActiveHomePage') }}"
@@ -471,6 +471,7 @@
                                                                     {{ $settings->active_home_page == 1 ? 'checked' : '' }}
                                                                     data-toggle="toggle" data-onstyle="primary">
                                                             </div>
+
                                                         </div>
 
                                                     </div> <!-- end row -->
@@ -557,9 +558,9 @@
                     },
                     success: function(data) {
                         if (active_home_page == 0) {
-                            alertify.success(@json(__('home page has been activated')));
-                        } else {
                             alertify.success(@json(__('Home page has been suspended')));
+                        } else {
+                            alertify.success(@json(__('home page has been activated')));
                         }
                     },
                     error: function(data) {
