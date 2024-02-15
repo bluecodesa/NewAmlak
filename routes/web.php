@@ -52,9 +52,8 @@ Route::group(
 
 
         });
-        Route::fallback(function () {
-            return response()->view('errors.error', [], 404);
-        });
+
     }
 );
+
 
