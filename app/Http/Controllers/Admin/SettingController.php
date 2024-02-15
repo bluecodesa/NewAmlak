@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -13,18 +14,21 @@ class SettingController extends Controller
      * Display a listing of the resource.
      */
 
-     public function index()
-     {
-         $settings = Setting::first();
-         $paymentGateways = PaymentGateway::all();
-         return view('Admin.settings.index', get_defined_vars());
-     }
+    public function index()
+    {
+        $settings = Setting::first();
+        $paymentGateways = PaymentGateway::all();
+        return view('Admin.settings.index', get_defined_vars());
+    }
 
+    function ChangeActiveHomePage(Request $request)
+    {
+        $Setting =  Setting::first();
+        $Setting->update([
+            'active_home_page' => $request->active_home_page,
+        ]);
+    }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
@@ -43,7 +47,6 @@ class SettingController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -58,48 +61,48 @@ class SettingController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Setting $setting)
-{
-    $request->validate([
-        'ar.title' => 'required|string',
-        'en.title' => 'required|string',
-        'facebook' => 'nullable|url',
-        'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'color' => 'nullable|string',
-    ]);
+    {
+        $request->validate([
+            'ar.title' => 'required|string',
+            'en.title' => 'required|string',
+            'facebook' => 'nullable|url',
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'color' => 'nullable|string',
+        ]);
 
-    foreach (config('translatable.locales') as $locale) {
-        $setting->translateOrNew($locale)->title = $request->input("$locale.title");
-    }
+        foreach (config('translatable.locales') as $locale) {
+            $setting->translateOrNew($locale)->title = $request->input("$locale.title");
+        }
 
-    $setting->facebook = $request->input('url');
+        $setting->facebook = $request->input('url');
 
 
 
-    if ($request->hasFile('icon')) {
+        if ($request->hasFile('icon')) {
 
-        if ($setting->icon) {
-            $previousIconPath = public_path($setting->icon);
-            if (file_exists($previousIconPath)) {
-                unlink($previousIconPath);
+            if ($setting->icon) {
+                $previousIconPath = public_path($setting->icon);
+                if (file_exists($previousIconPath)) {
+                    unlink($previousIconPath);
+                }
             }
+
+
+            $file = $request->file('icon');
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('logos');
+            $file->move($destinationPath, $fileName);
+            $setting->icon = 'logos/' . $fileName;
         }
 
 
-        $file = $request->file('icon');
-        $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
-        $destinationPath = public_path('logos');
-        $file->move($destinationPath, $fileName);
-        $setting->icon = 'logos/' . $fileName;
+
+        $setting->color = $request->input('color');
+
+        $setting->save();
+
+        return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
-
-
-
-    $setting->color = $request->input('color');
-
-    $setting->save();
-
-    return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
-}
 
     /**
      * Remove the specified resource from storage.
@@ -192,8 +195,4 @@ class SettingController extends Controller
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
-
-
-
-
 }

@@ -30,11 +30,7 @@ Route::get('/clear', function () {
     return '<h1>Cache facade value cleared</h1>';
 });
 
-Route::get('/', function () {
-    return view('Home.home');
-})->name('welcome');
-
-
+Route::get('/', 'Home\HomeController@index')->name('welcome');
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
@@ -49,11 +45,12 @@ Route::group(
             Route::post('create-office', [HomeController::class, 'storeOffice'])->name('Offices.CreateOffice');
             Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
-
-
         });
 
     }
 );
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes

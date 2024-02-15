@@ -11,6 +11,7 @@ use App\Models\Region;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\Broker;
+use App\Models\Setting;
 use App\Models\SystemInvoice;
 use App\Models\User;
 use Carbon\Carbon;
@@ -39,15 +40,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('Home.home');
+        $sitting =   Setting::first();
+        if ($sitting->active_home_page == 1) {
+            return view('Home.home');
+        } else {
+            return redirect()->route('Admin.home');
+        }
     }
 
     public function showRegion($id)
-{
-    $region = Region::findOrFail($id);
-    $cities = $region->cities;
-    return response()->json($cities);
-}
+    {
+        $region = Region::findOrFail($id);
+        $cities = $region->cities;
+        return response()->json($cities);
+    }
 
 
 
@@ -154,8 +160,6 @@ class HomeController extends Controller
         ]);
 
         return redirect()->route('login')->withSuccess(__('added successfully'));
-
-
     }
 
     public function storeBroker(Request $request)
@@ -197,37 +201,36 @@ class HomeController extends Controller
         ]);
 
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
-            $startDate = Carbon::now();
-            $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
-            if ($subscriptionType->price > 0) {
-                $SubType = 'paid';
-                $status = 'pending';
-            } else {
-                $SubType = 'free';
-                $status = 'active';
-            }
-            Subscription::create([
-                'broker_id' => $broker->id,
-                'subscription_type_id' => $request->subscription_type_id,
-                'status' => $status,
-                'is_start' => $status == 'pending' ? 0 : 1,
-                'is_new' => 1,
-                'start_date' => now()->format('Y-m-d'),
-                'end_date' => $endDate,
-                'total' => '200'
-            ]);
-            SystemInvoice::create([
-                'broker_id' => $broker->id,
-                'subscription_name' => $subscriptionType->name,
-                'amount' => $subscriptionType->price,
-                'subscription_type' => $SubType,
-                'period' => $subscriptionType->period,
-                'period_type' => $subscriptionType->period_type,
-                'status' => $status,
-                'invoice_ID' => 'INV_' . uniqid(),
-            ]);
-
-            return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
+        if ($subscriptionType->price > 0) {
+            $SubType = 'paid';
+            $status = 'pending';
+        } else {
+            $SubType = 'free';
+            $status = 'active';
         }
+        Subscription::create([
+            'broker_id' => $broker->id,
+            'subscription_type_id' => $request->subscription_type_id,
+            'status' => $status,
+            'is_start' => $status == 'pending' ? 0 : 1,
+            'is_new' => 1,
+            'start_date' => now()->format('Y-m-d'),
+            'end_date' => $endDate,
+            'total' => '200'
+        ]);
+        SystemInvoice::create([
+            'broker_id' => $broker->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => $SubType,
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV_' . uniqid(),
+        ]);
 
+        return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
+    }
 }
