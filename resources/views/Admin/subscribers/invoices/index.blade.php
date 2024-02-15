@@ -35,9 +35,9 @@
                                                 <th>#</th>
                                                 <th>@lang('Subscriber Name')</th>
                                                 <th>@lang('Subscription Type')</th>
-                                                <th>@lang('Subscription Time')</th>
-                                                <th>@lang('Subscription Status')</th>
-                                                <th>@lang('amount')</th>
+                                                <th>@lang('Invoice Status')</th>
+                                                <th>@lang('total')</th>
+                                                <th>@lang('Invoice Number')</th>
                                                 <th>@lang('Created Date')</th>
                                                 <th>@lang('Action')</th>
                                             </tr>
@@ -50,12 +50,14 @@
                                                     <td>
                                                         {{ __($invoice->subscription_type) }}
                                                     </td>
-                                                    <td>{{ $invoice->period . ' ' . __('ar.' . $invoice->period_type) }}
-                                                    </td>
+
                                                     <td>{{ __($invoice->status) }}</td>
 
                                                     <td>{{ number_format($invoice->amount, 2) }}
                                                         <sup>@lang('SAR')</sup>
+                                                    </td>
+                                                    <td>
+                                                        {{ $invoice->invoice_ID }}
                                                     </td>
                                                     <td>{{ $invoice->created_at->format('M j, Y, g:i A') }}</td>
 

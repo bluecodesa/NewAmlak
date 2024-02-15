@@ -24,7 +24,7 @@
                                         <div class="invoice-title">
                                             <h4 class="float-right font-16"><strong
                                                     class="badge p-1 badge-{{ $invoice->status == 'pending' ? 'danger' : 'success' }}">
-                                                    {{ __($invoice->status) }} </strong></h4>
+                                                    {{ __(app()->getLocale() . '.' . $invoice->status) }} </strong></h4>
                                             <h3 class="m-t-0">
                                                 <img src="{{ url($sitting->icon) }}" alt="logo" height="24" />
                                             </h3>
@@ -116,7 +116,8 @@
                                                                 <td class="no-line text-right">
                                                                     <h4 class="m-0">
                                                                         {{ number_format($invoice->amount, 2) }}
-                                                                        <sub>@lang('SAR')</sub></h4>
+                                                                        <sub>@lang('SAR')</sub>
+                                                                    </h4>
                                                                 </td>
                                                             </tr>
 
