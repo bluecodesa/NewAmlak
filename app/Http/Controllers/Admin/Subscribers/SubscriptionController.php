@@ -262,4 +262,5 @@ public function viewPending(){
     return view('Home.Payments.pending_payment');
 }
 
+
 }
