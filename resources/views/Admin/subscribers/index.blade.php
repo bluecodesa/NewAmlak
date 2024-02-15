@@ -83,7 +83,7 @@
                                                     <td>
                                                         <span
                                                             class="badge badge-pill p-1 badge-{{ $subscriber->is_suspend == 1 ? 'danger' : 'info' }}">
-                                                            {{ $subscriber->is_suspend == 1 ? '( ' . __('Subscription suspend') . ' )' : __($subscriber->status) }}
+                                                            {{ $subscriber->is_suspend == 1 ? __('Subscription suspend') : __($subscriber->status) }}
                                                         </span>
                                                     </td>
                                                     <td>{{ $subscriber->number_of_clients }}</td>
@@ -117,9 +117,19 @@
                                                                 <input type="text" hidden value="{{ 1 }}"
                                                                     name="is_suspend">
                                                                 <button
-                                                                    class="btn btn-outline-danger btn-sm waves-effect waves-light">@lang('suspend')</button>
+                                                                    class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('suspend')</button>
                                                             </form>
                                                         @endif
+
+                                                        <a href="javascript:void(0);"
+                                                            onclick="handleDelete('{{ $subscriber->id }}')"
+                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                        <form id="delete-form-{{ $subscriber->id }}"
+                                                            action="{{ route('Admin.Subscribers.destroy', $subscriber->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             @endforeach

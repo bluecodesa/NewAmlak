@@ -175,7 +175,13 @@ class SubscriptionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user =  Subscription::find($id)->OfficeData;
+        if ($user) {
+            $user->UserData->delete();
+        } else {
+            Subscription::find($id)->BrokerData->UserData->delete();
+        }
+        return redirect()->route('Admin.Subscribers.index')->with('success', __('added successfully'));
     }
 
 
