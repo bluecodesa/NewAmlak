@@ -23,6 +23,8 @@
     <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/default.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
+
     <!-- DataTables -->
     <link href="{{ url('dashboard_files/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
         type="text/css" />
@@ -34,6 +36,8 @@
         type="text/css" />
     <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
     <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
+
+
     <style>
         .required-color {
             color: red;
@@ -136,6 +140,7 @@
     <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/bootstrap4-toggle.min.js') }}"></script>
     <script>
         $('.dropify').dropify();
         var success = '{{ Session::has('success') }}';

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('privcy')->nullable();
             $table->text('facebook')->nullable();
             $table->text('inst')->nullable();
+            $table->boolean('active_home_page')->default(0)->nullable();
             $table->timestamps();
         });
     }

@@ -66,7 +66,7 @@
                                                         @if ($subscriber->office_id)
                                                             @lang('Office')
                                                         @elseif ($subscriber->broker_id)
-                                                        @lang('Broker')
+                                                            @lang('Broker')
                                                         @endif
                                                     </td>
                                                     <td>
@@ -80,7 +80,12 @@
                                                     </td>
                                                     <td>{{ $subscriber->SubscriptionTypeData->period . ' ' . __($subscriber->SubscriptionTypeData->period_type) }}
                                                     </td>
-                                                    <td>{{ __($subscriber->status) }}</td>
+                                                    <td>
+                                                        <span
+                                                            class="badge badge-pill p-1 badge-{{ $subscriber->is_suspend == 1 ? 'danger' : 'info' }}">
+                                                            {{ $subscriber->is_suspend == 1 ? __('Subscription suspend') : __($subscriber->status) }}
+                                                        </span>
+                                                    </td>
                                                     <td>{{ $subscriber->number_of_clients }}</td>
                                                     <td>
                                                         @if ($subscriber->office_id)
@@ -95,17 +100,32 @@
                                                     <td>{{ $subscriber->end_date }}</td>
                                                     <td>
                                                         @if ($subscriber->is_suspend)
-                                                            <a href="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
-                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                            <form
+                                                                action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                <input type="text" hidden value="{{ 0 }}"
+                                                                    name="is_suspend">
+                                                                <button
+                                                                    class="btn  btn-outline-info btn-sm waves-effect waves-light">@lang('re active')</button>
+                                                            </form>
                                                         @else
-                                                            <a href="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
-                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                            <form
+                                                                action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
+                                                                method="post">
+                                                                @csrf
+                                                                <input type="text" hidden value="{{ 1 }}"
+                                                                    name="is_suspend">
+                                                                <button
+                                                                    class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('suspend')</button>
+                                                            </form>
                                                         @endif
+
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $subscriber->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
                                                         <form id="delete-form-{{ $subscriber->id }}"
-                                                            action="{{ route('Admin.Subscribers.edit', $subscriber->id) }}"
+                                                            action="{{ route('Admin.Subscribers.destroy', $subscriber->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')
@@ -168,125 +188,37 @@
         </div>
     </div>
 
-    <!-- Add New Broker Modal -->
 
-    {{-- <div class="modal fade" id="addBrokerModal" tabindex="-1" role="dialog" aria-labelledby="addBrokerModalLabel" --}}
-    {{-- aria-hidden="true">
+    @push('scripts')
+        <script>
+            $('.SuspendSubscription').on('click', function() {
+                var url = $(this).data('url');
+                var is_suspend = $(this).data('is_suspend');
+                $.ajax({
+                    url: url,
+                    method: "get",
+                    data: {
+                        is_suspend: is_suspend,
+                    },
+                    success: function(data) {
+                        if (is_suspend == 0) {
 
-    <div class="modal fade" id="addBrokerModal" tabindex="-1" role="dialog" aria-labelledby="addBrokerModalLabel"
-        aria-hidden="true">
+                            alertify.success(@json(__('Subscription has been activated')));
+                        } else {
+                            alertify.success(@json(__('Subscription has been suspended')));
 
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addBrokerModalLabel">@lang('Add Broker')</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Add Broker Form -->
-                    <form action="{{ route('Admin.create-broker-subscribers') }}" method="POST">
-                        @csrf
-
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        <div class="mb-3 row">
-                            <label for="name"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('Broker name')</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="name" name="name">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="license_number"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('license number')</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="license_number" name="license_number">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="email"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('Email')</label>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" id="email" name="email">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="mobile"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('Mobile Whats app')</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="mobile" name="mobile">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="city"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('City')</label>
-                            <div class="col-md-6">
-                                <select class="form-control" id="city" required name="city">
-                                    <option value="">إختر</option>
-                                    @foreach ($cities as $city)
-                                        <option value="{{ $city->name }}"
-                                            @if (old('city') == $city->name) {{ 'selected' }} @endif>
-                                            {{ $city->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="password"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('password')</label>
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" id="password" name="password">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="password_confirmation"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('Confirm Password')</label>
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="subscription"
-                                class="col-md-4 col-form-label text-md-end text-start">@lang('Subscription Type')</label>
-                            <div class="col-md-6">
-                                <select class="form-control" id="subscription_type" name="subscription_type">
-                                    <option value="">إختر</option>
-                                    @foreach ($subscriptionTypes as $type)
-                                        <option value="{{ $type->id }}">{{ $type->period }} {{ $type->period_type }}
-                                            - {{ $type->price }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="id_number"
-                        class="col-md-4 col-form-label text-md-end text-start">@lang('id number')</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="id_number" name="id_number">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary">@lang('save')</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div> --}}
+                        }
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+        </script>
+    @endpush
 
 
 @endsection
