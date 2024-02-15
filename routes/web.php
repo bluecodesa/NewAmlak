@@ -46,11 +46,5 @@ Route::group(
             Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
         });
-
     }
 );
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
