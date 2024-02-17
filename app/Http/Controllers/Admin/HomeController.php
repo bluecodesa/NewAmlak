@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Models\Subscription;
 
 class HomeController extends Controller
 {
@@ -23,8 +24,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+
+        $pendingPayment = false;
+
+        return view('home', ['pendingPayment' => $pendingPayment]);
     }
+
+
+
 }

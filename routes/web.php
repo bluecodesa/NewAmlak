@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\SubscriptionTypesController;
+use App\Http\Middleware\PendingPaymentPopup;
+
 
 /*
 |--------------------------------------------------------------------------

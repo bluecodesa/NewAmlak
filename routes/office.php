@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription','pendingPayment']
     ],
     function () {
         Route::prefix('office')->name('Office.')->group(function () {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Office;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use App\Models\Subscription;
+
 
 class HomeController extends Controller
 {
@@ -23,8 +25,24 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $user = $request->user();
+        $pendingPayment = false;
+
+        if ($user && ($user->is_office || $user->is_broker)) {
+            if ($user->is_office && $user->UserOfficeData) {
+                $subscription = Subscription::where('office_id', $user->UserOfficeData->id)->first();
+            } elseif ($user->is_broker && $user->UserBrokerData) {
+                $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)->first();
+            }
+
+            if (isset($subscription) && $subscription->status === 'pending') {
+                $pendingPayment = true;
+            }
+        }
+
+        // Pass the $pendingPayment variable to the view
+        return view('home', ['pendingPayment' => $pendingPayment]);
     }
 }

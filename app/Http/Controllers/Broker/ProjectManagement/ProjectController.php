@@ -9,6 +9,7 @@ use App\Models\Developer;
 use App\Models\Employee;
 use App\Models\Owner;
 use App\Models\Setting;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Models\PaymentGateway;
 use App\Models\Project;
@@ -24,6 +25,20 @@ class ProjectController extends Controller
 {
     public function index()
     {
+        $user =  Auth::user();
+        $pendingPayment = false;
+
+        if ($user && ($user->is_office || $user->is_broker)) {
+            if ($user->is_office && $user->UserOfficeData) {
+                $subscription = Subscription::where('office_id', $user->UserOfficeData->id)->first();
+            } elseif ($user->is_broker && $user->UserBrokerData) {
+                $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)->first();
+            }
+
+            if (isset($subscription) && $subscription->status === 'pending') {
+                $pendingPayment = true;
+            }
+        }
         $Projects = Project::where('broker_id', Auth::user()->UserBrokerData->id)->get();
         return view('Broker.ProjectManagement.Project.index', get_defined_vars());
     }

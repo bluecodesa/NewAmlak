@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Advisor;
 use App\Models\Setting;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Models\PaymentGateway;
 use App\Models\Region;
@@ -16,6 +17,20 @@ class AdvisorController extends Controller
 {
     public function index()
     {
+        $user =  Auth::user();
+        $pendingPayment = false;
+
+        if ($user && ($user->is_office || $user->is_broker)) {
+            if ($user->is_office && $user->UserOfficeData) {
+                $subscription = Subscription::where('office_id', $user->UserOfficeData->id)->first();
+            } elseif ($user->is_broker && $user->UserBrokerData) {
+                $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)->first();
+            }
+
+            if (isset($subscription) && $subscription->status === 'pending') {
+                $pendingPayment = true;
+            }
+        }
         $advisors = Advisor::where('broker_id', Auth::user()->UserBrokerData->id)->get();
         return view('Broker.ProjectManagement.Advisor.index', get_defined_vars());
     }

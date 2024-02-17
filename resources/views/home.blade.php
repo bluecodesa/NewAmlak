@@ -409,23 +409,25 @@
 
 
 <!-- Pending Payment Modal -->
-<div id="pendingPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pendingPaymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            @include('Home.Payments.pending_payment')
-        </div>
-    </div>
-</div>
 
+@if($pendingPayment)
+    <div id="pendingPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pendingPaymentModalLabel" aria-hidden="true" class="pop-up">
+        @include('Home.Payments.pending_payment')
+    </div>
+@endif
 
 
 
 <script>
-    @if(session('showPendingPaymentPopup'))
-        $(document).ready(function () {
-            $('#pendingPaymentModal').modal('show');
-        });
-    @endif
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show the modal when the page is fully loaded
+        var modal = document.getElementById('pendingPaymentModal');
+        if (modal) {
+            modal.classList.add('show');
+            modal.style.display = 'block';
+            modal.removeAttribute('aria-hidden');
+        }
+    });
 </script>
 
 

@@ -7,6 +7,8 @@ use App\Http\Controllers\Broker\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\PendingPaymentPopup;
+
 
 
 /*
@@ -25,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription','pendingPayment']
     ],
     function () {
         Route::prefix('broker')->name('Broker.')->group(function () {

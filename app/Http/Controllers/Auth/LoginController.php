@@ -31,27 +31,8 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    // public function login(Request $request)
-
-    // {
-    //     $input = $request->all();
-
-    //     $this->validate($request, [
-    //         'user_name' => 'required',
-    //         'password' => 'required',
-    //     ]);
-    //     $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
-    //     if (auth()->attempt(array($fieldType => $input['user_name'], 'password' => $input['password']))) {
-    //         return redirect()->route('Admin.home');
-    //     } else {
-
-    //         return back()->with('sorry', 'Email-Address And Password Are Wrong.');
-    //     }
-
-
-    // }
-
     public function login(Request $request)
+
     {
         $input = $request->all();
 
@@ -59,29 +40,15 @@ class LoginController extends Controller
             'user_name' => 'required',
             'password' => 'required',
         ]);
-
         $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
-
-        if (auth()->attempt([$fieldType => $input['user_name'], 'password' => $input['password']])) {
-            $user = Auth::user();
-        if ($user->is_office) {
-
-         $subscription = Subscription::where('office_id', $user->UserOfficeData->id)
-                                ->first();
-            } elseif ($user->is_broker) {
-
-                  $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)
-                                ->first();
-            }
-
-            if ($subscription && $subscription->status === 'pending') {
-                return redirect()->route('Admin.home')->with('showPendingPaymentPopup', true);
-            }
-
+        if (auth()->attempt(array($fieldType => $input['user_name'], 'password' => $input['password']))) {
             return redirect()->route('Admin.home');
         } else {
+
             return back()->with('sorry', 'Email-Address And Password Are Wrong.');
         }
+
+
     }
 
 
