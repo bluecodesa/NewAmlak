@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use App\Models\Subscription;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckSubscriptionMiddleware
@@ -21,6 +23,16 @@ class CheckSubscriptionMiddleware
             $subscription->update([
                 'status' => 'expired',
             ]);
+        }
+        if (Auth::check()) {
+            $url = URL::current();
+            $notifications = auth()->user()->unreadNotifications
+                ->filter(function ($notification) use ($url) {
+                    return data_get($notification->data, 'url') === $url;
+                });
+            $notifications->each(function ($notification) {
+                $notification->markAsRead();
+            });
         }
         return $next($request);
     }

@@ -48,53 +48,32 @@
                     <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="mdi mdi-bell-outline noti-icon"></i>
-                        <span class="badge badge-pill badge-danger noti-icon-badge">3</span>
+                        <span
+                            class="badge badge-pill badge-danger noti-icon-badge">{{ Auth::user()->unreadNotifications->count() }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg px-1">
                         <!-- item-->
                         <h6 class="dropdown-item-text">
-                            Notifications
+                            @lang('Notifications')
                         </h6>
                         <div class="slimscroll notification-item-list">
                             <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                <p class="notify-details"><b>Your order is placed</b><span class="text-muted">Dummy
-                                        text of the printing and typesetting industry.</span></p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-danger"><i class="mdi mdi-message-text-outline"></i></div>
-                                <p class="notify-details"><b>New Message received</b><span class="text-muted">You have
-                                        87 unread messages</span></p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-info"><i class="mdi mdi-filter-outline"></i></div>
-                                <p class="notify-details"><b>Your item is shipped</b><span class="text-muted">It is a
-                                        long established fact that a reader will</span></p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-success"><i class="mdi mdi-message-text-outline"></i></div>
-                                <p class="notify-details"><b>New Message received</b><span class="text-muted">You have
-                                        87 unread messages</span></p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-warning"><i class="mdi mdi-cart-outline"></i></div>
-                                <p class="notify-details"><b>Your order is placed</b><span class="text-muted">Dummy
-                                        text of the printing and typesetting industry.</span></p>
-                            </a>
-
+                            @foreach (Auth::user()->notifications as $noty)
+                                <a href="{{ $noty->data['url'] }}"
+                                    class="dropdown-item notify-item {{ $noty->read_at ? '' : 'active' }} ">
+                                    <div class="notify-icon bg-success"><i class="far fa-circle"></i></div>
+                                    <p class="notify-details"><b> {{ __($noty->data['type_noty']) }} </b><span
+                                            class="text-muted">
+                                            {{ \Illuminate\Support\Str::limit($noty->data['msg'], 50, $end = '...') }}
+                                        </span></p>
+                                    <small class="text-muted">{{ $noty->created_at->diffForHumans() }}</small>
+                                </a>
+                            @endforeach
                         </div>
                         <!-- All-->
-                        <a href="javascript:void(0);" class="dropdown-item text-center notify-all text-primary">
-                            View all <i class="fi-arrow-right"></i>
+                        <a href="{{ route('Notification.index') }}"
+                            class="dropdown-item text-center notify-all text-primary">
+                            @lang('View all') <i class="fi-arrow-right"></i>
                         </a>
                     </div>
                 </li>
@@ -123,8 +102,7 @@
 
                                 <i class="mdi mdi-power text-danger"></i>
                                 تسحيل الخروج</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         </div>

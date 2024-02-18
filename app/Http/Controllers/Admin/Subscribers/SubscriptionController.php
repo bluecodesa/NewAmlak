@@ -13,9 +13,11 @@ use App\Models\SubscriptionType;
 use App\Models\SubscriptionTypeRole;
 use App\Models\SystemInvoice;
 use App\Models\User;
+use App\Notifications\Admin\NewOfficeNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
 class SubscriptionController extends Controller
@@ -114,6 +116,11 @@ class SubscriptionController extends Controller
             'presenter_number' => $request->presenter_number,
             'company_logo' => $request_data['company_logo'],
         ]);
+        // NewOfficeNotification
+        $users = User::where('is_admin', true)->get();
+        foreach ($users as  $user) {
+            Notification::send($user, new NewOfficeNotification($office));
+        }
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
         $startDate = Carbon::now();
         $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
