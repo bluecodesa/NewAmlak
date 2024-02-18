@@ -462,7 +462,7 @@
                                                     <div class="card m-b-30">
                                                         <div class="card-body">
                                                             <h6>
-                                                                @lang('Set home page login page')
+                                                                @lang('Enable Landing Page')
                                                             </h6>
                                                             <div class="col-12">
                                                                 <input type="checkbox"

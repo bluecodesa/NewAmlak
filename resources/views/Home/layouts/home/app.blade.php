@@ -66,7 +66,7 @@
                             </a>
                         @endguest
                         @auth
-                            <a href="">
+                            <a href="/">
                                 <div class="btn btn-new-b ArFont" style="margin-right: 9px;">لوحة التحكم</div>
                             </a>
 

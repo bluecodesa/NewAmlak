@@ -7,9 +7,7 @@
     "require": {
         "php": "^8.1",
         "astrotomic/laravel-translatable": "^11.12",
-
         "barryvdh/laravel-translation-manager": "^0.6.5",
-
         "bensampo/laravel-enum": "^6.8",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
@@ -17,6 +15,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.3",
         "mcamara/laravel-localization": "^1.8",
+        "paytabscom/laravel_paytabs": "^1.4",
         "spatie/laravel-permission": "^6.3"
     },
     "require-dev": {

@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\notification\FiresendNotification;
 use App\Models\City;
 use App\Models\Developer;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\PaymentGateway;
 use App\Models\Region;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class DeveloperController extends Controller
 {
+    use FiresendNotification;
     public function index()
     {
         $developers = Developer::where('office_id', Auth::user()->UserOfficeData->id)->get();
@@ -53,7 +56,13 @@ class DeveloperController extends Controller
         $request_data = $request->all();
         $request_data['office_id'] = Auth::user()->UserOfficeData->id;
         $request->validate($rules);
-        Developer::create($request_data);
+        $developer =   Developer::create($request_data);
+        $ids = User::where('is_admin', 1)->pluck('id')->toArray();
+        $data = [];
+        $data['title'] =  __('Add New Developer');
+        $data['url'] =  route('Admin.Developer.index');
+        $data['body'] = __('A developer has been added to the system account') . ' : ' . (Auth::user()->name);
+        $this->FiresendNotification($data, $ids);
         return redirect()->route('Office.Developer.index')->with('success', __('added successfully'));
     }
 
