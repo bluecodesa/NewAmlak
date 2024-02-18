@@ -36,7 +36,7 @@ class SubscriptionController extends Controller
         $Regions = Region::all();
         $cities = City::all();
 
-        $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
+        $RolesIds = Role::whereIn('name', ['Office Admin'])->pluck('id')->toArray();
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
