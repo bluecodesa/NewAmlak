@@ -51,7 +51,9 @@
                                         @endforeach
 
                                         <div class="col-md-6 mb-3">
-                                            <label for="period">@lang('Required subscription period')</label>
+                                            <label for="period"> <span
+                                                class="required-color">*</span>
+                                                @lang('Required subscription period')</label>
                                             <div class="wrapper" style="position: relative; ">
                                                 <input type="number" name="period" id="period" class="form-control"
                                                     min="1" required />
@@ -65,7 +67,9 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="price"> @lang('the amount')</label><br />
+                                            <label for="price"> <span
+                                                class="required-color">*</span>
+                                                 @lang('the amount')</label><br />
                                             <div class="wrapper" style="position: relative; ">
 
                                                 <input type="text" name="price" id="price" class="form-control"

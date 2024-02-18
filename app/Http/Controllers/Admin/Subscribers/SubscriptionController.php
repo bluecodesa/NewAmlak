@@ -37,13 +37,7 @@ class SubscriptionController extends Controller
         return view('Admin.admin.subscriptions.create', get_defined_vars());
     }
 
-    public function createBroker()
-    {
-        $Regions = Region::all();
-        $cities = City::all();
-        $subscriptionTypes = SubscriptionType::all();
-        return view('Admin.admin.subscriptions.create_broker', get_defined_vars());
-    }
+
 
     public function store(Request $request)
     {
@@ -182,6 +176,19 @@ class SubscriptionController extends Controller
             Subscription::find($id)->BrokerData->UserData->delete();
         }
         return redirect()->route('Admin.Subscribers.index')->with('success', __('added successfully'));
+    }
+
+
+    public function createBroker()
+    {
+        $user = Auth::user();
+        $Regions = Region::all();
+        $cities = City::all();
+
+        $subscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
+            $query->where('name', 'Rs-broker');
+        })->get();
+        return view('Admin.admin.subscriptions.create_broker', get_defined_vars());
     }
 
 
