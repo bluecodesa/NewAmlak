@@ -28,19 +28,30 @@ class SubscriptionController extends Controller
         return view('Admin.subscribers.index', get_defined_vars());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
+
+    // $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+
+    // $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
+
+
+    // $PendingPayment =   Auth::user()->UserBrokerData->UserSubscriptionPending ?? '';
     public function create()
     {
         $Regions = Region::all();
         $cities = City::all();
+
 
         $RolesIds = Role::whereIn('name', ['Office Admin'])->pluck('id')->toArray();
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
         $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
+
+        $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
+            $query->where('name', 'Office Admin');
+        })->get();
+
         return view('Admin.admin.subscriptions.create', get_defined_vars());
     }
 
