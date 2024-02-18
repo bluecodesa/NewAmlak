@@ -41,7 +41,7 @@ class HomeController extends Controller
     public function index()
     {
         $sitting =   Setting::first();
-        if ($sitting->active_home_page != 1) {
+        if ($sitting->active_home_page == 1) {
             return view('Home.home');
         } else {
             return redirect()->route('Admin.home');
