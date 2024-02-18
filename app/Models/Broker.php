@@ -25,4 +25,10 @@ class Broker extends Model
     {
         return $this->belongsTo(City::class, 'city_id');
     }
+
+
+    public function UserSubscriptionPending()
+    {
+        return $this->hasOne(Subscription::class, 'broker_id')->where('status', 'pending');
+    }
 }
