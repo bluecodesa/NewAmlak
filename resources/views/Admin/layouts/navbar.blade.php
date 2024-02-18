@@ -4,7 +4,7 @@
 
         <!-- LOGO -->
         <div class="topbar-left">
-            <a href="{{ route('home') }}" class="logo">
+            <a href="{{ route('welcome') }}" class="logo">
                 <span class="logo-light">
                     <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
                         style="border: 1px solid;
