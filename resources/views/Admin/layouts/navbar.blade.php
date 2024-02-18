@@ -1,7 +1,6 @@
 @auth
 
     <div class="topbar">
-
         <!-- LOGO -->
         <div class="topbar-left">
             <a href="{{ route('welcome') }}" class="logo">

@@ -32,7 +32,7 @@ Route::get('/clear', function () {
     return '<h1>Cache facade value cleared</h1>';
 });
 
-Route::get('/', 'Home\HomeController@index')->name('welcome');
+
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
@@ -40,6 +40,7 @@ Route::group(
     ],
     function () {
         Auth::routes();
+        Route::get('/', 'Home\HomeController@index')->name('welcome');
         Route::prefix('app')->name('Home.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
@@ -49,12 +50,7 @@ Route::group(
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
         });
         Route::get('/pending', [SubscriptionController::class, 'viewPending'])->name('pending');
-
     }
 
 
 );
-
-
-
-
