@@ -7,8 +7,10 @@ use App\Models\Broker;
 use App\Models\City;
 use App\Models\Office;
 use App\Models\Region;
+use App\Models\Role;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
+use App\Models\SubscriptionTypeRole;
 use App\Models\SystemInvoice;
 use App\Models\User;
 use Carbon\Carbon;
@@ -33,7 +35,12 @@ class SubscriptionController extends Controller
     {
         $Regions = Region::all();
         $cities = City::all();
-        $subscriptionTypes = SubscriptionType::all();
+
+        $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
+
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+
+        $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
         return view('Admin.admin.subscriptions.create', get_defined_vars());
     }
 
@@ -41,7 +48,12 @@ class SubscriptionController extends Controller
     {
         $Regions = Region::all();
         $cities = City::all();
-        $subscriptionTypes = SubscriptionType::all();
+
+        $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
+
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+
+        $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
         return view('Admin.admin.subscriptions.create_broker', get_defined_vars());
     }
 
@@ -255,12 +267,11 @@ class SubscriptionController extends Controller
         ]);
 
 
-    return redirect()->route('Admin.Subscribers.index')->withSuccess(__('Broker created successfully.'));
-}
+        return redirect()->route('Admin.Subscribers.index')->withSuccess(__('Broker created successfully.'));
+    }
 
-public function viewPending(){
-    return view('Home.Payments.pending_payment');
-}
-
-
+    public function viewPending()
+    {
+        return view('Home.Payments.pending_payment');
+    }
 }
