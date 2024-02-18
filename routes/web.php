@@ -54,3 +54,6 @@ Route::group(
 
 
 );
+
+Route::post('/fcm-token', 'Home\HomeController@UpdateToken')->name('fcmToken');
+Route::post('/send-notification', [HomeController::class, 'notification'])->name('notification');

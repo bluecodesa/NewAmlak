@@ -233,4 +233,11 @@ class HomeController extends Controller
 
         return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
     }
+
+
+    public function UpdateToken(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $user->update(['fcm_token' => $request->token]);
+    }
 }

@@ -9,7 +9,7 @@
     <meta content="{{ $sitting->title }}" name="description" />
     <meta content="Themesdesign" name="author" />
     <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--Morris Chart CSS -->
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
 
@@ -133,14 +133,18 @@
     <script src="{{ url('dashboard_files/plugins/summernote/summernote-bs4.min.js') }}"></script>
     {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places"
         defer></script> --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places" async
-        defer></script>
+    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places" async
+        defer></script> --}}
 
 
     <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/bootstrap4-toggle.min.js') }}"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+    @include('Admin.layouts.Inc.js')
+
     <script>
         $('.dropify').dropify();
         var success = '{{ Session::has('success') }}';
