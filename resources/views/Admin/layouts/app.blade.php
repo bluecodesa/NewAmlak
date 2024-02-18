@@ -62,10 +62,18 @@
         h5,
         h6,
         h3,
+        span,
+        small,
+        b,
         strong,
-        label span,
+        label,
+
         * {
             font-family: 'Tajawal';
+        }
+
+        .text-muted {
+            font-family: 'Tajawal' !important;
         }
 
         .form-check-label {

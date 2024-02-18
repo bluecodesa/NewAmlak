@@ -39,8 +39,6 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'web']
     ],
     function () {
-        Auth::routes();
-        Route::get('/', 'Home\HomeController@index')->name('welcome');
         Route::prefix('app')->name('Home.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
@@ -50,10 +48,13 @@ Route::group(
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
         });
         Route::get('/pending', [SubscriptionController::class, 'viewPending'])->name('pending');
+        Route::resource('Notification', 'General\NotificationController');
+        Route::get('/', 'Home\HomeController@index')->name('welcome');
+        Auth::routes();
     }
 
-
 );
+// NotificationController
 
 Route::post('/fcm-token', 'Home\HomeController@UpdateToken')->name('fcmToken');
 Route::post('/send-notification', [HomeController::class, 'notification'])->name('notification');
