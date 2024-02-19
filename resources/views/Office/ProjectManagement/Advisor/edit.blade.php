@@ -12,7 +12,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('Edit') : {{ $developer->name }} </h4>
+                                        @lang('Edit') : {{ $advisor->name }} </h4>
                                 </div>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Office.Advisor.update', $developer->id) }}" method="POST"
+                                <form action="{{ route('Office.Advisor.update', $advisor->id) }}" method="POST"
                                     class="row">
                                     @csrf
                                     @method('PUT')
@@ -32,7 +32,7 @@
                                         <div class="mb-3">
                                             <label class="form-label">
                                                 {{ __('Name') }} <span class="required-color">*</span></label>
-                                            <input type="text" value="{{ $developer->name }}" required id="modalRoleName"
+                                            <input type="text" value="{{ $advisor->name }}" required id="modalRoleName"
                                                 name="name" class="form-control" placeholder="{{ __('Name') }}">
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                         <div class="mb-3">
                                             <label class="form-label"> @lang('Email') <span
                                                     class="required-color">*</span></label>
-                                            <input type="email" value="{{ $developer->email }}" required name="email"
+                                            <input type="email" value="{{ $advisor->email }}" required name="email"
                                                 class="form-control" placeholder="@lang('Email')">
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@
                                         <div class="mb-3">
                                             <label class="form-label"> @lang('phone') <span
                                                     class="required-color">*</span></label>
-                                            <input type="text" required value="{{ $developer->phone }}" name="phone"
+                                            <input type="text" required value="{{ $advisor->phone }}" name="phone"
                                                 class="form-control" placeholder="@lang('phone')">
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
                                                     data-url="{{ route('Admin.Region.show', $Region->id) }}"
-                                                    {{ $Region->id == $developer->CityData->RegionData->id ? 'selected' : '' }}>
+                                                    {{ $Region->id == $advisor->CityData->RegionData->id ? 'selected' : '' }}>
                                                     {{ $Region->name }}</option>
                                             @endforeach
                                         </select>
@@ -76,7 +76,7 @@
                                             <option disabled value="">@lang('city')</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}"
-                                                    {{ $city->id == $developer->city_id ? 'selected' : '' }}>
+                                                    {{ $city->id == $advisor->city_id ? 'selected' : '' }}>
                                                     {{ $city->name }}</option>
                                             @endforeach
                                         </select>

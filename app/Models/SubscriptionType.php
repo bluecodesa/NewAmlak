@@ -26,7 +26,6 @@ class SubscriptionType extends Model
         return $this->hasMany(SubscriptionTypeRole::class, 'subscription_type_id');
     }
 
-
     public function sections()
     {
         return $this->belongsToMany(Section::class, 'subscription_type_sections');
@@ -36,9 +35,6 @@ class SubscriptionType extends Model
     {
         return $this->hasMany(SubscriptionTypeSection::class, 'subscription_type_id');
     }
-
-
-
 
     public function getPeriodTypeAttribute()
     {

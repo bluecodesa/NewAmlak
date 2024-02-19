@@ -1,13 +1,16 @@
-<div id="pendingPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pendingPaymentModalLabel" aria-hidden="true" class="pop-up" data-backdrop="static">
+<div id="pendingPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pendingPaymentModalLabel"
+    aria-hidden="true" class="pop-up" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered home-expire-soon" role="document">
         <div class="modal-content">
             <div class="modal-header border-0">
                 @if ($user->is_broker)
-                <h4 class="modal-title w-100 text-center" id="exampleModalLongTitle">@lang('Welcome') {{ $user->name }}</h4>
-            @elseif ($user->is_office)
-                <h4 class="modal-title w-100 text-center" id="exampleModalLongTitle">@lang('Welcome') {{ $user->company_name }}</h4>
-            @endif
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h4 class="modal-title w-100 text-center" id="exampleModalLongTitle">@lang('Welcome')
+                        {{ $user->name }}</h4>
+                @elseif ($user->is_office)
+                    <h4 class="modal-title w-100 text-center" id="exampleModalLongTitle">@lang('Welcome')
+                        {{ $user->company_name }}</h4>
+                @endif
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -24,15 +27,17 @@
                     <div class="form-row">
                         <p>@lang('Current subscription')</p>
 
-                        <div class="col-md-12 mb-3 d-flex justify-content-around flex-wrap gap-2" style="align-items: center;">
+                        <div class="col-md-12 mb-3 d-flex justify-content-around flex-wrap gap-2"
+                            style="align-items: center;">
                             @foreach ($UserSubscriptionTypes as $type)
                                 <label>
-                                    <div class="card text-center @if ($type->id == $subscription->id) border border-primary @else border border-secondary @endif" style="cursor:pointer; max-width: 18rem;">
+                                    <div class="card text-center @if ($type->id == $subscription->id) border border-primary @else border border-secondary @endif"
+                                        style="cursor:pointer; max-width: 18rem;">
                                         <div class="card-body">
                                             <!-- Display subscription details -->
                                             <p class="card-text">
-                                                {{ $type->period }} {{ $type->period_type }}
-                                                <br> {{ $type->price }} @lang('SAR')
+                                                {{ $type->period }} {{ __('ar.' . $type->period_type) }}
+                                                <br> {{ $type->price }} <sup>@lang('SAR')</sup>
                                             </p>
                                         </div>
                                         <div class="card-footer text-muted">

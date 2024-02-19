@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/Office/ProjectManagement/DeveloperController.php
 
 namespace App\Http\Controllers\Office\ProjectManagement;
 
@@ -9,6 +8,7 @@ use App\Services\Office\DeveloperService;
 use App\Services\RegionService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+
 
 class DeveloperController extends Controller
 {

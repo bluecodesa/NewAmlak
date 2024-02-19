@@ -409,31 +409,25 @@
     </div>
 
 
-<!-- Pending Payment Modal -->
+    <!-- Pending Payment Modal -->
 
-@if($pendingPayment)
-@include('Home.Payments.pending_payment')
-@endif
+    @if ($pendingPayment)
+        @include('Home.Payments.pending_payment')
+    @endif
 
 
 
-<script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Show the modal when the page is fully loaded
-        var modal = document.getElementById('pendingPaymentModal');
-        if (modal) {
-            modal.classList.add('show');
-            modal.style.display = 'block';
-            modal.removeAttribute('aria-hidden');
-        }
-    });
-
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show the modal when the page is fully loaded
+            var modal = document.getElementById('pendingPaymentModal');
+            if (modal) {
+                modal.classList.add('show');
+                modal.style.display = 'block';
+                modal.removeAttribute('aria-hidden');
+            }
+        });
+    </script>
 
 
 @endsection
-
-
-
-
