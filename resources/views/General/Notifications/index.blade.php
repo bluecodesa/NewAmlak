@@ -117,8 +117,6 @@
                 // Trigger search on input change
                 $('#searchInput').on('keyup', function() {
                     var searchText = $(this).val().toLowerCase();
-
-                    // Loop through all list items, and hide those who don't match the search query
                     $('.message-list li').each(function() {
                         var typeNoty = $(this).find('.title h6').text().toLowerCase();
                         var message = $(this).find('.subject .teaser').text().toLowerCase();
