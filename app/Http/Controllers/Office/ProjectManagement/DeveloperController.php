@@ -10,6 +10,7 @@ use App\Services\RegionService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+
 class DeveloperController extends Controller
 {
     protected $developerService;

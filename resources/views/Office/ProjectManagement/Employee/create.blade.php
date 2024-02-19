@@ -23,6 +23,7 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
+
                             <div class="card-body">
                                 <form action="{{ route('Office.Employee.store') }}" method="POST" class="row">
                                     @csrf
