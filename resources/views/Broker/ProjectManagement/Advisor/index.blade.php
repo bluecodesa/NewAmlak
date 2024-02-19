@@ -82,9 +82,7 @@
     </div>
 
     @if($pendingPayment)
-    <div id="pendingPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pendingPaymentModalLabel" aria-hidden="true" class="pop-up">
         @include('Home.Payments.pending_payment')
-    </div>
 @endif
 
 

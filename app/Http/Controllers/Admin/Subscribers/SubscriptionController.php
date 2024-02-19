@@ -44,14 +44,14 @@ class SubscriptionController extends Controller
         $cities = City::all();
 
 
-        $RolesIds = Role::whereIn('name', ['Office Admin'])->pluck('id')->toArray();
+        $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
         $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
 
         $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
-            $query->where('name', 'Office Admin');
+            $query->where('name', 'Office-Admin');
         })->get();
 
         return view('Admin.admin.subscriptions.create', get_defined_vars());

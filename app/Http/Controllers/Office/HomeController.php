@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Office;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
 use App\Models\Subscription;
 
@@ -30,20 +31,18 @@ class HomeController extends Controller
         $user = $request->user();
         $pendingPayment = false;
 
-        if ($user && ($user->is_office || $user->is_broker)) {
-            if ($user->is_office && $user->UserOfficeData) {
-                $subscription = Subscription::where('office_id', $user->UserOfficeData->id)->first();
-            } elseif ($user->is_broker && $user->UserBrokerData) {
-                $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)->first();
-            }
-
-            if (isset($subscription) && $subscription->status === 'pending') {
-                $pendingPayment = true;
-            }
+        if ($user && $user->is_office && $user->UserOfficeData) {
+            $subscription = $user->UserOfficeData->UserSubscriptionPending;
+            $pendingPayment = $subscription && $subscription->status === 'pending';
         }
 
-        // Pass the $pendingPayment variable to the view
-        return view('home', ['pendingPayment' => $pendingPayment]);
+        $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
+            $query->where('name', 'Office-Admin');
+        })
+        ->where('price', '>', 0)
+        ->get();
+
+        return view('home',   get_defined_vars());
     }
 
     public function GetCitiesByRegion($id)

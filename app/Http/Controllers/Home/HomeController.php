@@ -15,6 +15,8 @@ use App\Models\Setting;
 use App\Models\SystemInvoice;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Role;
+use App\Models\SubscriptionTypeRole;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -61,14 +63,26 @@ class HomeController extends Controller
     {
         $Regions = Region::all();
         $cities = City::all();
-        $subscriptionTypes = SubscriptionType::all();
+        $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
+
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+
+        $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
         return view('Home.Auth.broker.create', get_defined_vars());
     }
     public function createOffice()
     {
         $Regions = Region::all();
         $cities = City::all();
-        $subscriptionTypes = SubscriptionType::all();
+        $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
+
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+
+        $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
+
+        $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
+            $query->where('name', 'Office-Admin');
+        })->get();
         return view('Home.Auth.office.create', get_defined_vars());
     }
 

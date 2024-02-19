@@ -15,9 +15,12 @@ class RedirectUsers
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && $request->user()->is_broker) {
-            // Redirect brokers to a different route
-            return redirect()->route('Broker.home');
+        if ($request->user()) {
+            if ($request->user()->is_broker) {
+                return redirect()->route('Broker.home');
+            } elseif ($request->user()->is_office) {
+                return redirect()->route('Office.home');
+            }
         }
 
         return $next($request);

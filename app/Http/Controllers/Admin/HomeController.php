@@ -29,7 +29,7 @@ class HomeController extends Controller
 
         $pendingPayment = false;
 
-        return view('home', ['pendingPayment' => $pendingPayment]);
+        return view('home', get_defined_vars());
     }
 
 

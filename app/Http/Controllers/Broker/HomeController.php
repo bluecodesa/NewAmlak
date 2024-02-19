@@ -35,29 +35,18 @@ class HomeController extends Controller
         $user = $request->user();
         $pendingPayment = false;
 
-    if ($user && ($user->is_office || $user->is_broker)) {
-        if ($user->is_office && $user->UserOfficeData) {
-            $subscription = Subscription::where('office_id', $user->UserOfficeData->id)->first();
-        } elseif ($user->is_broker && $user->UserBrokerData) {
-            $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)->first();
+        if ($user && $user->is_broker && $user->UserBrokerData) {
+            $subscription = $user->UserBrokerData->UserSubscriptionPending;
+            $pendingPayment = $subscription && $subscription->status === 'pending';
         }
 
-        if (isset($subscription) && $subscription->status === 'pending') {
-            $pendingPayment = true;
-        }
-    }
+        $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
+                $query->where('name', 'RS-Broker');
+            })
+            ->where('price', '>', 0)
+            ->get();
 
-    $brokerSubscriptionTypes = SubscriptionType::whereIn('id', function ($query) {
-        $query->select('subscription_type_id')
-            ->from('subscription_type_roles')
-            ->whereIn('role_id', function ($subquery) {
-                $subquery->select('id')
-                    ->from('roles')
-                    ->where('name', 'RS-Broker');
-            });
-    })->get();
-
-    return view('home',  get_defined_vars());
+        return view('home',  get_defined_vars());
     }
 
     // $user = Auth::user();

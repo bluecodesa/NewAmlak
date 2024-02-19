@@ -2,8 +2,12 @@
     <div class="modal-dialog modal-dialog-centered home-expire-soon" role="document">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <h4 class="modal-title w-100 text-center" id="exampleModalLongTitle">أهلا ومرحبا{{ $user->name }}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                @if ($user->is_broker)
+                <h4 class="modal-title w-100 text-center" id="exampleModalLongTitle">@lang('Welcome') {{ $user->name }}</h4>
+            @elseif ($user->is_office)
+                <h4 class="modal-title w-100 text-center" id="exampleModalLongTitle">@lang('Welcome') {{ $user->company_name }}</h4>
+            @endif
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -21,7 +25,7 @@
                         <p>@lang('Current subscription')</p>
 
                         <div class="col-md-12 mb-3 d-flex justify-content-around flex-wrap gap-2" style="align-items: center;">
-                            @foreach ($brokerSubscriptionTypes as $type)
+                            @foreach ($UserSubscriptionTypes as $type)
                                 <label>
                                     <div class="card text-center @if ($type->id == $subscription->id) border border-primary @else border border-secondary @endif" style="cursor:pointer; max-width: 18rem;">
                                         <div class="card-body">
@@ -56,7 +60,7 @@
 
                 <div class="row justify-content-around">
                     <a href="" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary">
-                        <span class="item-text pay-btn-change text-white">@lang('Payment By') @lang('SAR')</span>
+                        <span class="item-text ">@lang('Payment By') @lang('SAR')</span>
                     </a>
                     <a href="" class="btn btn-primary">
                         <span class="item-text">@lang('support')</span>

@@ -23,4 +23,8 @@ class Office extends Model
     {
         return $this->belongsTo(Office::class, 'office_id');
     }
+    public function UserSubscriptionPending()
+    {
+        return $this->hasOne(Subscription::class, 'office_id')->where('status', 'pending');
+    }
 }
