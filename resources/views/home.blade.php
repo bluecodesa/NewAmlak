@@ -3,6 +3,7 @@
 @section('title', __('dashboard'))
 
 @section('content')
+
     <div class="content-page">
         <!-- Start content -->
         <div class="content">
@@ -411,14 +412,13 @@
 <!-- Pending Payment Modal -->
 
 @if($pendingPayment)
-    <div id="pendingPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="pendingPaymentModalLabel" aria-hidden="true" class="pop-up">
-        @include('Home.Payments.pending_payment')
-    </div>
+@include('Home.Payments.pending_payment')
 @endif
 
 
 
 <script>
+
     document.addEventListener('DOMContentLoaded', function() {
         // Show the modal when the page is fully loaded
         var modal = document.getElementById('pendingPaymentModal');
@@ -428,6 +428,7 @@
             modal.removeAttribute('aria-hidden');
         }
     });
+
 </script>
 
 
