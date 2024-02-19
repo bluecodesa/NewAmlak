@@ -66,11 +66,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    function closeModal() {
-        $('#pendingPaymentModal').modal('hide');
-    }
-</script>
-

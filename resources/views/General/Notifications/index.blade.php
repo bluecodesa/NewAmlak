@@ -11,7 +11,6 @@
                         <div class="col-sm-6">
                             <h4 class="page-title">@lang('Notifications')</h4>
                         </div>
-
                     </div>
                     <!-- end row -->
                 </div>

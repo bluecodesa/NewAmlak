@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Office;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\Subscription;
 
@@ -44,5 +44,11 @@ class HomeController extends Controller
 
         // Pass the $pendingPayment variable to the view
         return view('home', ['pendingPayment' => $pendingPayment]);
+    }
+
+    public function GetCitiesByRegion($id)
+    {
+        $cities = City::where('region_id', $id)->get();
+        return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
 }

@@ -3,102 +3,101 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Services\RegionService;
 use App\Models\City;
-use App\Models\Developer;
-use App\Models\Setting;
+use App\Services\Broker\DeveloperService;
+use App\Services\CityService;
 use Illuminate\Http\Request;
-use App\Models\PaymentGateway;
-use App\Models\Region;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class DeveloperController extends Controller
 {
+    protected $developerService;
+    protected $regionService;
+    protected $cityService;
+
+    public function __construct(DeveloperService $developerService, RegionService $regionService, CityService $cityService)
+    {
+        $this->developerService = $developerService;
+        $this->regionService = $regionService;
+        $this->cityService = $cityService;
+    }
+
     public function index()
     {
-        $developers = Developer::where('broker_id', Auth::user()->UserBrokerData->id)->get();
-        return view('Broker.ProjectManagement.Developer.index', get_defined_vars());
+        $developers = $this->developerService->getAllDevelopersByBrokerId(auth()->user()->UserBrokerData->id);
+        return view('Broker.ProjectManagement.Developer.index', compact('developers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $Regions = Region::all();
-        $cities = City::all();
-        return view('broker.ProjectManagement.Developer.create', get_defined_vars());
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        return view('broker.ProjectManagement.Developer.create', compact('Regions', 'cities'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $rules = [
+        $request->validate([
             'name' => 'required|string|max:255',
             'city_id' => 'required',
             'email' => [
                 'required',
                 'email',
-                Rule::unique('developers')->ignore($request->id), // Assuming you might want to ignore a given ID for uniqueness.
-                'max:255' // Updated to 255, which is a common max length for emails. Adjust if needed.
+                Rule::unique('developers')->ignore($request->id),
+                'max:255'
             ],
             'phone' => [
                 'required',
-                Rule::unique('developers')->ignore($request->id), // Add ignore if this is an update operation.
+                Rule::unique('developers')->ignore($request->id),
                 'max:25'
             ],
-        ];
-        $request_data = $request->all();
-        $request_data['broker_id'] = Auth::user()->UserBrokerData->id;
-        $request->validate($rules);
-        Developer::create($request_data);
+        ]);
+
+        $this->developerService->createDeveloper($request->all());
+
         return redirect()->route('Broker.Developer.index')->with('success', __('added successfully'));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
     }
 
     public function edit($id)
     {
-        $Regions = Region::all();
-        $developer = Developer::find($id);
-        $cities = City::all();
-        return view('Broker.ProjectManagement.Developer.edit', get_defined_vars());
+        $Regions = $this->regionService->getAllRegions();
+        $developer = $this->developerService->getDeveloperById($id);
+        $cities = $this->cityService->getAllCities();
+        return view('Broker.ProjectManagement.Developer.edit', compact('Regions', 'developer', 'cities'));
     }
 
     public function update(Request $request, $id)
     {
-        $developer = Developer::find($id);
-        $rules = [
+        $request->validate([
             'name' => 'required|string|max:255',
             'city_id' => 'required',
             'email' => [
                 'required',
                 'email',
-                Rule::unique('developers')->ignore($developer->id), // Assuming you might want to ignore a given ID for uniqueness.
-                'max:255' // Updated to 255, which is a common max length for emails. Adjust if needed.
+                Rule::unique('developers')->ignore($id),
+                'max:255'
             ],
             'phone' => [
                 'required',
-                Rule::unique('developers')->ignore($developer->id), // Add ignore if this is an update operation.
+                Rule::unique('developers')->ignore($id),
                 'max:25'
             ],
-        ];
-        $request->validate($rules);
-        $developer->update($request->all());
+        ]);
+
+        $this->developerService->updateDeveloper($id, $request->all());
+
         return redirect()->route('Broker.Developer.index')->with('success', __('Update successfully'));
     }
 
     public function destroy(string $id)
     {
-        Developer::find($id)->delete();
+        $this->developerService->deleteDeveloper($id);
+
         return redirect()->route('Broker.Developer.index')->with('success', __('Deleted successfully'));
     }
 }

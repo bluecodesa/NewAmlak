@@ -26,7 +26,6 @@ trait FiresendNotification
             ],
         ];
 
-
         $dataString = json_encode($data);
 
         $headers = [

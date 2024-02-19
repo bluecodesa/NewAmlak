@@ -18,8 +18,6 @@ class SubscriptionTypesController extends Controller
         $this->subtypeRepo = $subtypeRepo;
     }
 
-    // ... other methods
-
     public function index()
     {
         $status_filter = request()->input('status_filter') ?? 'all';
@@ -34,9 +32,6 @@ class SubscriptionTypesController extends Controller
         return $this->subtypeRepo->create();
     }
 
-
-    // ...
-
     public function store(SubscriptionTypeRequest $request)
     {
         return $this->subtypeRepo->store($request);
@@ -46,10 +41,6 @@ class SubscriptionTypesController extends Controller
     {
         return $this->subtypeRepo->edit($id);
     }
-
-
-
-    // ...
 
     public function update(Request $request, $id)
     {
