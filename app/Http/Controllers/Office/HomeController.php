@@ -7,7 +7,7 @@ use App\Models\City;
 use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
 use App\Models\Subscription;
-
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -21,26 +21,14 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request)
     {
-        $user = $request->user();
-        $pendingPayment = false;
-
-        if ($user && $user->is_office && $user->UserOfficeData) {
-            $subscription = $user->UserOfficeData->UserSubscriptionPending;
-            $pendingPayment = $subscription && $subscription->status === 'pending';
-        }
+        $pendingPayment =  Auth::user()->UserOfficeData->UserSubscriptionPending ?? false;
 
         $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
             $query->where('name', 'Office-Admin');
-        })
-        ->where('price', '>', 0)
-        ->get();
+        })->where('price', '>', 0)
+            ->get();
 
         return view('home',   get_defined_vars());
     }

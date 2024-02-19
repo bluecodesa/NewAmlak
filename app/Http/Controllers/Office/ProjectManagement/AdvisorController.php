@@ -13,6 +13,7 @@ class AdvisorController extends Controller
     protected $advisorService;
     protected $regionService;
     protected $cityService;
+
     public function __construct(AdvisorService $advisorService, RegionService $regionService, CityService $cityService)
     {
         $this->advisorService = $advisorService;
