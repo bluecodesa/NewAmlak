@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription','pendingPayment']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription', 'pendingPayment']
     ],
     function () {
         Route::prefix('office')->name('Office.')->group(function () {
@@ -39,6 +39,7 @@ Route::group(
             ]);
             Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
             Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');
+            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Office.GetCitiesByRegion');
         });
     }
 );

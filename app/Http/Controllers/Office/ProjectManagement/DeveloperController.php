@@ -1,113 +1,64 @@
 <?php
+// app/Http/Controllers/Office/ProjectManagement/DeveloperController.php
 
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Traits\notification\FiresendNotification;
-use App\Models\City;
-use App\Models\Developer;
-use App\Models\Setting;
+use App\Services\CityService;
+use App\Services\Office\DeveloperService;
+use App\Services\RegionService;
 use Illuminate\Http\Request;
-use App\Models\PaymentGateway;
-use App\Models\Region;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class DeveloperController extends Controller
 {
-    use FiresendNotification;
+    protected $developerService;
+    protected $regionService;
+    protected $cityService;
+
+    public function __construct(DeveloperService $developerService, RegionService $regionService, CityService $cityService)
+    {
+        $this->developerService = $developerService;
+        $this->regionService = $regionService;
+        $this->cityService = $cityService;
+    }
+
     public function index()
     {
-        $developers = Developer::where('office_id', Auth::user()->UserOfficeData->id)->get();
-        return view('Office.ProjectManagement.Developer.index', get_defined_vars());
+        $developers = $this->developerService->getAllDevelopersByOfficeId(auth()->user()->UserOfficeData->id);
+        return view('Office.ProjectManagement.Developer.index', compact('developers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $Regions = Region::all();
-        $cities = City::all();
-        return view('Office.ProjectManagement.Developer.create', get_defined_vars());
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        return view('Office.ProjectManagement.Developer.create', compact('Regions', 'cities'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'city_id' => 'required',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('developers')->ignore($request->id), // Assuming you might want to ignore a given ID for uniqueness.
-                'max:255' // Updated to 255, which is a common max length for emails. Adjust if needed.
-            ],
-            'phone' => [
-                'required',
-                Rule::unique('developers')->ignore($request->id), // Add ignore if this is an update operation.
-                'max:25'
-            ],
-        ];
-        $request_data = $request->all();
-        $request_data['office_id'] = Auth::user()->UserOfficeData->id;
-        $request->validate($rules);
-        $developer =   Developer::create($request_data);
-        $ids = User::where('is_admin', 1)->pluck('id')->toArray();
-        $data = [];
-        $data['title'] =  __('Add New Developer');
-        $data['url'] =  route('Admin.Developer.index');
-        $data['body'] = __('A developer has been added to the system account') . ' : ' . (Auth::user()->name);
-        $this->FiresendNotification($data, $ids);
+        $this->developerService->createDeveloper($request->all());
         return redirect()->route('Office.Developer.index')->with('success', __('added successfully'));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     public function edit($id)
     {
-        $Regions = Region::all();
-        $developer = Developer::find($id);
-        $cities = City::all();
-        return view('Office.ProjectManagement.Developer.edit', get_defined_vars());
+        $Regions = $this->regionService->getAllRegions();
+        $developer = $this->developerService->getDeveloperById($id);
+        $cities = $this->cityService->getAllCities();
+        return view('Office.ProjectManagement.Developer.edit', compact('Regions', 'developer', 'cities'));
     }
 
     public function update(Request $request, $id)
     {
-        $developer = Developer::find($id);
-        $rules = [
-            'name' => 'required|string|max:255',
-            'city_id' => 'required',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('developers')->ignore($developer->id), // Assuming you might want to ignore a given ID for uniqueness.
-                'max:255' // Updated to 255, which is a common max length for emails. Adjust if needed.
-            ],
-            'phone' => [
-                'required',
-                Rule::unique('developers')->ignore($developer->id), // Add ignore if this is an update operation.
-                'max:25'
-            ],
-        ];
-        $request->validate($rules);
-        $developer->update($request->all());
+        $this->developerService->updateDeveloper($id, $request->all());
         return redirect()->route('Office.Developer.index')->with('success', __('Update successfully'));
     }
 
     public function destroy(string $id)
     {
-        Developer::find($id)->delete();
+        $this->developerService->deleteDeveloper($id);
         return redirect()->route('Office.Developer.index')->with('success', __('Deleted successfully'));
     }
 }
