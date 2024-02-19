@@ -63,7 +63,6 @@ class User extends Authenticatable
         return $this->hasOne(Broker::class, 'user_id');
     }
 
-
     public static function getAdmins()
     {
         return self::where('is_admin', 1)->get();
