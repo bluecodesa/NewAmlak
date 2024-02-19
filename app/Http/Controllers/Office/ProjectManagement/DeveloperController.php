@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/Office/ProjectManagement/DeveloperController.php
 
 namespace App\Http\Controllers\Office\ProjectManagement;
 
