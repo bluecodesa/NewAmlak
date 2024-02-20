@@ -1,7 +1,6 @@
 @extends('Admin.layouts.app')
 @section('title', __('Add new property'))
 @section('content')
-
     <div class="content-page">
         <!-- Start content -->
         <div class="content">
@@ -18,7 +17,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-12">
                         <div class="card m-b-30">
