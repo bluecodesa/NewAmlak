@@ -3,8 +3,9 @@
 namespace App\Repositories\Office;
 
 use App\Models\Advisor;
+use App\Interfaces\Office\AdvisorRepositoryInterface;
 
-class AdvisorRepository
+class AdvisorRepository implements AdvisorRepositoryInterface
 {
     public function getAllAdvisorsForOffice($officeId)
     {

@@ -2,12 +2,14 @@
 
 namespace App\Repositories\Office;
 
+use App\Interfaces\Office\OwnerRepositoryInterface;
 use App\Models\Owner;
 
-class OwnerRepository
+class OwnerRepository implements OwnerRepositoryInterface
 {
     public function getAllByOfficeId($officeId)
     {
+
         return Owner::where('office_id', $officeId)->get();
     }
 
