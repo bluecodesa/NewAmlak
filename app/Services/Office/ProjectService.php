@@ -24,7 +24,7 @@ class ProjectService
         return $this->projectRepository->getAllByOfficeId($officeId);
     }
 
-    public function createProject($data)
+    public function createProject($data, $images)
     {
         // Validation rules
         $rules = [
@@ -44,7 +44,7 @@ class ProjectService
         $data['office_id'] = Auth::user()->UserOfficeData->id;
 
         // Create project
-        $project = $this->projectRepository->create($data);
+        $project = $this->projectRepository->create($data, $images);
 
         return $project;
     }
@@ -54,7 +54,7 @@ class ProjectService
         return $this->projectRepository->ShowProject($id);
     }
 
-    public function updateProject($id, $data)
+    public function updateProject($id, $data, $images)
     {
         // Validation rules
         $rules = [
@@ -71,7 +71,7 @@ class ProjectService
         validator($data, $rules)->validate();
 
         // Update project
-        $project = $this->projectRepository->update($id, $data);
+        $project = $this->projectRepository->update($id, $data, $images);
 
         return $project;
     }
@@ -103,17 +103,7 @@ class ProjectService
         validator($data, $rules)->validate();
         $data['office_id'] = Auth::user()->UserOfficeData->id;
         $data['project_id'] = $projectId;
-        $property = $this->projectRepository->storeProperty($data);
-        if ($images) {
-            foreach ($images as $image) {
-                $ext = uniqid() . '.' . $image->clientExtension();
-                $image->move(public_path() . '/Offices/Projects/Property/', $ext);
-                PropertyImage::create([
-                    'image' => '/Offices/Projects/Property/' . $ext,
-                    'property_id' => $property->id,
-                ]);
-            }
-        }
+        $property = $this->projectRepository->storeProperty($data, $images);
 
         return $property;
     }

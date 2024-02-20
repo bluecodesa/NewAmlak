@@ -1,7 +1,6 @@
 @extends('Admin.layouts.app')
 @section('title', __('Add new property'))
 @section('content')
-
     <div class="content-page">
         <!-- Start content -->
         <div class="content">
@@ -18,7 +17,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-12">
                         <div class="card m-b-30">
@@ -45,7 +43,7 @@
                                                         class="required-color">*</span></option>
                                                 @foreach ($Regions as $Region)
                                                     <option value="{{ $Region->id }}"
-                                                        data-url="{{ route('Admin.Region.show', $Region->id) }}"
+                                                        data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}"
                                                         {{ $project->CityData->RegionData->id == $Region->id ? 'selected' : '' }}>
                                                         {{ $Region->name }}</option>
                                                 @endforeach

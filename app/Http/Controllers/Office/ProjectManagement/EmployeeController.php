@@ -3,21 +3,12 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
-use App\Models\City;
-use App\Models\Advisor;
-use App\Models\Employee;
-use App\Models\Owner;
 use Illuminate\Http\Request;
-use App\Models\PaymentGateway;
-use App\Models\Region;
-use App\Models\Role;
-use App\Models\User;
 use App\Services\CityService;
 use App\Services\Office\EmployeeService;
 use App\Services\RegionService;
 use App\Services\RoleService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
