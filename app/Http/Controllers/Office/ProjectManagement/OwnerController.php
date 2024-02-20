@@ -22,7 +22,6 @@ class OwnerController extends Controller
         $this->cityService = $cityService;
     }
 
-
     public function index()
     {
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);

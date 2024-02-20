@@ -63,7 +63,7 @@
                                             <option disabled selected value="">@lang('Region')</option>
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
-                                                    data-url="{{ route('Admin.Region.show', $Region->id) }}">
+                                                    data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}">
                                                     {{ $Region->name }}</option>
                                             @endforeach
                                         </select>
