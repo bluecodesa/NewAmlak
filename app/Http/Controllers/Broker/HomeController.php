@@ -49,16 +49,7 @@ class HomeController extends Controller
         return view('home',  get_defined_vars());
     }
 
-    // $user = Auth::user();
-    // $pendingPayment = false;
 
-    // if ($user && ($user->is_office || $user->is_broker)) {
-    //     $subscription = $user->UserBrokerData()->UserSubscriptionPending();
-
-    //     if ($subscription) {
-    //         $pendingPayment = true;
-    //     }
-    // }
     public function GetCitiesByRegion($id)
     {
         $cities = City::where('region_id', $id)->get();

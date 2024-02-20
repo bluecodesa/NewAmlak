@@ -10,6 +10,7 @@ use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Models\PaymentGateway;
 use App\Models\Region;
+use App\Models\SubscriptionType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -20,17 +21,16 @@ class AdvisorController extends Controller
         $user =  Auth::user();
         $pendingPayment = false;
 
-        if ($user && ($user->is_office || $user->is_broker)) {
-            if ($user->is_office && $user->UserOfficeData) {
-                $subscription = Subscription::where('office_id', $user->UserOfficeData->id)->first();
-            } elseif ($user->is_broker && $user->UserBrokerData) {
-                $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)->first();
-            }
-
-            if (isset($subscription) && $subscription->status === 'pending') {
-                $pendingPayment = true;
-            }
+        if ($user && $user->is_broker && $user->UserBrokerData) {
+            $subscription = $user->UserBrokerData->UserSubscriptionPending;
+            $pendingPayment = $subscription && $subscription->status === 'pending';
         }
+
+        $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
+                $query->where('name', 'RS-Broker');
+            })
+            ->where('price', '>', 0)
+            ->get();
         $advisors = Advisor::where('broker_id', Auth::user()->UserBrokerData->id)->get();
         return view('Broker.ProjectManagement.Advisor.index', get_defined_vars());
     }

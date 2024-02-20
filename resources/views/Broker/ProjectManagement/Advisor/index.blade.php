@@ -81,10 +81,10 @@
 
     </div>
 
-    @if($pendingPayment)
+    {{-- @if($pendingPayment)
         @include('Home.Payments.pending_payment')
 @endif
-
+ --}}
 
 
 <script>

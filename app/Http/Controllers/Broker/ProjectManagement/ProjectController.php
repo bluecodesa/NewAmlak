@@ -18,6 +18,7 @@ use App\Models\PropertyImage;
 use App\Models\PropertyType;
 use App\Models\PropertyUsage;
 use App\Models\Region;
+use App\Models\SubscriptionType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -28,17 +29,16 @@ class ProjectController extends Controller
         $user =  Auth::user();
         $pendingPayment = false;
 
-        if ($user && ($user->is_office || $user->is_broker)) {
-            if ($user->is_office && $user->UserOfficeData) {
-                $subscription = Subscription::where('office_id', $user->UserOfficeData->id)->first();
-            } elseif ($user->is_broker && $user->UserBrokerData) {
-                $subscription = Subscription::where('broker_id', $user->UserBrokerData->id)->first();
-            }
-
-            if (isset($subscription) && $subscription->status === 'pending') {
-                $pendingPayment = true;
-            }
+        if ($user && $user->is_broker && $user->UserBrokerData) {
+            $subscription = $user->UserBrokerData->UserSubscriptionPending;
+            $pendingPayment = $subscription && $subscription->status === 'pending';
         }
+
+        $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
+                $query->where('name', 'RS-Broker');
+            })
+            ->where('price', '>', 0)
+            ->get();
         $Projects = Project::where('broker_id', Auth::user()->UserBrokerData->id)->get();
         return view('Broker.ProjectManagement.Project.index', get_defined_vars());
     }
