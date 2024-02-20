@@ -3,10 +3,11 @@
 
 namespace App\Repositories\Office;
 
+use App\Interfaces\Office\ProjectRepositoryInterface;
 use App\Models\Project;
 use App\Models\Property;
 
-class ProjectRepository
+class ProjectRepository implements ProjectRepositoryInterface
 {
     public function getAllByOfficeId($officeId)
     {

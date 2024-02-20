@@ -3,9 +3,10 @@
 
 namespace App\Repositories\Office;
 
+use App\Interfaces\Office\DeveloperRepositoryInterface;
 use App\Models\Developer;
 
-class DeveloperRepository
+class DeveloperRepository implements DeveloperRepositoryInterface
 {
     public function getAllByOfficeId($officeId)
     {
