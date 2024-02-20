@@ -8,6 +8,8 @@ use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
+use App\Services\PaymentPendingService;
+
 
 class HomeController extends Controller
 {
@@ -16,21 +18,18 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    protected $paymentPendingService;
+
+    public function __construct(PaymentPendingService $paymentPendingService)
     {
         $this->middleware('auth');
+        $this->paymentPendingService = $paymentPendingService;
+
     }
 
     public function index(Request $request)
     {
-        $pendingPayment =  Auth::user()->UserOfficeData->UserSubscriptionPending ?? false;
-        $subscription =Auth::user()->UserOfficeData->UserSubscriptionPending;
-
-        $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
-            $query->where('name', 'Office-Admin');
-        })->where('price', '>', 0)
-            ->get();
-
+        $data = $this->paymentPendingService->UserPendingPayment();
         return view('home',   get_defined_vars());
     }
 
