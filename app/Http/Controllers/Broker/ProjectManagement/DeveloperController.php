@@ -33,7 +33,7 @@ class DeveloperController extends Controller
     {
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        return view('broker.ProjectManagement.Developer.create', compact('Regions', 'cities'));
+        return view('Broker.ProjectManagement.Developer.create', compact('Regions', 'cities'));
     }
 
     public function store(Request $request)

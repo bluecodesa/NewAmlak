@@ -30,7 +30,7 @@ class AdvisorController extends Controller
     public function index()
     {
         $advisors = $this->advisorService->getAllAdvisorsForBroker();
-        return view('Broker.ProjectManagement.Advisor.index',  get_defined_vars());
+        return view('Broker.ProjectManagement.Advisor.index', compact('advisors'));
     }
 
     public function create()
@@ -48,10 +48,10 @@ class AdvisorController extends Controller
 
     public function edit($id)
     {
-        $advisor = $this->advisorService->getAdvisorById($id);
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        return view('Broker.ProjectManagement.Advisor.edit',  get_defined_vars());
+        $advisor = $this->advisorService->getAdvisorById($id);
+        return view('Broker.ProjectManagement.Advisor.edit', get_defined_vars());
     }
 
     public function update(Request $request, $id)
@@ -60,9 +60,10 @@ class AdvisorController extends Controller
         return redirect()->route('Broker.Advisor.index')->with('success', __('Updated successfully'));
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $this->advisorService->deleteAdvisor($id);
         return redirect()->route('Broker.Advisor.index')->with('success', __('Deleted successfully'));
     }
 }
+
