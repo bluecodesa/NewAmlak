@@ -24,6 +24,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $pendingPayment =  Auth::user()->UserOfficeData->UserSubscriptionPending ?? false;
+        $subscription =Auth::user()->UserOfficeData->UserSubscriptionPending;
 
         $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
             $query->where('name', 'Office-Admin');
