@@ -6,17 +6,6 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
-use App\Models\City;
-use App\Models\Advisor;
-use App\Models\Developer;
-use App\Models\Employee;
-use App\Models\Owner;
-use App\Models\Project;
-use App\Models\Property;
-use App\Models\PropertyImage;
-use App\Models\PropertyType;
-use App\Models\PropertyUsage;
-use App\Models\Region;
 use App\Services\CityService;
 use App\Services\Office\OfficeDataService;
 use App\Services\Office\ProjectService;
@@ -24,8 +13,7 @@ use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
 use App\Services\RegionService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
+
 
 class ProjectController extends Controller
 {
@@ -65,7 +53,8 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $this->projectService->createProject($request->all());
+        $images = $request->image;
+        $this->projectService->createProject($request->except('image'), $images);
         return redirect()->route('Office.Project.index')->with('success', __('added successfully'));
     }
 
@@ -89,7 +78,8 @@ class ProjectController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->projectService->updateProject($id, $request->all());
+        $images = $request->image;
+        $this->projectService->updateProject($id, $request->except('image'), $images);
         return redirect()->route('Office.Project.index')->with('success', __('Update successfully'));
     }
 
@@ -144,7 +134,8 @@ class ProjectController extends Controller
 
     public function storeProperty(Request $request, $id)
     {
-        $this->projectService->storeProperty($request->except('images'), $id, $request->file('images'));
+        $images = $request->file('images');
+        $this->projectService->storeProperty($request->except('images'), $id, $images);
         return redirect()->route('Office.Project.show', $id)->with('success', __('added successfully'));
     }
 }
