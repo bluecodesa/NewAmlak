@@ -36,11 +36,12 @@ Route::group(
                 'Developer' => DeveloperController::class,
                 'Advisor' => AdvisorController::class,
                 'Owner' => OwnerController::class,
-                'Employee' => EmployeeController::class,
                 'Project' => ProjectController::class,
             ]);
             Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
             Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');
+            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Broker.GetCitiesByRegion');
+
         });
     }
 );
