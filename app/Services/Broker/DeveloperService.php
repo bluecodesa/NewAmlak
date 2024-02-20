@@ -3,17 +3,20 @@
 namespace App\Services\Broker;
 
 use App\Repositories\Broker\DeveloperRepository;
+use Illuminate\Support\Facades\Auth;
 
 class DeveloperService
 {
-    protected $developerRepository;
+     protected $developerRepository;
 
-    public function __construct(DeveloperRepository $developerRepository)
+    public function __construct(DeveloperRepository  $developerRepository)
     {
-        $this->developerRepository = $developerRepository;
+         $this->developerRepository = $developerRepository;
     }
 
-    public function getAllDevelopersByBrokerId($brokerId)
+
+
+    public function getAllDevelopersByBroker($brokerId)
     {
         return $this->developerRepository->getAllByBrokerId($brokerId);
     }

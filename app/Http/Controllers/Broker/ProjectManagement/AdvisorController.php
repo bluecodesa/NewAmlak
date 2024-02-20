@@ -30,7 +30,7 @@ class AdvisorController extends Controller
     public function index()
     {
         $advisors = $this->advisorService->getAllAdvisorsForBroker();
-        return view('Broker.ProjectManagement.Advisor.index', compact('advisors'));
+        return view('Broker.ProjectManagement.Advisor.index', get_defined_vars());
     }
 
     public function create()
