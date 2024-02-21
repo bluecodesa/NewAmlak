@@ -7,13 +7,13 @@ interface ProjectRepositoryInterface
 {
     public function getAllByBrokerId($brokerId);
 
-    public function create($data);
+    public function create($data, $images);
 
-    public function update($id, $data);
+    public function update($id, $data, $images);
 
     public function ShowProject($id);
 
     public function delete($id);
 
-    public function storeProperty($data);
+    public function storeProperty($data, $images);
 }
