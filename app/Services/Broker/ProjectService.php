@@ -23,7 +23,7 @@ class ProjectService
         return $this->projectRepository->getAllByBrokerId($brokerId);
     }
 
-    public function createProject($data)
+    public function createProject($data,$images)
     {
         // Validation rules
         $rules = [
@@ -41,7 +41,7 @@ class ProjectService
         $data['broker_id'] = Auth::user()->UserBrokerData->id;
 
         // Create project
-        $project = $this->projectRepository->create($data);
+        $project = $this->projectRepository->create($data, $images);
 
         return $project;
     }

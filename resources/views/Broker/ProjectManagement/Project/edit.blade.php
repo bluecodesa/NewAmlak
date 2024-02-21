@@ -46,7 +46,7 @@
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
                                                     {{ $Region->id == $project->Region_id ? 'selected' : '' }}
-                                                    data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
+                                                    data-url="{{ route('Admin.Region.show', $Region->id) }}">
                                                     {{ $Region->name }}</option>
                                             @endforeach
                                         </select>
@@ -96,7 +96,7 @@
                                         </select>
                                     </div>
 
-                                    
+
 
 
                                     <div class="form-group col-md-3">

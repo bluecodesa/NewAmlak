@@ -80,13 +80,7 @@
                                                             </span>
                                                         </h6>
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Employee Name') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $project->EmployeeData->UserData->name ?? '' }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
+
                                                 </div>
                                                 <a href="{{ route('Broker.Project.edit', $project->id) }}"
                                                     class="btn btn-warning">@lang('Edit') </a>
@@ -121,7 +115,6 @@
                                                 <th>@lang('location')</th>
                                                 <th>@lang('Property type')</th>
                                                 <th>@lang('Type use')</th>
-                                                <th>@lang('Employee Name')</th>
                                                 <th>@lang('owner name')</th>
                                                 {{-- <th>@lang('Unit or property')</th> --}}
                                                 <th>@lang('Instrument number')</th>
@@ -137,7 +130,6 @@
                                                     <td>{{ $property->location ?? '' }}</td>
                                                     <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
                                                     <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
-                                                    <td>{{ $property->EmployeeData->UserData->name ?? '' }}</td>
                                                     <td>{{ $property->OwnerData->name ?? '' }}</td>
                                                     {{-- <td>
                                                         {{ $property->is_divided == 1 ? __('property') : __('Unit') }}
@@ -180,12 +172,13 @@
 
         </div>
         <!-- container-fluid -->
+
         <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
             aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title mt-0" id="myLargeModalLabel">@lang('location')</h5>
+                        <h5 class="modal-title mt-0" id="myLargeModalLabel">Large modal</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -199,5 +192,6 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
+
     </div>
 @endsection

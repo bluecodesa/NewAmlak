@@ -70,7 +70,7 @@
                                                             onclick="handleDelete('{{ $project->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
                                                         <form id="delete-form-{{ $project->id }}"
-                                                            action="{{ route('Broker.Project.edit', $project->id) }}"
+                                                            action="{{ route('Broker.Project.destroy', $project->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')
