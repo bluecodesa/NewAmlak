@@ -118,20 +118,12 @@
                                         <input type="file" name="image" class="dropify" data-default-file="" />
                                     </div>
 
-
-                                    {{--
-                                    <div class="col-sm-12 col-md-6 mb-3">
-                                        <label class="form-label">@lang('address')</label>
-                                        <input type="text" required name="address" id="address" class="form-control"
-                                            placeholder="@lang('address')" value="{{ old('address') }}" />
-                                    </div>
-
                                     <div class="col-sm-12 col-md-6 mb-3">
                                         <label class="form-label">@lang('lat&long')</label>
                                         <input type="text" required readonly name="lat_long" id="location_tag"
                                             class="form-control" placeholder="@lang('lat&long')"
                                             value="{{ old('location_tag') }}" />
-                                    </div> --}}
+                                    </div>
 
 
                                     <div class="col-12">
@@ -188,8 +180,8 @@
                     var address = place.formatted_address;
                     var lat = place.geometry.location.lat();
                     var long = place.geometry.location.lng();
-                    // $("#address").val(address);
-                    // $("#location_tag").val(lat + "," + long);
+                    $("#address").val(address);
+                    $("#location_tag").val(lat + "," + long);
                     // Log the details to the console (or do something else with them)
                 });
             });
