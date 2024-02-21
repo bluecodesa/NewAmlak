@@ -2,7 +2,7 @@
 
 namespace App\Services\Office;
 
-use App\Repositories\Office\AdvisorRepository;
+use App\Interfaces\Office\AdvisorRepositoryInterface;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,7 +10,7 @@ class AdvisorService
 {
     protected $advisorRepository;
 
-    public function __construct(AdvisorRepository $advisorRepository)
+    public function __construct(AdvisorRepositoryInterface $advisorRepository)
     {
         $this->advisorRepository = $advisorRepository;
     }
@@ -27,7 +27,6 @@ class AdvisorService
 
     public function createAdvisor($data)
     {
-
         $rules = [
             'name' => 'required|string|max:255',
             'city_id' => 'required',
