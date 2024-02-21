@@ -20,41 +20,40 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
+use App\Services\Admin\SubscriptionService;
+use App\Services\RegionService;
+use App\Services\CityService;
+
 class SubscriptionController extends Controller
 {
+    protected $subscriptionService;
+    protected $regionService;
+    protected $cityService;
+
+    public function __construct(SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
+    {
+        $this->subscriptionService = $subscriptionService;
+        $this->regionService = $regionService;
+        $this->cityService = $cityService;
+    }
+
     public function index()
     {
-        $subscribers = Subscription::with(['OfficeData.UserData', 'BrokerData.UserData'])->get();
-        $cities = City::all();
-        $subscriptionTypes = SubscriptionType::all();
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $subscribers = $this->subscriptionService->getAllSubscribers();
         return view('Admin.subscribers.index', get_defined_vars());
     }
 
-    // $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
-
-    // $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
-
-    // $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
-
-
-    // $PendingPayment =   Auth::user()->UserBrokerData->UserSubscriptionPending ?? '';
-    public function create()
+    public function create(Request $request)
     {
-        $Regions = Region::all();
-        $cities = City::all();
-
-
-        $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
-
-        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
-
-        $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
-
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
         $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
             $query->where('name', 'Office-Admin');
         })->get();
-
         return view('Admin.admin.subscriptions.create', get_defined_vars());
+
     }
 
 
@@ -73,97 +72,11 @@ class SubscriptionController extends Controller
 
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|max:255',
-            'city_id' => 'required|exists:cities,id',
-            'company_logo' => 'required|file',
-            'subscription_type_id' => 'required|exists:subscription_types,id',
-            'CRN' => [
-                'required',
-                Rule::unique('offices'),
-                'max:25'
-            ],
-            'presenter_number' => [
-                'required',
-                Rule::unique('offices'),
-                'max:25'
-            ],
-            'presenter_name' => 'required|string|max:255',
-            'password' => 'required|string|max:255',
-        ];
-        $messages = [
-            'name.required' => 'The ' . __('name') . ' field is required.',
-            'email.required' => 'The ' . __('email') . ' field is required.',
-            'presenter_number.required' => 'The ' . __('Company representative number') . ' field is required.',
-        ];
-        $request->validate($rules, $messages);
+        $this->subscriptionService->createOfficeSubscription($request->all());
 
-        if ($request->company_logo) {
-            $file = $request->File('company_logo');
-            $ext  =  uniqid() . '.' . $file->clientExtension();
-            $file->move(public_path() . '/Offices/' . 'Logos/', $ext);
-            $request_data['company_logo'] = '/Offices/' . 'Logos/' . $ext;
-        }
-
-        $user = User::create([
-            'is_office' => 1,
-            'name' => $request->name,
-            'email' => $request->email,
-            'user_name' => uniqid(),
-            'password' => bcrypt($request->password),
-            'avatar' => $request_data['company_logo'],
-        ]);
-
-        $office = Office::create([
-            'user_id' => $user->id,
-            'CRN' => $request->CRN,
-            'company_name' => $user->name,
-            'city_id' => $request->city_id,
-            'created_by' => Auth::id(),
-            'presenter_name' => $request->presenter_name,
-            'presenter_number' => $request->presenter_number,
-            'company_logo' => $request_data['company_logo'],
-        ]);
-        // NewOfficeNotification
-        $users = User::where('is_admin', true)->get();
-        foreach ($users as  $user) {
-            Notification::send($user, new NewOfficeNotification($office));
-        }
-        $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
-        $startDate = Carbon::now();
-        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
-        if ($subscriptionType->price > 0) {
-            $SubType = 'paid';
-            $status = 'pending';
-        } else {
-            $SubType = 'free';
-            $status = 'active';
-        }
-        Subscription::create([
-            'office_id' => $office->id,
-            'subscription_type_id' => $request->subscription_type_id,
-            'status' => $status,
-            'is_start' => $status == 'pending' ? 0 : 1,
-            'is_new' => 1,
-            'start_date' => now()->format('Y-m-d'),
-            'end_date' => $endDate,
-            'total' => '200'
-        ]);
-
-        SystemInvoice::create([
-            'office_id' => $office->id,
-            'subscription_name' => $subscriptionType->name,
-            'amount' => $subscriptionType->price,
-            'subscription_type' => $SubType,
-            'period' => $subscriptionType->period,
-            'period_type' => $subscriptionType->period_type,
-            'status' => $status,
-            'invoice_ID' => 'INV_' . uniqid(),
-        ]);
-        return redirect()->route('Admin.Subscribers.index')
-            ->withSuccess(__('added successfully'));
+        return redirect()->route('Admin.Subscribers.index')->withSuccess(__('added successfully'));
     }
+
 
     /**
      * Display the specified resource.
@@ -215,18 +128,6 @@ class SubscriptionController extends Controller
         return redirect()->route('Admin.Subscribers.index')->with('success', __('added successfully'));
     }
 
-
-    // public function createBroker()
-    // {
-    //     $user = Auth::user();
-    //     $Regions = Region::all();
-    //     $cities = City::all();
-
-    //     $subscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
-    //         $query->where('name', 'Rs-broker');
-    //     })->get();
-    //     return view('Admin.admin.subscriptions.create_broker', get_defined_vars());
-    // }
 
 
     public function storeBroker(Request $request)

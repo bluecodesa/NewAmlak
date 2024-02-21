@@ -30,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
             SettingRepository::class
         );
 
+        $this->app->bind(
+            \App\Interfaces\Admin\SubscriptionRepositoryInterface::class,
+            \App\Repositories\Admin\SubscriptionRepository::class
+        );
+
     }
 
     /**
