@@ -3,7 +3,7 @@
 
 namespace App\Services\Office;
 
-use App\Repositories\Office\OwnerRepository;
+use App\Interfaces\Office\OwnerRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -11,7 +11,7 @@ class OwnerService
 {
     protected $OwnerRepository;
 
-    public function __construct(OwnerRepository $OwnerRepository)
+    public function __construct(OwnerRepositoryInterface $OwnerRepository)
     {
         $this->OwnerRepository = $OwnerRepository;
     }

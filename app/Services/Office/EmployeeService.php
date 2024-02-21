@@ -3,8 +3,7 @@
 
 namespace App\Services\Office;
 
-use App\Repositories\Office\EmployeeRepository;
-use App\Repositories\Office\OwnerRepository;
+use App\Interfaces\Office\EmployeeRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -12,7 +11,7 @@ class EmployeeService
 {
     protected $EmployeeRepository;
 
-    public function __construct(EmployeeRepository $EmployeeRepository)
+    public function __construct(EmployeeRepositoryInterface $EmployeeRepository)
     {
         $this->EmployeeRepository = $EmployeeRepository;
     }
