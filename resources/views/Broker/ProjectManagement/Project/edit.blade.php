@@ -96,17 +96,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-3">
-                                        <label>@lang('Employee Name') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="employee_id" required>
-                                            <option disabled value="">@lang('Employee Name')</option>
-                                            @foreach ($employees as $employee)
-                                                <option value="{{ $employee->id }}"
-                                                    {{ $employee->id == $project->employee_id ? 'selected' : '' }}>
-                                                    {{ $employee->UserData->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    
 
 
                                     <div class="form-group col-md-3">

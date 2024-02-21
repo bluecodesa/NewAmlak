@@ -6,10 +6,10 @@ use App\Interfaces\Admin\SettingRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use App\Interfaces\SubscriptionTypesRepositoryInterface;
+use App\Interfaces\Admin\SubscriptionTypesRepositoryInterface;
 use App\Models\Setting;
 use App\Repositories\Admin\SettingRepository;
-use App\Repositories\SubscriptionTypesRepository;
+use App\Repositories\Admin\SubscriptionTypesRepository;
 
 
 class AppServiceProvider extends ServiceProvider

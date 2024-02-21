@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Admin;
 
-use App\Interfaces\SubscriptionTypesRepositoryInterface;
+use App\Interfaces\Admin\SubscriptionTypesRepositoryInterface;
 use App\Models\subscription;
 use App\Models\SubscriptionType;
-use App\Services\SubscriptionTypeService;
+use App\Services\Admin\SubscriptionTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 

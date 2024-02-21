@@ -2,7 +2,7 @@
 
 // app/Services/SubscriptionTypeService.php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use App\Models\Section;
 use App\Models\Subscription;

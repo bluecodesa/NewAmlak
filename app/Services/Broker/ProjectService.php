@@ -32,7 +32,6 @@ class ProjectService
             'city_id' => 'required|exists:cities,id',
             'developer_id' => 'required|exists:developers,id',
             'advisor_id' => 'required|exists:advisors,id',
-            'employee_id' => 'required|exists:employees,id',
             'owner_id' => 'required|exists:owners,id',
         ];
 
@@ -61,7 +60,6 @@ class ProjectService
             'city_id' => 'required|exists:cities,id',
             'developer_id' => 'required|exists:developers,id',
             'advisor_id' => 'required|exists:advisors,id',
-            'employee_id' => 'required|exists:employees,id',
             'owner_id' => 'required|exists:owners,id',
         ];
 
@@ -93,7 +91,6 @@ class ProjectService
             'city_id' => 'required|exists:cities,id',
             'property_type_id' => 'required|exists:property_types,id',
             'property_usage_id' => 'required|exists:property_usages,id',
-            'employee_id' => 'required|exists:employees,id',
             'owner_id' => 'required|exists:owners,id',
         ];
 

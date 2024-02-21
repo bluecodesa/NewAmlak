@@ -2,7 +2,7 @@
 
 // App/Interfaces/SubscriptionTypesRepositoryInterface.php
 
-namespace App\Interfaces;
+namespace App\Interfaces\Admin;
 
 use Illuminate\Http\Request;
 

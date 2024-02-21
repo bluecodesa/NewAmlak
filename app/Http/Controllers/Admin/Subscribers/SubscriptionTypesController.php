@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Subscribers;
 
 use App\Http\Controllers\Controller;
 
-use App\Interfaces\SubscriptionTypesRepositoryInterface;
+use App\Interfaces\Admin\SubscriptionTypesRepositoryInterface;
 use App\Http\Requests\SubscriptionTypeRequest;
 use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
