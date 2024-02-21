@@ -58,7 +58,9 @@
                                                     <td>{{ $project->OwnerData->name ?? '' }}</td>
                                                     <td>{{ $project->CityData->name ?? '' }}</td>
                                                     <td>{{ $project->location ?? '' }}</td>
-                                                    <td>1</td>
+                                                    <td>
+                                                        {{ $project->PropertiesProject->count() }}
+                                                    </td>
 
                                                     <td>
 
@@ -72,7 +74,7 @@
                                                             onclick="handleDelete('{{ $project->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
                                                         <form id="delete-form-{{ $project->id }}"
-                                                            action="{{ route('Office.Project.edit', $project->id) }}"
+                                                            action="{{ route('Office.Project.destroy', $project->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')
