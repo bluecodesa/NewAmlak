@@ -3,13 +3,12 @@
 
 namespace App\Repositories\Office;
 
-use App\Interfaces\Office\DeveloperRepositoryInterface;
-use App\Models\Developer;
+use App\Interfaces\Office\EmployeeRepositoryInterface;
 use App\Models\Employee;
 use App\Models\Role;
 use App\Models\User;
 
-class EmployeeRepository implements DeveloperRepositoryInterface
+class EmployeeRepository implements EmployeeRepositoryInterface
 {
     protected $model;
 
