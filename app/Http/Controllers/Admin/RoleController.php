@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 
 
@@ -30,18 +28,13 @@ class RoleController extends Controller
         return view('Admin.roles.index', get_defined_vars());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $permissions = Permission::all();
         return view('Admin.roles.create', get_defined_vars());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreRoleRequest $request): RedirectResponse
     {
         $permissions = Permission::whereIn('id', $request->permission)->get();
@@ -63,9 +56,6 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Role $role)
     {
 
@@ -78,9 +68,6 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Role $role)
     {
         $permissions = Permission::whereIn('id', $request->permission)->get();
@@ -100,10 +87,6 @@ class RoleController extends Controller
         return redirect()->route('Admin.roles.index')->withSuccess(__('Update successfully'));
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Role $role): RedirectResponse
     {
         if ($role->name == 'App_SuperAdmin') {

@@ -46,8 +46,7 @@
                                                     <td>{{ $owner->CityData->name }}</td>
                                                     <td>{{ $owner->OfficeData->company_name ?? '' }}</td>
                                                     <td>
-                                                        <a href="{{ route('Admin.Owner.edit', $owner->id) }}"
-                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $owner->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">

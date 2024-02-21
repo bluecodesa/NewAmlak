@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Admin\General;
 
 use App\Http\Controllers\Controller;
-use App\Models\City;
-use App\Models\Setting;
 use Illuminate\Http\Request;
-use App\Models\PaymentGateway;
-use App\Models\Region;
-use Illuminate\Validation\Rule;
+use App\Services\Admin\RegionService;
 
 class RegionController extends Controller
 {
+    protected $regionService;
+    public function __construct(RegionService $regionService)
+    {
+        $this->regionService = $regionService;
+    }
 
     public function index()
     {
-        $regions = Region::all();
+        $regions = $this->regionService->getAllRegions();
         return view('Admin.settings.Region.index', get_defined_vars());
     }
 
@@ -32,14 +33,7 @@ class RegionController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('region_translations', 'name')]];
-        }
-        $request->validate($rules);
-
-        $request->validate($rules);
-        Region::create($request->all());
+        $this->regionService->create($request->all());
         return redirect()->route('Admin.Region.index')->with('success', __('added successfully'));
     }
 
@@ -48,31 +42,25 @@ class RegionController extends Controller
      */
     public function show($id)
     {
-        $cities = City::where('region_id', $id)->get();
+        $cities =    $this->regionService->getCityByRegionId($id);
         return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
 
     public function edit($id)
     {
-        $Region = Region::find($id);
+        $Region = $this->regionService->getRegionById($id);
         return view('Admin.settings.Region.edit', get_defined_vars());
     }
 
     public function update(Request $request, $id)
     {
-        $Region = Region::find($id);
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('region_translations', 'name')->ignore($Region->id, 'region_id')]];
-        }
-        $request->validate($rules);
-        $Region->update($request->all());
+        $this->regionService->update($id, $request->all());
         return redirect()->route('Admin.Region.index')->with('success', __('Update successfully'));
     }
 
     public function destroy(string $id)
     {
-        Region::find($id)->delete();
+        $this->regionService->delete($id);
         return redirect()->route('Admin.Region.index')->with('success', __('Deleted successfully'));
     }
 }

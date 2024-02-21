@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\Admin\General;
 
 use App\Http\Controllers\Controller;
-use App\Models\City;
-use App\Models\District;
-use App\Models\Setting;
 use Illuminate\Http\Request;
-use App\Models\PaymentGateway;
-use App\Models\Region;
-use Illuminate\Validation\Rule;
+use App\Services\Admin\DistrictService;
+use App\Services\CityService;
 
 class DistrictController extends Controller
 {
+    protected $DistrictService;
+    protected $CityService;
+    public function __construct(DistrictService $DistrictService, CityService $CityService)
+    {
+        $this->DistrictService = $DistrictService;
+        $this->CityService = $CityService;
+    }
+
     public function index()
     {
-        $districts = District::all();
+        $districts = $this->DistrictService->getAllDistrict();
         return view('Admin.settings.Region.City.District.index', get_defined_vars());
     }
 
@@ -24,7 +28,7 @@ class DistrictController extends Controller
      */
     public function create()
     {
-        $cities = City::all();
+        $cities =  $this->CityService->getAllCities();
         return view('Admin.settings.Region.City.District.create', get_defined_vars());
     }
 
@@ -33,12 +37,7 @@ class DistrictController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('district_translations', 'name')]];
-        }
-        $request->validate($rules);
-        District::create($request->all());
+        $this->DistrictService->create($request->all());
         return redirect()->route('Admin.District.index')->with('success', __('added successfully'));
     }
 
@@ -52,27 +51,20 @@ class DistrictController extends Controller
 
     public function edit($id)
     {
-        $cities = City::all();
-
-        $District = District::find($id);
+        $cities =  $this->CityService->getAllCities();
+        $District = $this->DistrictService->getDistrictById($id);
         return view('Admin.settings.Region.City.District.edit', get_defined_vars());
     }
 
     public function update(Request $request, $id)
     {
-        $District = District::find($id);
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('district_translations', 'name')->ignore($District->id, 'district_id')]];
-        }
-        $request->validate($rules);
-        $District->update($request->all());
+        $this->DistrictService->update($id, $request->all());
         return redirect()->route('Admin.District.index')->with('success', __('Update successfully'));
     }
 
     public function destroy(string $id)
     {
-        District::find($id)->delete();
+        $this->DistrictService->delete($id);
         return redirect()->route('Admin.District.index')->with('success', __('Deleted successfully'));
     }
 }

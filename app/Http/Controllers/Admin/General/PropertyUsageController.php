@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Admin\General;
 
 use App\Http\Controllers\Controller;
-use App\Models\City;
-use App\Models\District;
-use App\Models\Setting;
 use Illuminate\Http\Request;
-use App\Models\PaymentGateway;
-use App\Models\PropertyUsage;
-use App\Models\Region;
-use Illuminate\Validation\Rule;
+use App\Services\Admin\PropertyUsageService;
 
 class PropertyUsageController extends Controller
 {
+    protected $PropertyUsageService;
+    public function __construct(PropertyUsageService $PropertyUsageService)
+    {
+        $this->PropertyUsageService = $PropertyUsageService;
+    }
     public function index()
     {
-        $types = PropertyUsage::all();
+        $types =  $this->PropertyUsageService->getAll();
         return view('Admin.settings.ProjectType.PropertyUsage.index', get_defined_vars());
     }
 
@@ -28,17 +27,9 @@ class PropertyUsageController extends Controller
         return view('Admin.settings.ProjectType.PropertyUsage.create', get_defined_vars());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('property_usage_translations', 'name')]];
-        }
-        $request->validate($rules);
-        PropertyUsage::create($request->all());
+        $this->PropertyUsageService->create($request->all());
         return redirect()->route('Admin.PropertyUsage.index')->with('success', __('added successfully'));
     }
 
@@ -52,25 +43,19 @@ class PropertyUsageController extends Controller
 
     public function edit($id)
     {
-        $PropertyUsage = PropertyUsage::find($id);
+        $PropertyUsage =  $this->PropertyUsageService->getById($id);
         return view('Admin.settings.ProjectType.PropertyUsage.edit', get_defined_vars());
     }
 
     public function update(Request $request, $id)
     {
-        $PropertyUsage = PropertyUsage::find($id);
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('property_usage_translations', 'name')->ignore($PropertyUsage->id, 'property_usage_id')]];
-        }
-        $request->validate($rules);
-        $PropertyUsage->update($request->all());
+        $this->PropertyUsageService->update($id, $request->all());
         return redirect()->route('Admin.PropertyUsage.index')->with('success', __('Update successfully'));
     }
 
     public function destroy(string $id)
     {
-        PropertyUsage::find($id)->delete();
+        $this->PropertyUsageService->delete($id);
         return redirect()->route('Admin.PropertyUsage.index')->with('success', __('Deleted successfully'));
     }
 }
