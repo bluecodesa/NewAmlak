@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
@@ -19,15 +20,14 @@ class DeveloperController extends Controller
 
     public function __construct(DeveloperService $developerService, RegionService $regionService, CityService $cityService)
     {
-        $this->developerService = $developerService;
-        $this->regionService = $regionService;
-        $this->cityService = $cityService;
+         $this->developerService = $developerService;
+         $this->regionService = $regionService;
+         $this->cityService = $cityService;
     }
 
     public function index()
     {
-        $brokerId = Auth::user()->UserBrokerData->id;
-        $developers = $this->developerService->getAllDevelopersByBroker($brokerId);
+        $developers = $this->developerService->getAllDevelopersById(auth()->user()->UserBrokerData->id);
        return view('Broker.ProjectManagement.Developer.index', get_defined_vars());
     }
 

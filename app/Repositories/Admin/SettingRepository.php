@@ -1,44 +1,30 @@
 <?php
 
 namespace App\Repositories\Admin;
+
 use App\Models\Setting;
 use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Models\PaymentGateway;
 
 class SettingRepository implements SettingRepositoryInterface
 {
-    public function getSettings()
+    public function getAllSetting(): Setting
     {
-        return Setting::first();
+        $settings = Setting::first();
+        $paymentGateways = PaymentGateway::all();
+
+
+        if (!$settings) {
+            $settings = new Setting();
+        }
+        $settings->paymentGateways = $paymentGateways;
+
+        return $settings ;
     }
 
-    public function updateSettings($request, $id)
+    public function updateWebsiteSetting(array $data, Setting $setting): Setting
     {
-        $setting = Setting::findOrFail($id);
-
-        foreach (config('translatable.locales') as $locale) {
-            $setting->translateOrNew($locale)->title = $request->input("$locale.title");
-        }
-
-        $setting->facebook = $request->input('url');
-
-        if ($request->hasFile('icon')) {
-            if ($setting->icon) {
-                $previousIconPath = public_path($setting->icon);
-                if (file_exists($previousIconPath)) {
-                    unlink($previousIconPath);
-                }
-            }
-            $file = $request->file('icon');
-            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
-            $destinationPath = public_path('logos');
-            $file->move($destinationPath, $fileName);
-            $setting->icon = 'logos/' . $fileName;
-        }
-
-        $setting->color = $request->input('color');
-
         $setting->save();
-
         return $setting;
     }
 }

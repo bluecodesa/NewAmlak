@@ -1,26 +1,27 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Services\Admin\SettingService;
 use App\Models\PaymentGateway;
-
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $settingService;
+
+    public function __construct(SettingService $settingService)
+    {
+        $this->settingService = $settingService;
+    }
 
     public function index()
     {
-        $settings = Setting::first();
-        $paymentGateways = PaymentGateway::all();
-        return view('Admin.settings.index', get_defined_vars());
+        $settings = $this->settingService->getAllSetting();
+        $paymentGateways = $settings->paymentGateways;
+        return view('Admin.settings.index',get_defined_vars());
     }
-
     function ChangeActiveHomePage(Request $request)
     {
         $Setting =  Setting::first();

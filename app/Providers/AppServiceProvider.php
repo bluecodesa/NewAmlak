@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Admin\SettingRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Interfaces\SubscriptionTypesRepositoryInterface;
 use App\Models\Setting;
+use App\Repositories\Admin\SettingRepository;
 use App\Repositories\SubscriptionTypesRepository;
 
 
@@ -22,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
             SubscriptionTypesRepositoryInterface::class,
             SubscriptionTypesRepository::class
         );
+
+        $this->app->bind(
+            SettingRepositoryInterface::class,
+            SettingRepository::class
+        );
+
     }
 
     /**
