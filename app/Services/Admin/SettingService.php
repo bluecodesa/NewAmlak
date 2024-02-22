@@ -16,27 +16,14 @@ class SettingService
         $this->settingRepository = $settingRepository;
     }
 
-    /**
-     * Get the first setting from the database.
-     *
-     * @return Setting|null
-     */
     public function getAllSetting(): Setting
     {
         return $this->settingRepository->getAllSetting();
     }
 
-    /**
-     * Update the setting with the provided data.
-     *
-     * @param array $data
-     * @param Setting $setting
-     * @return Setting
-     * @throws \Illuminate\Validation\ValidationException
-     */
+
     public function updateSetting(array $data, Setting $setting): Setting
     {
-        // Validation rules
         $rules = [
             'ar.title' => 'required|string',
             'en.title' => 'required|string',
@@ -45,11 +32,9 @@ class SettingService
             'color' => 'nullable|string',
         ];
 
-        // Validate the input data
         $validator = Validator::make($data, $rules);
         $validator->validate();
 
-        // Update the setting with the provided data
         foreach (config('translatable.locales') as $locale) {
             $setting->translateOrNew($locale)->title = $data["$locale.title"];
         }
@@ -66,8 +51,7 @@ class SettingService
 
         $setting->color = $data['color'];
 
-        // Save the updated setting
-        $this->settingRepository->updateWebsiteSetting($setting);
+        $this->settingRepository->updateWebsiteSetting($data,$setting);
 
         return $setting;
     }
