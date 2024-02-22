@@ -8,11 +8,10 @@ use App\Models\PaymentGateway;
 
 class SettingRepository implements SettingRepositoryInterface
 {
-    public function getAllSetting(): Setting
+    public function getAllSetting()
     {
         $settings = Setting::first();
         $paymentGateways = PaymentGateway::all();
-
 
         if (!$settings) {
             $settings = new Setting();
@@ -27,4 +26,36 @@ class SettingRepository implements SettingRepositoryInterface
         $setting->save();
         return $setting;
     }
+
+
+    public function updateSetting(array $data)
+    {
+        // Implement logic to update a setting
+    }
+
+    public function createSetting(array $data)
+    {
+        // Implement logic to create a new setting
+    }
+
+    public function findSettingById(int $id)
+    {
+        // Implement logic to find a setting by its ID
+    }
+
+    public function deleteSetting($id)
+    {
+        // Implement logic to delete a setting
+    }
+
+    public function updatePaymentSetting(array $data)
+    {
+        // Implement logic to update a setting
+    }
+
+    public function createPaymentSetting(array $data)
+    {
+        // Implement logic to create a new setting
+    }
 }
+
