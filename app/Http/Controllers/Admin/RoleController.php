@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\Admin\PermissionService;
+use App\Services\Admin\RoleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -13,34 +15,36 @@ use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-    public function __construct()
+    protected $PermissionService;
+    protected $RoleService;
+
+    public function __construct(PermissionService $PermissionService, RoleService $RoleService)
     {
         $this->middleware('auth');
         $this->middleware('permission:create-role|edit-role|delete-role', ['only' => ['index', 'show']]);
         $this->middleware('permission:create-role', ['only' => ['create', 'store']]);
         $this->middleware('permission:edit-role', ['only' => ['edit', 'update']]);
         $this->middleware('permission:delete-role', ['only' => ['destroy']]);
+        $this->PermissionService = $PermissionService;
+        $this->RoleService = $RoleService;
     }
 
     public function index()
     {
-        $roles =  Role::orderBy('id', 'DESC')->paginate(50);
+        $roles =  $this->RoleService->getAll();
         return view('Admin.roles.index', get_defined_vars());
     }
 
     public function create()
     {
-        $permissions = Permission::all();
+        $permissions = $this->PermissionService->getAll();
         return view('Admin.roles.create', get_defined_vars());
     }
 
 
-    public function store(StoreRoleRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $permissions = Permission::whereIn('id', $request->permission)->get();
-        $role = Role::create(['name' => $request->name]);
-        $role->update($request->all());
-        $role->syncPermissions($permissions);
+        $this->RoleService->create($request->all());
         return redirect()->route('Admin.roles.index')
             ->withSuccess('New role is added successfully.');
     }
@@ -56,51 +60,23 @@ class RoleController extends Controller
         ]);
     }
 
-    public function edit(Role $role)
+    public function edit($id)
     {
-
+        $role =   $this->RoleService->getById($id);
         $role_permissions =  $role->permissions->pluck('id')->toArray();;
-
-        return view('Admin.roles.edit', [
-            'role' => $role,
-            'permissions' => Permission::get(),
-            'role_permissions' => $role_permissions
-        ]);
+        $permissions =  $this->PermissionService->getAll();
+        return view('Admin.roles.edit', get_defined_vars());
     }
 
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
-        $permissions = Permission::whereIn('id', $request->permission)->get();
-        $role->update($request->except('permission'));
-        $role->syncPermissions($permissions);
-        $users = User::whereHas('roles', function ($q) use ($role) {
-            $q->where('name', $role->name);
-        })->get();
-
-        foreach ($users as $user) {
-            $user->syncRoles([$role->name]);
-
-            // Sync permissions directly from the role
-            $user->syncPermissions($permissions);
-        }
-
+        $this->RoleService->update($id, $request->all());
         return redirect()->route('Admin.roles.index')->withSuccess(__('Update successfully'));
     }
 
-    public function destroy(Role $role): RedirectResponse
+    public function destroy($id)
     {
-        if ($role->name == 'App_SuperAdmin') {
-            abort(403, __('SUPER ADMIN ROLE CAN NOT BE DELETED'));
-        }
-        if (auth()->user()->hasRole($role->name)) {
-            abort(403, __('CAN NOT DELETE SELF ASSIGNED ROLE'));
-        }
-        try {
-            $role->delete();
-        } catch (\Throwable $th) {
-            return back()->with('sorry', __('This role was not enabled because it was linked to a subscription'));
-        }
-
+        $this->RoleService->delete($id);
         return redirect()->route('Admin.roles.index')
             ->withSuccess(__('Role is deleted successfully.'));
     }

@@ -2,7 +2,7 @@
 
 namespace App\Interfaces\Admin;
 
-interface PermissionRepositoryInterface
+interface RoleRepositoryInterface
 {
     public function getAll();
     public function create($data);

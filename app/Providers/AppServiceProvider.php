@@ -8,6 +8,7 @@ use App\Interfaces\Admin\PermissionRepositoryInterface;
 use App\Interfaces\Admin\PropertyTypeRepositoryInterface;
 use App\Interfaces\Admin\PropertyUsageRepositoryInterface;
 use App\Interfaces\Admin\RegionRepositoryInterface;
+use App\Interfaces\Admin\RoleRepositoryInterface;
 use App\Interfaces\Admin\SectionRepositoryInterface;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
@@ -27,6 +28,7 @@ use App\Repositories\Admin\PermissionRepository;
 use App\Repositories\Admin\PropertyTypeRepository;
 use App\Repositories\Admin\PropertyUsageRepository;
 use App\Repositories\Admin\RegionRepository;
+use App\Repositories\Admin\RoleRepository;
 use App\Repositories\Admin\SectionRepository;
 use App\Repositories\Admin\SettingRepository;
 use App\Repositories\Admin\SubscriptionTypesRepository;
@@ -127,6 +129,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PermissionRepositoryInterface::class,
             PermissionRepository::class
+        );
+
+        $this->app->bind(
+            RoleRepositoryInterface::class,
+            RoleRepository::class
         );
     }
 
