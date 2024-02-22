@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Interfaces\Admin\RegionRepositoryInterface;
 use App\Repositories\Admin\RegionRepository;
 use Illuminate\Validation\Rule;
 
@@ -9,7 +10,7 @@ class RegionService
 {
     protected $RegionRepository;
 
-    public function __construct(RegionRepository $RegionRepository)
+    public function __construct(RegionRepositoryInterface $RegionRepository)
     {
         $this->RegionRepository = $RegionRepository;
     }

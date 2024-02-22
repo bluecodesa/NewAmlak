@@ -2,14 +2,14 @@
 
 namespace App\Services\Admin;
 
-use App\Repositories\Admin\DistrictRepository;
+use App\Interfaces\Admin\DistrictRepositoryInterface;
 use Illuminate\Validation\Rule;
 
 class DistrictService
 {
     protected $DistrictRepository;
 
-    public function __construct(DistrictRepository $DistrictRepository)
+    public function __construct(DistrictRepositoryInterface $DistrictRepository)
     {
         $this->DistrictRepository = $DistrictRepository;
     }
