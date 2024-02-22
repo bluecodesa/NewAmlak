@@ -1,43 +1,59 @@
 @extends('Admin.layouts.app')
-
+@section('title', __('Role Information'))
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <div class="float-start">
-                        Role Information
-                    </div>
-                    <div class="float-end">
-                        <a href="{{ route('Admin.roles.index') }}" class="btn btn-primary btn-sm">&larr; Back</a>
-                    </div>
-                </div>
-                <div class="card-body">
 
-                    <div class="mb-3 row">
-                        <label for="name"
-                            class="col-md-4 col-form-label text-md-end text-start"><strong>Name:</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            {{ $role->name }}
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="roles"
-                            class="col-md-4 col-form-label text-md-end text-start"><strong>Permissions:</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            @if ($role->name == 'Super Admin')
-                                <span class="badge bg-primary">All</span>
-                            @else
-                                @forelse ($rolePermissions as $permission)
-                                    <span class="badge bg-primary">{{ $permission->name }}</span>
-                                @empty
-                                @endforelse
-                            @endif
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="page-title-box">
+                    <div class="card m-b-30">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">
+                                        @lang('Role Information')</h4>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card m-b-30">
+                            @include('Admin.layouts.Inc._errors')
+                            <div class="card-body">
+                                <div class="mb-3 row">
+                                    <label for="name"
+                                        class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('role name'):</strong></label>
+                                    <div class="col-md-6" style="line-height: 35px;">
+                                        {{ $role->name }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="roles"
+                                        class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('Permissions'):</strong></label>
+                                    <div class="col-md-6" style="line-height: 35px;">
+
+                                        @forelse ($rolePermissions as $permission)
+                                            <span
+                                                class="badge badge-primary">{{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}</span>
+                                        @empty
+                                        @endforelse
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div> <!-- end col -->
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+
         </div>
+        <!-- container-fluid -->
+
     </div>
 @endsection

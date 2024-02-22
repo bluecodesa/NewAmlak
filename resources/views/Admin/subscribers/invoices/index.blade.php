@@ -46,7 +46,8 @@
                                             @foreach ($invoices as $index => $invoice)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $invoice->OfficeData->UserData->name ?? '' }}</td>
+                                                    <td>{{ $invoice->OfficeData->UserData->name ?? ($invoice->BrokerData->UserData->name ?? '') }}
+                                                    </td>
                                                     <td>
                                                         {{ __($invoice->subscription_type) }}
                                                     </td>

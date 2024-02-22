@@ -41,13 +41,25 @@
                                                 </address>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <address>
-                                                    <strong> @lang('To'):</strong><br>
-                                                    {{ $invoice->OfficeData->company_name }} <br>
-                                                    {{ $invoice->OfficeData->presenter_number }}<br>
-                                                    {{ $invoice->OfficeData->CityData->name }}<br>
-                                                    {{ $invoice->OfficeData->CRN }}
-                                                </address>
+                                                @if ($invoice->OfficeData != null)
+                                                    <address>
+                                                        <strong> @lang('To'):</strong><br>
+                                                        {{ $invoice->OfficeData->company_name }} <br>
+                                                        {{ $invoice->OfficeData->presenter_number }}<br>
+                                                        {{ $invoice->OfficeData->CityData->name }}<br>
+                                                        {{ $invoice->OfficeData->CRN }}
+                                                    </address>
+                                                @else
+                                                    <address>
+                                                        <strong> @lang('To'):</strong><br>
+                                                        {{ $invoice->BrokerData->UserData->name }} <br>
+                                                        {{ $invoice->BrokerData->mobile }}<br>
+                                                        {{ $invoice->BrokerData->CityData->name }}<br>
+                                                        {{ $invoice->BrokerData->broker_license }}
+                                                    </address>
+                                                @endif
+
+
                                             </div>
                                         </div>
 
