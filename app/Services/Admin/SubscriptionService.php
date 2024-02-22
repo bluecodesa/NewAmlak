@@ -75,7 +75,7 @@ class SubscriptionService
             'password' => 'required|string|max:255',
         ];
 
-        $validatedData = $this->validateData($data, $rules);
+        validator($data, $rules)->validate();
 
         if ($request->hasFile('company_logo')) {
             $file = $request->file('company_logo');
@@ -130,8 +130,7 @@ class SubscriptionService
             'password' => 'required|string|max:255|confirmed',
         ];
 
-
-        $validatedData = $this->validateData($data, $rules);
+        validator($data, $rules)->validate();
 
         $user = $this->userCreationService->createBroker($data);
 
