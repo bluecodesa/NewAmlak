@@ -75,4 +75,27 @@ class SubscriptionTypesRepository implements SubscriptionTypesRepositoryInterfac
     {
         return $this->subscriptionTypeService->deleteType($id);
     }
+
+    public function getSubscriptionTypesByRole($roleName)
+    {
+        return SubscriptionType::whereHas('roles', function ($query) use ($roleName) {
+            $query->where('name', $roleName);
+        })->get();
+    }
+
+    public function getSubscriptionTypesForOfficeAdmin()
+    {
+   
+        return SubscriptionType::whereHas('roles', function ($query) {
+            $query->where('name', 'Office-Admin');
+        })->get();
+    }
+
+    public function getSubscriptionTypesForRSBroker()
+    {
+
+        return SubscriptionType::whereHas('roles', function ($query) {
+            $query->where('name', 'Office-Admin');
+        })->get();
+    }
 }

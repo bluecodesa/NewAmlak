@@ -72,14 +72,12 @@ class SubscriptionController extends Controller
         //
     }
 
-    function SuspendSubscription(Request $request, $id)
+    public function suspendSubscription(Request $request, $id)
     {
+        $isSuspend = $request->input('is_suspend', 0);
+        $this->subscriptionService->suspendSubscription($id, $isSuspend);
 
-        Subscription::find($id)->update([
-            'is_suspend' => $request->is_suspend,
-        ]);
-
-        if ($request->is_suspend == 0) {
+        if ($isSuspend == 0) {
             return redirect()->route('Admin.Subscribers.index')
                 ->withSuccess(__('Subscription has been activated'));
         } else {

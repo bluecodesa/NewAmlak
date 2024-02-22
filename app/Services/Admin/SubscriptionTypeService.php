@@ -14,9 +14,18 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use App\Repositories\Admin\SubscriptionTypesRepository;
+
 
 class SubscriptionTypeService
 {
+
+    protected $subscriptionTypeRepository;
+
+    public function __construct(SubscriptionTypesRepository $subscriptionTypeRepository)
+    {
+        $this->subscriptionTypeRepository = $subscriptionTypeRepository;
+    }
     public function calculateRange($counts)
     {
         $uniqueCounts = array_unique($counts);
@@ -216,5 +225,16 @@ class SubscriptionTypeService
         SubscriptionType::where(['id' => $id])->update(['is_deleted' => 1]);
         return redirect()->route('Admin.SubscriptionTypes.index')
             ->withSuccess(__('Deleted successfully'));
+    }
+
+    public function getSubscriptionTypesByRole($roleName)
+    {
+        if ($roleName === 'Office-Admin') {
+            return $this->subscriptionTypeRepository->getSubscriptionTypesForOfficeAdmin();
+        } elseif ($roleName === 'RS-Broker') {
+            return $this->subscriptionTypeRepository->getSubscriptionTypesForRSBroker();
+        } else {
+            return $this->subscriptionTypeRepository->getAll();
+        }
     }
 }

@@ -29,4 +29,7 @@ interface SubscriptionTypesRepositoryInterface
     public function deleteMultiType($array);
 
     public function deleteType($id);
+
+    public function getSubscriptionTypesByRole($roleName);
+
 }
