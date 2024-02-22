@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Interfaces\Admin\SubscriptionTypesRepositoryInterface;
+use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Interfaces\Office\AdvisorRepositoryInterface;
 use App\Interfaces\Office\DeveloperRepositoryInterface;
 use App\Interfaces\Office\EmployeeRepositoryInterface;
@@ -29,6 +30,7 @@ use App\Repositories\Admin\RegionRepository;
 use App\Repositories\Admin\SectionRepository;
 use App\Repositories\Admin\SettingRepository;
 use App\Repositories\Admin\SubscriptionTypesRepository;
+use App\Repositories\Admin\SystemInvoiceRepository;
 use App\Repositories\Office\AdvisorRepository;
 use App\Repositories\Office\DeveloperRepository;
 use App\Repositories\Office\EmployeeRepository;
@@ -47,6 +49,11 @@ class AppServiceProvider extends ServiceProvider
             SubscriptionTypesRepositoryInterface::class,
             SubscriptionTypesRepository::class
         );
+        $this->app->bind(
+            SystemInvoiceRepositoryInterface::class,
+            SystemInvoiceRepository::class
+        );
+
 
         $this->app->bind(
             SettingRepositoryInterface::class,
