@@ -14,5 +14,6 @@ interface SettingRepositoryInterface
     public function findSettingById(int $id);
     public function deleteSetting($id);
     public function ChangeActiveHomePage($data);
+
 }
 

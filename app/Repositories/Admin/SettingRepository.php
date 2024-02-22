@@ -23,8 +23,6 @@ class SettingRepository implements SettingRepositoryInterface
     }
 
 
-
-
     public function updateSetting(Setting $setting, array $data)
     {
         $setting->update($data);

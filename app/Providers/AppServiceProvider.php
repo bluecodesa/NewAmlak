@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Interfaces\Admin\CityRepositoryInterface;
 use App\Interfaces\Admin\DistrictRepositoryInterface;
+use App\Interfaces\Admin\PaymentGatewayInterface;
+use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
 use App\Interfaces\Admin\PermissionRepositoryInterface;
 use App\Interfaces\Admin\PropertyTypeRepositoryInterface;
 use App\Interfaces\Admin\PropertyUsageRepositoryInterface;
@@ -24,6 +26,7 @@ use App\Interfaces\Office\ProjectRepositoryInterface;
 use App\Models\Setting;
 use App\Repositories\Admin\CityRepository;
 use App\Repositories\Admin\DistrictRepository;
+use App\Repositories\Admin\PaymentGatewayRepository;
 use App\Repositories\Admin\PermissionRepository;
 use App\Repositories\Admin\PropertyTypeRepository;
 use App\Repositories\Admin\PropertyUsageRepository;
@@ -61,6 +64,12 @@ class AppServiceProvider extends ServiceProvider
             SettingRepositoryInterface::class,
             SettingRepository::class
         );
+        $this->app->bind(
+            PaymentGatewayRepositoryInterface::class,
+            PaymentGatewayRepository::class
+        );
+
+
 
         $this->app->bind(
 

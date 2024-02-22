@@ -4,23 +4,27 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
+use App\Repositories\Admin\PaymentGatewayRepository;
 use App\Services\Admin\SettingService;
-
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use App\Models\PaymentGateway;
-
 
 class SettingController extends Controller
 {
     protected $settingRepo;
     protected $settingService;
+    protected $paymentGateway;
 
-
-    public function __construct(SettingRepositoryInterface $settingRepo,SettingService $settingService)
+    public function __construct(
+        SettingRepositoryInterface $settingRepo,
+        SettingService $settingService,
+        PaymentGatewayRepositoryInterface $paymentGateway
+    )
     {
         $this->settingRepo = $settingRepo;
         $this->settingService = $settingService;
+        $this->paymentGateway = $paymentGateway;
     }
 
     public function index()
@@ -57,11 +61,6 @@ class SettingController extends Controller
     return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
 
-    // public function update(Request $request, Setting $setting)
-    // {
-    //     $this->settingRepo->updateSetting($setting, $request->all());
-    //     return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
-    // }
 
     public function destroy(string $id)
     {
@@ -69,15 +68,15 @@ class SettingController extends Controller
 
     public function editPaymentGatewayForm($id)
     {
-        $paymentGateway = PaymentGateway::find($id);
-        return view('Admin.settings.Payments.edit-modal', compact('paymentGateway'));
+        return $this->paymentGateway->editPaymentGatewayForm($id);
     }
+
+
+
 
     public function createPaymentGateway(Request $request)
     {
-    }
+        return $this->paymentGateway->createPaymentGateway($request);
 
-    public function updatePaymentGateway(Request $request, $id)
-    {
     }
 }
