@@ -4,18 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Services\Admin\SettingService;
+
 use Illuminate\Http\Request;
-use App\Services\SettingService;
 use App\Models\Setting;
 use App\Models\PaymentGateway;
+
 
 class SettingController extends Controller
 {
     protected $settingRepo;
+    protected $settingService;
 
-    public function __construct(SettingRepositoryInterface $settingRepo)
+
+    public function __construct(SettingRepositoryInterface $settingRepo,SettingService $settingService)
     {
         $this->settingRepo = $settingRepo;
+        $this->settingService = $settingService;
     }
 
     public function index()
@@ -27,10 +32,7 @@ class SettingController extends Controller
 
     public function ChangeActiveHomePage(Request $request)
     {
-        $setting =  Setting::first();
-        $setting->update([
-            'active_home_page' => $request->active_home_page,
-        ]);
+       return $this->settingRepo->ChangeActiveHomePage($request);
     }
 
     public function create()
@@ -49,9 +51,17 @@ class SettingController extends Controller
     {
     }
 
-    public function update(Request $request, Setting $setting)
-    {
+    public function update(Request $request, Setting $setting){
+        $this->settingService->updateSetting($request, $setting);
+
+    return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
+
+    // public function update(Request $request, Setting $setting)
+    // {
+    //     $this->settingRepo->updateSetting($setting, $request->all());
+    //     return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
+    // }
 
     public function destroy(string $id)
     {

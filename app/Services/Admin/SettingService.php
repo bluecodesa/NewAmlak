@@ -6,6 +6,8 @@ namespace App\Services\Admin;
 use App\Models\Setting;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+
 
 class SettingService
 {
@@ -16,42 +18,35 @@ class SettingService
         $this->settingRepository = $settingRepository;
     }
 
-    public function getAllSetting(): Setting
+    public function getAllSetting()
     {
         return $this->settingRepository->getAllSetting();
     }
 
 
-    public function updateSetting(array $data, Setting $setting): Setting
+    public function updateSetting(Request $request, Setting $setting)
     {
-        $rules = [
+        $data = $request->validate([
             'ar.title' => 'required|string',
             'en.title' => 'required|string',
             'facebook' => 'nullable|url',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'color' => 'nullable|string',
-        ];
-
-        $validator = Validator::make($data, $rules);
-        $validator->validate();
+        ]);
 
         foreach (config('translatable.locales') as $locale) {
-            $setting->translateOrNew($locale)->title = $data["$locale.title"];
+            $data[$locale]['title'] = $request->input("$locale.title");
         }
 
-        $setting->facebook = $data['facebook'];
-
-        if (isset($data['icon']) && $data['icon']->isValid()) {
-            $file = $data['icon'];
+        if ($request->hasFile('icon')) {
+            $file = $request->file('icon');
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('logos');
             $file->move($destinationPath, $fileName);
-            $setting->icon = 'logos/' . $fileName;
+            $data['icon'] = 'logos/' . $fileName;
         }
 
-        $setting->color = $data['color'];
-
-        $this->settingRepository->updateWebsiteSetting($data,$setting);
+        $this->settingRepository->updateSetting($setting, $data);
 
         return $setting;
     }
