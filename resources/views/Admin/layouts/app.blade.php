@@ -11,19 +11,27 @@
     <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--Morris Chart CSS -->
+    @if (app()->getLocale() == 'ar')
+        <link href="{{ url('dashboard_files/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url('dashboard_files/assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
+
+        <link href="{{ url('dashboard_files/assets/css/style.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url('dashboard_files/assets/css/default.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url('dashboard_files/assets/css/bootstrap4-toggle.min.css') }}" rel="stylesheet"
+            type="text/css">
+        <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
+    @else
+        <link rel="stylesheet" href="{{ url('dashboard_files/plugins/morris/morris.css') }}">
+        <link href="{{ url('dashboard_files/LtrAssets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url('dashboard_files/LtrAssets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url('dashboard_files/LtrAssets/css/icons.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url('dashboard_files/LtrAssets/css/style.css') }}" rel="stylesheet" type="text/css">
+    @endif
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
-
-    <!--Morris Chart CSS -->
-    <link rel="stylesheet" href="{{ url('dashboard_files/plugins/morris/morris.css') }}">
-
-    <link href="{{ url('dashboard_files/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/icons.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/style.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/default.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
 
     <!-- DataTables -->
     <link href="{{ url('dashboard_files/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
@@ -34,10 +42,6 @@
     <!-- Responsive datatable examples -->
     <link href="{{ url('dashboard_files/plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
-    <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
-
-
     <style>
         .required-color {
             color: red;
