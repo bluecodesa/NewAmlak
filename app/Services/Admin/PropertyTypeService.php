@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Interfaces\Admin\PropertyTypeRepositoryInterface;
 use App\Repositories\Admin\PropertyTypeRepository;
 use Illuminate\Validation\Rule;
 
@@ -9,7 +10,7 @@ class PropertyTypeService
 {
     protected $PropertyTypeRepository;
 
-    public function __construct(PropertyTypeRepository $PropertyTypeRepository)
+    public function __construct(PropertyTypeRepositoryInterface $PropertyTypeRepository)
     {
         $this->PropertyTypeRepository = $PropertyTypeRepository;
     }

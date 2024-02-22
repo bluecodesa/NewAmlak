@@ -2,14 +2,14 @@
 
 namespace App\Services\Admin;
 
-use App\Repositories\Admin\CityRepository;
+use App\Interfaces\Admin\CityRepositoryInterface;
 use Illuminate\Validation\Rule;
 
 class CityService
 {
     protected $CityRepository;
 
-    public function __construct(CityRepository $CityRepository)
+    public function __construct(CityRepositoryInterface $CityRepository)
     {
         $this->CityRepository = $CityRepository;
     }

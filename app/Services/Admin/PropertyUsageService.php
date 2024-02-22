@@ -2,14 +2,14 @@
 
 namespace App\Services\Admin;
 
-use App\Repositories\Admin\PropertyUsageRepository;
+use App\Interfaces\Admin\PropertyUsageRepositoryInterface;
 use Illuminate\Validation\Rule;
 
 class PropertyUsageService
 {
     protected $PropertyUsageRepository;
 
-    public function __construct(PropertyUsageRepository $PropertyUsageRepository)
+    public function __construct(PropertyUsageRepositoryInterface $PropertyUsageRepository)
     {
         $this->PropertyUsageRepository = $PropertyUsageRepository;
     }
