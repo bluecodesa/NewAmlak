@@ -30,32 +30,26 @@ class SettingRepository implements SettingRepositoryInterface
 
     public function updateSetting(array $data)
     {
-        // Implement logic to update a setting
     }
 
     public function createSetting(array $data)
     {
-        // Implement logic to create a new setting
     }
 
     public function findSettingById(int $id)
     {
-        // Implement logic to find a setting by its ID
     }
 
     public function deleteSetting($id)
     {
-        // Implement logic to delete a setting
     }
 
     public function updatePaymentSetting(array $data)
     {
-        // Implement logic to update a setting
     }
 
     public function createPaymentSetting(array $data)
     {
-        // Implement logic to create a new setting
     }
 }
 

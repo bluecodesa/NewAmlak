@@ -27,41 +27,34 @@ class SettingController extends Controller
 
     public function ChangeActiveHomePage(Request $request)
     {
-        $setting =  Setting::first(); // Assuming you have only one setting
+        $setting =  Setting::first();
         $setting->update([
             'active_home_page' => $request->active_home_page,
         ]);
-        // You might want to add some validation and error handling here
     }
 
     public function create()
     {
-        // Add your create logic here if needed
     }
 
     public function store(Request $request)
     {
-        // Add your store logic here if needed
     }
 
     public function show(string $id)
     {
-        // Add your show logic here if needed
     }
 
     public function edit(string $id)
     {
-        // Add your edit logic here if needed
     }
 
     public function update(Request $request, Setting $setting)
     {
-        // Add your update logic here
     }
 
     public function destroy(string $id)
     {
-        // Add your destroy logic here if needed
     }
 
     public function editPaymentGatewayForm($id)
@@ -72,11 +65,9 @@ class SettingController extends Controller
 
     public function createPaymentGateway(Request $request)
     {
-        // Add your create payment gateway logic here
     }
 
     public function updatePaymentGateway(Request $request, $id)
     {
-        // Add your update payment gateway logic here
     }
 }
