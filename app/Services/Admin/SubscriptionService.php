@@ -3,24 +3,15 @@
 namespace App\Services\Admin;
 
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
-use App\Models\Broker;
-use App\Models\Region;
-use App\Models\City;
-use App\Models\Role;
-use App\Models\SubscriptionTypeRole;
+
 use App\Models\SubscriptionType;
 use App\Services\UserCreationService;
 use Illuminate\Validation\Rule;
-use App\Models\User;
-use App\Models\Office;
-use App\Models\Subscription;
 use App\Models\SystemInvoice;
 use App\Notifications\Admin\NewOfficeNotification;
 use App\Services\OfficeCreationService;
 use App\Services\BrokerCreationService;
 
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
@@ -172,10 +163,7 @@ class SubscriptionService
 
 
     //////
-    protected function validateData(array $data, array $rules)
-    {
-        return request()->validate($rules);
-    }
+   
 
 
     protected function uploadCompanyLogo($request)
