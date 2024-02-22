@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Interfaces\Admin\CityRepositoryInterface;
 use App\Interfaces\Admin\DistrictRepositoryInterface;
+use App\Interfaces\Admin\PermissionRepositoryInterface;
 use App\Interfaces\Admin\PropertyTypeRepositoryInterface;
 use App\Interfaces\Admin\PropertyUsageRepositoryInterface;
 use App\Interfaces\Admin\RegionRepositoryInterface;
+use App\Interfaces\Admin\SectionRepositoryInterface;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -21,9 +23,11 @@ use App\Interfaces\Office\ProjectRepositoryInterface;
 use App\Models\Setting;
 use App\Repositories\Admin\CityRepository;
 use App\Repositories\Admin\DistrictRepository;
+use App\Repositories\Admin\PermissionRepository;
 use App\Repositories\Admin\PropertyTypeRepository;
 use App\Repositories\Admin\PropertyUsageRepository;
 use App\Repositories\Admin\RegionRepository;
+use App\Repositories\Admin\SectionRepository;
 use App\Repositories\Admin\SettingRepository;
 use App\Repositories\Admin\SubscriptionTypesRepository;
 use App\Repositories\Admin\SystemInvoiceRepository;
@@ -114,6 +118,16 @@ class AppServiceProvider extends ServiceProvider
             RegionRepository::class
         );
 
+        $this->app->bind(
+            SectionRepositoryInterface::class,
+            SectionRepository::class
+        );
+
+
+        $this->app->bind(
+            PermissionRepositoryInterface::class,
+            PermissionRepository::class
+        );
     }
 
     /**

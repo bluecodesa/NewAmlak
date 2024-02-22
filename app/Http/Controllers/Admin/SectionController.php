@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Section;
-use App\Models\Setting;
+use App\Services\Admin\SectionService;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Spatie\Permission\Models\Permission;
 
 class SectionController extends Controller
 {
 
+    protected $SectionService;
+
+    public function __construct(SectionService $SectionService)
+    {
+        $this->SectionService = $SectionService;
+    }
     public function index()
     {
-        $sections = Section::get();
+        $sections = $this->SectionService->getAll();
         return view('Admin.Section.index', get_defined_vars());
     }
 
@@ -26,59 +29,36 @@ class SectionController extends Controller
         return view('Admin.Section.create', get_defined_vars());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('section_translations', 'name')]];
-        }
-        $request->validate($rules);
-        Section::create($request->all());
-
+        $this->SectionService->create($request->all());
         return redirect()->route('Admin.Sections.index')
             ->withSuccess(__('added successfully'));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Section $Section)
+
+    public function edit($id)
     {
+        $Section  =   $this->SectionService->getById($id);
         return view('Admin.Section.edit', get_defined_vars());
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Section $Section)
+
+    public function update(Request $request, $id)
     {
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('section_translations', 'name')->ignore($Section->id, 'section_id')]];
-        }
-        $request->validate($rules);
-        $Section->update($request->all());
+        $this->SectionService->update($id, $request->all());
         return redirect()->route('Admin.Sections.index')
             ->withSuccess(__('Update successfully'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Section $Section)
+    public function destroy($id)
     {
-        $Section->delete();
+        $this->SectionService->delete($id);
         return redirect()->route('Admin.Sections.index')
             ->withSuccess(__('Deleted successfully'));
     }
