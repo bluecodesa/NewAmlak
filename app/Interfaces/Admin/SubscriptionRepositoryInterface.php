@@ -24,4 +24,7 @@ interface SubscriptionRepositoryInterface
 
 
     public function deleteSubscriber(int $id);
+
+    public function suspendSubscription($id, $isSuspend);
+
 }

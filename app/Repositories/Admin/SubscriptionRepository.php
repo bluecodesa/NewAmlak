@@ -22,6 +22,11 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         return Subscription::create($data);
     }
 
+    public function createBrokerSubscriber(array $data)
+    {
+        return Subscription::create($data);
+    }
+
     public function updateSubscriber(int $id, array $data)
     {
         $subscription = Subscription::find($id);
@@ -31,11 +36,14 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
 
     public function deleteSubscriber(int $id)
     {
-        return Subscription::destroy($id);
+        return Subscription::findOrFail($id)->delete();;
     }
 
-    public function createBrokerSubscriber(array $data)
+
+    public function suspendSubscription($id, $isSuspend)
     {
-        return Subscription::create($data);
+        Subscription::find($id)->update([
+            'is_suspend' => $isSuspend,
+        ]);
     }
 }
