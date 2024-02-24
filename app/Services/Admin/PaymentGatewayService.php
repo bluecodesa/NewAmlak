@@ -7,6 +7,8 @@ namespace App\Services;
 use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
 use App\Repositories\Admin\PaymentGatewayRepository;
 use Illuminate\Http\Request;
+use App\Models\PaymentGateway;
+
 
 class PaymentGatewayService implements PaymentGatewayRepositoryInterface
 {
@@ -19,27 +21,27 @@ class PaymentGatewayService implements PaymentGatewayRepositoryInterface
 
     public function editPaymentGatewayForm($id)
     {
-        $paymentGateway = $this->paymentGatewayRepository->find($id);
+        $paymentGateway = $this->paymentGatewayRepository->editPaymentGatewayForm($id);
         return view('Admin.settings.Payments.edit-modal', compact('paymentGateway'));
     }
 
-    public function createPaymentGateway(Request $request)
+    public function createPaymentGateway(array $data)
     {
-        $request->validate([
+
+        $request = request();
+
+        $rules =
+       [
             'name' => 'required|string',
             'api_key' => 'required|string',
             'profile_id' => 'required|string',
             'client_key' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $data = [
-            'name' => $request->input('name'),
-            'api_key_paytabs' => $request->input('api_key'),
-            'profile_id_paytabs' => $request->input('profile_id'),
-            'client_key' => $request->input('client_key'),
-            'user_id' => auth()->id(),
         ];
+
+        validator($data, $rules)->validate();
+        $user_id = auth()->id();
+
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -48,9 +50,10 @@ class PaymentGatewayService implements PaymentGatewayRepositoryInterface
             $file->move($destinationPath, $fileName);
             $data['image'] = 'dashboard_files/images/payments/' . $fileName;
         }
+        $data['user_id'] = $user_id;
 
-        $this->paymentGatewayRepository->create($data);
+        $this->paymentGatewayRepository->createPaymentGateway($data);
 
-        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway created successfully.'));
-    }
+ }
+
 }
