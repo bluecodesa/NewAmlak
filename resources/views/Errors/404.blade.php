@@ -24,6 +24,7 @@
         h3,
         label span,
         * {
+
             font-family: 'Tajawal';
         }
     </style>
