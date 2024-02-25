@@ -16,10 +16,6 @@ use App\Models\User;
 use App\Notifications\Admin\NewOfficeNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Validation\Rule;
-
 use App\Services\Admin\SubscriptionService;
 use App\Services\RegionService;
 use App\Services\CityService;
@@ -53,7 +49,6 @@ class SubscriptionController extends Controller
             $query->where('name', 'Office-Admin');
         })->get();
         return view('Admin.admin.subscriptions.create', get_defined_vars());
-
     }
 
 
