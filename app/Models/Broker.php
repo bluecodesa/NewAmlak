@@ -31,4 +31,10 @@ class Broker extends Model
     {
         return $this->hasOne(Subscription::class, 'broker_id')->where('status', 'pending');
     }
+
+
+    public function UserSystemInvoicePending()
+    {
+        return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status', 'pending')->latest();
+    }
 }

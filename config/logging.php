@@ -118,6 +118,7 @@ return [
             'replace_placeholders' => true,
         ],
 
+
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
@@ -131,6 +132,7 @@ return [
             'path' => storage_path('logs/paytabs.log'),
             'level' => 'info',
         ],
+
     ],
 
 ];
