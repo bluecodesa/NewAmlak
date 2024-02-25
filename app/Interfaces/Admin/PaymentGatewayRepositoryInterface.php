@@ -10,4 +10,6 @@ interface PaymentGatewayRepositoryInterface
 {
     public function editPaymentGatewayForm($id);
     public function createPaymentGateway(array  $data);
+    public function updatePaymentGateway($id, array $data);
+
 }
