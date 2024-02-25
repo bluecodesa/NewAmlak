@@ -392,19 +392,19 @@
 
                                                                                 <div class="form-group">
                                                                                     <label>@lang('Api Key PayTabs')</label>
-                                                                                    <input name="api_key_paytabs"
+                                                                                    <input name="api_key"
                                                                                         class="form-control"
                                                                                         type="password" id="title_ar"
-                                                                                        value="{{ $paymentGateway->api_key_paytabs ?? '' }}"
+                                                                                        value="{{ $paymentGateway->api_key ?? '' }}"
                                                                                         disabled>
                                                                                 </div>
 
                                                                                 <div class="form-group">
                                                                                     <label>@lang('Profile Id PayTabs')</label>
-                                                                                    <input name="profile_id_paytabs"
+                                                                                    <input name="profile_id"
                                                                                         class="form-control"
                                                                                         type="password" id="title_en"
-                                                                                        value="{{ $paymentGateway->profile_id_paytabs ?? '' }}"
+                                                                                        value="{{ $paymentGateway->profile_id ?? '' }}"
                                                                                         disabled>
                                                                                 </div>
 

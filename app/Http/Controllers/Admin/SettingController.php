@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
+use App\Models\PaymentGateway;
 use App\Repositories\Admin\PaymentGatewayRepository;
 use App\Services\Admin\SettingService;
 use Illuminate\Http\Request;
@@ -76,7 +77,47 @@ class SettingController extends Controller
 
     public function createPaymentGateway(Request $request)
     {
-        return $this->paymentGateway->createPaymentGateway($request);
+       $this->paymentGateway->createPaymentGateway($request->all());
+       return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
 
+
+    }
+
+    public function updatePaymentGateway(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'api_key' => 'required|string',
+            'profile_id' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:0,1',
+        ]);
+
+        $paymentGateway = PaymentGateway::findOrFail($id);
+
+        $paymentGateway->fill($request->except('image', 'status'));
+        $paymentGateway->status = $request->input('status');
+
+        if ($request->hasFile('image')) {
+            // Delete previous image
+            if ($paymentGateway->image) {
+                $previousImagePath = public_path($paymentGateway->image);
+                if (file_exists($previousImagePath)) {
+                    unlink($previousImagePath);
+                }
+            }
+
+            // Upload and save new image
+            $file = $request->file('image');
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('dashboard_files/images/payments');
+            $file->move($destinationPath, $fileName);
+            $paymentGateway->image = 'dashboard_files/images/payments/' . $fileName;
+        }
+
+        // Save the payment gateway
+        $paymentGateway->save();
+
+        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
 }

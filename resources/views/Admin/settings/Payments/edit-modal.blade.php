@@ -19,12 +19,12 @@
 
                     <div class="form-group">
                         <label class="form-label"> @lang('Api Key PayTabs') <span class="required-color">*</span></label>
-                        <input name="api_key_paytabs" required class="form-control" type="text" id="api_key_paytabs" value="{{ old('api_key_paytabs', $paymentGateway->api_key_paytabs) }}">
+                        <input name="api_key" required class="form-control" type="text" id="api_key_paytabs" value="{{ old('api_key', $paymentGateway->api_key) }}">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label"> @lang('Profile Id PayTabs') <span class="required-color">*</span></label>
-                        <input name="profile_id_paytabs" required class="form-control" type="text" id="profile_id_paytabs" value="{{ old('profile_id_paytabs', $paymentGateway->profile_id_paytabs) }}">
+                        <input name="profile_id" required class="form-control" type="text" id="profile_id_paytabs" value="{{ old('profile_id', $paymentGateway->profile_id) }}">
                     </div>
 
                     <div class="form-group">

@@ -1,22 +1,23 @@
 <?php
 
+    namespace App\Repositories\Admin;
+    use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
+    use Illuminate\Http\Request;
 
-namespace App\Repositories\Admin;
-use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
 
 
-use App\Models\PaymentGateway;
+    use App\Models\PaymentGateway;
 
-class PaymentGatewayRepository implements PaymentGatewayRepositoryInterface
+    class PaymentGatewayRepository implements PaymentGatewayRepositoryInterface
 
-{
-    public function editPaymentGatewayForm($id)
     {
-        return PaymentGateway::findOrFail($id);
-    }
+        public function editPaymentGatewayForm($id)
+        {
+            return PaymentGateway::findOrFail($id);
+        }
 
-    public function createPaymentGateway(Request $request)
-    {
-        return PaymentGateway::create($request);
+        public function createPaymentGateway(array $data){
+// dd($data);
+         return PaymentGateway::create($data);
+        }
     }
-}

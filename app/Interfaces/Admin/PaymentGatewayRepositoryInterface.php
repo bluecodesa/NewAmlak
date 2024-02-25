@@ -9,5 +9,5 @@ use App\Models\PaymentGateway;
 interface PaymentGatewayRepositoryInterface
 {
     public function editPaymentGatewayForm($id);
-    public function createPaymentGateway(Request $request);
+    public function createPaymentGateway(array  $data);
 }
