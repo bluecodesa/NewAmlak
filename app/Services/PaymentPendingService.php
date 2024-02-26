@@ -13,6 +13,7 @@ class PaymentPendingService
     {
         $user = Auth::user();
         $userSubscriptionTypes = null;
+        dd( $pendingPayment =  Auth::user()->UserOfficeData->UserSubscriptionPending);
 
         if ($user->is_office && $user->UserOfficeData) {
             $pendingPayment = $user->UserOfficeData->UserSubscriptionPending ?? false;

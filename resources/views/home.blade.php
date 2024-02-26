@@ -411,9 +411,9 @@
 
     <!-- Pending Payment Modal -->
 
-    @if ($pendingPayment)
+    {{-- @if ($pendingPayment)
         @include('Home.Payments.pending_payment')
-    @endif
+    @endif --}}
 
     <script></script>
 

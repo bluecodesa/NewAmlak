@@ -7,6 +7,7 @@
 
 
     use App\Models\PaymentGateway;
+use Illuminate\Support\Facades\Auth;
 
     class PaymentGatewayRepository implements PaymentGatewayRepositoryInterface
 
@@ -17,7 +18,14 @@
         }
 
         public function createPaymentGateway(array $data){
-// dd($data);
-         return PaymentGateway::create($data);
+            $data['user_id'] = Auth::user()->id;
+            return PaymentGateway::create($data);
+        }
+
+        public function updatePaymentGateway($id, array $data)
+        {
+            $payment = PaymentGateway::findOrFail($id);
+            $payment->update($data);
+            return $payment;
         }
     }
