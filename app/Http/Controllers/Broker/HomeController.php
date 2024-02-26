@@ -11,7 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SubscriptionTypeRole;
-
+use App\Models\SystemInvoice;
 
 class HomeController extends Controller
 {
@@ -32,6 +32,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+
         $user = $request->user();
         $pendingPayment = false;
 
@@ -41,11 +42,10 @@ class HomeController extends Controller
         }
 
         $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
-                $query->where('name', 'RS-Broker');
-            })
+            $query->where('name', 'RS-Broker');
+        })
             ->where('price', '>', 0)
             ->get();
-
         return view('home',  get_defined_vars());
     }
 
@@ -54,5 +54,18 @@ class HomeController extends Controller
     {
         $cities = City::where('region_id', $id)->get();
         return view('Admin.settings.Region.inc._city', get_defined_vars());
+    }
+
+    function UpdateSubscription($id)
+    {
+        $SubscriptionType = SubscriptionType::find($id);
+
+        $subscription = Auth::user()->UserBrokerData->UserSubscriptionPending;
+
+        $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price]);
+
+        $Invoice  = Auth::user()->UserBrokerData->UserSystemInvoicePending;
+
+        $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
     }
 }

@@ -24,6 +24,14 @@ class CheckSubscriptionMiddleware
                 'status' => 'expired',
             ]);
         }
+
+        if (Auth::user()->is_broker) {
+            $subscription =      Auth::user()->UserBrokerData->UserSubscriptionPending;
+            if ($subscription) {
+                return    redirect()->route('Broker.home');
+            }
+        }
+
         if (Auth::check()) {
             $url = URL::current();
             $notifications = auth()->user()->unreadNotifications

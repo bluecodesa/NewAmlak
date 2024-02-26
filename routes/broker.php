@@ -5,6 +5,7 @@ use App\Http\Controllers\Broker\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Broker\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Broker\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
+use App\Http\Controllers\Broker\PaymentController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PendingPaymentPopup;
@@ -27,21 +28,20 @@ use App\Http\Middleware\PendingPaymentPopup;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription','pendingPayment']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment']
     ],
     function () {
         Route::prefix('broker')->name('Broker.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
-            Route::resources([
-                'Developer' => DeveloperController::class,
-                'Advisor' => AdvisorController::class,
-                'Owner' => OwnerController::class,
-                'Project' => ProjectController::class,
-            ]);
-            Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
-            Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');
-            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Broker.GetCitiesByRegion');
-
+            Route::get('UpdateSubscription/{id}', 'HomeController@UpdateSubscription')->name('UpdateSubscription');
+            route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
+            route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
+            route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+            route::resource('Project', ProjectController::class)->middleware('CheckSubscription');
+            route::resource('Payment', PaymentController::class);
+            Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty')->middleware('CheckSubscription');
+            Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty')->middleware('CheckSubscription');
+            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Broker.GetCitiesByRegion')->middleware('CheckSubscription');
         });
     }
 );

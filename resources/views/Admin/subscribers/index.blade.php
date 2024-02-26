@@ -78,13 +78,15 @@
                                                                 class="badge badge-pill badge-warning">@lang('free')</span>
                                                         @endif
                                                     </td>
-                                                    <td>{{ $subscriber->SubscriptionTypeData->period . ' ' . __($subscriber->SubscriptionTypeData->period_type) }}
+                                                    <td> {{ $subscriber->SubscriptionTypeData->period }}
+                                                        {{ __('ar.' . $subscriber->SubscriptionTypeData->period_type) }}
                                                     </td>
                                                     <td>
                                                         <span
-                                                            class="badge badge-pill p-1 badge-{{ $subscriber->is_suspend == 1 ? 'danger' : 'info' }}">
+                                                            class="badge badge-pill p-1 badge-{{ $subscriber->is_suspend == 1 || $subscriber->status == 'pending' ? 'danger' : 'info' }}">
                                                             {{ $subscriber->is_suspend == 1 ? __('Subscription suspend') : __($subscriber->status) }}
                                                         </span>
+
                                                     </td>
                                                     <td>{{ $subscriber->number_of_clients }}</td>
                                                     <td>

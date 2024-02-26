@@ -58,3 +58,19 @@ Route::group(
 
 Route::post('/fcm-token', 'Home\HomeController@UpdateToken')->name('fcmToken');
 Route::post('/send-notification', [HomeController::class, 'notification'])->name('notification');
+
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+    ],
+    function () {
+        Route::resource('Payment', 'PaymentController');
+
+        Route::post('callback_payments_package', 'PaymentController@Payment_callBack')->name('callback_payments_package');
+        Route::get('callback_payments_package', 'PaymentController@Payment_callBack')->name('callback_payments_package');
+        //
+        Route::post('callback_payments_packageUpgarde/{id}', 'PaymentController@Payment_callBackUpgarde')->name('callback_payments_package_upgrade');
+        Route::get('callback_payments_packageUpgarde/{id}', 'PaymentController@Payment_callBackUpgarde')->name('callback_payments_package_upgrade');
+    }
+);

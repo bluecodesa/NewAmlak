@@ -411,23 +411,33 @@
 
     <!-- Pending Payment Modal -->
 
-    {{-- @if ($pendingPayment)
+    @if ($pendingPayment)
         @include('Home.Payments.pending_payment')
-    @endif --}}
+    @endif
 
+    <script></script>
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Show the modal when the page is fully loaded
-            var modal = document.getElementById('pendingPaymentModal');
-            if (modal) {
-                modal.classList.add('show');
-                modal.style.display = 'block';
-                modal.removeAttribute('aria-hidden');
-            }
-        });
-    </script>
+    @push('scripts')
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modalButton = document.getElementById('modalButton');
+                if (modalButton) {
+                    modalButton.click();
+                }
+            });
+            //
+            $('.subscription_type').on('change', function() {
+                var url = $(this).data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function(data) {
+                        alertify.success(@json(__('Subscription has been updated')));
+                    },
+                });
+            });
+        </script>
+    @endpush
 
 
 @endsection
