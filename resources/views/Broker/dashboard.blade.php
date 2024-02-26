@@ -67,277 +67,115 @@
             <div class="col-12">
 
 
-                <div class="row ArFont">
-                    <div class="row mt-1 align-items-center home-all-container">
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container" style="background: rgba(93,164,211,0.07 )">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/visitors.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
+                <div class="row">
+
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="fas fa-users bg-primary  text-white"></i>
                                     </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('Visitors.index') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px"> عدد الملاك </p>
+                                    <div>
+                                        <h5 class="font-16">عدد الملاك</h5>
                                     </div>
+                                    <h3 class="mt-4">43,225</h3>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-briefcase-check bg-success text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-16">الفواتير المدفوعه</h5>
+                                    </div>
+                                    <h3 class="mt-4">$73,265</h3>
                                 </div>
                             </div>
                         </div>
 
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3  p-0">
-                                        <div class="img-container"
-                                            style="background: rgba(93,164,211,0.07 )
-                                            ">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/renters.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-tag-text-outline bg-warning text-white"></i>
                                     </div>
-                                    <div class="col-9 col-md-9  p-0">
-                                        <a {{-- href="{{ route('Renter.index') }}" --}}> <span class="h3"></span></a>
-                                        <p style="margin-bottom:0px">عدد المسـتأجرين</p>
+                                    <div>
+                                        <h5 class="font-16">عدد الوحدات</h5>
                                     </div>
+                                    <h3 class="mt-4">447</h3>
                                 </div>
                             </div>
                         </div>
 
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container" style="background: rgba(93,164,211,0.07 )">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/visitors.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
+                         <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-tag-text-outline bg-warning text-white"></i>
                                     </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('Visitors.index') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px">طلبات الصيانة</p>
+                                    <div>
+                                        <h5 class="font-16">عدد المشاريع</h5>
                                     </div>
-                                </div>
+                                    <h3 class="mt-4">447</h3>
+                             </div>
                             </div>
                         </div>
 
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container" style="background: rgba(93,164,211,0.07 )">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/visitors.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-buffer bg-danger text-white"></i>
                                     </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('Visitors.index') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px">شكاوى</p>
+                                    <div>
+                                        <h5 class="font-16"> طلبات الاهتمام </h5>
                                     </div>
-                                </div>
+                                    <h3 class="mt-4">86%</h3>
+                               </div>
                             </div>
                         </div>
 
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container" style="background: rgba(254,153,53,0.06 )">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/contract.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
+                         <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-buffer bg-danger text-white"></i>
                                     </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('ContractsEndThisMonth') }}" --}}> <span class="h3"></span></a>
-                                        <p style="margin-bottom:0px"> عقود تنتهي هذا الشهر</p>
+                                    <div>
+                                        <h5 class="font-16"> المعرض</h5>
                                     </div>
-                                </div>
+                                    <h3 class="mt-4">86%</h3>
+                               </div>
                             </div>
                         </div>
-
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container"
-                                            style="background: rgba(17,233,145,0.08 )
-                                            ">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/pay-day.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
-                                    </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('PaymentThisMonth') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px"> دفعات الإيجار هذا الشهر </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container"
-                                            style="background: rgba(239,46,15,0.05 )
-                                            ">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/not.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
-                                    </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('PaymentNotCollect') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px">دفعات ايجار متأخرة</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container"
-                                            style="background: rgba(239,46,15,0.05 )
-                                            ">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/not.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
-                                    </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('PaymentNotCollect') }}"> --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px">أقساط شراء متأخرة</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container"
-                                            style="background: rgba(28,154,78,0.07 )
-                                            ">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/paid.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
-                                    </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('PaymentsPirod.show', 'COLLECTED') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px"> فواتير مدفوعة </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container"
-                                            style="background: rgba(93,164,211,0.09 )
-                                            ">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/notpaid.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
-                                    </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('PaymentsPirod.show', 'NOT_COLLECTED') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px">فواتير مستحقة</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container"
-                                            style="background: rgba(93,164,211,0.09 )
-                                            ">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/notpaid.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
-                                    </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('PaymentsPirod.show', 'NOT_COLLECTED') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px">إيصالات قيد المراجعة</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="dash-item card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3 col-md-3 p-0">
-                                        <div class="img-container"
-                                            style="background: rgba(93,164,211,0.09 )
-                                            ">
-                                            <img class="img-fluid" src="{{ asset('dashboard/assets/icons/notpaid.svg') }}"
-                                                alt="" srcset="">
-                                        </div>
-                                    </div>
-                                    <div class="col-9 col-md-9 p-0">
-                                        <a {{-- href="{{ route('PaymentsPirod.show', 'NOT_COLLECTED') }}" --}}>
-                                            <span class="h3"></span>
-                                        </a>
-                                        <p style="margin-bottom:0px">طلبات الاهتمام</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
 
                     </div>
+
 
                 <!-- Striped rows -->
-                <div class="col-md-12 col-lg-12 ArFont">
-                    <div class="card border-0">
-                        <div class="card-header" style="background-color: #fff">
-                            <strong class="card-title">اجمالي الاجارات</strong>
-                        </div>
-                        <div class="card-body my-n2" style="overflow-x: scroll;">
-                            <canvas class="canvas" id="myChart"></canvas>
-                        </div>
-                    </div>
-                </div> <!-- Striped rows -->
-                <!-- Recent Activity -->
-                <div class="col-md-12 col-lg-6 ArFont mt-5">
-                    <div class="card timeline border-0">
-                        <div class="card-header" style="background-color: #fff">
-                            <strong class="card-title">العقارات حسب النوع</strong>
+               <div class="row">
+                        <div class="col-xl-8">
+                            <div class="card m-b-30">
+                                <div class="card-body">
 
+                                    <h4 class="mt-0 header-title mb-4">اجمالي الايجارات</h4>
+
+                                    <div id="morris-area-example" class="morris-charts morris-chart-height"></div>
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body" data-simplebar>
-                            <div class="row mb-4">
+                        <!-- end col -->
+
+                        <div class="col-xl-4">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <h4 class="mt-0 header-title mb-4">العقارات حسب النوع</h4>
+   <div class="row mb-4">
                                 <div class="col-6">
 
                                     <p style="margin-bottom: 0">%<span
@@ -350,41 +188,14 @@
                                     <span>عقارات تجارية</span>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6  m-auto">
+                                    <div id="morris-donut-example" class="morris-charts morris-chart-height"></div>
 
-                                <canvas id="myChart2"></canvas>
+                                </div>
                             </div>
-
-                        </div> <!-- / .card-body -->
-                    </div> <!-- / .card -->
-                </div>
-
-                <div class="col-md-12 col-lg-6 ArFont mt-5">
-
-                    <div class="card timeline border-0">
-                        <div class="card-header" style="background-color: #fff">
-                            <strong class="card-title">الوحدات حسب الحالة</strong>
-
                         </div>
-                        <div class="card-body" data-simplebar>
-                            <div class="row mb-4">
-                                <div class="col-6">
+                        <!-- end col -->
+                    </div> <!-- Striped rows -->
 
-                                    <p style="margin-bottom: 0">%<span
-                                            class="span-akkar"></span></p>
-                                    <span>وحدات شاغرة</span>
-                                </div>
-                                <div class="col-6">
-                                    <p style="margin-bottom: 0">%<span
-                                            class="span-akkar"></span></p>
-                                    <span>وحدات مؤجرة</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6 m-auto">
-                                <canvas id="myChart3"></canvas>
-                            </div>
-                        </div> <!-- / .card-body -->
-                    </div> <!-- / .card -->
                 </div>
 <!--نهاية الاحصائيات-->
 
