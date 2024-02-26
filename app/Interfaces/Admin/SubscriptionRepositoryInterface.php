@@ -4,8 +4,6 @@
 
 namespace App\Interfaces\Admin;
 
-use App\Models\Subscription;
-
 interface SubscriptionRepositoryInterface
 {
 
@@ -26,5 +24,4 @@ interface SubscriptionRepositoryInterface
     public function deleteSubscriber(int $id);
 
     public function suspendSubscription($id, $isSuspend);
-
 }
