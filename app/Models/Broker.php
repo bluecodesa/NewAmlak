@@ -37,4 +37,6 @@ class Broker extends Model
     {
         return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status', 'pending')->latest();
     }
+
+
 }

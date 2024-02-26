@@ -27,6 +27,11 @@
                         <li><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                            @lang('Settings')<span class="float-right menu-arrow"></a>
+
+                </li>
 
             </ul>
 

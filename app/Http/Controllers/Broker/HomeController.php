@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
+use App\Models\Broker;
 use App\Models\Role;
 use App\Models\City;
+use App\Models\Owner;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\User;
@@ -33,8 +35,12 @@ class HomeController extends Controller
     public function index(Request $request)
     {
 
+
         $user = $request->user();
-        $pendingPayment = false;
+        $brokerId=auth()->user()->UserBrokerData->id;
+        $numberOfowners= Owner::where('broker_id', $brokerId)->count();
+
+
 
         if ($user && $user->is_broker && $user->UserBrokerData) {
             $subscription = $user->UserBrokerData->UserSubscriptionPending;

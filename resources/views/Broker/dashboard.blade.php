@@ -11,12 +11,12 @@
             <div class="page-title-box">
                 <div class="row align-items-center">
                     <div class="col-sm-6">
-                        <h4 class="page-title">Dashboard</h4>
+                        <h4 class="page-title">@lang('dashboard')</h4>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Stexo</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"></a></li>
+                            <li class="breadcrumb-item active">@lang('dashboard')</li>
                         </ol>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                                     <div>
                                         <h5 class="font-16">عدد الملاك</h5>
                                     </div>
-                                    <h3 class="mt-4">43,225</h3>
+                                    <h3 class="mt-4"><?php echo $numberOfowners?></h3>
                               </div>
                             </div>
                         </div>
