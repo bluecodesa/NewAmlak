@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\General\DistrictController;
 use App\Http\Controllers\Admin\General\PropertyTypeController;
 use App\Http\Controllers\Admin\General\PropertyUsageController;
 use App\Http\Controllers\Admin\General\RegionController;
+use App\Http\Controllers\Admin\General\ServiceTypeController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
@@ -76,6 +77,7 @@ Route::group(
                 'Employee' => EmployeeController::class,
                 'PropertyType' => PropertyTypeController::class,
                 'PropertyUsage' => PropertyUsageController::class,
+                'ServiceType' => ServiceTypeController::class,
             ]);
             Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
             Route::post('Subscribers.CreateBroker', [SubscriptionController::class, 'storeBroker'])->name('Subscribers.CreateBroker');

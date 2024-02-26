@@ -12,6 +12,7 @@ use App\Interfaces\Admin\PropertyUsageRepositoryInterface;
 use App\Interfaces\Admin\RegionRepositoryInterface;
 use App\Interfaces\Admin\RoleRepositoryInterface;
 use App\Interfaces\Admin\SectionRepositoryInterface;
+use App\Interfaces\Admin\ServiceTypeRepositoryInterface;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +34,7 @@ use App\Repositories\Admin\PropertyUsageRepository;
 use App\Repositories\Admin\RegionRepository;
 use App\Repositories\Admin\RoleRepository;
 use App\Repositories\Admin\SectionRepository;
+use App\Repositories\Admin\ServiceTypeRepository;
 use App\Repositories\Admin\SettingRepository;
 use App\Repositories\Admin\SubscriptionTypesRepository;
 use App\Repositories\Admin\SystemInvoiceRepository;
@@ -143,6 +145,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             RoleRepositoryInterface::class,
             RoleRepository::class
+        );
+
+
+        $this->app->bind(
+            ServiceTypeRepositoryInterface::class,
+            ServiceTypeRepository::class
         );
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Interfaces\Admin;
 
-interface PropertyUsageRepositoryInterface
+interface ServiceTypeRepositoryInterface
 {
     public function getAll();
     public function create($data);

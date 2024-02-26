@@ -128,6 +128,18 @@
                                         </div>
 
 
+                                        <div class="form-group col-md-3">
+                                            <label>@lang('service type') <span class="required-color">*</span> </label>
+                                            <select class="form-control" name="service_type_id" required>
+                                                <option disabled selected value="">@lang('service type')</option>
+                                                @foreach ($services as $service)
+                                                    <option value="{{ $service->id }}">
+                                                        {{ $service->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+
                                         <div class="col-sm-12 col-md-12 mb-3">
                                             <label class="form-label">@lang('Pictures property') </label>
                                             <input type="file" name="images[]" multiple class="dropify"

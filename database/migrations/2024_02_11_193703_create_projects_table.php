@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
@@ -24,6 +25,8 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('lat_long')->nullable();
             $table->text('image')->nullable();
+            $table->integer('service_type_id')->unsigned()->nullable();
+            $table->foreign('service_type_id')->references('id')->on('service_types')->onDelete('cascade');
             $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('owner_id')->references('id')->on('owners')->onDelete('cascade');

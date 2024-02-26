@@ -39,10 +39,9 @@
                                     </div>
 
                                     <div class="form-group col-md-3">
-                                        <label>@lang('Region') </label>
+                                        <label>@lang('Region') <span class="required-color">*</span> </label>
                                         <select class="form-control" id="Region_id" required>
-                                            <option disabled selected value="">@lang('Region') <span
-                                                    class="required-color">*</span></option>
+                                            <option disabled selected value="">@lang('Region') </option>
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
                                                     data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
@@ -101,6 +100,18 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('service type') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="service_type_id" required>
+                                            <option disabled selected value="">@lang('service type')</option>
+                                            @foreach ($services as $service)
+                                                <option value="{{ $service->id }}">
+                                                    {{ $service->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
 
 
                                     <div class="col-sm-12 col-md-12 mb-3">

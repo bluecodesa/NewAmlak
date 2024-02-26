@@ -10,6 +10,7 @@ use App\Services\Broker\ProjectService;
 use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
 use App\Services\RegionService;
+use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
 
 
@@ -21,7 +22,10 @@ class ProjectController extends Controller
     protected $brokerDataService;
     protected $propertyTypeService;
     protected $propertyUsageService;
-    public function __construct(ProjectService $projectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, PropertyUsageService $propertyUsageService)
+    protected $ServiceTypeService;
+
+
+    public function __construct(ProjectService $projectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -30,6 +34,7 @@ class ProjectController extends Controller
         $this->projectService = $projectService;
         $this->propertyTypeService = $propertyTypeService;
         $this->propertyUsageService = $propertyUsageService;
+        $this->ServiceTypeService = $ServiceTypeService;
     }
 
     public function index()
@@ -42,6 +47,7 @@ class ProjectController extends Controller
     {
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
+        $services = $this->ServiceTypeService->getAllServiceTypes();
         $advisors = $this->brokerDataService->getAdvisors();
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
@@ -69,6 +75,7 @@ class ProjectController extends Controller
         $advisors = $this->brokerDataService->getAdvisors();
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
+        $services = $this->ServiceTypeService->getAllServiceTypes();
         return view('Broker.ProjectManagement.Project.edit', get_defined_vars());
     }
 
@@ -95,6 +102,7 @@ class ProjectController extends Controller
         $advisors = $this->brokerDataService->getAdvisors();
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
+        $services = $this->ServiceTypeService->getAllServiceTypes();
         return view('Broker.ProjectManagement.Project.CreateProperty', get_defined_vars());
     }
 

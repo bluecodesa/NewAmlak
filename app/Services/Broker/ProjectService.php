@@ -23,7 +23,7 @@ class ProjectService
         return $this->projectRepository->getAllByBrokerId($brokerId);
     }
 
-    public function createProject($data,$images)
+    public function createProject($data, $images)
     {
         // Validation rules
         $rules = [
@@ -98,7 +98,7 @@ class ProjectService
         validator($data, $rules)->validate();
         $data['broker_id'] = Auth::user()->UserBrokerData->id;
         $data['project_id'] = $projectId;
-        $property = $this->projectRepository->storeProperty($data);
+        $property = $this->projectRepository->storeProperty($data, $projectId, $images);
         if ($images) {
             foreach ($images as $image) {
                 $ext = uniqid() . '.' . $image->clientExtension();
