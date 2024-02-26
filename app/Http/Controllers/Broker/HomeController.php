@@ -46,7 +46,7 @@ class HomeController extends Controller
         })
             ->where('price', '>', 0)
             ->get();
-        return view('home',  get_defined_vars());
+        return view('Broker.dashboard',  get_defined_vars());
     }
 
 
