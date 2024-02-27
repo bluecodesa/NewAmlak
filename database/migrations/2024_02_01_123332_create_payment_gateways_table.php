@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
-            $table->string('api_key_paytabs');
-            $table->integer('profile_id_paytabs');
+            $table->string('api_key');
+            $table->integer('profile_id');
             $table->string('client_key')->nullable();
             $table->enum('status', [0, 1])->default(1);
             $table->timestamps();

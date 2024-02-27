@@ -7,6 +7,7 @@ use App\Http\Controllers\Broker\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Broker\PaymentController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
+use App\Http\Controllers\Broker\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PendingPaymentPopup;
 
@@ -39,6 +40,8 @@ Route::group(
             route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
             route::resource('Project', ProjectController::class)->middleware('CheckSubscription');
             route::resource('Payment', PaymentController::class);
+            route::resource('Setting', SettingController::class);
+
             Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty')->middleware('CheckSubscription');
             Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty')->middleware('CheckSubscription');
             Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Broker.GetCitiesByRegion')->middleware('CheckSubscription');
