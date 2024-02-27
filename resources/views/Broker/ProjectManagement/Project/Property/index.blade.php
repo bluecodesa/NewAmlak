@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Projects'))
+@section('title', __('properties'))
 @section('content')
 
     <div class="content-page">
@@ -10,12 +10,10 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6">
                             <h4 class="page-title">
-                                @lang('Projects')</h4>
+                                @lang('properties')</h4>
                         </div>
                         <div class="col-6">
                             <div class="card-title">
-                                <a href="{{ route('Broker.Project.create') }}"
-                                    class="btn btn-primary waves-effect waves-light">@lang('Add New')</a>
                                 <a href="{{ route('Broker.Property.create') }}"
                                     class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
                             </div>
@@ -38,43 +36,45 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>@lang('project name')</th>
-                                                <th>@lang('Developer name')</th>
-                                                <th>@lang('Advisor name')</th>
-                                                <th>@lang('owner name')</th>
+                                                <th>@lang('property name')</th>
                                                 <th>@lang('city')</th>
-                                                <th>@lang('service type')</th>
-                                                <th>@lang('location name')</th>
-                                                <th>@lang('Number Properties')</th>
+                                                <th>@lang('location')</th>
+                                                <th>@lang('Property type')</th>
+                                                <th>@lang('Type use')</th>
+                                                <th>@lang('owner name')</th>
+                                                <th>@lang('Instrument number')</th>
                                                 <th>@lang('Action')</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($Projects as $index => $project)
+                                            @foreach ($properties as $index => $property)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $project->name ?? '' }}</td>
-                                                    <td>{{ $project->DeveloperData->name ?? '' }}</td>
-                                                    <td>{{ $project->AdvisorData->name ?? '' }}</td>
-                                                    <td>{{ $project->OwnerData->name ?? '' }}</td>
-                                                    <td>{{ $project->CityData->name ?? '' }}</td>
-                                                    <td>{{ $project->ServiceTypeData->name ?? '' }}</td>
-                                                    <td>{{ $project->location ?? '' }}</td>
-                                                    <td>1</td>
+                                                    <td>{{ $property->name ?? '' }}</td>
+                                                    <td>{{ $property->CityData->name ?? '' }}</td>
+                                                    <td>{{ $property->location ?? '' }}</td>
+                                                    <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
+                                                    <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
+                                                    <td>{{ $property->OwnerData->name ?? '' }}</td>
+                                                    <td>{{ $property->instrument_number ?? '' }}</td>
 
                                                     <td>
+                                                        @if ($property->is_divided == 1)
+                                                            <a href="{{ route('Broker.Property.show', $property->id) }}"
+                                                                class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
+                                                        @endif
 
-                                                        <a href="{{ route('Broker.Project.show', $project->id) }}"
+                                                        <a href="{{ route('Broker.Property.show', $property->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
 
-                                                        <a href="{{ route('Broker.Project.edit', $project->id) }}"
+                                                        <a href="{{ route('Broker.Property.edit', $property->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
 
                                                         <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $project->id }}')"
+                                                            onclick="handleDelete('{{ $property->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                        <form id="delete-form-{{ $project->id }}"
-                                                            action="{{ route('Broker.Project.destroy', $project->id) }}"
+                                                        <form id="delete-form-{{ $property->id }}"
+                                                            action="{{ route('Broker.Property.destroy', $property->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')

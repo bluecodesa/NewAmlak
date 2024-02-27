@@ -51,7 +51,7 @@ class ProjectService
         return $this->projectRepository->ShowProject($id);
     }
 
-    public function updateProject($id, $data)
+    public function updateProject($id, $data, $images)
     {
         // Validation rules
         $rules = [
@@ -67,7 +67,7 @@ class ProjectService
         validator($data, $rules)->validate();
 
         // Update project
-        $project = $this->projectRepository->update($id, $data);
+        $project = $this->projectRepository->update($id, $data, $images);
 
         return $project;
     }

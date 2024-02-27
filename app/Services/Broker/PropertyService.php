@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Services\Broker;
+
+use App\Models\PropertyImage;
+use App\Repositories\Broker\PropertyRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+
+class PropertyService
+{
+
+    protected $PropertyRepository;
+
+    public function __construct(PropertyRepository $PropertyRepository)
+    {
+        $this->PropertyRepository = $PropertyRepository;
+    }
+
+    public function getAll($brokerId)
+    {
+        return $this->PropertyRepository->getAll($brokerId);
+    }
+
+    public function store($data, $images)
+    {
+        // Validation rules
+        $rules = [
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'service_type_id' => 'required|exists:service_types,id',
+            'is_divided' => 'required|boolean',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'instrument_number' => [
+                'required',
+                Rule::unique('properties'),
+                'max:25'
+            ],
+        ];
+
+        // Validate data
+        validator($data, $rules)->validate();
+
+        $data['broker_id'] = Auth::user()->UserBrokerData->id;
+
+        $Property = $this->PropertyRepository->store($data, $images);
+
+        return $Property;
+    }
+
+    public function findById($id)
+    {
+        return $this->PropertyRepository->findById($id);
+    }
+
+    public function update($id, $data, $images)
+    {
+        // Validation rules
+        $rules = [
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'city_id' => 'required|exists:cities,id',
+            'property_type_id' => 'required|exists:property_types,id',
+            'property_usage_id' => 'required|exists:property_usages,id',
+            'owner_id' => 'required|exists:owners,id',
+            'service_type_id' => 'required|exists:service_types,id',
+        ];
+
+        // Validate data
+        validator($data, $rules)->validate();
+
+        // Update project
+        $project = $this->PropertyRepository->update($id, $data, $images);
+
+        return $project;
+    }
+
+
+    public function delete($id)
+    {
+        return $this->PropertyRepository->delete($id);
+    }
+}
