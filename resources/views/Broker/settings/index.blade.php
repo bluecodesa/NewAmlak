@@ -46,6 +46,8 @@
                                     </div>
 
                                     <!--  -->
+                                    <div class="col-9">
+
 
                                  <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                                     aria-labelledby="v-pills-home-tab">
@@ -71,12 +73,12 @@
                                                             <div class="col-md-6">
                                                                 <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
 
-                                                                <input type="text" class="form-control" id="name" name="name" required>
+                                                                <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" required>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
 
-                                                                <input type="text" class="form-control" id="license_number" name="license_number" required>
+                                                                <input type="text" class="form-control" id="license_number" name="license_number" value="{{ $user->broker_license }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="mb-3 row">
@@ -122,17 +124,7 @@
                                                                 </select>
                                                             </div>
 
-                                                            <div class="col-md-4 mb-2">
-                                                                <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
-                                                                <select type="package" class="form-control" name="subscription_type_id"
-                                                                    required="">
-                                                                    <option value="" selected disabled> @lang('Subscription Type') </option>
-                                                                    @foreach ($subscriptionTypes as $subscriptionType)
-                                                                        <option value="{{ $subscriptionType->id }}">
-                                                                            {{ $subscriptionType->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
+
                                                         </div>
 
                                                         <div class="mb-3 row">
@@ -140,7 +132,7 @@
                                                             <div class="col-md-6">
                                                                 <label for="password"> @lang('password') <span
                                                                     class="text-danger">*</span></label>
-                                                    <input type="password" class="form-control" id="password" name="password" required>
+                                                      <input type="password" class="form-control" id="password" name="password" required>
                                                             </div>
 
                                                             <div class="col-md-6">
@@ -174,6 +166,7 @@
 
 
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>

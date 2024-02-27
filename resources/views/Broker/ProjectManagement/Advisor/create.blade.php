@@ -14,6 +14,13 @@
                                     <h4 class="page-title">
                                         @lang('Add New Advisor')</h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Advisor.create') }}">@lang('Add New Advisor')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Advisor.index') }}">@lang('advisors')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>

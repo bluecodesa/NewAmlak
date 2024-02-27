@@ -14,6 +14,13 @@
                                     <h4 class="page-title">
                                         @lang('Edit') : {{ $Owner->name }} </h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Owner.update', $Owner->id) }}">@lang('Edit')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>

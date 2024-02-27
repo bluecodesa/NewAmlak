@@ -90,7 +90,8 @@
                     <div class="mb-3 row">
 
                         <div class="form-group col-md-4">
-                            <label>@lang('Region') </label>
+                            <label>@lang('Region') <span
+                                class="text-danger">*</span></label>
                             <select class="form-control" id="Region_id" name="region_id" required>
                                 <option disabled selected value="">@lang('Region')</option>
                                 @foreach ($Regions as $Region)
@@ -102,7 +103,8 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label>@lang('city') </label>
+                            <label>@lang('city') <span
+                                class="text-danger">*</span> </label>
                             <select class="form-control" name="city_id" id="CityDiv" required>
                             </select>
                         </div>
@@ -145,10 +147,25 @@
                     <div class="row mb-3">
                         <div class="col-md-4"></div>
                         <div class="col-md-8">
-                            <button type="submit" class="btn btn-primary">@lang('save')</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
+
+                            <button type="submit" class="btn btn-primary">@lang('Submit')</button>
                         </div>
                     </div>
                 </form>
+
+
+                <p class="row mb-3">
+                    @lang('By registering') @lang('you accept our')
+                    <a href="{{ asset('pdfs/terms-and-conditions.pdf') }}" target="_blank" download>
+                        @lang('Terms') &amp; @lang('Conditions')
+                    </a>
+                    @lang('and')
+                    <a href="{{ asset('pdfs/privacy-policy.pdf') }}" target="_blank" download>
+                        @lang('our privacy policy')
+                    </a>.
+                </p>
+
 
             </div>
 

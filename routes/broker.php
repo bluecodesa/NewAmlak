@@ -7,11 +7,8 @@ use App\Http\Controllers\Broker\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Broker\PaymentController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
-
 use App\Http\Controllers\Broker\SettingController;
-
 use App\Http\Controllers\Broker\ProjectManagement\PropertyController;
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PendingPaymentPopup;
 

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
 use App\Services\RegionService;
 use App\Services\CityService;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
@@ -24,9 +26,9 @@ class SettingController extends Controller
     {
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
-            $query->where('name', 'RS-Broker');
-        })->get();
+        $user = Auth::user()->UserBrokerData->userData;
+        $subscription = Subscription::where('broker_id', Auth::user()->UserBrokerData->id)->first();
+
         return view('Broker.settings.index',get_defined_vars());
 
     }
@@ -61,6 +63,8 @@ class SettingController extends Controller
     public function edit(string $id)
     {
         //
+        $subscriber =Subscription::find($id);
+
     }
 
     /**
