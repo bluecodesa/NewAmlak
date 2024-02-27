@@ -28,6 +28,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('post')
+                                    <input type="text" hidden value="{{ 1 }}" name="is_divided">
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label">
@@ -38,10 +39,9 @@
                                     </div>
 
                                     <div class="form-group col-md-4">
-                                        <label>@lang('Region') </label>
+                                        <label>@lang('Region') <span class="required-color">*</span> </label>
                                         <select class="form-control" id="Region_id" required>
-                                            <option disabled value="">@lang('Region') <span
-                                                    class="required-color">*</span></option>
+                                            <option disabled value="">@lang('Region') </option>
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
                                                     data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
@@ -92,7 +92,7 @@
                                     </div>
 
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4 mb-3">
                                         <label>@lang('owner name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="owner_id" required>
                                             <option disabled selected value="">@lang('owner name')</option>
@@ -102,7 +102,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    @php
+                                    {{-- @php
                                         $typeunits = [1 => 'Divides', 0 => 'Not divided'];
                                     @endphp
                                     <div class="form-group col-md-3">
@@ -114,9 +114,9 @@
                                                     {{ __($item) }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="col-sm-12 col-md-3 mb-3">
+                                    <div class="col-sm-12 col-md-4 mb-3">
                                         <label class="form-label">@lang('Instrument number') <span
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="instrument_number" class="form-control"
@@ -124,10 +124,10 @@
                                     </div>
 
 
-                                    <div class="form-group col-md-3">
-                                        <label>@lang('service type') <span class="required-color">*</span> </label>
+                                    <div class="form-group col-md-4 mb-3">
+                                        <label>@lang('offered service') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="service_type_id" required>
-                                            <option disabled selected value="">@lang('service type')</option>
+                                            <option disabled selected value="">@lang('offered service')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}">
                                                     {{ $service->name }}</option>
@@ -142,6 +142,16 @@
                                             accept="image/jpeg, image/png" />
 
                                     </div>
+
+
+
+                                    <div class="col-sm-12 col-md-6 mb-3" hidden>
+                                        <label class="form-label">@lang('lat&long')</label>
+                                        <input type="text" required readonly name="lat_long" id="location_tag"
+                                            class="form-control" placeholder="@lang('lat&long')"
+                                            value="{{ old('location_tag') }}" />
+                                    </div>
+
 
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary me-1">
@@ -198,7 +208,7 @@
                     var lat = place.geometry.location.lat();
                     var long = place.geometry.location.lng();
                     // $("#address").val(address);
-                    // $("#location_tag").val(lat + "," + long);
+                    $("#location_tag").val(lat + "," + long);
                     // Log the details to the console (or do something else with them)
                 });
             });

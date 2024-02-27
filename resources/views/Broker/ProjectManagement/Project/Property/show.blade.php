@@ -94,15 +94,13 @@
 
 
                                                 </div>
-                                                <a href="{{ route('Broker.Project.edit', $Property->id) }}"
+                                                <a href="{{ route('Broker.Property.edit', $Property->id) }}"
                                                     class="btn btn-warning">@lang('Edit') </a>
 
 
-                                                @if ($Property->is_divided == 1)
-                                                    <a href="{{ route('Broker.Property.show', $Property->id) }}"
-                                                        class="btn btn-primary">@lang('Add units')</a>
-                                                @endif
 
+                                                <a href="{{ route('Broker.Property.CreateUnit', $Property->id) }}"
+                                                    class="btn btn-primary">@lang('Add units')</a>
 
 
                                             </div>
@@ -111,8 +109,10 @@
                                     <div class="col-md-3">
                                         <div class="row">
                                             @forelse($Property->PropertyImages as $image)
-                                                <img class="rounded mr-3 col-6" src="{{ url($image->image) }}"
-                                                    alt="{{ $Property->name }}" style="width: 100%;">
+                                                <div class="col-6 mb-1">
+                                                    <img class="rounded" src="{{ url($image->image) }}"
+                                                        alt="{{ $Property->name }}" style="width: 100%;">
+                                                </div>
                                             @empty
                                                 <img class="d-flex align-self-end rounded mr-3 col"
                                                     src="{{ url('Offices/Projects/default.svg') }}"
@@ -128,7 +128,7 @@
                         </div>
                     </div>
 
-                    {{-- <div class="col-12">
+                    <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
@@ -138,47 +138,40 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>@lang('property name')</th>
-                                                <th>@lang('city')</th>
-                                                <th>@lang('location')</th>
-                                                <th>@lang('Property type')</th>
-                                                <th>@lang('Type use')</th>
+                                                <th>@lang('Residential unit number')</th>
                                                 <th>@lang('owner name')</th>
-
-                                                <th>@lang('Instrument number')</th>
+                                                <th>@lang('number rooms')</th>
+                                                <th>@lang('Number bathrooms')</th>
+                                                <th>@lang('Area (square metres)')</th>
+                                                <th>@lang('price')</th>
+                                                <th>@lang('Ad type')</th>
                                                 <th>@lang('Action')</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($project->PropertiesProject as $index => $property)
+                                            @foreach ($Property->PropertyUnits as $index => $unit)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $property->name ?? '' }}</td>
-                                                    <td>{{ $property->CityData->name ?? '' }}</td>
-                                                    <td>{{ $property->location ?? '' }}</td>
-                                                    <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
-                                                    <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
-                                                    <td>{{ $property->OwnerData->name ?? '' }}</td>
-
-                                                    <td>{{ $property->instrument_number ?? '' }}</td>
+                                                    <td>{{ $unit->number_unit ?? '' }}</td>
+                                                    <td>{{ $unit->OwnerData->name ?? '' }}</td>
+                                                    <td>{{ $unit->rooms ?? '' }}</td>
+                                                    <td>{{ $unit->bathrooms ?? '' }}</td>
+                                                    <td>{{ $unit->space ?? '' }}</td>
+                                                    <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td>
+                                                    <td>{{ __($unit->type) ?? '' }}</td>
 
                                                     <td>
-                                                        @if ($property->is_divided == 1)
-                                                            <a href="{{ route('Broker.Project.show', $property->id) }}"
-                                                                class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
-                                                        @endif
-
-                                                        <a href="{{ route('Broker.Project.show', $property->id) }}"
+                                                        <a href="{{ route('Broker.Project.show', $unit->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
 
-                                                        <a href="{{ route('Broker.Project.edit', $property->id) }}"
+                                                        <a href="{{ route('Broker.Project.edit', $unit->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
 
                                                         <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $property->id }}')"
+                                                            onclick="handleDelete('{{ $unit->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                        <form id="delete-form-{{ $property->id }}"
-                                                            action="{{ route('Broker.Project.edit', $property->id) }}"
+                                                        <form id="delete-form-{{ $unit->id }}"
+                                                            action="{{ route('Broker.Project.edit', $unit->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')
@@ -192,7 +185,7 @@
 
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div> <!-- end col -->
             </div> <!-- end row -->
 
@@ -204,14 +197,14 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title mt-0" id="myLargeModalLabel">Large modal</h5>
+                        <h5 class="modal-title mt-0" id="myLargeModalLabel">@lang('location')</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="col-12">
-                            <iframe width="100%" height="200" frameborder="0" style="border:0"
+                            <iframe width="100%" height="500" frameborder="0" style="border:0"
                                 src="https://www.google.com/maps/embed/v1/place?q={{ $Property->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
                         </div>
                     </div>

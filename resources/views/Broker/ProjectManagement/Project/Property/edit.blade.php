@@ -25,10 +25,10 @@
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
 
-                                <form action="{{ route('Broker.Property.store') }}" method="POST" class="row"
-                                    enctype="multipart/form-data">
+                                <form action="{{ route('Broker.Property.update', $Property->id) }}" method="POST"
+                                    class="row" enctype="multipart/form-data">
                                     @csrf
-                                    @method('post')
+                                    @method('PUT')
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label">
@@ -45,6 +45,7 @@
                                                     class="required-color">*</span></option>
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
+                                                    {{ $Region->id == $Property->CityData->RegionData->id ? 'selected' : '' }}
                                                     data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
                                                     {{ $Region->name }}</option>
                                             @endforeach
@@ -55,7 +56,8 @@
                                         <label>@lang('city') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
                                             @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}">
+                                                <option value="{{ $city->id }}"
+                                                    {{ $city->id == $Property->city_id ? 'selected' : '' }}>
                                                     {{ $city->name }}</option>
                                             @endforeach
                                         </select>
@@ -75,7 +77,8 @@
                                         <select class="form-control" name="property_type_id" required>
                                             <option disabled selected value="">@lang('Property type')</option>
                                             @foreach ($types as $type)
-                                                <option value="{{ $type->id }}">
+                                                <option value="{{ $type->id }}"
+                                                    {{ $type->id == $Property->property_type_id ? 'selected' : '' }}>
                                                     {{ $type->name }}</option>
                                             @endforeach
                                         </select>
@@ -86,24 +89,26 @@
                                         <select class="form-control" name="property_usage_id" required>
                                             <option disabled selected value="">@lang('Type use')</option>
                                             @foreach ($usages as $usage)
-                                                <option value="{{ $usage->id }}">
+                                                <option value="{{ $usage->id }}"
+                                                    {{ $usage->id == $Property->property_usage_id ? 'selected' : '' }}>
                                                     {{ $usage->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>@lang('owner name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="owner_id" required>
                                             <option disabled selected value="">@lang('owner name')</option>
                                             @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}">
+                                                <option value="{{ $owner->id }}"
+                                                    {{ $owner->id == $Property->owner_id ? 'selected' : '' }}>
                                                     {{ $owner->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    @php
+                                    {{-- @php
                                         $typeunits = [1 => 'Divides', 0 => 'Not divided'];
                                     @endphp
                                     <div class="form-group col-md-3">
@@ -115,9 +120,9 @@
                                                     {{ __($item) }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="col-sm-12 col-md-3 mb-3">
+                                    <div class="col-sm-12 col-md-4 mb-3">
                                         <label class="form-label">@lang('Instrument number') <span
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="instrument_number" class="form-control"
@@ -125,12 +130,13 @@
                                     </div>
 
 
-                                    <div class="form-group col-md-3">
-                                        <label>@lang('service type') <span class="required-color">*</span> </label>
+                                    <div class="form-group col-md-4">
+                                        <label>@lang('offered service') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="service_type_id" required>
-                                            <option disabled selected value="">@lang('service type')</option>
-                                            @foreach ($services as $service)
-                                                <option value="{{ $service->id }}">
+                                            <option disabled selected value="">@lang('offered service')</option>
+                                            @foreach ($servicesTypes as $service)
+                                                <option value="{{ $service->id }}"
+                                                    {{ $service->id == $Property->service_type_id ? 'selected' : '' }}>
                                                     {{ $service->name }}</option>
                                             @endforeach
                                         </select>
@@ -139,9 +145,18 @@
 
                                     <div class="col-sm-12 col-md-12 mb-3">
                                         <label class="form-label">@lang('Pictures property') </label>
-                                        <input type="file" name="images[]" multiple class="dropify"
-                                            accept="image/jpeg, image/png" />
+                                        <input type="file" name="images[]"
+                                            @if ($Property->PropertyImages->count() > 0) data-default-file="{{ url($Property->PropertyImages[0]->image) }}" @endif
+                                            multiple class="dropify" accept="image/jpeg, image/png" />
+                                    </div>
 
+                                    {{-- $Property->PropertyImages --}}
+
+                                    <div class="col-sm-12 col-md-6 mb-3" hidden>
+                                        <label class="form-label">@lang('lat&long')</label>
+                                        <input type="text" required readonly name="lat_long" id="location_tag"
+                                            class="form-control" placeholder="@lang('lat&long')"
+                                            value="{{ $Property->lat_long }}" />
                                     </div>
 
                                     <div class="col-12">
@@ -199,7 +214,7 @@
                     var lat = place.geometry.location.lat();
                     var long = place.geometry.location.lng();
                     // $("#address").val(address);
-                    // $("#location_tag").val(lat + "," + long);
+                    $("#location_tag").val(lat + "," + long);
                     // Log the details to the console (or do something else with them)
                 });
             });

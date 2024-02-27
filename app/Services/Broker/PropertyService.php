@@ -2,8 +2,7 @@
 
 namespace App\Services\Broker;
 
-use App\Models\PropertyImage;
-use App\Repositories\Broker\PropertyRepository;
+use App\Interfaces\Broker\PropertyRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -12,7 +11,7 @@ class PropertyService
 
     protected $PropertyRepository;
 
-    public function __construct(PropertyRepository $PropertyRepository)
+    public function __construct(PropertyRepositoryInterface $PropertyRepository)
     {
         $this->PropertyRepository = $PropertyRepository;
     }
@@ -60,11 +59,15 @@ class PropertyService
         $rules = [
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'city_id' => 'required|exists:cities,id',
-            'property_type_id' => 'required|exists:property_types,id',
-            'property_usage_id' => 'required|exists:property_usages,id',
-            'owner_id' => 'required|exists:owners,id',
             'service_type_id' => 'required|exists:service_types,id',
+            // 'is_divided' => 'required|boolean',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'instrument_number' => [
+                'required',
+                Rule::unique('properties')->ignore($id),
+                'max:25'
+            ],
         ];
 
         // Validate data
