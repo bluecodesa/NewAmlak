@@ -52,16 +52,16 @@
                                         <div class="mb-3">
 
                                             <label for="phone">@lang('phone')<span
-                                                class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
                                             <div style="position:relative">
 
-                                            <input type="tel" class="form-control" id="phone" minlength="9"
-                                                maxlength="9" pattern="[0-9]*"
-                                                oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                                onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                                name="phone" required="" value="">
+                                                <input type="tel" class="form-control" id="phone" minlength="9"
+                                                    maxlength="9" pattern="[0-9]*"
+                                                    oninvalid="setCustomValidity('Please enter 9 numbers.')"
+                                                    onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
+                                                    name="phone" required="" value="">
 
-                                        </div>
+                                            </div>
                                         </div>
                                     </div>
 
