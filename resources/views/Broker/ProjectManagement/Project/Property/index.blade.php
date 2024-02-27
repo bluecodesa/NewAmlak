@@ -59,10 +59,10 @@
                                                     <td>{{ $property->instrument_number ?? '' }}</td>
 
                                                     <td>
-                                                        @if ($property->is_divided == 1)
-                                                            <a href="{{ route('Broker.Property.show', $property->id) }}"
-                                                                class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
-                                                        @endif
+
+                                                        <a href="{{ route('Broker.Property.CreateUnit', $property->id) }}"
+                                                            class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
+
 
                                                         <a href="{{ route('Broker.Property.show', $property->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
