@@ -35,4 +35,14 @@ class Property extends Model
     {
         return $this->belongsTo(Owner::class, 'owner_id');
     }
+
+    public function ServiceTypeData()
+    {
+        return $this->belongsTo(ServiceType::class, 'service_type_id');
+    }
+
+    public function PropertyImages()
+    {
+        return $this->hasMany(PropertyImage::class, 'property_id');
+    }
 }

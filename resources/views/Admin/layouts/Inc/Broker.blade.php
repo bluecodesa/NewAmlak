@@ -22,6 +22,7 @@
                                     class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                        <li><a href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
                         <li><a href="{{ route('Broker.Developer.index') }}">@lang('developers')</a></li>
                         <li><a href="{{ route('Broker.Advisor.index') }}">@lang('advisors')</a></li>
                         <li><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li>

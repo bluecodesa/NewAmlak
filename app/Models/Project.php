@@ -38,4 +38,9 @@ class Project extends Model
     {
         return $this->hasMany(Property::class, 'project_id');
     }
+
+    public function ServiceTypeData()
+    {
+        return $this->belongsTo(ServiceType::class, 'service_type_id');
+    }
 }
