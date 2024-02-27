@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('lat_long')->nullable();
             $table->integer('service_type_id')->unsigned()->nullable();
+            $table->string('type')->default('rent')->nullable();
             $table->foreign('service_type_id')->references('id')->on('service_types')->onDelete('cascade');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('owner_id')->references('id')->on('owners')->onDelete('cascade');
