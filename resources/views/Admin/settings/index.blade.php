@@ -104,6 +104,26 @@
                                                                             accept="image/png, image/jpg, image/jpeg">
                                                                     </div>
                                                                     <div class="form-group col-md-6">
+                                                                        <label for="privacy_pdf">@lang('our privacy policy')</label>
+                                                                        @if (isset($settings) && $settings->privacy_pdf)
+                                                                        <p>{{ $settings->privacy_pdf }}</p>
+                                                                        @else
+                                                                            <p>No pdf uploaded yet.</p>
+                                                                        @endif
+                                                                        <input name="privacy_pdf" class="form-control" type="file" id="privacy_pdf" accept=".pdf">
+                                                                    </div>
+                                                                    <div class="form-group col-md-6">
+                                                                        <label for="terms_pdf"> @lang('Conditions') @lang('and') @lang('Terms')</label>
+                                                                        @if (isset($settings) && $settings->terms_pdf)
+                                                                        <p>{{ $settings->terms_pdf }}</p>
+                                                                        @else
+                                                                            <p>No pdf uploaded yet.</p>
+                                                                        @endif
+                                                                        <input name="terms_pdf" class="form-control" type="file" id="terms_pdf" accept=".pdf">
+                                                                    </div>
+
+
+                                                                    <div class="form-group col-md-6">
                                                                         <label for="color">@lang('Color')</label>
                                                                         <input name="color" class="form-control"
                                                                             type="color"
