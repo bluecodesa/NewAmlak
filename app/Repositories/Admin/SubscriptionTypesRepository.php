@@ -25,6 +25,7 @@ class SubscriptionTypesRepository implements SubscriptionTypesRepositoryInterfac
 
     public function index($status_filter, $period_filter, $price_filter)
     {
+
         return $this->subscriptionTypeService->index($status_filter, $period_filter, $price_filter);
     }
 
@@ -85,7 +86,7 @@ class SubscriptionTypesRepository implements SubscriptionTypesRepositoryInterfac
 
     public function getSubscriptionTypesForOfficeAdmin()
     {
-   
+
         return SubscriptionType::whereHas('roles', function ($query) {
             $query->where('name', 'Office-Admin');
         })->get();

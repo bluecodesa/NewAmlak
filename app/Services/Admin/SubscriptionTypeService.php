@@ -52,6 +52,7 @@ class SubscriptionTypeService
 
     public function index($status_filter, $period_filter, $price_filter)
     {
+
         $types = $this->applyFilters(SubscriptionType::where('is_deleted', 0), $status_filter, $period_filter, $price_filter);
         $prices = $this->calculateRange($types->pluck('price')->toArray());
 
@@ -64,7 +65,6 @@ class SubscriptionTypeService
         ]);
     }
 
-    // ... other methods
 
     private function applyFilters($query, $status_filter, $period_filter, $price_filter)
     {

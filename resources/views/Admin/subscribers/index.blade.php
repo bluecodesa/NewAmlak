@@ -14,6 +14,14 @@
                                     <h4 class="page-title">
                                         @lang('Subscribers')</h4>
                                 </div>
+
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
+
                                 <div class="col-md-6" style="text-align: end">
                                     <a href="{{ route('Admin.Subscribers.create') }}"
                                         class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light" data-toggle="modal"

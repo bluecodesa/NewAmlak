@@ -7,7 +7,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
-use App\Http\Controllers\SubscriptionTypesController;
+use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
 use App\Http\Middleware\PendingPaymentPopup;
 
 
@@ -73,4 +73,6 @@ Route::group(
         Route::post('callback_payments_packageUpgarde/{id}', 'PaymentController@Payment_callBackUpgarde')->name('callback_payments_package_upgrade');
         Route::get('callback_payments_packageUpgarde/{id}', 'PaymentController@Payment_callBackUpgarde')->name('callback_payments_package_upgrade');
     }
+
 );
+

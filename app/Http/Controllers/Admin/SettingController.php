@@ -80,7 +80,6 @@ class SettingController extends Controller
        $this->paymentGateway->createPaymentGateway($request->all());
        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
 
-
     }
 
     public function updatePaymentGateway(Request $request, $id)

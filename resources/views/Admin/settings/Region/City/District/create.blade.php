@@ -14,6 +14,13 @@
                                     <h4 class="page-title">
                                         @lang('Add New District')</h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.District.create') }}">@lang('Add New District')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.District.index') }}">@lang('districts')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>

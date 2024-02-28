@@ -14,6 +14,12 @@
                                     <h4 class="page-title">
                                         @lang('invoices')</h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.SystemInvoice.index') }}">@lang('invoices')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
 
                             </div>
                         </div>

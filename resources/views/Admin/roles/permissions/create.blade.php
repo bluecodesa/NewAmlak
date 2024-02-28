@@ -12,6 +12,13 @@
                             <h4 class="page-title">
                                 @lang('Add New Permission')</h4>
                         </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.Permissions.create') }}">@lang('Add New Permission')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.Permissions.index') }}">@lang('Permissions')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

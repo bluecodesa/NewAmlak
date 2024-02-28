@@ -14,6 +14,13 @@
                                     <h4 class="page-title">
                                         @lang('Edit') : {{ $City->name }} </h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.City.edit',$City->id) }}">@lang('Edit')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>

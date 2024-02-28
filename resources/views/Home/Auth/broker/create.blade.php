@@ -156,15 +156,17 @@
 
 
                 <p class="row mb-3">
-                    @lang('By registering') @lang('you accept our')
+                        @lang('By registering') @lang('you accept our')
+
                     <a href="{{ asset('pdfs/terms-and-conditions.pdf') }}" target="_blank" download>
-                        @lang('Terms') &amp; @lang('Conditions')
+                        @lang('Conditions') &amp;  @lang('Terms')
                     </a>
-                    @lang('and')
                     <a href="{{ asset('pdfs/privacy-policy.pdf') }}" target="_blank" download>
-                        @lang('our privacy policy')
-                    </a>.
+
+                        @lang('and') @lang('our privacy policy')
+                    </a>
                 </p>
+
 
 
             </div>

@@ -14,7 +14,7 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item">@lang('Settings')</li>
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.settings.index') }}">Amlak</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.settings.index') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
                     </div> <!-- end row -->

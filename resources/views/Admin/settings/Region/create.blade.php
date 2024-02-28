@@ -14,6 +14,14 @@
                                     <h4 class="page-title">
                                         @lang('Add New')</h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Region.create') }}">@lang('Add New')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Region.index') }}">@lang('Regions')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
+
                             </div>
                         </div>
                     </div>
