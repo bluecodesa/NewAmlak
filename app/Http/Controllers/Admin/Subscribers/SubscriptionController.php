@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $subscribers = $this->subscriptionService->getAllSubscribers();
-        return view('Admin.Subscriptions.index', get_defined_vars());
+        return view('Admin.subscribers.index', get_defined_vars());
     }
 
     public function create(Request $request)
