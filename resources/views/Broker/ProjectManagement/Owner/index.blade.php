@@ -13,6 +13,12 @@
                                 @lang('owners')</h4>
 
                         </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                            </ol>
+                        </div>
 
                     </div> <!-- end row -->
                 </div>
@@ -27,7 +33,7 @@
 
                                     <a href="{{ route('Broker.Owner.create') }}" class="btn btn-primary btn-sm"><i
                                             class="bi bi-plus-circle"></i>
-                                        @lang('Add New') </a>
+                                        @lang('Add New Owner') </a>
                                 </h4>
 
                                 <div class="table-responsive b-0" data-pattern="priority-columns">

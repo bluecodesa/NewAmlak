@@ -7,6 +7,7 @@ use App\Http\Controllers\Broker\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Broker\PaymentController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
+use App\Http\Controllers\Broker\SettingController;
 use App\Http\Controllers\Broker\ProjectManagement\PropertyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PendingPaymentPopup;
@@ -40,6 +41,7 @@ Route::group(
             route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
             route::resource('Project', ProjectController::class)->middleware('CheckSubscription');
             route::resource('Payment', PaymentController::class);
+            route::resource('Setting', SettingController::class);
             route::resource('Property', PropertyController::class);
             Route::get('/CreateUnit/{id}', 'ProjectManagement\PropertyController@CreateUnit')->name('Property.CreateUnit')->middleware('CheckSubscription');
             Route::get('autocomplete', 'ProjectManagement\PropertyController@autocomplete')->name('Property.autocomplete')->middleware('CheckSubscription');

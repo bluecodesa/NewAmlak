@@ -14,6 +14,13 @@
                                     <h4 class="page-title">
                                         @lang('Edit') : {{ $project->name }} </h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Project.edit', $project->id) }}">@lang('Edit')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>

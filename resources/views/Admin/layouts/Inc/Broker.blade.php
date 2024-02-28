@@ -29,7 +29,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                    <a href="{{ route('Broker.Setting.index') }}" class="waves-effect"><i class=" icon-setting-2"></i><span>
                             @lang('Settings')<span class="float-right menu-arrow"></a>
 
                 </li>

@@ -126,7 +126,18 @@
                         <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('save')</button>
                     </div>
                 </form>
+                <p class="row mb-3">
+                    @lang('By registering') @lang('you accept our')
+                    <a href="{{ asset('pdfs/terms-and-conditions.pdf') }}" target="_blank" download>
+                        @lang('Terms') &amp; @lang('Conditions')
+                    </a>
+                    @lang('and')
+                    <a href="{{ asset('pdfs/privacy-policy.pdf') }}" target="_blank" download>
+                        @lang('our privacy policy')
+                    </a>.
+                </p>
             </div>
+
 
         </div>
     </div>

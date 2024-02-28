@@ -55,6 +55,8 @@
     "districts": "الاحياء",
     "Add New District": "اضافة حي جديد",
     "Add New Advisor": "اضافة استشاري جديد",
+    "Add New Owner": "اضافة مالك جديد",
+    "Add New Project": "اضافة مشروع جديد",
     "Commercial Registration No": "رقم السجل التجاري",
     "optional": "اختياري",
     "Company Name": "اسم الشركة",
@@ -230,5 +232,19 @@
     "Current subscription": "الاشتراك الحالي",
     "Payment By": "الدفع بال ",
     "Compare Plans": "قارن بين الخطط",
-    "Welcome": "أهلا ومرحبا"
+    "Welcome": "أهلا ومرحبا",
+    "Submit": " تسجيل",
+    "By registering": "عند التسجيل",
+    "our privacy policy": " سياسة الخصوصية الخاصة بنا",
+    "you accept our": "يتم قبول ",
+    "Conditions": "الشروط ",
+    "Terms": "الأحكام",
+    "and": " و"
+
+
+
+
+
+
+
 }

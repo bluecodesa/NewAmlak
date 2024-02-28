@@ -12,14 +12,13 @@
                             <h4 class="page-title">
                                 @lang('Projects')</h4>
                         </div>
-                        <div class="col-6">
-                            <div class="card-title">
-                                <a href="{{ route('Broker.Project.create') }}"
-                                    class="btn btn-primary waves-effect waves-light">@lang('Add New')</a>
-                                <a href="{{ route('Broker.Property.create') }}"
-                                    class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
-                            </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                            </ol>
                         </div>
+
 
                     </div> <!-- end row -->
                 </div>
@@ -30,6 +29,14 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                <div class="col-6">
+                                    <div class="card-title">
+                                        <a href="{{ route('Broker.Project.create') }}"
+                                            class="btn btn-primary waves-effect waves-light">@lang('Add New Project')</a>
+                                        <a href="{{ route('Broker.Property.create') }}"
+                                            class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
+                                    </div>
+                                </div>
 
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
                                     <table id="datatable-buttons"
