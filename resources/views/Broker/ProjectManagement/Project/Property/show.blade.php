@@ -168,8 +168,8 @@
                                                     <td>{{ __($unit->type) ?? '' }}</td>
 
                                                     <td>
-                                                        <a href="{{ route('Broker.Project.show', $unit->id) }}"
-                                                            class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                        {{-- <a href="{{ route('Broker.Project.show', $unit->id) }}"
+                                                            class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a> --}}
 
                                                         <a href="{{ route('Broker.Project.edit', $unit->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>

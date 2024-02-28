@@ -45,6 +45,7 @@
                                         </div>
                                     </div>
 
+
                                     <div class="form-group col-md-4">
                                         <label>@lang('Region') <span class="required-color">*</span> </label>
                                         <select class="form-control" id="Region_id" required>
@@ -126,7 +127,7 @@
                                     <div class="col-sm-12 col-md-4 mb-3">
                                         <label class="form-label">@lang('Instrument number') <span
                                                 class="required-color">*</span></label>
-                                        <input type="text" required name="instrument_number" class="form-control"
+                                        <input type="number" required name="instrument_number" class="form-control"
                                             placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
                                     </div>
 
