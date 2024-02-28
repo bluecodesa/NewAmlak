@@ -78,7 +78,7 @@ class SettingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd($request->all());
+
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$id,
@@ -88,6 +88,7 @@ class SettingController extends Controller
             'license_number' => 'required|string|max:255|unique:brokers,broker_license,'.$id,
             'password' => 'nullable|string|max:255|confirmed',
         ];
+
 
         $messages = [
             'name.required' => __('The name field is required.'),
