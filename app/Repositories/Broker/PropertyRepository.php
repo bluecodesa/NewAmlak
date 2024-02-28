@@ -93,12 +93,14 @@ class PropertyRepository implements PropertyRepositoryInterface
         foreach ($data['service_id'] as  $service) {
             UnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
         }
-        foreach ($data['name'] as $index => $Feature_name) {
-            $Feature =    Feature::where('name', $Feature_name)->first();
-            if (!$Feature) {
-                $Feature =   Feature::create(['name' => $Feature_name, 'created_by' => Auth::id()]);
+        if (isset($data['name'])) {
+            foreach ($data['name'] as $index => $Feature_name) {
+                $Feature =    Feature::where('name', $Feature_name)->first();
+                if (!$Feature) {
+                    $Feature =   Feature::create(['name' => $Feature_name, 'created_by' => Auth::id()]);
+                }
+                UnitFeature::create(['feature_id' => $Feature->id, 'unit_id' => $unit->id, 'qty' => $data['qty'][$index]]);
             }
-            UnitFeature::create(['feature_id' => $Feature->id, 'unit_id' => $unit->id, 'qty' => $data['qty'][$index]]);
         }
         if (isset($data['images'])) {
             $images = $data['images'];

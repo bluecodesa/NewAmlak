@@ -23,13 +23,15 @@
                     <ul class="submenu">
                         <li><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
                         <li><a href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
+                        <li><a href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
                         <li><a href="{{ route('Broker.Developer.index') }}">@lang('developers')</a></li>
                         <li><a href="{{ route('Broker.Advisor.index') }}">@lang('advisors')</a></li>
                         <li><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ route('Broker.Setting.index') }}" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                    <a href="{{ route('Broker.Setting.index') }}" class="waves-effect"><i
+                            class=" icon-setting-2"></i><span>
                             @lang('Settings')<span class="float-right menu-arrow"></a>
 
                 </li>

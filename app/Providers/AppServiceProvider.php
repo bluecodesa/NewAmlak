@@ -21,6 +21,7 @@ use Illuminate\Pagination\Paginator;
 use App\Interfaces\Admin\SubscriptionTypesRepositoryInterface;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Interfaces\Broker\PropertyRepositoryInterface;
+use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Interfaces\Office\AdvisorRepositoryInterface;
 use App\Interfaces\Office\DeveloperRepositoryInterface;
 use App\Interfaces\Office\EmployeeRepositoryInterface;
@@ -42,6 +43,7 @@ use App\Repositories\Admin\SettingRepository;
 use App\Repositories\Admin\SubscriptionTypesRepository;
 use App\Repositories\Admin\SystemInvoiceRepository;
 use App\Repositories\Broker\PropertyRepository;
+use App\Repositories\Broker\UnitRepository;
 use App\Repositories\Office\AdvisorRepository;
 use App\Repositories\Office\DeveloperRepository;
 use App\Repositories\Office\EmployeeRepository;
@@ -165,6 +167,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ServiceRepositoryInterface::class,
             ServiceRepository::class
+        );
+
+        $this->app->bind(
+            UnitRepositoryInterface::class,
+            UnitRepository::class
         );
     }
 

@@ -4,22 +4,16 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
-use App\Models\Feature;
-use App\Models\Service;
-use App\Models\Unit;
-use App\Models\UnitFeature;
-use App\Models\UnitImage;
-use App\Models\UnitService;
+use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
 use App\Services\Broker\PropertyService;
+use App\Services\FeatureService;
 use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
 use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class PropertyController extends Controller
 {
@@ -30,9 +24,9 @@ class PropertyController extends Controller
     protected $propertyTypeService;
     protected $propertyUsageService;
     protected $ServiceTypeService;
-
-
-    public function __construct(PropertyService $PropertyService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    protected $AllServiceService;
+    protected $FeatureService;
+    public function __construct(PropertyService $PropertyService, AllServiceService $AllServiceService, FeatureService $FeatureService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -41,6 +35,8 @@ class PropertyController extends Controller
         $this->propertyTypeService = $propertyTypeService;
         $this->propertyUsageService = $propertyUsageService;
         $this->ServiceTypeService = $ServiceTypeService;
+        $this->AllServiceService = $AllServiceService;
+        $this->FeatureService = $FeatureService;
     }
 
     public function index()
@@ -106,6 +102,7 @@ class PropertyController extends Controller
 
     function CreateUnit($id)
     {
+        $Property = $this->PropertyService->findById($id);
         $types = $this->propertyTypeService->getAllPropertyTypes();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
@@ -114,8 +111,8 @@ class PropertyController extends Controller
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
-        $services = Service::all();
-        $features = Feature::all();
+        $services = $this->AllServiceService->getAllServices();
+        $features = $this->FeatureService->getAllFeature();
         return view('Broker.ProjectManagement.Project.Property.CreateUnit', get_defined_vars());
     }
 

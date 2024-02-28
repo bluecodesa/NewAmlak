@@ -15,10 +15,14 @@ class Property extends Model
         return $this->belongsTo(City::class, 'city_id');
     }
 
-
     public function PropertyTypeData()
     {
         return $this->belongsTo(PropertyType::class, 'property_type_id');
+    }
+
+    public function ProjectData()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function PropertyUsageData()

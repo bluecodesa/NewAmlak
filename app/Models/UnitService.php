@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class UnitService extends Model
 {
     protected $guarded = [];
+
+
+    public function ServiceData()
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
 }
