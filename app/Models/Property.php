@@ -45,4 +45,9 @@ class Property extends Model
     {
         return $this->hasMany(PropertyImage::class, 'property_id');
     }
+
+    public function PropertyUnits()
+    {
+        return $this->hasMany(Unit::class, 'property_id');
+    }
 }

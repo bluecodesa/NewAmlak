@@ -11,4 +11,9 @@ class Service extends Model
     use Translatable;
     public $translatedAttributes = ['name'];
     protected $guarded = [];
+
+    public function CreatedByData()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

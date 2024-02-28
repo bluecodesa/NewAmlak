@@ -32,7 +32,8 @@
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
     <link href="{{ url('dashboard_files/assets/css/icons.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
-
+    <link href="{{ url('dashboard_files/assets/css/select2.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <!-- DataTables -->
     <link href="{{ url('dashboard_files/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
         type="text/css" />
@@ -113,16 +114,12 @@
     <script src="{{ url('dashboard_files/assets/js/jquery.slimscroll.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/waves.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/dropify.js') }}"></script>
-
-
-
     <!--Morris Chart-->
     <script src="{{ url('dashboard_files/plugins/morris/morris.min.js') }}"></script>
     <script src="{{ url('dashboard_files/plugins/raphael/raphael.min.js') }}"></script>
-
+    {{--  --}}
     <script src="{{ url('dashboard_files/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('dashboard_files/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
     <!-- Buttons examples -->
     <script src="{{ url('dashboard_files/plugins/datatables/dataTables.buttons.min.js') }}"></script>
     <script src="{{ url('dashboard_files/plugins/datatables/buttons.bootstrap4.min.js') }}"></script>
@@ -145,18 +142,21 @@
     <script src="{{ url('dashboard_files/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places"
         defer></script>
-    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places" async
-        defer></script> --}}
-
-
+    {{-- select2.min.js --}}
+    <script src="{{ url('dashboard_files/assets/js/select2.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/bootstrap4-toggle.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/jquery-ui.min.js') }}"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
     @include('Admin.layouts.Inc.js')
-
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
     <script>
         $('.dropify').dropify();
         var success = '{{ Session::has('success') }}';

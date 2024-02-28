@@ -56,6 +56,7 @@
                         <li><a href="{{ route('Admin.PropertyType.index') }}">@lang('Property Types')</a></li>
                         <li><a href="{{ route('Admin.PropertyUsage.index') }}">@lang('property usages')</a></li>
                         <li><a href="{{ route('Admin.ServiceType.index') }}">@lang('services types')</a></li>
+                        <li><a href="{{ route('Admin.Service.index') }}">@lang('services')</a></li>
 
 
 
