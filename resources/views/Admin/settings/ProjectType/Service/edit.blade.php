@@ -14,6 +14,13 @@
                                     <h4 class="page-title">
                                         @lang('Edit') : {{ $Service->name }} </h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Service.edit',$Service->id) }}">@lang('Edit')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Service.index') }}">@lang('services')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>

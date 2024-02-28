@@ -12,6 +12,13 @@
                             <h4 class="page-title">
                                 @lang('User management')</h4>
                         </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.users.edit',$user->id) }}">@lang('Edit')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.users.index') }}">@lang('User management')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                            </ol>
+                        </div>
 
                     </div> <!-- end row -->
                 </div>

@@ -14,6 +14,13 @@
                                     <h4 class="page-title">
                                         @lang('Edit') : {{ $PropertyUsage->name }} </h4>
                                 </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.PropertyUsage.edit',$PropertyUsage->id) }}">@lang('Edit')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.PropertyUsage.index') }}">@lang('property usages')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>

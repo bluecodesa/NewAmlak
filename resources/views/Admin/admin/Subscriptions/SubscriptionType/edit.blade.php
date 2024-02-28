@@ -14,12 +14,10 @@
 
                         </div>
                         <div class="col-sm-6">
-
                             <ol class="breadcrumb float-right">
-
-                                <li class="breadcrumb-item ">@lang('Types subscriptions') </li>
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.index') }}">
-                                        {{ $sitting->title }} </a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.update', $SubscriptionType->id) }}">@lang('Edit Types subscriptions')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Types subscriptions')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
                     </div> <!-- end row -->

@@ -42,15 +42,13 @@ class PaymentGatewayService implements PaymentGatewayRepositoryInterface
 
         validator($data, $rules)->validate();
         $user_id = Auth::user()->id;
-        dd( $user_id);
-
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('dashboard_files/images/payments');
             $file->move($destinationPath, $fileName);
-            $data['image'] = 'dashboard_files/images/payments/' . $fileName;
+            $data['image'] = 'dashboard_files/images/payments/' . $fileName; // Update the image path
         }
 
         $data['user_id'] = Auth::user()->user_id;
@@ -88,11 +86,12 @@ class PaymentGatewayService implements PaymentGatewayRepositoryInterface
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('dashboard_files/images/payments');
             $file->move($destinationPath, $fileName);
-            $data['image'] = 'dashboard_files/images/payments/' . $fileName;
+            $data['image'] = 'dashboard_files/images/payments/' . $fileName; // Update the image path
+        }
 
            return  $this->paymentGatewayRepository->updatePaymentGateway($id,$data);
 
         }
     }
 
-}
+

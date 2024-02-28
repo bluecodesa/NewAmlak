@@ -14,12 +14,13 @@
                                     <h4 class="page-title">
                                         @lang('sections')</h4>
                                 </div>
-                                <div class="col-md-6" style="text-align: end">
-                                    <a href="{{ route('Admin.Sections.create') }}"
-                                        class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
-                                        @lang('Add New Section')
-                                    </a>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Sections.index') }}">@lang('sections')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
                                 </div>
+
                             </div>
                         </div>
 
@@ -32,7 +33,12 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
-
+                            <div class="col-md-6" >
+                                    <a href="{{ route('Admin.Sections.create') }}"
+                                        class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
+                                        @lang('Add New Section')
+                                    </a>
+                                </div>
 
                                 <table id="datatable-buttons"
                                     class="table table-striped table-bordered dt-responsive nowrap"
