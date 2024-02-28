@@ -11,6 +11,10 @@ interface PropertyRepositoryInterface
 
     public function update($id, $data, $images);
 
+    public function StoreUnit($id, $data);
+
+    public function autocomplete($data);
+
     public function findById($id);
 
     public function delete($id);

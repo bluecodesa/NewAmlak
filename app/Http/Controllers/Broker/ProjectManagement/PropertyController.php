@@ -8,6 +8,7 @@ use App\Models\Feature;
 use App\Models\Service;
 use App\Models\Unit;
 use App\Models\UnitFeature;
+use App\Models\UnitImage;
 use App\Models\UnitService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
@@ -18,6 +19,7 @@ use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class PropertyController extends Controller
 {
@@ -111,69 +113,21 @@ class PropertyController extends Controller
         $advisors = $this->brokerDataService->getAdvisors();
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
+        $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = Service::all();
         $features = Feature::all();
         return view('Broker.ProjectManagement.Project.Property.CreateUnit', get_defined_vars());
     }
 
-    // function CreateFeature(Request $request)
-    // {
-    //     $request_data = $request->all();
-    //     $request_data['created_by'] = Auth::id();
-    //     Feature::create($request_data);
-    //     $features = Feature::all();
-    //     return view('Broker.ProjectManagement.Project.Property.inc._features', compact('features'));
-    // }
-
     public function autocomplete(Request $request)
     {
-        $data = Feature::select("name as value", "id")
-            ->where('name', 'LIKE', '%' . $request->get('search') . '%')
-            ->get();
-
+        $data = $this->PropertyService->autocomplete($request->all());
         return response()->json($data);
     }
 
     function StoreUnit(Request $request, $id)
     {
-        $request->validate([
-            'number_unit' => 'required',
-            'owner_id' => 'required',
-            'space' => 'required',
-            'rooms' => 'required',
-            'bathrooms' => 'required',
-            'price' => 'required',
-            'type' => 'required',
-            'service_id' => 'required|array',
-            'service_id.*' => 'exists:services,id',
-            'name' => 'required|array',
-            'name.*' => 'string',
-            'qty' => 'required|array',
-            'qty.*' => 'integer',
-        ]);
-
-        $unit_data = $request->only([
-            'number_unit',
-            'owner_id',
-            'space',
-            'rooms',
-            'bathrooms',
-            'price',
-            'type',
-        ]);
-        $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
-        $unit_data['property_id'] = $id;
-        $unit = Unit::create($unit_data);
-        foreach ($request->service_id as  $service) {
-            UnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
-        }
-        foreach ($request->name as $index => $Feature_name) {
-            $Feature =    Feature::where('name', $Feature_name)->first();
-            if (!$Feature) {
-                $Feature =   Feature::create(['name' => $Feature_name, 'created_by' => Auth::id()]);
-            }
-            UnitFeature::create(['feature_id' => $Feature->id, 'unit_id' => $unit->id, 'qty' => $request['qty'][$index]]);
-        }
+        $this->PropertyService->StoreUnit($id, $request->all());
         return redirect()->route('Broker.Property.index')->with('success', __('added successfully'));
     }
 }

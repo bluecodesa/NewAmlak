@@ -64,7 +64,7 @@ class PropertyService
             'city_id' => 'required|exists:cities,id',
             'owner_id' => 'required|exists:owners,id',
             'instrument_number' => [
-                'required',
+                'required|numeric',
                 Rule::unique('properties')->ignore($id),
                 'max:25'
             ],
@@ -83,5 +83,45 @@ class PropertyService
     public function delete($id)
     {
         return $this->PropertyRepository->delete($id);
+    }
+
+    function autocomplete($data)
+    {
+        return $this->PropertyRepository->autocomplete($data);
+    }
+
+    function StoreUnit($id, $data)
+    {
+
+        $rules = [
+            'number_unit' => 'required|string',
+            'city_id' => 'required',
+            'location' => 'required',
+            'property_type_id' => 'required',
+            'property_usage_id' => 'required',
+            'owner_id' => 'required',
+            'instrument_number' => 'required|numeric',
+            'service_type_id' => 'required',
+            "show_gallery" => 'required',
+            'space' => 'required|numeric',
+            'rooms' => 'required|numeric',
+            'bathrooms' => 'required|numeric',
+            'show_gallery' => 'nullable',
+            'price' => 'required|numeric',
+            'type' => ['required', Rule::in(['sale', 'rent'])],
+            'service_id' => 'required|array',
+            'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
+            'name' => 'required|array',
+            'name.*' => 'string',
+            'qty' => 'required|array',
+            'qty.*' => 'integer|min:0',
+        ];
+
+        // Validate data
+        validator($data, $rules)->validate();
+
+        $unit = $this->PropertyRepository->StoreUnit($id, $data);
+
+        return $unit;
     }
 }
