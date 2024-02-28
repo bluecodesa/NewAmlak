@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $subscribers = $this->subscriptionService->getAllSubscribers();
-        return view('Admin.subscribers.index', get_defined_vars());
+        return view('Admin.Subscriptions.index', get_defined_vars());
     }
 
     public function create(Request $request)
@@ -48,7 +48,7 @@ class SubscriptionController extends Controller
         $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
             $query->where('name', 'Office-Admin');
         })->get();
-        return view('Admin.admin.subscriptions.create', get_defined_vars());
+        return view('Admin.admin.Subscriptions.create', get_defined_vars());
     }
 
 
@@ -106,7 +106,7 @@ class SubscriptionController extends Controller
         $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
             $query->where('name', 'RS-Broker');
         })->get();
-        return view('Admin.admin.subscriptions.create_broker', get_defined_vars());
+        return view('Admin.admin.Subscriptions.create_broker', get_defined_vars());
     }
 
 
