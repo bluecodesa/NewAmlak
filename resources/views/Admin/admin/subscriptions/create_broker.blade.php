@@ -117,14 +117,22 @@
     </div>
 
     <div class="mb-3 row">
+            <div class="col-md-4 mb-4">
+                <label for="broker_logo">@lang('Broker logo')</label>
+                <span class="not_required">(@lang('optional'))</span>
+                <input type="file" class="form-control d-none" id="broker_logo"
+                    name="company_logo" accept="image/png, image/jpg, image/jpeg">
+                <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
+                    class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+            </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4 mb-4">
             <label for="password"> @lang('password') <span
                 class="text-danger">*</span></label>
-<input type="password" class="form-control" id="password" name="password" required>
+        <input type="password" class="form-control" id="password" name="password" required>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4 mb-4">
             <label for="password_confirmation"> @lang('Confirm Password') <span
                 class="text-danger">*</span></label>            <input type="password" class="form-control" id="password_confirmation"
                 name="password_confirmation" required>

@@ -56,8 +56,9 @@
                                         <div class="col-12">
                                             <div class="card m-b-30">
                                                 <div class="card-body">
-                                                    <form action="{{ route('Admin.Subscribers.CreateBroker') }}" method="POST">
+                                                    <form action="{{ route('Broker.Setting.update', $broker->id) }}" method="POST" enctype="multipart/form-data">
                                                         @csrf
+                                                        @method('PUT')
 
                                                         @if ($errors->any())
                                                             <div class="alert alert-danger">
@@ -78,14 +79,14 @@
                                                             <div class="col-md-6">
                                                                 <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
 
-                                                                <input type="text" class="form-control" id="license_number" name="license_number" value="{{ $user->broker_license }}" required>
+                                                                <input type="text" class="form-control" id="license_number" name="license_number" value="{{ $broker->broker_license }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="mb-3 row">
                                                             <div class="col-md-6">
                                                                 <label for="email">@lang('Email')<span class="text-danger">*</span></label>
 
-                                                                <input type="email" class="form-control" id="email" name="email">
+                                                                <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
                                                             </div>
 
                                                             <div class="col-md-6">
@@ -98,18 +99,27 @@
                                                                         maxlength="9" pattern="[0-9]*"
                                                                         oninvalid="setCustomValidity('Please enter 9 numbers.')"
                                                                         onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                                                        name="mobile" required="" value="">
+                                                                        name="mobile" required="" value="{{ $broker->mobile }}">
 
                                                                 </div>
                                                             </div>
 
                                                         </div>
                                                         <div class="mb-3 row">
+                                                            <div class="col-md-4 mb-4">
+                                                                <label for="broker_logo">@lang('Broker logo')</label>
+                                                                <span class="not_required">(@lang('optional'))</span>
+                                                                <input type="file" class="form-control" id="broker_logo"
+                                                                    name="company_logo" accept="image/png, image/jpg, image/jpeg">
+                                                                <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
+                                                                    class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+                                                            </div>
 
                                                             <div class="form-group col-md-4">
-                                                                <label>@lang('Region') </label>
+                                                                <label>@lang('Region') <span
+                                                                    class="text-danger">*</span></label>
                                                                 <select class="form-control" id="Region_id" required>
-                                                                    <option disabled selected value="">@lang('Region')</option>
+                                                                    <option  selected value="{{ $region->id }}">{{ $region->name }}</option>
                                                                     @foreach ($Regions as $Region)
                                                                         <option value="{{ $Region->id }}"
                                                                             data-url="{{ route('Admin.Region.show', $Region->id) }}">
@@ -119,11 +129,12 @@
                                                             </div>
 
                                                             <div class="form-group col-md-4">
-                                                                <label>@lang('city') </label>
-                                                                <select class="form-control" name="city_id" id="CityDiv" required>
+                                                                <label>@lang('city') <span
+                                                                    class="text-danger">*</span></label>
+                                                                <select class="form-control" name="city_id" id="CityDiv" value="" required>
+                                                                    <option  selected value="{{ $city->id }}">{{ $city->name }}</option>
                                                                 </select>
                                                             </div>
-
 
                                                         </div>
 
@@ -137,8 +148,9 @@
 
                                                             <div class="col-md-6">
                                                                 <label for="password_confirmation"> @lang('Confirm Password') <span
-                                                                    class="text-danger">*</span></label>            <input type="password" class="form-control" id="password_confirmation"
-                                                                    name="password_confirmation" required>
+                                                                    class="text-danger">*</span></label>
+                                                                     <input type="password" class="form-control" id="password_confirmation"
+                                                                    name="password_confirmation" required >
                                                             </div>
                                                         </div>
 
@@ -146,7 +158,7 @@
                                                         <div class="mb-3 row">
                                                             <div class="col-md-6">
                                                                 <label for="id_number" class="col-form-label">@lang('id number')</label>
-                                                                <input type="text" class="form-control" id="id_number" name="id_number">
+                                                                <input type="text" class="form-control" id="id_number" name="id_number" value="{{ $broker->id_number }}">
                                                             </div>
                                                         </div>
                                                         <div class="row mb-3">
@@ -175,4 +187,45 @@
         </div>
     </div>
 
-    @endsection
+    @push('scripts')
+        <script>
+            $('#Region_id').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#CityDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#CityDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+            //
+            $('#company_logo_preview').click(function() {
+                $('#company_logo').click(); // Trigger file input click on image click
+            });
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#company_logo_preview').attr('src', e.target.result); // Update the preview image
+                    };
+
+                    reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+                }
+            }
+
+            $("#company_logo").change(function() {
+                readURL(this); // Call readURL function when a file is selected
+            });
+        </script>
+    @endpush
+@endsection

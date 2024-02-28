@@ -58,7 +58,7 @@
                                                         {{ __($invoice->subscription_type) }}
                                                     </td>
 
-                                                    <td>{{ __($invoice->status) }}</td>
+                                                    <td>{{__(app()->getLocale() . '.' . $invoice->status) }}</td>
 
                                                     <td>{{ number_format($invoice->amount, 2) }}
                                                         <sup>@lang('SAR')</sup>

@@ -146,7 +146,7 @@ class SubscriptionService
             'total' => '200'
         ]);
 
-        $this->createSystemInvoice($broker, $subscriptionType, $status);
+        $this->createSystemInvoiceBroker($broker, $subscriptionType, $status);
 
         return $subscription;
     }
@@ -163,7 +163,7 @@ class SubscriptionService
 
 
     //////
-   
+
 
 
     protected function uploadCompanyLogo($request)
@@ -184,6 +184,20 @@ class SubscriptionService
     {
         SystemInvoice::create([
             'office_id' => $office->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => ($subscriptionType->price > 0) ? 'paid' : 'free',
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV_' . uniqid(),
+        ]);
+    }
+
+    protected function createSystemInvoiceBroker($broker, $subscriptionType, $status)
+    {
+        SystemInvoice::create([
+            'broker_id' => $broker->id,
             'subscription_name' => $subscriptionType->name,
             'amount' => $subscriptionType->price,
             'subscription_type' => ($subscriptionType->price > 0) ? 'paid' : 'free',
