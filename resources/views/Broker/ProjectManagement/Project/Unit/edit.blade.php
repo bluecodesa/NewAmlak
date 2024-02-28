@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Add unit'))
+@section('title', __('Edit'))
 @section('content')
 
     <div class="content-page">
@@ -12,9 +12,22 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        {{ $Property->ProjectData->name ?? '' }} {{ $Property->name }} /
-                                        @lang('Add unit')
-                                    </h4>
+                                        @lang('Edit') : {{ $Unit->number_unit }} </h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item active" style="margin-top: 3px;"><a href="#">
+                                                {{ $Unit->number_unit }} </a></li>
+                                        <li class="breadcrumb-item active"><a href="#">@lang('Edit') </a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
@@ -26,16 +39,17 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Broker.Property.StoreUnit', $id) }}" method="POST" class="row"
+                                <form action="{{ route('Broker.Unit.update', $Unit->id) }}" method="POST" class="row"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    @method('post')
+                                    @method('PUT')
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label">
                                                 {{ __('Residential number') }} <span class="required-color">*</span></label>
-                                            <input type="text" required id="modalRoleName" name="number_unit"
-                                                class="form-control" placeholder="{{ __('Residential number') }}">
+                                            <input type="text" value="{{ $Unit->number_unit }}" required
+                                                id="modalRoleName" name="number_unit" class="form-control"
+                                                placeholder="{{ __('Residential number') }}">
                                         </div>
                                     </div>
 
@@ -45,6 +59,7 @@
                                             <option disabled value="">@lang('Region') </option>
                                             @foreach ($Regions as $Region)
                                                 <option value="{{ $Region->id }}"
+                                                    {{ $Region->id == $Unit->CityData->RegionData->id ? 'selected' : '' }}
                                                     data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
                                                     {{ $Region->name }}</option>
                                             @endforeach
@@ -55,7 +70,8 @@
                                         <label>@lang('city') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
                                             @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}">
+                                                <option value="{{ $city->id }}"
+                                                    {{ $city->id == $Unit->city_id ? 'selected' : '' }}>
                                                     {{ $city->name }}</option>
                                             @endforeach
                                         </select>
@@ -67,16 +83,17 @@
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="location" id="myAddressBar"
                                             class="form-control" placeholder="@lang('location name')"
-                                            value="{{ old('location name') }}" />
+                                            value="{{ $Unit->location }}" />
                                     </div>
 
 
                                     <div class="form-group col-md-4">
                                         <label>@lang('Property type') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="property_type_id" required>
-                                            <option disabled selected value="">@lang('Property type')</option>
+                                            <option disabled value="">@lang('Property type')</option>
                                             @foreach ($types as $type)
-                                                <option value="{{ $type->id }}">
+                                                <option value="{{ $type->id }}"
+                                                    {{ $type->id == $Unit->property_type_id ? 'selected' : '' }}>
                                                     {{ $type->name }}</option>
                                             @endforeach
                                         </select>
@@ -85,9 +102,10 @@
                                     <div class="form-group col-md-4">
                                         <label>@lang('Type use') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="property_usage_id" required>
-                                            <option disabled selected value="">@lang('Type use')</option>
+                                            <option disabled value="">@lang('Type use')</option>
                                             @foreach ($usages as $usage)
-                                                <option value="{{ $usage->id }}">
+                                                <option value="{{ $usage->id }}"
+                                                    {{ $usage->id == $Unit->property_usage_id ? 'selected' : '' }}>
                                                     {{ $usage->name }}</option>
                                             @endforeach
                                         </select>
@@ -97,9 +115,10 @@
                                     <div class="form-group col-md-4 mb-3">
                                         <label>@lang('owner name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="owner_id" required>
-                                            <option disabled selected value="">@lang('owner name')</option>
+                                            <option disabled value="">@lang('owner name')</option>
                                             @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}">
+                                                <option value="{{ $owner->id }}"
+                                                    {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
                                                     {{ $owner->name }}</option>
                                             @endforeach
                                         </select>
@@ -109,7 +128,7 @@
                                         <label class="form-label">@lang('Instrument number') <span
                                                 class="required-color">*</span></label>
                                         <input type="number" required name="instrument_number" class="form-control"
-                                            placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
+                                            placeholder="@lang('Instrument number')" value="{{ $Unit->instrument_number }}" />
                                     </div>
 
 
@@ -118,7 +137,8 @@
                                         <select class="form-control" name="service_type_id" required>
                                             <option disabled selected value="">@lang('offered service')</option>
                                             @foreach ($servicesTypes as $service)
-                                                <option value="{{ $service->id }}">
+                                                <option value="{{ $service->id }}"
+                                                    {{ $service->id == $Unit->service_type_id ? 'selected' : '' }}>
                                                     {{ $service->name }}</option>
                                             @endforeach
                                         </select>
@@ -129,7 +149,7 @@
                                         <label class="form-label">@lang('Area (square metres)') <span
                                                 class="required-color">*</span></label>
                                         <input type="number" required name="space" class="form-control"
-                                            placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
+                                            placeholder="@lang('Area (square metres)')" value="{{ $Unit->space }}" />
                                     </div>
 
 
@@ -137,7 +157,7 @@
                                         <label class="form-label">@lang('number rooms') <span
                                                 class="required-color">*</span></label>
                                         <input type="number" required name="rooms" class="form-control"
-                                            placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                            placeholder="@lang('number rooms')" value="{{ $Unit->rooms }}" />
                                     </div>
 
 
@@ -146,23 +166,23 @@
                                         <label class="form-label">@lang('Number bathrooms') <span
                                                 class="required-color">*</span></label>
                                         <input type="number" required name="bathrooms" class="form-control"
-                                            placeholder="@lang('Number bathrooms')" value="{{ old('Number bathrooms') }}" />
+                                            placeholder="@lang('Number bathrooms')" value="{{ $Unit->bathrooms }}" />
                                     </div>
 
                                     <div class="col-sm-12 col-md-3 mb-3">
                                         <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
                                             <span class="required-color">*</span></label>
-                                        <input type="checkbox" required name="show_gallery" class="toggleHomePage"
+                                        <input type="checkbox" required name="show_gallery"
+                                            {{ $Unit->show_gallery == 1 ? 'checked' : '' }} class="toggleHomePage"
                                             data-toggle="toggle" data-onstyle="primary">
                                     </div>
-
 
 
                                     <div class="col-sm-12 col-md-3 mb-3">
                                         <label class="form-label">@lang('price') <span
                                                 class="required-color">*</span></label>
                                         <input type="number" required name="price" class="form-control"
-                                            placeholder="@lang('price')" value="{{ old('price') }}" />
+                                            placeholder="@lang('price')" value="{{ $Unit->price }}" />
                                     </div>
 
 
@@ -171,7 +191,8 @@
                                         <select class="form-control" name="type" id="type" required>
                                             <option disabled value="">@lang('Ad type') </option>
                                             @foreach (['rent', 'sale', 'rent_sale'] as $type)
-                                                <option value="{{ $type }}">
+                                                <option value="{{ $type }}"
+                                                    {{ $Unit->type == $type ? 'selected' : '' }}>
                                                     {{ __($type) }}</option>
                                             @endforeach
                                         </select>
@@ -184,7 +205,8 @@
                                             required>
                                             <option disabled value="">@lang('services')</option>
                                             @foreach ($services as $service)
-                                                <option value="{{ $service->id }}">
+                                                <option value="{{ $service->id }}"
+                                                    {{ in_array($service->id, $Unit->UnitServicesData->pluck('service_id')->toArray()) == true ? 'selected' : '' }}>
                                                     {{ $service->name }}</option>
                                             @endforeach
                                         </select>
@@ -194,52 +216,45 @@
                                         <label class="form-label">@lang('lat&long')</label>
                                         <input type="text" required readonly name="lat_long" id="location_tag"
                                             class="form-control" placeholder="@lang('lat&long')"
-                                            value="{{ old('location_tag') }}" />
+                                            value="{{ $Unit->lat_long }}" />
                                     </div>
 
-                                    {{-- <div class="form-group col-md-4 mb-3">
 
 
-                                        <label class="form-label">@lang('features') <span
-                                                class="required-color">*</span></label>
-                                        <div class="row" id="features">
-                                            <div class="col">
-                                                <input type="number" required name="name[]" class="form-control"
-                                                    placeholder="@lang('feature name')" value="{{ old('feature name') }}" />
-                                            </div>
-                                            <div class="col">
-                                                <input type="number" required name="qty" class="form-control"
-                                                    placeholder="@lang('qty')" value="{{ old('qty') }}" />
-                                            </div>
-                                            <div class="col">
-                                                <button type="button" onclick="addFeature()"
-                                                    class="btn btn-primary">@lang('Add feature') </button>
-                                            </div>
-                                        </div>
-
-                                    </div> --}}
                                     <div class="form-group col-12 mb-3">
                                         <label class="form-label">@lang('Additional details') <span
                                                 class="required-color">*</span></label>
-                                        <div id="features" class="row">
-                                            <div class="col">
-                                                <input type="text" name="name[]" class="form-control search"
-                                                    placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                            onclick="addFeature()">@lang('Add details')</button>
+                                        @foreach ($Unit->UnitFeatureData as $feature)
+                                            <div class="row p-1">
+                                                <div class="col">
+                                                    <input type="text" required name="name[]"
+                                                        class="form-control search" placeholder="@lang('Field name')"
+                                                        value="{{ $feature->FeatureData->name }}" />
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" required name="qty[]"
+                                                        value="{{ $feature->qty }}" class="form-control"
+                                                        placeholder="@lang('value')" value="" />
+                                                </div>
+                                                <div class="col">
+                                                    <button type="button"
+                                                        class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
+                                                </div>
                                             </div>
-                                            <div class="col">
-                                                <input type="text" name="qty[]" class="form-control"
-                                                    placeholder="@lang('value')" value="{{ old('qty') }}" />
-                                            </div>
-                                            <div class="col">
-                                                <button type="button" class="btn btn-primary w-100"
-                                                    onclick="addFeature()">@lang('Add details')</button>
-                                            </div>
+                                        @endforeach
+
+                                        <div id="features" class="row p-2">
+
                                         </div>
                                     </div>
+
                                     <div class="col-sm-12 col-md-12 mb-3">
                                         <label class="form-label">@lang('Pictures property') </label>
-                                        <input type="file" name="images[]" multiple class="dropify"
-                                            accept="image/jpeg, image/png" />
+                                        <input type="file" name="images[]"
+                                            @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif
+                                            multiple class="dropify" accept="image/jpeg, image/png" />
                                     </div>
 
                                     <div class="col-12">
@@ -263,6 +278,12 @@
     </div>
     @push('scripts')
         <script>
+            $(document).ready(function() {
+                $(document).on('click', '.remove-feature', function() {
+                    $(this).closest('.row').remove();
+                });
+            });
+
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
@@ -334,16 +355,16 @@
 
                 // Use the exact same class names and structure as your existing rows
                 newRow.innerHTML = `
-        <div class="col">
-            <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-        </div>
-        <div class="col">
-            <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-        </div>
-    `;
+    <div class="col">
+        <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+    </div>
+    <div class="col">
+        <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+    </div>
+    <div class="col mr-2">
+        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+    </div>
+`;
 
                 featuresContainer.appendChild(newRow);
             }

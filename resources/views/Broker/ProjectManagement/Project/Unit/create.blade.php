@@ -12,9 +12,21 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        {{ $Property->ProjectData->name ?? '' }} {{ $Property->name }} /
-                                        @lang('Add unit')
-                                    </h4>
+                                        @lang('Add unit')</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item active" style="margin-top: 2px;"><a
+                                                href="#">@lang('Add unit')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +38,7 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Broker.Property.StoreUnit', $id) }}" method="POST" class="row"
+                                <form action="{{ route('Broker.Unit.store') }}" method="POST" class="row"
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('post')
@@ -197,27 +209,7 @@
                                             value="{{ old('location_tag') }}" />
                                     </div>
 
-                                    {{-- <div class="form-group col-md-4 mb-3">
 
-
-                                        <label class="form-label">@lang('features') <span
-                                                class="required-color">*</span></label>
-                                        <div class="row" id="features">
-                                            <div class="col">
-                                                <input type="number" required name="name[]" class="form-control"
-                                                    placeholder="@lang('feature name')" value="{{ old('feature name') }}" />
-                                            </div>
-                                            <div class="col">
-                                                <input type="number" required name="qty" class="form-control"
-                                                    placeholder="@lang('qty')" value="{{ old('qty') }}" />
-                                            </div>
-                                            <div class="col">
-                                                <button type="button" onclick="addFeature()"
-                                                    class="btn btn-primary">@lang('Add feature') </button>
-                                            </div>
-                                        </div>
-
-                                    </div> --}}
                                     <div class="form-group col-12 mb-3">
                                         <label class="form-label">@lang('Additional details') <span
                                                 class="required-color">*</span></label>
@@ -334,16 +326,16 @@
 
                 // Use the exact same class names and structure as your existing rows
                 newRow.innerHTML = `
-        <div class="col">
-            <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-        </div>
-        <div class="col">
-            <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-        </div>
-    `;
+    <div class="col">
+        <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+    </div>
+    <div class="col">
+        <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+    </div>
+    <div class="col">
+        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+    </div>
+`;
 
                 featuresContainer.appendChild(newRow);
             }

@@ -219,6 +219,12 @@
     "project name": "اسم المشروع",
     "quantity": "الكمية",
     "Total": "الاجمالي",
+    "Additional details": "تفاصيل اضافية",
+    "nothing": "لا يوجد",
+    "Field name": "اسم الحقل",
+    "Units": "الوحدات",
+    "value": "القيمة",
+    "Add details": "اضافة تفاصيل",
     "Invoice details": "تفاصيل الفاتورة",
     "Created Date": "تاريخ الانشاء",
     "Subtotal": "المجموع الفرعي",
@@ -241,11 +247,4 @@
     "Conditions": "الشروط ",
     "Terms": "الأحكام",
     "and": " و"
-
-
-
-
-
-
-
 }

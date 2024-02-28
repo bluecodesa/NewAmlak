@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('feature_id')->unsigned();
             $table->integer('unit_id')->unsigned()->nullable();
+            $table->string('qty')->nullable();
             $table->foreign('feature_id')->references('id')->on('features')->onDelete('cascade');
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->timestamps();

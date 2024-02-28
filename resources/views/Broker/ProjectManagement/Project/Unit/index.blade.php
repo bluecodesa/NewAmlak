@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Projects'))
+@section('title', __('Units'))
 @section('content')
 
     <div class="content-page">
@@ -10,10 +10,15 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6">
                             <h4 class="page-title">
-                                @lang('Projects')</h4>
+                                @lang('Units')</h4>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item active"><a
+                                        href="{{ route('Broker.Unit.index') }}">@lang('Units')</a>
+                                </li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
                                 <li class="breadcrumb-item"><a
                                         href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
@@ -32,10 +37,9 @@
                             <div class="card-body">
                                 <div class="col-6">
                                     <div class="card-title">
-                                        <a href="{{ route('Broker.Project.create') }}"
-                                            class="btn btn-primary waves-effect waves-light">@lang('Add New Project')</a>
-                                        <a href="{{ route('Broker.Property.create') }}"
-                                            class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
+                                        <a href="{{ route('Broker.Unit.create') }}"
+                                            class="btn btn-primary waves-effect waves-light">@lang('Add units')</a>
+
                                     </div>
                                 </div>
 
@@ -46,43 +50,47 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>@lang('project name')</th>
-                                                <th>@lang('Developer name')</th>
-                                                <th>@lang('Advisor name')</th>
+                                                <th>@lang('Residential number')</th>
                                                 <th>@lang('owner name')</th>
-                                                <th>@lang('city')</th>
-                                                <th>@lang('service type')</th>
-                                                <th>@lang('location name')</th>
-                                                <th>@lang('Number Properties')</th>
+                                                <th>@lang('price')</th>
+                                                <th>@lang('property')</th>
+                                                <th>@lang('Property type')</th>
+                                                <th>@lang('Ad type')</th>
                                                 <th>@lang('Action')</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($Projects as $index => $project)
+                                            @foreach ($units as $index => $unit)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $project->name ?? '' }}</td>
-                                                    <td>{{ $project->DeveloperData->name ?? '' }}</td>
-                                                    <td>{{ $project->AdvisorData->name ?? '' }}</td>
-                                                    <td>{{ $project->OwnerData->name ?? '' }}</td>
-                                                    <td>{{ $project->CityData->name ?? '' }}</td>
-                                                    <td>{{ $project->ServiceTypeData->name ?? '' }}</td>
-                                                    <td>{{ $project->location ?? '' }}</td>
-                                                    <td>1</td>
+                                                    <td>{{ $unit->number_unit ?? '' }}</td>
+                                                    <td>{{ $unit->OwnerData->name ?? '' }}</td>
+
+
+                                                    <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td>
+                                                    <td>
+                                                        <span
+                                                            class="badge badge-pill badge-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
+                                                            style="font-size: 13px;">
+                                                            {{ $unit->PropertyData->name ?? __('nothing') }}
+                                                        </span>
+
+                                                    </td>
+                                                    <td>{{ $unit->PropertyTypeData->name ?? '' }}</td>
+                                                    <td>{{ __($unit->type) ?? '' }}</td>
 
                                                     <td>
-
-                                                        <a href="{{ route('Broker.Project.show', $project->id) }}"
+                                                        <a href="{{ route('Broker.Unit.show', $unit->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
 
-                                                        <a href="{{ route('Broker.Project.edit', $project->id) }}"
+                                                        <a href="{{ route('Broker.Unit.edit', $unit->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
 
                                                         <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $project->id }}')"
+                                                            onclick="handleDelete('{{ $unit->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                        <form id="delete-form-{{ $project->id }}"
-                                                            action="{{ route('Broker.Project.destroy', $project->id) }}"
+                                                        <form id="delete-form-{{ $unit->id }}"
+                                                            action="{{ route('Broker.Unit.destroy', $unit->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')

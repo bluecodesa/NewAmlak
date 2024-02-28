@@ -13,12 +13,14 @@
                                 @lang('properties') / {{ $Property->name }} </h4>
                         </div>
                         <div class="col-sm-6">
-                        <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ route('Broker.Property.show', $Property->id) }}">@lang('Show')</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
-                        </ol>
-                    </div>
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Broker.Property.show', $Property->id) }}">@lang('Show')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                            </ol>
+                        </div>
 
                     </div> <!-- end row -->
                 </div>
@@ -145,7 +147,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>@lang('Residential unit number')</th>
+                                                <th>@lang('Residential number')</th>
                                                 <th>@lang('owner name')</th>
                                                 <th>@lang('number rooms')</th>
                                                 <th>@lang('Number bathrooms')</th>
