@@ -17,7 +17,7 @@
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                             </ol>
-                            </div>
+                        </div>
                     </div>
                     <!-- end row -->
                 </div>

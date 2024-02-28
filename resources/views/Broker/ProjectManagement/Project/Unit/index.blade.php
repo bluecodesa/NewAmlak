@@ -52,10 +52,9 @@
                                                 <th>#</th>
                                                 <th>@lang('Residential number')</th>
                                                 <th>@lang('owner name')</th>
-                                                <th>@lang('number rooms')</th>
-                                                <th>@lang('Number bathrooms')</th>
-                                                <th>@lang('Area (square metres)')</th>
                                                 <th>@lang('price')</th>
+                                                <th>@lang('property')</th>
+                                                <th>@lang('Property type')</th>
                                                 <th>@lang('Ad type')</th>
                                                 <th>@lang('Action')</th>
                                             </tr>
@@ -66,10 +65,18 @@
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $unit->number_unit ?? '' }}</td>
                                                     <td>{{ $unit->OwnerData->name ?? '' }}</td>
-                                                    <td>{{ $unit->rooms ?? '' }}</td>
-                                                    <td>{{ $unit->bathrooms ?? '' }}</td>
-                                                    <td>{{ $unit->space ?? '' }}</td>
+
+
                                                     <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td>
+                                                    <td>
+                                                        <span
+                                                            class="badge badge-pill badge-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
+                                                            style="font-size: 13px;">
+                                                            {{ $unit->PropertyData->name ?? __('nothing') }}
+                                                        </span>
+
+                                                    </td>
+                                                    <td>{{ $unit->PropertyTypeData->name ?? '' }}</td>
                                                     <td>{{ __($unit->type) ?? '' }}</td>
 
                                                     <td>

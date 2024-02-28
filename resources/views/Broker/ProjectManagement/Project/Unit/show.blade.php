@@ -14,7 +14,6 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-
                                 <li class="breadcrumb-item" style="margin-top: 2.1px;"><a href="#">
                                         {{ $Unit->number_unit }} </a></li>
                                 <li class="breadcrumb-item"><a
@@ -146,7 +145,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('price') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->price }}
+                                                                {{ $Unit->price }} <sup>@lang('SAR')</sup>
                                                             </span>
                                                         </h6>
                                                     </div>
