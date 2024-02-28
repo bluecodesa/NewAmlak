@@ -79,16 +79,17 @@ class SettingController extends Controller
     public function update(Request $request, string $id)
     {
 
+
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users|max:255',
+            'mobile' => 'required|unique:brokers,mobile|digits:9',
             'city_id' => 'required|exists:cities,id',
-            'company_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'mobile' => 'required|digits:9|unique:brokers,mobile,'.$id,
-            'license_number' => 'required|string|max:255|unique:brokers,broker_license,'.$id,
-            'password' => 'nullable|string|max:255|confirmed',
-        ];
+            'license_number' => 'required|string|max:255|unique:brokers,broker_license',
+            'password' => 'required|string|max:255|confirmed',
+            'company_logo' => 'file',
 
+        ];
 
         $messages = [
             'name.required' => __('The name field is required.'),
@@ -99,7 +100,7 @@ class SettingController extends Controller
 
         $request->validate($rules, $messages);
 
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id);    
         $user->name = $request->name;
         $user->email = $request->email;
         if ($request->password) {
@@ -133,47 +134,7 @@ class SettingController extends Controller
         //
     }
 
-    public function storeBroker(Request $request)
-    {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|max:255',
-            'mobile' => 'required|unique:brokers,mobile|digits:9',
-            'city_id' => 'required|exists:cities,id',
-            'subscription_type_id' => 'required|exists:subscription_types,id',
-            'license_number' => 'required|string|max:255|unique:brokers,broker_license',
-            'password' => 'required|string|max:255|confirmed',
-        ];
 
-        $messages = [
-            'name.required' => __('The name field is required.'),
-            'email.required' => __('The email field is required.'),
-            'mobile.required' => __('The mobile field is required.'),
-            'license_number.required' => __('The license number field is required.'),
-            'password.required' => __('The password field is required.'),
-        ];
-
-        $request->validate($rules, $messages);
-
-        $user = User::create([
-            'is_broker' => 1,
-            'name' => $request->name,
-            'email' => $request->email,
-            'user_name' => uniqid(),
-            'password' => bcrypt($request->password),
-        ]);
-
-        $broker = Broker::create([
-            'user_id' => $user->id,
-            'broker_license' => $request->license_number,
-            'mobile' => $request->mobile,
-            'city_id' => $request->city_id,
-            'id_number' => $request->id_number,
-        ]);
-
-
-        return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
-    }
 
 }
 
