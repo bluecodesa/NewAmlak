@@ -80,7 +80,8 @@ class SubscriptionTypesController extends Controller
 
     public function edit($id)
     {
-        $SubscriptionType = $this->find($id);
+
+        $SubscriptionType =  SubscriptionType::with(['SectionData', 'RolesData'])->find($id);;
 
         $roles = Role::where('type', 'user')->get();
         $sections = Section::get();
