@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class SubscriptionTypesController extends Controller
 {
-    protected $subtypeRepo;
+    private $subtypeRepo;
 
     public function __construct(SubscriptionTypesRepositoryInterface $subtypeRepo)
     {
