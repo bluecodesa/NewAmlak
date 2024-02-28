@@ -7,8 +7,6 @@ use App\Models\Developer;
 
 class DeveloperRepository
 {
-
-
     public function getAllByBrokerId($brokerId)
     {
         return Developer::where('broker_id', $brokerId)->get();

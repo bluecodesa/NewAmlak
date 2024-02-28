@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class SubscriptionTypesController extends Controller
 {
-    private $subtypeRepo;
+    protected $subtypeRepo;
 
     public function __construct(SubscriptionTypesRepositoryInterface $subtypeRepo)
     {
@@ -23,7 +23,6 @@ class SubscriptionTypesController extends Controller
         $status_filter = request()->input('status_filter') ?? 'all';
         $period_filter = request()->input('period_filter') ?? 'all';
         $price_filter = request()->input('price_filter') ?? 'all';
-
         return $this->subtypeRepo->index($status_filter, $period_filter, $price_filter);
     }
 

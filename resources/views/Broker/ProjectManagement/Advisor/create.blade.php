@@ -16,9 +16,12 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Advisor.create') }}">@lang('Add New Advisor')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Advisor.index') }}">@lang('advisors')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item" style="margin-top: 2px;"><a
+                                                href="{{ route('Broker.Advisor.create') }}">@lang('Add New Advisor')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Advisor.index') }}">@lang('advisors')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
                             </div>
@@ -59,21 +62,21 @@
                                         <div class="mb-3">
 
                                             <label for="phone">@lang('phone')<span
-                                                class="text-danger">*</span></label>
+                                                    class="text-danger">*</span></label>
                                             <div style="position:relative">
 
-                                            <input type="tel" class="form-control" id="phone" minlength="9"
-                                                maxlength="9" pattern="[0-9]*"
-                                                oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                                onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                                name="phone" required="" value="">
+                                                <input type="tel" class="form-control" id="phone" minlength="9"
+                                                    maxlength="9" pattern="[0-9]*"
+                                                    oninvalid="setCustomValidity('Please enter 9 numbers.')"
+                                                    onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
+                                                    name="phone" required="" value="">
 
-                                        </div>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group col-md-4">
-                                        <label>@lang('Region') </label>
+                                        <label>@lang('Region') <span class="required-color">*</span> </label>
                                         <select class="form-control" id="Region_id" required>
                                             <option disabled selected value="">@lang('Region')</option>
                                             @foreach ($Regions as $Region)
@@ -85,7 +88,7 @@
                                     </div>
 
                                     <div class="form-group col-md-4">
-                                        <label>@lang('city') </label>
+                                        <label>@lang('city') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
 
                                         </select>
