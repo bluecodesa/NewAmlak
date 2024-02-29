@@ -40,8 +40,6 @@ class HomeController extends Controller
         $brokerId=auth()->user()->UserBrokerData->id;
         $numberOfowners= Owner::where('broker_id', $brokerId)->count();
 
-
-
         if ($user && $user->is_broker && $user->UserBrokerData) {
             $subscription = $user->UserBrokerData->UserSubscriptionPending;
             $pendingPayment = $subscription && $subscription->status === 'pending';

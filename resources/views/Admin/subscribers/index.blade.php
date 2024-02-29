@@ -130,6 +130,8 @@
                                                                     class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('suspend')</button>
                                                             </form>
                                                         @endif
+                                                        <a href="{{ route('Admin.Subscribers.show', $subscriber->id) }}"
+                                                            class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
 
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $subscriber->id }}')"

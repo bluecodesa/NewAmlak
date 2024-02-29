@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Services\RegionService;
 use App\Services\CityService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class SettingController extends Controller
 {
@@ -79,48 +80,41 @@ class SettingController extends Controller
     public function update(Request $request, string $id)
     {
 
+        $broker = Broker::findOrFail($id);
 
+        // Validation rules
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|max:255',
-            'mobile' => 'required|unique:brokers,mobile|digits:9',
-            'city_id' => 'required|exists:cities,id',
-            'license_number' => 'required|string|max:255|unique:brokers,broker_license',
-            'password' => 'required|string|max:255|confirmed',
-            'company_logo' => 'file',
-
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($broker->user_id),
+                'max:255',
+            ],
         ];
 
         $messages = [
-            'name.required' => __('The name field is required.'),
-            'email.required' => __('The email field is required.'),
-            'mobile.required' => __('The mobile field is required.'),
-            'license_number.required' => __('The license number field is required.'),
+            'name.required' => 'The name field is required.',
+            'email.required' => 'The email field is required.',
+            // Add more custom error messages as needed...
         ];
 
         $request->validate($rules, $messages);
 
-        $user = User::findOrFail($id);    
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
-        }
-        if ($request->hasFile('company_logo')) {
-            $file = $request->file('company_logo');
-            $ext = $file->getClientOriginalExtension();
-            $fileName = uniqid() . '.' . $ext;
-            $file->move(public_path() . '/Brokers/Logos/', $fileName);
-            $user->company_logo = '/Brokers/Logos/' . $fileName;
-        }
-        $user->save();
+        // Update user
+        $broker->user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            // Update other fields as needed...
+        ]);
 
-        $broker = Broker::findOrFail($user->broker->id);
-        $broker->broker_license = $request->license_number;
-        $broker->mobile = $request->mobile;
-        $broker->city_id = $request->city_id;
-        $broker->id_number = $request->id_number;
-        $broker->save();
+        // Update broker
+        $broker->update([
+            'broker_license' => $request->license_number,
+            'mobile' => $request->mobile,
+            'city_id' => $request->city_id,
+            // Update other fields as needed...
+        ]);
 
         return redirect()->route('Broker.Setting')->withSuccess(__('Broker updated successfully.'));
     }
@@ -133,6 +127,96 @@ class SettingController extends Controller
     {
         //
     }
+
+
+    public function updateOffice(Request $request, $id)
+    {
+        $office = Office::findOrFail($id);
+
+        // Validation rules
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($office->user_id),
+                'max:255',
+            ],
+            // Add more validation rules as needed...
+        ];
+
+        $messages = [
+            'name.required' => 'The name field is required.',
+            'email.required' => 'The email field is required.',
+            // Add more custom error messages as needed...
+        ];
+
+        $request->validate($rules, $messages);
+
+        // Update user
+        $office->user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            // Update other fields as needed...
+        ]);
+
+        // Update office
+        $office->update([
+            'CRN' => $request->CRN,
+            'city_id' => $request->city_id,
+            // Update other fields as needed...
+        ]);
+
+        return redirect()->route('login')->withSuccess(__('Office updated successfully.'));
+    }
+
+    public function updateBroker(Request $request, $id)
+    {
+        $broker = Broker::findOrFail($id);
+
+        // Validation rules
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($broker->user_id),
+                'max:255',
+            ],
+            // Add more validation rules as needed...
+        ];
+
+        $messages = [
+            'name.required' => 'The name field is required.',
+            'email.required' => 'The email field is required.',
+            // Add more custom error messages as needed...
+        ];
+
+        $request->validate($rules, $messages);
+
+        // Update user
+        $broker->user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            // Update other fields as needed...
+        ]);
+
+        // Update broker
+        $broker->update([
+            'broker_license' => $request->license_number,
+            'mobile' => $request->mobile,
+            'city_id' => $request->city_id,
+            // Update other fields as needed...
+        ]);
+
+        return redirect()->route('login')->withSuccess(__('Broker updated successfully.'));
+    }
+
+
+
+
+
+
 
 
 

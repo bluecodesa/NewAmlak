@@ -31,6 +31,7 @@ class SettingController extends Controller
     public function index()
     {
         $settings = $this->settingRepo->getAllSetting();
+        $setting = Setting::first();
         $paymentGateways = $settings->paymentGateways;
         return view('Admin.settings.index',get_defined_vars());
     }
@@ -87,5 +88,18 @@ class SettingController extends Controller
         $this->paymentGateway->updatePaymentGateway($id,$request->all());
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
+    }
+
+    public function updateTax(Request $request, Setting $setting)
+    {
+        $this->validate($request, [
+            'tax_rate' => 'nullable|numeric|min:1|max:100',
+        ]);
+
+        $taxRate = $request->input('tax_rate') / 100;
+        $setting->tax_rate = $taxRate;
+        $setting->save();
+
+        return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
 }

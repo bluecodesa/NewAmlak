@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Broker;
 use App\Models\City;
 use App\Models\Office;
+use App\Models\Owner;
 use App\Models\Region;
 use App\Models\Role;
 use App\Models\Subscription;
@@ -65,7 +66,10 @@ class SubscriptionController extends Controller
     public function show(string $id)
     {
         //
+        $subscriber = $this->subscriptionService->findSubscriptionById($id);
+        return view('Admin.subscribers.show',  get_defined_vars());
     }
+
 
     public function suspendSubscription(Request $request, $id)
     {
@@ -120,6 +124,7 @@ class SubscriptionController extends Controller
 
     public function viewPending()
     {
-        return view('Home.Payments.pending_payment');
+        $pendingPayment=false;
+        return view('Home.Payments.pending_payment',get_defined_vars());
     }
 }

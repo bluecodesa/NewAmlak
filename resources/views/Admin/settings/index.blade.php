@@ -37,6 +37,10 @@
                                                 data-target="#v-pills-profile" type="button" role="tab"
                                                 aria-controls="v-pills-profile" aria-selected="false">
                                                 @lang('PayTabs')</button>
+                                                <button class="nav-link" id="v-pills-tax-tab" data-toggle="pill"
+                                                data-target="#v-pills-tax" type="button" role="tab"
+                                                aria-controls="v-pills-tax" aria-selected="false">
+                                                @lang('Mange of invoices')</button>
                                             <button class="nav-link" id="v-pills-messages-tab" data-toggle="pill"
                                                 data-target="#v-pills-messages" type="button" role="tab"
                                                 aria-controls="v-pills-messages" aria-selected="false">
@@ -53,6 +57,10 @@
                                         </div>
                                     </div>
                                     <div class="col-9">
+
+
+
+
                                         <!--  اعدادات المنصه -->
 
                                         <div class="tab-content" id="v-pills-tabContent">
@@ -360,6 +368,45 @@
                                             </div>
 
 
+                                        <!-- tax rate-->
+
+
+                                        <div class="tab-pane fade" id="v-pills-tax" role="tabpanel" aria-labelledby="v-pills-tax-tab">
+                                            <div class="col-md-12 ArFont">
+                                                <div class="card timeline shadow">
+                                                    <div class="card-header">
+                                                        <strong class="card-title">
+                                                            @lang('Mange of invoices')
+                                                        </strong>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <form action="{{ route('Admin.update-tax', $setting) }}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="form-row">
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label for="tax_rate">
+                                                                        <span class="required-color">*</span>
+                                                                        @lang('Value added tax rate')
+                                                                    </label><br />
+                                                                    <div class="wrapper" style="position: relative;">
+                                                                        <input type="number" name="tax_rate" id="tax_rate" class="form-control" required min="1" max="100" placeholder="1-100" value="{{ $settings->tax_rate * 100 }}"/>
+                                                                        <span class="sub-input">%</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('Save')</button>
+                                                                    <button type="reset" class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
                                             <!-- بوابات الدفع -->
                                             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                                                 aria-labelledby="v-pills-profile-tab">
@@ -505,6 +552,12 @@
 
 
                                         </div>
+
+
+
+
+
+
                                     </div>
                                 </div>
                             </div>

@@ -17,10 +17,6 @@
                                 <li class="breadcrumb-item active"><a
                                         href="{{ route('Broker.Unit.index') }}">@lang('Units')</a>
                                 </li>
-                                <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
-                                <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>

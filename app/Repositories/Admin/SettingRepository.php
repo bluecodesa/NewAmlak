@@ -35,6 +35,7 @@ class SettingRepository implements SettingRepositoryInterface
 
     public function findSettingById(int $id)
     {
+
     }
 
     public function deleteSetting($id)

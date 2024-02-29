@@ -363,6 +363,35 @@
     </div>
 </div>
 
+  <!-- Pending Payment Modal -->
+
+    @if ($pendingPayment)
+        @include('Home.Payments.pending_payment')
+    @endif
+
+    <script></script>
+
+    @push('scripts')
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modalButton = document.getElementById('modalButton');
+                if (modalButton) {
+                    modalButton.click();
+                }
+            });
+            //
+            $('.subscription_type').on('change', function() {
+                var url = $(this).data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function(data) {
+                        alertify.success(@json(__('Subscription has been updated')));
+                    },
+                });
+            });
+        </script>
+    @endpush
 
 @endsection
 

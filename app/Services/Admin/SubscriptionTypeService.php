@@ -4,16 +4,100 @@
 
 namespace App\Services\Admin;
 
-use App\Models\Section;
-use App\Models\Subscription;
-use App\Models\SubscriptionType;
-use App\Models\SubscriptionTypeRole;
-use App\Models\SubscriptionTypeSection;
-use Illuminate\Http\Request;
+
+use App\Repositories\Admin\SubscriptionTypeRepository;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
+
+class SubscriptionTypeService
+{
+
+        protected $subscriptionTypeRepository;
+
+        public function __construct(SubscriptionTypeRepository $subscriptionTypeRepository)
+        {
+            $this->subscriptionTypeRepository = $subscriptionTypeRepository;
+        }
+
+        public function index($statusFilter, $periodFilter, $priceFilter)
+        {
+            return $this->subscriptionTypeRepository->index($statusFilter, $periodFilter, $priceFilter);
+        }
+
+        public function calculateRange($counts)
+        {
+            return $this->subscriptionTypeRepository->();
+        }
+
+    public function create()
+    {
+        return $this->subscriptionTypeRepository->create();
+    }
+
+    public function store(array $data)
+    {
+        $rules = [];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('subscription_type_translations', 'name')]];
+        }
+        $rules += [
+            'period' => 'required',
+            'period_type' => 'required',
+            'roles*' => 'required',
+            'sections*' => 'required',
+        ];
+
+        // Validate the request data
+        $validatedData = validator($data, $rules)->validate();
+
+        return $this->subscriptionTypeRepository->store($validatedData);
+    }
+
+    public function edit($id)
+    {
+        return $this->subscriptionTypeRepository->edit($id);
+    }
+
+    public function update(array $data, $id)
+    {
+        $rules = [];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('subscription_type_translations', 'name')->ignore($id, 'subscription_type_id')]];
+        }
+        $rules += [
+            'period' => 'required',
+            'period_type' => 'required',
+            'roles*' => 'required',
+            'sections*' => 'required',
+        ];
+
+        // Validate the request data
+        $validatedData = validator($data, $rules)->validate();
+
+        return $this->subscriptionTypeRepository->update($validatedData, $id);
+    }
+
+    public function deleteMultiType($ids)
+    {
+        return $this->subscriptionTypeRepository->deleteMultiType($ids);
+    }
+
+    public function destroy($id)
+    {
+        return $this->subscriptionTypeRepository->destroy($id);
+    }
+}
+
+
+
+
+
+
+<!-- <?php
+
+// app/Services/SubscriptionTypeService.php
+
+namespace App\Services\Admin;
+
 use App\Repositories\Admin\SubscriptionTypesRepository;
 
 
@@ -237,4 +321,4 @@ class SubscriptionTypeService
             return $this->subscriptionTypeRepository->getAll();
         }
     }
-}
+} -->

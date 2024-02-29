@@ -42,11 +42,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $sitting =   Setting::first();
         if ($sitting->active_home_page == 1) {
-            return view('Home.home');
+            return view('Home.home',get_defined_vars());
         } else {
-            return redirect()->route('Admin.home');
+            return redirect()->route('Admin.home',get_defined_vars());
         }
     }
 
@@ -61,6 +62,10 @@ class HomeController extends Controller
 
     public function createBroker()
     {
+        $setting =   Setting::first();
+
+        $termsAndConditionsUrl = $setting->terms_pdf;
+        $privacyPolicyUrl = $setting->privacy_pdf;
         $Regions = Region::all();
         $cities = City::all();
         $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
