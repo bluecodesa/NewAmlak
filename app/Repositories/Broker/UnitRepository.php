@@ -52,7 +52,7 @@ class UnitRepository implements UnitRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() . '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/', $ext);
+                    $image->move(public_path() .  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/', $ext);
                     UnitImage::create([
                         'image' =>  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/' . $ext,
                         'unit_id' => $unit->id,
@@ -70,10 +70,14 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['images']);
         unset($unit_data['service_id']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
-        if ($data['show_gallery'] == 'on') {
-            $unit_data['show_gallery'] = 1;
+        if (isset($data['service_id'])) {
+            if ($data['show_gallery'] == 'on') {
+                $unit_data['show_gallery'] = 1;
+            } else {
+                $unit_data['show_gallery'] = 0;
+            }
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_gallery'] = 1;
         }
         $unit = Unit::find($id);
         $unit->update($unit_data);
