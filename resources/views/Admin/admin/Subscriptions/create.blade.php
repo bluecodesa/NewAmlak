@@ -16,9 +16,12 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Subscribers.create') }}">@lang('Add New Subscriber')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.Subscribers.create') }}">@lang('Add New Subscriber')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
                             </div>
@@ -43,15 +46,15 @@
                                             id="CR_number" required="hhhh" name="CRN" value="">
                                     </div>
                                     <div class="col-md-4 mb-4">
-                                        <label for="Company_name">@lang('Company Name') <span
-                                                class="text-danger">*</span></label>
+                                        <label for="Company_name">@lang('Company Name') <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" class="form-control" placeholder="@lang('Company Name')"
                                             id="company_name" name="name" value="">
                                     </div>
 
                                     <div class="col-md-4 mb-4">
-                                        <label for="presenter_email">@lang('Company email') <span
-                                                class="text-danger">*</span></label>
+                                        <label for="presenter_email">@lang('Company email') <span class="text-danger">*</span>
+                                        </label>
 
                                         <input type="email" class="form-control" id="presenter_email" value=""
                                             name="email" required="" placeholder="@lang('Company email')">
@@ -68,8 +71,8 @@
                                     </div>
 
                                     <div class="col-md-4 mb-4">
-                                        <label for="presenter_name">@lang('Name of company representative')<span
-                                                class="text-danger">*</span></label>
+                                        <label for="presenter_name">@lang('Name of company representative') <span class="text-danger">*</span>
+                                        </label>
 
                                         <input type="text" class="form-control" id="presenter_name" name="presenter_name"
                                             value="" required="" placeholder="@lang('Name of company representative')">
@@ -108,7 +111,8 @@
 
 
                                     <div class="col-md-4 mb-2">
-                                        <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
+                                        <label for="package"> @lang('Subscription Type') <span
+                                                class="text-danger">*</span></label>
                                         <select type="package" class="form-control" name="subscription_type_id"
                                             required="">
                                             <option value="" selected disabled> @lang('Subscription Type') </option>
