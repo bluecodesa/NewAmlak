@@ -124,7 +124,7 @@ class SubscriptionController extends Controller
 
     public function viewPending()
     {
-        $pendingPayment=false;
-        return view('Home.Payments.pending_payment',get_defined_vars());
+        $pendingPayment = false;
+        return view('Home.Payments.pending_payment', get_defined_vars());
     }
 }
