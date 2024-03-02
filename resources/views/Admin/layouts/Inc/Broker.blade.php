@@ -36,6 +36,16 @@
 
                 </li>
 
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                            @lang('Gallary Mange')<span class="float-right menu-arrow"><i
+                                    class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{ route('Broker.Gallary.index') }}">@lang('Properties Gallary')</a></li>
+                        <li><a href="{{ route('Broker.Gallary.index') }}">@lang('Requests for interest')</a></li>
+
+                    </ul>
+                </li>
             </ul>
 
         </div>

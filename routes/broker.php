@@ -5,6 +5,7 @@ use App\Http\Controllers\Broker\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Broker\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Broker\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
+use App\Http\Controllers\Broker\Gallary\GallaryController;
 use App\Http\Controllers\Broker\PaymentController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
 use App\Http\Controllers\Broker\SettingController;
@@ -45,6 +46,9 @@ Route::group(
             route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
+            route::resource('Gallary', GallaryController::class)->middleware('CheckSubscription');
+            Route::get('Gallery/{gallery_name}/unit/{id}',[GallaryController::class,'showGalleryUnit'])->name('Gallary.show');
+
             Route::get('/CreateUnit/{id}', 'ProjectManagement\PropertyController@CreateUnit')->name('Property.CreateUnit')->middleware('CheckSubscription');
             Route::get('autocomplete', 'ProjectManagement\PropertyController@autocomplete')->name('Property.autocomplete')->middleware('CheckSubscription');
             Route::post('StoreUnit/{id}', 'ProjectManagement\PropertyController@StoreUnit')->name('Property.StoreUnit')->middleware('CheckSubscription');
