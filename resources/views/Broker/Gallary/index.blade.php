@@ -31,6 +31,90 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+
+                                <form action="{{ route('Broker.Gallary.index') }}" method="GET"
+                                id="subscriptionsForm">
+                                <div class="row">
+                                    <div class="w-auto col-4">
+                                        <span>@lang('Ad type')</span>
+                                        <select class="form-control form-control-sm" id="status_filter"
+                                            name="status_filter">
+                                            <option value="" >كل
+                                                الحالات</option>
+                                            <option value="" >فعال
+                                            </option>
+                                            <option value="">غير فعال
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="w-auto col-4">
+                                        <span>@lang('Type use')</span>
+                                        <select class="form-control form-control-sm" id="status_filter"
+                                            name="status_filter">
+                                            <option value="" >كل
+                                                الحالات</option>
+                                            <option value="" >فعال
+                                            </option>
+                                            <option value="">غير فعال
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="w-auto col-4">
+                                        <span>@lang('city')</span>
+                                        <select class="form-control form-control-sm" id="status_filter"
+                                            name="status_filter">
+                                            <option value="" >كل
+                                                الحالات</option>
+                                            <option value="" >فعال
+                                            </option>
+                                            <option value="">غير فعال
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="w-auto col-4">
+                                        <span>@lang('districts')</span>
+                                        <select class="form-control form-control-sm" id="status_filter"
+                                            name="status_filter">
+                                            <option value="" >كل
+                                                الحالات</option>
+                                            <option value="" >فعال
+                                            </option>
+                                            <option value="">غير فعال
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="w-auto col-4">
+                                        <span>@lang('Project')</span>
+                                        @foreach ($gallrays as $index => $gallary)
+                                        <select class="form-control form-control-sm" id="status_filter"
+                                            name="status_filter">
+                                            <option value="" >كل
+                                                الحالات</option>
+                                            <option value="" >{{ __($gallary->type) ?? '' }}
+                                            </option>
+                                            <option value="">غير فعال
+                                            </option>
+                                        </select>
+                                        @endforeach
+                                    </div>
+
+
+
+
+                                    <div class="w-auto text-center col-12">
+                                        <button type="submit" class="w-auto btn btn-primary mt-2 btn-sm">تصفية</button>
+
+                                        {{-- @if ($filter_counter > 0)
+                                            <a href="{{ route('Admin.SubscriptionTypes.index') }}"
+                                                class="clear-filter w-auto btn btn-danger mt-2 btn-sm"
+                                                style="margin-bottom: 0!important;">إلغاء التصفية
+                                                ({{ $filter_counter }})</a>
+                                        @endif --}}
+                                    </div>
+                                </div>
+                            </form>
+
+
                                 <div class="col-6">
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                         <label class="btn btn-light active">
@@ -39,10 +123,10 @@
                                         <label class="btn btn-light">
                                             <input type="radio" name="options" id="option2"> List
                                         </label>
-                                            <button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Latest</button>
+                                            {{-- <button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Latest</button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="#">Action</a>
-                                            </div>
+                                            </div> --}}
                                     </div>
                                     </div>
                                 </div>
@@ -72,7 +156,8 @@
                                                     <td>
                                                         {{ $gallary->CityData->name ?? '' }}
                                                     </td>
-                                                    <td>{{ $gallary->show_gallery ?? '' }}</td>
+                                                    <td> {{ $gallary->show_gallery == 1 ? __('Show') : __('hide') }}
+                                                    </td>
 
                                                     <td>
                                                         <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" data-toggle="modal" data-target="#shareLinkUnit{{ $gallary->id }}"

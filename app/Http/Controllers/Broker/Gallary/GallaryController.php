@@ -44,7 +44,7 @@ class GallaryController extends Controller
     public function show(string $id)
     {
         //
-        $gallary = $this->UnitService->findById($id);
+        $Unit = $this->UnitService->findById($id);
         return view('Broker.Gallary.show',  get_defined_vars());
 
     }

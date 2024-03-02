@@ -47,7 +47,7 @@ Route::group(
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
             route::resource('Gallary', GallaryController::class)->middleware('CheckSubscription');
-            Route::get('Gallery/{gallery_name}/unit/{id}',[GallaryController::class,'showGalleryUnit'])->name('Gallary.show');
+            Route::get('Gallery/{gallery_name}/unit/{id}',[GallaryController::class,'showGalleryUnit'])->name('Gallary.showUnit');
 
             Route::get('/CreateUnit/{id}', 'ProjectManagement\PropertyController@CreateUnit')->name('Property.CreateUnit')->middleware('CheckSubscription');
             Route::get('autocomplete', 'ProjectManagement\PropertyController@autocomplete')->name('Property.autocomplete')->middleware('CheckSubscription');
