@@ -12,7 +12,7 @@ class Subscription extends Model
 
     public function OfficeData()
     {
-        return $this->belongsTo(office::class, 'office_id');
+        return $this->belongsTo(Office::class, 'office_id');
     }
     public function BrokerData()
     {
