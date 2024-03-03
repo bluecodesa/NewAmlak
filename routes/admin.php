@@ -58,6 +58,7 @@ Route::group(
             Route::put('/update-broker-subscribers/{id}', [SubUserController::class, 'updatebroker'])->name('update-broker-subscribers');
             Route::delete('delete-broker-subscribers/{id}', [SubUserController::class, 'deletebroker'])->name('delete-broker-subscribers');
             Route::put('/taxs/{setting}', [SettingController::class, 'updateTax'])->name('update-tax');
+            Route::get('NotificationSetting/{id}', [SettingController::class, 'NotificationSetting'])->name('update.NotificationSetting');
 
 
             Route::resources([

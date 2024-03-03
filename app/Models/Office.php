@@ -28,4 +28,10 @@ class Office extends Model
     {
         return $this->hasOne(Subscription::class, 'office_id')->where('status', 'pending');
     }
+
+
+    public function UserSystemInvoicePending()
+    {
+        return $this->hasOne(SystemInvoice::class, 'office_id')->where('status', 'pending')->latest();
+    }
 }

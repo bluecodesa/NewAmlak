@@ -67,12 +67,11 @@ Route::group(
     function () {
         Route::resource('Payment', 'PaymentController');
 
-        Route::post('callback_payments_package', 'PaymentController@Payment_callBack')->name('callback_payments_package');
-        Route::get('callback_payments_package', 'PaymentController@Payment_callBack')->name('callback_payments_package');
+        Route::post('callback_payments_package/{user}', 'PaymentController@Payment_callBack')->name('callback_payments_package');
+        Route::get('callback_payments_package/{user}', 'PaymentController@Payment_callBack')->name('callback_payments_package');
         //
         Route::post('callback_payments_packageUpgarde/{id}', 'PaymentController@Payment_callBackUpgarde')->name('callback_payments_package_upgrade');
         Route::get('callback_payments_packageUpgarde/{id}', 'PaymentController@Payment_callBackUpgarde')->name('callback_payments_package_upgrade');
     }
 
 );
-

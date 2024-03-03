@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
+use App\Models\NotificationSetting;
 use App\Models\PaymentGateway;
 use App\Repositories\Admin\PaymentGatewayRepository;
 use App\Services\Admin\SettingService;
@@ -21,8 +22,7 @@ class SettingController extends Controller
         SettingRepositoryInterface $settingRepo,
         SettingService $settingService,
         PaymentGatewayRepositoryInterface $paymentGateway
-    )
-    {
+    ) {
         $this->settingRepo = $settingRepo;
         $this->settingService = $settingService;
         $this->paymentGateway = $paymentGateway;
@@ -32,13 +32,15 @@ class SettingController extends Controller
     {
         $settings = $this->settingRepo->getAllSetting();
         $setting = Setting::first();
+
+        $NotificationSetting = NotificationSetting::all();
         $paymentGateways = $settings->paymentGateways;
-        return view('Admin.settings.index',get_defined_vars());
+        return view('Admin.settings.index', get_defined_vars());
     }
 
     public function ChangeActiveHomePage(Request $request)
     {
-       return $this->settingRepo->ChangeActiveHomePage($request);
+        return $this->settingRepo->ChangeActiveHomePage($request);
     }
 
     public function create()
@@ -57,10 +59,11 @@ class SettingController extends Controller
     {
     }
 
-    public function update(Request $request, Setting $setting){
+    public function update(Request $request, Setting $setting)
+    {
         $this->settingService->updateSetting($request, $setting);
 
-    return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
+        return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
 
 
@@ -74,18 +77,15 @@ class SettingController extends Controller
     }
 
 
-
-
     public function createPaymentGateway(Request $request)
     {
-       $this->paymentGateway->createPaymentGateway($request->all());
-       return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
-
+        $this->paymentGateway->createPaymentGateway($request->all());
+        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
 
     public function updatePaymentGateway(Request $request, $id)
     {
-        $this->paymentGateway->updatePaymentGateway($id,$request->all());
+        $this->paymentGateway->updatePaymentGateway($id, $request->all());
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
@@ -101,5 +101,12 @@ class SettingController extends Controller
         $setting->save();
 
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
+    }
+
+    function NotificationSetting(Request $request, $id)
+    {
+        NotificationSetting::where('id', $id)->update([
+            $request->type => $request->valu
+        ]);
     }
 }

@@ -1,7 +1,14 @@
 @extends('Admin.layouts.app')
 @section('title', __('Settings'))
 @section('content')
-
+    <style>
+        .nav-pills .nav-link {
+            background-color: transparent;
+            border: 2px solid silver;
+            margin-bottom: 4px;
+            border-radius: 10px;
+        }
+    </style>
     <div class="content-page">
         <!-- Start content -->
         <div class="content">
@@ -14,7 +21,8 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item">@lang('Settings')</li>
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.settings.index') }}">@lang('dashboard')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Admin.settings.index') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
                     </div> <!-- end row -->
@@ -37,7 +45,7 @@
                                                 data-target="#v-pills-profile" type="button" role="tab"
                                                 aria-controls="v-pills-profile" aria-selected="false">
                                                 @lang('PayTabs')</button>
-                                                <button class="nav-link" id="v-pills-tax-tab" data-toggle="pill"
+                                            <button class="nav-link" id="v-pills-tax-tab" data-toggle="pill"
                                                 data-target="#v-pills-tax" type="button" role="tab"
                                                 aria-controls="v-pills-tax" aria-selected="false">
                                                 @lang('Mange of invoices')</button>
@@ -114,20 +122,24 @@
                                                                     <div class="form-group col-md-6">
                                                                         <label for="privacy_pdf">@lang('our privacy policy')</label>
                                                                         @if (isset($settings) && $settings->privacy_pdf)
-                                                                        <p>{{ $settings->privacy_pdf }}</p>
+                                                                            <p>{{ $settings->privacy_pdf }}</p>
                                                                         @else
                                                                             <p>No pdf uploaded yet.</p>
                                                                         @endif
-                                                                        <input name="privacy_pdf" class="form-control" type="file" id="privacy_pdf" accept=".pdf">
+                                                                        <input name="privacy_pdf" class="form-control"
+                                                                            type="file" id="privacy_pdf"
+                                                                            accept=".pdf">
                                                                     </div>
                                                                     <div class="form-group col-md-6">
-                                                                        <label for="terms_pdf"> @lang('Conditions') @lang('and') @lang('Terms')</label>
+                                                                        <label for="terms_pdf"> @lang('Conditions')
+                                                                            @lang('and') @lang('Terms')</label>
                                                                         @if (isset($settings) && $settings->terms_pdf)
-                                                                        <p>{{ $settings->terms_pdf }}</p>
+                                                                            <p>{{ $settings->terms_pdf }}</p>
                                                                         @else
                                                                             <p>No pdf uploaded yet.</p>
                                                                         @endif
-                                                                        <input name="terms_pdf" class="form-control" type="file" id="terms_pdf" accept=".pdf">
+                                                                        <input name="terms_pdf" class="form-control"
+                                                                            type="file" id="terms_pdf" accept=".pdf">
                                                                     </div>
 
 
@@ -160,207 +172,7 @@
                                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                                 aria-labelledby="v-pills-messages-tab">
 
-                                                <div class="col-md-12 ArFont">
-                                                    <div class="card timeline shadow">
-                                                        <div class="card-header">
-                                                            <strong class="card-title">
-
-                                                                إدارة التنبيهات
-                                                            </strong>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <form action="" method="POST">
-                                                                <input type="hidden" name="_token" value="">
-                                                                <input type="hidden" name="_method" value="POST">
-                                                                <div id="dataTable-1_wrapper"
-                                                                    class="dataTables_wrapper dt-bootstrap4 no-footer">
-                                                                    <div class="row">
-                                                                        <div class="col-sm-12 col-md-6">
-                                                                            <div class="dataTables_length"
-                                                                                id="dataTable-1_length">
-                                                                                <label>
-                                                                                    <select name="dataTable-1_length"
-                                                                                        aria-controls="dataTable-1"
-                                                                                        class="custom-select custom-select-sm form-control form-control-sm">
-                                                                                        <option value="16">16</option>
-                                                                                        <option value="32">32</option>
-                                                                                        <option value="64">64</option>
-                                                                                        <option value="-1">All</option>
-                                                                                    </select>
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-12 col-md-6">
-                                                                            <div id="dataTable-1_filter"
-                                                                                class="dataTables_filter">
-                                                                                <label>
-                                                                                    <input type="search"
-                                                                                        class="form-control form-control-sm"
-                                                                                        placeholder="بحث"
-                                                                                        aria-controls="dataTable-1">
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!--table-->
-                                                                    <div class="row">
-                                                                        <div class="col-sm-12">
-                                                                            <table
-                                                                                class="table datatables dataTable no-footer"
-                                                                                id="dataTable-1" role="grid"
-                                                                                aria-describedby="dataTable-1_info">
-                                                                                <thead>
-                                                                                    <tr role="row">
-                                                                                        <th class="sorting_asc"
-                                                                                            tabindex="0"
-                                                                                            aria-controls="dataTable-1"
-                                                                                            rowspan="1" colspan="1"
-                                                                                            aria-sort="ascending"
-                                                                                            aria-label="الاشعار: activate to sort column descending">
-                                                                                            الاشعار</th>
-                                                                                        <th class="sorting" tabindex="0"
-                                                                                            aria-controls="dataTable-1"
-                                                                                            rowspan="1" colspan="1"
-                                                                                            aria-label="Whatsapp: activate to sort column ascending">
-                                                                                            Whatsapp</th>
-                                                                                        <th class="sorting" tabindex="0"
-                                                                                            aria-controls="dataTable-1"
-                                                                                            rowspan="1" colspan="1"
-                                                                                            aria-label="Email: activate to sort column ascending">
-                                                                                            Email</th>
-                                                                                        <th class="sorting" tabindex="0"
-                                                                                            aria-controls="dataTable-1"
-                                                                                            rowspan="1" colspan="1"
-                                                                                            aria-label="SMS: activate to sort column ascending">
-                                                                                            SMS</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr role="row" class="odd">
-                                                                                        <td class="sorting_1"> استحقاق موعد
-                                                                                            دفعة إيجار جديدة</td>
-                                                                                        <td> <input type="checkbox"
-                                                                                                id="whatsapp"
-                                                                                                name="whatsapp">
-                                                                                            <input hidden=""
-                                                                                                name="rs_offices_id"
-                                                                                                value="">
-                                                                                            <input hidden=""
-                                                                                                name="alert_id"
-                                                                                                value="">
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="checkbox"
-                                                                                                id="email"
-                                                                                                name="email">
-                                                                                        </td>
-                                                                                        <td>
-
-                                                                                            <input type="checkbox"
-                                                                                                id="email"
-                                                                                                name="sms">
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr role="row" class="even">
-                                                                                        <td class="sorting_1">اضافة مستأجر
-                                                                                            جديد</td>
-                                                                                        <td>
-                                                                                            <input type="checkbox"
-                                                                                                id="whatsapp"
-                                                                                                name="whatsapp">
-                                                                                            <input hidden=""
-                                                                                                name="rs_offices_id"
-                                                                                                value="">
-                                                                                            <input hidden=""
-                                                                                                name="alert_id"
-                                                                                                value="">
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="checkbox"
-                                                                                                id="email"
-                                                                                                name="email">
-                                                                                        </td>
-
-                                                                                        <td>
-                                                                                            <input type="checkbox"
-                                                                                                id="email"
-                                                                                                name="sms">
-                                                                                        </td>
-
-                                                                                    </tr>
-                                                                                    <tr role="row" class="odd">
-                                                                                        <td class="sorting_1">سداد دفعة
-                                                                                            إيجار</td>
-                                                                                        <td>
-                                                                                            <input type="checkbox"
-                                                                                                id="whatsapp"
-                                                                                                name="whatsapp">
-                                                                                            <input hidden=""
-                                                                                                name="rs_offices_id"
-                                                                                                value="">
-                                                                                            <input hidden=""
-                                                                                                name="alert_id"
-                                                                                                value="">
-                                                                                        </td>
-
-                                                                                        <td>
-                                                                                            <input type="checkbox"
-                                                                                                id="email"
-                                                                                                name="email">
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="checkbox"
-                                                                                                id="email"
-                                                                                                name="sms">
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-12 col-md-5">
-                                                                            <div class="dataTables_info"
-                                                                                id="dataTable-1_info" role="status"
-                                                                                aria-live="polite"></div>
-                                                                        </div>
-                                                                        <div class="col-sm-12 col-md-7">
-                                                                            <div class="dataTables_paginate paging_simple_numbers"
-                                                                                id="dataTable-1_paginate">
-                                                                                <ul class="pagination">
-                                                                                    <li class="paginate_button page-item previous disabled"
-                                                                                        id="dataTable-1_previous"><a
-                                                                                            href="#"
-                                                                                            aria-controls="dataTable-1"
-                                                                                            data-dt-idx="0" tabindex="0"
-                                                                                            class="page-link">&lt;</a></li>
-                                                                                    <li
-                                                                                        class="paginate_button page-item active">
-                                                                                        <a href="#"
-                                                                                            aria-controls="dataTable-1"
-                                                                                            data-dt-idx="1" tabindex="0"
-                                                                                            class="page-link">1</a>
-                                                                                    </li>
-                                                                                    <li class="paginate_button page-item next disabled"
-                                                                                        id="dataTable-1_next"><a
-                                                                                            href="#"
-                                                                                            aria-controls="dataTable-1"
-                                                                                            data-dt-idx="2" tabindex="0"
-                                                                                            class="page-link">&gt;</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <button type="submit"
-                                                                    class="btn btn-primary waves-effect waves-light">@lang('save')</button>
-                                                                <button type="reset"
-                                                                    class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
-                                                            </form>
-                                                        </div>
-                                                    </div> <!-- / .card-body -->
-                                                </div>
+                                                @include('Admin.settings.inc._NotificationsManagement')
                                                 <!-- نهايه التنبيهات-->
                                             </div>
                                             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
@@ -368,42 +180,50 @@
                                             </div>
 
 
-                                        <!-- tax rate-->
+                                            <!-- tax rate-->
 
 
-                                        <div class="tab-pane fade" id="v-pills-tax" role="tabpanel" aria-labelledby="v-pills-tax-tab">
-                                            <div class="col-md-12 ArFont">
-                                                <div class="card timeline shadow">
-                                                    <div class="card-header">
-                                                        <strong class="card-title">
-                                                            @lang('Mange of invoices')
-                                                        </strong>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <form action="{{ route('Admin.update-tax', $setting) }}" method="POST">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="form-row">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="tax_rate">
-                                                                        <span class="required-color">*</span>
-                                                                        @lang('Value added tax rate')
-                                                                    </label><br />
-                                                                    <div class="wrapper" style="position: relative;">
-                                                                        <input type="number" name="tax_rate" id="tax_rate" class="form-control" required min="1" max="100" placeholder="1-100" value="{{ $settings->tax_rate * 100 }}"/>
-                                                                        <span class="sub-input">%</span>
+                                            <div class="tab-pane fade" id="v-pills-tax" role="tabpanel"
+                                                aria-labelledby="v-pills-tax-tab">
+                                                <div class="col-md-12 ArFont">
+                                                    <div class="card timeline shadow">
+                                                        <div class="card-header">
+                                                            <strong class="card-title">
+                                                                @lang('Mange of invoices')
+                                                            </strong>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <form action="{{ route('Admin.update-tax', $setting) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <div class="form-row">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="tax_rate">
+                                                                            <span class="required-color">*</span>
+                                                                            @lang('Value added tax rate')
+                                                                        </label><br />
+                                                                        <div class="wrapper" style="position: relative;">
+                                                                            <input type="number" name="tax_rate"
+                                                                                id="tax_rate" class="form-control"
+                                                                                required min="1" max="100"
+                                                                                placeholder="1-100"
+                                                                                value="{{ $settings->tax_rate * 100 }}" />
+                                                                            <span class="sub-input">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary waves-effect waves-light">@lang('Save')</button>
+                                                                        <button type="reset"
+                                                                            class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-12">
-                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('Save')</button>
-                                                                    <button type="reset" class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
 
 

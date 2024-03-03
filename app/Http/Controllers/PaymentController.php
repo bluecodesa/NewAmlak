@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\SystemInvoice;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use PDO;
 
 class PaymentController extends Controller
 {
@@ -20,56 +22,61 @@ class PaymentController extends Controller
 
     function store(Request $request)
     {
-        $fields = [
-            "profile_id" => env('paytabs_profile_id', '87757'),
-            "tran_type" => "Sale",
-            "tran_class" => "ecom",
-            "cart_id" => "Bsaray Sample Payment",
-            "cart_description" => "Dummy Order 35925502061445345",
-            "cart_currency" => "USD",
-            "cart_amount" => 46.17,
-            "callback" => "https://yourdomain.com/yourcallback",
-            "return" => "https://yourdomain.com/yourpage",
-            "customer_details" => [
-                "name" => "John Smith",
-                "email" => "jsmith@gmail.com",
-                "street1" => "404, 11th st, void",
-                "city" => "dubai",
-                "country" => "AE",
-                "ip" => "94.204.129.89"
-            ],
-            "shipping_details" => [
-                "name" => "name1 last1",
-                "email" => "email1@domain.com",
-                "phone" => "971555555555",
-                "street1" => "street2",
-                "city" => "dubai",
-                "state" => "dubai",
-                "country" => "AE",
-                "zip" => "54321",
-                "ip" => "2.2.2.2"
-            ],
-        ];
+        $user =  Auth::user();
 
-        $response = \Illuminate\Support\Facades\Http::withHeaders([
-            'authorization' => env('paytabs_server_key', 'SDJNBZH9T9-JDGBLW9GDL-2W2W6TW2N2'),
-            'Content-type' => 'application/json'
-        ])->post('https://secure-global.paytabs.com/payment/request', $fields);
+        if ($user->UserOfficeData) {
+            $Subscription =  $user->UserOfficeData->UserSubscriptionPending;
+        } else {
+            $Subscription = $user->UserBrokerData->UserSubscriptionPending;
+        }
 
-        return $response->json();
+        $amount = $Subscription->total;
+
+        $last_record = SystemInvoice::latest()->first();
+        $pay = Paypage::sendPaymentCode('all')
+            ->sendTransaction('Auth')
+            ->sendCart($last_record['id'] ?? '0' + 1, $amount, 'Add to Walet')
+            ->sendCustomerDetails(Auth::user()->name, Auth::user()->email, Auth::user()->phone, 'Makka', 'Makka', 'Makka', 'SA', '1234', \Request::ip())
+            ->sendShippingDetails(Auth::user()->name, Auth::user()->email, Auth::user()->phone, 'Makka', 'Makka', 'Makka', 'SA', '1234', \Request::ip())
+            ->sendURLs(route('callback_payments_package', $amount . '&' . Auth::id()), route('callback_payments_package', $amount . '&' . Auth::id()))
+            ->sendLanguage('ar')
+            ->create_pay_page();
+        return $pay;
+    }
+
+    function create()
+    {
+    }
+
+    function Payment_callBack($user)
+    {
+        $user = Auth::user();
+        $officeData = $user->UserOfficeData;
+        $brokerData = $user->UserBrokerData;
+
+        if ($officeData) {
+            $subscription = $officeData->UserSubscriptionPending;
+        } else {
+            $subscription = $brokerData->UserSubscriptionPending;
+        }
+
+        if ($subscription) {
+            $subscription->update(['status' => 'active', 'is_start' => 1]);
+        }
+
+        $invoice = $officeData ? $brokerData->UserSubscriptionPending : $brokerData->UserSystemInvoicePending;
+
+        if ($invoice) {
+            $invoice->update(['status' => 'active']);
+        }
+
+        $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
+        $redirectMessage = $officeData ? 'The subscription has been activated successfully' : 'The subscription has been activated successfully';
+
+        return redirect()->route($redirectRoute)->with('success', __($redirectMessage));
     }
 
     function query_transaction()
     {
-        $fields = [
-            "profile_id" => env('paytabs_profile_id'),
-            'tran_ref' => 'TST2107500114813' // example
-        ];
-        $response = \Illuminate\Support\Facades\Http::withHeaders([
-            'authorization' => env('paytabs_server_key'),
-            'Content-type' => 'application/json'
-        ])->post('https://secure-global.paytabs.com/payment/query', $fields);
-
-        return $response->json();
     }
 }
