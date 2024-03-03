@@ -12,15 +12,18 @@ use App\Services\RegionService;
 use App\Services\CityService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Services\Broker\UnitService;
+
 
 class SettingController extends Controller
 {
-
+    protected $UnitService;
     protected $regionService;
     protected $cityService;
 
-    public function __construct( RegionService $regionService, CityService $cityService)
+    public function __construct(UnitService $UnitService, RegionService $regionService, CityService $cityService)
     {
+        $this->UnitService = $UnitService;
 
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -35,7 +38,9 @@ class SettingController extends Controller
         $region=$city->RegionData;
 
         $subscription = Subscription::where('broker_id', Auth::user()->UserBrokerData->id)->first();
+        $gallary = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
 
+        
         return view('Broker.settings.index',get_defined_vars());
 
     }
