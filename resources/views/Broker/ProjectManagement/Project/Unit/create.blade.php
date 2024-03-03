@@ -20,7 +20,7 @@
                                                 href="#">@lang('Add unit')</a></li>
                                         <li class="breadcrumb-item"><a
                                                 href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
-                                      <li class="breadcrumb-item"><a
+                                        <li class="breadcrumb-item"><a
                                                 href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
@@ -38,7 +38,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('post')
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="mb-3">
                                             <label class="form-label">
                                                 {{ __('Residential number') }} <span class="required-color">*</span></label>
@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>@lang('Region') <span class="required-color">*</span> </label>
                                         <select class="form-control" id="Region_id" required>
                                             <option disabled value="">@lang('Region') </option>
@@ -59,13 +59,24 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>@lang('city') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
+                                            <option disabled value="" selected>@lang('city') </option>
                                             @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}">
+                                                <option value="{{ $city->id }}"
+                                                    data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}">
                                                     {{ $city->name }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+
+
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('districts') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="district_id" id="DistrictDiv" required>
+
                                         </select>
                                     </div>
 
@@ -268,6 +279,25 @@
                     },
                 });
             });
+
+            $('#CityDiv').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#DistrictDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#DistrictDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+
             //
             $("#myAddressBar").on("keyup", function() {
                 // This function will be called every time a key is pressed in the input field

@@ -11,17 +11,22 @@
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('Add New')</h4>
+                                    <h4 class="page-title"> {{ $project->name }} /
+                                        @lang('Add new property')</h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Property.create') }}">@lang('Add new property')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Project.show', $project->id) }}">@lang('Show')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item" style="margin-top: 2px;"><a
+                                                href="{{ route('Broker.Property.create') }}">@lang('Add new property')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Project.show', $project->id) }}">@lang('Show')</a>
+                                        </li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                                     </ol>
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -37,20 +42,19 @@
                                         class="row" enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">
-                                                    {{ __('property name') }} <span class="required-color">*</span></label>
-                                                <input type="text" required id="modalRoleName" name="name"
-                                                    class="form-control" placeholder="{{ __('property name') }}">
-                                            </div>
+                                        <div class="col-md-3 mb-3">
+
+                                            <label class="form-label">
+                                                {{ __('property name') }} <span class="required-color">*</span></label>
+                                            <input type="text" required id="modalRoleName" name="name"
+                                                class="form-control" placeholder="{{ __('property name') }}">
+
                                         </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label>@lang('Region') </label>
+                                        <div class="form-group col-md-3">
+                                            <label>@lang('Region') <span class="required-color">*</span> </label>
                                             <select class="form-control" id="Region_id" required>
-                                                <option disabled value="">@lang('Region') <span
-                                                        class="required-color">*</span></option>
+                                                <option disabled value="">@lang('Region') </option>
                                                 @foreach ($Regions as $Region)
                                                     <option value="{{ $Region->id }}"
                                                         data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}"
@@ -60,7 +64,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label>@lang('city') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="city_id" id="CityDiv" required>
                                                 @foreach ($cities as $city)
@@ -71,21 +75,34 @@
                                             </select>
                                         </div>
 
+
+                                        <div class="form-group col-md-3">
+                                            <label>@lang('districts') <span class="required-color">*</span> </label>
+                                            <select class="form-control" name="district_id" id="DistrictDiv" required>
+                                                @foreach ($project->CityData->DistrictsCity as $district)
+                                                    <option value="{{ $district->id }}"
+                                                        {{ $district->id == $project->district_id ? 'selected' : '' }}>
+                                                        {{ $district->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label">@lang('location') <span
                                                     class="required-color">*</span></label>
                                             <input type="text" required name="location" id="myAddressBar"
                                                 class="form-control" placeholder="@lang('location name')"
-                                                value="{{ old('location name') }}" />
+                                                value="{{ $project->location }}" />
                                         </div>
 
 
                                         <div class="form-group col-md-4">
                                             <label>@lang('Property type') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="property_type_id" required>
-                                                <option disabled selected value="">@lang('Property type')</option>
+                                                <option disabled value="">@lang('Property type')</option>
                                                 @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}">
+                                                    <option value="{{ $type->id }}"
+                                                        {{ $type->id == $project->property_type_id ? 'selected' : '' }}>
                                                         {{ $type->name }}</option>
                                                 @endforeach
                                             </select>
@@ -94,16 +111,17 @@
                                         <div class="form-group col-md-4">
                                             <label>@lang('Type use') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="property_usage_id" required>
-                                                <option disabled selected value="">@lang('Type use')</option>
+                                                <option disabled value="">@lang('Type use')</option>
                                                 @foreach ($usages as $usage)
-                                                    <option value="{{ $usage->id }}">
+                                                    <option value="{{ $usage->id }}"
+                                                        {{ $usage->id == $project->property_usage_id ? 'selected' : '' }}>
                                                         {{ $usage->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>@lang('owner name') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="owner_id" required>
                                                 <option disabled selected value="">@lang('owner name')</option>
@@ -114,7 +132,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        @php
+                                        {{-- @php
                                             $typeunits = [1 => 'Divides', 0 => 'Not divided'];
                                         @endphp
                                         <div class="form-group col-md-3">
@@ -126,9 +144,9 @@
                                                         {{ __($item) }}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div> --}}
 
-                                        <div class="col-sm-12 col-md-3 mb-3">
+                                        <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label">@lang('Instrument number') <span
                                                     class="required-color">*</span></label>
                                             <input type="text" required name="instrument_number" class="form-control"
@@ -136,12 +154,13 @@
                                         </div>
 
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-4">
                                             <label>@lang('service type') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="service_type_id" required>
-                                                <option disabled selected value="">@lang('service type')</option>
+                                                <option disabled value="">@lang('service type')</option>
                                                 @foreach ($services as $service)
-                                                    <option value="{{ $service->id }}">
+                                                    <option value="{{ $service->id }}"
+                                                        {{ $project->service_type_id == $service->id ? 'selected' : '' }}>
                                                         {{ $service->name }}</option>
                                                 @endforeach
                                             </select>
@@ -188,6 +207,23 @@
                     },
                     success: function(data) {
                         $('#CityDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+            $('#CityDiv').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#DistrictDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#DistrictDiv').fadeOut('fast', function() {
                             $(this).empty().append(data);
                             $(this).fadeIn('fast');
                         });

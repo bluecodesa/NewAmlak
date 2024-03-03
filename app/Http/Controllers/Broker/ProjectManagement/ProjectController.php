@@ -12,7 +12,7 @@ use App\Services\PropertyUsageService;
 use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -108,6 +108,21 @@ class ProjectController extends Controller
 
     public function storeProperty(Request $request, $id)
     {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'city_id' => 'required|exists:cities,id',
+            'property_type_id' => 'required|exists:property_types,id',
+            'property_usage_id' => 'required|exists:property_usages,id',
+            'owner_id' => 'required|exists:owners,id',
+            'instrument_number' => [
+                'required',
+                Rule::unique('properties'),
+                'max:25'
+            ],
+        ];
+        $request->validate($rules);
+
         $images = $request->file('images');
         $this->projectService->storeProperty($request->except('images'), $id, $images);
         return redirect()->route('Broker.Project.show', $id)->with('success', __('added successfully'));

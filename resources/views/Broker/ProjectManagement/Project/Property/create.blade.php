@@ -15,11 +15,14 @@
                                         @lang('Add new property')</h4>
                                 </div>
                                 <div class="col-sm-6">
-                                <ol class="breadcrumb float-right">
-                                    <li class="breadcrumb-item"><a href="{{ route('Broker.Property.create') }}">@lang('Add new property')</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
-                                </ol>
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Property.create') }}">@lang('Add new property')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
@@ -36,17 +39,17 @@
                                     @csrf
                                     @method('post')
                                     <input type="text" hidden value="{{ 1 }}" name="is_divided">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label">
-                                                {{ __('property name') }} <span class="required-color">*</span></label>
-                                            <input type="text" required id="modalRoleName" name="name"
-                                                class="form-control" placeholder="{{ __('property name') }}">
-                                        </div>
+                                    <div class="col-md-3 mb-3">
+
+                                        <label class="form-label">
+                                            {{ __('property name') }} <span class="required-color">*</span></label>
+                                        <input type="text" required id="modalRoleName" name="name"
+                                            class="form-control" placeholder="{{ __('property name') }}">
+
                                     </div>
 
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>@lang('Region') <span class="required-color">*</span> </label>
                                         <select class="form-control" id="Region_id" required>
                                             <option disabled value="">@lang('Region') </option>
@@ -58,13 +61,23 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label>@lang('city') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
                                             @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}">
+                                                <option value="{{ $city->id }}"
+                                                    data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}">
                                                     {{ $city->name }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+
+
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('districts') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="district_id" id="DistrictDiv" required>
+
                                         </select>
                                     </div>
 
@@ -193,6 +206,25 @@
                     },
                     success: function(data) {
                         $('#CityDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+            //
+
+            $('#CityDiv').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#DistrictDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#DistrictDiv').fadeOut('fast', function() {
                             $(this).empty().append(data);
                             $(this).fadeIn('fast');
                         });

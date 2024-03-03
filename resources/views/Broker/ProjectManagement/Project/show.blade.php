@@ -14,8 +14,10 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Broker.Project.show', $project->id) }}">@lang('Show')</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Broker.Project.show', $project->id) }}">@lang('Show')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -83,7 +85,8 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('Number Properties') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $project->PropertiesProject->count() }} @lang('property')
+                                                                {{ $project->PropertiesProject->count() }}
+                                                                @lang('property')
                                                             </span>
                                                         </h6>
                                                     </div>
@@ -145,21 +148,21 @@
 
                                                     <td>
                                                         @if ($property->is_divided == 1)
-                                                            <a href="{{ route('Broker.Project.show', $property->id) }}"
+                                                            <a href="{{ route('Broker.Property.show', $property->id) }}"
                                                                 class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
                                                         @endif
 
-                                                        <a href="{{ route('Broker.Project.show', $property->id) }}"
+                                                        <a href="{{ route('Broker.Property.show', $property->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
 
-                                                        <a href="{{ route('Broker.Project.edit', $property->id) }}"
+                                                        <a href="{{ route('Broker.Property.edit', $property->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
 
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $property->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
                                                         <form id="delete-form-{{ $property->id }}"
-                                                            action="{{ route('Broker.Project.edit', $property->id) }}"
+                                                            action="{{ route('Broker.Property.destroy', $property->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')

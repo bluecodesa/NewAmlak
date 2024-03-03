@@ -47,8 +47,8 @@ Route::group(
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
             route::resource('Gallary', GallaryController::class)->middleware('CheckSubscription');
-            Route::get('Gallery/{gallery_name}/unit/{id}',[GallaryController::class,'showGalleryUnit'])->name('Gallary.showUnit');
-            Route::get('Interests',[GallaryController::class,'showInterests'])->name('Gallary.showInterests');
+            Route::get('Gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showGalleryUnit'])->name('Gallary.showUnit');
+            Route::get('Interests', [GallaryController::class, 'showInterests'])->name('Gallary.showInterests');
 
             Route::get('/CreateUnit/{id}', 'ProjectManagement\PropertyController@CreateUnit')->name('Property.CreateUnit')->middleware('CheckSubscription');
             Route::get('autocomplete', 'ProjectManagement\PropertyController@autocomplete')->name('Property.autocomplete')->middleware('CheckSubscription');
@@ -56,6 +56,7 @@ Route::group(
             Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty')->middleware('CheckSubscription');
             Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty')->middleware('CheckSubscription');
             Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Broker.GetCitiesByRegion')->middleware('CheckSubscription');
+            Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('Broker.GetDistrictsByCity')->middleware('CheckSubscription');
         });
     }
 );

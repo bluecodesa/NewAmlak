@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Broker;
 use App\Models\Role;
 use App\Models\City;
+use App\Models\District;
 use App\Models\Owner;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
@@ -37,8 +38,8 @@ class HomeController extends Controller
 
 
         $user = $request->user();
-        $brokerId=auth()->user()->UserBrokerData->id;
-        $numberOfowners= Owner::where('broker_id', $brokerId)->count();
+        $brokerId = auth()->user()->UserBrokerData->id;
+        $numberOfowners = Owner::where('broker_id', $brokerId)->count();
 
         if ($user && $user->is_broker && $user->UserBrokerData) {
             $subscription = $user->UserBrokerData->UserSubscriptionPending;
@@ -58,6 +59,12 @@ class HomeController extends Controller
     {
         $cities = City::where('region_id', $id)->get();
         return view('Admin.settings.Region.inc._city', get_defined_vars());
+    }
+
+    public function GetDistrictsByCity($id)
+    {
+        $districts = District::where('city_id', $id)->get();
+        return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
 
     function UpdateSubscription($id)

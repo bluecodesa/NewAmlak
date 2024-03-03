@@ -16,9 +16,12 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Project.create') }}">@lang('Add New Project')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Project.create') }}">@lang('Add New Project')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
                             </div>
@@ -64,7 +67,15 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-12 col-md-3 mb-3">
+
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('districts') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="district_id" id="DistrictDiv" required>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-4 mb-3">
                                         <label class="form-label">@lang('location name') <span
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="location" id="myAddressBar"
@@ -72,7 +83,7 @@
                                             value="{{ old('location name') }}" />
                                     </div>
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>@lang('Developer name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="developer_id" required>
                                             <option disabled selected value="">@lang('Developer name')</option>
@@ -85,7 +96,7 @@
                                     </div>
 
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>@lang('Advisor name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="advisor_id" required>
                                             <option disabled selected value="">@lang('Advisor name')</option>
@@ -97,7 +108,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-6">
                                         <label>@lang('owner name') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="owner_id" required>
                                             <option disabled selected value="">@lang('owner name')</option>
@@ -108,7 +119,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-6">
                                         <label>@lang('service type') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="service_type_id" required>
                                             <option disabled selected value="">@lang('service type')</option>
@@ -134,9 +145,9 @@
                                             placeholder="@lang('address')" value="{{ old('address') }}" />
                                     </div> --}}
 
-                                    <div class="col-sm-12 col-md-6 mb-3">
+                                    <div class="col-sm-12 col-md-6 mb-3" hidden>
                                         <label class="form-label">@lang('lat&long')</label>
-                                        <input type="text" hidden required readonly name="lat_long" id="location_tag"
+                                        <input type="text" required readonly name="lat_long" id="location_tag"
                                             class="form-control" placeholder="@lang('lat&long')"
                                             value="{{ old('location_tag') }}" />
                                     </div>
@@ -180,6 +191,25 @@
                     },
                 });
             });
+
+            $('#CityDiv').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#DistrictDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#DistrictDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+
             //
             $("#myAddressBar").on("keyup", function() {
                 // This function will be called every time a key is pressed in the input field

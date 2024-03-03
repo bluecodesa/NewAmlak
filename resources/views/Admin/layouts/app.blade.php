@@ -16,12 +16,7 @@
         <link href="{{ url('dashboard_files/assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
 
         <link href="{{ url('dashboard_files/assets/css/style.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ url('dashboard_files/assets/css/default.min.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
-        <link href="{{ url('dashboard_files/assets/css/bootstrap4-toggle.min.css') }}" rel="stylesheet"
-            type="text/css">
-        <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
     @else
         <link rel="stylesheet" href="{{ url('dashboard_files/plugins/morris/morris.css') }}">
         <link href="{{ url('dashboard_files/LtrAssets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -29,6 +24,10 @@
         <link href="{{ url('dashboard_files/LtrAssets/css/icons.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ url('dashboard_files/LtrAssets/css/style.css') }}" rel="stylesheet" type="text/css">
     @endif
+    <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
     <link href="{{ url('dashboard_files/assets/css/icons.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">

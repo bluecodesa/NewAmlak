@@ -36,8 +36,8 @@ class ProjectRepository implements ProjectRepositoryInterface
             $imageName = uniqid() . '.' . $ext;
             $images->move(public_path('/Brokers/Projects/'), $imageName);
             $data['image'] = '/Brokers/Projects/' . $imageName;
-        } else {
-            $data['image'] = '/Brokers/Projects/default.svg';
+            // } else {
+            // $data['image'] = '/Brokers/Projects/default.svg';
         }
         $project->update($data);
         return $project;
@@ -61,9 +61,9 @@ class ProjectRepository implements ProjectRepositoryInterface
         if ($images) {
             foreach ($images as $image) {
                 $ext = uniqid() . '.' . $image->clientExtension();
-                $image->move(public_path() . '/Brokers/Projects/Property/', $ext);
+                $image->move(public_path() .  '/Brokers/Projects/Property/', $ext);
                 PropertyImage::create([
-                    'image' => '/Brokers/Projects/Property/' . $ext,
+                    'image' =>  '/Brokers/Projects/Property/' . $ext,
                     'property_id' => $property->id,
                 ]);
             }

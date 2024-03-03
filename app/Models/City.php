@@ -17,4 +17,10 @@ class City extends Model
     {
         return $this->belongsTo(Region::class, 'region_id');
     }
+
+
+    public function DistrictsCity()
+    {
+        return $this->hasMany(District::class, 'city_id');
+    }
 }
