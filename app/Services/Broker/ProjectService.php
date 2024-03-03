@@ -58,9 +58,9 @@ class ProjectService
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'city_id' => 'required|exists:cities,id',
-            'developer_id' => 'required|exists:developers,id',
-            'advisor_id' => 'required|exists:advisors,id',
-            'owner_id' => 'required|exists:owners,id',
+            // 'developer_id' => 'required|exists:developers,id',
+            // 'advisor_id' => 'required|exists:advisors,id',
+            // 'owner_id' => 'required|exists:owners,id',
         ];
 
         // Validate data
