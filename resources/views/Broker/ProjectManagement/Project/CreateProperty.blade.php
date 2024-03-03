@@ -42,6 +42,7 @@
                                         class="row" enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
+                                        <input type="text" hidden name="lat_long" value="{{ $project->lat_long }}">
                                         <div class="col-md-3 mb-3">
 
                                             <label class="form-label">
@@ -69,6 +70,7 @@
                                             <select class="form-control" name="city_id" id="CityDiv" required>
                                                 @foreach ($cities as $city)
                                                     <option value="{{ $city->id }}"
+                                                        data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}"
                                                         {{ $project->city_id == $city->id ? 'selected' : '' }}>
                                                         {{ $city->name }}</option>
                                                 @endforeach

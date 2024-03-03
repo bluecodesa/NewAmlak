@@ -16,9 +16,13 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Advisor.edit', $advisor->id) }}"> @lang('Edit') {{ $advisor->name }}</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Advisor.index') }}">@lang('advisors')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.Advisor.edit', $advisor->id) }}"> @lang('Edit')
+                                                {{ $advisor->name }}</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.Advisor.index') }}">@lang('advisors')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
                             </div>
