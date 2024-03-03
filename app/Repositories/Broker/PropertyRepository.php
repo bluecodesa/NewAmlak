@@ -5,7 +5,6 @@ namespace App\Repositories\Broker;
 
 use App\Interfaces\Broker\PropertyRepositoryInterface;
 use App\Models\Feature;
-use App\Models\Project;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\Unit;
@@ -13,7 +12,6 @@ use App\Models\UnitFeature;
 use App\Models\UnitImage;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Collection;
 
 class PropertyRepository implements PropertyRepositoryInterface
 {
