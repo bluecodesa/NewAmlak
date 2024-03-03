@@ -78,4 +78,15 @@ class GallaryController extends Controller
         $Unit = $this->UnitService->findById($id);
         return view('Broker.Gallery.show', get_defined_vars());
     }
+
+
+    public function showInterests()
+    {
+        //
+        $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+
+        return view('Broker.Gallary.unit-interest',get_defined_vars());
+    }
+
+
 }
