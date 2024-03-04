@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Broker;
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
 use App\Models\Gallery;
+use App\Models\NotificationSetting;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\User;
@@ -40,6 +41,8 @@ class SettingController extends Controller
 
         $subscription = Subscription::where('broker_id', Auth::user()->UserBrokerData->id)->first();
         $gallery=Gallery::where('broker_id', Auth::user()->UserBrokerData->id)->first();
+        $NotificationSetting = NotificationSetting::all();
+
         return view('Broker.settings.index',get_defined_vars());
 
     }
