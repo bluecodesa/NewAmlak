@@ -10,12 +10,12 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6">
                             <h4 class="page-title">
-                                @lang('Types subscriptions')</h4>
+                                @lang('Add New Type subscription')</h4>
 
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.create') }}">@lang('Add Types subscriptions')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.create') }}">@lang('Add New Type subscription')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Types subscriptions')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                             </ol>
