@@ -40,13 +40,13 @@ class SubscriptionType extends Model
     {
         $periodType = $this->attributes['period_type'];
         if ($periodType == 'week') {
-            return __('week');
+            return ('week');
         } elseif ($periodType == 'month') {
-            return __('month');
+            return ('month');
         } elseif ($periodType == 'year') {
-            return __('year');
+            return ('year');
         } elseif ($periodType == 'day') {
-            return __('day');
+            return ('day');
         }
         return $periodType;
     }
@@ -78,6 +78,14 @@ class SubscriptionType extends Model
                     }
                 }
                 break;
+                case 'year':
+                    for ($i = 0; $i < $numberToAdd; $i++) {
+                        $date->addYearsNoOverflow(1);
+                        if ($extraDaysPerPeriod > 0) {
+                            $date->addDays($extraDaysPerPeriod);
+                        }
+                    }
+                    break;
             default:
                 throw new \InvalidArgumentException("Invalid period type: $periodType");
         }
