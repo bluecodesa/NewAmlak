@@ -15,11 +15,16 @@ use App\Interfaces\Admin\SectionRepositoryInterface;
 use App\Interfaces\Admin\ServiceRepositoryInterface;
 use App\Interfaces\Admin\ServiceTypeRepositoryInterface;
 use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Interfaces\Admin\SubscriptionTypeRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Interfaces\Admin\SubscriptionTypesRepositoryInterface;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
+use App\Interfaces\Broker\AdvisorRepositoryInterface as BrokerAdvisorRepositoryInterface;
+use App\Interfaces\Broker\DeveloperRepositoryInterface as BrokerDeveloperRepositoryInterface;
+use App\Interfaces\Broker\OwnerRepositoryInterface as BrokerOwnerRepositoryInterface;
+use App\Interfaces\Broker\ProjectRepositoryInterface as BrokerProjectRepositoryInterface;
 use App\Interfaces\Broker\PropertyRepositoryInterface;
 use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Interfaces\Office\AdvisorRepositoryInterface;
@@ -42,6 +47,10 @@ use App\Repositories\Admin\ServiceTypeRepository;
 use App\Repositories\Admin\SettingRepository;
 use App\Repositories\Admin\SubscriptionTypesRepository;
 use App\Repositories\Admin\SystemInvoiceRepository;
+use App\Repositories\Broker\AdvisorRepository as BrokerAdvisorRepository;
+use App\Repositories\Broker\DeveloperRepository as BrokerDeveloperRepository;
+use App\Repositories\Broker\OwnerRepository as BrokerOwnerRepository;
+use App\Repositories\Broker\ProjectRepository as BrokerProjectRepository;
 use App\Repositories\Broker\PropertyRepository;
 use App\Repositories\Broker\UnitRepository;
 use App\Repositories\Office\AdvisorRepository;
@@ -49,6 +58,7 @@ use App\Repositories\Office\DeveloperRepository;
 use App\Repositories\Office\EmployeeRepository;
 use App\Repositories\Office\OwnerRepository;
 use App\Repositories\Office\ProjectRepository;
+use App\Repositories\SubscriptionTypeRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -59,8 +69,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         $this->app->bind(
-            SubscriptionTypesRepositoryInterface::class,
-            SubscriptionTypesRepository::class
+            SubscriptionTypeRepositoryInterface::class,
+            SubscriptionTypeRepository::class
         );
         $this->app->bind(
             SystemInvoiceRepositoryInterface::class,
@@ -79,20 +89,24 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-        $this->app->bind(
 
-            \App\Interfaces\Admin\SubscriptionRepositoryInterface::class,
-            \App\Repositories\Admin\SubscriptionRepository::class
-        );
 
         $this->app->bind(
             AdvisorRepositoryInterface::class,
             AdvisorRepository::class
         );
+        $this->app->bind(
+            BrokerAdvisorRepositoryInterface::class,
+            BrokerAdvisorRepository::class
+        );
 
         $this->app->bind(
             DeveloperRepositoryInterface::class,
             DeveloperRepository::class
+        );
+        $this->app->bind(
+            BrokerDeveloperRepositoryInterface::class,
+            BrokerDeveloperRepository::class
         );
 
         $this->app->bind(
@@ -105,10 +119,18 @@ class AppServiceProvider extends ServiceProvider
             OwnerRepositoryInterface::class,
             OwnerRepository::class
         );
+        $this->app->bind(
+            BrokerOwnerRepositoryInterface::class,
+            BrokerOwnerRepository::class
+        );
 
         $this->app->bind(
             ProjectRepositoryInterface::class,
             ProjectRepository::class
+        );
+        $this->app->bind(
+            BrokerProjectRepositoryInterface::class,
+            BrokerProjectRepository::class
         );
 
 

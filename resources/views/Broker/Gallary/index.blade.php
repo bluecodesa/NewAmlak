@@ -186,6 +186,7 @@
                                     </table>
                                 </div>
 
+                                @foreach ($gallrays as $index => $gallary)
 
 <!-- share -->
         <div class="modal fade" id="shareLinkUnit{{ $gallary->id }}" tabindex="-1" role="dialog" aria-labelledby="shareLinkTitle" aria-hidden="true">
@@ -236,7 +237,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
-
+@endforeach
 
 <!--end share -->
 
