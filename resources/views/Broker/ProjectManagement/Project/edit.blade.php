@@ -97,8 +97,8 @@
                                     </div>
 
                                     <div class="form-group col-md-4">
-                                        <label>@lang('Developer name') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="developer_id" required>
+                                        <label>@lang('Developer name') </label>
+                                        <select class="form-control" name="developer_id">
                                             <option disabled value="">@lang('Developer name')</option>
                                             @foreach ($developers as $developer)
                                                 <option value="{{ $developer->id }}"
@@ -110,8 +110,8 @@
 
 
                                     <div class="form-group col-md-4">
-                                        <label>@lang('Advisor name') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="advisor_id" required>
+                                        <label>@lang('Advisor name') </label>
+                                        <select class="form-control" name="advisor_id">
                                             <option disabled selected value="">@lang('Advisor name')</option>
                                             @foreach ($advisors as $advisor)
                                                 <option value="{{ $advisor->id }}"
@@ -125,8 +125,8 @@
 
 
                                     <div class="form-group col">
-                                        <label>@lang('owner name') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="owner_id" required>
+                                        <label>@lang('owner name') </label>
+                                        <select class="form-control" name="owner_id">
                                             <option disabled selected value="">@lang('owner name')</option>
                                             @foreach ($owners as $owner)
                                                 <option value="{{ $owner->id }}"

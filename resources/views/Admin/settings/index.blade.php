@@ -265,7 +265,7 @@
                                                                     <div class="card payment" style="width: 18rem;"
                                                                         data-toggle="modal" data-target="#exampleModal">
                                                                         <div class="payment-img-container">
-                                                                            <img class="card-img-top"
+                                                                            <img class="card-img-top" height="100"
                                                                                 src="{{ asset($paymentGateway->image) }}"
                                                                                 alt="Card image cap">
                                                                         </div>
