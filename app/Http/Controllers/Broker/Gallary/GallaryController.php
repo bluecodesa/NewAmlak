@@ -18,6 +18,7 @@ class GallaryController extends Controller
     public function index()
     {
         //
+        $type_filter = request()->input('status_filter') ?? 'all';
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         return view('Broker.Gallary.index',get_defined_vars());
     }

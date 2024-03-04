@@ -15,6 +15,7 @@ use App\Interfaces\Admin\SectionRepositoryInterface;
 use App\Interfaces\Admin\ServiceRepositoryInterface;
 use App\Interfaces\Admin\ServiceTypeRepositoryInterface;
 use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Interfaces\Admin\SubscriptionTypeRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -45,6 +46,7 @@ use App\Repositories\Admin\SectionRepository;
 use App\Repositories\Admin\ServiceRepository;
 use App\Repositories\Admin\ServiceTypeRepository;
 use App\Repositories\Admin\SettingRepository;
+use App\Repositories\Admin\SubscriptionRepository;
 use App\Repositories\Admin\SubscriptionTypesRepository;
 use App\Repositories\Admin\SystemInvoiceRepository;
 use App\Repositories\Broker\AdvisorRepository as BrokerAdvisorRepository;
@@ -68,6 +70,10 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+        $this->app->bind(
+            SubscriptionRepositoryInterface::class,
+            SubscriptionRepository::class
+        );
         $this->app->bind(
             SubscriptionTypeRepositoryInterface::class,
             SubscriptionTypeRepository::class

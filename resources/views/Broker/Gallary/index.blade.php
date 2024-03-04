@@ -39,24 +39,21 @@
                                         <span>@lang('Ad type')</span>
                                         <select class="form-control form-control-sm" id="status_filter"
                                             name="status_filter">
-                                            <option value="" >كل
-                                                الحالات</option>
-                                            <option value="" >فعال
-                                            </option>
-                                            <option value="">غير فعال
-                                            </option>
+                                            @foreach (['rent', 'sale', 'rent_sale'] as $type)
+                                            <option value="{{ $type }}">
+                                                {{ __($type) }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="w-auto col-4">
                                         <span>@lang('Type use')</span>
                                         <select class="form-control form-control-sm" id="status_filter"
                                             name="status_filter">
-                                            <option value="" >كل
-                                                الحالات</option>
-                                            <option value="" >فعال
-                                            </option>
-                                            <option value="">غير فعال
-                                            </option>
+                                            @foreach (['yu'] as $usage)
+                                                <option value="{{ $usage }}">
+                                                    {{ __($usage) }}
+                                                </option>
+                                                @endforeach
                                         </select>
                                     </div>
                                     <div class="w-auto col-4">
@@ -85,17 +82,10 @@
                                     </div>
                                     <div class="w-auto col-4">
                                         <span>@lang('Project')</span>
-                                        @foreach ($gallrays as $index => $gallary)
                                         <select class="form-control form-control-sm" id="status_filter"
-                                            name="status_filter">
-                                            <option value="" >كل
-                                                الحالات</option>
-                                            <option value="" >{{ __($gallary->type) ?? '' }}
-                                            </option>
-                                            <option value="">غير فعال
-                                            </option>
+                                        name="status_filter">
+
                                         </select>
-                                        @endforeach
                                     </div>
 
 
@@ -167,7 +157,7 @@
                                                         <a href="{{ route('Broker.Gallary.show', $gallary->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
 
-                                                        <a href="{{ route('Broker.Gallary.edit', $gallary->id) }}"
+                                                        <a href="{{ route('Broker.Unit.edit', $gallary->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
 
                                                         <a href="javascript:void(0);"
