@@ -181,19 +181,26 @@
                                         </div>
 
                                     <div class="tab-pane fade" id="v-pills-List" role="tabpanel" aria-labelledby="v-pills-List-tab">
-                                        <div class="row justify-content-center">
+                                        <div class="row">
                                             @foreach ($galleries as $index => $gallery)
 
-                                            <div class="card-deck">
-                                                <div class="card">
-                                                  <img class="card-img-top" src="..." alt="Card image cap">
-                                                  <div class="card-body">
-                                                    <h5 class="card-title">Card title</h5>
-                                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                                  </div>
+                                            <div class="col-md-6">
+
+                                                <div class="card m-b-30">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title font-16 mt-0">الوحده</h4>
+                                                        <h6 class="card-subtitle font-14 text-muted">Support card subtitle</h6>
+                                                    </div>
+                                                    <img class="img-fluid" src="assets/images/small/img-4.jpg" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <p class="card-text">Some quick example text to build on the card title and make
+                                                            up the bulk of the card's content.</p>
+                                                        <a href="#" class="card-link">عرض</a>
+                                                        <a href="#" class="card-link">Another link</a>
+                                                    </div>
                                                 </div>
-                                        </div>
+
+                                            </div><!-- end col -->
                                         @endforeach
                                     </div>
 
