@@ -119,9 +119,18 @@ class SubscriptionService
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
+            'broker_logo' => 'file',
+
         ];
 
         validator($data, $rules)->validate();
+        if ($request->hasFile('broker_logo')) {
+            $file = $request->file('broker_logo');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = uniqid() . '.' . $ext;
+            $file->move(public_path('Brokers/Logos'), $fileName);
+            $data['broker_logo'] = '/Brokers/Logos/' . $fileName;
+        }
 
         $user = $this->userCreationService->createBroker($data);
 

@@ -20,6 +20,8 @@ class BrokerCreationService
             'mobile' => $brokerData['mobile'],
             'city_id' => $brokerData['city_id'],
             'id_number' => $brokerData['id_number'],
+            'broker_logo' => $brokerData['broker_logo'],
+
         ]);
 
         return $broker;

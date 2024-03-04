@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
+use App\Models\Gallery;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\User;
@@ -38,9 +39,7 @@ class SettingController extends Controller
         $region=$city->RegionData;
 
         $subscription = Subscription::where('broker_id', Auth::user()->UserBrokerData->id)->first();
-        $gallary = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
-
-        
+        $gallery=Gallery::where('broker_id', Auth::user()->UserBrokerData->id)->first();
         return view('Broker.settings.index',get_defined_vars());
 
     }

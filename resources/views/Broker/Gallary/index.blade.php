@@ -176,10 +176,10 @@
                                     </table>
                                 </div>
 
-                                @foreach ($gallrays as $index => $gallary)
+                                @foreach ($galleries as $index => $gallery)
 
 <!-- share -->
-        <div class="modal fade" id="shareLinkUnit{{ $gallary->id }}" tabindex="-1" role="dialog" aria-labelledby="shareLinkTitle" aria-hidden="true">
+        <div class="modal fade" id="shareLinkUnit{{ $gallery->id }}" tabindex="-1" role="dialog" aria-labelledby="shareLinkTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -200,7 +200,7 @@
                         </button>
                           </div>
                     <div class="modal-body share-divs">
-                        <div id="shareLinkUnit{{ $gallary->id }}" class="first">
+                        <div id="shareLinkUnit{{ $gallery->id }}" class="first">
                             <h6>مشاركة الرابط</h6>
                             <p>مشاركة لينك العقار او انسخه في موقعك</p>
 
@@ -218,7 +218,7 @@
                                         </g>
                                     </svg></div>
                                 <input readonly class="w-75" style="text-align: left" id="share-url"
-                                    value="{{ route('Broker.Gallary.index', ['number_unit' => $gallary->number_unit, 'id' => $gallary->id]) }}" />
+                                    value="{{ route('Broker.Gallary.index', ['gallery_name' => $gallery->gallery_name, 'id' => $gallery->id]) }}" />
                             </div>
                         </div>
 

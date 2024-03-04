@@ -33,7 +33,7 @@
                         @include('Admin.layouts.Inc._errors')
                         <div class="card-body">
 
-<form action="{{ route('Admin.Subscribers.CreateBroker') }}" method="POST">
+<form action="{{ route('Admin.Subscribers.CreateBroker') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     @if ($errors->any())
@@ -121,7 +121,7 @@
                 <label for="broker_logo">@lang('Broker logo')</label>
                 <span class="not_required">(@lang('optional'))</span>
                 <input type="file" class="form-control d-none" id="broker_logo"
-                    name="company_logo" accept="image/png, image/jpg, image/jpeg">
+                    name="broker_logo" accept="image/png, image/jpg, image/jpeg">
                 <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
                     class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
             </div>
@@ -186,8 +186,8 @@
                 });
             });
             //
-            $('#company_logo_preview').click(function() {
-                $('#company_logo').click(); // Trigger file input click on image click
+            $('#broker_logo_preview').click(function() {
+                $('#broker_logo').click(); // Trigger file input click on image click
             });
 
             function readURL(input) {
@@ -195,14 +195,14 @@
                     var reader = new FileReader();
 
                     reader.onload = function(e) {
-                        $('#company_logo_preview').attr('src', e.target.result); // Update the preview image
+                        $('#broker_logo_preview').attr('src', e.target.result); // Update the preview image
                     };
 
                     reader.readAsDataURL(input.files[0]); // Convert image to base64 string
                 }
             }
 
-            $("#company_logo").change(function() {
+            $("#broker_logo").change(function() {
                 readURL(this); // Call readURL function when a file is selected
             });
         </script>

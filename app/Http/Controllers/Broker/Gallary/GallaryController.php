@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Broker\Gallary;
+use App\Models\Gallery;
 use App\Services\Broker\UnitService;
 
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GallaryController extends Controller
 {
@@ -19,6 +21,10 @@ class GallaryController extends Controller
     {
         //
         $type_filter = request()->input('status_filter') ?? 'all';
+       $brokerId=Auth::user()->UserBrokerData->id;
+
+        $galleries=Gallery::where('broker_id', $brokerId)->get();
+
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         return view('Broker.Gallary.index',get_defined_vars());
     }
