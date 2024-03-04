@@ -193,6 +193,7 @@ class HomeController extends Controller
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
+            'broker_logo' => 'nullable|file|max:10240',
         ];
 
         $messages = [
@@ -205,20 +206,33 @@ class HomeController extends Controller
 
         $request->validate($rules, $messages);
 
+        $request_data = [];
+
+        if ($request->hasFile('broker_logo')) {
+            $file = $request->file('broker_logo');
+            $ext  =  uniqid() . '.' . $file->clientExtension();
+            $file->move(public_path() . '/Brokers/' . 'Logos/', $ext);
+            $request_data['broker_logo'] = '/Brokers/' . 'Logos/' . $ext;
+        }
+
+
         $user = User::create([
             'is_broker' => 1,
             'name' => $request->name,
             'email' => $request->email,
             'user_name' => uniqid(),
             'password' => bcrypt($request->password),
+            'avatar' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
         ]);
 
+        // Create Broker
         $broker = Broker::create([
             'user_id' => $user->id,
             'broker_license' => $request->license_number,
             'mobile' => $request->mobile,
             'city_id' => $request->city_id,
             'id_number' => $request->id_number,
+            'broker_logo' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
         ]);
 
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
