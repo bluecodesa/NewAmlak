@@ -72,8 +72,10 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
-        return view('Home.Auth.broker.create', get_defined_vars());
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->get();
+            return view('Home.Auth.broker.create', get_defined_vars());
     }
     public function createOffice()
     {

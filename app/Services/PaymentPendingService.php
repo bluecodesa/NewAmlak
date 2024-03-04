@@ -26,9 +26,13 @@ class PaymentPendingService
         }
 
         if ($roleName) {
-            $userSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) use ($roleName) {
+            $userSubscriptionTypes = SubscriptionType::where('is_deleted', 0)
+            ->whereHas('roles', function ($query) use ($roleName) {
                 $query->where('name', $roleName);
-            })->where('price', '>', 0)->get();
+            })
+            ->where('price', '>', 0)
+            ->get();
+
         }
 
         return  get_defined_vars();

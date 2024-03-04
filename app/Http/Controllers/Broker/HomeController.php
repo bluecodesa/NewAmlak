@@ -46,7 +46,7 @@ class HomeController extends Controller
             $pendingPayment = $subscription && $subscription->status === 'pending';
         }
 
-        $UserSubscriptionTypes = SubscriptionType::whereHas('roles', function ($query) {
+        $UserSubscriptionTypes = SubscriptionType::where('is_deleted', 0)->whereHas('roles', function ($query) {
             $query->where('name', 'RS-Broker');
         })
             ->where('price', '>', 0)
