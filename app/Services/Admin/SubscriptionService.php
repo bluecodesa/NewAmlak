@@ -152,7 +152,7 @@ class SubscriptionService
             'is_new' => 1,
             'start_date' => now()->format('Y-m-d'),
             'end_date' => $endDate,
-            'total' => '200'
+            'total' => $subscriptionType->price
         ]);
 
         $this->createSystemInvoiceBroker($broker, $subscriptionType, $status);

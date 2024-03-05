@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SubscriptionTypeRole;
 use App\Models\SystemInvoice;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -35,6 +36,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        // return  $subscriptions = Subscription::where([['end_date', '<=', '2024-02-10']])->get();
+
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = Owner::where('broker_id', $brokerId)->count();
