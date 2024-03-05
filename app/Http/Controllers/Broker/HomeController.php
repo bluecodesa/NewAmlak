@@ -16,27 +16,28 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\SubscriptionTypeRole;
 use App\Models\SystemInvoice;
 use Carbon\Carbon;
+use App\Services\Admin\SubscriptionService;
+use App\Services\RegionService;
+use App\Services\CityService;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $subscriptionService;
+    protected $regionService;
+    protected $cityService;
+
+
+
+    public function __construct(SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
     {
+        $this->subscriptionService = $subscriptionService;
+        $this->regionService = $regionService;
+        $this->cityService = $cityService;
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request)
     {
-        $subscriptions = Subscription::where([['end_date', '<=', '2024-02-10']])->get();
 
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
@@ -46,6 +47,9 @@ class HomeController extends Controller
             $subscription = $user->UserBrokerData->UserSubscriptionPending;
             $pendingPayment = $subscription && $subscription->status === 'pending';
         }
+
+        $subscriber = $this->subscriptionService->findSubscriptionById($brokerId);
+
 
         $UserSubscriptionTypes = SubscriptionType::where('is_deleted', 0)->whereHas('roles', function ($query) {
             $query->where('name', 'RS-Broker');

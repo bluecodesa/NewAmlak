@@ -23,8 +23,10 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="d-grid">
-                                    <input type="submit" id="submitsubscribe" name="send"
-                                        class="btn btn-new ArFont" value="تسجيل">
+                                    @guest
+                        <a href="" class="btn btn-new ArFont" data-toggle="modal" data-target="#addSubscriberModal"
+                        style="margin-right: 9px;" onclick="tabsFunc()">سجل معنا الآن</a>
+                        @endguest
                                 </div>
                             </div>
                             <!--end col-->

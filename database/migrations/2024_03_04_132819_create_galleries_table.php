@@ -16,8 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('office_id')->nullable();
             $table->integer('broker_id')->unsigned()->nullable();
             $table->string('gallery_cover')->nullable();
-            $table->string('gallery_status')->nullable();
-            $table->string('gallery_name');
+            $table->enum('gallery_status', ['1', '0'])->default('1');            $table->string('gallery_name');
             $table->foreign('broker_id')->references('id')->on('brokers')->onDelete('cascade');
             $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
             $table->timestamps();

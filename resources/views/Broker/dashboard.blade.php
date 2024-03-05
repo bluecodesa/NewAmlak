@@ -28,6 +28,8 @@
                     data-target=".bs-example-modal-center">Center modal</button> --}}
 
                 <!-- الاحصائيات-->
+
+
                 <div class="alert custom bg-success" role="alert">
                     <div class="row align-items-center">
                         <div class="col-sm-12 col-md-1 d-flex justify-content-center">
@@ -47,10 +49,18 @@
                             </div>
                             <div class="row justify-content-between align-items-center">
                                 <div class="col-md-8">
+                                    <p>Start Date: {{ $subscriber->start_date }}</p>
+                                </div>
+                                <div class="col-md-8">
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="31" aria-valuemin="0"
-                                            aria-valuemax="31" style="width:100%; background-color: #007bff;">100%</div>
+                                        <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar" aria-valuemin="0"
+                                            aria-valuemax="100" style="width: 0%; background-color: #007bff;">
+                                            0%
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>End Date: {{ $subscriber->end_date }}</p>
                                 </div>
                                 <div class="col-md-4 text-center">
                                     <a href="javascript:void(0)"
@@ -60,16 +70,19 @@
                                         الخطط</a>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p class="m-0">
 
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+
+
+                <!-- الاحصائيات-->
+
+
+
+
+
+
 
 
                 <div class="col-12">
@@ -636,6 +649,25 @@
                 });
             });
         </script>
+        <script>
+        // Function to calculate percentage completion
+        function calculatePercentage(start_date, end_date) {
+            var startDate = new Date(start_date);
+            var endDate = new Date(end_date);
+            var currentDate = new Date();
+            var totalDuration = endDate - startDate;
+            var elapsedDuration = currentDate - startDate;
+            var percentageCompletion = (elapsedDuration / totalDuration) * 100;
+
+            return Math.min(Math.max(percentageCompletion, 0), 100); // Ensure percentage is between 0 and 100
+        }
+
+        // Call the function to update the progress bar
+        var percentage = calculatePercentage('{{ $subscriber->start_date }}', '{{ $subscriber->end_date }}');
+        document.getElementById('progress-bar-{{ $subscriber->id }}').style.width = percentage + '%';
+        document.getElementById('progress-bar-{{ $subscriber->id }}').innerText = percentage.toFixed(2) + '%'; // Round to 2 decimal places
+    </script>
+
     @endpush
 
 @endsection
