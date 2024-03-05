@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign('broker_id')->references('id')->on('brokers')->onDelete('cascade');
-            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
+            $table->unsignedBigInteger('office_id')->nullable();
+            $table->integer('broker_id')->unsigned()->nullable();
             $table->string('gallery_cover')->nullable();
             $table->string('gallery_status')->nullable();
             $table->string('gallery_name');
+            $table->foreign('broker_id')->references('id')->on('brokers')->onDelete('cascade');
+            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
             $table->timestamps();
         });
     }
