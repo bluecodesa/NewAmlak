@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Gallery;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\Office;
@@ -265,6 +266,17 @@ class HomeController extends Controller
             'status' => $status,
             'invoice_ID' => 'INV_' . uniqid(),
         ]);
+
+        $gallery =Gallery::create([
+            'broker_id' => $broker->id,
+            'gallery_name' => $request->name,
+            'gallery_status' => 1,
+            'gallery_cover' => $request->broker_logo,
+
+        ]);
+        // if (!$request->hasFile('broker_logo')) {
+        //     $gallery->update(['gallery_cover' => 'default_image.jpg']); // Replace 'default_image.jpg' with your default image file name
+        // }
 
         return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
     }

@@ -105,7 +105,6 @@
                             </form>
 
 
-                                <div class="col-6">
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="horizontal">                                        <button class="nav-link active" id="v-pills-menu-tab" data-toggle="pill"
                                         data-target="#v-pills-menu" type="button" role="tab"
@@ -118,7 +117,6 @@
                                         </div>
                                     </div>
 
-                                </div>
 
                                 <div class="col-12">
                                     <div class="tab-content" id="v-pills-tabContent">

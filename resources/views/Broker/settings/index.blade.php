@@ -35,7 +35,6 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-3">
-                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
                                             aria-orientation="vertical">
                                             <button class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
@@ -50,7 +49,6 @@
                                                 data-target="#v-pills-gallary" type="button" role="tab"
                                                 aria-controls="v-pills-gallary"
                                                 aria-selected="false">@lang('Gallary Mange')</button>
-
                                         </div>
                                     </div>
 
@@ -255,5 +253,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
