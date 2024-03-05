@@ -6,16 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Broker;
 use App\Models\Gallery;
 use App\Models\NotificationSetting;
+use App\Models\Office;
 use App\Models\Subscription;
-use App\Models\SubscriptionType;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\RegionService;
 use App\Services\CityService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Services\Broker\UnitService;
-
 
 class SettingController extends Controller
 {
@@ -35,16 +33,14 @@ class SettingController extends Controller
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $user = Auth::user()->UserBrokerData->userData;
-        $broker=Broker::find(Auth::user()->UserBrokerData->id);
-        $city=$broker->CityData;
-        $region=$city->RegionData;
-
+        $broker = Broker::find(Auth::user()->UserBrokerData->id);
+        $city = $broker->CityData;
+        $region = $city->RegionData;
         $subscription = Subscription::where('broker_id', Auth::user()->UserBrokerData->id)->first();
-        $gallery=Gallery::where('broker_id', Auth::user()->UserBrokerData->id)->first();
+        $gallery = Gallery::where('broker_id', Auth::user()->UserBrokerData->id)->first();
         $NotificationSetting = NotificationSetting::all();
 
-        return view('Broker.settings.index',get_defined_vars());
-
+        return view('Broker.settings.index', get_defined_vars());
     }
 
     /**
@@ -77,8 +73,7 @@ class SettingController extends Controller
     public function edit(string $id)
     {
         //
-        $subscriber =Subscription::find($id);
-
+        $subscriber = Subscription::find($id);
     }
 
     /**
@@ -218,14 +213,4 @@ class SettingController extends Controller
 
         return redirect()->route('login')->withSuccess(__('Broker updated successfully.'));
     }
-
-
-
-
-
-
-
-
-
 }
-

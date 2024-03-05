@@ -35,8 +35,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-
-
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = Owner::where('broker_id', $brokerId)->count();

@@ -27,8 +27,12 @@ class CheckSubscriptionMiddleware
 
         if (Auth::user()->is_broker) {
             $subscription =      Auth::user()->UserBrokerData->UserSubscriptionPending;
+            $Suspend = Auth::user()->UserBrokerData->UserSubscriptionSuspend;
             if ($subscription) {
-                // return    redirect()->route('Broker.home');
+                return    redirect()->route('Broker.home');
+            }
+            if ($Suspend) {
+                return    redirect()->route('Broker.home');
             }
         }
 
