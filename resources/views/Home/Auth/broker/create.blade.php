@@ -42,7 +42,7 @@
                     <a href="{{ route('welcome') }}" class="logo logo-admin"><img src="{{ url($sitting->icon) }}" alt="" height="24"></a>
                 </div>
                 <h5 class="font-18 text-center">@lang('register') </h5>
-                <form action="{{ route('Home.Brokers.CreateBroker') }}" method="POST">
+                <form action="{{ route('Home.Brokers.CreateBroker') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     @if ($errors->any())
@@ -60,6 +60,9 @@
                             <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
 
                             <input type="text" class="form-control" id="name" name="name" required>
+                            @error('name')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
@@ -72,6 +75,9 @@
                             <label for="email">@lang('Email')<span class="text-danger">*</span></label>
 
                             <input type="email" class="form-control" id="email" name="email">
+                            @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                         </div>
 
                         <div class="col-md-6">
@@ -84,8 +90,11 @@
                                 oninvalid="setCustomValidity('Please enter 9 numbers.')"
                                 onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
                                 name="mobile" required="" value="">
-
-                        </div></div>
+                                @error('mobile')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
                     </div>
                     <div class="mb-3 row">
 
@@ -128,7 +137,10 @@
                             <label for="password"> @lang('password') <span
                                 class="text-danger">*</span></label>
                 <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
+                @error('password')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            </div>
 
                         <div class="col-md-6">
                             <label for="password_confirmation"> @lang('Confirm Password') <span
@@ -142,11 +154,12 @@
                         <div class="col-md-4 mb-6">
                             <label for="broker_logo">@lang('Broker logo')</label>
                             <span class="not_required">(@lang('optional'))</span>
-                            <input type="file" class="form-control d-none" id="broker_logo"
-                                name="broker_logo" accept="image/png, image/jpg, image/jpeg">
-                            <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
-                                class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
-                        </div>
+                            <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo" accept="image/png, image/jpg, image/jpeg">
+                            <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg" class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+                                @error('broker_logo')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            </div>
                         <div class="col-md-6">
                             <label for="id_number" class="col-form-label">@lang('id number')</label>
                             <input type="text" class="form-control" id="id_number" name="id_number">

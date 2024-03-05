@@ -56,7 +56,11 @@ class SubscriptionTypesController extends Controller
                 'roles*' => 'required',
                 'sections*' => 'required',
             ];
-            $request->validate($rules);
+            $messages = [
+                'required' => __('The :attribute field is required.'),
+                'unique' => __('The :attribute has already been taken.'),
+            ];
+            $request->validate($rules,$messages);
             $period = $request['period'];
             $period_type = $request['period_type'];
 

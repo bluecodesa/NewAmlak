@@ -33,6 +33,7 @@
                                 @include('Admin.layouts.Inc._errors')
                                 <form action="{{ route('Admin.SubscriptionTypes.store') }}" method="POST">
                                     @csrf
+
                                     <div class="form-row">
 
                                         @foreach (config('translatable.locales') as $locale)

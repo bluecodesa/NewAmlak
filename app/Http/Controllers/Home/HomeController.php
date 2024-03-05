@@ -194,16 +194,22 @@ class HomeController extends Controller
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
-            'broker_logo' => 'nullable|file|max:10240',
+            'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
         ];
 
         $messages = [
             'name.required' => __('The name field is required.'),
             'email.required' => __('The email field is required.'),
+            'email.unique' => __('The email has already been taken.'),
             'mobile.required' => __('The mobile field is required.'),
+            'mobile.unique' => __('The mobile has already been taken.'),
+            'mobile.digits' => __('The mobile must be 9 digits.'),
             'license_number.required' => __('The license number field is required.'),
+            'license_number.unique' => __('The license number has already been taken.'),
             'password.required' => __('The password field is required.'),
+            'broker_logo.image' => __('The broker logo must be an image.'),
         ];
+
 
         $request->validate($rules, $messages);
 

@@ -40,9 +40,16 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
+
+                            @if (isset($paymentGateway) && $paymentGateway->image)
+                                <img src="{{ asset($paymentGateway->image) }}"
+                                    alt="Current Logo" width="100px">
+                            @else
+                                <p>No logo uploaded yet.</p>
+                            @endif
                         <label for="image">@lang('Payment Image')</label>
-                        <input type="file" name="image" class="form-control-file" id="image">
+                        <input type="file" name="image" class="form-control-file" id="image" value="{{ old('image', $paymentGateway->image) }}">
                     </div>
 
                     <div class="modal-footer">
