@@ -89,12 +89,12 @@
                             <!-- item-->
                             <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i>
                                 {{ Auth::user()->name }} </a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-wallet"></i> Wallet</a>
+                            {{-- <a class="dropdown-item" href="#"><i class="mdi mdi-wallet"></i> Wallet</a> --}}
                             <a class="dropdown-item d-block" href="#"><span
                                     class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i>
                                 Settings</a>
-                            <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock
-                                screen</a>
+                            {{-- <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock
+                                screen</a> --}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

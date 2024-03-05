@@ -79,7 +79,7 @@
 
 
                                         <div class="form-group col-md-3">
-                                            <label>@lang('districts') <span class="required-color">*</span> </label>
+                                            <label>@lang('district') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="district_id" id="DistrictDiv" required>
                                                 @foreach ($project->CityData->DistrictsCity as $district)
                                                     <option value="{{ $district->id }}"
