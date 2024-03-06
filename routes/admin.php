@@ -60,6 +60,7 @@ Route::group(
             Route::put('/taxs/{setting}', [SettingController::class, 'updateTax'])->name('update-tax');
             Route::get('NotificationSetting/{id}', [SettingController::class, 'NotificationSetting'])->name('update.NotificationSetting');
             Route::post('UpdateEmailSetting', [SettingController::class, 'UpdateEmailSetting'])->name('update.UpdateEmailSetting');
+            Route::get('EditEmailTemplate/{id}', [SettingController::class, 'EditEmailTemplate'])->name('update.EditEmailTemplate');
 
 
             Route::resources([

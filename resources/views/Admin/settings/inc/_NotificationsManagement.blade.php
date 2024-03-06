@@ -12,27 +12,19 @@
             <div class="row">
                 <div class="col-sm-12">
 
-                    <table class="table no-footer" id="dataTable-1" role="grid" aria-describedby="dataTable-1_info">
+                    <table class="table no-footer">
                         <thead>
-                            <tr role="row">
-                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable-1" rowspan="1"
-                                    colspan="1" aria-sort="ascending"
-                                    aria-label="الاشعار: activate to sort column descending">
-                                    الاشعار</th>
-                                <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1"
-                                    colspan="1" aria-label="Whatsapp: activate to sort column ascending">
-                                    @lang('Whatsapp')</th>
-                                <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1"
-                                    colspan="1" aria-label="Email: activate to sort column ascending">
-                                    @lang('Email')</th>
-                                <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1"
-                                    colspan="1" aria-label="SMS: activate to sort column ascending">
-                                    @lang('SMS')</th>
+                            <tr>
+                                <th>الاشعار</th>
+                                <th> @lang('Whatsapp')</th>
+                                <th> @lang('Email')</th>
+                                <th> @lang('SMS')</th>
+                                <th> @lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($NotificationSetting as $Notification)
-                                <tr role="row" class="odd">
+                                <tr>
                                     <td class="sorting_1">
                                         {{ __($Notification->notification_name) }}
                                     </td>
@@ -56,6 +48,23 @@
                                             data-type="sms" {{ $Notification->sms == 1 ? 'checked' : '' }} required
                                             name="sms" class="NotificationSetting" data-toggle="toggle"
                                             data-onstyle="success">
+                                    </td>
+
+                                    <td>
+
+                                        <div class="btn-group m-b-10">
+                                            <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                @lang('Edit')</button>
+                                            <div class="dropdown-menu" style="">
+                                                <a class="dropdown-item"
+                                                    href="{{ route('Admin.update.EditEmailTemplate', 1) }}">@lang('Email')</a>
+                                                <a class="dropdown-item" href="#">@lang('SMS')</a>
+                                                <a class="dropdown-item" href="#">@lang('Whatsapp')</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">@lang('Delete')</a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -94,8 +103,7 @@
                         </a>
                     </li>
                     <li class="nav-item  col-md-4" disabled>
-                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
-                            aria-selected="false">
+                        <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-selected="false">
                             <span class="d-none d-md-block">@lang('SMS')</span><span class="d-block d-md-none"><i
                                     class="mdi mdi-email h5"></i></span>
                         </a>
