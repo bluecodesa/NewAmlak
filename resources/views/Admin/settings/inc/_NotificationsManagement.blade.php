@@ -7,6 +7,7 @@
             <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
                 data-target=".bs-example-modal-lg"> @lang('Settings') </button>
         </div>
+
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-12">
