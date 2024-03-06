@@ -137,18 +137,12 @@
                                                                 </div>
                                                                 <div class="mb-3 row">
                                                                     <div class="col-md-4 mb-4">
-                                                                        <label
-                                                                            for="broker_logo">@lang('Broker logo')</label>
-                                                                        <span
-                                                                            class="not_required">(@lang('optional'))</span>
-                                                                        <input type="file" class="form-control"
-                                                                            id="broker_logo" name="company_logo"
-                                                                            accept="image/png, image/jpg, image/jpeg">
-                                                                        <img id="broker_logo_preview"
-                                                                            src="https://www.svgrepo.com/show/29852/user.svg"
-                                                                            class="d-flex mr-3 rounded-circle"
-                                                                            height="64"
-                                                                            style="cursor: pointer;" />
+                                                                        <label for="broker_logo">@lang('Broker logo')</label>
+                                                                        <span class="not_required">(@lang('optional'))</span>
+                                                                        <input type="file" class="form-control d-none" id="broker_logo"
+                                                                            name="broker_logo" accept="image/png, image/jpg, image/jpeg">
+                                                                        <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
+                                                                            class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
                                                                     </div>
 
                                                                     <div class="form-group col-md-4">
@@ -178,6 +172,7 @@
                                                                                 {{ $city->name }}</option>
                                                                         </select>
                                                                     </div>
+
 
                                                                 </div>
 
@@ -311,12 +306,57 @@
     </div>
 
 
-    <script>
-        function selectText() {
-            var inputElement = document.getElementById("galleryName");
-            inputElement.focus();
-            inputElement.select();
-            document.execCommand("copy");
-        }
-    </script>
+
+
+@push('scripts')
+<script>
+    $('#Region_id').on('change', function() {
+        var selectedOption = $(this).find(':selected');
+        var url = selectedOption.data('url');
+        $.ajax({
+            type: "get",
+            url: url,
+            beforeSend: function() {
+                $('#CityDiv').fadeOut('fast');
+            },
+            success: function(data) {
+                $('#CityDiv').fadeOut('fast', function() {
+                    $(this).empty().append(data);
+                    $(this).fadeIn('fast');
+                });
+            },
+        });
+    });
+    //
+    $('#broker_logo_preview').click(function() {
+                $('#broker_logo').click(); // Trigger file input click on image click
+            });
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#broker_logo_preview').attr('src', e.target.result); // Update the preview image
+                    };
+
+                    reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+                }
+            }
+
+            $("#broker_logo").change(function() {
+                readURL(this); // Call readURL function when a file is selected
+            });
+
+</script>
+
+<script>
+    function selectText() {
+        var inputElement = document.getElementById("galleryName");
+        inputElement.focus();
+        inputElement.select();
+        document.execCommand("copy");
+    }
+</script>
+@endpush
 @endsection
