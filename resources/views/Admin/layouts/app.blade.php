@@ -74,7 +74,7 @@
 
         * {
             font-family: 'Tajawal';
-            text-transform: capitalize !important;
+            /* text-transform: capitalize !important; */
         }
 
 

@@ -102,31 +102,34 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane p-3 active" id="home" role="tabpanel">
-                        <form action="">
+                        <form action="{{ route('Admin.update.UpdateEmailSetting') }}" method="POST">
+                            @csrf
                             <div class="form-group">
                                 <label>@lang('host')</label>
-                                <input type="text" class="form-control" required=""
-                                    placeholder="smtp.titan.email">
+                                <input type="url" name="host" value="{{ $EmailSettingService->host }}"
+                                    required class="form-control" required="" placeholder="smtp.titan.email">
                             </div>
                             <div class="form-group">
                                 <label>@lang('port')</label>
-                                <input type="text" class="form-control" required="" placeholder="465">
+                                <input type="number" name="port" value="{{ $EmailSettingService->port }}"
+                                    class="form-control" required="" placeholder="465">
                             </div>
                             <div class="form-group">
                                 <label>@lang('user name')</label>
-                                <input type="text" class="form-control" required=""
-                                    placeholder="info@tryamlak.com">
+                                <input type="text" name="user_name" value="{{ $EmailSettingService->user_name }}"
+                                    class="form-control" required="" placeholder="info@tryamlak.com">
                             </div>
 
                             <div class="form-group">
                                 <label>@lang('name')</label>
-                                <input type="text" class="form-control" required=""
-                                    placeholder="tryamlak system">
+                                <input type="text" name="name" value="{{ $EmailSettingService->name }}"
+                                    class="form-control" required="" placeholder="tryamlak system">
                             </div>
 
                             <div class="form-group">
                                 <label>@lang('Password')</label>
-                                <input type="password" class="form-control" required="" placeholder="********">
+                                <input type="password" name="password" value="{{ $EmailSettingService->password }}"
+                                    class="form-control" required="" placeholder="********">
                             </div>
                             <div>
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
