@@ -105,8 +105,11 @@ class SettingController extends Controller
 
     function NotificationSetting(Request $request, $id)
     {
-        NotificationSetting::where('id', $id)->update([
-            $request->type => $request->valu
-        ]);
+        $this->settingService->NotificationToggleSetting($request, $id);
+    }
+
+    function UpdateEmailSetting(Request $request)
+    {
+        $this->settingService->UpdateEmailSetting($request->all());
     }
 }

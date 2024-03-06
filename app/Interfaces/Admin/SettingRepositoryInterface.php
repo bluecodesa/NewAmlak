@@ -14,6 +14,6 @@ interface SettingRepositoryInterface
     public function findSettingById(int $id);
     public function deleteSetting($id);
     public function ChangeActiveHomePage($data);
-
+    public function NotificationToggleSetting($data, $id);
+    public function UpdateEmailSetting($data);
 }
-
