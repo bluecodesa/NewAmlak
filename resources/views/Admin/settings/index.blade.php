@@ -171,7 +171,6 @@
 
                                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                                 aria-labelledby="v-pills-messages-tab">
-
                                                 @include('Admin.settings.inc._NotificationsManagement')
                                                 <!-- نهايه التنبيهات-->
                                             </div>

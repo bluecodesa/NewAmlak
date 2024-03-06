@@ -4,6 +4,8 @@ namespace App\Repositories\Admin;
 
 use App\Models\Setting;
 use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Models\EmailSetting;
+use App\Models\NotificationSetting;
 use App\Models\PaymentGateway;
 use Illuminate\Support\Facades\Request;
 
@@ -19,7 +21,7 @@ class SettingRepository implements SettingRepositoryInterface
         }
         $settings->paymentGateways = $paymentGateways;
 
-        return $settings ;
+        return $settings;
     }
 
 
@@ -35,7 +37,6 @@ class SettingRepository implements SettingRepositoryInterface
 
     public function findSettingById(int $id)
     {
-
     }
 
     public function deleteSetting($id)
@@ -60,5 +61,15 @@ class SettingRepository implements SettingRepositoryInterface
         ]);
     }
 
-}
+    public function NotificationToggleSetting($data, $id)
+    {
+        NotificationSetting::where('id', $id)->update([
+            $data['type'] => $data['valu']
+        ]);
+    }
 
+    function UpdateEmailSetting($data)
+    {
+        EmailSetting::updateOrCreate(['host' => $data['host']], ['host' => $data['host'], 'port' => $data['port'], 'user_name' => $data['user_name'], 'name' => $data['name'], 'password' => $data['password']]);
+    }
+}
