@@ -9,10 +9,9 @@ use App\Models\NotificationSetting;
 use App\Models\PaymentGateway;
 use App\Repositories\Admin\PaymentGatewayRepository;
 use App\Services\Admin\SettingService;
+use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use App\Services\Admin\EmailSettingService as AdminEmailSettingService;
-use App\Services\EmailSettingService;
 
 class SettingController extends Controller
 {
@@ -27,7 +26,7 @@ class SettingController extends Controller
     public function __construct(
         SettingRepositoryInterface $settingRepo,
         SettingService $settingService,
-        AdminEmailSettingService $EmailSettingService,
+        EmailSettingService $EmailSettingService,
         PaymentGatewayRepositoryInterface $paymentGateway
     ) {
         $this->settingRepo = $settingRepo;
