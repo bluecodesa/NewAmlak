@@ -79,5 +79,6 @@ class Kernel extends HttpKernel
         'redirect.users' => \App\Http\Middleware\RedirectUsers::class,
 
 
+
     ];
 }

@@ -32,68 +32,44 @@
                 <div class="col-lg-12">
                     <div class="card m-b-30">
                         <div class="card-body">
-
-                            <h4 class="mt-0 header-title">Labels Example</h4>
-                            <p class="sub-title" class="highlighter-rouge">Start Date: {{ $subscriber->start_date }}</p>
+                            <h4 class="mt-0 header-title">@lang('subscription')</h4>
+                            @php
+                                $endDate = \Carbon\Carbon::parse($subscriber->end_date);
+                                $now = \Carbon\Carbon::now();
+                                $daysUntilEnd = $now->diffInDays($endDate);
+                            @endphp
+                            <p class="sub-title" class="highlighter-rouge">{{ $daysUntilEnd }} @lang('Days Until End') </p>
 
                             <div class="">
                                 <div class="progress">
-                                   
-                                <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                    0%</div>
+                                    <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        0%
+                                    </div>
+                                </div>
                             </div>
-                            </div>
-                            <p class="sub-title" class="highlighter-rouge">End Date: {{ $subscriber->end_date }}</p>
+                            <p class="sub-title" class="highlighter-rouge">@lang('Subscription End') {{ $subscriber->end_date }}</p>
 
+                            @if ($pendingPayment)
+
+                                <a href="javascript:void(0)" onclick="handleRenewClick()" class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                                <a href="" class="btn btn-secondary modal-btn2 w-auto" target="_blank">@lang('Compare Plans')</a>
+
+                            @elseif ($daysUntilEnd <= 7)
+                                <a href="javascript:void(0)" onclick="document.querySelector('#exampleModalCenterbtn').click();" class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                                <a href="" class="btn btn-secondary modal-btn2 w-auto" target="_blank">@lang('Compare Plans')</a>
+                            @elseif ($daysUntilEnd <= 0)
+                                <a href="javascript:void(0)" onclick="document.querySelector('#exampleModalCenterbtn').click();" class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                                <p class="text-danger">@lang('Subscription Expired')</p>
+                            @else
+                                @include('Broker.inc._SubscriptionSuspend')
+                            @endif
                         </div>
                     </div>
                 </div>
 
-{{--
-                <div class="alert custom bg-success" role="alert">
-                    <div class="row align-items-center">
-                        <div class="col-sm-12 col-md-1 d-flex justify-content-center">
-                            <div class="img-containerx">
-                                <svg class="svg-inline--fa fa-house" aria-hidden="true" focusable="false" data-prefix="fas"
-                                    data-icon="house" role="img" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 576 512" data-fa-i2svg="">
 
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-11">
-                            <div class="row">
-                                <div class="col">
-                                    <span></span>
-                                </div>
-                            </div>
-                            <div class="row justify-content-between align-items-center">
-                                <div class="col-md-8">
-                                    <p>Start Date: {{ $subscriber->start_date }}</p>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="progress">
-                                        <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar" aria-valuemin="0"
-                                            aria-valuemax="100" style="width: 0%; background-color: #007bff;">
-                                            0%
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <p>End Date: {{ $subscriber->end_date }}</p>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <a href="javascript:void(0)"
-                                        onclick="document.querySelector('#exampleModalCenterbtn').click();"
-                                        class="w-auto btn btn-primary modal-btn2">ترقية</a>
-                                    <a href="" class="btn btn-secondary modal-btn2 w-auto " target="_blank">قارن بين
-                                        الخطط</a>
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
-                </div> --}}
+
 
 
                 <!-- الاحصائيات-->
@@ -687,6 +663,8 @@
         document.getElementById('progress-bar-{{ $subscriber->id }}').style.width = percentage + '%';
         document.getElementById('progress-bar-{{ $subscriber->id }}').innerText = percentage.toFixed(2) + '%'; // Round to 2 decimal places
     </script>
+
+
 
     @endpush
 
