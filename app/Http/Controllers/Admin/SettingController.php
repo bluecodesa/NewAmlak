@@ -9,6 +9,7 @@ use App\Models\NotificationSetting;
 use App\Models\PaymentGateway;
 use App\Repositories\Admin\PaymentGatewayRepository;
 use App\Services\Admin\SettingService;
+use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 
@@ -17,22 +18,28 @@ class SettingController extends Controller
     protected $settingRepo;
     protected $settingService;
     protected $paymentGateway;
+    protected $EmailSettingService;
+
+
+
 
     public function __construct(
         SettingRepositoryInterface $settingRepo,
         SettingService $settingService,
+        EmailSettingService $EmailSettingService,
         PaymentGatewayRepositoryInterface $paymentGateway
     ) {
         $this->settingRepo = $settingRepo;
         $this->settingService = $settingService;
         $this->paymentGateway = $paymentGateway;
+        $this->EmailSettingService = $EmailSettingService;
     }
 
     public function index()
     {
         $settings = $this->settingRepo->getAllSetting();
         $setting = Setting::first();
-
+        $EmailSettingService = $this->EmailSettingService->getAll();
         $NotificationSetting = NotificationSetting::all();
         $paymentGateways = $settings->paymentGateways;
         return view('Admin.settings.index', get_defined_vars());
@@ -105,8 +112,12 @@ class SettingController extends Controller
 
     function NotificationSetting(Request $request, $id)
     {
-        NotificationSetting::where('id', $id)->update([
-            $request->type => $request->valu
-        ]);
+        $this->settingService->NotificationToggleSetting($request, $id);
+    }
+
+    function UpdateEmailSetting(Request $request)
+    {
+        $this->settingService->UpdateEmailSetting($request->all());
+        return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
 }

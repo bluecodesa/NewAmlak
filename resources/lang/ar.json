@@ -45,6 +45,7 @@
     "support": "الدعم",
     "subscription": "الاشترك",
     "Your account is suspended": "حسابكم مٌعلق",
+    "Alerts settings": "اعدادات التنبيهات",
     "technical support": "الدعم الفني",
     "ar": "بالعربية",
     "Sorry, your account has been suspended. Please contact technical support": "عفوا لقد تم تعليق حسابك من فضلك تواصل مع الدعم الفني",
@@ -269,8 +270,5 @@
     "Value added tax rate": "نسبة ضريبه القيمة المضافه",
     "Properties Gallary": "معرض العقارات",
     "Requests for interest": " طلبات ابداء الاهتمام",
-    "Gallary": "المعرض",
-    "Days Until End": "يوم على انتهاء الاشتراك الحالي",
-    "Renew": "ترقية",
-    "profile": "الملف التعريفي"
+    "Gallary": "المعرض"
 }

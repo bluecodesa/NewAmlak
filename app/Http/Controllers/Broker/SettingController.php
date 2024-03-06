@@ -8,6 +8,7 @@ use App\Models\Gallery;
 use App\Models\NotificationSetting;
 use App\Models\Office;
 use App\Models\Subscription;
+use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
 use App\Services\RegionService;
 use App\Services\CityService;
@@ -20,16 +21,18 @@ class SettingController extends Controller
     protected $UnitService;
     protected $regionService;
     protected $cityService;
-
-    public function __construct(UnitService $UnitService, RegionService $regionService, CityService $cityService)
+    protected $EmailSettingService;
+    public function __construct(UnitService $UnitService, RegionService $regionService, CityService $cityService, EmailSettingService $EmailSettingService,)
     {
         $this->UnitService = $UnitService;
 
         $this->regionService = $regionService;
+        $this->EmailSettingService = $EmailSettingService;
         $this->cityService = $cityService;
     }
     public function index()
     {
+        $EmailSettingService = $this->EmailSettingService->getAll();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $user = Auth::user()->UserBrokerData->userData;
