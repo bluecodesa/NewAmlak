@@ -29,7 +29,27 @@
 
                 <!-- الاحصائيات-->
 
+                <div class="col-lg-12">
+                    <div class="card m-b-30">
+                        <div class="card-body">
 
+                            <h4 class="mt-0 header-title">Labels Example</h4>
+                            <p class="sub-title" class="highlighter-rouge">Start Date: {{ $subscriber->start_date }}</p>
+
+                            <div class="">
+                                <div class="progress">
+                                   
+                                <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    0%</div>
+                            </div>
+                            </div>
+                            <p class="sub-title" class="highlighter-rouge">End Date: {{ $subscriber->end_date }}</p>
+
+                        </div>
+                    </div>
+                </div>
+
+{{--
                 <div class="alert custom bg-success" role="alert">
                     <div class="row align-items-center">
                         <div class="col-sm-12 col-md-1 d-flex justify-content-center">
@@ -73,7 +93,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
 
                 <!-- الاحصائيات-->
