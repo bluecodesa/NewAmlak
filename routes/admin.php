@@ -61,8 +61,8 @@ Route::group(
             Route::get('NotificationSetting/{id}', [SettingController::class, 'NotificationSetting'])->name('update.NotificationSetting');
             Route::post('UpdateEmailSetting', [SettingController::class, 'UpdateEmailSetting'])->name('update.UpdateEmailSetting');
             Route::get('EditEmailTemplate/{id}', [SettingController::class, 'EditEmailTemplate'])->name('update.EditEmailTemplate');
-
-
+            Route::post('StoreEmailTemplate/{id}', [SettingController::class, 'StoreEmailTemplate'])->name('update.StoreEmailTemplate');
+            Route::get('TestSendMail', [SettingController::class, 'TestSendMail'])->name('update.TestSendMail');
             Route::resources([
                 'roles' => RoleController::class,
                 'users' => UserController::class,

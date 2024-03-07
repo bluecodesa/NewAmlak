@@ -275,10 +275,12 @@
     "Days Until End": "يوم علي انتهاء الاشتراك الحالي ",
     "Renew": "ترقية",
     "Create an account": "انشاء حساب جديد",
+    "Click to add it": "انقر لإضافته",
     "Remember me": "تذكرني",
     "Number Of Owners": "عدد الملاك",
     "profile": "الملف الشخصي",
     "templet name": "اسم التمبلت",
+    "login": "تسجيل الدخول",
     "variable_owner_name": "اسم المالك",
     "variable_tenant_name": "اسم المستأجر",
     "variable_building_name": "اسم العقار",
@@ -287,5 +289,6 @@
     "variable_agreement_expire_date": "تاريخ نهاية العقد",
     "variable_settel_date": "تاريخ إغلاق العقد",
     "variable_date_of_payment": "تاريخ الدفعة",
-    "variable_payment_amount": "المبلغ"
+    "variable_payment_amount": "المبلغ",
+    "variable_broker_name": "اسم المسوق العقاري"
 }
