@@ -134,6 +134,8 @@ class SettingController extends Controller
     function TestSendMail()
     {
         $EmailTemplate =  EmailTemplate::where('notification_setting_id', 3)->first();
+        if ($EmailTemplate) {
+        }
         $Notification_name =  __($EmailTemplate->NotificationData->notification_name);
         $data = [];
         $data['variable_owner_name'] = 'عمر السيد';
@@ -153,7 +155,7 @@ class SettingController extends Controller
             $content = str_replace($placeholder, $value, $content);
         }
 
-        // return view('emails.Admin.WelcomeBroker', get_defined_vars());
+        return view('emails.Admin.WelcomeBroker', get_defined_vars());
 
         Mail::to($email)->send(new WelcomeBroker($data, $content, $Notification_name));
     }

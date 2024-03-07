@@ -75,6 +75,7 @@
                                     </div>
                                     <div class="m-t-20">
                                         <label for="">@lang('Email content')</label>
+                                        {{-- <textarea name="content" id="textarea" class="summernote">{{ $template->content ?? null }}</textarea> --}}
                                         <textarea id="textarea" class="form-control" name="content" rows="10" placeholder=""> {{ $template->content ?? null }} </textarea>
                                     </div>
 
@@ -94,21 +95,28 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
+                $('#textarea').summernote();
                 $('.card-body .badge').click(function() {
                     var variableValue = $(this).attr('data-variable');
                     var $textarea = $('#textarea');
-                    if (document.activeElement === $textarea[0]) {
-                        var cursorPos = $textarea.prop('selectionStart');
-                        var v = $textarea.val();
-                        var textBefore = v.substring(0, cursorPos);
-                        var textAfter = v.substring(cursorPos, v.length);
-                        $textarea.val(textBefore + variableValue + textAfter);
+                    var summernoteEditor = $textarea.summernote('code');
+
+                    // Check if Summernote editor is focused
+                    if ($('.note-editable').is(':focus')) {
+                        var node = document.createElement("span");
+                        node.innerHTML = variableValue;
+                        $('.note-editable').append(
+                            node); // This line appends the variable as a new node to the editor
+                        var range = document.createRange();
+                        var sel = window.getSelection();
+                        range.setStartAfter(node);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
                     } else {
-                        $textarea.val($textarea.val() + variableValue);
+                        var currentContent = $textarea.summernote('code');
+                        $textarea.summernote('code', currentContent + variableValue);
                     }
-                    $textarea.focus();
-                    var valLength = $textarea.val().length;
-                    $textarea[0].setSelectionRange(valLength, valLength);
                 });
             });
         </script>

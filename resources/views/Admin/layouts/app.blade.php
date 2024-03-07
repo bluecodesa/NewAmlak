@@ -176,8 +176,18 @@
                 height: 100, // set editor height
                 minHeight: null, // set minimum height of editor
                 maxHeight: null, // set maximum height of editor
-                focus: true // set focus to editable area after initializing summernote
+                focus: true, // set focus to editable area after initializing summernote
+                toolbar: [
+                    // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo']],
+                    // Any other toolbar groups and options you want to include...
+                ],
+                // Explicitly remove table and font name options by not including them in the toolbar
             });
+
         });
 
         function handleDelete(id) {
