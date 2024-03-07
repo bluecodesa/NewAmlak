@@ -16,7 +16,9 @@ class SettingService
 
     public function getBrokerSettings(Broker $broker)
     {
+
         return $this->brokerSettingRepository->getBrokerSettings($broker);
+
     }
 
     public function updateBroker(array $data, Broker $broker)

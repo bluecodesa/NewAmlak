@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 
 interface SettingRepositoryInterface
 {
+    public function getBrokerSettings($broker);
+
     public function createSetting(array $data);
     public function findSettingById(int $id);
     public function deleteSetting($id);
-    public function getBrokerSettings(Broker $broker);
     public function updateBroker(array $data, Broker $broker);
     public function NotificationToggleSetting($data, $id);
     public function UpdateEmailSetting($data);

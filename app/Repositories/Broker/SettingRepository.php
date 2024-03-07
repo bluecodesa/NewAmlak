@@ -16,9 +16,17 @@ use Illuminate\Support\Facades\Request;
 class SettingRepository implements SettingRepositoryInterface
 {
 
+    public function getBrokerSettings( $broker)
+    {
+        $subscription = Subscription::where('broker_id', $broker->id)->first();
+        $gallery = Gallery::where('broker_id', $broker->id)->first();
+        $notificationSettings = NotificationSetting::all();
+        $user = Auth::user()->UserBrokerData->userData;
+        return get_defined_vars();
+    }
 
 
-    
+
     public function createSetting(array $data)
     {
     }
@@ -32,15 +40,7 @@ class SettingRepository implements SettingRepositoryInterface
     }
 
 
-    public function getBrokerSettings(Broker $broker)
-    {
-        $subscription = Subscription::where('broker_id', $broker->id)->first();
-        $gallery = Gallery::where('broker_id', $broker->id)->first();
-        $notificationSettings = NotificationSetting::all();
-        $user = Auth::user()->UserBrokerData->userData;
 
-        return compact('subscription', 'gallery', 'notificationSettings','user');
-    }
 
     public function updateBroker(array $data, Broker $broker)
     {
@@ -49,7 +49,7 @@ class SettingRepository implements SettingRepositoryInterface
 
 
 
-  
+
     public function NotificationToggleSetting($data, $id)
     {
         NotificationSetting::where('id', $id)->update([
@@ -62,7 +62,7 @@ class SettingRepository implements SettingRepositoryInterface
         EmailSetting::updateOrCreate(['host' => $data['host']], ['host' => $data['host'], 'port' => $data['port'], 'user_name' => $data['user_name'], 'name' => $data['name'], 'password' => $data['password']]);
     }
 
-  
+
 
     public function getNotificationSetting()
     {

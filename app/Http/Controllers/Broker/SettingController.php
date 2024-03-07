@@ -47,14 +47,11 @@ class SettingController extends Controller
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $broker = Auth::user()->UserBrokerData;
+        $settings = $this->settingService->getBrokerSettings($broker);
         $city = $broker->CityData;
         $region = $city->RegionData;
-        $subscription = Subscription::where('broker_id', $broker->id)->first();
-        $gallery = Gallery::where('broker_id', $broker->id)->first();
-        $NotificationSetting  = NotificationSetting::all();
-        $user = Auth::user()->UserBrokerData->userData;
-        $brokerSettings = $this->settingService->getBrokerSettings(Auth::user()->UserBrokerData);
-
+        $gallery=$settings['gallery'];
+        $NotificationSetting =$settings['notificationSettings'];
         return view('Broker.settings.index',get_defined_vars());
     }
 

@@ -33,41 +33,46 @@
                         @include('Admin.layouts.Inc._errors')
                         <div class="card-body">
 
-<form action="{{ route('Admin.Subscribers.CreateBroker') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+    <form action="{{ route('Admin.Subscribers.CreateBroker') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="mb-3 row">
+            <div class="col-md-6">
+                <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
+
+                <input type="text" class="form-control" id="name" name="name" required>
+                @error('name')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            </div>
+            <div class="col-md-6">
+                <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
+
+                <input type="text" class="form-control" id="license_number" name="license_number" required>
+            </div>
         </div>
-    @endif
+        <div class="mb-3 row">
+            <div class="col-md-6">
+                <label for="email">@lang('Email')<span class="text-danger">*</span></label>
 
-    <div class="mb-3 row">
-        <div class="col-md-6">
-            <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" name="email">
+                @error('email')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            </div>
 
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="col-md-6">
-            <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
-
-            <input type="text" class="form-control" id="license_number" name="license_number" required>
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-md-6">
-            <label for="email">@lang('Email')<span class="text-danger">*</span></label>
-
-            <input type="email" class="form-control" id="email" name="email">
-        </div>
-
-        <div class="col-md-6">
-
-            <label for="mobile">@lang('Mobile Whats app')<span
+            <div class="col-md-6">
+                <label for="mobile">@lang('Mobile Whats app')<span
                     class="text-danger">*</span></label>
             <div style="position:relative">
 
@@ -76,84 +81,93 @@
                     oninvalid="setCustomValidity('Please enter 9 numbers.')"
                     onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
                     name="mobile" required="" value="">
+                    @error('mobile')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        </div>
+        <div class="mb-3 row">
 
+            <div class="form-group col-md-4">
+                <label>@lang('Region') <span
+                    class="text-danger">*</span></label>
+                <select class="form-control" id="Region_id" name="region_id" required>
+                    <option disabled selected value="">@lang('Region')</option>
+                    @foreach ($Regions as $Region)
+                        <option value="{{ $Region->id }}"
+                            data-url="{{ route('Home.Region.show', $Region->id) }}">
+                            {{ $Region->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label>@lang('city') <span
+                    class="text-danger">*</span> </label>
+                <select class="form-control" name="city_id" id="CityDiv" required>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-2">
+                <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
+                <select type="package" class="form-control" name="subscription_type_id"
+                    required="">
+                    <option value="" selected disabled> @lang('Subscription Type') </option>
+                    @foreach ($subscriptionTypes as $subscriptionType)
+                        <option value="{{ $subscriptionType->id }}">
+                            {{ $subscriptionType->name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
-    </div>
-    <div class="mb-3 row">
+        <div class="mb-3 row">
 
-        <div class="form-group col-md-4">
-            <label>@lang('Region') <span
-                class="text-danger">*</span></label>
-            <select class="form-control" id="Region_id" required>
-                <option disabled selected value="">@lang('Region')</option>
-                @foreach ($Regions as $Region)
-                    <option value="{{ $Region->id }}"
-                        data-url="{{ route('Admin.Region.show', $Region->id) }}">
-                        {{ $Region->name }}</option>
-                @endforeach
-            </select>
+            <div class="col-md-6">
+                <label for="password"> @lang('password') <span
+                    class="text-danger">*</span></label>
+    <input type="password" class="form-control" id="password" name="password" required>
+    @error('password')
+    <span class="text-danger">{{ $message }}</span>
+@enderror
+</div>
+
+            <div class="col-md-6">
+                <label for="password_confirmation"> @lang('Confirm Password') <span
+                    class="text-danger">*</span></label>            <input type="password" class="form-control" id="password_confirmation"
+                    name="password_confirmation" required>
+            </div>
         </div>
 
-        <div class="form-group col-md-4">
-            <label>@lang('city') <span
-                class="text-danger">*</span></label>
-            <select class="form-control" name="city_id" id="CityDiv" required>
-            </select>
-        </div>
 
-        <div class="col-md-4 mb-2">
-            <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
-            <select type="package" class="form-control" name="subscription_type_id"
-                required="">
-                <option value="" selected disabled> @lang('Subscription Type') </option>
-                @foreach ($subscriptionTypes as $subscriptionType)
-                    <option value="{{ $subscriptionType->id }}">
-                        {{ $subscriptionType->name }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-    <div class="mb-3 row">
-            <div class="col-md-4 mb-4">
+        <div class="mb-3 row">
+            <div class="col-md-4 mb-6">
                 <label for="broker_logo">@lang('Broker logo')</label>
                 <span class="not_required">(@lang('optional'))</span>
-                <input type="file" class="form-control d-none" id="broker_logo"
-                    name="broker_logo" accept="image/png, image/jpg, image/jpeg">
-                <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
-                    class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+                <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo" accept="image/png, image/jpg, image/jpeg">
+                <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg" class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+                    @error('broker_logo')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+                </div>
+            <div class="col-md-6">
+                <label for="id_number" class="col-form-label">@lang('id number')</label>
+                <input type="text" class="form-control" id="id_number" name="id_number">
             </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
 
-        <div class="col-md-4 mb-4">
-            <label for="password"> @lang('password') <span
-                class="text-danger">*</span></label>
-        <input type="password" class="form-control" id="password" name="password" required>
+                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
+            </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <label for="password_confirmation"> @lang('Confirm Password') <span
-                class="text-danger">*</span></label>            <input type="password" class="form-control" id="password_confirmation"
-                name="password_confirmation" required>
-        </div>
-    </div>
 
 
-    <div class="mb-3 row">
-        <div class="col-md-6">
-            <label for="id_number" class="col-form-label">@lang('id number')</label>
-            <input type="text" class="form-control" id="id_number" name="id_number" pattern="[0-9]*" inputmode="numeric">
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-4"></div>
-        <div class="col-md-8">
-            <button type="submit" class="btn btn-primary">@lang('save')</button>
-        </div>
-    </div>
-</form>
-
+    </form>
 
 </div>
 </div>
@@ -168,25 +182,39 @@
 
     @push('scripts')
         <script>
-            $('#Region_id').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    beforeSend: function() {
-                        $('#CityDiv').fadeOut('fast');
-                    },
-                    success: function(data) {
-                        $('#CityDiv').fadeOut('fast', function() {
-                            $(this).empty().append(data);
-                            $(this).fadeIn('fast');
-                        });
-                    },
+               $(document).ready(function() {
+    $('#Region_id').on('change', function() {
+        var selectedOption = $(this).find(':selected');
+        var url = selectedOption.data('url');
+        $.ajax({
+            type: "get",
+            url: url,
+            beforeSend: function() {
+                $('#CityDiv').fadeOut('fast');
+            },
+            success: function(data) {
+                $('#CityDiv').fadeOut('fast', function() {
+                    // Empty the city select element
+                    $(this).empty();
+                    // Append the new options based on the received data
+                    $.each(data, function(key, city) {
+                        $('#CityDiv').append($('<option>', {
+                            value: city.id,
+                            text: city.name
+                        }));
+                    });
+                    // Fade in the city select element with new options
+                    $(this).fadeIn('fast');
                 });
-            });
-            //
-            $('#broker_logo_preview').click(function() {
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+$('#broker_logo_preview').click(function() {
                 $('#broker_logo').click(); // Trigger file input click on image click
             });
 
@@ -205,6 +233,8 @@
             $("#broker_logo").change(function() {
                 readURL(this); // Call readURL function when a file is selected
             });
+
+
         </script>
     @endpush
 @endsection

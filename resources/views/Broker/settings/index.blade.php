@@ -89,7 +89,7 @@
 
                                                                         <input type="text" class="form-control"
                                                                             id="name" name="name"
-                                                                            value="{{ $user->name }}" required>
+                                                                            value="{{ $broker->UserData->name }}" required>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label for="license_number">
@@ -111,7 +111,7 @@
 
                                                                         <input type="email" class="form-control"
                                                                             id="email" name="email"
-                                                                            value="{{ $user->email }}">
+                                                                            value="{{ $broker->UserData->email }}">
                                                                     </div>
 
                                                                     <div class="col-md-6">

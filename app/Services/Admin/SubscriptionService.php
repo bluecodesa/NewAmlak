@@ -123,8 +123,21 @@ class SubscriptionService
             'id_number' => 'nullable|unique:brokers|numeric|max:255',
 
         ];
+        $messages = [
+            'name.required' => __('The name field is required.'),
+            'email.required' => __('The email field is required.'),
+            'email.unique' => __('The email has already been taken.'),
+            'mobile.required' => __('The mobile field is required.'),
+            'mobile.unique' => __('The mobile has already been taken.'),
+            'mobile.digits' => __('The mobile must be 9 digits.'),
+            'license_number.required' => __('The license number field is required.'),
+            'license_number.unique' => __('The license number has already been taken.'),
+            'password.required' => __('The password field is required.'),
+            'broker_logo.image' => __('The broker logo must be an image.'),
+        ];
 
-        validator($data, $rules)->validate();
+        validator($data, $rules,$messages)->validate();
+
         if ($request->hasFile('broker_logo')) {
             $file = $request->file('broker_logo');
             $ext = $file->getClientOriginalExtension();

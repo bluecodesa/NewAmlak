@@ -14,7 +14,7 @@ class UserCreationService
             'email' => $userData['email'],
             'user_name' => uniqid(),
             'password' => bcrypt($userData['password']),
-            'avatar' => $userData['broker_logo'],
+            'avatar' => $userData['broker_logo'] ?? null,
 
         ]);
     }
