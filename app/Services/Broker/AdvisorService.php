@@ -3,6 +3,7 @@
 namespace App\Services\Broker;
 
 use App\Repositories\Broker\AdvisorRepository;
+use App\Interfaces\Broker\AdvisorRepositoryInterface;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,7 +11,7 @@ class AdvisorService
 {
     protected $advisorRepository;
 
-    public function __construct(AdvisorRepository $advisorRepository)
+    public function __construct(AdvisorRepositoryInterface $advisorRepository)
     {
         $this->advisorRepository = $advisorRepository;
     }

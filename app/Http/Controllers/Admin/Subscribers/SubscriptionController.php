@@ -4,22 +4,31 @@ namespace App\Http\Controllers\Admin\Subscribers;
 
 use App\Http\Controllers\Controller;
 use App\Models\SubscriptionType;
+use App\Models\SubscriptionTypeRole;
+use App\Models\SystemInvoice;
+use App\Models\Unit;
+use App\Models\User;
+use App\Notifications\Admin\NewOfficeNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\Admin\SubscriptionService;
 use App\Services\RegionService;
 use App\Services\CityService;
+use App\Services\OwnerService;
 
 class SubscriptionController extends Controller
 {
     protected $subscriptionService;
     protected $regionService;
     protected $cityService;
+    protected $ownerService;
 
-    public function __construct(SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
+    public function __construct(OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
     {
         $this->subscriptionService = $subscriptionService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
+        $this->ownerService = $ownerService;
     }
 
     public function index()
@@ -56,10 +65,21 @@ class SubscriptionController extends Controller
 
     public function show(string $id)
     {
-        //
         $subscriber = $this->subscriptionService->findSubscriptionById($id);
-        return view('Admin.subscribers.show',  get_defined_vars());
+        $brokerId = $subscriber->broker_id;
+        $officeId = $subscriber->office_id;
+
+        if ($brokerId) {
+            $numberOfowners = $this->ownerService->getNumberOfOwners($brokerId);
+            $numberOfUnits = Unit::where('broker_id', $brokerId)->count();
+        } elseif ($officeId) {
+            $numberOfowners = $this->ownerService->getNumberOfOwners($officeId);
+            $numberOfUnits = Unit::where('office_id', $officeId)->count();
+        }
+
+        return view('Admin.subscribers.show', get_defined_vars());
     }
+
 
 
     public function suspendSubscription(Request $request, $id)

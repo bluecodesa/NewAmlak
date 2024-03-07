@@ -80,6 +80,10 @@ class HomeController extends Controller
     }
     public function createOffice()
     {
+        $setting =   Setting::first();
+
+        $termsAndConditionsUrl = $setting->terms_pdf;
+        $privacyPolicyUrl = $setting->privacy_pdf;
         $Regions = Region::all();
         $cities = City::all();
         $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
@@ -239,7 +243,7 @@ class HomeController extends Controller
             'broker_license' => $request->license_number,
             'mobile' => $request->mobile,
             'city_id' => $request->city_id,
-            'id_number' => $request->id_number,
+            'id_number' => $request->id_number ?? null,
             'broker_logo' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
         ]);
 
@@ -274,11 +278,15 @@ class HomeController extends Controller
             'invoice_ID' => 'INV_' . uniqid(),
         ]);
 
+        $galleryName = explode('@', $request->email)[0];
+        $defaultCoverImage = '/Gallery/cover/cover.png';
+
+
         $gallery = Gallery::create([
             'broker_id' => $broker->id,
-            'gallery_name' => $request->name,
+            'gallery_name' => $galleryName,
             'gallery_status' => 1,
-            'gallery_cover' => $request->broker_logo,
+            'gallery_cover' => $defaultCoverImage,
 
         ]);
         // if (!$request->hasFile('broker_logo')) {

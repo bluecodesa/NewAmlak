@@ -82,7 +82,11 @@
                     <div class="dropdown notification-list nav-pro-img">
                         <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#"
                             role="button" aria-haspopup="false" aria-expanded="false">
+                            @if(Auth::user()->is_broker || Auth::user()->is_admin || Auth::user()->is_office )
+                            <img src="{{ Auth::user()->avatar }}" alt="user" class="rounded-circle">
+                            @else
                             <img src="https://www.svgrepo.com/show/29852/user.svg" alt="user" class="rounded-circle">
+                            @endif
 
                         </a>
                         <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -90,9 +94,18 @@
                             <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i>
                                 {{ Auth::user()->name }} </a>
                             {{-- <a class="dropdown-item" href="#"><i class="mdi mdi-wallet"></i> Wallet</a> --}}
-                            <a class="dropdown-item d-block" href="#"><span
-                                    class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i>
-                                Settings</a>
+                            @if(Auth::user()->is_broker)
+                            <a class="dropdown-item d-block" href="{{ route('Broker.Setting.index') }}"><span
+                                    class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i>@lang('Settings') </a>
+
+                            @elseif(Auth::user()->is_admin)
+                            <a class="dropdown-item d-block" href="{{ route('Admin.settings.index') }}"><span
+                                class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i>@lang('Settings') </a>
+                            @elseif(Auth::user()->is_admin)
+                            <a class="dropdown-item d-block" href="{{ route('Office.settings.index') }}"><span
+                                class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i>@lang('Settings') </a>
+
+                            @endif
                             {{-- <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock
                                 screen</a> --}}
                             <div class="dropdown-divider"></div>

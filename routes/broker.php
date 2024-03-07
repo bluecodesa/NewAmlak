@@ -44,6 +44,7 @@ Route::group(
             route::resource('Project', ProjectController::class)->middleware('CheckSubscription');
             route::resource('Payment', PaymentController::class);
             route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
+            route::put('updateBroker/{id}', [SettingController::class,'updateBroker'])->name('Setting.updateBroker')->middleware('CheckSubscription');
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
             route::resource('Gallary', GallaryController::class)->middleware('CheckSubscription');

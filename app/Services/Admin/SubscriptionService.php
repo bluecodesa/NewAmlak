@@ -120,6 +120,7 @@ class SubscriptionService
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'file',
+            'id_number' => 'nullable|unique:brokers|numeric|max:255',
 
         ];
 

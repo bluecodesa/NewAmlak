@@ -34,9 +34,8 @@ class SettingController extends Controller
     public function index()
     {
         $settings = $this->settingRepo->getAllSetting();
-        $setting = Setting::first();
         $EmailSettingService = $this->EmailSettingService->getAll();
-        $NotificationSetting = NotificationSetting::all();
+        $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $paymentGateways = $settings->paymentGateways;
         return view('Admin.settings.index', get_defined_vars());
     }
@@ -119,10 +118,5 @@ class SettingController extends Controller
     function EditEmailTemplate($id)
     {
         return view('Admin.settings.Notification.edit', get_defined_vars());
-    }
-
-    function StoreEmailTemplate(Request $request)
-    {
-        EmailTemplate::create($request->all());
     }
 }

@@ -173,19 +173,19 @@
                             <button type="submit" class="btn btn-primary">@lang('Submit')</button>
                         </div>
                     </div>
+
+
+                    <div class="form-group mb-0 row">
+                        <div class="col-12 m-t-10 text-center">
+                            @lang('By registering') @lang('you accept our')
+                            <a href="{{asset($termsAndConditionsUrl) }}" target="_blank" download>
+                                @lang('Conditions') &amp; @lang('Terms')
+                            </a>
+                            <a href="{{asset($privacyPolicyUrl) }}" target="_blank" download>
+                                @lang('and') @lang('our privacy policy')
+                            </a></div>
+                    </div>
                 </form>
-
-
-                <p class="row mb-3">
-                    @lang('By registering') @lang('you accept our')
-                    <a href="{{asset($termsAndConditionsUrl) }}" target="_blank" download>
-                        @lang('Conditions') &amp; @lang('Terms')
-                    </a>
-                    <a href="{{asset($privacyPolicyUrl) }}" target="_blank" download>
-                        @lang('and') @lang('our privacy policy')
-                    </a>
-                </p>
-
 
 
             </div>

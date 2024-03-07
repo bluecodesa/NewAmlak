@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\PropertyImage;
 use App\Models\User;
 use App\Repositories\Broker\ProjectRepository;
+use App\Interfaces\Broker\ProjectRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -13,7 +14,7 @@ class ProjectService
 {
     protected $projectRepository;
 
-    public function __construct(ProjectRepository $projectRepository)
+    public function __construct(ProjectRepositoryInterface $projectRepository)
     {
         $this->projectRepository = $projectRepository;
     }
