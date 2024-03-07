@@ -37,10 +37,9 @@ class SettingController extends Controller
 
     public function index()
     {
-        $settings = $this->settingRepo->getAllSetting();
-        $setting = Setting::first();
+        $settings = $this->settingRepo->getAllSetting();        
         $EmailSettingService = $this->EmailSettingService->getAll();
-        $NotificationSetting = NotificationSetting::all();
+        $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $paymentGateways = $settings->paymentGateways;
         return view('Admin.settings.index', get_defined_vars());
     }

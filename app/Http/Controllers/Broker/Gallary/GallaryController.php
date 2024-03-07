@@ -20,10 +20,11 @@ class GallaryController extends Controller
     public function index()
     {
         //
-        $type_filter = request()->input('status_filter') ?? 'all';
+    $type_filter = request()->input('status_filter') ?? 'all';
        $brokerId=Auth::user()->UserBrokerData->id;
 
-        $galleries=Gallery::where('broker_id', $brokerId)->get();
+       $gallery = Gallery::where('broker_id', $brokerId)->first();
+// dd( $gallery);
 
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         return view('Broker.Gallary.index',get_defined_vars());

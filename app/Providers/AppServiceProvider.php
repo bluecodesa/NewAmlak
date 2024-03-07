@@ -27,6 +27,7 @@ use App\Interfaces\Broker\DeveloperRepositoryInterface as BrokerDeveloperReposit
 use App\Interfaces\Broker\OwnerRepositoryInterface as BrokerOwnerRepositoryInterface;
 use App\Interfaces\Broker\ProjectRepositoryInterface as BrokerProjectRepositoryInterface;
 use App\Interfaces\Broker\PropertyRepositoryInterface;
+use App\Interfaces\Broker\SettingRepositoryInterface as BrokerSettingRepositoryInterface;
 use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Interfaces\Office\AdvisorRepositoryInterface;
 use App\Interfaces\Office\DeveloperRepositoryInterface;
@@ -54,6 +55,7 @@ use App\Repositories\Broker\DeveloperRepository as BrokerDeveloperRepository;
 use App\Repositories\Broker\OwnerRepository as BrokerOwnerRepository;
 use App\Repositories\Broker\ProjectRepository as BrokerProjectRepository;
 use App\Repositories\Broker\PropertyRepository;
+use App\Repositories\Broker\SettingRepository as BrokerSettingRepository;
 use App\Repositories\Broker\UnitRepository;
 use App\Repositories\Office\AdvisorRepository;
 use App\Repositories\Office\DeveloperRepository;
@@ -87,6 +89,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             SettingRepositoryInterface::class,
             SettingRepository::class
+        );
+        $this->app->bind(
+            BrokerSettingRepositoryInterface::class,
+            BrokerSettingRepository::class
         );
         $this->app->bind(
             PaymentGatewayRepositoryInterface::class,

@@ -78,4 +78,9 @@ class SettingService
     {
         $this->settingRepository->UpdateEmailSetting($data);
     }
+    
+    public function getNotificationSetting()
+    {
+        return $this->settingRepository->getNotificationSetting();
+    }
 }

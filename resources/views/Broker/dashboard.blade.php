@@ -96,7 +96,7 @@
                                         <h5 class="font-16">عدد الملاك</h5>
 
                                     </div>
-                                    <h3 class="mt-4"><?php echo $numberOfowners; ?></h3>
+                                    <h3 class="mt-4">{{ $numberOfowners}}</h3>
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
@@ -139,7 +139,7 @@
                                     <div>
                                         <h5 class="font-16"> الوحدات التجارية</h5>
                                     </div>
-                                    <h3 class="mt-4">43,225</h3>
+                                    <h3 class="mt-4">{{ $numberOfUnits }}</h3>
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
@@ -645,24 +645,28 @@
                 });
             });
         </script>
-        <script>
+      <script>
         // Function to calculate percentage completion
         function calculatePercentage(start_date, end_date) {
             var startDate = new Date(start_date);
             var endDate = new Date(end_date);
             var currentDate = new Date();
             var totalDuration = endDate - startDate;
-            var elapsedDuration = currentDate - startDate;
-            var percentageCompletion = (elapsedDuration / totalDuration) * 100;
+            var remainingDuration = endDate - currentDate;
+            var percentageCompletion = (remainingDuration / totalDuration) * 100;
 
             return Math.min(Math.max(percentageCompletion, 0), 100); // Ensure percentage is between 0 and 100
         }
 
         // Call the function to update the progress bar
-        var percentage = calculatePercentage('{{ $subscriber->start_date }}', '{{ $subscriber->end_date }}');
+        var startDate = '{{ $subscriber->start_date }}';
+        var endDate = '{{ $subscriber->end_date }}';
+        var percentage = calculatePercentage(startDate, endDate);
         document.getElementById('progress-bar-{{ $subscriber->id }}').style.width = percentage + '%';
         document.getElementById('progress-bar-{{ $subscriber->id }}').innerText = percentage.toFixed(2) + '%'; // Round to 2 decimal places
     </script>
+
+
 
 
 

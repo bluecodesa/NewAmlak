@@ -125,17 +125,18 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
                         <button type="submit" class="btn btn-primary waves-effect waves-light">@lang('save')</button>
                     </div>
+                    <div class="form-group mb-0 row">
+                        <div class="col-12 m-t-10 text-center">
+                            @lang('By registering') @lang('you accept our')
+                            <a href="{{asset($termsAndConditionsUrl) }}" target="_blank" download>
+                                @lang('Conditions') &amp; @lang('Terms')
+                            </a>
+                            <a href="{{asset($privacyPolicyUrl) }}" target="_blank" download>
+                                @lang('and') @lang('our privacy policy')
+                            </a>                        </div>
+                    </div>
                 </form>
-                <p class="row mb-3">
-                    @lang('By registering') @lang('you accept our')
-                    <a href="{{ asset('pdfs/terms-and-conditions.pdf') }}" target="_blank" download>
-                        @lang('Terms') &amp; @lang('Conditions')
-                    </a>
-                    @lang('and')
-                    <a href="{{ asset('pdfs/privacy-policy.pdf') }}" target="_blank" download>
-                        @lang('our privacy policy')
-                    </a>.
-                </p>
+
             </div>
 
 

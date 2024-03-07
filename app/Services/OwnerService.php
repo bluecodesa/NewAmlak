@@ -15,4 +15,16 @@ class OwnerService
     {
         return  Owner::find($id)->delete();
     }
+
+    public function getNumberOfOwners($id)
+{
+    $numberOfOwners = Owner::where(function ($query) use ($id) {
+        $query->where('broker_id', $id)
+              ->orWhere('office_id', $id);
+    })->count();
+
+    return $numberOfOwners;
+}
+
+
 }

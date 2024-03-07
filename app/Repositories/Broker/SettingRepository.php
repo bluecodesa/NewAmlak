@@ -1,36 +1,24 @@
 <?php
 
-namespace App\Repositories\Admin;
+namespace App\Repositories\Broker;
 
+use App\Models\Gallery;
 use App\Models\Setting;
-use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Interfaces\Broker\SettingRepositoryInterface;
+use App\Models\Broker;
 use App\Models\EmailSetting;
 use App\Models\NotificationSetting;
 use App\Models\PaymentGateway;
+use App\Models\Subscription;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class SettingRepository implements SettingRepositoryInterface
 {
-    public function getAllSetting()
-    {
-        $settings = Setting::first();
-        $paymentGateways = PaymentGateway::all();
-
-        if (!$settings) {
-            $settings = new Setting();
-        }
-        $settings->paymentGateways = $paymentGateways;
-
-        return $settings;
-    }
 
 
-    public function updateSetting(Setting $setting, array $data)
-    {
-        $setting->update($data);
-        return $setting;
-    }
 
+    
     public function createSetting(array $data)
     {
     }
@@ -44,23 +32,24 @@ class SettingRepository implements SettingRepositoryInterface
     }
 
 
-    public function createPaymentSetting(array $data)
+    public function getBrokerSettings(Broker $broker)
     {
-    }
-    public function updatePaymentSetting(array $data)
-    {
-    }
+        $subscription = Subscription::where('broker_id', $broker->id)->first();
+        $gallery = Gallery::where('broker_id', $broker->id)->first();
+        $notificationSettings = NotificationSetting::all();
+        $user = Auth::user()->UserBrokerData->userData;
 
-
-
-    public function ChangeActiveHomePage($request)
-    {
-        $Setting =  Setting::first();
-        $Setting->update([
-            'active_home_page' => $request->active_home_page,
-        ]);
+        return compact('subscription', 'gallery', 'notificationSettings','user');
     }
 
+    public function updateBroker(array $data, Broker $broker)
+    {
+        // Update broker data here
+    }
+
+
+
+  
     public function NotificationToggleSetting($data, $id)
     {
         NotificationSetting::where('id', $id)->update([
@@ -73,10 +62,7 @@ class SettingRepository implements SettingRepositoryInterface
         EmailSetting::updateOrCreate(['host' => $data['host']], ['host' => $data['host'], 'port' => $data['port'], 'user_name' => $data['user_name'], 'name' => $data['name'], 'password' => $data['password']]);
     }
 
-    public function getSetting()
-    {
-        return Setting::first();
-    }
+  
 
     public function getNotificationSetting()
     {

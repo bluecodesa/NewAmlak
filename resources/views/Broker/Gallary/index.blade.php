@@ -32,6 +32,12 @@
                         <div class="card m-b-30">
                             <div class="card-body">
 
+                                <div class="first-div">
+                                    <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid">
+                                </div>
+
+                                                                    <!-- Content of the first div -->
+
                             <form action="{{ route('Broker.Gallary.index') }}" method="GET"
                                 id="subscriptionsForm">
                                 <div class="row">
@@ -180,7 +186,6 @@
 
                                     <div class="tab-pane fade" id="v-pills-List" role="tabpanel" aria-labelledby="v-pills-List-tab">
                                         <div class="row">
-                                            @foreach ($galleries as $index => $gallery)
 
                                             <div class="col-md-6">
 
@@ -199,14 +204,12 @@
                                                 </div>
 
                                             </div><!-- end col -->
-                                        @endforeach
                                     </div>
 
                                 </div>
                                 </div>
                             </div>
 
-                                        @foreach ($galleries as $index => $gallery)
 
                                             <!-- share -->
                                                 <div class="modal fade" id="shareLinkUnit{{ $gallery->id }}" tabindex="-1" role="dialog" aria-labelledby="shareLinkTitle" aria-hidden="true">
@@ -257,7 +260,7 @@
                                                     </div><!-- /.modal-dialog -->
                                                 </div><!-- /.modal -->
 
-                                        @endforeach
+
 
                                         <!--end share -->
 

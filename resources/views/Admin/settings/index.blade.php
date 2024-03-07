@@ -192,7 +192,7 @@
                                                             </strong>
                                                         </div>
                                                         <div class="card-body">
-                                                            <form action="{{ route('Admin.update-tax', $setting) }}"
+                                                            <form action="{{ route('Admin.update-tax', $settings) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('PUT')

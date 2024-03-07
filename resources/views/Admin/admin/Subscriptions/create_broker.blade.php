@@ -143,7 +143,7 @@
     <div class="mb-3 row">
         <div class="col-md-6">
             <label for="id_number" class="col-form-label">@lang('id number')</label>
-            <input type="text" class="form-control" id="id_number" name="id_number">
+            <input type="text" class="form-control" id="id_number" name="id_number" pattern="[0-9]*" inputmode="numeric">
         </div>
     </div>
     <div class="row mb-3">

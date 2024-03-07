@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SubscriptionTypeRole;
 use App\Models\SystemInvoice;
+use App\Models\Unit;
 use Carbon\Carbon;
 use App\Services\Admin\SubscriptionService;
 use App\Services\RegionService;
@@ -42,7 +43,7 @@ class HomeController extends Controller
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = Owner::where('broker_id', $brokerId)->count();
-
+        $numberOfUnits = Unit::where('broker_id', $brokerId)->count();
         if ($user && $user->is_broker && $user->UserBrokerData) {
             $subscription = $user->UserBrokerData->UserSubscriptionPending;
             $pendingPayment = $subscription && $subscription->status === 'pending';

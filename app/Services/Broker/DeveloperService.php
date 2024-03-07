@@ -6,6 +6,7 @@ namespace App\Services\Broker;
 use App\Models\Developer;
 use App\Models\User;
 use App\Repositories\Broker\DeveloperRepository;
+use App\Interfaces\Broker\DeveloperRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -13,7 +14,7 @@ class DeveloperService
 {
     protected $developerRepository;
 
-    public function __construct(DeveloperRepository $developerRepository)
+    public function __construct(DeveloperRepositoryInterface $developerRepository)
     {
         $this->developerRepository = $developerRepository;
     }

@@ -66,7 +66,7 @@
                                                     <div class="card m-b-30">
                                                         <div class="card-body">
                                                             <form
-                                                                action="{{ route('Broker.Setting.update', $broker->id) }}"
+                                                                action="{{ route('Broker.Setting.updateBroker', $broker->id) }}"
                                                                 method="POST" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('PUT')
@@ -98,7 +98,7 @@
 
                                                                         <input type="text" class="form-control"
                                                                             id="license_number"
-                                                                            name="license_number"
+                                                                            name="broker_license"
                                                                             value="{{ $broker->broker_license }}"
                                                                             required>
                                                                     </div>
@@ -139,10 +139,11 @@
                                                                     <div class="col-md-4 mb-4">
                                                                         <label for="broker_logo">@lang('Broker logo')</label>
                                                                         <span class="not_required">(@lang('optional'))</span>
-                                                                        <input type="file" class="form-control d-none" id="broker_logo"
-                                                                            name="broker_logo" accept="image/png, image/jpg, image/jpeg">
-                                                                        <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
-                                                                            class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+                                                                        <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo" accept="image/png, image/jpg, image/jpeg">
+                                                                        <img id="broker_logo_preview" src="{{ $broker->broker_logo ? asset($broker->broker_logo) : 'https://www.svgrepo.com/show/29852/user.svg' }}" class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+                                                                        @if ($errors->has('broker_logo'))
+                                                                            <span class="text-danger">{{ $errors->first('broker_logo') }}</span>
+                                                                        @endif
                                                                     </div>
 
                                                                     <div class="form-group col-md-4">
@@ -256,7 +257,7 @@
                                                                                         <div class="input-group">
                                                                                             <input type="text" class="form-control edit-gallery-name" id="editGalleryName"
                                                                                             placeholder="@lang('Gallery Name')" name="gallery_name"
-                                                                                            value="{{ $gallery->gallery_name }}" oninput="validateName(this)">
+                                                                                            value="{{ explode('@', $gallery->gallery_name)[0] }}" oninput="validateName(this)">
 
                                                                                          <input type="text" class="form-control" id="galleryName" disabled
                                                                                             value="{{ env('APP_URL') }}/ar/broker/Gallary/">
