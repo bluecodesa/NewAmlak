@@ -73,7 +73,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                
+
                                     <div class="w-auto  p-0 ml-2">
                                         <span>الوحدة</span>
                                         <select class="form-control select-input" id="unit_filter" required="" name="unit_filter" style="width:95%!important" onchange="reloadInterests()">
@@ -84,7 +84,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                
+
                                     <div class="w-auto  p-0 ml-2">
                                         <span>اسم العميل</span>
                                         <select class="form-control select-input" id="client_filter" required="" name="client_filter" style="width:95%!important" onchange="reloadInterests()">
@@ -120,10 +120,10 @@
                                                         <td> </td>
                                                         <td>
                                                         </td>
-                                                        <td> 
+                                                        <td>
                                                             <form method="POST" action="https://dev.tryamlak.com/unit/interest/status">
 
-                                                                <input type="hidden" name="_token" value="">                                           
+                                                                <input type="hidden" name="_token" value="">
                                                                  <input name="id" value="" hidden="">
                                                                 <select class="form-control select-input w-auto" name="status" onchange="chengeStatus(this)">
                                                                     <option value="عميل جديد">
@@ -144,13 +144,13 @@
                                                                 href="" onclick="document.querySelector('#shareLinkUnit{{ $gallary->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
                                                                 @lang('مكالمة')</a>
 
-                                                            <a href="{{ route('Broker.Gallary.show', $gallary->id) }}"
+                                                            <a href="{{ route('Broker.Gallery.show', $gallary->id) }}"
                                                                 class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
 
-                                                            <a href="{{ route('Broker.Gallary.edit', $gallary->id) }}"
+                                                            <a href="{{ route('Broker.Gallery.edit', $gallary->id) }}"
                                                                 class="btn btn-outline-info btn-sm waves-effect waves-light">@lang(' اضافة كا مالك ')</a>
 
-                                                            
+
                                                         </td>
                                                     </tr>
                                                 @endforeach

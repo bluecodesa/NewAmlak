@@ -16,9 +16,9 @@
                             <ol class="breadcrumb float-right">
 
                                 <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Gallary.show',$Unit->id) }}">@lang('Show') @lang('Unit') {{ $Unit->number_unit }}</a></li>
+                                        href="{{ route('Broker.Gallery.show',$Unit->id) }}">@lang('Show') @lang('Unit') {{ $Unit->number_unit }}</a></li>
                                 <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Gallary.index') }}">@lang('Gallary')</a></li>
+                                        href="{{ route('Broker.Gallery.index') }}">@lang('Gallary')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>

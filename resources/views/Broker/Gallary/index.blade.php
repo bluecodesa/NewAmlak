@@ -15,7 +15,7 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item active"><a
-                                        href="{{ route('Broker.Gallary.index') }}">@lang('Gallary')</a>
+                                        href="{{ route('Broker.Gallery.index') }}">@lang('Gallary')</a>
                                 </li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                             </ol>
@@ -38,7 +38,7 @@
 
                                                                     <!-- Content of the first div -->
 
-                            <form action="{{ route('Broker.Gallary.index') }}" method="GET"
+                            <form action="{{ route('Broker.Gallery.index') }}" method="GET"
                                 id="subscriptionsForm">
                                 <div class="row">
                                     <div class="w-auto col-4">
@@ -161,7 +161,7 @@
                                                                     href="" onclick="document.querySelector('#shareLinkUnit{{ $gallary->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
                                                                     @lang('Share')</a>
 
-                                                                <a href="{{ route('Broker.Gallary.show', $gallary->id) }}"
+                                                                <a href="{{ route('Broker.Gallery.show', $gallary->id) }}"
                                                                     class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
 
                                                                 <a href="{{ route('Broker.Unit.edit', $gallary->id) }}"
@@ -251,7 +251,7 @@
                                                                                 </g>
                                                                             </svg></div>
                                                                         <input readonly class="w-75" style="text-align: left" id="share-url"
-                                                                            value="{{ route('Broker.Gallary.index', ['gallery_name' => $gallery->gallery_name, 'id' => $gallery->id]) }}" />
+                                                                            value="{{ route('Broker.Gallery.index', ['gallery_name' => $gallery->gallery_name, 'id' => $gallery->id]) }}" />
                                                                     </div>
                                                                 </div>
 
