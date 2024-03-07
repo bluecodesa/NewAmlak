@@ -3,19 +3,7 @@
 namespace App\Http\Controllers\Admin\Subscribers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Broker;
-use App\Models\City;
-use App\Models\Office;
-use App\Models\Owner;
-use App\Models\Region;
-use App\Models\Role;
-use App\Models\Subscription;
 use App\Models\SubscriptionType;
-use App\Models\SubscriptionTypeRole;
-use App\Models\SystemInvoice;
-use App\Models\User;
-use App\Notifications\Admin\NewOfficeNotification;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\Admin\SubscriptionService;
 use App\Services\RegionService;

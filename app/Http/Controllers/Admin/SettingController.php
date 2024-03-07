@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
+use App\Models\EmailTemplate;
 use App\Models\NotificationSetting;
 use App\Services\Admin\SettingService;
 use App\Services\Admin\EmailSettingService;
@@ -118,5 +119,10 @@ class SettingController extends Controller
     function EditEmailTemplate($id)
     {
         return view('Admin.settings.Notification.edit', get_defined_vars());
+    }
+
+    function StoreEmailTemplate(Request $request)
+    {
+        EmailTemplate::create($request->all());
     }
 }

@@ -46,9 +46,9 @@ class HomeController extends Controller
 
         $sitting =   Setting::first();
         if ($sitting->active_home_page == 1) {
-            return view('Home.home',get_defined_vars());
+            return view('Home.home', get_defined_vars());
         } else {
-            return redirect()->route('Admin.home',get_defined_vars());
+            return redirect()->route('Admin.home', get_defined_vars());
         }
     }
 
@@ -74,9 +74,9 @@ class HomeController extends Controller
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
         $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
-        ->whereIn('id', $RolesSubscriptionTypeIds)
-        ->get();
-            return view('Home.Auth.broker.create', get_defined_vars());
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->get();
+        return view('Home.Auth.broker.create', get_defined_vars());
     }
     public function createOffice()
     {
@@ -91,6 +91,7 @@ class HomeController extends Controller
         $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
             $query->where('name', 'Office-Admin');
         })->get();
+
         return view('Home.Auth.office.create', get_defined_vars());
     }
 
@@ -273,7 +274,7 @@ class HomeController extends Controller
             'invoice_ID' => 'INV_' . uniqid(),
         ]);
 
-        $gallery =Gallery::create([
+        $gallery = Gallery::create([
             'broker_id' => $broker->id,
             'gallery_name' => $request->name,
             'gallery_status' => 1,

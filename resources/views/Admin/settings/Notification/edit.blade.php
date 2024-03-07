@@ -2,6 +2,12 @@
 @section('title', __('Edit') . ' ' . __('Notifications'))
 @section('content')
 
+    <style>
+        .badge-success:hover {
+            cursor: pointer;
+        }
+    </style>
+
     <div class="content-page">
         <!-- Start content -->
         <div class="content">
@@ -27,29 +33,38 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="font-18">
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_owner_name')"
                                         data-variable="$data[variable_owner_name]">@lang('variable_owner_name')</span>
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_tenant_name')"
                                         data-variable="$data[variable_tenant_name]">@lang('variable_tenant_name')</span>
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_building_name')"
                                         data-variable="$data[variable_building_name]">@lang('variable_building_name')</span>
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_flat_no')"
                                         data-variable="$data[variable_flat_no]">@lang('variable_flat_no')</span>
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_agreement_id')"
                                         data-variable="$data[variable_agreement_id]">@lang('variable_agreement_id')</span>
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') :  @lang('variable_agreement_expire_date')"
                                         data-variable="$data[variable_agreement_expire_date]">@lang('variable_agreement_expire_date')</span>
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_settel_date')"
                                         data-variable="$data[variable_settel_date]">@lang('variable_settel_date')</span>
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_date_of_payment')"
                                         data-variable="$data[variable_date_of_payment]">@lang('variable_date_of_payment')</span>
-                                    <span class="badge badge-success"
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_payment_amount')"
                                         data-variable="$data[variable_payment_amount]">@lang('variable_payment_amount')</span>
                                 </div>
-                                <form action="" method="post" class="mt-2">
+                                <form action="{{ route('') }}" method="post" class="mt-2">
                                     <div class="form-group">
                                         <label>@lang('templet name')</label>
-                                        <input type="text" class="form-control" required=""
+                                        <input type="text" class="form-control" name="content" required=""
                                             placeholder="@lang('templet name')">
                                     </div>
                                     <div class="m-t-20">
