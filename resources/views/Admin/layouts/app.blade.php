@@ -182,7 +182,7 @@
                     ['style', ['bold', 'italic', 'underline', 'clear']],
                     ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
                     ['para', ['ul', 'ol', 'paragraph']],
-                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo']],
+                    ['misc', ['fullscreen', 'undo', 'redo']],
                     // Any other toolbar groups and options you want to include...
                 ],
                 // Explicitly remove table and font name options by not including them in the toolbar

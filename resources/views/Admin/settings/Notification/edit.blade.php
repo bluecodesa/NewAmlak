@@ -76,7 +76,7 @@
                                     <div class="m-t-20">
                                         <label for="">@lang('Email content')</label>
                                         {{-- <textarea name="content" id="textarea" class="summernote">{{ $template->content ?? null }}</textarea> --}}
-                                        <textarea id="textarea" class="form-control" name="content" rows="10" placeholder=""> {{ $template->content ?? null }} </textarea>
+                                        <textarea id="textarea" class="form-control" name="content" cols="30" rows="30" placeholder=""> {{ $template->content ?? null }} </textarea>
                                     </div>
 
                                     <button type="submit"
@@ -95,7 +95,21 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
-                $('#textarea').summernote();
+                $('#textarea').summernote({
+                    height: 100, // set editor height
+                    minHeight: null, // set minimum height of editor
+                    maxHeight: null, // set maximum height of editor
+                    focus: true, // set focus to editable area after initializing summernote
+                    toolbar: [
+                        // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                        ['style', ['bold', 'underline']],
+                        ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                        ['para', ['ul', 'ol']],
+                        ['misc', ['fullscreen', 'undo', 'redo']],
+                        // Any other toolbar groups and options you want to include...
+                    ],
+                    // Explicitly remove table and font name options by not including them in the toolbar
+                });
                 $('.card-body .badge').click(function() {
                     var variableValue = $(this).attr('data-variable');
                     var $textarea = $('#textarea');
