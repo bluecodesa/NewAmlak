@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Email\Admin\WelcomeBroker;
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
@@ -11,6 +12,7 @@ use App\Services\Admin\SettingService;
 use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Mail;
 
 class SettingController extends Controller
 {
@@ -117,6 +119,42 @@ class SettingController extends Controller
     }
     function EditEmailTemplate($id)
     {
+        $notification = NotificationSetting::find($id);
+        $template = EmailTemplate::where('notification_setting_id', $notification->id)->first();
         return view('Admin.settings.Notification.edit', get_defined_vars());
+    }
+
+    function StoreEmailTemplate(Request $request, $id)
+    {
+        EmailTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content]);
+        return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
+    }
+
+
+    function TestSendMail()
+    {
+        $EmailTemplate =  EmailTemplate::where('notification_setting_id', 3)->first();
+        $Notification_name =  __($EmailTemplate->NotificationData->notification_name);
+        $data = [];
+        $data['variable_owner_name'] = 'عمر السيد';
+        $data['variable_tenant_name'] = '';
+        $data['variable_building_name'] = 'مبني واحد الجزء الاول';
+        $data['variable_flat_no'] = '';
+        $data['variable_agreement_id'] = '';
+        $data['variable_agreement_expire_date'] = '';
+        $data['variable_settel_date'] = '';
+        $data['variable_date_of_payment'] = '';
+        $data['variable_payment_amount'] = '';
+        $data['variable_broker_name'] = 'امين ياسر';
+        $email = 'amin.yasser00@gmail.com';
+        $content = $EmailTemplate->content;
+        foreach ($data as $key => $value) {
+            $placeholder = '$data[' . $key . ']';
+            $content = str_replace($placeholder, $value, $content);
+        }
+
+        // return view('emails.Admin.WelcomeBroker', get_defined_vars());
+
+        Mail::to($email)->send(new WelcomeBroker($data, $content, $Notification_name));
     }
 }

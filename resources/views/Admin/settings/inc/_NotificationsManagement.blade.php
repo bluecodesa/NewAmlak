@@ -58,7 +58,7 @@
                                                 @lang('Edit')</button>
                                             <div class="dropdown-menu" style="">
                                                 <a class="dropdown-item"
-                                                    href="{{ route('Admin.update.EditEmailTemplate', 1) }}">@lang('Email')</a>
+                                                    href="{{ route('Admin.update.EditEmailTemplate', $Notification->id) }}">@lang('Email')</a>
                                                 <a class="dropdown-item" href="#">@lang('SMS')</a>
                                                 <a class="dropdown-item" href="#">@lang('Whatsapp')</a>
                                                 <div class="dropdown-divider"></div>

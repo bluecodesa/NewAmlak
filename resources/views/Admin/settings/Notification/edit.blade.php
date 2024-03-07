@@ -60,16 +60,22 @@
                                     <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
                                         data-original-title="@lang('Click to add it') : @lang('variable_payment_amount')"
                                         data-variable="$data[variable_payment_amount]">@lang('variable_payment_amount')</span>
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_broker_name')"
+                                        data-variable="$data[variable_broker_name]">@lang('variable_broker_name')</span>
                                 </div>
-                                <form action="{{ route('') }}" method="post" class="mt-2">
+                                <form action="{{ route('Admin.update.StoreEmailTemplate', $notification->id) }}"
+                                    method="post" class="mt-2">
+                                    @csrf
                                     <div class="form-group">
                                         <label>@lang('templet name')</label>
-                                        <input type="text" class="form-control" name="content" required=""
+                                        <input type="text" readonly disabled class="form-control"
+                                            value="{{ __($notification->notification_name) }}"
                                             placeholder="@lang('templet name')">
                                     </div>
                                     <div class="m-t-20">
                                         <label for="">@lang('Email content')</label>
-                                        <textarea id="textarea" class="form-control" name="content" rows="10" placeholder=""></textarea>
+                                        <textarea id="textarea" class="form-control" name="content" rows="10" placeholder=""> {{ $template->content ?? null }} </textarea>
                                     </div>
 
                                     <button type="submit"
