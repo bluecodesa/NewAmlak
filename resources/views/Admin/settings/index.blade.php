@@ -65,110 +65,12 @@
                                         </div>
                                     </div>
                                     <div class="col-9">
-
-
-
-
                                         <!--  اعدادات المنصه -->
-
                                         <div class="tab-content" id="v-pills-tabContent">
                                             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                                                 aria-labelledby="v-pills-home-tab">
-
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="card m-b-30">
-                                                            <div class="card-body">
-                                                                <form
-                                                                    action="{{ route('Admin.settings.update', $settings->id) }}"
-                                                                    method="POST" enctype="multipart/form-data"
-                                                                    class="row">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    @foreach (config('translatable.locales') as $locale)
-                                                                        <div class="form-group col-md-6">
-                                                                            <label for="title_ar">{{ __('Website Name') }}
-                                                                                {{ __($locale) }} </label>
-                                                                            <input name="{{ $locale }}[title]"
-                                                                                class="form-control" type="text"
-                                                                                id="title_{{ $locale }}"
-                                                                                value="{{ $settings->translate($locale)->title ?? '' }}"
-                                                                                placeholder="{{ __('Website Name') }} {{ __($locale) }}">
-                                                                        </div>
-                                                                    @endforeach
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="url">@lang('URL')</label>
-
-                                                                        <input name="url" class="form-control"
-                                                                            type="url"
-                                                                            value="{{ $settings->facebook ?? '' }}"
-                                                                            id="url">
-
-                                                                    </div>
-
-
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="logo">@lang('Logo')</label>
-                                                                        @if (isset($settings) && $settings->icon)
-                                                                            <img src="{{ asset($settings->icon) }}"
-                                                                                alt="Current Logo" width="100px">
-                                                                        @else
-                                                                            <p>No logo uploaded yet.</p>
-                                                                        @endif
-                                                                        <input name="icon" class="form-control"
-                                                                            type="file" id="logo"
-                                                                            accept="image/png, image/jpg, image/jpeg">
-                                                                    </div>
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="privacy_pdf">@lang('our privacy policy')</label>
-                                                                        @if (isset($settings) && $settings->privacy_pdf)
-                                                                            <p>{{ $settings->privacy_pdf }}</p>
-                                                                        @else
-                                                                            <p>No pdf uploaded yet.</p>
-                                                                        @endif
-                                                                        <input name="privacy_pdf" class="form-control"
-                                                                            type="file" id="privacy_pdf"
-                                                                            accept=".pdf">
-                                                                    </div>
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="terms_pdf"> @lang('Conditions')
-                                                                            @lang('and') @lang('Terms')</label>
-                                                                        @if (isset($settings) && $settings->terms_pdf)
-                                                                            <p>{{ $settings->terms_pdf }}</p>
-                                                                        @else
-                                                                            <p>No pdf uploaded yet.</p>
-                                                                        @endif
-                                                                        <input name="terms_pdf" class="form-control"
-                                                                            type="file" id="terms_pdf" accept=".pdf">
-                                                                    </div>
-
-
-                                                                    <div class="form-group col-md-6">
-                                                                        <label for="color">@lang('Color')</label>
-                                                                        <input name="color" class="form-control"
-                                                                            type="color"
-                                                                            value="{{ $settings->color ?? '#30419b' }}"
-                                                                            id="color">
-                                                                    </div>
-
-                                                                    <div class="col-12">
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary waves-effect waves-light">@lang('save')</button>
-                                                                        <button type="reset"
-                                                                            class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
-
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div> <!-- end col -->
-                                                </div> <!-- end row -->
-                                                <!--  اعدادات المنصه -->
-
+                                                @include('Admin.settings.inc._GeneralSetting')
                                             </div>
-
-
-
                                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                                 aria-labelledby="v-pills-messages-tab">
                                                 @include('Admin.settings.inc._NotificationsManagement')
@@ -177,13 +79,10 @@
                                             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
                                                 aria-labelledby="v-pills-settings-tab">
                                             </div>
-
-
                                             <!-- tax rate-->
-
-
                                             <div class="tab-pane fade" id="v-pills-tax" role="tabpanel"
                                                 aria-labelledby="v-pills-tax-tab">
+
                                                 <div class="col-md-12 ArFont">
                                                     <div class="card timeline shadow">
                                                         <div class="card-header">
@@ -222,160 +121,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                @include('Admin.settings.inc._UpdateTax')
+
                                             </div>
-
-
-
                                             <!-- بوابات الدفع -->
                                             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                                                 aria-labelledby="v-pills-profile-tab">
-
-                                                <!-- card paytabs -->
-
-                                                <div class="page-title-box">
-                                                    <div class="card m-b-30">
-                                                        <div class="card-body">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-sm-6">
-                                                                    <h4 class="page-title">
-                                                                        @lang('PayTabs')</h4>
-                                                                </div>
-                                                                <div class="col-md-6" style="text-align: end">
-                                                                    @can('create-payment')
-                                                                        <a href="#"
-                                                                            class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light"
-                                                                            data-toggle="modal"
-                                                                            data-target="#addNewPaymentModal">
-                                                                            <i class="bi bi-plus-circle"></i>
-                                                                            @lang('Add New Payment')
-                                                                        </a>
-                                                                    @endcan
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div> <!-- end row -->
-                                                </div>
-                                                <div class="row">
-                                                    @foreach ($paymentGateways as $paymentGateway)
-                                                        <div class="col-md-6">
-                                                            <div class="card m-b-30">
-                                                                <div class="form-group col-md-12">
-                                                                    <div class="card payment" style="width: 18rem;"
-                                                                        data-toggle="modal" data-target="#exampleModal">
-                                                                        <div class="payment-img-container">
-                                                                            <img class="card-img-top" height="100"
-                                                                                src="{{ asset($paymentGateway->image) }}"
-                                                                                alt="Card image cap">
-                                                                        </div>
-                                                                        <div class="card-body">
-                                                                            <form
-                                                                                action="{{ route('Admin.payment-gateways.edit', ['id' => $paymentGateway->id]) }}"
-                                                                                method="GET"
-                                                                                enctype="multipart/form-data">
-                                                                                @csrf
-                                                                                @method('PUT')
-
-                                                                                <div class="form-group">
-                                                                                    <label>@lang('Api Key PayTabs')</label>
-                                                                                    <input name="api_key"
-                                                                                        class="form-control"
-                                                                                        type="password" id="title_ar"
-                                                                                        value="{{ $paymentGateway->api_key ?? '' }}"
-                                                                                        disabled>
-                                                                                </div>
-
-                                                                                <div class="form-group">
-                                                                                    <label>@lang('Profile Id PayTabs')</label>
-                                                                                    <input name="profile_id"
-                                                                                        class="form-control"
-                                                                                        type="password" id="title_en"
-                                                                                        value="{{ $paymentGateway->profile_id ?? '' }}"
-                                                                                        disabled>
-                                                                                </div>
-
-                                                                                <div>
-                                                                                    <div class="form-check mb-2">
-                                                                                        <input class="form-check-input"
-                                                                                            type="radio" name="status"
-                                                                                            value="1"
-                                                                                            id="customradio1"
-                                                                                            {{ $paymentGateway->status == 1 ? 'checked' : '' }}
-                                                                                            disabled>
-                                                                                        <label class="form-check-label"
-                                                                                            for="customradio1">@lang('Enable')</label>
-                                                                                    </div>
-                                                                                    <div class="form-check mb-2">
-                                                                                        <input class="form-check-input"
-                                                                                            type="radio" name="status"
-                                                                                            value="0"
-                                                                                            id="customradio2"
-                                                                                            {{ $paymentGateway->status == 0 ? 'checked' : '' }}
-                                                                                            disabled>
-                                                                                        <label class="form-check-label"
-                                                                                            for="customradio2">@lang('Disable')</label>
-                                                                                    </div>
-                                                                                    <button type="button"
-                                                                                        class="btn btn-primary waves-effect waves-light"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#editModal{{ $paymentGateway->id }}">
-                                                                                        @lang('Edit')
-                                                                                    </button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-
-
-
-
-                                                <!-- end card paytabs -->
-
-
+                                                @include('Admin.settings.inc._paymentGateways')
                                             </div>
 
                                             <div class="tab-pane fade" id="v-pills-HomePage" role="tabpanel"
                                                 aria-labelledby="v-pills-HomePage-tab">
-
-                                                <!-- card paytabs -->
-
-                                                <div class="page-title-box">
-                                                    <div class="card m-b-30">
-                                                        <div class="card-body">
-                                                            <h6>
-                                                                @lang('Enable Landing Page')
-                                                            </h6>
-                                                            <div class="col-12">
-                                                                <input type="checkbox"
-                                                                    data-url="{{ route('Admin.Setting.ChangeActiveHomePage') }}"
-                                                                    class="toggleHomePage"
-                                                                    {{ $settings->active_home_page == 1 ? 'checked' : '' }}
-                                                                    data-toggle="toggle" data-onstyle="primary">
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div> <!-- end row -->
-                                                </div>
-
-
+                                                @include('Admin.settings.inc._LandingPage')
                                             </div>
 
 
                                             <!-- بوابات الدفع -->
-
-
                                         </div>
-
-
-
-
-
 
                                     </div>
                                 </div>
@@ -387,21 +150,12 @@
 
             </div> <!-- end col -->
         </div> <!-- end row -->
-
-
-
     </div> <!-- end container-fluid -->
-    </div>
+
     <!-- container-fluid -->
-    </div>
-
-
 
     <!-- Modal for Add New Payment -->
     @include('Admin.settings.Payments.create-modal')
-
-
-
 
 
     <!-- Modal structure update the payment  -->

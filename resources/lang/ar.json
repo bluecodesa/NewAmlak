@@ -131,6 +131,7 @@
     "Add_new_tenant": "اضافة مستأجر جديد",
     "Make_rent_payment": "سداد دفعة إيجار",
     "Gallary Mange": "اداره المعرض",
+    "Email content": "محتوي البريد الالكتروني",
     "Add New Payment": "اضافه بوابه جديده",
     "Add New Type subscription": "اضافه نوع اشتراك جديد",
     "Disable": "غير فعال",
@@ -276,5 +277,16 @@
     "Create an account": "انشاء حساب جديد",
     "Remember me": "تذكرني",
     "Number Of Owners": "عدد الملاك",
-    "profile": "الملف الشخصي"
+    "profile": "الملف الشخصي",
+
+    "templet name": "اسم التمبلت",
+    "variable_owner_name": "اسم المالك",
+    "variable_tenant_name": "اسم المستأجر",
+    "variable_building_name": "اسم العقار",
+    "variable_flat_no": "الوحدة",
+    "variable_agreement_id": "رقم العقد",
+    "variable_agreement_expire_date": "تاريخ نهاية العقد",
+    "variable_settel_date": "تاريخ إغلاق العقد",
+    "variable_date_of_payment": "تاريخ الدفعة",
+    "variable_payment_amount": "المبلغ"
 }

@@ -11,7 +11,7 @@ use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 
-class SettingController extends Controller
+class NotificationController extends Controller
 {
     protected $settingRepo;
     protected $settingService;
@@ -32,9 +32,10 @@ class SettingController extends Controller
 
     public function index()
     {
-        $settings = $this->settingRepo->getAllSetting();        
+        $settings = $this->settingRepo->getAllSetting();
+        $setting = Setting::first();
         $EmailSettingService = $this->EmailSettingService->getAll();
-        $NotificationSetting = $this->settingRepo->getNotificationSetting();
+        $NotificationSetting = NotificationSetting::all();
         $paymentGateways = $settings->paymentGateways;
         return view('Admin.settings.index', get_defined_vars());
     }
@@ -114,8 +115,7 @@ class SettingController extends Controller
         $this->settingService->UpdateEmailSetting($request->all());
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
-    function EditEmailTemplate($id)
+    function EditEmailTemplate()
     {
-        return view('Admin.settings.Notification.edit', get_defined_vars());
     }
 }
