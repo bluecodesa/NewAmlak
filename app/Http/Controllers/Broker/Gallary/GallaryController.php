@@ -68,10 +68,23 @@ class GallaryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $gallery)
     {
-        //
+        $request->validate([
+            'gallery_name' => 'required|string|max:255',
+            'gallery_status' => 'nullable|in:0,1',
+        ]);
+
+        $gallery = Gallery::findOrFail($gallery);
+
+        $gallery->update([
+            'gallery_name' => $request->gallery_name,
+            'gallery_status' => $request->has('gallery_status') ? 1 : 0,
+        ]);
+
+        return redirect()->back()->with('success', 'Gallery updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.

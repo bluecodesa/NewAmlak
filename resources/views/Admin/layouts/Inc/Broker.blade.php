@@ -41,7 +41,7 @@
                             @lang('Gallary Mange')<span class="float-right menu-arrow"><i
                                     class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
-                        <li><a href="{{ route('Broker.Gallary.index') }}">@lang('Properties Gallary')</a></li>
+                        <li><a href="{{ route('Broker.Gallery.index') }}">@lang('Properties Gallary')</a></li>
                         <li><a href="{{ route('Broker.Gallary.showInterests') }}">@lang('Requests for interest')</a></li>
 
                     </ul>
