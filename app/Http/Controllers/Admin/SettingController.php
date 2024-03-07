@@ -32,7 +32,7 @@ class SettingController extends Controller
 
     public function index()
     {
-        $settings = $this->settingRepo->getAllSetting();        
+        $settings = $this->settingRepo->getAllSetting();
         $EmailSettingService = $this->EmailSettingService->getAll();
         $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $paymentGateways = $settings->paymentGateways;

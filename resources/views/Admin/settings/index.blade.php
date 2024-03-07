@@ -122,7 +122,7 @@
                                                     </div>
                                                 </div>
 
-                                                @include('Admin.settings.inc._UpdateTax')
+                                                {{-- @include('Admin.settings.inc._UpdateTax') --}}
 
                                             </div>
                                             <!-- بوابات الدفع -->
