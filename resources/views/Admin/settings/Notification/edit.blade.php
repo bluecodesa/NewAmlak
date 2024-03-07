@@ -60,16 +60,23 @@
                                     <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
                                         data-original-title="@lang('Click to add it') : @lang('variable_payment_amount')"
                                         data-variable="$data[variable_payment_amount]">@lang('variable_payment_amount')</span>
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_broker_name')"
+                                        data-variable="$data[variable_broker_name]">@lang('variable_broker_name')</span>
                                 </div>
-                                <form action="{{ route('') }}" method="post" class="mt-2">
+                                <form action="{{ route('Admin.update.StoreEmailTemplate', $notification->id) }}"
+                                    method="post" class="mt-2">
+                                    @csrf
                                     <div class="form-group">
                                         <label>@lang('templet name')</label>
-                                        <input type="text" class="form-control" name="content" required=""
+                                        <input type="text" readonly disabled class="form-control"
+                                            value="{{ __($notification->notification_name) }}"
                                             placeholder="@lang('templet name')">
                                     </div>
                                     <div class="m-t-20">
                                         <label for="">@lang('Email content')</label>
-                                        <textarea id="textarea" class="form-control" name="content" rows="10" placeholder=""></textarea>
+                                        {{-- <textarea name="content" id="textarea" class="summernote">{{ $template->content ?? null }}</textarea> --}}
+                                        <textarea id="textarea" class="form-control" name="content" cols="30" rows="30" placeholder=""> {{ $template->content ?? null }} </textarea>
                                     </div>
 
                                     <button type="submit"
@@ -88,21 +95,42 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
+                $('#textarea').summernote({
+                    height: 100, // set editor height
+                    minHeight: null, // set minimum height of editor
+                    maxHeight: null, // set maximum height of editor
+                    focus: true, // set focus to editable area after initializing summernote
+                    toolbar: [
+                        // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                        ['style', ['bold', 'underline']],
+                        ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                        ['para', ['ul', 'ol']],
+                        ['misc', ['fullscreen', 'undo', 'redo']],
+                        // Any other toolbar groups and options you want to include...
+                    ],
+                    // Explicitly remove table and font name options by not including them in the toolbar
+                });
                 $('.card-body .badge').click(function() {
                     var variableValue = $(this).attr('data-variable');
                     var $textarea = $('#textarea');
-                    if (document.activeElement === $textarea[0]) {
-                        var cursorPos = $textarea.prop('selectionStart');
-                        var v = $textarea.val();
-                        var textBefore = v.substring(0, cursorPos);
-                        var textAfter = v.substring(cursorPos, v.length);
-                        $textarea.val(textBefore + variableValue + textAfter);
+                    var summernoteEditor = $textarea.summernote('code');
+
+                    // Check if Summernote editor is focused
+                    if ($('.note-editable').is(':focus')) {
+                        var node = document.createElement("span");
+                        node.innerHTML = variableValue;
+                        $('.note-editable').append(
+                            node); // This line appends the variable as a new node to the editor
+                        var range = document.createRange();
+                        var sel = window.getSelection();
+                        range.setStartAfter(node);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
                     } else {
-                        $textarea.val($textarea.val() + variableValue);
+                        var currentContent = $textarea.summernote('code');
+                        $textarea.summernote('code', currentContent + variableValue);
                     }
-                    $textarea.focus();
-                    var valLength = $textarea.val().length;
-                    $textarea[0].setSelectionRange(valLength, valLength);
                 });
             });
         </script>
