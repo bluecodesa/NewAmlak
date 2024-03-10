@@ -1,0 +1,151 @@
+
+ul.nav {
+align-items: center;
+}
+
+/*
+    div#accordionFlushExample .accordion-item.support-iconn,
+    ul.navbar-nav.flex-fill.w-100.mb-2.setting,
+    nav.topnav.navbar.navbar-light form,
+    nav.topnav.navbar.navbar-light button,
+    nav.topnav.navbar.navbar-light ul.nav li.nav-item.iconn2,
+    nav.topnav.navbar.navbar-light ul.nav li.nav-item.iconn1,
+    nav.topnav.navbar.navbar-light ul.nav li.nav-item.iconn0 {
+        pointer-events: none;
+        filter: blur(2px);
+    }
+
+    div#accordionFlushExample .accordion-item.support-iconn {
+        pointer-events: unset;
+        filter: unset;
+    }
+
+
+    #ac-wrapper {
+        position: fixed;
+        top: 146px;
+        left: 0;
+        right: 18%;
+        width: 77%;
+        height: 100%;
+        z-index: 1001;
+    }
+*/
+    #popup {
+        width: 49%;
+        height: auto;
+        background: #FFFFFF;
+        margin: auto;
+        position: relative;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 6px;
+        outline: 0;
+        background-clip: padding-box;
+        padding: 20px;
+        text-align: center;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 0;
+        border-radius: 0.3rem;
+        outline: 0;
+        padding: 20px 38px;
+    }
+   /* li.nav-item.dropdown.notif {
+        filter: blur(2px);
+        pointer-events: none;
+    }*/
+    #overlay-pending{
+        position: fixed; /* Sit on top of the page content */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color:rgb(0 0 0 / 47%); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer;
+    }
+  /*  #leftSidebar {
+        z-index: -1;
+    }
+    nav.vertnav.navbar.navbar-light.ArFont {
+        pointer-events: none;
+        filter: blur(2px);
+    }*/
+
+    div#exampleModal {
+        z-index: 9999999999;
+    }
+
+   .home-expire-soon {
+        width: 40%!important;
+        max-width: unset!important;
+    }
+    /*div#exampleModalCenter {
+        pointer-events: none;
+    }*/
+
+        .modal.show .modal-dialog {
+            width: 58%;
+            transform: none;
+            top: 1%;
+            max-width: initial;
+            border-radius: 67px;
+        }
+
+        .modal-content {
+
+            border-radius: 26px;
+            padding: 20px 38px;
+        }
+
+        .details.row {
+            border: 2px solid #F5D566C7;
+            border-radius: 17px;
+            padding: 10px;
+            margin: auto;
+        }
+
+        button.btn.btn-primary.modal-submit {
+            background: #497AAC 0% 0% no-repeat padding-box;
+            box-shadow: 0px 8px 20px #91C0E973;
+            border-radius: 9px;
+            line-height: 1.8em;
+            width: 100%;
+        }
+
+        .modal-dialog p,
+        .modal-dialog span,
+        .modal-dialog strong {
+            color: #2B3641
+        }
+
+        .modal-btn1 {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 12px;
+            color: #fff;
+        }
+
+        .modal-btn1:hover,.modal-btn2:hover{
+            background-color: var(--fifth_color)!important;
+            border: 1px solid var(--fifth_color)!important;
+            color: #fff!important;
+        }.modal-btn2 {
+            background-color: #fff;
+            color: var(--primary);
+            border-radius: 12px;
+            border: 1px solid var(--primary);
+        }
+
+        @media(max-width:768px) {
+            .modal.show .modal-dialog {
+                width: 100%;
+            }
+            .home-expire-soon {
+                width: 100%;
+                max-width: unset;
+            }
+        }

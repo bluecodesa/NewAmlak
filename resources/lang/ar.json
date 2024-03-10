@@ -290,5 +290,7 @@
     "variable_settel_date": "تاريخ إغلاق العقد",
     "variable_date_of_payment": "تاريخ الدفعة",
     "variable_payment_amount": "المبلغ",
-    "variable_broker_name": "اسم المسوق العقاري"
+    "variable_broker_name": "اسم المسوق العقاري",
+    "Gallery URL": "لينك المعرض",
+    "Edit Gallery Name": "تعديل اسم المعرض"
 }

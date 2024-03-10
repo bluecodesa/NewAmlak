@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Broker\Gallary\GallaryController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
@@ -51,6 +52,9 @@ Route::group(
         Route::resource('Notification', 'General\NotificationController');
         Route::get('/', 'Home\HomeController@index')->name('welcome');
         Auth::routes();
+        Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
+        Route::get('gallery/{gallery_name}/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
+
     }
 
 );

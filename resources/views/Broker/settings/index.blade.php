@@ -245,7 +245,7 @@
                                                                             <label for="galleryName">@lang('Gallery URL')</label>
                                                                             <div class="input-group">
                                                                                 <input type="text" class="form-control" id="galleryName" disabled
-                                                                                       value="{{ env('APP_URL') }}/ar/broker/Gallery/{{ $gallery->gallery_name }}">
+                                                                                       value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
                                                                                 <div class="input-group-append">
                                                                                     <span class="input-group-text" style="cursor: pointer;" onclick="selectText()">
                                                                                         <i class="fas fa-copy"></i>
@@ -262,7 +262,7 @@
                                                                                            placeholder="@lang('Gallery Name')" value="{{ explode('@', $gallery->gallery_name)[0] }}"
                                                                                            oninput="validateName(this)">
                                                                                     <input type="text" class="form-control" id="galleryName" disabled
-                                                                                           value="{{ env('APP_URL') }}/ar/broker/Gallery/">
+                                                                                           value="{{ env('APP_URL') }}/ar/gallery/">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row validate-result" style="display: none">
@@ -271,10 +271,13 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <input type="hidden" name="gallery_status" value="0"> <!-- Hidden field with default value -->
-                                                                            <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status" value="1"
-                                                                                   {{ $gallery->gallery_status == 1 ? 'checked' : '' }} data-toggle="toggle" data-onstyle="primary">
+                                                                            @if($gallery->gallery_status == 0)
+                                                                            <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status" value="0"  data-toggle="toggle" >
+                                                                            @else
+                                                                                <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status" value="1" checked data-toggle="toggle" data-onstyle="primary">
+                                                                            @endif
                                                                         </div>
+
 
                                                                         <button type="submit" class="btn btn-primary">@lang('Edit')</button>
                                                                     </form>
