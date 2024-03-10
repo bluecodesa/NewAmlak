@@ -23,27 +23,27 @@ class UnitService
     public function store($data)
     {
         $rules = [
-            'number_unit' => 'required|string',
-            'city_id' => 'required',
-            'location' => 'required',
-            'property_type_id' => 'required',
-            'property_usage_id' => 'required',
-            'owner_id' => 'required',
-            'instrument_number' => 'required|numeric',
-            'service_type_id' => 'required',
-            "show_gallery" => 'required',
-            'space' => 'required|numeric',
-            'rooms' => 'required|numeric',
-            'bathrooms' => 'required|numeric',
-            'show_gallery' => 'nullable',
-            'price' => 'required|numeric',
-            'type' => ['required', Rule::in(['sale', 'rent'])],
-            'service_id' => 'required|array',
-            'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
-            'name' => 'required|array',
-            'name.*' => 'string',
-            'qty' => 'required|array',
-            'qty.*' => 'string',
+            // 'number_unit' => 'required',
+            // 'city_id' => 'required',
+            // 'location' => 'required',
+            // 'property_type_id' => 'required',
+            // 'property_usage_id' => 'required',
+            // 'owner_id' => 'required',
+            // 'instrument_number' => 'required|numeric',
+            // 'service_type_id' => 'required',
+            // "show_gallery" => 'required',
+            // 'space' => 'required|numeric',
+            // 'rooms' => 'required|numeric',
+            // 'bathrooms' => 'required|numeric',
+            // 'show_gallery' => 'nullable',
+            // 'price' => 'required|numeric',
+            // 'type' => ['required', Rule::in(['sale', 'rent'])],
+            // 'service_id' => 'required|array',
+            // 'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
+            // 'name' => 'required|array',
+            // 'name.*' => 'string',
+            // 'qty' => 'required|array',
+            // 'qty.*' => 'string',
         ];
 
         // Validate data

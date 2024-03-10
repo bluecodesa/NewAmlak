@@ -11,7 +11,7 @@ class OwnerService
 {
     protected $OwnerRepository;
 
-    public function __construct(OwnerRepositoryInterface $OwnerRepository)
+    public function __construct(OwnerRepository $OwnerRepository)
     {
         $this->OwnerRepository = $OwnerRepository;
     }

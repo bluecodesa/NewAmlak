@@ -60,6 +60,10 @@ class HomeController extends Controller
         return view('Broker.dashboard',  get_defined_vars());
     }
 
+    function ViewInvoice()
+    {
+        return view('Home.Payments.inc._ViewInvoice');
+    }
 
     public function GetCitiesByRegion($id)
     {

@@ -50,9 +50,10 @@ class PaymentController extends Controller
 
     function Payment_callBack($user)
     {
-        $user = Auth::user();
-        $officeData = $user->UserOfficeData;
-        $brokerData = $user->UserBrokerData;
+        $data =  explode('&', $user);
+        Auth::loginUsingId($data[1]);
+        $officeData = Auth::user()->UserOfficeData;
+        $brokerData = Auth::user()->UserBrokerData;
 
         if ($officeData) {
             $subscription = $officeData->UserSubscriptionPending;
@@ -72,7 +73,7 @@ class PaymentController extends Controller
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
         $redirectMessage = $officeData ? 'The subscription has been activated successfully' : 'The subscription has been activated successfully';
-
+        Auth::loginUsingId($data[1]);
         return redirect()->route($redirectRoute)->with('success', __($redirectMessage));
     }
 

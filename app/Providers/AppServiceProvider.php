@@ -50,6 +50,7 @@ use App\Repositories\Admin\SettingRepository;
 use App\Repositories\Admin\SubscriptionRepository;
 use App\Repositories\Admin\SubscriptionTypesRepository;
 use App\Repositories\Admin\SystemInvoiceRepository;
+// Broker
 use App\Repositories\Broker\AdvisorRepository as BrokerAdvisorRepository;
 use App\Repositories\Broker\DeveloperRepository as BrokerDeveloperRepository;
 use App\Repositories\Broker\OwnerRepository as BrokerOwnerRepository;
@@ -57,6 +58,7 @@ use App\Repositories\Broker\ProjectRepository as BrokerProjectRepository;
 use App\Repositories\Broker\PropertyRepository;
 use App\Repositories\Broker\SettingRepository as BrokerSettingRepository;
 use App\Repositories\Broker\UnitRepository;
+// office
 use App\Repositories\Office\AdvisorRepository;
 use App\Repositories\Office\DeveloperRepository;
 use App\Repositories\Office\EmployeeRepository;
@@ -98,10 +100,6 @@ class AppServiceProvider extends ServiceProvider
             PaymentGatewayRepositoryInterface::class,
             PaymentGatewayRepository::class
         );
-
-
-
-
 
         $this->app->bind(
             AdvisorRepositoryInterface::class,
@@ -206,6 +204,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UnitRepositoryInterface::class,
             UnitRepository::class
+        );
+
+        $this->app->bind(
+            BrokerDeveloperRepositoryInterface::class,
+            BrokerDeveloperRepository::class
         );
     }
 

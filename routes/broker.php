@@ -38,17 +38,18 @@ Route::group(
         Route::prefix('broker')->name('Broker.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('UpdateSubscription/{id}', 'HomeController@UpdateSubscription')->name('UpdateSubscription');
+            Route::get('ViewInvoice', 'HomeController@ViewInvoice')->name('ViewInvoice');
             route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
             route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
             route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
             route::resource('Project', ProjectController::class)->middleware('CheckSubscription');
             route::resource('Payment', PaymentController::class);
             route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
-            route::put('updateBroker/{id}', [SettingController::class,'updateBroker'])->name('Setting.updateBroker')->middleware('CheckSubscription');
+            route::put('updateBroker/{id}', [SettingController::class, 'updateBroker'])->name('Setting.updateBroker')->middleware('CheckSubscription');
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
             route::resource('Gallery', GallaryController::class)->middleware('CheckSubscription');
-            Route::post('/update-cover', [GallaryController::class ,'updateCover'])->name('Gallery.update-cover');
+            Route::post('/update-cover', [GallaryController::class, 'updateCover'])->name('Gallery.update-cover');
             Route::get('Gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showGalleryUnit'])->name('Gallary.showUnit');
             Route::get('Interests', [GallaryController::class, 'showInterests'])->name('Gallary.showInterests')->middleware('CheckSubscription');
             Route::get('/CreateUnit/{id}', 'ProjectManagement\PropertyController@CreateUnit')->name('Property.CreateUnit')->middleware('CheckSubscription');
