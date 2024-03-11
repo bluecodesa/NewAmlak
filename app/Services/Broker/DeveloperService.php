@@ -14,7 +14,7 @@ class DeveloperService
 {
     protected $developerRepository;
 
-    public function __construct(DeveloperRepositoryInterface $developerRepository)
+    public function __construct(DeveloperRepository $developerRepository)
     {
         $this->developerRepository = $developerRepository;
     }

@@ -28,45 +28,46 @@
                     <p class="card-text">@lang('Please renew the subscription payment to be able to activate your account and use the system')</p>
                 @endif
 
-                <form action="{{ route('Payment.store') }}" method="POST">
-                    @csrf
-                    <p>@lang('Current subscription')</p>
-                    <div class="col-12">
-                        <div class="row text-center">
-                            @forelse ($UserSubscriptionTypes as $type)
-                                <div class="col text-dark">
-                                    <label>
-                                        <div class=" text-center border @if ($type->id == Auth::user()->UserBrokerData->UserSubscriptionPending->subscription_type_id) border-primary @else border-secondary @endif"
-                                            style="cursor:pointer;">
-                                            <div class="card-body text-black">
-                                                {{ $type->name }}
-                                                <p class="card-text">
-                                                    {{ $type->period }} {{ __('ar.' . $type->period_type) }}
-                                                    <br> {{ $type->price }} <sup>@lang('SAR')</sup>
-                                                </p>
-                                            </div>
-                                            <div class="card-footer text-muted">
-                                                <input type="radio" class="subscription_type"
-                                                    data-url="{{ route('Broker.UpdateSubscription', $type->id) }}"
-                                                    name="subscription_type" value="{{ $type->id }}"
-                                                    price="{{ $type->price }}"
-                                                    @if ($type->id == optional($subscription)->subscription_type_id) checked @endif>
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
-                            @empty
-                                <p>@lang('No subscription types available')</p>
-                            @endforelse
 
-                        </div>
+                <p>@lang('Current subscription')</p>
+                <div class="col-12">
+                    <div class="row text-center">
+                        @forelse ($UserSubscriptionTypes as $type)
+                            <div class="col text-dark">
+                                <label>
+                                    <div class=" text-center border @if ($type->id == Auth::user()->UserBrokerData->UserSubscriptionPending->subscription_type_id) border-primary @else border-secondary @endif"
+                                        style="cursor:pointer;">
+                                        <div class="card-body text-black">
+                                            {{ $type->name }}
+                                            <p class="card-text">
+                                                {{ $type->period }} {{ __('ar.' . $type->period_type) }}
+                                                <br> {{ $type->price }} <sup>@lang('SAR')</sup>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer text-muted">
+                                            <input type="radio" class="subscription_type"
+                                                data-url="{{ route('Broker.UpdateSubscription', $type->id) }}"
+                                                name="subscription_type" value="{{ $type->id }}"
+                                                price="{{ $type->price }}"
+                                                @if ($type->id == optional($subscription)->subscription_type_id) checked @endif>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        @empty
+                            <p>@lang('No subscription types available')</p>
+                        @endforelse
+
                     </div>
-                    <hr>
-                    <div class="row justify-content-around">
-                        <button type="submit" class="btn btn-outline-success"> @lang('Pay Now')</button>
-                        <a href="#" class="btn btn-outline-warning">@lang('Support')</a>
-                    </div>
-                </form>
+                </div>
+                <hr>
+                <div class="row justify-content-around">
+                    <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-toggle="modal"
+                        data-target=".bs-example-modal-lg" data-url="{{ route('Broker.ViewInvoice') }}">اكمال
+                        الدفع</button>
+                    <a href="#" class="btn btn-outline-warning">@lang('Support')</a>
+                </div>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

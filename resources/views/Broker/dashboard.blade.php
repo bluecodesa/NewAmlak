@@ -42,7 +42,8 @@
 
                             <div class="">
                                 <div class="progress">
-                                    <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar"
+                                        style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                                         0%
                                     </div>
                                 </div>
@@ -50,15 +51,20 @@
                             <p class="sub-title" class="highlighter-rouge">@lang('Subscription End') {{ $subscriber->end_date }}</p>
 
                             @if ($pendingPayment)
-
-                                <a href="javascript:void(0)" onclick="handleRenewClick()" class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
-                                <a href="" class="btn btn-secondary modal-btn2 w-auto" target="_blank">@lang('Compare Plans')</a>
-
+                                <a href="javascript:void(0)" onclick="handleRenewClick()"
+                                    class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                                <a href="" class="btn btn-secondary modal-btn2 w-auto"
+                                    target="_blank">@lang('Compare Plans')</a>
                             @elseif ($daysUntilEnd <= 7)
-                                <a href="javascript:void(0)" onclick="document.querySelector('#exampleModalCenterbtn').click();" class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
-                                <a href="" class="btn btn-secondary modal-btn2 w-auto" target="_blank">@lang('Compare Plans')</a>
+                                <a href="javascript:void(0)"
+                                    onclick="document.querySelector('#exampleModalCenterbtn').click();"
+                                    class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                                <a href="" class="btn btn-secondary modal-btn2 w-auto"
+                                    target="_blank">@lang('Compare Plans')</a>
                             @elseif ($daysUntilEnd <= 0)
-                                <a href="javascript:void(0)" onclick="document.querySelector('#exampleModalCenterbtn').click();" class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                                <a href="javascript:void(0)"
+                                    onclick="document.querySelector('#exampleModalCenterbtn').click();"
+                                    class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
                                 <p class="text-danger">@lang('Subscription Expired')</p>
                             @else
                                 @include('Broker.inc._SubscriptionSuspend')
@@ -96,7 +102,7 @@
                                         <h5 class="font-16">عدد الملاك</h5>
 
                                     </div>
-                                    <h3 class="mt-4">{{ $numberOfowners}}</h3>
+                                    <h3 class="mt-4">{{ $numberOfowners }}</h3>
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
@@ -612,10 +618,10 @@
 
     @if ($pendingPayment)
         @include('Home.Payments.pending_payment')
+        @include('Home.Payments._view_inv')
     @endif
 
     @include('Broker.inc._SubscriptionSuspend')
-
 
     @push('scripts')
         @if (Auth::user()->UserBrokerData->UserSubscriptionSuspend ?? null)
@@ -627,6 +633,19 @@
             </script>
         @endif
         <script>
+            $('.view_inv').on('click', function() {
+                var url = $(this).data('url');
+                //
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function(data) {
+                        $("#ViewInvoice").empty();
+                        $("#ViewInvoice").append(data);
+                    },
+                });
+            })
+
             document.addEventListener("DOMContentLoaded", function() {
                 var modalButton = document.getElementById('modalButton');
                 if (modalButton) {
@@ -645,26 +664,27 @@
                 });
             });
         </script>
-      <script>
-        // Function to calculate percentage completion
-        function calculatePercentage(start_date, end_date) {
-            var startDate = new Date(start_date);
-            var endDate = new Date(end_date);
-            var currentDate = new Date();
-            var totalDuration = endDate - startDate;
-            var remainingDuration = endDate - currentDate;
-            var percentageCompletion = (remainingDuration / totalDuration) * 100;
+        <script>
+            // Function to calculate percentage completion
+            function calculatePercentage(start_date, end_date) {
+                var startDate = new Date(start_date);
+                var endDate = new Date(end_date);
+                var currentDate = new Date();
+                var totalDuration = endDate - startDate;
+                var remainingDuration = endDate - currentDate;
+                var percentageCompletion = (remainingDuration / totalDuration) * 100;
 
-            return Math.min(Math.max(percentageCompletion, 0), 100); // Ensure percentage is between 0 and 100
-        }
+                return Math.min(Math.max(percentageCompletion, 0), 100); // Ensure percentage is between 0 and 100
+            }
 
-        // Call the function to update the progress bar
-        var startDate = '{{ $subscriber->start_date }}';
-        var endDate = '{{ $subscriber->end_date }}';
-        var percentage = calculatePercentage(startDate, endDate);
-        document.getElementById('progress-bar-{{ $subscriber->id }}').style.width = percentage + '%';
-        document.getElementById('progress-bar-{{ $subscriber->id }}').innerText = percentage.toFixed(2) + '%'; // Round to 2 decimal places
-    </script>
+            // Call the function to update the progress bar
+            var startDate = '{{ $subscriber->start_date }}';
+            var endDate = '{{ $subscriber->end_date }}';
+            var percentage = calculatePercentage(startDate, endDate);
+            document.getElementById('progress-bar-{{ $subscriber->id }}').style.width = percentage + '%';
+            document.getElementById('progress-bar-{{ $subscriber->id }}').innerText = percentage.toFixed(2) +
+                '%'; // Round to 2 decimal places
+        </script>
 
 
 

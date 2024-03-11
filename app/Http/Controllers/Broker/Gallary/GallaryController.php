@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Broker\Gallary;
+
 use App\Models\Gallery;
 use App\Services\Broker\UnitService;
 use App\Services\RegionService;
@@ -34,9 +35,8 @@ class GallaryController extends Controller
     protected $galleryService;
 
 
-    public function __construct(GalleryService $galleryService,UnitService $UnitService,  RegionService $regionService,DistrictService $districtService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService){
-        $this->galleryService = $galleryService;
-
+    public function __construct(GalleryService $galleryService,UnitService $UnitService,  RegionService $regionService,DistrictService $districtService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -48,6 +48,7 @@ class GallaryController extends Controller
         $this->ServiceTypeService = $ServiceTypeService;
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
+        $this->galleryService = $galleryService;
 
     }
     public function index()
@@ -70,6 +71,11 @@ class GallaryController extends Controller
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
 
+
+
+        //
+
+
         //filters
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
 
@@ -88,12 +94,18 @@ class GallaryController extends Controller
             $units = $units->where('city_id', $city_filter);
         }
         //
+
         $brokerId = auth()->user()->UserBrokerData->id;
         $gallery = $this->galleryService->findByBrokerId($brokerId);
 
        $galleries = $this->galleryService->all();
 
-        return view('Broker.Gallary.index',get_defined_vars());
+        $brokerId = Auth::user()->UserBrokerData->id;
+
+        $gallery = Gallery::where('broker_id', $brokerId)->first();
+
+
+        return view('Broker.Gallary.index', get_defined_vars());
     }
 
 
@@ -125,7 +137,6 @@ class GallaryController extends Controller
         //
         $Unit = $this->UnitService->findById($id);
         return view('Broker.Gallary.show',  get_defined_vars());
-
     }
 
 
@@ -138,7 +149,6 @@ class GallaryController extends Controller
         ]);
 
         $gallery = Gallery::findOrFail($gallery);
-
 
         $gallery->update([
             'gallery_name' => $request->gallery_name,
@@ -180,15 +190,19 @@ class GallaryController extends Controller
     public function showInterests()
     {
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+
         return view('Broker.Gallary.unit-interest',get_defined_vars());
+
+
+        return view('Broker.Gallary.unit-interest', get_defined_vars());
+
     }
 
     public function showByName($name)
     {
-
         $gallery = Gallery::where('gallery_name', $name)->firstOrFail();
         if ($gallery->gallery_status == 0) {
-            abort(404);
+            return   abort(404);
         }
         $units = $this->UnitService->getAll($gallery['broker_id']);
 
@@ -224,6 +238,7 @@ class GallaryController extends Controller
 
 
 
+
     public function update1(Request $request, $galleryId)
     {
         $data = $request->validated();
@@ -243,3 +258,5 @@ class GallaryController extends Controller
     }
 
 }
+
+

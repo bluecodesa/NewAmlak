@@ -191,6 +191,7 @@
     "Divides": "ينقسم",
     "Not divided": "لا ينقسم",
     "Invoice Status": "حالة الفاتورة",
+    "Invoice Data": "بيانات الفاتورة",
     "property": "عقار",
     "Pictures property": "صور العقار",
     "Number Properties": "عدد العقارات",
@@ -292,5 +293,6 @@
     "variable_payment_amount": "المبلغ",
     "variable_broker_name": "اسم المسوق العقاري",
     "Gallery URL": "لينك المعرض",
-    "Edit Gallery Name": "تعديل اسم المعرض"
+    "Edit Gallery Name": "تعديل اسم المعرض",
+    "period": "المدة"
 }
