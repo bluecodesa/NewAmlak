@@ -316,7 +316,6 @@
                                                 </div>
                                                 @else
 
-
                                                     <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel"
                                                     aria-labelledby="v-pills-gallary-tab">
                                                     <div class="row justify-content-center">
@@ -332,7 +331,6 @@
                                                         </div>
                                                     </div>
                                                     </div>
-
 
                                             @endif
 

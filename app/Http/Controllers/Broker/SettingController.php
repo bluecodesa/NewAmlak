@@ -30,7 +30,7 @@ class SettingController extends Controller
     protected $settingService;
     protected $subscriptionService;
 
-    public function __construct(SubscriptionService $subscriptionService,SettingService $settingService,UnitService $UnitService, RegionService $regionService, CityService $cityService, EmailSettingService $EmailSettingService,)
+    public function __construct(SubscriptionService $subscriptionService, SettingService $settingService, UnitService $UnitService, RegionService $regionService, CityService $cityService, EmailSettingService $EmailSettingService,)
     {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
@@ -38,7 +38,6 @@ class SettingController extends Controller
         $this->cityService = $cityService;
         $this->settingService = $settingService;
         $this->subscriptionService = $subscriptionService;
-
     }
     public function index()
     {
@@ -50,9 +49,9 @@ class SettingController extends Controller
         $settings = $this->settingService->getBrokerSettings($broker);
         $city = $broker->CityData;
         $region = $city->RegionData;
-        $gallery=$settings['gallery'];
-        $NotificationSetting =$settings['notificationSettings'];
-        return view('Broker.settings.index',get_defined_vars());
+        $gallery = $settings['gallery'];
+        $NotificationSetting = $settings['notificationSettings'];
+        return view('Broker.settings.index', get_defined_vars());
     }
 
 
@@ -94,8 +93,7 @@ class SettingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-       }
+    }
 
 
     /**
@@ -108,12 +106,9 @@ class SettingController extends Controller
 
     public function updateBroker(Request $request, $id)
     {
+
         $data = $request->all();
         $this->settingService->updateBroker($data, $id);
         return redirect()->route('Broker.Setting.index')->withSuccess(__('Updated successfully.'));
     }
-
-
-
-
 }

@@ -44,36 +44,36 @@
                             <tbody>
                                 <tr>
                                     <th>@lang('subscription')</th>
-                                    <th>
+                                    <td>
 
                                         {{ Auth::user()->UserOfficeData->UserSubscriptionPending->SubscriptionTypeData->name ?? (Auth::user()->UserBrokerData->UserSubscriptionPending->SubscriptionTypeData->name ?? '') }}
-                                    </th>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>@lang('period')</th>
-                                    <th>
+                                    <td>
                                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                                             {{ Auth::user()->UserOfficeData->UserSystemInvoicePending->period . ' ' . __(Auth::user()->UserOfficeData->UserSystemInvoicePending->period_type) }}
                                         @else
                                             {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->period . ' ' . __(Auth::user()->UserBrokerData->UserSystemInvoicePending->period_type) }}
                                         @endif
-                                    </th>
+                                    </td>
                                 </tr>
 
                                 <tr>
                                     <th>@lang('Invoice Status')</th>
-                                    <th>
+                                    <td>
                                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                                             {{ __(Auth::user()->UserOfficeData->UserSystemInvoicePending->status) }}
                                         @else
                                             {{ __(Auth::user()->UserBrokerData->UserSystemInvoicePending->status) }}
                                         @endif
-                                    </th>
+                                    </td>
                                 </tr>
 
                                 <tr>
                                     <th>@lang('total')</th>
-                                    <th>
+                                    <td>
                                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                                             {{ Auth::user()->UserOfficeData->UserSystemInvoicePending->amount }}
                                             <sub>@lang('SAR')</sub>
@@ -82,7 +82,7 @@
                                             <sub>@lang('SAR')</sub>
                                         @endif
 
-                                    </th>
+                                    </td>
                                 </tr>
 
                             </tbody>

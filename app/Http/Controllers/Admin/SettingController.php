@@ -83,12 +83,14 @@ class SettingController extends Controller
 
     public function createPaymentGateway(Request $request)
     {
+        // فين الفالديشن (amin)
         $this->paymentGateway->createPaymentGateway($request->all());
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
 
     public function updatePaymentGateway(Request $request, $id)
     {
+        // فين الفالديشن (amin)
         $this->paymentGateway->updatePaymentGateway($id, $request->all());
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));

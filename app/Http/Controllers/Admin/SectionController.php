@@ -15,6 +15,7 @@ class SectionController extends Controller
     {
         $this->SectionService = $SectionService;
     }
+
     public function index()
     {
         $sections = $this->SectionService->getAll();
