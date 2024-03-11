@@ -11,7 +11,7 @@ class AdvisorService
 {
     protected $advisorRepository;
 
-    public function __construct(AdvisorRepositoryInterface $advisorRepository)
+    public function __construct(AdvisorRepository $advisorRepository)
     {
         $this->advisorRepository = $advisorRepository;
     }

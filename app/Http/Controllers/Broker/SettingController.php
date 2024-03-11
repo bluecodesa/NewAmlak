@@ -30,7 +30,7 @@ class SettingController extends Controller
     protected $settingService;
     protected $subscriptionService;
 
-    public function __construct(SubscriptionService $subscriptionService,SettingService $settingService,UnitService $UnitService, RegionService $regionService, CityService $cityService, EmailSettingService $EmailSettingService,)
+    public function __construct(SubscriptionService $subscriptionService, SettingService $settingService, UnitService $UnitService, RegionService $regionService, CityService $cityService, EmailSettingService $EmailSettingService,)
     {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
@@ -38,7 +38,6 @@ class SettingController extends Controller
         $this->cityService = $cityService;
         $this->settingService = $settingService;
         $this->subscriptionService = $subscriptionService;
-
     }
     public function index()
     {
@@ -50,9 +49,9 @@ class SettingController extends Controller
         $settings = $this->settingService->getBrokerSettings($broker);
         $city = $broker->CityData;
         $region = $city->RegionData;
-        $gallery=$settings['gallery'];
-        $NotificationSetting =$settings['notificationSettings'];
-        return view('Broker.settings.index',get_defined_vars());
+        $gallery = $settings['gallery'];
+        $NotificationSetting = $settings['notificationSettings'];
+        return view('Broker.settings.index', get_defined_vars());
     }
 
 
@@ -95,8 +94,7 @@ class SettingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-       }
+    }
 
 
     /**
@@ -118,9 +116,9 @@ class SettingController extends Controller
                 'max:255',
                 Rule::unique('users')->ignore($broker->user_id),
             ],
-            'mobile' => 'required|digits:9|unique:brokers,mobile,'.$id,
+            'mobile' => 'required|digits:9|unique:brokers,mobile,' . $id,
             'city_id' => 'required|exists:cities,id',
-            'broker_license' => 'required|string|max:255|unique:brokers,broker_license,'.$id,
+            'broker_license' => 'required|string|max:255|unique:brokers,broker_license,' . $id,
             'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
         ];
@@ -171,8 +169,4 @@ class SettingController extends Controller
 
         return redirect()->route('Broker.Setting.index')->withSuccess(__('Updated successfully.'));
     }
-
-
-
-
 }
