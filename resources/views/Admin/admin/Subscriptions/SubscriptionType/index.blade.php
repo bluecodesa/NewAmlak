@@ -3,6 +3,7 @@
 @section('content')
 
     <div class="content-page">
+
         <!-- Start content -->
         <div class="content">
             <div class="container-fluid">
@@ -118,6 +119,9 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($subscriptions as $index => $sub)
+                                                {{-- <td> @foreach($sub->sections as $section)
+                                                    <li>{{ $section->name }}</li>
+                                                @endforeach</td> --}}
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>{{ $sub->name }}</td>

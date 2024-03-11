@@ -314,8 +314,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @else
+
+
+                                                    <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel"
+                                                    aria-labelledby="v-pills-gallary-tab">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-10">
+                                                            <div class="card timeline shadow">
+                                                                <div class="card-header">
+                                                                    <h5 class="card-title">@lang('Gallary Mange')</h5>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <p>@lang('You have not created a gallery yet.')</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+
 
                                             @endif
+
 
                                             <!--  اعدادات المعرض البروفيل -->
 

@@ -87,7 +87,8 @@ class SettingService
 
 
 
-        return $this->brokerSettingRepository->updateBroker($data, $id);
+        // return $this->brokerSettingRepository->updateBroker($data, $id);
+        return redirect()->route('Broker.Setting.index')->withSuccess(__('Updated successfully.'));
 
 
     }

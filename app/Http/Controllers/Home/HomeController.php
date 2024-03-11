@@ -282,16 +282,29 @@ class HomeController extends Controller
         $defaultCoverImage = '/Gallery/cover/cover.png';
 
 
-        $gallery = Gallery::create([
-            'broker_id' => $broker->id,
-            'gallery_name' => $galleryName,
-            'gallery_status' => 1,
-            'gallery_cover' => $defaultCoverImage,
 
-        ]);
-        // if (!$request->hasFile('broker_logo')) {
-        //     $gallery->update(['gallery_cover' => 'default_image.jpg']); // Replace 'default_image.jpg' with your default image file name
-        // }
+        //
+        $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+        $sectionNames = [];
+        foreach ($hasRealEstateGallerySection as $section) {
+            $sectionNames[] = $section->name;
+        }
+
+        if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+            // Create the gallery
+            $galleryName = explode('@', $request->email)[0];
+            $defaultCoverImage = '/Gallery/cover/cover.png';
+
+            $gallery = Gallery::create([
+                'broker_id' => $broker->id,
+                'gallery_name' => $galleryName,
+                'gallery_status' => 1,
+                'gallery_cover' => $defaultCoverImage,
+            ]);
+        } else {
+            $gallery = null;
+        }
 
         return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
     }

@@ -34,11 +34,15 @@
                         <div class="card-body">
                             <h4 class="mt-0 header-title">@lang('subscription')</h4>
                             @php
-                                $endDate = \Carbon\Carbon::parse($subscriber->end_date);
+                               $endDate = \Carbon\Carbon::parse($subscriber->end_date);
                                 $now = \Carbon\Carbon::now();
-                                $daysUntilEnd = $now->diffInDays($endDate);
+                                $daysUntilEnd = $now->diffInDays($endDate, false); // Set the second parameter to false to count only full days
                             @endphp
+                            @if ($daysUntilEnd > 0)
                             <p class="sub-title" class="highlighter-rouge">{{ $daysUntilEnd }} @lang('Days Until End') </p>
+                           @else
+                           <p class="sub-title" class="highlighter-rouge">@lang('Subscription Finished') </p>
+                            @endif
 
                             <div class="">
                                 <div class="progress">

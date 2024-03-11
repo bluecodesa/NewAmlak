@@ -14,6 +14,8 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
 
     public function findSubscriberById(int $id)
     {
+
+        dd(Subscription::find($id));
         return Subscription::find($id);
     }
 

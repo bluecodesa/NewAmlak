@@ -44,19 +44,30 @@ class HomeController extends Controller
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = Owner::where('broker_id', $brokerId)->count();
         $numberOfUnits = Unit::where('broker_id', $brokerId)->count();
+
         if ($user && $user->is_broker && $user->UserBrokerData) {
             $subscription = $user->UserBrokerData->UserSubscriptionPending;
             $pendingPayment = $subscription && $subscription->status === 'pending';
         }
 
-        $subscriber = $this->subscriptionService->findSubscriptionById($brokerId);
+        $subscriber = Subscription::where('broker_id', $brokerId)->first();
 
+        //
+        $sectionNames = [];
+        if ($subscriber) {
+            $subscriptionType = SubscriptionType::find($subscriber->subscription_type_id);
+            $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+            $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
+        }
 
+        //
+        // $subscriber = $this->subscriptionService->findSubscriptionById($brokerId);
         $UserSubscriptionTypes = SubscriptionType::where('is_deleted', 0)->whereHas('roles', function ($query) {
             $query->where('name', 'RS-Broker');
         })
             ->where('price', '>', 0)
             ->get();
+
         return view('Broker.dashboard',  get_defined_vars());
     }
 

@@ -3,7 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
-
+use App\Models\Gallery;
 use App\Models\SubscriptionType;
 use App\Services\UserCreationService;
 use Illuminate\Validation\Rule;
@@ -120,7 +120,6 @@ class SubscriptionService
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'file',
-            'id_number' => 'nullable|unique:brokers|numeric|max:255',
 
         ];
         $messages = [
@@ -151,9 +150,32 @@ class SubscriptionService
 
         $broker = $this->brokerCreationService->createBroker($data, $user);
 
-
         $subscriptionType = SubscriptionType::find($data['subscription_type_id']);
 
+ //
+ $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+ $sectionNames = [];
+ foreach ($hasRealEstateGallerySection as $section) {
+     $sectionNames[] = $section->name;
+ }
+
+ if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+     // Create the gallery
+     $galleryName = explode('@', $request->email)[0];
+     $defaultCoverImage = '/Gallery/cover/cover.png';
+
+     $gallery = Gallery::create([
+         'broker_id' => $broker->id,
+         'gallery_name' => $galleryName,
+         'gallery_status' => 1,
+         'gallery_cover' => $defaultCoverImage,
+     ]);
+ } else {
+     $gallery = null; 
+ }
+
+ ///
         $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
 
         $status = ($subscriptionType->price > 0) ? 'pending' : 'active';
@@ -170,6 +192,7 @@ class SubscriptionService
         ]);
 
         $this->createSystemInvoiceBroker($broker, $subscriptionType, $status);
+
 
         return $subscription;
     }

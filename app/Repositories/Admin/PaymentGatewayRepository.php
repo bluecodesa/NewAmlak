@@ -21,12 +21,20 @@ class PaymentGatewayRepository implements PaymentGatewayRepositoryInterface
     public function createPaymentGateway(array $data)
     {
         $data['user_id'] = Auth::user()->id;
-        $image = $data['image'];
-        if ($image) {
-            $ext = $data['image']->getClientOriginalExtension();
-            $imageName = uniqid() . '.' . $ext;
-            $image->move(public_path('/PaymentGateway/'), $imageName);
-            $data['image'] = '/PaymentGateway/' . $imageName;
+
+        if (array_key_exists('image', $data)) {
+            $image = $data['image'];
+
+
+            if ($image) {
+                $ext = $data['image']->getClientOriginalExtension();
+                $imageName = uniqid() . '.' . $ext;
+                $image->move(public_path('/PaymentGateway/'), $imageName);
+                $data['image'] = '/PaymentGateway/' . $imageName;
+            } else {
+
+                unset($data['image']);
+            }
         }
         return PaymentGateway::create($data);
     }

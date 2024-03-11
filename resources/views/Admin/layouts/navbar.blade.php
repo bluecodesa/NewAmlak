@@ -82,7 +82,7 @@
                     <div class="dropdown notification-list nav-pro-img">
                         <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#"
                             role="button" aria-haspopup="false" aria-expanded="false">
-                            @if(Auth::user()->is_broker || Auth::user()->is_admin || Auth::user()->is_office )
+                            @if(Auth::user()->avatar)
                             <img src="{{ Auth::user()->avatar }}" alt="user" class="rounded-circle">
                             @else
                             <img src="https://www.svgrepo.com/show/29852/user.svg" alt="user" class="rounded-circle">
@@ -151,6 +151,18 @@
         @include('Admin.layouts.Inc.Office')
     @endif
     @if (Auth::user()->is_broker)
-        @include('Admin.layouts.Inc.Broker')
-    @endif
+    @php
+            $brokerId = Auth::user()->UserBrokerData->id;
+
+        $subscriber = \App\Models\Subscription::where('broker_id', $brokerId)->first();
+        $sectionNames = [];
+        if ($subscriber) {
+            $subscriptionType = \App\Models\SubscriptionType::find($subscriber->subscription_type_id);
+            $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+            $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
+        }
+    @endphp
+
+    @include('Admin.layouts.Inc.Broker', ['sectionNames' => $sectionNames])
+@endif
 @endauth

@@ -13,6 +13,8 @@ use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Http\Controllers\Controller;
+use App\Models\Subscription;
+use App\Models\SubscriptionType;
 use App\Models\Unit;
 use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
@@ -104,7 +106,6 @@ class GallaryController extends Controller
 
         $gallery = Gallery::where('broker_id', $brokerId)->first();
 
-
         return view('Broker.Gallary.index', get_defined_vars());
     }
 
@@ -190,11 +191,9 @@ class GallaryController extends Controller
     public function showInterests()
     {
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
-
         return view('Broker.Gallary.unit-interest',get_defined_vars());
 
 
-        return view('Broker.Gallary.unit-interest', get_defined_vars());
 
     }
 
