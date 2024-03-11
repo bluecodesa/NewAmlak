@@ -231,91 +231,87 @@
 
 
                                             <!-- gallary mange -->
-                                            @if ($gallery)
-                                                <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel"
-                                                    aria-labelledby="v-pills-gallary-tab">
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-lg-10">
-                                                            <div class="card timeline shadow">
-                                                                <div class="card-header">
-                                                                    <h5 class="card-title">@lang('Gallary Mange')</h5>
-                                                                </div>
-                                                                <div class="card-body">
-                                                                    <form
-                                                                        action="{{ route('Broker.Gallery.update', ['Gallery' => $gallery->id]) }}"
-                                                                        method="post">
-                                                                        @csrf
-                                                                        @method('PUT')
-                                                                        <div class="form-group">
-                                                                            <label
-                                                                                for="galleryName">@lang('Gallery URL')</label>
+                                            {{-- @if ($gallery) --}}
+                                            <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel"
+                                                aria-labelledby="v-pills-gallary-tab">
+                                                <div class="row justify-content-center">
+                                                    <div class="col-lg-10">
+                                                        <div class="card timeline shadow">
+                                                            <div class="card-header">
+                                                                <h5 class="card-title">@lang('Gallary Mange')</h5>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <form
+                                                                    action="{{ route('Broker.Gallery.update', ['Gallery' => $gallery->id]) }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <div class="form-group">
+                                                                        <label for="galleryName">@lang('Gallery URL')</label>
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control"
+                                                                                id="galleryName" disabled
+                                                                                value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
+                                                                            <div class="input-group-append">
+                                                                                <span class="input-group-text"
+                                                                                    style="cursor: pointer;"
+                                                                                    onclick="selectText()">
+                                                                                    <i class="fas fa-copy"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input hidden name="broker_id_for_gallery"
+                                                                            value="{{ $gallery->id }}" />
+                                                                        <label
+                                                                            for="editGalleryName">@lang('Edit Gallery Name')</label>
+                                                                        <div class="d-flex" style="margin-top: 10px">
                                                                             <div class="input-group">
+                                                                                <input type="text" name="gallery_name"
+                                                                                    class="form-control edit-gallery-name"
+                                                                                    id="editGalleryName"
+                                                                                    placeholder="@lang('Gallery Name')"
+                                                                                    value="{{ explode('@', $gallery->gallery_name)[0] }}"
+                                                                                    oninput="validateName(this)">
                                                                                 <input type="text" class="form-control"
                                                                                     id="galleryName" disabled
-                                                                                    value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
-                                                                                <div class="input-group-append">
-                                                                                    <span class="input-group-text"
-                                                                                        style="cursor: pointer;"
-                                                                                        onclick="selectText()">
-                                                                                        <i class="fas fa-copy"></i>
-                                                                                    </span>
-                                                                                </div>
+                                                                                    value="{{ env('APP_URL') }}/ar/gallery/">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="form-group">
-                                                                            <input hidden name="broker_id_for_gallery"
-                                                                                value="{{ $gallery->id }}" />
-                                                                            <label
-                                                                                for="editGalleryName">@lang('Edit Gallery Name')</label>
-                                                                            <div class="d-flex" style="margin-top: 10px">
-                                                                                <div class="input-group">
-                                                                                    <input type="text"
-                                                                                        name="gallery_name"
-                                                                                        class="form-control edit-gallery-name"
-                                                                                        id="editGalleryName"
-                                                                                        placeholder="@lang('Gallery Name')"
-                                                                                        value="{{ explode('@', $gallery->gallery_name)[0] }}"
-                                                                                        oninput="validateName(this)">
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        id="galleryName" disabled
-                                                                                        value="{{ env('APP_URL') }}/ar/gallery/">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row validate-result"
-                                                                                style="display: none">
-                                                                                <span class="alert alert-success"></span>
-                                                                                <span class="alert alert-error"></span>
-                                                                            </div>
+                                                                        <div class="row validate-result"
+                                                                            style="display: none">
+                                                                            <span class="alert alert-success"></span>
+                                                                            <span class="alert alert-error"></span>
                                                                         </div>
-                                                                        <div class="form-group">
-                                                                            @if ($gallery->gallery_status == 0)
-                                                                                <input type="checkbox"
-                                                                                    class="toggleHomePage gallery_status"
-                                                                                    name="gallery_status" value="0"
-                                                                                    data-toggle="toggle">
-                                                                            @else
-                                                                                <input type="checkbox"
-                                                                                    class="toggleHomePage gallery_status"
-                                                                                    name="gallery_status" value="1"
-                                                                                    checked data-toggle="toggle"
-                                                                                    data-onstyle="primary">
-                                                                            @endif
-                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        @if ($gallery->gallery_status == 0)
+                                                                            <input type="checkbox"
+                                                                                class="toggleHomePage gallery_status"
+                                                                                name="gallery_status" value="0"
+                                                                                data-toggle="toggle">
+                                                                        @else
+                                                                            <input type="checkbox"
+                                                                                class="toggleHomePage gallery_status"
+                                                                                name="gallery_status" value="1"
+                                                                                checked data-toggle="toggle"
+                                                                                data-onstyle="primary">
+                                                                        @endif
+                                                                    </div>
 
 
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">@lang('Edit')</button>
-                                                                    </form>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">@lang('Edit')</button>
+                                                                </form>
 
 
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                            @endif
+                                            </div>
+                                            {{-- @endif --}}
 
                                             <!--  اعدادات المعرض البروفيل -->
 
