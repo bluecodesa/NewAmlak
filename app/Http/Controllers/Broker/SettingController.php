@@ -46,7 +46,7 @@ class SettingController extends Controller
         $EmailSettingService = $this->EmailSettingService->getAll();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $broker = Auth::user()->UserBrokerData;
+        $broker = auth()->user()->UserBrokerData;
         $settings = $this->settingService->getBrokerSettings($broker);
         $city = $broker->CityData;
         $region = $city->RegionData;
@@ -87,7 +87,6 @@ class SettingController extends Controller
     public function edit(string $id)
     {
         //
-        $subscriber = Subscription::find($id);
     }
 
     /**
@@ -109,66 +108,9 @@ class SettingController extends Controller
 
     public function updateBroker(Request $request, $id)
     {
-        $broker = Broker::findOrFail($id);
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($broker->user_id),
-            ],
-            'mobile' => 'required|digits:9|unique:brokers,mobile,'.$id,
-            'city_id' => 'required|exists:cities,id',
-            'broker_license' => 'required|string|max:255|unique:brokers,broker_license,'.$id,
-            'password' => 'nullable|string|max:255|confirmed',
-            'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-        ];
+        $data = $request->all();
 
-
-
-        $messages = [
-            'name.required' => __('The name field is required.'),
-            'email.required' => __('The email field is required.'),
-            'email.unique' => __('The email has already been taken.'),
-            'mobile.required' => __('The mobile field is required.'),
-            'mobile.unique' => __('The mobile has already been taken.'),
-            'mobile.digits' => __('The mobile must be 9 digits.'),
-            'broker_license.required' => __('The broker_license field is required.'),
-            'broker_license.unique' => __('The broker_license has already been taken.'),
-            'password.required' => __('The password field is required.'),
-            'broker_logo.image' => __('The broker logo must be an image.'),
-            'city_id.required' => 'The city field is required.',
-            'city_id.exists' => 'The selected city is invalid.',
-        ];
-        $request->validate($rules, $messages);
-
-        $broker = Broker::findOrFail($id);
-        $broker->update([
-            'broker_license' => $request->broker_license,
-            'mobile' => $request->mobile,
-            'city_id' => $request->city_id,
-            'id_number' => $request->id_number,
-        ]);
-
-        $user = $broker->UserData();
-
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-
-        if ($request->filled('password')) {
-            $user->update(['password' => bcrypt($request->password)]);
-        }
-
-        if ($request->hasFile('broker_logo')) {
-            $file = $request->file('broker_logo');
-            $ext = uniqid() . '.' . $file->clientExtension();
-            $file->move(public_path() . '/Brokers/' . 'Logos/', $ext);
-            $broker->update(['broker_logo' => '/Brokers/' . 'Logos/' . $ext]);
-        }
-
+        $this->settingService->updateBroker($data, $id); 
         return redirect()->route('Broker.Setting.index')->withSuccess(__('Updated successfully.'));
     }
 

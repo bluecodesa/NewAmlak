@@ -34,6 +34,7 @@ use App\Interfaces\Office\DeveloperRepositoryInterface;
 use App\Interfaces\Office\EmployeeRepositoryInterface;
 use App\Interfaces\Office\OwnerRepositoryInterface;
 use App\Interfaces\Office\ProjectRepositoryInterface;
+use App\Interfaces\Broker\GalleryRepositoryInterface;
 use App\Models\Setting;
 use App\Repositories\Admin\CityRepository;
 use App\Repositories\Admin\DistrictRepository;
@@ -52,6 +53,7 @@ use App\Repositories\Admin\SubscriptionTypesRepository;
 use App\Repositories\Admin\SystemInvoiceRepository;
 use App\Repositories\Broker\AdvisorRepository as BrokerAdvisorRepository;
 use App\Repositories\Broker\DeveloperRepository as BrokerDeveloperRepository;
+use App\Repositories\Broker\GalleryRepository;
 use App\Repositories\Broker\OwnerRepository as BrokerOwnerRepository;
 use App\Repositories\Broker\ProjectRepository as BrokerProjectRepository;
 use App\Repositories\Broker\PropertyRepository;
@@ -99,6 +101,10 @@ class AppServiceProvider extends ServiceProvider
             PaymentGatewayRepository::class
         );
 
+        $this->app->bind(
+            GalleryRepositoryInterface::class,
+            GalleryRepository::class
+        );
 
 
 

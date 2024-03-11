@@ -42,9 +42,12 @@ class SettingRepository implements SettingRepositoryInterface
 
 
 
-    public function updateBroker(array $data, Broker $broker)
+    public function updateBroker(array $data, $id)
     {
-        // Update broker data here
+
+            $broker = Broker::findOrFail($id);
+            $broker->update($data);
+            return $broker;
     }
 
 

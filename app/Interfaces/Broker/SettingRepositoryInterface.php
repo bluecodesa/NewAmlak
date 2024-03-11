@@ -14,7 +14,7 @@ interface SettingRepositoryInterface
     public function createSetting(array $data);
     public function findSettingById(int $id);
     public function deleteSetting($id);
-    public function updateBroker(array $data, Broker $broker);
+    public function updateBroker(array $data, $id);
     public function NotificationToggleSetting($data, $id);
     public function UpdateEmailSetting($data);
     public function getNotificationSetting();
