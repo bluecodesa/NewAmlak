@@ -62,7 +62,7 @@
                                                 <select name="period_type" id="period_type" class="sub-input">
                                                     @foreach ($days as $type)
                                                         <option value="{{ $type }}"
-                                                            {{ $SubscriptionType->period_type == __($type) ? 'selected' : '' }}>
+                                                            {{ $SubscriptionType->period_type == ($type) ? 'selected' : '' }}>
                                                             @lang($type)</option>
                                                     @endforeach
 

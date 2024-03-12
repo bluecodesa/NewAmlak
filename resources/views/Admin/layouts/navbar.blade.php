@@ -152,7 +152,7 @@
     @endif
     @if (Auth::user()->is_broker)
     @php
-            $brokerId = Auth::user()->UserBrokerData->id;
+         $brokerId = Auth::user()->UserBrokerData->id;
 
         $subscriber = \App\Models\Subscription::where('broker_id', $brokerId)->first();
         $sectionNames = [];
