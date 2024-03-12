@@ -4,7 +4,6 @@ namespace App\Http\Traits\Email;
 
 use App\Email\Admin\WelcomeBroker;
 use App\Models\EmailTemplate;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -12,6 +11,7 @@ trait MailWelcomeBroker
 {
     public function MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice)
     {
+
         $notification_id = DB::table('notification_settings')->where('notification_name', 'Real_estate_marketer_welcome_email')->value('id');
         $EmailTemplate =  EmailTemplate::where('notification_setting_id', $notification_id)->first();
         if ($EmailTemplate) {
@@ -37,6 +37,9 @@ trait MailWelcomeBroker
             $placeholder = '$data[' . $key . ']';
             $content = str_replace($placeholder, $value, $content);
         }
-        Mail::to($email)->send(new WelcomeBroker($data, $content, $Notification_name));
+        try {
+            Mail::to($email)->send(new WelcomeBroker($data, $content, $Notification_name));
+        } catch (\Throwable $th) {
+        }
     }
 }

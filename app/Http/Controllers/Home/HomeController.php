@@ -307,12 +307,7 @@ class HomeController extends Controller
         } else {
             $gallery = null;
         }
-
-        try {
-            $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
-        } catch (\Throwable $th) {
-        }
-
+        $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
         return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
     }
 

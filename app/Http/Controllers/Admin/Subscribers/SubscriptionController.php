@@ -61,8 +61,6 @@ class SubscriptionController extends Controller
         return redirect()->route('Admin.Subscribers.index')->withSuccess(__('added successfully'));
     }
 
-
-
     public function show(string $id)
     {
         $subscriber = $this->subscriptionService->findSubscriptionById($id);
