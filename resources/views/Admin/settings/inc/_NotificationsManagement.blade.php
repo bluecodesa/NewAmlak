@@ -115,7 +115,7 @@
                             @csrf
                             <div class="form-group">
                                 <label>@lang('host')</label>
-                                <input type="url" name="host" value="{{ $EmailSettingService->host }}"
+                                <input type="text" name="host" value="{{ $EmailSettingService->host }}"
                                     required class="form-control" required="" placeholder="smtp.titan.email">
                             </div>
                             <div class="form-group">

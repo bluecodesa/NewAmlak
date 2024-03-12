@@ -3,20 +3,14 @@
 namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
-use App\Models\Broker;
-use App\Models\Role;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Owner;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\SubscriptionTypeRole;
-use App\Models\SystemInvoice;
 use App\Models\Unit;
-use Carbon\Carbon;
 use App\Services\Admin\SubscriptionService;
 use App\Services\RegionService;
 use App\Services\CityService;

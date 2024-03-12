@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
-
+use App\Http\Traits\Email\MailWelcomeBroker;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
 use App\Models\City;
@@ -20,12 +20,14 @@ use App\Models\Role;
 use App\Models\SubscriptionTypeRole;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 
 
 class HomeController extends Controller
 {
+    use MailWelcomeBroker;
     /**
      * Create a new controller instance.
      *
@@ -257,7 +259,7 @@ class HomeController extends Controller
             $SubType = 'free';
             $status = 'active';
         }
-        Subscription::create([
+        $subscription =    Subscription::create([
             'broker_id' => $broker->id,
             'subscription_type_id' => $request->subscription_type_id,
             'status' => $status,
@@ -267,7 +269,7 @@ class HomeController extends Controller
             'end_date' => $endDate,
             'total' => '200'
         ]);
-        SystemInvoice::create([
+        $Invoice =   SystemInvoice::create([
             'broker_id' => $broker->id,
             'subscription_name' => $subscriptionType->name,
             'amount' => $subscriptionType->price,
@@ -304,6 +306,11 @@ class HomeController extends Controller
             ]);
         } else {
             $gallery = null;
+        }
+
+        try {
+            $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+        } catch (\Throwable $th) {
         }
 
         return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
