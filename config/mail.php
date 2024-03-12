@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Setting;
-
 return [
 
     /*
@@ -30,19 +28,19 @@ return [
     | sending an e-mail. You will specify which one you are using for your
     | mailers below. You are free to add additional mailers as required.
     |
-    | Supported: "smtp", "sendmail", "mailgun", "ses", "ses-v2",
-    |            "postmark", "log", "array", "failover", "roundrobin"
+    | Supported: "smtp", "sendmail", "mailgun", "ses",
+    |            "postmark", "log", "array"
     |
     */
 
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
+            'host' => env('MAIL_HOST', 'smtp.titan.email'),
             'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
-            'username' => '3c6fe28a5a7874',
-            'password' => 'c628bd195a9bfd',
+            'username' => 'info@hasibly.com',
+            'password' => '01003315Amr',
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -51,24 +49,17 @@ return [
             'transport' => 'ses',
         ],
 
-        'postmark' => [
-            'transport' => 'postmark',
-            // 'message_stream_id' => null,
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
-        ],
-
         'mailgun' => [
             'transport' => 'mailgun',
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
+        ],
+
+        'postmark' => [
+            'transport' => 'postmark',
         ],
 
         'sendmail' => [
             'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
+            'path' => '/usr/sbin/sendmail -bs',
         ],
 
         'log' => [
@@ -78,22 +69,6 @@ return [
 
         'array' => [
             'transport' => 'array',
-        ],
-
-        'failover' => [
-            'transport' => 'failover',
-            'mailers' => [
-                'smtp',
-                'log',
-            ],
-        ],
-
-        'roundrobin' => [
-            'transport' => 'roundrobin',
-            'mailers' => [
-                'ses',
-                'postmark',
-            ],
         ],
     ],
 
@@ -109,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_DRIVER', 'info@imtthal.com'),
-        'name' => env('MAIL_USERNAME', 'Imtthal'),
+        'address' => env('MAIL_DRIVER', 'info@hasibly.com'),
+        'name' => env('MAIL_USERNAME', 'Hasibly'),
     ],
 
     /*

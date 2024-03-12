@@ -54,7 +54,6 @@ Route::group(
         Auth::routes();
         Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
         Route::get('gallery/{gallery_name}/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
-
     }
 
 );

@@ -63,6 +63,22 @@
                                     <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
                                         data-original-title="@lang('Click to add it') : @lang('variable_broker_name')"
                                         data-variable="$data[variable_broker_name]">@lang('variable_broker_name')</span>
+
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_subscriber_name')"
+                                        data-variable="$data[variable_subscriber_name]">@lang('variable_subscriber_name')</span>
+
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_current_subscription')"
+                                        data-variable="$data[variable_current_subscription]">@lang('variable_current_subscription')</span>
+
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_subscription_invoice_number')"
+                                        data-variable="$data[variable_subscription_invoice_number]">@lang('variable_subscription_invoice_number')</span>
+
+                                    <span class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                        data-original-title="@lang('Click to add it') : @lang('variable_subscription_invoice_download_link')"
+                                        data-variable="$data[variable_subscription_invoice_download_link]">@lang('variable_subscription_invoice_download_link')</span>
                                 </div>
                                 <form action="{{ route('Admin.update.StoreEmailTemplate', $notification->id) }}"
                                     method="post" class="mt-2">
