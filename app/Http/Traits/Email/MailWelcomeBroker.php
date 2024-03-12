@@ -38,10 +38,10 @@ trait MailWelcomeBroker
                 $content = str_replace($placeholder, $value, $content);
             }
 
-            try {
-                Mail::to($email)->send(new WelcomeBroker($data, $content, $Notification_name));
-            } catch (\Throwable $th) {
-            }
+            // try {
+            Mail::to($email)->send(new WelcomeBroker($data, $content, $Notification_name));
+            // } catch (\Throwable $th) {
+            // }
         }
     }
 }
