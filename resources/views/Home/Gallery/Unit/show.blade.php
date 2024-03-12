@@ -9,7 +9,7 @@
 
     <section id="gallery_unit_public" class="container">
         <div class="row show-unit">
-            <input hidden type="text" name="unit_idd" value="{{ $unit->id }}" />
+            <input hidden type="text" name="unit_idd" value="{{ $Unit->id }}" />
             <div class="col-md-9">
                 <div class="card border-0"
                     style="border-radius: 28px;filter:drop-shadow(0px 3px 3px rgba(161,137,137,0.09 ));">
@@ -54,7 +54,7 @@
 
                         <div class="row justify-content-between mt-2 mb-3">
                             <span class="w-auto m-0 p-0" style="font-weight: 900">وحدة رقم
-                                {{ $unit->number }}</span>
+                                {{ $Unit->number }}</span>
                             <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">5000
                                 sar</span>
                         </div>
@@ -62,9 +62,9 @@
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
                             <span class=" w-auto mb-2" style="color: #989898">مشروع
-                                {{ $unit->owners_proparties->project->name ?? '' }} - عقار
-                                {{ $unit->owners_proparties->name ?? '' }} -
-                                {{ $unit->owners_proparties->type ?? '' }}
+                                {{ $Unit->owners_proparties->project->name ?? '' }} - عقار
+                                {{ $Unit->owners_proparties->name ?? '' }} -
+                                {{ $Unit->owners_proparties->type ?? '' }}
                             </span>
                         </div>
 
@@ -103,25 +103,25 @@
                 <div class="row m-0 align-items-center mb-4">
                     <div class="unit-employee">AM</div>
                     <div class="w-auto">
-                        <p class="mb-0 font-weight-bold">{{ $unit->OwnerData->name}}</p>
+                        <p class="mb-0 font-weight-bold">{{ $Unit->OwnerData->name}}</p>
                         <span style="font-size: 13px">عضو منذ 30 يوليو</span>
                     </div>
                 </div>
                 <hr class="mb-3" style=" color: #bab2b2;" />
-                @if ($unit->OwnerData->name)
+                @if ($Unit->OwnerData->name)
                     <a class="d-block btn-new text-center text-white"
-                        href="tel:{{ env('COUNTRY_CODE') . $unit->OwnerData->name }}"
-                        style="text-decoration: none;cursor: pointer;">{{ $unit->OwnerData->name }}</a>
+                        href="tel:{{ env('COUNTRY_CODE') . $Unit->OwnerData->name }}"
+                        style="text-decoration: none;cursor: pointer;">{{ $Unit->OwnerData->name }}</a>
 
 
                     <a class="d-block btn btn-new-b mt-3 w-100"
-                        href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $unit->OwnerData->name}}"
+                        href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $Unit->OwnerData->name}}"
                         target="_blank">دردشة</a>
                 @endif
                 <div class="row m-0 justify-content-between mt-3 align-items-center">
 
                     <a class="love w-auto" data-toggle="modal" data-target="#interestUnit" href=""
-                        onclick="interestUnit({{ $unit->id }})"
+                        onclick="interestUnit({{ $Unit->id }})"
                         style="color: #4a5865;border: 1px solid #eeecec; border-radius: 12px;"><img
                             src="{{ asset('dashboard/assets/new-icons/interest.png') }}" class="img-fluid"
                             style="height: 34px;" />تسجيل اهتمام</a>
@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        <input hidden id="google_map" value="  {!! Str::limit($unit->location, 13, ' .') !!}" />
+        <input hidden id="google_map" value="  {!! Str::limit($Unit->location, 13, ' .') !!}" />
 
 
 
@@ -173,11 +173,11 @@
                                         </g>
                                     </svg></div>
                                 <input readonly class="w-75" style="text-align: left" id="share-url"
-                                    value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])}} " />
+                                    value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $Unit->id])}} " />
                             </div>
 
                             @php
-                                $url = route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) ;
+                                $url = route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $Unit->id]) ;
                             @endphp
                             <div class="row justify-content-center p-4">
                                 <div class="whats-conatiner">
@@ -235,7 +235,7 @@
                                         عن طريق الجوال
                                     </p>
                                     @php
-                                        $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) ";
+                                        $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $Unit->id]) ";
                                     @endphp
                                     <a href=""
                                         class="d-block btn btn-new-b mt-3">Download QR Code</a>

@@ -27,8 +27,12 @@ class GalleryRepository implements GalleryRepositoryInterface
     public function update(array $data, $galleryId)
     {
         $gallery = Gallery::findOrFail($galleryId);
-        $gallery->update($data);
-        return $gallery;
+
+        $gallery->update([
+            'gallery_name' => $data['gallery_name'],
+            'gallery_status' => isset($data['gallery_status']) ? '1' : '0',
+        ]);
+              return $gallery;
     }
 
     public function delete($galleryId)
@@ -43,5 +47,20 @@ class GalleryRepository implements GalleryRepositoryInterface
 
     public function updateCover(array $data)
     {
+        $gallery = $this->findById($data['gallery_id']);
+
+        if (isset($data['gallery_cover'])) {
+            $file = $data['gallery_cover'];
+            $ext = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('Gallery/cover/'), $ext);
+            $gallery->update(['gallery_cover' => 'Gallery/cover/' . $ext]);
+        }
+
+        return $gallery;
+    }
+
+    public function findByGalleryName($galleryName)
+    {
+        return Gallery::where('gallery_name', $galleryName)->firstOrFail();
     }
 }

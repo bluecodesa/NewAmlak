@@ -15,6 +15,8 @@ interface GalleryRepositoryInterface
 
     public function updateCover(array $data);
     public function findByBrokerId($brokerId);
+    public function findByGalleryName($galleryName);
+
 
 
 }

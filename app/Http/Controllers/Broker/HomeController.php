@@ -20,20 +20,30 @@ use Carbon\Carbon;
 use App\Services\Admin\SubscriptionService;
 use App\Services\RegionService;
 use App\Services\CityService;
+use App\Services\Broker\OwnerService;
+
 
 class HomeController extends Controller
 {
     protected $subscriptionService;
     protected $regionService;
     protected $cityService;
+    protected $ownerService;
 
 
 
-    public function __construct(SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
+
+    public function __construct(SubscriptionService $subscriptionService,
+    RegionService $regionService,
+     CityService $cityService,
+     OwnerService $ownerService
+     )
     {
         $this->subscriptionService = $subscriptionService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
+        $this->ownerService = $ownerService;
+
         $this->middleware('auth');
     }
 
@@ -42,7 +52,7 @@ class HomeController extends Controller
 
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
-        $numberOfowners = Owner::where('broker_id', $brokerId)->count();
+        $numberOfowners = $this->ownerService->getAllByBrokerId($brokerId)->count();
         $numberOfUnits = Unit::where('broker_id', $brokerId)->count();
 
         if ($user && $user->is_broker && $user->UserBrokerData) {

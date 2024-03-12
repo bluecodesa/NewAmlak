@@ -56,11 +56,6 @@ class GallaryController extends Controller
     public function index()
     {
 
-        //
-        $ad_type_filter = 'all';
-        $type_use_filter = 'all';
-        $city_filter = null;
-
         $types = $this->propertyTypeService->getAllPropertyTypes();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
@@ -72,40 +67,16 @@ class GallaryController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
-
-
-
-        //
-
-
-        //filters
-        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
-
-        if (request()->has('ad_type_filter')) {
-            $ad_type_filter = request('ad_type_filter');
-            $units = $units->where('type', $ad_type_filter);
-        }
-
-        if (request()->has('type_use_filter')) {
-            $type_use_filter = request('type_use_filter');
-            $units = $units->where('type_use', $type_use_filter);
-        }
-
-        if (request()->has('city_filter')) {
-            $city_filter = request('city_filter');
-            $units = $units->where('city_id', $city_filter);
-        }
-        //
-
         $brokerId = auth()->user()->UserBrokerData->id;
+        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        //filters
+        $adTypeFilter = request()->input('ad_type_filter', 'all');
+        $typeUseFilter = request()->input('type_use_filter', 'all');
+        $cityFilter = request()->input('city_filter');
+        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter);
+        //
         $gallery = $this->galleryService->findByBrokerId($brokerId);
-
-       $galleries = $this->galleryService->all();
-
-        $brokerId = Auth::user()->UserBrokerData->id;
-
-        $gallery = Gallery::where('broker_id', $brokerId)->first();
-
+        $galleries = $this->galleryService->all();
         return view('Broker.Gallary.index', get_defined_vars());
     }
 
@@ -142,43 +113,6 @@ class GallaryController extends Controller
 
 
 
-    public function update(Request $request, $gallery)
-    {
-        $request->validate([
-            'gallery_name' => 'required|string|max:255',
-            'gallery_status' => 'nullable|in:0,1',
-        ]);
-
-        $gallery = Gallery::findOrFail($gallery);
-
-        $gallery->update([
-            'gallery_name' => $request->gallery_name,
-            'gallery_status' => $request->has('gallery_status') ? '1' : '0',
-        ]);
-
-        return redirect()->back()->with('success', 'Gallery updated successfully');
-    }
-
-    public function updateCover(Request $request)
-    {
-        $request->validate([
-            'gallery_cover' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $gallery = Gallery::findOrFail($request->gallery_id);
-
-        if ($request->hasFile('gallery_cover')) {
-            $file = $request->file('gallery_cover');
-            $ext = uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('Gallery/cover/'), $ext);
-            $gallery->update(['gallery_cover' => 'Gallery/cover/' . $ext]);
-        }
-
-        return back()->withSuccess(__('Updated successfully.'));
-    }
-
-
-
 
 
     public function showGalleryUnit($broker_name, $id)
@@ -197,64 +131,39 @@ class GallaryController extends Controller
 
     }
 
-    public function showByName($name)
-    {
-        $gallery = Gallery::where('gallery_name', $name)->firstOrFail();
-        if ($gallery->gallery_status == 0) {
-            return   abort(404);
-        }
-        $units = $this->UnitService->getAll($gallery['broker_id']);
-
-        $unit = $units->first();
-
-        $id = $unit->id;
-
-        $unitDetails = $this->UnitService->findById($id);
 
 
-        return view('Home.Gallery.index', get_defined_vars());
-    }
 
-    public function showUnitPublic($gallery_name, $id)
-    {
-        $gallery = Gallery::where('gallery_name', $gallery_name)->first();
-        if ($gallery->gallery_status == 0) {
-            abort(404);
-        }
-        $units = $this->UnitService->getAll($gallery['broker_id']);
-        $Unit = $this->UnitService->findById($id);
+        public function showUnitPublic($gallery_name, $id)
+        {
+            $data = $this->galleryService->showUnitPublic($gallery_name, $id);
 
-        $unit = Unit::findOrFail($id);
-
-        $id = $unit->id;
-
-        if (!$gallery || !$unit) {
-            abort(404);
+            return view('Home.Gallery.Unit.show', $data);
         }
 
-        return view('Home.Gallery.Unit.show', get_defined_vars());
-    }
+        public function showByName($name)
+        {
+            $data = $this->galleryService->showByName($name);
 
+            return view('Home.Gallery.index', $data);
+        }
 
-
-
-    public function update1(Request $request, $galleryId)
+    public function update(Request $request, $galleryId)
     {
-        $data = $request->validated();
 
-        $this->galleryService->update($data, $galleryId);
+        $this->galleryService->update($request->all(), $galleryId);
 
         return redirect()->back()->with('success', 'Gallery updated successfully');
     }
 
-    public function updateCover1(Request $request)
+    public function updateCover(Request $request)
     {
-        $data = $request->validated();
-
-        $this->galleryService->updateCover($data);
+        $this->galleryService->updateCover($request->all());
 
         return back()->withSuccess(__('Updated successfully.'));
     }
+
+
 
 }
 
