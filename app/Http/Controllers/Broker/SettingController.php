@@ -17,6 +17,8 @@ use Illuminate\Validation\Rule;
 use App\Services\Broker\UnitService;
 use App\Services\Broker\SettingService;
 use App\Services\Admin\SubscriptionService;
+use App\Services\Admin\SubscriptionTypeService;
+
 
 
 
@@ -29,8 +31,15 @@ class SettingController extends Controller
     protected $EmailSettingService;
     protected $settingService;
     protected $subscriptionService;
+    protected $SubscriptionTypeService;
 
-    public function __construct(SubscriptionService $subscriptionService, SettingService $settingService, UnitService $UnitService, RegionService $regionService, CityService $cityService, EmailSettingService $EmailSettingService,)
+
+    public function __construct(SubscriptionService $subscriptionService, SettingService $settingService, UnitService $UnitService,
+     RegionService $regionService,
+     CityService $cityService,
+     EmailSettingService $EmailSettingService,
+     SubscriptionTypeService $SubscriptionTypeService
+     )
     {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
@@ -38,6 +47,8 @@ class SettingController extends Controller
         $this->cityService = $cityService;
         $this->settingService = $settingService;
         $this->subscriptionService = $subscriptionService;
+        $this->SubscriptionTypeService = $SubscriptionTypeService;
+
     }
     public function index()
     {
@@ -51,6 +62,13 @@ class SettingController extends Controller
         $region = $city->RegionData;
         $gallery = $settings['gallery'];
         $NotificationSetting = $settings['notificationSettings'];
+        $subscriber = $this->subscriptionService->findSubscriptionByBrokerId(auth()->user()->UserBrokerData->id);
+        $sectionNames = [];
+        if ($subscriber) {
+            $subscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
+            $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+            $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
+        }
         return view('Broker.settings.index', get_defined_vars());
     }
 

@@ -108,8 +108,9 @@ class GalleryService
         $units = $this->UnitRepository->getAll($gallery['broker_id']);
 
         $unit = $units->first();
-        $id = $unit->id;
-        $unitDetails = $this->galleryRepository->findById($id);
+        $id = $unit ? $unit->id : null;
+
+        $unitDetails = $id ? $this->galleryRepository->findById($id) : null;
 
         return ['gallery' => $gallery,'units' => $units, 'unit' => $unit, 'unitDetails' => $unitDetails];
     }

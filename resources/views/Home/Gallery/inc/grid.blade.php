@@ -8,7 +8,7 @@
         @endphp
         <div class="col-sm-12 col-md-6 p-1">
 
-            <a href="">
+            <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
                 <div class="card-single p-0">
                     <input hidden name="unit_id" value="{{ $unit->id }}" />
 
@@ -24,21 +24,16 @@
 
                         <div class="card-img position-relative" style="width: 95%">
 
-                            <div class="col-md-3">
-                                <div class="row">
-                                    @forelse($unit->UnitImages as $image)
-                                        <div class="col-6 mb-1">
-                                            <img class="rounded" src="{{ url($image->image) }}"
-                                                alt="{{ $unit->number_unit }}" style="width: 100%;">
-                                        </div>
-                                    @empty
-                                        <img class="d-flex align-self-end rounded mr-3 col"
-                                            src="{{ url('Offices/Projects/default.svg') }}"
-                                            alt="{{ $unit->number_unit }}" height="200">
-                                    @endforelse
 
-                                </div>
-                            </div>
+                            @if ($unit->UnitImages->isNotEmpty())
+                                <img src="{{ url($unit->UnitImages->first()->image) }}" class="img-fluid" style="height:177px;object-fit:contain" />
+
+                             @else
+                            <img src="{{ url('Offices/Projects/default.svg') }}" alt="{{ $unit->number_unit }}" class="img-fluid"
+                                style="height:177px;object-fit:contain" />
+                             @endif
+
+
 
                             <div class="custom-cards position-absolute">
                                 <div class="row justify-content-between m-0 p-0">
@@ -80,6 +75,11 @@
                             <div class="row m-0 p-0">
                                 <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                     style="width: 18px;height: fit-content;" class="p-0" />
+                                    <span class="mb-2 w-auto" style="color: #989898">
+
+                                        {{ __('الاشغال') }}: الاشغال
+                                      </span>
+
 
                             </div>
 
@@ -88,7 +88,7 @@
                                     style="width: 18px;height: fit-content;" class="p-0" />
                                 <span class="mb-2 w-auto" style="color: #989898">
 
-
+                                    {{ __('city') }}: {{ $unit->CityData->name ?? '' }}
                                     </span>
                             </div>
                         </div>

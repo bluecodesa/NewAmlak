@@ -67,17 +67,6 @@ class SettingService
             'id_number' => $request->id_number,
         ]);
 
-        $user = $broker->UserData();
-
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-
-        if ($request->filled('password')) {
-            $user->update(['password' => bcrypt($request->password)]);
-        }
-
         if ($request->hasFile('broker_logo')) {
             $file = $request->file('broker_logo');
             $ext = uniqid() . '.' . $file->clientExtension();
@@ -86,10 +75,27 @@ class SettingService
         }
 
 
+        $user = $broker->UserData();
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'avatar' => '/Brokers/Logos/' . $ext,
+
+        ]);
+
+        if ($request->filled('password')) {
+            $user->update(['password' => bcrypt($request->password)]);
+        }
+
+
+
 
         // return $this->brokerSettingRepository->updateBroker($data, $id);
         return redirect()->route('Broker.Setting.index')->withSuccess(__('Updated successfully.'));
 
 
     }
+
+
 }

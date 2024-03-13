@@ -16,14 +16,23 @@
                             href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
 
 
+                                @if ($unit->UnitImages->isNotEmpty())
+                                <img src="{{ url($unit->UnitImages->first()->image) }}" class="img-fluid"
+                                        style="height:177px;object-fit:cover" />
+                                @else
+                                    <img src="{{ asset('dashboard/assets/new-icons/pngwing.png') }}" class="img-fluid"
+                                        style="height:177px;object-fit:cover" />
+                                @endif
+
+
                             <div class="custom-cards position-absolute">
                                 <div class="row justify-content-end mb-2">
 
                                     <div class="w-auto">
-                                        @if ($unit->ad_type == 'rent' || $unit->ad_type == 'both')
+                                        @if ($unit->type == 'rent' || $unit->type == 'both')
                                             <span class="rent">للايجار</span>
                                         @endif
-                                        @if ($unit->ad_type == 'sale' || $unit->ad_type == 'both')
+                                        @if ($unit->type == 'sale' || $unit->type == 'both')
                                             <span class="sale">للبيع</span>
                                         @endif
                                     </div>
@@ -35,8 +44,8 @@
                     </div>
                     <div class="card-body gallery-card">
                         <div class="row justify-content-between m-0 mt-2 mb-3 align-items-center">
-                            <span class="w-auto m-0 p-0" style="font-weight: 900">وحدة رقم
-                                {{ $unit->number }}</span>
+                            <span class="w-auto m-0 p-0" style="font-weight: 900">
+                                {{ __('Residential number') }} / {{ $unit->number_unit ?? '' }}</span>
 
                             <div class="w-auto list-icons-gallery p-0">
 
@@ -59,10 +68,9 @@
                         <div class="row m-0">
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
-                            <span class=" w-auto mb-2" style="color: #989898">مشروع
-                                {{ $unit->owners_proparties->project->name ?? '' }} - عقار
-                                {{ $unit->owners_proparties->name ?? '' }} -
-                                {{ $unit->owners_proparties->type ?? '' }}
+                            <span class=" w-auto mb-2" style="color: #989898">
+                                {{ __('الاشغال') }}: الاشغال
+
                             </span>
                         </div>
 
@@ -70,6 +78,7 @@
                             <img src="{{ asset('dashboard/assets/new-icons/Iconly_Light_Locatio.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
                             <span class="mb-2 w-auto" style="color: #989898">
+                                {{ __('city') }}: {{ $unit->CityData->name ?? '' }}
                             </span>
                         </div>
                         @if ($unit->services && count($unit->services) > 0)

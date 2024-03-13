@@ -15,6 +15,8 @@ use App\Services\Admin\SubscriptionService;
 use App\Services\RegionService;
 use App\Services\CityService;
 use App\Services\OwnerService;
+use App\Services\Broker\UnitService;
+
 
 class SubscriptionController extends Controller
 {
@@ -22,13 +24,17 @@ class SubscriptionController extends Controller
     protected $regionService;
     protected $cityService;
     protected $ownerService;
+    protected $UnitService;
 
-    public function __construct(OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
+
+    public function __construct(UnitService $UnitService,OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
     {
         $this->subscriptionService = $subscriptionService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
         $this->ownerService = $ownerService;
+        $this->UnitService = $UnitService;
+
     }
 
     public function index()
@@ -69,10 +75,10 @@ class SubscriptionController extends Controller
 
         if ($brokerId) {
             $numberOfowners = $this->ownerService->getNumberOfOwners($brokerId);
-            $numberOfUnits = Unit::where('broker_id', $brokerId)->count();
+            $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
         } elseif ($officeId) {
             $numberOfowners = $this->ownerService->getNumberOfOwners($officeId);
-            $numberOfUnits = Unit::where('office_id', $officeId)->count();
+            $numberOfUnits = $this->UnitService->getAll($officeId)->count();
         }
 
         return view('Admin.subscribers.show', get_defined_vars());

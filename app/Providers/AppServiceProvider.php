@@ -20,7 +20,6 @@ use App\Interfaces\Admin\SubscriptionTypeRepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use App\Interfaces\Admin\SubscriptionTypesRepositoryInterface;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Interfaces\Broker\AdvisorRepositoryInterface as BrokerAdvisorRepositoryInterface;
 use App\Interfaces\Broker\DeveloperRepositoryInterface as BrokerDeveloperRepositoryInterface;
@@ -49,7 +48,7 @@ use App\Repositories\Admin\ServiceRepository;
 use App\Repositories\Admin\ServiceTypeRepository;
 use App\Repositories\Admin\SettingRepository;
 use App\Repositories\Admin\SubscriptionRepository;
-use App\Repositories\Admin\SubscriptionTypesRepository;
+use App\Repositories\Admin\SubscriptionTypeRepository;
 use App\Repositories\Admin\SystemInvoiceRepository;
 // Broker
 use App\Repositories\Broker\AdvisorRepository as BrokerAdvisorRepository;
@@ -66,7 +65,6 @@ use App\Repositories\Office\DeveloperRepository;
 use App\Repositories\Office\EmployeeRepository;
 use App\Repositories\Office\OwnerRepository;
 use App\Repositories\Office\ProjectRepository;
-use App\Repositories\SubscriptionTypeRepository;
 
 class AppServiceProvider extends ServiceProvider
 {

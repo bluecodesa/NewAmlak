@@ -124,6 +124,7 @@ class GallaryController extends Controller
 
     public function showInterests()
     {
+        $gallery = $this->galleryService->findByBrokerId(auth()->user()->UserBrokerData->id) ?? null;
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         return view('Broker.Gallary.unit-interest',get_defined_vars());
 
@@ -162,6 +163,45 @@ class GallaryController extends Controller
 
         return back()->withSuccess(__('Updated successfully.'));
     }
+
+    public function createGallery(Request $request)
+    {
+        $request->validate([
+            'gallery_name' => 'required|string|max:255',
+        ]);
+        $galleryName = $request->input('gallery_name');
+        $user = auth()->user();
+        if ($user->is_broker) {
+            $gallery = $this->galleryService->create([
+                'gallery_name' => $galleryName,
+                'broker_id' => auth()->user()->UserBrokerData->id,
+                'gallery_cover' => '/Gallery/cover/cover.png',
+                'gallery_status' => 1,
+            ]);
+        } elseif ($user->is_office) {
+            $gallery = $this->galleryService->create([
+                'gallery_name' => $galleryName,
+                'office_id' => auth()->user()->UserOfficeData->id,
+                'gallery_cover' => '/Gallery/cover/cover.png',
+                'gallery_status' => 1,
+            ]);
+        } else {
+            return redirect()->back()->withError('User is neither a broker nor an office.');
+        }
+
+        return redirect()->route('Broker.Gallery.index')->withSuccess('Gallery created successfully.');
+    }
+
+    public function customUpdate(Request $request, $galleryId)
+{
+    // Update the gallery status to 0 in the database
+    $gallery = Gallery::findOrFail($galleryId);
+    $gallery->update(['gallery_status' => 0]);
+
+    // Optionally, you can redirect the user or return a response
+    return redirect()->back()->with('success', 'Gallery status updated successfully.');
+}
+
 
 
 

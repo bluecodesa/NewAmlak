@@ -12,9 +12,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Unit;
 use App\Services\Admin\SubscriptionService;
+use App\Services\Admin\SubscriptionTypeService;
 use App\Services\RegionService;
 use App\Services\CityService;
 use App\Services\Broker\OwnerService;
+use App\Services\Broker\UnitService;
+use App\Services\Broker\GalleryService;
+
 
 
 class HomeController extends Controller
@@ -23,54 +27,58 @@ class HomeController extends Controller
     protected $regionService;
     protected $cityService;
     protected $ownerService;
+    protected $UnitService;
+    protected $SubscriptionTypeService;
+
+    protected $galleryService;
 
 
 
 
-    public function __construct(SubscriptionService $subscriptionService,
+
+
+    public function __construct(UnitService $UnitService,SubscriptionService $subscriptionService,
     RegionService $regionService,
      CityService $cityService,
-     OwnerService $ownerService
+     OwnerService $ownerService,
+     SubscriptionTypeService $SubscriptionTypeService,
+     GalleryService $galleryService
      )
     {
         $this->subscriptionService = $subscriptionService;
+        $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
         $this->ownerService = $ownerService;
-
+        $this->UnitService = $UnitService;
+        $this->galleryService = $galleryService;
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
-
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = $this->ownerService->getAllByBrokerId($brokerId)->count();
-        $numberOfUnits = Unit::where('broker_id', $brokerId)->count();
+        $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
 
         if ($user && $user->is_broker && $user->UserBrokerData) {
             $subscription = $user->UserBrokerData->UserSubscriptionPending;
             $pendingPayment = $subscription && $subscription->status === 'pending';
         }
 
-        $subscriber = Subscription::where('broker_id', $brokerId)->first();
-
+        $subscriber = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
         //
         $sectionNames = [];
         if ($subscriber) {
-            $subscriptionType = SubscriptionType::find($subscriber->subscription_type_id);
+            $subscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
             $hasRealEstateGallerySection = $subscriptionType->sections()->get();
             $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
         }
 
         //
-        // $subscriber = $this->subscriptionService->findSubscriptionById($brokerId);
-        $UserSubscriptionTypes = SubscriptionType::where('is_deleted', 0)->whereHas('roles', function ($query) {
-            $query->where('name', 'RS-Broker');
-        })
-            ->where('price', '>', 0)
-            ->get();
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
+
 
         return view('Broker.dashboard',  get_defined_vars());
     }

@@ -152,15 +152,7 @@
     @endif
     @if (Auth::user()->is_broker)
     @php
-         $brokerId = Auth::user()->UserBrokerData->id;
-
-        $subscriber = \App\Models\Subscription::where('broker_id', $brokerId)->first();
-        $sectionNames = [];
-        if ($subscriber) {
-            $subscriptionType = \App\Models\SubscriptionType::find($subscriber->subscription_type_id);
-            $hasRealEstateGallerySection = $subscriptionType->sections()->get();
-            $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
-        }
+    $sectionNames = Auth::user()->sectionNames();
     @endphp
 
     @include('Admin.layouts.Inc.Broker', ['sectionNames' => $sectionNames])

@@ -48,11 +48,20 @@
                         </span>
                     </a>
                     <ul class="submenu">
-                        <li><a href="{{ route('Broker.Gallery.index') }}">@lang('Properties Gallary')</a></li>
-                        <li><a href="{{ route('Broker.Gallary.showInterests') }}">@lang('Requests for interest')</a></li>
+                        @if (auth()->user()->UserBrokerData->GalleryData)
+                            <li><a href="{{ route('Broker.Gallery.index') }}">@lang('Properties Gallary')</a></li>
+                            <li><a href="{{ route('Broker.Gallary.showInterests') }}">@lang('Requests for interest')</a></li>
+                        @else
+                            <li>
+                                <a href="#v-pills-gallary" data-toggle="pill">
+                                    @lang('Properties Gallary')
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
-                @endif
+            @endif
+
             </ul>
 
         </div>

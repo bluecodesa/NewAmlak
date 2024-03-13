@@ -52,4 +52,9 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
             'is_suspend' => $isSuspend,
         ]);
     }
+
+    public function findSubscriptionByBrokerId($brokerId)
+    {
+        return Subscription::where('broker_id', $brokerId)->first();
+    }
 }

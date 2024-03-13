@@ -67,4 +67,18 @@ class User extends Authenticatable
     {
         return self::where('is_admin', 1)->get();
     }
+    public function sectionNames()
+    {
+        $sectionNames = [];
+        if ($this->is_broker) {
+            $brokerId = $this->UserBrokerData->id;
+            $subscriber = Subscription::where('broker_id', $brokerId)->first();
+            if ($subscriber) {
+                $subscriptionType = SubscriptionType::find($subscriber->subscription_type_id);
+                $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+                return $hasRealEstateGallerySection->pluck('name')->toArray();
+            }
+        }
+        return $sectionNames;
+    }
 }

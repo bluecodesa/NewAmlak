@@ -41,6 +41,10 @@ class SubscriptionService
     {
         return $this->subscriptionRepository->findSubscriberById($id);
     }
+    public function findSubscriptionByBrokerId($brokerId)
+    {
+        return $this->subscriptionRepository->findSubscriptionByBrokerId($brokerId);
+    }
 
     public function createOfficeSubscription(array $data)
     {
@@ -172,7 +176,7 @@ class SubscriptionService
          'gallery_cover' => $defaultCoverImage,
      ]);
  } else {
-     $gallery = null; 
+     $gallery = null;
  }
 
  ///
