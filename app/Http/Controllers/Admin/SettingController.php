@@ -128,7 +128,12 @@ class SettingController extends Controller
 
     function StoreEmailTemplate(Request $request, $id)
     {
-        EmailTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content]);
+        if ($request->is_login == 'on') {
+            $is_login = 1;
+        } else {
+            $is_login = 0;
+        }
+        EmailTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content, 'is_login' => $is_login, 'subject' => $request->subject]);
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
 

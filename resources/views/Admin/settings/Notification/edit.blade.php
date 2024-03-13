@@ -97,10 +97,9 @@
 
                                     <div class="col-12 m-t-20">
                                         <label for="">@lang('login')</label>
-                                        <input type="checkbox"
-                                            data-url="{{ route('Admin.Setting.ChangeActiveHomePage') }}"
-                                            class="toggleHomePage" {{ $template->is_login == 1 ? 'checked' : '' }}
-                                            data-toggle="toggle" data-onstyle="primary">
+                                        <input type="checkbox" name="is_login" class="toggleHomePage"
+                                            {{ $template->is_login == 1 ? 'checked' : '' }} data-toggle="toggle"
+                                            data-onstyle="primary">
                                     </div>
 
                                     <button type="submit"
