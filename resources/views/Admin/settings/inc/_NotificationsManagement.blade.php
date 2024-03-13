@@ -39,7 +39,7 @@
                                 {{-- @if ($Notification->id != 4) --}}
                                 <tr>
                                     <td class="sorting_1">
-                                        {{ __($Notification->notification_name) }}
+                                        {{ $Notification->EmailTemplateData->subject ?? __($Notification->notification_name) }}
                                     </td>
                                     <td>
                                         <input type="checkbox"
@@ -195,8 +195,14 @@
                     @csrf
                     <div class="form-group">
                         <label>@lang('notification_name')</label>
-                        <input type="text" name="notification_name" class="form-control" value=""
+                        <input type="text" required name="notification_name" class="form-control" value=""
                             placeholder="@lang('notification_name')">
+                    </div>
+
+                    <div class="form-group">
+                        <label>@lang('notification_name') @lang('ar') </label>
+                        <input type="text" required name="notification_name_ar" class="form-control"
+                            value="" placeholder="@lang('notification_name')">
                     </div>
 
                     <button type="submit"

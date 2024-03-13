@@ -145,7 +145,15 @@ class SettingController extends Controller
 
     function StoreNewNotification(Request $request)
     {
-        NotificationSetting::create($request->all());
+
+        $notification_name =     str_replace(' ', '_', $request['notification_name']);
+        $NotificationSetting =       NotificationSetting::create(['notification_name' => $notification_name]);
+        EmailTemplate::create([
+            'notification_setting_id' => $NotificationSetting->id,
+            'content' => null,
+            'is_login' => 1,
+            'subject' => $request->notification_name_ar
+        ]);
         return redirect()->route('Admin.settings.index')->with('success', __('added successfully'));
     }
 }
