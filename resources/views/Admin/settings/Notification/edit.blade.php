@@ -87,7 +87,7 @@
                                     <div class="form-group">
                                         <label>@lang('topic')</label>
                                         <input type="text" name="subject" class="form-control"
-                                            value="{{ $template->subject }}" placeholder="@lang('topic')">
+                                            value="{{ $template->subject ?? '' }}" placeholder="@lang('topic')">
                                     </div>
                                     <div class="m-t-20">
                                         <label for="">@lang('Email content')</label>
@@ -98,7 +98,7 @@
                                     <div class="col-12 m-t-20">
                                         <label for="">@lang('login')</label>
                                         <input type="checkbox" name="is_login" class="toggleHomePage"
-                                            {{ $template->is_login == 1 ? 'checked' : '' }} data-toggle="toggle"
+                                            {{ $template->is_login ?? '' == 1 ? 'checked' : '' }} data-toggle="toggle"
                                             data-onstyle="primary">
                                     </div>
 
