@@ -12,7 +12,8 @@
                         data-target=".bs-example-modal-lg"> @lang('Settings') </button>
                 </div>
                 <div class="col-6 text-right">
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"> @lang('Add')
+                    <button type="button" data-toggle="modal" data-target=".bs-example-modal-add"
+                        class="btn btn-primary btn-sm waves-effect waves-light"> @lang('Add')
                     </button>
                 </div>
             </div>
@@ -35,51 +36,51 @@
                         </thead>
                         <tbody>
                             @foreach ($NotificationSetting as $Notification)
-                                @if ($Notification->id == 4)
-                                    <tr>
-                                        <td class="sorting_1">
-                                            {{ __($Notification->notification_name) }}
-                                        </td>
-                                        <td>
-                                            <input type="checkbox"
-                                                data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
-                                                data-type="whatsapp" {{ $Notification->whatsapp == 1 ? 'checked' : '' }}
-                                                required name="whatsapp" class="NotificationSetting"
-                                                data-toggle="toggle" data-onstyle="success">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox"
-                                                data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
-                                                data-type="email" {{ $Notification->email == 1 ? 'checked' : '' }}
-                                                required name="email" class="NotificationSetting" data-toggle="toggle"
-                                                data-onstyle="success">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox"
-                                                data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
-                                                data-type="sms" {{ $Notification->sms == 1 ? 'checked' : '' }} required
-                                                name="sms" class="NotificationSetting" data-toggle="toggle"
-                                                data-onstyle="success">
-                                        </td>
+                                {{-- @if ($Notification->id != 4) --}}
+                                <tr>
+                                    <td class="sorting_1">
+                                        {{ __($Notification->notification_name) }}
+                                    </td>
+                                    <td>
+                                        <input type="checkbox"
+                                            data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
+                                            data-type="whatsapp" {{ $Notification->whatsapp == 1 ? 'checked' : '' }}
+                                            required name="whatsapp" class="NotificationSetting" data-toggle="toggle"
+                                            data-onstyle="success">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox"
+                                            data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
+                                            data-type="email" {{ $Notification->email == 1 ? 'checked' : '' }} required
+                                            name="email" class="NotificationSetting" data-toggle="toggle"
+                                            data-onstyle="success">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox"
+                                            data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
+                                            data-type="sms" {{ $Notification->sms == 1 ? 'checked' : '' }} required
+                                            name="sms" class="NotificationSetting" data-toggle="toggle"
+                                            data-onstyle="success">
+                                    </td>
 
-                                        <td>
+                                    <td>
 
-                                            <div class="btn-group m-b-10">
-                                                <button type="button" class="btn btn-outline-primary dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    @lang('Edit')</button>
-                                                <div class="dropdown-menu" style="">
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('Admin.update.EditEmailTemplate', $Notification->id) }}">@lang('Email')</a>
-                                                    <a class="dropdown-item" href="#">@lang('SMS')</a>
-                                                    <a class="dropdown-item" href="#">@lang('Whatsapp')</a>
-                                                    {{-- <div class="dropdown-divider"></div>
+                                        <div class="btn-group m-b-10">
+                                            <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                @lang('Edit')</button>
+                                            <div class="dropdown-menu" style="">
+                                                <a class="dropdown-item"
+                                                    href="{{ route('Admin.update.EditEmailTemplate', $Notification->id) }}">@lang('Email')</a>
+                                                <a class="dropdown-item" href="#">@lang('SMS')</a>
+                                                <a class="dropdown-item" href="#">@lang('Whatsapp')</a>
+                                                {{-- <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">@lang('Delete')</a> --}}
-                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{-- @endif --}}
                             @endforeach
 
                         </tbody>
@@ -178,6 +179,34 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+
+<div class="modal fade bs-example-modal-add" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">@lang('Add')</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('Admin.StoreNewNotification') }}" method="post" class="mt-2">
+                    @csrf
+                    <div class="form-group">
+                        <label>@lang('notification_name')</label>
+                        <input type="text" name="notification_name" class="form-control" value=""
+                            placeholder="@lang('notification_name')">
+                    </div>
+
+                    <button type="submit"
+                        class="btn btn-primary waves-effect waves-light m-t-20">@lang('save')</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 @push('scripts')
     <script>
         $('.NotificationSetting').change(function() {

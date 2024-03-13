@@ -15,7 +15,6 @@ trait MailWelcomeBroker
         $notification_id = DB::table('notification_settings')->where('notification_name', 'Real_estate_marketer_welcome_email')->value('id');
         $EmailTemplate =  EmailTemplate::where('notification_setting_id', $notification_id)->first();
         if ($EmailTemplate) {
-
             $subject =  $EmailTemplate->subject;
             $data['variable_owner_name'] = '';
             $data['variable_tenant_name'] = '';
@@ -37,9 +36,8 @@ trait MailWelcomeBroker
                 $placeholder = '$data[' . $key . ']';
                 $content = str_replace($placeholder, $value, $content);
             }
-
             try {
-                Mail::to($email)->send(new WelcomeBroker($data, $content, $subject,$EmailTemplate));
+                Mail::to($email)->send(new WelcomeBroker($data, $content, $subject, $EmailTemplate));
             } catch (\Throwable $th) {
             }
         }

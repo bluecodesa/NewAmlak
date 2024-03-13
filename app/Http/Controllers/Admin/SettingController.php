@@ -142,4 +142,10 @@ class SettingController extends Controller
     {
         return view('emails.Admin.WelcomeBroker', get_defined_vars());
     }
+
+    function StoreNewNotification(Request $request)
+    {
+        NotificationSetting::create($request->all());
+        return redirect()->route('Admin.settings.index')->with('success', __('added successfully'));
+    }
 }
