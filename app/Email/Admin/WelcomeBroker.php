@@ -15,18 +15,21 @@ class WelcomeBroker extends Mailable
 
     public $data;
     public $content;
-    public $Notification_name;
+    public $subject;
+    public $EmailTemplate;
 
-    public function __construct($data, $content, $Notification_name)
+
+    public function __construct($data, $content, $subject, $EmailTemplate)
     {
         $this->data = $data;
         $this->content = $content;
-        $this->Notification_name = $Notification_name;
+        $this->subject = $subject;
+        $this->EmailTemplate = $EmailTemplate;
     }
 
     public function build()
     {
-        return $this->subject($this->Notification_name)
+        return $this->subject($this->subject)
             ->view('emails.Admin.WelcomeBroker');
     }
 }

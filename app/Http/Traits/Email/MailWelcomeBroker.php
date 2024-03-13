@@ -16,7 +16,7 @@ trait MailWelcomeBroker
         $EmailTemplate =  EmailTemplate::where('notification_setting_id', $notification_id)->first();
         if ($EmailTemplate) {
 
-            $Notification_name =  __($EmailTemplate->NotificationData->notification_name);
+            $subject =  $EmailTemplate->subject;
             $data['variable_owner_name'] = '';
             $data['variable_tenant_name'] = '';
             $data['variable_building_name'] = '';
@@ -39,7 +39,7 @@ trait MailWelcomeBroker
             }
 
             try {
-                Mail::to($email)->send(new WelcomeBroker($data, $content, $Notification_name));
+                Mail::to($email)->send(new WelcomeBroker($data, $content, $subject,$EmailTemplate));
             } catch (\Throwable $th) {
             }
         }

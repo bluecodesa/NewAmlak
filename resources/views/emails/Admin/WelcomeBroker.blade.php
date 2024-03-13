@@ -7,7 +7,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>املاك</title>
+    <title>{{ $sitting->title }}</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/EmailMessage"
@@ -61,17 +61,19 @@
                                             {!! $content !!}
                                         </td>
                                     </tr>
-                                    <tr
-                                        style="font-family: system-ui; box-sizing: border-box; font-size: 14px; margin: 0;">
-                                        <td class="content-block"
-                                            style="font-family: system-ui; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
-                                            valign="top">
-                                            <a href="{{ route('Admin.home') }}" class="btn-primary"
-                                                style="font-family: system-ui; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #002060; margin: 0; border-color: #002060; border-style: solid; border-width: 8px 16px;">
-                                                @lang('login')
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @if ($EmailTemplate['is_login'] == 1)
+                                        <tr
+                                            style="font-family: system-ui; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                            <td class="content-block"
+                                                style="font-family: system-ui; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
+                                                valign="top">
+                                                <a href="{{ route('Admin.home') }}" class="btn-primary"
+                                                    style="font-family: system-ui; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background-color: #002060; margin: 0; border-color: #002060; border-style: solid; border-width: 8px 16px;">
+                                                    @lang('login')
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                     <tr
                                         style="font-family: system-ui; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block"
@@ -95,7 +97,7 @@
                                     style="font-family: system-ui; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;"
                                     align="center" valign="top">
                                     ©
-                                    جميع الحقوق محفوظة لـ <strong>املاك</strong>
+                                    جميع الحقوق محفوظة لـ <strong>{{ $sitting->title }}</strong>
                                 </td>
                             </tr>
                         </table>
