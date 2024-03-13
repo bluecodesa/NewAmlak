@@ -1,11 +1,23 @@
 <div class="col-md-12 ArFont">
     <div class="card timeline shadow">
-        <div class="card-header">
-            <strong class="card-title">
-                @lang('Notifications Management')
-            </strong>
-            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
-                data-target=".bs-example-modal-lg"> @lang('Settings') </button>
+        <div class="card-header col-12">
+            <div class="row">
+
+                <div class="col-6">
+
+                    <strong class="card-title">
+                        @lang('Notifications Management')
+                    </strong>
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
+                        data-target=".bs-example-modal-lg"> @lang('Settings') </button>
+                </div>
+                <div class="col-6 text-right">
+                    <button type="button" data-toggle="modal" data-target=".bs-example-modal-add"
+                        class="btn btn-primary btn-sm waves-effect waves-light"> @lang('Add')
+                    </button>
+                </div>
+            </div>
+
         </div>
 
         <div class="card-body">
@@ -24,9 +36,10 @@
                         </thead>
                         <tbody>
                             @foreach ($NotificationSetting as $Notification)
+                                {{-- @if ($Notification->id != 4) --}}
                                 <tr>
                                     <td class="sorting_1">
-                                        {{ __($Notification->notification_name) }}
+                                        {{ $Notification->EmailTemplateData->subject ?? __($Notification->notification_name) }}
                                     </td>
                                     <td>
                                         <input type="checkbox"
@@ -61,12 +74,13 @@
                                                     href="{{ route('Admin.update.EditEmailTemplate', $Notification->id) }}">@lang('Email')</a>
                                                 <a class="dropdown-item" href="#">@lang('SMS')</a>
                                                 <a class="dropdown-item" href="#">@lang('Whatsapp')</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">@lang('Delete')</a>
+                                                {{-- <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">@lang('Delete')</a> --}}
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
+                                {{-- @endif --}}
                             @endforeach
 
                         </tbody>
@@ -165,6 +179,40 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+
+<div class="modal fade bs-example-modal-add" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">@lang('Add')</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('Admin.StoreNewNotification') }}" method="post" class="mt-2">
+                    @csrf
+                    <div class="form-group">
+                        <label>@lang('notification_name')</label>
+                        <input type="text" required name="notification_name" class="form-control" value=""
+                            placeholder="@lang('notification_name')">
+                    </div>
+
+                    <div class="form-group">
+                        <label>@lang('notification_name') @lang('ar') </label>
+                        <input type="text" required name="notification_name_ar" class="form-control"
+                            value="" placeholder="@lang('notification_name')">
+                    </div>
+
+                    <button type="submit"
+                        class="btn btn-primary waves-effect waves-light m-t-20">@lang('save')</button>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 @push('scripts')
     <script>
         $('.NotificationSetting').change(function() {

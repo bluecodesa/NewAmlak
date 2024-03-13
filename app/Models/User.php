@@ -41,7 +41,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
     public function subscriptionTypes()
     {
         return $this->hasMany(SubscriptionType::class);

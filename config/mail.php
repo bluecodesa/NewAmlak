@@ -39,8 +39,8 @@ return [
             'host' => env('MAIL_HOST', 'smtp.titan.email'),
             'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
-            'username' => 'info@hasibly.com',
-            'password' => '01003315Amr',
+            'username' => 'info@trymarafiq.com',
+            'password' => '46554655Amr@',
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_DRIVER', 'info@hasibly.com'),
-        'name' => env('MAIL_USERNAME', 'Hasibly'),
+        'address' => env('MAIL_DRIVER', 'info@trymarafiq.com'),
+        'name' => env('MAIL_USERNAME', 'amalak'),
     ],
 
     /*

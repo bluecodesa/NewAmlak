@@ -15,7 +15,8 @@
                 <div class="page-title-box">
                     <div class="row align-items-center">
                         <div class="col-sm-6">
-                            <h4 class="page-title"> @lang('Edit') @lang('Notifications')</h4>
+                            <h4 class="page-title"> @lang('Edit') @lang('Notifications') :
+                                {{ $notification->EmailTemplateData->subject ?? __($notification->notification_name) }}</h4>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
@@ -84,15 +85,21 @@
                                     method="post" class="mt-2">
                                     @csrf
                                     <div class="form-group">
-                                        <label>@lang('templet name')</label>
-                                        <input type="text" readonly disabled class="form-control"
-                                            value="{{ __($notification->notification_name) }}"
-                                            placeholder="@lang('templet name')">
+                                        <label>@lang('topic')</label>
+                                        <input type="text" name="subject" class="form-control"
+                                            value="{{ $template->subject ?? '' }}" placeholder="@lang('topic')">
                                     </div>
                                     <div class="m-t-20">
                                         <label for="">@lang('Email content')</label>
                                         {{-- <textarea name="content" id="textarea" class="summernote">{{ $template->content ?? null }}</textarea> --}}
                                         <textarea id="textarea" class="form-control" name="content" cols="30" rows="30" placeholder=""> {{ $template->content ?? null }} </textarea>
+                                    </div>
+
+                                    <div class="col-12 m-t-20">
+                                        <label for="">@lang('login')</label>
+                                        <input type="checkbox" name="is_login" class="toggleHomePage"
+                                            {{ $template->is_login ?? '' == 1 ? 'checked' : '' }} data-toggle="toggle"
+                                            data-onstyle="primary">
                                     </div>
 
                                     <button type="submit"

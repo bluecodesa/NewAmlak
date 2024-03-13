@@ -128,7 +128,12 @@ class SettingController extends Controller
 
     function StoreEmailTemplate(Request $request, $id)
     {
-        EmailTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content]);
+        if ($request->is_login == 'on') {
+            $is_login = 1;
+        } else {
+            $is_login = 0;
+        }
+        EmailTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content, 'is_login' => $is_login, 'subject' => $request->subject]);
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
 
@@ -136,5 +141,19 @@ class SettingController extends Controller
     function TestSendMail()
     {
         return view('emails.Admin.WelcomeBroker', get_defined_vars());
+    }
+
+    function StoreNewNotification(Request $request)
+    {
+
+        $notification_name =     str_replace(' ', '_', $request['notification_name']);
+        $NotificationSetting =       NotificationSetting::create(['notification_name' => $notification_name]);
+        EmailTemplate::create([
+            'notification_setting_id' => $NotificationSetting->id,
+            'content' => null,
+            'is_login' => 1,
+            'subject' => $request->notification_name_ar
+        ]);
+        return redirect()->route('Admin.settings.index')->with('success', __('added successfully'));
     }
 }
