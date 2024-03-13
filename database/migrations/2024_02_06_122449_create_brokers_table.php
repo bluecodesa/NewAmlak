@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('broker_license')->unique();
             $table->string('mobile')->unique();
             $table->integer('city_id')->unsigned()->nullable();
-            $table->string('id_number')->unique();
+            $table->string('id_number')->unique()->nullable();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
