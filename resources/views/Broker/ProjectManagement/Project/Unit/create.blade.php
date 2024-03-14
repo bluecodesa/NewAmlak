@@ -136,9 +136,8 @@
                                     </div>
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Instrument number') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="instrument_number" class="form-control"
+                                        <label class="form-label">@lang('Instrument number')</label>
+                                        <input type="number" name="instrument_number" class="form-control"
                                             placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
                                     </div>
 
