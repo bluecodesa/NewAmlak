@@ -281,6 +281,7 @@
     "Create an account": "انشاء حساب جديد",
     "topic": "الموضوع",
     "Click to add it": "انقر لإضافته",
+    "Enter an address": "ادخل عنوان",
     "notification_name": "اسم الاشعار",
     "Remember me": "تذكرني",
     "Number Of Owners": "عدد الملاك",
@@ -305,5 +306,4 @@
     "period": "المدة",
     "Filter": "تصفيه",
     "current subscription": "الاشتراك الحالي"
-
 }

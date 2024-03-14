@@ -48,10 +48,11 @@ Route::group(
             route::put('updateBroker/{id}', [SettingController::class, 'updateBroker'])->name('Setting.updateBroker')->middleware('CheckSubscription');
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
+            Route::post('SaveNewOwners', [UnitController::class, 'SaveNewOwners'])->name('Unit.SaveNewOwners');
             route::resource('Gallery', GallaryController::class)->middleware('CheckSubscription');
             Route::post('/update-cover', [GallaryController::class, 'updateCover'])->name('Gallery.update-cover');
-            Route::post('/gallery/create', [GallaryController::class,'createGallery'])->name('Gallery.create');
-            Route::post('/gallery/custom-update/{gallery}',[GallaryController::class, 'customUpdate'])->name('Gallery.customUpdate');
+            Route::post('/gallery/create', [GallaryController::class, 'createGallery'])->name('Gallery.create');
+            Route::post('/gallery/custom-update/{gallery}', [GallaryController::class, 'customUpdate'])->name('Gallery.customUpdate');
             Route::get('Gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showGalleryUnit'])->name('Gallary.showUnit');
             Route::get('Interests', [GallaryController::class, 'showInterests'])->name('Gallary.showInterests')->middleware('CheckSubscription');
             Route::get('/CreateUnit/{id}', 'ProjectManagement\PropertyController@CreateUnit')->name('Property.CreateUnit')->middleware('CheckSubscription');

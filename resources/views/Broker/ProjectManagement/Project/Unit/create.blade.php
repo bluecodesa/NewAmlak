@@ -61,7 +61,7 @@
 
                                     <div class="form-group col-md-3">
                                         <label>@lang('city') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="city_id" id="CityDiv" required>
+                                        <select class="form-control CityDiv" name="city_id" required>
                                             <option disabled value="" selected>@lang('city') </option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}"
@@ -85,8 +85,8 @@
                                         <label class="form-label">@lang('location') <span
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="location" id="myAddressBar"
-                                            class="form-control" placeholder="@lang('location name')"
-                                            value="{{ old('location name') }}" />
+                                            class="form-control" placeholder="@lang('Enter an address')"
+                                            value="{{ old('location') }}" />
                                     </div>
 
 
@@ -114,8 +114,19 @@
 
 
                                     <div class="form-group col-md-4 mb-3">
-                                        <label>@lang('owner name') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="owner_id" required>
+                                        <div class="row">
+                                            <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                            </label>
+                                            <label class="text-right col-md-6">
+                                                <button type="button" data-toggle="modal"
+                                                    data-target=".bs-example-modal-center"
+                                                    class="btn btn-primary btn-sm waves-effect waves-light btn-sm">
+                                                    @lang('Add New Owner')
+                                                </button>
+                                            </label>
+                                        </div>
+
+                                        <select class="form-control" id="OwnersDiv" name="owner_id" required>
                                             <option disabled selected value="">@lang('owner name')</option>
                                             @foreach ($owners as $owner)
                                                 <option value="{{ $owner->id }}">
@@ -153,18 +164,16 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('number rooms') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="rooms" class="form-control"
+                                        <label class="form-label">@lang('number rooms') </label>
+                                        <input type="number" name="rooms" class="form-control"
                                             placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
                                     </div>
 
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Number bathrooms') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="bathrooms" class="form-control"
+                                        <label class="form-label">@lang('Number bathrooms') </label>
+                                        <input type="number" name="bathrooms" class="form-control"
                                             placeholder="@lang('Number bathrooms')" value="{{ old('Number bathrooms') }}" />
                                     </div>
 
@@ -198,9 +207,8 @@
 
 
                                     <div class="form-group col-md-3 mb-3">
-                                        <label>@lang('services') <span class="required-color">*</span> </label>
-                                        <select class="select2 form-control" name="service_id[]" multiple="multiple"
-                                            required>
+                                        <label>@lang('services')</label>
+                                        <select class="select2 form-control" name="service_id[]" multiple="multiple">
                                             <option disabled value="">@lang('services')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}">
@@ -218,8 +226,7 @@
 
 
                                     <div class="form-group col-12 mb-3">
-                                        <label class="form-label">@lang('Additional details') <span
-                                                class="required-color">*</span></label>
+                                        <label class="form-label">@lang('Additional details') </label>
                                         <div id="features" class="row">
                                             <div class="col">
                                                 <input type="text" name="name[]" class="form-control search"
@@ -258,10 +265,32 @@
 
         </div>
         <!-- container-fluid -->
-
+        @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
     </div>
     @push('scripts')
         <script>
+            $(document).ready(function() {
+                // Intercept form submission
+                $('#OwnerForm').submit(function(event) {
+                    event.preventDefault();
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: $(this).attr('action'), // Form action URL
+                        data: formData, // Form data
+                        success: function(data) {
+                            $('#OwnersDiv').empty();
+                            $('#OwnersDiv').append(data);
+                            $('.bs-example-modal-center').modal('hide');
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error response here
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+            });
+
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
@@ -269,10 +298,10 @@
                     type: "get",
                     url: url,
                     beforeSend: function() {
-                        $('#CityDiv').fadeOut('fast');
+                        $('.CityDiv').fadeOut('fast');
                     },
                     success: function(data) {
-                        $('#CityDiv').fadeOut('fast', function() {
+                        $('.CityDiv').fadeOut('fast', function() {
                             $(this).empty().append(data);
                             $(this).fadeIn('fast');
                         });
@@ -280,7 +309,7 @@
                 });
             });
 
-            $('#CityDiv').on('change', function() {
+            $('.CityDiv').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
                 $.ajax({
@@ -291,6 +320,25 @@
                     },
                     success: function(data) {
                         $('#DistrictDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+
+
+            $('.Region_id').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#CityDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#CityDiv').fadeOut('fast', function() {
                             $(this).empty().append(data);
                             $(this).fadeIn('fast');
                         });
