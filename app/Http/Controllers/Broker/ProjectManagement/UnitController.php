@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
+use App\Services\Broker\OwnerService;
 use App\Services\Broker\UnitService;
 use App\Services\FeatureService;
 use App\Services\PropertyTypeService;
@@ -27,9 +28,9 @@ class UnitController extends Controller
     protected $ServiceTypeService;
     protected $AllServiceService;
     protected $FeatureService;
+    protected $ownerService;
 
-
-    public function __construct(UnitService $UnitService, RegionService $regionService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    public function __construct(OwnerService $ownerService, UnitService $UnitService, RegionService $regionService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -40,6 +41,7 @@ class UnitController extends Controller
         $this->ServiceTypeService = $ServiceTypeService;
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
+        $this->ownerService = $ownerService;
     }
 
     public function index()
@@ -61,6 +63,13 @@ class UnitController extends Controller
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
         return view('Broker.ProjectManagement.Project.Unit.create', get_defined_vars());
+    }
+
+    function SaveNewOwners(Request $request)
+    {
+        $this->ownerService->createOwner($request->all());
+        $owners = $this->brokerDataService->getOwners();
+        return view('Broker.ProjectManagement.Project.Unit.inc._owners', compact('owners'));
     }
 
     public function store(Request $request)

@@ -9,7 +9,7 @@ class UnitService
 {
 
     protected $UnitRepository;
-    
+
 
     public function __construct(UnitRepositoryInterface $UnitRepository)
     {
@@ -30,7 +30,7 @@ class UnitService
             // 'property_type_id' => 'required',
             // 'property_usage_id' => 'required',
             // 'owner_id' => 'required',
-            // 'instrument_number' => 'required|numeric',
+            // 'instrument_number' => 'nullable',
             // 'service_type_id' => 'required',
             // "show_gallery" => 'required',
             // 'space' => 'required|numeric',
@@ -70,7 +70,7 @@ class UnitService
             'property_type_id' => 'required',
             'property_usage_id' => 'required',
             'owner_id' => 'required',
-            'instrument_number' => 'required|numeric',
+            'instrument_number' => 'nullable',
             'service_type_id' => 'required',
             "show_gallery" => 'required',
             'space' => 'required|numeric',
