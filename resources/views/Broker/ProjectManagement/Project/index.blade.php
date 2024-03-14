@@ -56,7 +56,7 @@
                                                 {{-- <th>@lang('service type')</th> --}}
                                                 {{-- <th>@lang('location name')</th> --}}
                                                 <th>@lang('Number Properties')</th>
-                                                <th>@lang('Number units')</th>
+                                                {{-- <th>@lang('Number units')</th> --}}
                                                 <th>@lang('Action')</th>
                                             </tr>
                                         </thead>
@@ -72,7 +72,7 @@
                                                     {{-- <td>{{ $project->ServiceTypeData->name ?? '' }}</td> --}}
                                                     {{-- <td>{{ $project->location ?? '' }}</td> --}}
                                                     <td> {{ $project->PropertiesProject->count() }} </td>
-                                                    <td> {{ $project->PropertiesProject->PropertyUnits->count() }} </td>
+                                                    {{-- <td> {{ $project->PropertiesProject->PropertyUnits->count() }} </td> --}}
                                                     <td>
 
                                                         <a href="{{ route('Broker.Project.show', $project->id) }}"
