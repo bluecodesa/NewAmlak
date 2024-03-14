@@ -32,7 +32,7 @@ class PropertyService
             'city_id' => 'required|exists:cities,id',
             'owner_id' => 'required|exists:owners,id',
             'instrument_number' => [
-                'required',
+                'nullable',
                 Rule::unique('properties'),
                 'max:25'
             ],
@@ -64,7 +64,7 @@ class PropertyService
             'city_id' => 'required|exists:cities,id',
             'owner_id' => 'required|exists:owners,id',
             'instrument_number' => [
-                'required',
+                'nullable',
                 Rule::unique('properties')->ignore($id),
                 'max:25'
             ],
