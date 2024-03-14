@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
+use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Middleware\PendingPaymentPopup;
 
 
@@ -54,6 +55,8 @@ Route::group(
         Auth::routes();
         Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
         Route::get('gallery/{gallery_name}/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
+        Route::post('/unit_interests',  [UnitInterestController::class, 'store'])->name('unit_interests.store');
+
     }
 
 );

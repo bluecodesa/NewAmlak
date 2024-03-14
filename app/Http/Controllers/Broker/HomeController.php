@@ -8,6 +8,7 @@ use App\Models\District;
 use App\Models\Owner;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
+use App\Models\UnitInterest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Unit;
@@ -61,13 +62,17 @@ class HomeController extends Controller
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = $this->ownerService->getAllByBrokerId($brokerId)->count();
         $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
-
+        $numberOfInterests = UnitInterest::where('user_id', auth()->user()->id)->count();
+        $numberOfVacantUnits = $this->UnitService->getAll($brokerId)->where('status', 'vacant')->count();
+        $numberOfRentedUnits = $this->UnitService->getAll($brokerId)->where('status', 'rened')->count();
         if ($user && $user->is_broker && $user->UserBrokerData) {
             $subscription = $user->UserBrokerData->UserSubscriptionPending;
             $pendingPayment = $subscription && $subscription->status === 'pending';
         }
 
         $subscriber = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
+        $SubscriptionType=$this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
+
         //
         $sectionNames = [];
         if ($subscriber) {

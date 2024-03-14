@@ -112,43 +112,36 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($gallrays as $index => $gallary)
+                                                @foreach ($unitInterests as $index => $client)
                                                     <tr>
+
                                                         <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $gallary->number_unit ?? '' }}</td>
-                                                        <td>{{  $gallary->PropertyData->name ?? __('nothing') }}</td>
-                                                        <td> </td>
-                                                        <td>
-                                                        </td>
+                                                        <td>{{ $client->unit->number_unit ?? '' }}</td>
+                                                        <td>{{ $client->unit->PropertyData->name ?? __('nothing') }}</td>
+                                                        <td> {{ $client->name }}</td>
+                                                        <td>{{ $client->whatsapp }}</td>
                                                         <td>
                                                             <form method="POST" action="https://dev.tryamlak.com/unit/interest/status">
 
                                                                 <input type="hidden" name="_token" value="">
                                                                  <input name="id" value="" hidden="">
-                                                                <select class="form-control select-input w-auto" name="status" onchange="chengeStatus(this)">
-                                                                    <option value="عميل جديد">
-                                                                        عميل جديد</option>
-                                                                    <option value="جاري التواصل">
-                                                                        جاري التواصل</option>
-                                                                    <option value="تم الاتفاق">
-                                                                        تم الاتفاق</option>
-                                                                    <option value="عميل غير مهتم" >
-                                                                        عميل غير مهتم</option>
+                                                                 <select class="form-control select-input w-auto" name="status" onchange="changeStatus(this)">
+                                                                    <option value="New" {{ $client->status == 'new order' ? 'selected' : '' }}>طلب جديد</option>
+                                                                    <option value="new order" {{ $client->status == '' ? 'selected' : '' }}>جاري التواصل</option>
+                                                                    <option value="تم الاتفاق" {{ $client->status == 'تم الاتفاق' ? 'selected' : '' }}>تم الاتفاق</option>
+                                                                    <option value="عميل غير مهتم" {{ $client->status == 'عميل غير مهتم' ? 'selected' : '' }}>عميل غير مهتم</option>
                                                                 </select>
                                                                 <button type="submit" class="submit-from" hidden=""></button>
                                                             </form>
                                                         </td>
 
                                                         <td>
-                                                            <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" data-toggle="modal" data-target="#shareLinkUnit{{ $gallary->id }}"
-                                                                href="" onclick="document.querySelector('#shareLinkUnit{{ $gallary->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
+                                                            <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" data-toggle="modal" data-target="#shareLinkUnit{{ $client->id }}"
+                                                                href="tel:{{ env('COUNTRY_CODE') . $client->whatsapp }}" onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
                                                                 @lang('مكالمة')</a>
 
-                                                            <a href="{{ route('Broker.Gallery.show', $gallary->id) }}"
+                                                            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $client->whatsapp }}"
                                                                 class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
-
-                                                            <a href="{{ route('Broker.Gallery.edit', $gallary->id) }}"
-                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang(' اضافة كا مالك ')</a>
 
 
                                                         </td>

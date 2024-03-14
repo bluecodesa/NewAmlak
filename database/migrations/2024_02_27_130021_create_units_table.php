@@ -39,6 +39,7 @@ return new class extends Migration
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
             $table->foreign('broker_id')->references('id')->on('brokers')->onDelete('cascade');
             $table->foreign('property_type_id')->references('id')->on('property_types')->onDelete('cascade');
+            $table->enum('status', ['vacant', 'rented'])->default('vacant'); 
             $table->timestamps();
         });
     }

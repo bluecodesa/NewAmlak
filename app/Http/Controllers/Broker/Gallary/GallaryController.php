@@ -13,6 +13,7 @@ use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Http\Controllers\Controller;
+use App\Models\Broker;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\Unit;
@@ -134,9 +135,9 @@ class GallaryController extends Controller
 
 
 
-
         public function showUnitPublic($gallery_name, $id)
         {
+
             $data = $this->galleryService->showUnitPublic($gallery_name, $id);
 
             return view('Home.Gallery.Unit.show', $data);

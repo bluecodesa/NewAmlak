@@ -83,12 +83,15 @@
                         </button>
 
                     </div>
+
                     <div class="modal-body pb-3">
                         <p>برجاء ادخال بياناتك وسوف نتواصل مع حضرتك في أقرب وقت</p>
 
-                        <form action="" method="POST">
+                        <form action="{{ route('unit_interests.store') }}" method="POST">
                             @csrf
                             <div class="row">
+                                <input hidden name="unit_id" value="{{ $unit_id }}" />
+                                <input hidden name="user_id" value="{{ $user_id }}" /> <!-- Add this line -->
                                 <div class="col-sm-12 col-md-6">
                                     <label for="name">الاسم<span class="text-danger">*</span></label>
 
@@ -97,8 +100,7 @@
 
                                 <div class="col-sm-12 col-md-6">
 
-                                    <label for="whatsapp">رقم الهاتف(واتساب)<span class="text-danger">*</span></label>
-                                    <input hidden name="unit_id" />
+                                    <label for="whatsapp">رقم (واتساب)<span class="text-danger">*</span></label>
 
                                     <div style="position:relative">
                                         <input type="tel" class="form-control" id="whatsapp" minlength="9"

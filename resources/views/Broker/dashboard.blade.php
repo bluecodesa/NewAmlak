@@ -32,7 +32,8 @@
                 <div class="col-lg-12">
                     <div class="card m-b-30">
                         <div class="card-body">
-                            <h4 class="mt-0 header-title">@lang('current subscription')</h4>
+                            <h4 class="mt-0 header-title"><h4 class="mt-0 header-title">@lang('current subscription') :  {{ $SubscriptionType->name }}</h4>
+                        </h4>
                             @php
                                $endDate = \Carbon\Carbon::parse($subscriber->end_date);
                                 $now = \Carbon\Carbon::now();
@@ -125,9 +126,9 @@
                                         <i class="mdi mdi-briefcase-check bg-success text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="font-16"> الإشغال</h5>
+                                        <h5 class="font-16"> شاغر</h5>
                                     </div>
-                                    <h3 class="mt-4">43,225</h3>
+                                    <h3 class="mt-4">{{ $numberOfVacantUnits }}</h3>
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-success" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
@@ -139,6 +140,29 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-briefcase-check bg-success text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-16"> مؤجر</h5>
+                                    </div>
+                                    <h3 class="mt-4">{{ $numberOfRentedUnits }}</h3>
+                                    <div class="progress mt-4" style="height: 4px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 75%"
+                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span></p>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="col-sm-6 col-xl-3">
                             <div class="card">
@@ -192,7 +216,7 @@
                                     <div>
                                         <h5 class="font-16"> طلبات الاهتمام </h5>
                                     </div>
-                                    <h3 class="mt-4">43,225</h3>
+                                    <h3 class="mt-4">{{ $numberOfInterests }}</h3>
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
@@ -283,10 +307,14 @@
                                             </g>
                                             <g>
                                                 <g class="ct-series ct-series-a">
-                                                    <line x1="59.91666666666667" x2="59.91666666666667" y1="265"
-                                                        y2="65" class="ct-bar" ct:value="8"></line>
-                                                    <line x1="89.75" x2="89.75" y1="265" y2="115"
-                                                        class="ct-bar" ct:value="6"></line>
+                                                    <line x1="59.91666666666667" x2="59.91666666666667" y1="265" y2="...">
+                                                        <!-- Use ct-bar class for styling -->
+                                                        <line class="ct-bar" ct:value="{{ $numberOfVacantUnits }}"></line>
+                                                    </line>
+                                                        <line x1="89.75" x2="89.75" y1="265" y2="...">
+                                                            <!-- Use ct-bar class for styling -->
+                                                            <line class="ct-bar" ct:value="{{ $numberOfRentedUnits }}"></line>
+                                                        </line>
                                                     <line x1="119.58333333333333" x2="119.58333333333333" y1="265"
                                                         y2="40" class="ct-bar" ct:value="9"></line>
                                                     <line x1="149.41666666666666" x2="149.41666666666666" y1="265"
@@ -446,36 +474,35 @@
                                     <div class="row mb-4">
                                         <div class="col-6">
 
-                                            <p style="margin-bottom: 0">%<span class="span-akkar"></span></p>
-                                            <span> شاغر</span>
+                                            <p style="margin-bottom: 0">{{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%<span class="span-akkar"></span></p>
+                                            <span> @lang('vacant')</span>
                                         </div>
                                         <div class="col-6">
-                                            <p style="margin-bottom: 0">%<span class="span-akkar"></span></p>
-                                            <span>مؤجر </span>
+                                            <p style="margin-bottom: 0">{{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%<span class="span-akkar"></span></p>
+                                            <span>@lang('rented') </span>
                                         </div>
                                     </div>
-                                    <div id="simple-pie" class="ct-chart ct-golden-section simple-pie-chart-chartist"><svg
-                                            xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%"
-                                            height="100%" class="ct-chart-pie" style="width: 100%; height: 100%;">
+                                    <div id="simple-pie" class="ct-chart ct-golden-section simple-pie-chart-chartist">
+                                        <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-pie" style="width: 100%; height: 100%;">
                                             <g class="ct-series ct-series-a">
-                                                <path d="M266.989,283.963A145,145,0,0,0,211.5,5L211.5,150Z"
-                                                    class="ct-slice-pie" ct:value="7"></path>
+                                                <path d="M266.989,283.963A145,145,0,0,0,211.5,5L211.5,150Z" class="ct-slice-pie" ct:value="7"></path>
                                             </g>
                                             <g class="ct-series ct-series-b">
-                                                <path d="M66.5,150A145,145,0,0,0,267.456,283.768L211.5,150Z"
-                                                    class="ct-slice-pie" ct:value="5"></path>
+                                                <path d="M66.5,150A145,145,0,0,0,267.456,283.768L211.5,150Z" class="ct-slice-pie" ct:value="5"></path>
                                             </g>
-                                            <g class="ct-series ct-series-c">
-                                                <path d="M211.5,5A145,145,0,0,0,66.501,150.506L211.5,150Z"
-                                                    class="ct-slice-pie" ct:value="4"></path>
+                                            <g>
+                                                <!-- Vacant units percentage -->
+                                                <text dx="282.6069328292342" dy="135.85595165383072" text-anchor="middle" class="ct-label">
+                                                    {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%
+                                                </text>
+                                                <!-- Rented units percentage -->
+                                                <text dx="171.22115810607883" dy="210.2815468919345" text-anchor="middle" class="ct-label">
+                                                    {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%
+                                                </text>
                                             </g>
-                                            <g><text dx="282.6069328292342" dy="135.85595165383072" text-anchor="middle"
-                                                    class="ct-label">44%</text><text dx="171.22115810607883"
-                                                    dy="210.2815468919345" text-anchor="middle"
-                                                    class="ct-label">31%</text><text dx="160.2347583639753"
-                                                    dy="98.73475836397532" text-anchor="middle"
-                                                    class="ct-label">25%</text></g>
-                                        </svg></div>
+                                        </svg>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

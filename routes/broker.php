@@ -11,6 +11,7 @@ use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
 use App\Http\Controllers\Broker\SettingController;
 use App\Http\Controllers\Broker\ProjectManagement\PropertyController;
 use App\Http\Controllers\Broker\ProjectManagement\UnitController;
+use App\Http\Controllers\Home\UnitInterestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PendingPaymentPopup;
 
@@ -53,7 +54,7 @@ Route::group(
             Route::post('/gallery/create', [GallaryController::class,'createGallery'])->name('Gallery.create');
             Route::post('/gallery/custom-update/{gallery}',[GallaryController::class, 'customUpdate'])->name('Gallery.customUpdate');
             Route::get('Gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showGalleryUnit'])->name('Gallary.showUnit');
-            Route::get('Interests', [GallaryController::class, 'showInterests'])->name('Gallary.showInterests')->middleware('CheckSubscription');
+            Route::get('Interests', [UnitInterestController::class, 'index'])->name('Gallary.showInterests')->middleware('CheckSubscription');
             Route::get('/CreateUnit/{id}', 'ProjectManagement\PropertyController@CreateUnit')->name('Property.CreateUnit')->middleware('CheckSubscription');
             Route::get('autocomplete', 'ProjectManagement\PropertyController@autocomplete')->name('Property.autocomplete')->middleware('CheckSubscription');
             Route::post('StoreUnit/{id}', 'ProjectManagement\PropertyController@StoreUnit')->name('Property.StoreUnit')->middleware('CheckSubscription');

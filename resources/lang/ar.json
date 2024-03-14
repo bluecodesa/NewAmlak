@@ -304,6 +304,9 @@
     "Edit Gallery Name": "تعديل اسم المعرض",
     "period": "المدة",
     "Filter": "تصفيه",
-    "current subscription": "الاشتراك الحالي"
+    "current subscription": "الاشتراك الحالي",
+    "vacant": "شاغرة",
+    "rented": "مؤجرة"
+
 
 }

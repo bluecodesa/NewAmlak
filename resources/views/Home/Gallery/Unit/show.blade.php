@@ -15,64 +15,69 @@
                     style="border-radius: 28px;filter:drop-shadow(0px 3px 3px rgba(161,137,137,0.09 ));">
 
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                        {{--
-                            <ol class="carousel-indicators">
+
+                            {{-- <ol class="carousel-indicators">
                             @php
                                 $i = 0;
                             @endphp
-                            @foreach ($unit->images as $img)
-                                <li data-target="#carouselExampleIndicators" data-slide-to="{{ $i }}"
-                                    class="@if ($i == 0) active @endif"></li>
+                            @foreach ($Unit->UnitImages as $img)
+                            <img class="d-block w-100" src="{{ asset($img['image']) }}" alt="First slide"
+                                        style="height: 350px;object-fit:contain">
                             @endforeach
                         </ol> --}}
                         <div class="carousel-inner">
                             @php
                                 $i = 0;
                             @endphp
-                             <div class="col-md-3">
-                                <div class="row">
-                                    @forelse($Unit->UnitImages as $image)
-                                        <div class="col-6 mb-1">
-                                            <img class="rounded" src="{{ url($image->image) }}"
-                                                alt="{{ $Unit->number_unit }}" style="width: 100%;">
-                                        </div>
-                                    @empty
-                                        <img class="d-flex align-self-end rounded mr-3 col"
-                                            src="{{ url('Offices/Projects/default.svg') }}"
-                                            alt="{{ $Unit->number_unit }}" height="200">
-                                    @endforelse
-
+                            @foreach ($Unit->UnitImages as $img)
+                                <div class="carousel-item @if ($i == 0) active @endif ">
+                                    <img class="d-block w-100" src="{{ asset($img['image']) }}" alt="First slide"
+                                        style="height: 350px;object-fit:contain">
                                 </div>
-                            </div>
+                                @php
+                                    $i++;
+                                @endphp
+                            @endforeach
 
 
                         </div>
+
 
                     </div>
 
                     <div class="card-body p-4 pt-3 pb-3">
 
                         <div class="row justify-content-between mt-2 mb-3">
-                            <span class="w-auto m-0 p-0" style="font-weight: 900">وحدة رقم
-                                {{ $Unit->number }}</span>
-                            <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">5000
-                                sar</span>
+                            <span class="w-auto m-0 p-0" style="font-weight: 900">
+                                @lang('Residential number') :
+                                    {{ $Unit->number_unit }}
+                                </span>
+                            <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $Unit->price }}
+                                @lang('SAR')</span>
                         </div>
                         <div class="row">
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
-                            <span class=" w-auto mb-2" style="color: #989898">مشروع
-                                {{ $Unit->owners_proparties->project->name ?? '' }} - عقار
-                                {{ $Unit->owners_proparties->name ?? '' }} -
-                                {{ $Unit->owners_proparties->type ?? '' }}
+                            <span class=" w-auto mb-2" style="color: #989898">@lang('owner name') /
+                                {{ $Unit->OwnerData->name ?? '' }}
                             </span>
+                            <img src="{{ asset('dashboard/assets/new-icons/Iconly_Light_Locatio.png') }}"
+                            style="width: 18px;height: fit-content;" class="p-0" />
+                        <span class=" w-auto mb-2" style="color: #989898"> @lang('Region') -
+                            {{ $Unit->CityData->RegionData->name ?? '' }} - @lang('city')  -
+                            {{ $Unit->CityData->name ?? '' }}
+                            </span>
+
+
                         </div>
 
                         <div class="row">
                             <img src="{{ asset('dashboard/assets/new-icons/Iconly_Light_Locatio.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
-                            <span class="mb-2 w-auto" style="color: #989898">المشروع - سكني وحدة رقم
-                                55</span>
+                            <span class="mb-2 w-auto" style="color: #989898">
+                                @lang('number rooms') :
+                                 {{ $Unit->rooms }}
+                            </span>
                         </div>
 
                     </div>
@@ -80,15 +85,15 @@
 
                 <div class="row m-0 mt-3 bg-white p-2 pt-3 pb-3 "
                     style="border-radius: 20px;filter:drop-shadow(0px 3px 3px rgba(161,137,137,0.09 ));">
-                    <p class="font-weight-bold">الموقع</p>
-
-
-
+                    <p class="font-weight-bold">        <img src="{{ asset('dashboard/assets/new-icons/Iconly_Light_Locatio.png') }}"
+                        style="width: 18px;height: fit-content;" class="p-0" /></p>
                     <div class="row m-0">
-                        <img src="{{ asset('dashboard/assets/new-icons/Iconly_Light_Locatio.png') }}"
-                            style="width: 18px;height: fit-content;" class="p-0" />
-                        <span class="mb-2 w-auto" style="color: #989898">المشروع - سكني وحدة رقم
-                            55</span>
+
+                            <iframe width="100%" style="border-radius: 10px;" height="200" frameborder="0"
+                            style="border:0"
+                            src="https://www.google.com/maps/embed/v1/place?q={{ $Unit->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
+
+
                     </div>
                     <div class="row m-0 p-0">
                         <div id="map"></div>
@@ -101,21 +106,21 @@
             <div class="col-md-3 bg-white p-4"
                 style="height: fit-content;border-radius: 20px;filter:drop-shadow(0px 3px 3px rgba(161,137,137,0.09 ));">
                 <div class="row m-0 align-items-center mb-4">
-                    <div class="unit-employee">AM</div>
+                    <div class="unit-employee"></div>
                     <div class="w-auto">
-                        <p class="mb-0 font-weight-bold">{{ $Unit->OwnerData->name}}</p>
-                        <span style="font-size: 13px">عضو منذ 30 يوليو</span>
+                        <p class="mb-0 font-weight-bold">{{ $brokers->name}}</p>
+                        <span style="font-size: 13px">عضو منذ {{ $brokers->created_at }}  </span>
                     </div>
                 </div>
                 <hr class="mb-3" style=" color: #bab2b2;" />
-                @if ($Unit->OwnerData->name)
+                @if ($broker->mobile)
                     <a class="d-block btn-new text-center text-white"
-                        href="tel:{{ env('COUNTRY_CODE') . $Unit->OwnerData->name }}"
-                        style="text-decoration: none;cursor: pointer;">{{ $Unit->OwnerData->name }}</a>
+                        href="tel:{{ env('COUNTRY_CODE') . $broker->moblie }}"
+                        style="text-decoration: none;cursor: pointer;">{{ $broker->mobile }}</a>
 
 
                     <a class="d-block btn btn-new-b mt-3 w-100"
-                        href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $Unit->OwnerData->name}}"
+                        href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}"
                         target="_blank">دردشة</a>
                 @endif
                 <div class="row m-0 justify-content-between mt-3 align-items-center">
@@ -272,9 +277,11 @@
                     <div class="modal-body pb-3">
                         <p>برجاء ادخال بياناتك وسوف نتواصل مع حضرتك في أقرب وقت</p>
 
-                        <form action="" method="POST">
+                        <form action="{{ route('unit_interests.store') }}" method="POST">
                             @csrf
                             <div class="row">
+                                <input hidden name="unit_id" value="{{ $unit_id }}" />
+                                <input hidden name="user_id" value="{{ $user_id }}" /> <!-- Add this line -->
                                 <div class="col-sm-12 col-md-6">
                                     <label for="name">الاسم<span class="text-danger">*</span></label>
 
@@ -283,8 +290,7 @@
 
                                 <div class="col-sm-12 col-md-6">
 
-                                    <label for="whatsapp">رقم الهاتف(واتساب)<span class="text-danger">*</span></label>
-                                    <input hidden name="unit_id" />
+                                    <label for="whatsapp">رقم (واتساب)<span class="text-danger">*</span></label>
 
                                     <div style="position:relative">
                                         <input type="tel" class="form-control" id="whatsapp" minlength="9"
@@ -303,6 +309,7 @@
                                 <button type="submit" class="mt-3 w-auto" style="padding:6px 20px">ارسال</button>
                             </div>
                         </form>
+
 
 
                     </div>

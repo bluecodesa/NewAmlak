@@ -4,7 +4,9 @@ namespace App\Services\Broker;
 
 use App\Interfaces\Broker\GalleryRepositoryInterface;
 use App\Interfaces\Broker\UnitRepositoryInterface;
-
+use App\Models\Broker;
+use App\Models\Unit;
+use App\Models\User;
 
 class GalleryService
 {
@@ -92,9 +94,14 @@ class GalleryService
             abort(404);
         }
 
-        $units = $this->galleryRepository->findByBrokerId($gallery->broker_id);
+        $gallery = $this->galleryRepository->findByBrokerId($gallery->broker_id);
 
-        return ['gallery' => $gallery, 'Unit' => $Unit, 'units' => $units];
+        $broker=Broker::findOrFail($Unit->broker_id);
+        $brokers=User::findOrFail($broker->user_id);
+        $unit_id=$Unit->id;
+        $user_id=$broker->user_id;
+
+        return get_defined_vars();
     }
 
     public function showByName($name)
@@ -112,7 +119,11 @@ class GalleryService
 
         $unitDetails = $id ? $this->galleryRepository->findById($id) : null;
 
-        return ['gallery' => $gallery,'units' => $units, 'unit' => $unit, 'unitDetails' => $unitDetails];
+        $unit_id=$unit->id;
+
+        $broker=Broker::findOrFail($unit->broker_id);
+        $user_id=$broker->user_id;
+        return get_defined_vars();
     }
 
     public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter)
