@@ -98,14 +98,15 @@
 
                                                             </span> </h6>
                                                     </div>
-                                                    {{-- <div class="col-md-3">
-                                                        <h6> @lang('Subscription Time') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $subscriber->SubscriptionTypeData->period }}
-                                                                {{ __('ar.' . $subscriber->SubscriptionTypeData->period_type) }}
-                                                                 </span>
+                                                    <div class="col-md-3">
+                                                        <h6> @lang('Subscription Status') :
+                                                            <span
+                                                            class="badge badge-pill p-1 badge-{{ $subscriber->is_suspend == 1 || $subscriber->status == 'pending' ? 'danger' : 'info' }}">
+                                                            {{ $subscriber->is_suspend == 1 ? __('Subscription suspend') : __($subscriber->status) }}
+                                                        </span>
+
                                                         </h6>
-                                                    </div> --}}
+                                                    </div>
                                                     <div class="col-md-3">
                                                         <h6> @lang('Subscription Start join') :
                                                             <span class="badge font-13 badge-primary">
