@@ -121,13 +121,13 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>@lang('property name')</th>
-                                                <th>@lang('city')</th>
-                                                <th>@lang('location')</th>
+                                                {{-- <th>@lang('city')</th> --}}
+                                                {{-- <th>@lang('location')</th> --}}
                                                 <th>@lang('Property type')</th>
                                                 <th>@lang('Type use')</th>
                                                 <th>@lang('owner name')</th>
                                                 {{-- <th>@lang('Unit or property')</th> --}}
-                                                <th>@lang('Instrument number')</th>
+                                                {{-- <th>@lang('Instrument number')</th> --}}
                                                 <th>@lang('Action')</th>
                                             </tr>
                                         </thead>
@@ -136,15 +136,15 @@
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $property->name ?? '' }}</td>
-                                                    <td>{{ $property->CityData->name ?? '' }}</td>
-                                                    <td>{{ $property->location ?? '' }}</td>
+                                                    {{-- <td>{{ $property->CityData->name ?? '' }}</td> --}}
+                                                    {{-- <td>{{ $property->location ?? '' }}</td> --}}
                                                     <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
                                                     <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
                                                     <td>{{ $property->OwnerData->name ?? '' }}</td>
                                                     {{-- <td>
                                                         {{ $property->is_divided == 1 ? __('property') : __('Unit') }}
                                                     </td> --}}
-                                                    <td>{{ $property->instrument_number ?? '' }}</td>
+                                                    {{-- <td>{{ $property->instrument_number ?? '' }}</td> --}}
 
                                                     <td>
                                                         @if ($property->is_divided == 1)
