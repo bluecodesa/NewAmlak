@@ -51,14 +51,14 @@
 
                                                     <div class="col-md-3">
                                                         <h6> @lang('owner name') : <span class="badge font-13 badge-primary">
-                                                                {{ $Property->OwnerData->name ?? '' }}
+                                                                {{ $Property->OwnerData->name ?? __('nothing') }}
                                                             </span> </h6>
                                                     </div>
 
 
                                                     <div class="col-md-3">
                                                         <h6> @lang('Property type') : <span class="badge font-13 badge-primary">
-                                                                {{ $Property->PropertyTypeData->name ?? '' }}
+                                                                {{ $Property->PropertyTypeData->name ?? __('nothing') }}
                                                             </span> </h6>
                                                     </div>
                                                     <div class="col-md-3">
@@ -72,7 +72,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('city') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $Property->CityData->name ?? '' }}
+                                                                {{ $Property->CityData->name ?? __('nothing') }}
                                                             </span>
                                                         </h6>
                                                     </div>
@@ -80,7 +80,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('Instrument number') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $Property->CityData->name ?? '' }}
+                                                                {{ $Property->CityData->name ?? __('nothing') }}
                                                             </span>
                                                         </h6>
                                                     </div>
@@ -88,7 +88,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('Type use') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $Property->PropertyUsageData->name ?? '' }}
+                                                                {{ $Property->PropertyUsageData->name ?? __('nothing') }}
                                                             </span>
                                                         </h6>
                                                     </div>
@@ -96,7 +96,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('service type') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $Property->ServiceTypeData->name ?? '' }}
+                                                                {{ $Property->ServiceTypeData->name ?? __('nothing') }}
                                                             </span>
                                                         </h6>
                                                     </div>
@@ -150,8 +150,8 @@
                                                 <th>@lang('Residential number')</th>
                                                 <th>@lang('owner name')</th>
                                                 <th>@lang('number rooms')</th>
-                                                <th>@lang('Number bathrooms')</th>
-                                                <th>@lang('Area (square metres)')</th>
+                                                {{-- <th>@lang('Number bathrooms')</th> --}}
+                                                {{-- <th>@lang('Area (square metres)')</th> --}}
                                                 <th>@lang('price')</th>
                                                 <th>@lang('Ad type')</th>
                                                 <th>@lang('Action')</th>
@@ -164,8 +164,8 @@
                                                     <td>{{ $unit->number_unit ?? '' }}</td>
                                                     <td>{{ $unit->OwnerData->name ?? '' }}</td>
                                                     <td>{{ $unit->rooms ?? '' }}</td>
-                                                    <td>{{ $unit->bathrooms ?? '' }}</td>
-                                                    <td>{{ $unit->space ?? '' }}</td>
+                                                    {{-- <td>{{ $unit->bathrooms ?? '' }}</td> --}}
+                                                    {{-- <td>{{ $unit->space ?? '' }}</td> --}}
                                                     <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td>
                                                     <td>{{ __($unit->type) ?? '' }}</td>
 
