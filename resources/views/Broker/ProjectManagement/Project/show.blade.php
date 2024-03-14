@@ -51,20 +51,20 @@
 
                                                     <div class="col-md-3">
                                                         <h6> @lang('owner name') : <span class="badge font-13 badge-primary">
-                                                                {{ $project->OwnerData->name ?? '' }}
+                                                                {{ $project->OwnerData->name ?? __('nothing') }}
                                                             </span> </h6>
                                                     </div>
 
                                                     <div class="col-md-3">
                                                         <h6> @lang('Developer name') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $project->DeveloperData->name ?? '' }}
+                                                                {{ $project->DeveloperData->name ?? __('nothing') }}
                                                             </span>
                                                         </h6>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <h6> @lang('Advisor name') : <span class="badge font-13 badge-primary">
-                                                                {{ $project->AdvisorData->name ?? '' }}
+                                                                {{ $project->AdvisorData->name ?? __('nothing') }}
                                                             </span> </h6>
                                                     </div>
                                                     <div class="col-md-3">
@@ -78,7 +78,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('city') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $project->CityData->name ?? '' }}
+                                                                {{ $project->CityData->name ?? __('nothing') }}
                                                             </span>
                                                         </h6>
                                                     </div>
