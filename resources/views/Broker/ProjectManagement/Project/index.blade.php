@@ -36,7 +36,6 @@
                                             class="btn btn-primary waves-effect waves-light">@lang('Add New Project')</a>
                                         <a href="{{ route('Broker.Property.create') }}"
                                             class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
-
                                         <a href="{{ route('Broker.Unit.create') }}"
                                             class="btn btn-info waves-effect waves-light">@lang('Add unit')</a>
                                     </div>
