@@ -109,7 +109,19 @@
                     <div class="unit-employee"></div>
                     <div class="w-auto">
                         <p class="mb-0 font-weight-bold">{{ $brokers->name}}</p>
-                        <span style="font-size: 13px">عضو منذ {{ $brokers->created_at }}  </span>
+                        @php
+                            $createdAt = new DateTime($brokers->created_at);
+
+                            // Get the month name
+                            $monthName = $createdAt->format('F');
+
+                            // Get the number of days in the month
+                            $numDay = $createdAt->format('d');
+
+                        @endphp
+                        <span style="font-size: 13px">عضو منذ
+                             {{ $monthName }} {{ $numDay }}
+                        </span>
                     </div>
                 </div>
                 <hr class="mb-3" style=" color: #bab2b2;" />

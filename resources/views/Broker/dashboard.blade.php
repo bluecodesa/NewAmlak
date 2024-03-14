@@ -32,7 +32,7 @@
                 <div class="col-lg-12">
                     <div class="card m-b-30">
                         <div class="card-body">
-                            <h4 class="mt-0 header-title"><h4 class="mt-0 header-title">@lang('current subscription') :  {{ $SubscriptionType->name }}</h4>
+                            <h4 class="mt-0 header-title"><h4 class="mt-0 header-title"> {{ $SubscriptionType->name }}</h4>
                         </h4>
                             @php
                                $endDate = \Carbon\Carbon::parse($subscriber->end_date);

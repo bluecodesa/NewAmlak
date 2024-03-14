@@ -98,18 +98,18 @@
 
                                                             </span> </h6>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    {{-- <div class="col-md-3">
                                                         <h6> @lang('Subscription Time') :
                                                             <span class="badge font-13 badge-primary">
                                                                 {{ $subscriber->SubscriptionTypeData->period }}
                                                                 {{ __('ar.' . $subscriber->SubscriptionTypeData->period_type) }}
                                                                  </span>
                                                         </h6>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="col-md-3">
-                                                        <h6> @lang('Subscription Start') :
+                                                        <h6> @lang('Subscription Start join') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $subscriber->start_date }}
+                                                                {{ $subscriber->created_at->format('Y-m-d') }}
 
                                                                  </span>
                                                         </h6>
@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="pricing-content">
                                     <div class="text-center">
-                                        <h5 class="text-uppercase mt-5"> معلومات الاشتراك الحالي
+                                        <h5 class="text-uppercase mt-5">   {{ $subscriber->SubscriptionTypeData->name}}
                                         </h5>
                                         <div class="pricing-plan mt-4 pt-2">
                                             <h1>{{ $subscriber->SubscriptionTypeData->period }} <small class="font-16">
@@ -157,7 +157,7 @@
                                         <div class="pricing-border mt-5"></div>
                                     </div>
                                     <div class="pricing-features mt-4">
-                                        <p class="font-14 mb-2">@lang('Subscription End') {{ $subscriber->start_date }}</p>
+                                        <p class="font-14 mb-2">@lang('Subscription Start') {{ $subscriber->start_date }}</p>
                                         <p class="font-14 mb-2">@lang('Subscription End') {{ $subscriber->end_date }}</p>
                                      </div>
 
