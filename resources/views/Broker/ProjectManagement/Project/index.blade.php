@@ -49,13 +49,14 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>@lang('project name')</th>
-                                                <th>@lang('Developer name')</th>
-                                                <th>@lang('Advisor name')</th>
-                                                <th>@lang('owner name')</th>
+                                                {{-- <th>@lang('Developer name')</th> --}}
+                                                {{-- <th>@lang('Advisor name')</th> --}}
+                                                {{-- <th>@lang('owner name')</th> --}}
                                                 <th>@lang('city')</th>
-                                                <th>@lang('service type')</th>
-                                                <th>@lang('location name')</th>
+                                                {{-- <th>@lang('service type')</th> --}}
+                                                {{-- <th>@lang('location name')</th> --}}
                                                 <th>@lang('Number Properties')</th>
+                                                <th>@lang('Number units')</th>
                                                 <th>@lang('Action')</th>
                                             </tr>
                                         </thead>
@@ -64,14 +65,14 @@
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $project->name ?? '' }}</td>
-                                                    <td>{{ $project->DeveloperData->name ?? '' }}</td>
-                                                    <td>{{ $project->AdvisorData->name ?? '' }}</td>
-                                                    <td>{{ $project->OwnerData->name ?? '' }}</td>
+                                                    {{-- <td>{{ $project->DeveloperData->name ?? '' }}</td> --}}
+                                                    {{-- <td>{{ $project->AdvisorData->name ?? '' }}</td> --}}
+                                                    {{-- <td>{{ $project->OwnerData->name ?? '' }}</td> --}}
                                                     <td>{{ $project->CityData->name ?? '' }}</td>
-                                                    <td>{{ $project->ServiceTypeData->name ?? '' }}</td>
-                                                    <td>{{ $project->location ?? '' }}</td>
-                                                    <td>1</td>
-
+                                                    {{-- <td>{{ $project->ServiceTypeData->name ?? '' }}</td> --}}
+                                                    {{-- <td>{{ $project->location ?? '' }}</td> --}}
+                                                    <td> {{ $project->PropertiesProject->count() }} </td>
+                                                    <td> {{ $project->PropertiesProject->PropertyUnits->count() }} </td>
                                                     <td>
 
                                                         <a href="{{ route('Broker.Project.show', $project->id) }}"
