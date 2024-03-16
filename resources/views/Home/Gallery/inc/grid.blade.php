@@ -13,7 +13,7 @@
                     <input hidden name="unit_id" value="{{ $unit->id }}" />
 
                     <input hidden name="edit_unit_number" value="{{ __('Residential number') }}: {{ $unit->number_unit ?? '' }}" />
-                    <input hidden name="edit_unit_area" value="{{ __('الاشغال') }}: الاشغال" />
+                    <input hidden name="edit_unit_area" value="{{ __('الاشغال') }}: {{ __($unit->status) ?? ''  }}" />
                     <input hidden name="edit_unit_rooms" value="{{ __('Ad type') }}: {{ __($unit->type) ?? '' }}" />
                     <input hidden name="edit_unit_bathrooms" value="{{ __('city') }}: {{ $unit->CityData->name ?? '' }}" />
                     <input hidden name="edit_unit_view_in_gallery " value="{{ $unit->view_in_gallery }}" />

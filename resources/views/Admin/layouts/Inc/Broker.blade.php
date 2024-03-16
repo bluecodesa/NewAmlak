@@ -31,15 +31,6 @@
                     </ul>
                 </li>
                 @endif
-                @if (in_array('settings', $sectionNames) || in_array('الإعدادات', $sectionNames))
-
-                <li>
-                    <a href="{{ route('Broker.Setting.index') }}" class="waves-effect"><i
-                            class=" icon-setting-2"></i><span>
-                            @lang('Settings')<span class="float-right menu-arrow"></a>
-
-                </li>
-                @endif
                 @if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames))
                 <li>
                     <a href="javascript:void(0);" class="waves-effect">
@@ -60,6 +51,29 @@
                         @endif
                     </ul>
                 </li>
+            @endif
+
+            @if (in_array('Technical-support', $sectionNames) || in_array('الدعم الفني', $sectionNames))
+
+            <li>
+                <a href="javascript:void(0);" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                        @lang('technical support')<span class="float-right menu-arrow"><i
+                                class="mdi mdi-chevron-right"></i></span> </span></a>
+                <ul class="submenu">
+                    <li><a href="{{ route('Broker.Tickets.index') }}">@lang('Tickets List')</a></li>
+                </ul>
+            </li>
+            @endif
+
+
+            @if (in_array('settings', $sectionNames) || in_array('الإعدادات', $sectionNames))
+
+            <li>
+                <a href="{{ route('Broker.Setting.index') }}" class="waves-effect"><i
+                        class=" icon-setting-2"></i><span>
+                        @lang('Settings')<span class="float-right menu-arrow"></a>
+
+            </li>
             @endif
 
             </ul>

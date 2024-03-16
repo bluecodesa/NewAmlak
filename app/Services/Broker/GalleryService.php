@@ -85,7 +85,7 @@ class GalleryService
         $gallery = $this->galleryRepository->findByGalleryName($galleryName);
 
         if ($gallery->gallery_status == 0) {
-            abort(404);
+            return [];
         }
 
         $units = $this->UnitRepository->getAll($gallery['broker_id']);
@@ -107,10 +107,9 @@ class GalleryService
     public function showByName($name)
     {
         $gallery = $this->galleryRepository->findByGalleryName($name);
-
         if ($gallery->gallery_status == 0) {
-            abort(404);
-        }
+            return [];
+        }else{
 
         $units = $this->UnitRepository->getAll($gallery['broker_id']);
 
@@ -124,6 +123,7 @@ class GalleryService
         $broker=Broker::findOrFail($unit->broker_id);
         $user_id=$broker->user_id;
         return get_defined_vars();
+    }
     }
 
     public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter)

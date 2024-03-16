@@ -101,11 +101,14 @@
                                         <div class="col-md-3 mb-3">
                                             <p>@lang('role name')</p>
                                             @foreach ($roles as $role)
+                                                @php
+                                                    $roleId = $role->id;
+                                                    $roleName = $role->name;
+                                                    $checked = '';
+                                                @endphp
                                                 <div class="form-check">
-                                                    <input type="checkbox" id="{{ $role->id }}" name="roles[]"
-                                                        value="{{ $role->id }}">
-                                                    <label class="form-check-label"
-                                                        for="{{ $role->id }}">{{ $role->name }}</label>
+                                                    <input type="checkbox" id="role_{{ $roleId }}" name="roles[]" value="{{ $roleId }}" {{ $checked }}>
+                                                    <label class="form-check-label" for="role_{{ $roleId }}">{{ $roleName }}</label>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -113,14 +116,18 @@
                                         <div class="col-md-3 mb-3">
                                             <p>@lang('sections')</p>
                                             @foreach ($sections as $section)
+                                                @php
+                                                    $sectionId = $section->id;
+                                                    $sectionName = $section->name;
+                                                    $checked = '';
+                                                @endphp
                                                 <div class="form-check">
-                                                    <input type="checkbox" id="{{ $section->id }}" name="sections[]"
-                                                        value="{{ $section->id }}">
-                                                    <label class="form-check-label"
-                                                        for="{{ $section->id }}">{{ $section->name }}</label>
+                                                    <input type="checkbox" id="section_{{ $sectionId }}" name="sections[]" value="{{ $sectionId }}" {{ $checked }}>
+                                                    <label class="form-check-label" for="section_{{ $sectionId }}">{{ $sectionName }}</label>
                                                 </div>
                                             @endforeach
                                         </div>
+
 
                                         <button class="btn
                                             btn-primary"

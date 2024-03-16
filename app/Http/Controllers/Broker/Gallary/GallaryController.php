@@ -139,13 +139,18 @@ class GallaryController extends Controller
         {
 
             $data = $this->galleryService->showUnitPublic($gallery_name, $id);
-
+            if (empty($data)) {
+                return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
+            }
             return view('Home.Gallery.Unit.show', $data);
         }
 
         public function showByName($name)
         {
             $data = $this->galleryService->showByName($name);
+            if (empty($data)) {
+                return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
+            }
 
             return view('Home.Gallery.index', $data);
         }

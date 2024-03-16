@@ -202,6 +202,8 @@ class HomeController extends Controller
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'id_number'=>'unique:brokers,id_number'
+
         ];
 
         $messages = [
@@ -215,6 +217,8 @@ class HomeController extends Controller
             'license_number.unique' => __('The license number has already been taken.'),
             'password.required' => __('The password field is required.'),
             'broker_logo.image' => __('The broker logo must be an image.'),
+            'id_number.unique' => __('The ID number has already been taken.'),
+
         ];
 
 

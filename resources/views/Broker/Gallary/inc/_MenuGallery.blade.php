@@ -21,7 +21,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $unit->number_unit ?? '' }}</td>
-                        <td>الاشغال</td>
+                        <td>{{ __($unit->status) }}</td>
                         <td>{{ __($unit->type) ?? '' }} </td>
                         <td>
                             {{ $unit->CityData->name ?? '' }}

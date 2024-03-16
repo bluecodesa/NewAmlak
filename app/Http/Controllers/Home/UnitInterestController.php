@@ -77,6 +77,21 @@ class UnitInterestController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $request->validate([
+            'id' => 'required|exists:unit_interests,id',
+            'status' => 'required',
+        ]);
+
+
+        // Find the unit interest by ID
+        $unitInterest = UnitInterest::findOrFail($request->id);
+
+        // Update the status
+        $unitInterest->update(['status' => $request->status]);
+
+        // Optionally, you can return a response or redirect
+        return redirect()->back()->with('success', 'Status updated successfully.');
+
     }
 
     /**

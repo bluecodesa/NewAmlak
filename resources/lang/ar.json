@@ -308,7 +308,14 @@
     "current subscription": "الاشتراك الحالي",
     "vacant": "شاغرة",
     "rented": "مؤجرة",
-    "Subscription Start join": "بدايه الانضمام "
+    "Subscription Start join": "تاريخ الانضمام ",
+    "Edit Types subscriptions": "تعديل نوع الاشتراك",
+    "Tickets List": "قائمة التذاكر",
+    "Add New Ticket": "اضافة تذكرة جديده",
+    "Ticket Type": "نوع التذكرة",
+    "Ticket Address": "العنوان",
+    "Ticket Status": "حالة التذكرة",
+    "Ticket Number": "رقم التذكرة"
 
 
 

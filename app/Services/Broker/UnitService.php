@@ -3,6 +3,7 @@
 namespace App\Services\Broker;
 
 use App\Interfaces\Broker\UnitRepositoryInterface;
+use App\Models\Unit;
 use Illuminate\Validation\Rule;
 
 class UnitService
@@ -99,5 +100,27 @@ class UnitService
     public function delete($id)
     {
         return $this->UnitRepository->delete($id);
+    }
+
+    public function countUnitsForBroker($brokerId)
+    {
+         // Instantiate the model
+
+        $residentialCount = Unit::where('broker_id', $brokerId)
+            ->whereHas('PropertyUsageData.translations', function ($query) {
+                $query->where('name', 'Residential');
+            })
+            ->count();
+
+        $nonResidentialCount =  Unit::where('broker_id', $brokerId)
+            ->whereDoesntHave('PropertyUsageData.translations', function ($query) {
+                $query->where('name', 'Residential');
+            })
+            ->count();
+
+        return [
+            'residential' => $residentialCount,
+            'non_residential' => $nonResidentialCount,
+        ];
     }
 }

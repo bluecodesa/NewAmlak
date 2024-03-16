@@ -124,6 +124,7 @@ class SubscriptionService
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'file',
+            'id_number'=>'unique:brokers,id_number'
 
         ];
         $messages = [
@@ -137,6 +138,8 @@ class SubscriptionService
             'license_number.unique' => __('The license number has already been taken.'),
             'password.required' => __('The password field is required.'),
             'broker_logo.image' => __('The broker logo must be an image.'),
+            'id_number.unique' => __('The ID number has already been taken.'),
+
         ];
 
         validator($data, $rules,$messages)->validate();

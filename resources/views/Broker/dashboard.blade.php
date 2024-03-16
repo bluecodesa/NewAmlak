@@ -173,7 +173,7 @@
                                     <div>
                                         <h5 class="font-16"> الوحدات التجارية</h5>
                                     </div>
-                                    <h3 class="mt-4">{{ $numberOfUnits }}</h3>
+                                    <h3 class="mt-4">{{ $nonResidentialCount }}</h3>
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
@@ -195,7 +195,7 @@
                                     <div>
                                         <h5 class="font-16"> الوحدات السكنية </h5>
                                     </div>
-                                    <h3 class="mt-4">43,225</h3>
+                                    <h3 class="mt-4">{{ $residentialCount }}</h3>
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
@@ -486,20 +486,17 @@
                                         <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-pie" style="width: 100%; height: 100%;">
                                             <g class="ct-series ct-series-a">
                                                 <path d="M266.989,283.963A145,145,0,0,0,211.5,5L211.5,150Z" class="ct-slice-pie" ct:value="7"></path>
-                                            </g>
-                                            <g class="ct-series ct-series-b">
-                                                <path d="M66.5,150A145,145,0,0,0,267.456,283.768L211.5,150Z" class="ct-slice-pie" ct:value="5"></path>
-                                            </g>
-                                            <g>
-                                                <!-- Vacant units percentage -->
                                                 <text dx="282.6069328292342" dy="135.85595165383072" text-anchor="middle" class="ct-label">
                                                     {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%
                                                 </text>
-                                                <!-- Rented units percentage -->
+                                            </g>
+                                            <g class="ct-series ct-series-b">
+                                                <path d="M66.5,150A145,145,0,0,0,267.456,283.768L211.5,150Z" class="ct-slice-pie" ct:value="5"></path>
                                                 <text dx="171.22115810607883" dy="210.2815468919345" text-anchor="middle" class="ct-label">
                                                     {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%
                                                 </text>
                                             </g>
+
                                         </svg>
                                     </div>
 

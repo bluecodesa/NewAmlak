@@ -61,9 +61,7 @@
                             <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
 
                             <input type="text" class="form-control" id="name" name="name" required>
-                            @error('name')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+
                         </div>
                         <div class="col-md-6">
                             <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
@@ -77,9 +75,7 @@
                             <label for="email">@lang('Email')<span class="text-danger">*</span></label>
 
                             <input type="email" class="form-control" id="email" name="email">
-                            @error('email')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+
                         </div>
 
                         <div class="col-md-6">
@@ -90,9 +86,7 @@
                                     pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
                                     onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
                                     name="mobile" required="" value="">
-                                @error('mobile')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+
                             </div>
                         </div>
                     </div>
@@ -133,9 +127,7 @@
                         <div class="col-md-6">
                             <label for="password"> @lang('password') <span class="text-danger">*</span></label>
                             <input type="password" class="form-control" id="password" name="password" required>
-                            @error('password')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+
                         </div>
 
                         <div class="col-md-6">
@@ -154,9 +146,7 @@
                                 accept="image/png, image/jpg, image/jpeg">
                             <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
                                 class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
-                            @error('broker_logo')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                          
                         </div>
                         <div class="col-md-6">
                             <label for="id_number" class="col-form-label">@lang('id number')</label>

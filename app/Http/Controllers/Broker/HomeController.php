@@ -19,6 +19,8 @@ use App\Services\CityService;
 use App\Services\Broker\OwnerService;
 use App\Services\Broker\UnitService;
 use App\Services\Broker\GalleryService;
+use App\Services\PropertyUsageService;
+
 
 
 
@@ -30,6 +32,7 @@ class HomeController extends Controller
     protected $ownerService;
     protected $UnitService;
     protected $SubscriptionTypeService;
+    protected $propertyUsageService;
 
     protected $galleryService;
 
@@ -43,7 +46,8 @@ class HomeController extends Controller
      CityService $cityService,
      OwnerService $ownerService,
      SubscriptionTypeService $SubscriptionTypeService,
-     GalleryService $galleryService
+     GalleryService $galleryService,
+     PropertyUsageService $propertyUsageService
      )
     {
         $this->subscriptionService = $subscriptionService;
@@ -53,6 +57,7 @@ class HomeController extends Controller
         $this->ownerService = $ownerService;
         $this->UnitService = $UnitService;
         $this->galleryService = $galleryService;
+        $this->propertyUsageService = $propertyUsageService;
         $this->middleware('auth');
     }
 
@@ -61,7 +66,11 @@ class HomeController extends Controller
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = $this->ownerService->getAllByBrokerId($brokerId)->count();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
+        $counts = $this->UnitService->countUnitsForBroker($brokerId);
+        $residentialCount = $counts['residential'];
+        $nonResidentialCount = $counts['non_residential'];
         $numberOfInterests = UnitInterest::where('user_id', auth()->user()->id)->count();
         $numberOfVacantUnits = $this->UnitService->getAll($brokerId)->where('status', 'vacant')->count();
         $numberOfRentedUnits = $this->UnitService->getAll($brokerId)->where('status', 'rened')->count();

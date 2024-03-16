@@ -121,15 +121,14 @@
                                                         <td> {{ $client->name }}</td>
                                                         <td>{{ $client->whatsapp }}</td>
                                                         <td>
-                                                            <form method="POST" action="https://dev.tryamlak.com/unit/interest/status">
-
-                                                                <input type="hidden" name="_token" value="">
-                                                                 <input name="id" value="" hidden="">
-                                                                 <select class="form-control select-input w-auto" name="status" onchange="changeStatus(this)">
-                                                                    <option value="New" {{ $client->status == 'new order' ? 'selected' : '' }}>طلب جديد</option>
-                                                                    <option value="new order" {{ $client->status == '' ? 'selected' : '' }}>جاري التواصل</option>
-                                                                    <option value="تم الاتفاق" {{ $client->status == 'تم الاتفاق' ? 'selected' : '' }}>تم الاتفاق</option>
-                                                                    <option value="عميل غير مهتم" {{ $client->status == 'عميل غير مهتم' ? 'selected' : '' }}>عميل غير مهتم</option>
+                                                            <form method="POST" action="{{ route('Broker.Interest.status.update', $client->id) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="id" value="{{ $client->id }}">
+                                                                <select class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
+                                                                    <option value="new order" {{ $client->status == 'new order' ? 'selected' : '' }}>طلب جديد</option>
+                                                                    <option value="calling" {{ $client->status == 'calling' ? 'selected' : '' }}>جاري التواصل</option>
+                                                                    <option value="done" {{ $client->status == 'done' ? 'selected' : '' }}>تم الاتفاق</option>
+                                                                    <option value="not matter" {{ $client->status == 'not matter' ? 'selected' : '' }}>عميل غير مهتم</option>
                                                                 </select>
                                                                 <button type="submit" class="submit-from" hidden=""></button>
                                                             </form>
