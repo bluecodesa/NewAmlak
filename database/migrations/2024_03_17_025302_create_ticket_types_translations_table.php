@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('locale')->index();
             $table->string('name');
             $table->unique(['ticket_type_id', 'locale']);
-            $table->timestamps();
 
             $table->foreign('ticket_type_id')->references('id')->on('ticket_types')->onDelete('cascade');
 

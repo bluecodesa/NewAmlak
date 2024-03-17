@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('broker_id');
+            $table->unsignedInteger('broker_id');
             $table->unsignedBigInteger('office_id');
             $table->string('subject');
             $table->text('content');
