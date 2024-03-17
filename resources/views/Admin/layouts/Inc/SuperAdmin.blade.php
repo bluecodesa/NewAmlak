@@ -57,6 +57,7 @@
                         <li><a href="{{ route('Admin.PropertyUsage.index') }}">@lang('property usages')</a></li>
                         <li><a href="{{ route('Admin.ServiceType.index') }}">@lang('services types')</a></li>
                         <li><a href="{{ route('Admin.Service.index') }}">@lang('services')</a></li>
+                        <li><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Tickets')</a></li>
 
 
 
@@ -74,6 +75,15 @@
                         <li><a href="{{ route('Admin.Advisor.index') }}">@lang('advisors')</a></li>
                         <li><a href="{{ route('Admin.Owner.index') }}">@lang('owners')</a></li>
                         <li><a href="{{ route('Admin.Employee.index') }}">@lang('employees')</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                            @lang('technical support')<span class="float-right menu-arrow"><i
+                                    class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <ul class="submenu">
+                        <li><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Technical Support Orders')</a></li>
                     </ul>
                 </li>
 

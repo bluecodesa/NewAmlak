@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Tickets'))
+@section('title', __('Technical Support Orders'))
 @section('content')
 
     <div class="content-page">
@@ -10,12 +10,12 @@
                     <div class="row align-items-center">
                         <div class="col-sm-6">
                             <h4 class="page-title">
-                                @lang('Tickets List')</h4>
+                                @lang('Technical Support Orders')</h4>
 
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Broker.Tickets.index') }}">@lang('Tickets List')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Technical Support Orders')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -30,28 +30,7 @@
                         <div class="card m-b-30">
                             <div class="card-body">
 
-                            <div class="col-xl-12">
-                                <div class="card m-b-30">
-                                    <h5 class="card-header mt-0">تنبيه!</h5>
-                                    <div class="card-body">
-                                        <h4 class="card-title font-16 mt-0">اذا كنت لا تستطيع ايجاد حل للمشكله التي تواجهك في محتوي المساعدة . يمكنك  ارسال تذكرة دعم فني  وحدد القسم المختص من الاسفل.</h4>
-
-                                        <div class="col-sm-6 col-xl-3">
-                                            <div class="card">
-                                                <div class="card-heading p-4">
-                                                    <div class="mini-stat-icon float-left">
-                                                        <a href="#"><i class="mdi mdi-email bg-primary  text-white"></i></a>
-
-                                                        <h5 class="font-16">مركز الدعم الفني</h5>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    
 
                                 <h4 class="mt-0 header-title">
 

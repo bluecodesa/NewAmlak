@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -13,6 +14,8 @@ class TicketController extends Controller
     public function index()
     {
         //
+        $tickets = Ticket::all();
+
         return view ('Broker.Ticket.index');
     }
 
@@ -32,6 +35,10 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         //
+        $ticket = Ticket::create($request->all());
+        return redirect()->route('Broker.Tickets.index')->with('success', 'Ticket created successfully');
+
+
     }
 
     /**
@@ -40,6 +47,8 @@ class TicketController extends Controller
     public function show(string $id)
     {
         //
+        $ticket = Ticket::findOrFail($id);
+        return view('Broker.tickets.show', compact('ticket'));
     }
 
     /**

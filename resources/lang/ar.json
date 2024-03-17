@@ -310,12 +310,14 @@
     "rented": "مؤجرة",
     "Subscription Start join": "تاريخ الانضمام ",
     "Edit Types subscriptions": "تعديل نوع الاشتراك",
+    "Tickets": "التذاكر",
     "Tickets List": "قائمة التذاكر",
     "Add New Ticket": "اضافة تذكرة جديده",
     "Ticket Type": "نوع التذكرة",
     "Ticket Address": "العنوان",
     "Ticket Status": "حالة التذكرة",
-    "Ticket Number": "رقم التذكرة"
+    "Ticket Number": "رقم التذكرة",
+    "Technical Support Orders": "طلبات الدعم الفني"
 
 
 

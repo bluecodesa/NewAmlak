@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
 use App\Http\Controllers\Admin\Subscribers\SystemInvoiceController;
 use App\Http\Controllers\Admin\SubUserController;
+use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\UserController;
 use App\Models\City;
 use Illuminate\Support\Facades\Auth;
@@ -85,6 +86,8 @@ Route::group(
                 'PropertyUsage' => PropertyUsageController::class,
                 'ServiceType' => ServiceTypeController::class,
                 'Service' => ServiceController::class,
+                'SupportTickets' => SupportController::class,
+
 
             ]);
             Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
