@@ -317,7 +317,9 @@
     "Ticket Address": "العنوان",
     "Ticket Status": "حالة التذكرة",
     "Ticket Number": "رقم التذكرة",
-    "Technical Support Orders": "طلبات الدعم الفني"
+    "Technical Support Orders": "طلبات الدعم الفني",
+    "Waiting for technical support": "بانتظار الدعم الفني",
+    "Waiting for client": "بانتظار العميل "
 
 
 

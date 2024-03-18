@@ -72,31 +72,32 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                    <th scope="row"></th>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <a href=""
-                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                        <a href="javascript:void(0);"
-                                                            onclick="handleDelete()"
-                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                            @lang('Delete')
-                                                        </a>
-                                                        <form id="delete-form"
-                                                            action=""
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    </td>
-                                                </tr>
+                                            @foreach($tickets as $ticket)
+                                            <tr>
+                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <td>{{ $ticket->id }}</td> <!-- Assuming id is the ticket number -->
+                                                <td>{{  $ticket->ticketType->name }}</td> <!-- Assuming type is the ticket type -->
+                                                <td>{{ $ticket->subject }}</td> <!-- Assuming subject is the ticket address -->
+                                                <td>{{ __($ticket->status) }}</td> <!-- Assuming status is the ticket status -->
+                                                <td>
+                                                    <a href="{{ route('Broker.Tickets.show', $ticket->id) }}"
+                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                    <a href="javascript:void(0);" onclick="handleDelete()"
+                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                        @lang('Delete')
+                                                    </a>
+                                                    <form id="delete-form" action="{{ route('Broker.Tickets.destroy', $ticket->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+
                             </div>
                         </div>
                     </div> <!-- end col -->
