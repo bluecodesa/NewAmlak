@@ -15,7 +15,7 @@ class TicketController extends Controller
     public function index()
     {
         //
-        $tickets = Ticket::all();
+        $tickets = Ticket::where('broker_id', auth()->user()->id)->get();
 
         return view ('Broker.Ticket.index',get_defined_vars());
     }
