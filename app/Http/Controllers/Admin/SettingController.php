@@ -42,7 +42,7 @@ class SettingController extends Controller
         $EmailSettingService = $this->EmailSettingService->getAll();
         $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $paymentGateways = $settings->paymentGateways;
-        $interests=InterestType::get();
+        $interests = $this->settingService->getAllInterestTypes();
         return view('Admin.settings.index', get_defined_vars());
     }
 
@@ -169,26 +169,14 @@ class SettingController extends Controller
 
     public function storeInterestType(Request $request)
     {
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')]];
-        }
-        validator($request->all(), $rules)->validate();
-
-        // Create the InterestType instance
-        $interestType = InterestType::create([]);
-
-        // Create translations for each locale
-        foreach (config('translatable.locales') as $locale) {
-            $translationData = [
-                'interest_type_id' => $interestType->id,
-                'locale' => $locale,
-                'name' => $request->{$locale}['name']
-            ];
-            InterestTypeTranslation::create($translationData);
-        }
+        $this->settingService->createInterestType($request->all());
 
         return redirect()->route('Admin.settings.index')->withSuccess(__('added successfully'));
+    }
+    public function editInterestType($id)
+    {
+        $Interest  =   $this->settingService->getInterestTypeById($id);
+        return view('Admin.settings.InterestType.edit', get_defined_vars());
     }
 
 }

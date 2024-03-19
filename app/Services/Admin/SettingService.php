@@ -7,7 +7,7 @@ use App\Models\Setting;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\Rule;
 
 class SettingService
 {
@@ -78,9 +78,45 @@ class SettingService
     {
         $this->settingRepository->UpdateEmailSetting($data);
     }
-    
+
     public function getNotificationSetting()
     {
         return $this->settingRepository->getNotificationSetting();
+    }
+
+    public function getAllInterestTypes()
+    {
+        return $this->settingRepository->getAllInterestTypes();
+    }
+
+    function getInterestTypeById($id)
+    {
+        return $this->settingRepository->getInterestTypeById($id);
+    }
+
+    public function createInterestType($data)
+    {
+
+        $rules = [];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')]];
+        }
+        validator($data, $rules)->validate();
+        return $this->settingRepository->createInterestType($data);
+    }
+
+    public function updateInterestType($id, $data)
+    {
+        $rules = [];
+        foreach (config('translatable.locales') as $locale) {
+            $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')->ignore($id, 'ticket_type_id')]];
+        }
+        validator($data, $rules)->validate();
+        return $this->settingRepository->updateInterestType($id, $data);
+    }
+
+    public function deleteInterestType($id)
+    {
+        return $this->settingRepository->deleteInterestType($id);
     }
 }

@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Edit Ticket'))
+@section('title', __('Edit Interest'))
 @section('content')
 
     <div class="content-page">
@@ -12,7 +12,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('Edit Ticket')</h4>
+                                        @lang('Edit Interest')</h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
@@ -31,7 +31,7 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Admin.SupportTickets.update', $Ticket->id) }}" method="POST"
+                                <form action="{{ route('Admin.SupportTickets.update', $Interest->id) }}" method="POST"
                                     class="row">
                                     @csrf
                                     @method('PUT')
@@ -42,7 +42,7 @@
                                                     {{ __('Name') }} {{ __($locale) }} <span
                                                         class="required-color">*</span></label>
                                                 <input type="text" required
-                                                    value="{{ $Ticket->translate($locale)->name }}"
+                                                    value="{{ $Interest->translate($locale)->name }}"
                                                     name="{{ $locale }}[name]" class="form-control"
                                                     placeholder="{{ __('Name') }} {{ __($locale) }}">
                                             </div>

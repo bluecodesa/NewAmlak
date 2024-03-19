@@ -30,7 +30,7 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Admin.SupportTickets.store') }}" method="POST" class="row">
+                                <form action="{{ route('Admin.store.interest-type') }}" method="POST" class="row">
                                     @csrf
                                     @method('post')
                                     @foreach (config('translatable.locales') as $locale)

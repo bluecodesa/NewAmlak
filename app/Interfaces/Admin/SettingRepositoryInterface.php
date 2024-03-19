@@ -18,4 +18,10 @@ interface SettingRepositoryInterface
     public function UpdateEmailSetting($data);
     public function getSetting();
     public function getNotificationSetting();
+
+    public function getAllInterestTypes();
+    public function createInterestType($data);
+    public function getInterestTypeById($data);
+    public function updateInterestType($id, $data);
+    public function deleteInterestType($id);
 }
