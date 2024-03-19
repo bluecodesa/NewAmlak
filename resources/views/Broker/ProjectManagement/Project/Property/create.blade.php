@@ -85,8 +85,8 @@
                                         <label class="form-label">@lang('location') <span
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="location" id="myAddressBar"
-                                            class="form-control" placeholder="@lang('location name')"
-                                            value="{{ old('location name') }}" />
+                                            class="form-control" placeholder="@lang('Address')"
+                                            value="{{ old('location') }}" />
                                     </div>
 
 

@@ -152,34 +152,31 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('number rooms') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="rooms" class="form-control"
+                                        <label class="form-label">@lang('number rooms')</label>
+                                        <input type="number" name="rooms" class="form-control"
                                             placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
                                     </div>
 
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Number bathrooms') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="bathrooms" class="form-control"
+                                        <label class="form-label">@lang('Number bathrooms')</label>
+                                        <input type="number" name="bathrooms" class="form-control"
                                             placeholder="@lang('Number bathrooms')" value="{{ old('Number bathrooms') }}" />
                                     </div>
 
                                     <div class="col-sm-12 col-md-3 mb-3">
                                         <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
-                                            <span class="required-color">*</span></label>
-                                        <input type="checkbox" required name="show_gallery" class="toggleHomePage"
+                                        </label>
+                                        <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
                                             data-toggle="toggle" data-onstyle="primary">
                                     </div>
 
 
 
                                     <div class="col-sm-12 col-md-3 mb-3">
-                                        <label class="form-label">@lang('price') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="price" class="form-control"
+                                        <label class="form-label">@lang('price')</label>
+                                        <input type="number" name="price" class="form-control"
                                             placeholder="@lang('price')" value="{{ old('price') }}" />
                                     </div>
 
@@ -216,8 +213,7 @@
                                     </div>
 
                                     <div class="form-group col-12 mb-3">
-                                        <label class="form-label">@lang('Additional details') <span
-                                                class="required-color">*</span></label>
+                                        <label class="form-label">@lang('Additional details')</label>
                                         <div id="features" class="row">
                                             <div class="col">
                                                 <input type="text" name="name[]" class="form-control search"

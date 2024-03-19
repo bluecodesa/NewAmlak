@@ -61,7 +61,7 @@
 
                                     <div class="form-group col-md-3">
                                         <label>@lang('city') <span class="required-color">*</span> </label>
-                                        <select class="form-control CityDiv" name="city_id" required>
+                                        <select class="form-control " id="CityDiv" name="city_id" required>
                                             <option disabled value="" selected>@lang('city') </option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}"
@@ -85,7 +85,7 @@
                                         <label class="form-label">@lang('location') <span
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="location" id="myAddressBar"
-                                            class="form-control" placeholder="@lang('Enter an address')"
+                                            class="form-control" placeholder="@lang('Address')"
                                             value="{{ old('location') }}" />
                                     </div>
 
@@ -155,7 +155,8 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Area (square metres)')</label>
+                                        <label class="form-label">@lang('Area (square metres)') <span
+                                                class="required-color">*</span></label>
                                         <input type="number" required name="space" class="form-control"
                                             placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
                                     </div>
@@ -177,16 +178,15 @@
 
                                     <div class="col-sm-12 col-md-3 mb-3">
                                         <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
-                                            <span class="required-color">*</span></label>
-                                        <input type="checkbox" required name="show_gallery" class="toggleHomePage"
+                                        </label>
+                                        <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
                                             data-toggle="toggle" data-onstyle="primary">
                                     </div>
 
 
 
                                     <div class="col-sm-12 col-md-3 mb-3">
-                                        <label class="form-label">@lang('price') <span
-                                                class="required-color">*</span></label>
+                                        <label class="form-label">@lang('price')</label>
                                         <input type="number" required name="price" class="form-control"
                                             placeholder="@lang('price')" value="{{ old('price') }}" />
                                     </div>
@@ -205,8 +205,9 @@
 
 
                                     <div class="form-group col-md-3 mb-3">
-                                        <label>@lang('services')</label>
-                                        <select class="select2 form-control" name="service_id[]" multiple="multiple">
+                                        <label>@lang('services') <span class="required-color">*</span> </label>
+                                        <select class="select2 form-control" name="service_id[]" required
+                                            multiple="multiple">
                                             <option disabled value="">@lang('services')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}">
@@ -289,7 +290,7 @@
                 });
             });
 
-            $('#Region_id').on('change', function() {
+            $('.Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
                 $.ajax({
@@ -307,26 +308,7 @@
                 });
             });
 
-            $('.CityDiv').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    beforeSend: function() {
-                        $('#DistrictDiv').fadeOut('fast');
-                    },
-                    success: function(data) {
-                        $('#DistrictDiv').fadeOut('fast', function() {
-                            $(this).empty().append(data);
-                            $(this).fadeIn('fast');
-                        });
-                    },
-                });
-            });
-
-
-            $('.Region_id').on('change', function() {
+            $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
                 $.ajax({
@@ -343,7 +325,25 @@
                     },
                 });
             });
+            //
 
+            $('#CityDiv').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#DistrictDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#DistrictDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
             //
             $("#myAddressBar").on("keyup", function() {
                 // This function will be called every time a key is pressed in the input field
@@ -365,7 +365,8 @@
                     // Log the details to the console (or do something else with them)
                 });
             });
-
+        </script>
+        <script>
             var path = "{{ route('Broker.Property.autocomplete') }}";
 
             $(document).on("focus", ".search", function() {

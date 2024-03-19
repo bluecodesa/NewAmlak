@@ -92,14 +92,14 @@
                                         <label class="form-label">@lang('location name') <span
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="location" id="myAddressBar"
-                                            class="form-control" placeholder="@lang('location name')"
+                                            class="form-control" placeholder="@lang('Address')"
                                             value="{{ $project->location }}" />
                                     </div>
 
                                     <div class="form-group col-md-4">
                                         <label>@lang('Developer name') </label>
                                         <select class="form-control" name="developer_id">
-                                            <option disabled value="">@lang('Developer name')</option>
+                                            <option value="">@lang('Developer name')</option>
                                             @foreach ($developers as $developer)
                                                 <option value="{{ $developer->id }}"
                                                     {{ $developer->id == $project->developer_id ? 'selected' : '' }}>
@@ -112,7 +112,7 @@
                                     <div class="form-group col-md-4">
                                         <label>@lang('Advisor name') </label>
                                         <select class="form-control" name="advisor_id">
-                                            <option disabled selected value="">@lang('Advisor name')</option>
+                                            <option selected value="">@lang('Advisor name')</option>
                                             @foreach ($advisors as $advisor)
                                                 <option value="{{ $advisor->id }}"
                                                     {{ $advisor->id == $project->advisor_id ? 'selected' : '' }}>

@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="form-group col-md-4">
-                        <label>@lang('Region') </label>
+                        <label>@lang('Region') <span class="required-color">*</span> </label>
                         <select class="form-control Region_id" required>
                             <option disabled selected value="">@lang('Region')</option>
                             @foreach ($Regions as $Region)
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="form-group col-md-4">
-                        <label>@lang('city') </label>
+                        <label>@lang('city') <span class="required-color">*</span> </label>
                         <select class="form-control CityDiv" name="city_id" required>
 
                         </select>

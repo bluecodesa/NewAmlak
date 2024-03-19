@@ -125,6 +125,6 @@ class PropertyController extends Controller
     function StoreUnit(Request $request, $id)
     {
         $this->PropertyService->StoreUnit($id, $request->all());
-        return redirect()->route('Broker.Property.index')->with('success', __('added successfully'));
+        return redirect()->route('Broker.Property.show', $id)->with('success', __('added successfully'));
     }
 }

@@ -318,13 +318,11 @@
     "Edit Ticket": "تعديل تذكرة ",
     "Edit Interest": "تعديل طلب اهتمام ",
     "Ticket Type": "نوع التذكرة",
+    "Address": "العنوان",
     "Ticket Address": "العنوان",
     "Ticket Status": "حالة التذكرة",
     "Ticket Number": "رقم التذكرة",
     "Technical Support Orders": "طلبات الدعم الفني",
     "Waiting for technical support": "بانتظار الدعم الفني",
     "Waiting for client": "بانتظار العميل "
-
-
-
 }

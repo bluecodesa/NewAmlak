@@ -92,7 +92,6 @@ class PropertyService
 
     function StoreUnit($id, $data)
     {
-
         $rules = [
             'number_unit' => 'required|string',
             'city_id' => 'required',
@@ -100,12 +99,16 @@ class PropertyService
             'property_type_id' => 'required',
             'property_usage_id' => 'required',
             'owner_id' => 'required',
-            'instrument_number' => 'required|numeric',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('properties')->ignore($id),
+                'max:25'
+            ],
             'service_type_id' => 'required',
-            "show_gallery" => 'required',
+            "show_gallery" => 'sometimes',
             'space' => 'required|numeric',
-            'rooms' => 'required|numeric',
-            'bathrooms' => 'required|numeric',
+            'rooms' => 'sometimes|numeric',
+            'bathrooms' => 'sometimes|numeric',
             'show_gallery' => 'nullable',
             'price' => 'required|numeric',
             'type' => ['required', Rule::in(['sale', 'rent'])],

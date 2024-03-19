@@ -71,9 +71,13 @@ class UnitService
             'property_type_id' => 'required',
             'property_usage_id' => 'required',
             'owner_id' => 'required',
-            'instrument_number' => 'nullable',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('units')->ignore($id),
+                'max:25'
+            ],
             'service_type_id' => 'required',
-            "show_gallery" => 'required',
+            "show_gallery" => 'nullable',
             'space' => 'required|numeric',
             'rooms' => 'required|numeric',
             'bathrooms' => 'required|numeric',
@@ -104,7 +108,7 @@ class UnitService
 
     public function countUnitsForBroker($brokerId)
     {
-         // Instantiate the model
+        // Instantiate the model
 
         $residentialCount = Unit::where('broker_id', $brokerId)
             ->whereHas('PropertyUsageData.translations', function ($query) {

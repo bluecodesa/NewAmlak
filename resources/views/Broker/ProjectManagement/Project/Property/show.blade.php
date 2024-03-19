@@ -80,7 +80,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('Instrument number') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $Property->CityData->name ?? __('nothing') }}
+                                                                {{ $Property->instrument_number ?? __('nothing') }}
                                                             </span>
                                                         </h6>
                                                     </div>

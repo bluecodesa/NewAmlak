@@ -116,7 +116,7 @@ class ProjectController extends Controller
             'property_usage_id' => 'required|exists:property_usages,id',
             'owner_id' => 'required|exists:owners,id',
             'instrument_number' => [
-                'required',
+                'nullable',
                 Rule::unique('properties'),
                 'max:25'
             ],

@@ -101,10 +101,9 @@
                                         <div class="form-group col-md-4">
                                             <label>@lang('Property type') <span class="required-color">*</span> </label>
                                             <select class="form-control" name="property_type_id" required>
-                                                <option disabled value="">@lang('Property type')</option>
+                                                <option disabled selected value="">@lang('Property type')</option>
                                                 @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}"
-                                                        {{ $type->id == $project->property_type_id ? 'selected' : '' }}>
+                                                    <option value="{{ $type->id }}">
                                                         {{ $type->name }}</option>
                                                 @endforeach
                                             </select>
@@ -122,14 +121,24 @@
                                             </select>
                                         </div>
 
+                                        <div class="form-group col-md-4 mb-3">
+                                            <div class="row">
+                                                <label class="col-md-6">@lang('owner name') <span
+                                                        class="required-color">*</span>
+                                                </label>
+                                                <label class="text-right col-md-6">
+                                                    <button type="button" data-toggle="modal"
+                                                        data-target=".bs-example-modal-center"
+                                                        class="btn btn-primary btn-sm waves-effect waves-light btn-sm">
+                                                        @lang('Add New Owner')
+                                                    </button>
+                                                </label>
+                                            </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label>@lang('owner name') <span class="required-color">*</span> </label>
-                                            <select class="form-control" name="owner_id" required>
+                                            <select class="form-control" id="OwnersDiv" name="owner_id" required>
                                                 <option disabled selected value="">@lang('owner name')</option>
                                                 @foreach ($owners as $owner)
-                                                    <option value="{{ $owner->id }}"
-                                                        {{ $project->owner_id == $owner->id ? 'selected' : '' }}>
+                                                    <option value="{{ $owner->id }}">
                                                         {{ $owner->name }}</option>
                                                 @endforeach
                                             </select>
@@ -149,10 +158,10 @@
                                         </div> --}}
 
                                         <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Instrument number') <span
-                                                    class="required-color">*</span></label>
-                                            <input type="text" required name="instrument_number" class="form-control"
-                                                placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
+                                            <label class="form-label">@lang('Instrument number')</label>
+                                            <input type="text" name="instrument_number" class="form-control"
+                                                placeholder="@lang('Instrument number')"
+                                                value="{{ old('Instrument number') }}" />
                                         </div>
 
 
@@ -194,10 +203,50 @@
 
         </div>
         <!-- container-fluid -->
-
+        @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
     </div>
     @push('scripts')
         <script>
+            $(document).ready(function() {
+                // Intercept form submission
+                $('#OwnerForm').submit(function(event) {
+                    event.preventDefault();
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: $(this).attr('action'), // Form action URL
+                        data: formData, // Form data
+                        success: function(data) {
+                            $('#OwnersDiv').empty();
+                            $('#OwnersDiv').append(data);
+                            $('.bs-example-modal-center').modal('hide');
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error response here
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+            });
+
+            $('.Region_id').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('.CityDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('.CityDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
@@ -215,6 +264,8 @@
                     },
                 });
             });
+            //
+
             $('#CityDiv').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
@@ -249,7 +300,7 @@
                     var lat = place.geometry.location.lat();
                     var long = place.geometry.location.lng();
                     // $("#address").val(address);
-                    // $("#location_tag").val(lat + "," + long);
+                    $("#location_tag").val(lat + "," + long);
                     // Log the details to the console (or do something else with them)
                 });
             });
