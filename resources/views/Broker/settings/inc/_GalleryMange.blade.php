@@ -47,7 +47,7 @@ aria-labelledby="v-pills-gallary-tab">
                                 <input type="text"
                                     class="form-control"
                                     id="galleryName" disabled
-                                    value="{{ env('APP_URL') }}/ar/gallery/">
+                                    value="{{ env('APP_URL', 'https://newamlak.tryamlak.com') }}/ar/gallery/">
                             </div>
                         </div>
                         <div class="row validate-result"

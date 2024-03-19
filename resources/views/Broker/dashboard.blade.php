@@ -472,7 +472,7 @@
                                 <div class="card-body">
                                     <h4 class="mt-0 header-title mb-4"> مؤشرات الوحدات</h4>
                                     <div class="row mb-4">
-                                        <div class="col-6">
+                                        {{-- <div class="col-6">
 
                                             <p style="margin-bottom: 0">{{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%<span class="span-akkar"></span></p>
                                             <span> @lang('vacant')</span>
@@ -480,10 +480,10 @@
                                         <div class="col-6">
                                             <p style="margin-bottom: 0">{{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%<span class="span-akkar"></span></p>
                                             <span>@lang('rented') </span>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div id="simple-pie" class="ct-chart ct-golden-section simple-pie-chart-chartist">
-                                        <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-pie" style="width: 100%; height: 100%;">
+                                        {{-- <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-pie" style="width: 100%; height: 100%;">
                                             <g class="ct-series ct-series-a">
                                                 <path d="M266.989,283.963A145,145,0,0,0,211.5,5L211.5,150Z" class="ct-slice-pie" ct:value="7"></path>
                                                 <text dx="282.6069328292342" dy="135.85595165383072" text-anchor="middle" class="ct-label">
@@ -497,7 +497,7 @@
                                                 </text>
                                             </g>
 
-                                        </svg>
+                                        </svg> --}}
                                     </div>
 
                                 </div>

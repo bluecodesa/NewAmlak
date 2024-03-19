@@ -5,6 +5,7 @@ namespace App\Repositories\Admin;
 use App\Models\Setting;
 use App\Interfaces\Admin\SettingRepositoryInterface;
 use App\Models\EmailSetting;
+use App\Models\InterestType;
 use App\Models\NotificationSetting;
 use App\Models\PaymentGateway;
 use Illuminate\Support\Facades\Request;
@@ -81,5 +82,32 @@ class SettingRepository implements SettingRepositoryInterface
     public function getNotificationSetting()
     {
         return NotificationSetting::all();
+    }
+
+    public function getAllInterestTypes()
+    {
+        return InterestType::get();
+    }
+
+    public function createInterestType($data)
+    {
+        return InterestType::create($data);
+    }
+
+    function getInterestTypeById($id)
+    {
+        return InterestType::find($id);
+    }
+
+    public function updateInterestType($id, $data)
+    {
+        $Section = InterestType::findOrFail($id);
+        $Section->update($data);
+        return $Section;
+    }
+
+    public function deleteInterestType($id)
+    {
+        return InterestType::findOrFail($id)->delete();
     }
 }
