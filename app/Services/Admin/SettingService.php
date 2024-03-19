@@ -109,7 +109,7 @@ class SettingService
     {
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')->ignore($id, 'ticket_type_id')]];
+            $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')->ignore($id, 'interest_type_id')]];
         }
         validator($data, $rules)->validate();
         return $this->settingRepository->updateInterestType($id, $data);

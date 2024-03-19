@@ -34,16 +34,24 @@
                         <div class="card-body">
                             <h4 class="mt-0 header-title"><h4 class="mt-0 header-title"> {{ $SubscriptionType->name }}</h4>
                         </h4>
-                            @php
-                               $endDate = \Carbon\Carbon::parse($subscriber->end_date);
-                                $now = \Carbon\Carbon::now();
-                                $daysUntilEnd = $now->diffInDays($endDate, false); // Set the second parameter to false to count only full days
-                            @endphp
+
                             @if ($daysUntilEnd > 0)
-                            <p class="sub-title" class="highlighter-rouge">{{ $daysUntilEnd }} @lang('Days Until End') </p>
-                           @else
-                           <p class="sub-title" class="highlighter-rouge">@lang('Subscription Finished') </p>
+                                <p class="sub-title" class="highlighter-rouge">
+                                    @if ($daysUntilEnd == 1)
+                                    <p class="sub-title" class="highlighter-rouge">1 @lang('Day Until End') </p>
+                                    @else
+                                    <p class="sub-title" class="highlighter-rouge">{{ $daysUntilEnd }} @lang('Days Until End') </p>
+                                    @endif
+
+                                </p>
+                            @elseif( $hoursUntilEnd > 0 || $minutesUntilEnd > 0)
+
+                            <p class="sub-title" class="highlighter-rouge">  {{ $hoursUntilEnd }} @lang ('Hours')  @lang('Until End') </p>
+
+                            @else
+                                <p class="sub-title" class="highlighter-rouge">{{ __($subscriber->status) }}</p>
                             @endif
+
 
                             <div class="">
                                 <div class="progress">
@@ -58,19 +66,19 @@
                             @if ($pendingPayment)
                                 <a href="javascript:void(0)" onclick="handleRenewClick()"
                                     class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
-                                <a href="" class="btn btn-secondary modal-btn2 w-auto"
+                                <a href="{{ route('welcome') }}#pricing-container" class="btn btn-secondary modal-btn2 w-auto"
                                     target="_blank">@lang('Compare Plans')</a>
                             @elseif ($daysUntilEnd <= 7)
                                 <a href="javascript:void(0)"
                                     onclick="document.querySelector('#exampleModalCenterbtn').click();"
                                     class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
-                                <a href="" class="btn btn-secondary modal-btn2 w-auto"
+                                <a href="{{ route('welcome') }}#pricing-container" class="btn btn-secondary modal-btn2 w-auto"
                                     target="_blank">@lang('Compare Plans')</a>
                             @elseif ($daysUntilEnd <= 0)
                                 <a href="javascript:void(0)"
                                     onclick="document.querySelector('#exampleModalCenterbtn').click();"
                                     class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
-                                <p class="text-danger">@lang('Subscription Expired')</p>
+                                <p class="text-danger">{{ __($subscriber->status) }}</p>
                             @else
                                 @include('Broker.inc._SubscriptionSuspend')
                             @endif
@@ -129,12 +137,20 @@
                                         <h5 class="font-16"> شاغر</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $numberOfVacantUnits }}</h3>
-                                    <div class="progress mt-4" style="height: 4px;">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span></p>
 
+                                    @if ($numberOfUnits > 0)
+                                        @php
+                                            $occupiedPercentage = ($numberOfVacantUnits / $numberOfUnits) * 100;
+                                        @endphp
+                                        <div class="progress mt-4" style="height: 4px;">
+                                            <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'success' : 'danger' }}" role="progressbar" style="width: {{ $occupiedPercentage }}%"
+                                                aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+
+                                        <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">{{ $occupiedPercentage }}%</span></p>
+                                        @else
+                                        <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">0%</span></p>
+                                        @endif
 
 
                                 </div>
@@ -151,12 +167,19 @@
                                         <h5 class="font-16"> مؤجر</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $numberOfRentedUnits }}</h3>
-                                    <div class="progress mt-4" style="height: 4px;">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span></p>
+                                    @if ($numberOfUnits > 0)
+                                        @php
+                                            $occupiedPercentage = ($numberOfRentedUnits / $numberOfUnits) * 100;
+                                        @endphp
+                                        <div class="progress mt-4" style="height: 4px;">
+                                            <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'success' : 'danger' }}" role="progressbar" style="width: {{ $occupiedPercentage }}%"
+                                                aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
 
+                                        <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">{{ $occupiedPercentage }}%</span></p>
+                                        @else
+                                        <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">0%</span></p>
+                                    @endif
 
 
                                 </div>
@@ -174,12 +197,20 @@
                                         <h5 class="font-16"> الوحدات التجارية</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $nonResidentialCount }}</h3>
+                                    @if ($numberOfUnits > 0)
+                                    @php
+                                        $occupiedPercentage = ($nonResidentialCount / $numberOfUnits) * 100;
+                                    @endphp
                                     <div class="progress mt-4" style="height: 4px;">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'warning' : 'danger' }}" role="progressbar" style="width: {{ $occupiedPercentage }}%"
+                                            aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span>
-                                    </p>
+
+                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">{{ $occupiedPercentage }}%</span></p>
+                                    @else
+                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">0%</span></p>
+                                    @endif
+
 
 
                                 </div>
@@ -196,12 +227,19 @@
                                         <h5 class="font-16"> الوحدات السكنية </h5>
                                     </div>
                                     <h3 class="mt-4">{{ $residentialCount }}</h3>
+                                    @if ($numberOfUnits > 0)
+                                    @php
+                                        $occupiedPercentage = ($residentialCount / $numberOfUnits) * 100;
+                                    @endphp
                                     <div class="progress mt-4" style="height: 4px;">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'warning' : 'danger' }}" role="progressbar" style="width: {{ $occupiedPercentage }}%"
+                                            aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span>
-                                    </p>
+
+                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">{{ $occupiedPercentage }}%</span></p>
+                                    @else
+                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">0%</span></p>
+                                    @endif
 
                                 </div>
                             </div>
@@ -472,37 +510,42 @@
                                 <div class="card-body">
                                     <h4 class="mt-0 header-title mb-4"> مؤشرات الوحدات</h4>
                                     <div class="row mb-4">
-                                        {{-- <div class="col-6">
 
+                                    @if ($numberOfUnits > 0)
+                                        <div class="col-6">
                                             <p style="margin-bottom: 0">{{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%<span class="span-akkar"></span></p>
                                             <span> @lang('vacant')</span>
                                         </div>
                                         <div class="col-6">
                                             <p style="margin-bottom: 0">{{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%<span class="span-akkar"></span></p>
                                             <span>@lang('rented') </span>
-                                        </div> --}}
+                                        </div>
+                                        @endif
                                     </div>
-                                    <div id="simple-pie" class="ct-chart ct-golden-section simple-pie-chart-chartist">
-                                        {{-- <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-pie" style="width: 100%; height: 100%;">
-                                            <g class="ct-series ct-series-a">
-                                                <path d="M266.989,283.963A145,145,0,0,0,211.5,5L211.5,150Z" class="ct-slice-pie" ct:value="7"></path>
-                                                <text dx="282.6069328292342" dy="135.85595165383072" text-anchor="middle" class="ct-label">
-                                                    {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%
-                                                </text>
-                                            </g>
-                                            <g class="ct-series ct-series-b">
-                                                <path d="M66.5,150A145,145,0,0,0,267.456,283.768L211.5,150Z" class="ct-slice-pie" ct:value="5"></path>
-                                                <text dx="171.22115810607883" dy="210.2815468919345" text-anchor="middle" class="ct-label">
-                                                    {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%
-                                                </text>
-                                            </g>
 
-                                        </svg> --}}
-                                    </div>
+                                    @if ($numberOfUnits > 0)
+                                        <div id="simple-pie" class="ct-chart ct-golden-section simple-pie-chart-chartist">
+                                            <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-pie" style="width: 100%; height: 100%;">
+                                                <g class="ct-series ct-series-a">
+                                                    <path d="M266.989,283.963A145,145,0,0,0,211.5,5L211.5,150Z" class="ct-slice-pie" ct:value="7"></path>
+                                                    <text dx="282.6069328292342" dy="135.85595165383072" text-anchor="middle" class="ct-label">
+                                                        {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%
+                                                    </text>
+                                                </g>
+                                                <g class="ct-series ct-series-b">
+                                                    <path d="M66.5,150A145,145,0,0,0,267.456,283.768L211.5,150Z" class="ct-slice-pie" ct:value="5"></path>
+                                                    <text dx="171.22115810607883" dy="210.2815468919345" text-anchor="middle" class="ct-label">
+                                                        {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%
+                                                    </text>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                    @endif
 
                                 </div>
                             </div>
                         </div>
+
                         <!-- end col -->
                     </div> <!-- Striped rows -->
                 </div>

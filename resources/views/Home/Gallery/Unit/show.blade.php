@@ -106,7 +106,9 @@
             <div class="col-md-3 bg-white p-4"
                 style="height: fit-content;border-radius: 20px;filter:drop-shadow(0px 3px 3px rgba(161,137,137,0.09 ));">
                 <div class="row m-0 align-items-center mb-4">
-                    <div class="unit-employee"></div>
+                    <div class="unit-employee">
+                        <img src="{{$brokers->avatar}}" alt="user" class="rounded-circle">
+                    </div>
                     <div class="w-auto">
                         <p class="mb-0 font-weight-bold">{{ $brokers->name}}</p>
                         @php

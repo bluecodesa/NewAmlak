@@ -20,7 +20,7 @@ aria-labelledby="v-pills-gallary-tab">
                         <div class="input-group">
                             <input type="text" class="form-control"
                                 id="galleryName" disabled
-                                value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
+                                value="{{ env('APP_URL', 'https://newamlak.tryamlak.com') }}/ar/gallery/{{ $gallery->gallery_name }}">
                             <div class="input-group-append">
                                 <span class="input-group-text"
                                     style="cursor: pointer;"

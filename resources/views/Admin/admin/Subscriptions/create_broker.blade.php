@@ -119,7 +119,6 @@
                     class="text-danger">*</span></label>
     <input type="password" class="form-control" id="password" name="password" required>
     @error('password')
-    <span class="text-danger">{{ $message }}</span>
 @enderror
 </div>
 

@@ -29,7 +29,7 @@
                                                 <td>{{ $interest->name }} </td>
                                                 <td>
 
-                                                    <a href="{{ route('Admin.SupportTickets.edit', $interest->id) }}"
+                                                    <a href="{{ route('Admin.edit.interest-type', $interest->id) }}"
                                                         class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
                                                     <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $interest->id }}')"
@@ -37,7 +37,7 @@
                                                         @lang('Delete')
                                                     </a>
                                                     <form id="delete-form-{{ $interest->id }}"
-                                                        action="{{ route('Admin.SupportTickets.destroy', $interest->id) }}"
+                                                        action="{{ route('Admin.delete.interest-type', $interest->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')

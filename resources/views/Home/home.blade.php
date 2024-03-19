@@ -302,7 +302,7 @@
             </div>
         </div>
 
-        <div class="pricing-container desktop">
+        <div id="pricing-container" class="pricing-container desktop">
             <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
                 <div class="row first-fix">
                     <div class="col-3" style="padding-top: 50px;">
@@ -545,7 +545,7 @@
             </div>
         </div>
 
-        <div class="pricing-container mobile">
+        <div id="pricing-container" class="pricing-container mobile">
             <div class="row">
                 <div class="col-12" style="padding-top: 5px;">
                     <h5
@@ -612,13 +612,13 @@
                 <div class="col-4 center-price soon-feature" style="padding-bottom: 30px">
                     <a class="btn ArFont" disabled
                         style="    border: 1px solid #497aac;
-    color: #060D07;
-    border-radius: 25px;
-    background-color: #fff;    cursor: auto;    min-width: fit-content;
-    padding: 0 11px;
-    min-height: 40px;
-    margin: auto;
-    border-radius: 12px;">ابدأ
+                        color: #060D07;
+                        border-radius: 25px;
+                        background-color: #fff;    cursor: auto;    min-width: fit-content;
+                        padding: 0 11px;
+                        min-height: 40px;
+                        margin: auto;
+                        border-radius: 12px;">ابدأ
                         الآن</a>
                 </div>
             </div>

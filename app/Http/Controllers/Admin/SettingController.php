@@ -179,4 +179,18 @@ class SettingController extends Controller
         return view('Admin.settings.InterestType.edit', get_defined_vars());
     }
 
+    public function updateInterestType(Request $request, $id)
+    {
+        $this->settingService->updateInterestType($id, $request->all());
+        return redirect()->route('Admin.settings.index')
+            ->withSuccess(__('Update successfully'));
+    }
+
+    public function destroyInterestType($id)
+    {
+        $this->settingService->deleteInterestType($id);
+        return redirect()->route('Admin.settings.index')
+            ->withSuccess(__('Deleted successfully'));
+    }
+
 }

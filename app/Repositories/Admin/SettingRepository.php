@@ -101,9 +101,9 @@ class SettingRepository implements SettingRepositoryInterface
 
     public function updateInterestType($id, $data)
     {
-        $Section = InterestType::findOrFail($id);
-        $Section->update($data);
-        return $Section;
+        $Interest = InterestType::findOrFail($id);
+        $Interest->update($data);
+        return $Interest;
     }
 
     public function deleteInterestType($id)

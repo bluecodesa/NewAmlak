@@ -68,6 +68,12 @@ Route::group(
             Route::get('/interests-type', [SettingController::class, 'showAllInterestTypes'])->name('interests-types');
             Route::get('/interests-type', [SettingController::class, 'createInterestType'])->name('create.interest-type');
             Route::post('/interests-type', [SettingController::class, 'storeInterestType'])->name('store.interest-type');
+            Route::get('/interests-type/{id}', [SettingController::class, 'editInterestType'])->name('edit.interest-type');
+            Route::put('/interests-type/{id}', [SettingController::class, 'updateInterestType'])->name('update.interest-type');
+            Route::delete('/interests-type/{id}', [SettingController::class, 'destroyInterestType'])->name('delete.interest-type');
+
+
+
 
 
             Route::resources([
