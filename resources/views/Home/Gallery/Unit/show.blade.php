@@ -107,7 +107,7 @@
                 style="height: fit-content;border-radius: 20px;filter:drop-shadow(0px 3px 3px rgba(161,137,137,0.09 ));">
                 <div class="row m-0 align-items-center mb-4">
                     <div class="unit-employee">
-                        <img src="{{$brokers->avatar}}" alt="user" class="rounded-circle">
+                        {{-- <img src="{{$brokers->avatar}}" alt="user" class="rounded-circle"> --}}
                     </div>
                     <div class="w-auto">
                         <p class="mb-0 font-weight-bold">{{ $brokers->name}}</p>
