@@ -93,14 +93,18 @@ class HomeController extends Controller
         //
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
 
-        //statistics
+        //statistics calc
+
+        $startDate = \Carbon\Carbon::parse($subscriber->start_date);
         $endDate = \Carbon\Carbon::parse($subscriber->end_date);
+        $numOfDays = $endDate->diffInDays($startDate);
         $now = \Carbon\Carbon::now();
         $daysUntilEnd = $now->diffInDays($endDate, false); // Calculate remaining days
-        $hoursUntilEnd = $now->diffInHours($endDate, false); // Get remaining hours
+        // $hoursUntilEnd = $now->diffInHours($endDate, false); // Get remaining hours
+        $hoursUntilEnd = $now->diffInHours($endDate->copy()->subDays($daysUntilEnd), false); // Get remaining hours
         $minutesUntilEnd = $now->diffInMinutes($endDate, false); // Get remaining minutes
-   
 
+        $prec=($daysUntilEnd /$numOfDays) * 100;
         //
         return view('Broker.dashboard',  get_defined_vars());
     }

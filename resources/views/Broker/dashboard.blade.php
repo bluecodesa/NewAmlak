@@ -56,10 +56,11 @@
                             <div class="">
                                 <div class="progress">
                                     <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar"
-                                        style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                        0%
+                                        style="width: {{ $prec }}%;" aria-valuenow="{{ $prec }}" aria-valuemin="0" aria-valuemax="100">
+                                        {{ $prec }}%
                                     </div>
                                 </div>
+
                             </div>
                             <p class="sub-title" class="highlighter-rouge">@lang('Subscription End') {{ $subscriber->end_date }}</p>
 
@@ -116,12 +117,6 @@
 
                                     </div>
                                     <h3 class="mt-4">{{ $numberOfowners }}</h3>
-                                    <div class="progress mt-4" style="height: 4px;">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span></p>
-
 
                                 </div>
                             </div>
@@ -147,9 +142,9 @@
                                                 aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
 
-                                        <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">{{ $occupiedPercentage }}%</span></p>
+                                        <p class="text-muted mt-2 mb-0"><span class="float-right">{{ $occupiedPercentage }}%</span></p>
                                         @else
-                                        <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">0%</span></p>
+                                        <p class="text-muted mt-2 mb-0"><span class="float-right">0%</span></p>
                                         @endif
 
 
@@ -176,9 +171,9 @@
                                                 aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
 
-                                        <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">{{ $occupiedPercentage }}%</span></p>
+                                        <p class="text-muted mt-2 mb-0"><span class="float-right">{{ $occupiedPercentage }}%</span></p>
                                         @else
-                                        <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">0%</span></p>
+                                        <p class="text-muted mt-2 mb-0"><span class="float-right">0%</span></p>
                                     @endif
 
 
@@ -206,9 +201,9 @@
                                             aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
 
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">{{ $occupiedPercentage }}%</span></p>
+                                    <p class="text-muted mt-2 mb-0"><span class="float-right">{{ $occupiedPercentage }}%</span></p>
                                     @else
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">0%</span></p>
+                                    <p class="text-muted mt-2 mb-0"><span class="float-right">0%</span></p>
                                     @endif
 
 
@@ -236,9 +231,9 @@
                                             aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
 
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">{{ $occupiedPercentage }}%</span></p>
+                                    <p class="text-muted mt-2 mb-0"><span class="float-right">{{ $occupiedPercentage }}%</span></p>
                                     @else
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">0%</span></p>
+                                    <p class="text-muted mt-2 mb-0"><span class="float-right">0%</span></p>
                                     @endif
 
                                 </div>
@@ -259,7 +254,7 @@
                                         <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span>
+                                    <p class="text-muted mt-2 mb-0"><span class="float-right">75%</span>
                                     </p>
                                 </div>
                             </div>
@@ -279,7 +274,7 @@
                                         <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span>
+                                    <p class="text-muted mt-2 mb-0"><span class="float-right">75%</span>
                                     </p>
                                 </div>
                             </div>

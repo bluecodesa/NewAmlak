@@ -202,7 +202,7 @@ class HomeController extends Controller
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'id_number'=>'unique:brokers,id_number'
+            'id_number'=>'nullable|unique:brokers,id_number'
 
         ];
 
@@ -255,7 +255,7 @@ class HomeController extends Controller
 
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
         $startDate = Carbon::now();
-        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
         if ($subscriptionType->price > 0) {
             $SubType = 'paid';
             $status = 'pending';
@@ -269,7 +269,7 @@ class HomeController extends Controller
             'status' => $status,
             'is_start' => $status == 'pending' ? 0 : 1,
             'is_new' => 1,
-            'start_date' => now()->format('Y-m-d'),
+            'start_date' => now()->format('Y-m-d H:i:s'),
             'end_date' => $endDate,
             'total' => '200'
         ]);

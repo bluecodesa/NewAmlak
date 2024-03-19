@@ -88,7 +88,16 @@ class SubscriptionService
 
         $subscriptionType = SubscriptionType::find($request['subscription_type_id']);
 
-        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
+        // $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
+        // Calculate the end date
+$endDate = $subscriptionType->calculateEndDate(Carbon::now());
+
+// Set the desired time (e.g., 23:59:59)
+$endDate->setHour(23)->setMinute(59)->setSecond(59);
+
+// Format the end date
+$endDate = $endDate->format('Y-m-d H:i:s');
+
 
         $status = ($subscriptionType->price > 0) ? 'pending' : 'active';
 
@@ -124,7 +133,7 @@ class SubscriptionService
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'file',
-            'id_number'=>'unique:brokers,id_number'
+            'id_number'=>'nullable|unique:brokers,id_number'
 
         ];
         $messages = [
@@ -183,7 +192,7 @@ class SubscriptionService
  }
 
  ///
-        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
 
         $status = ($subscriptionType->price > 0) ? 'pending' : 'active';
 
@@ -193,7 +202,7 @@ class SubscriptionService
             'status' => $status,
             'is_start' => ($status == 'pending') ? 0 : 1,
             'is_new' => 1,
-            'start_date' => now()->format('Y-m-d'),
+            'start_date' => now()->format('Y-m-d H:i:s'),
             'end_date' => $endDate,
             'total' => $subscriptionType->price
         ]);

@@ -42,9 +42,15 @@ class GalleryService
     {
         $request=request();
         $data = $request->validate([
-            'gallery_name' => 'required|string|max:255',
+            'gallery_name' => 'required|string|unique:galleries|max:255',
             'gallery_status' => 'nullable|in:0,1',
         ]);
+        $messages = [
+            'gallery_name.required' => __('The gallery_name field is required.'),
+            'gallery_name.unique' => __('The gallery_name has already been taken.'),
+        ];
+        validator($data, $messages)->validate();
+
         $gallery = $this->galleryRepository->findById($galleryId);
 
         $gallery->update([
