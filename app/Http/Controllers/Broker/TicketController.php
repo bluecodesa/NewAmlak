@@ -15,7 +15,8 @@ class TicketController extends Controller
     public function index()
     {
         //
-        $tickets = Ticket::where('broker_id', auth()->user()->id)->get();
+        $broker_id = auth()->user()->UserBrokerData->id;
+        $tickets = Ticket::where('broker_id', $broker_id)->get();
 
         return view ('Broker.Ticket.index',get_defined_vars());
     }
@@ -46,18 +47,24 @@ class TicketController extends Controller
         ]);
 
         // Handle file upload if an image is provided
+
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public'); // Store the image in the 'public' disk under the 'images' directory
-            $validatedData['image'] = $imagePath;
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = uniqid() . '.' . $ext;
+            $file->move(public_path('Brokers/Tickets'), $fileName);
+            $validatedData['image'] = '/Brokers/Tickets/' . $fileName;
         }
 
         // Create a new ticket instance
         $ticket = new Ticket();
         $user = auth()->user();
+        $broker_id = auth()->user()->UserBrokerData->id;
+
 
         if ($user->is_broker) {
             // If the user is a broker, set the broker_id
-            $ticket->broker_id = $user->id;
+            $ticket->broker_id = $broker_id;
         } elseif ($user->is_office) {
             // If the user is an office, set the office_id
             $ticket->office_id = $user->id; // Assuming the office ID is the user ID

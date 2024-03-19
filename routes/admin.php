@@ -65,6 +65,11 @@ Route::group(
             Route::post('StoreEmailTemplate/{id}', [SettingController::class, 'StoreEmailTemplate'])->name('update.StoreEmailTemplate');
             Route::post('StoreNewNotification', [SettingController::class, 'StoreNewNotification'])->name('StoreNewNotification');
             Route::get('TestSendMail', [SettingController::class, 'TestSendMail'])->name('update.TestSendMail');
+            Route::get('/interests-type', [SettingController::class, 'showAllInterestTypes'])->name('interests-types');
+            Route::get('/interests-type', [SettingController::class, 'createInterestType'])->name('create.interest-type');
+            Route::post('/interests-type', [SettingController::class, 'storeInterestType'])->name('store.interest-type');
+
+
             Route::resources([
                 'roles' => RoleController::class,
                 'users' => UserController::class,

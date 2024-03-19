@@ -53,9 +53,9 @@
                                                 data-target="#v-pills-messages" type="button" role="tab"
                                                 aria-controls="v-pills-messages" aria-selected="false">
                                                 @lang('Notification Mange')</button>
-                                            <button class="nav-link" id="v-pills-settings-tab" data-toggle="pill"
-                                                data-target="#v-pills-settings" type="button" role="tab"
-                                                aria-controls="v-pills-settings"
+                                            <button class="nav-link" id="v-pills-interests-tab" data-toggle="pill"
+                                                data-target="#v-pills-interests" type="button" role="tab"
+                                                aria-controls="v-pills-interests"
                                                 aria-selected="false">@lang('Gallary Mange')</button>
 
                                             <button class="nav-link" id="v-pills-HomePage-tab" data-toggle="pill"
@@ -138,6 +138,16 @@
 
 
                                             <!-- بوابات الدفع -->
+
+
+                                            <!--interests types gallery mange-->
+                                            <div class="tab-pane fade" id="v-pills-interests" role="tabpanel"
+                                            aria-labelledby="v-pills-interests-tab">
+                                            @include('Admin.settings.InterestType.index')
+                                            </div>
+
+
+
                                         </div>
 
                                     </div>
