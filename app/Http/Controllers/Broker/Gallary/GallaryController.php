@@ -198,15 +198,7 @@ class GallaryController extends Controller
         return redirect()->route('Broker.Gallery.index')->withSuccess('Gallery created successfully.');
     }
 
-    public function customUpdate(Request $request, $galleryId)
-{
-    // Update the gallery status to 0 in the database
-    $gallery = Gallery::findOrFail($galleryId);
-    $gallery->update(['gallery_status' => 0]);
 
-    // Optionally, you can redirect the user or return a response
-    return redirect()->back()->with('success', 'Gallery status updated successfully.');
-}
 
 
 
