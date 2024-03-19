@@ -54,7 +54,7 @@
                                     <td>
                                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                                             {{ Auth::user()->UserOfficeData->UserSystemInvoicePending->period . ' ' . __(Auth::user()->UserOfficeData->UserSystemInvoicePending->period_type) }}
-                                        @else
+                                        @elseif(isset(Auth::user()->UserBrokerData->UserSystemInvoicePending))
                                             {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->period . ' ' . __(Auth::user()->UserBrokerData->UserSystemInvoicePending->period_type) }}
                                         @endif
                                     </td>
@@ -65,11 +65,12 @@
                                     <td>
                                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                                             {{ __(Auth::user()->UserOfficeData->UserSystemInvoicePending->status) }}
-                                        @else
+                                        @elseif(isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                                             {{ __(Auth::user()->UserBrokerData->UserSystemInvoicePending->status) }}
                                         @endif
                                     </td>
                                 </tr>
+
 
                                 <tr>
                                     <th>@lang('total')</th>
@@ -77,7 +78,7 @@
                                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                                             {{ Auth::user()->UserOfficeData->UserSystemInvoicePending->amount }}
                                             <sub>@lang('SAR')</sub>
-                                        @else
+                                        @elseif(isset(Auth::user()->UserBrokerData->UserSystemInvoicePending))
                                             {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->amount }}
                                             <sub>@lang('SAR')</sub>
                                         @endif

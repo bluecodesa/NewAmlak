@@ -145,8 +145,7 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Area (square metres)') <span
-                                                class="required-color">*</span></label>
+                                        <label class="form-label">@lang('Area (square metres)')</label>
                                         <input type="number" required name="space" class="form-control"
                                             placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
                                     </div>

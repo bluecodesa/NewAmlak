@@ -42,7 +42,7 @@
                     <th>
                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
                             {{ Auth::user()->UserOfficeData->UserSystemInvoicePending->period . ' ' . __(Auth::user()->UserOfficeData->UserSystemInvoicePending->period_type) }}
-                        @else
+                        @elseif(isset(Auth::user()->UserBrokerData->UserSystemInvoicePending))
                             {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->period . ' ' . __(Auth::user()->UserBrokerData->UserSystemInvoicePending->period_type) }}
                         @endif
                     </th>
