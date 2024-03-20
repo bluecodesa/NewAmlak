@@ -21,6 +21,8 @@ use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Broker\GalleryService;
+use App\Services\Admin\SettingService;
+
 
 
 class GallaryController extends Controller
@@ -36,9 +38,13 @@ class GallaryController extends Controller
     protected $AllServiceService;
     protected $FeatureService;
     protected $galleryService;
+    protected $settingService;
 
 
-    public function __construct(GalleryService $galleryService,UnitService $UnitService,  RegionService $regionService,DistrictService $districtService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+
+
+    public function __construct(SettingService $settingService,
+    GalleryService $galleryService,UnitService $UnitService,  RegionService $regionService,DistrictService $districtService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
     {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
@@ -52,6 +58,8 @@ class GallaryController extends Controller
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
         $this->galleryService = $galleryService;
+        $this->settingService = $settingService;
+
 
     }
     public function index()
@@ -127,9 +135,8 @@ class GallaryController extends Controller
     {
         $gallery = $this->galleryService->findByBrokerId(auth()->user()->UserBrokerData->id) ?? null;
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        $interests =$this->settingService->getAllInterestTypes();
         return view('Broker.Gallary.unit-interest',get_defined_vars());
-
-
 
     }
 

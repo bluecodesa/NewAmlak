@@ -99,6 +99,30 @@
                                                             </span> </h6>
                                                     </div>
                                                     <div class="col-md-3">
+                                                        <h6> @lang('id number') : <span class="badge font-13 badge-primary">
+                                                            @if ($subscriber->office_id)
+                                                            {{ $subscriber->OfficeData->presenter_number?? '' }}
+                                                        @endif
+                                                        @if ($subscriber->broker_id)
+                                                            {{ $subscriber->BrokerData->id_number ?? '' }}
+                                                        @endif
+
+
+                                                            </span> </h6>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h6> @lang('license number') : <span class="badge font-13 badge-primary">
+                                                            @if ($subscriber->office_id)
+                                                            {{ $subscriber->OfficeData->presenter_number?? '' }}
+                                                        @endif
+                                                        @if ($subscriber->broker_id)
+                                                            {{ $subscriber->BrokerData->broker_license ?? '' }}
+                                                        @endif
+
+
+                                                            </span> </h6>
+                                                    </div>
+                                                    <div class="col-md-3">
                                                         <h6> @lang('Subscription Status') :
                                                             <span
                                                             class="badge badge-pill p-1 badge-{{ $subscriber->is_suspend == 1 || $subscriber->status == 'pending' ? 'danger' : 'info' }}">
@@ -124,13 +148,14 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <img class="rounded mr-2" alt="200x200" style="width: 100%;height: 86%;"
+                                        <img class="rounded mr-2" alt="User image" style="width: 100%; height: 86%;"
                                             src="@if ($subscriber->office_id)
-                                                    {{ $subscriber->OfficeData->company_logo ?? '' }}
+                                                    {{ $subscriber->OfficeData->company_logo ?? 'https://www.svgrepo.com/show/29852/user.svg' }}
                                                 @elseif ($subscriber->broker_id)
-                                                    {{ $subscriber->BrokerData->broker_logo ?? '' }}
+                                                    {{ $subscriber->BrokerData->broker_logo ?? 'https://www.svgrepo.com/show/29852/user.svg' }} {{-- Use asset helper --}}
                                                 @endif" data-holder-rendered="true">
                                     </div>
+
 
                                 </div>
 

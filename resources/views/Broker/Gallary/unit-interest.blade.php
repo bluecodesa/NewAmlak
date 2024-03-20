@@ -125,13 +125,15 @@
                                                                 @csrf
                                                                 <input type="hidden" name="id" value="{{ $client->id }}">
                                                                 <select class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
-                                                                    <option value="new order" {{ $client->status == 'new order' ? 'selected' : '' }}>طلب جديد</option>
-                                                                    <option value="calling" {{ $client->status == 'calling' ? 'selected' : '' }}>جاري التواصل</option>
-                                                                    <option value="done" {{ $client->status == 'done' ? 'selected' : '' }}>تم الاتفاق</option>
-                                                                    <option value="not matter" {{ $client->status == 'not matter' ? 'selected' : '' }}>عميل غير مهتم</option>
+                                                                    @foreach ($interestsTypes as $interestsType)
+                                                                        <option value="{{ __($interestsType->name) }}" {{ $client->status == __($interestsType->name) ? 'selected' : '' }}>
+                                                                            {{ __($interestsType->name) }}
+                                                                        </option>
+                                                                    @endforeach
                                                                 </select>
                                                                 <button type="submit" class="submit-from" hidden=""></button>
                                                             </form>
+
                                                         </td>
 
                                                         <td>

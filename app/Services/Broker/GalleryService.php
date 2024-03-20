@@ -7,6 +7,7 @@ use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Models\Broker;
 use App\Models\Unit;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class GalleryService
 {
@@ -42,7 +43,12 @@ class GalleryService
     {
         $request=request();
         $data = $request->validate([
-            'gallery_name' => 'required|string|unique:galleries|max:255',
+            'gallery_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('galleries')->ignore($galleryId),
+            ],
             'gallery_status' => 'nullable|in:0,1',
         ]);
         $messages = [

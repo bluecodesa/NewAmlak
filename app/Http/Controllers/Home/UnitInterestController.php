@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Unit;
 use App\Models\UnitInterest;
 use Illuminate\Http\Request;
+use App\Services\Admin\SettingService;
+
 
 class UnitInterestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $settingService;
+
+    public function __construct(SettingService $settingService){
+        $this->settingService = $settingService;
+
+    }
+
+
     public function index()
     {
         // Get the authenticated user's ID
@@ -19,6 +26,7 @@ class UnitInterestController extends Controller
         $unitInterests = UnitInterest::with('unit', 'user')
             ->where('user_id', $userId)
             ->get();
+        $interestsTypes =$this->settingService->getAllInterestTypes();
 
         return view('Broker.Gallary.unit-interest',get_defined_vars());
     }
