@@ -46,7 +46,7 @@
                                 </p>
                             @elseif( $hoursUntilEnd > 0 || $minutesUntilEnd > 0)
 
-                            <p class="sub-title" class="highlighter-rouge">  {{ $hoursUntilEnd }} @lang ('Hours')  @lang('Until End') </p>
+                            <p class="sub-title" class="highlighter-rouge">  {{ $hoursUntilEnd }} @lang ('Hours Until End') </p>
 
                             @else
                                 <p class="sub-title" class="highlighter-rouge">{{ __($subscriber->status) }}</p>
@@ -113,7 +113,7 @@
                                         <i class="fas fa-users bg-primary  text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="font-16">عدد الملاك</h5>
+                                        <h5 class="font-16">@lang('Number Of Owners')</h5>
 
                                     </div>
                                     <h3 class="mt-4">{{ $numberOfowners }}</h3>
@@ -129,13 +129,13 @@
                                         <i class="mdi mdi-briefcase-check bg-success text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="font-16"> شاغر</h5>
+                                        <h5 class="font-16"> @lang('vacant')</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $numberOfVacantUnits }}</h3>
 
                                     @if ($numberOfUnits > 0)
                                         @php
-                                            $occupiedPercentage = ($numberOfVacantUnits / $numberOfUnits) * 100;
+                                            $occupiedPercentage = number_format(($numberOfVacantUnits / $numberOfUnits) * 100, 1);
                                         @endphp
                                         <div class="progress mt-4" style="height: 4px;">
                                             <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'success' : 'danger' }}" role="progressbar" style="width: {{ $occupiedPercentage }}%"
@@ -159,12 +159,12 @@
                                         <i class="mdi mdi-briefcase-check bg-success text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="font-16"> مؤجر</h5>
+                                        <h5 class="font-16">@lang('rented')</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $numberOfRentedUnits }}</h3>
                                     @if ($numberOfUnits > 0)
                                         @php
-                                            $occupiedPercentage = ($numberOfRentedUnits / $numberOfUnits) * 100;
+                                            $occupiedPercentage = number_format(($numberOfRentedUnits / $numberOfUnits) * 100,1);
                                         @endphp
                                         <div class="progress mt-4" style="height: 4px;">
                                             <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'success' : 'danger' }}" role="progressbar" style="width: {{ $occupiedPercentage }}%"
@@ -189,12 +189,13 @@
                                         <i class="mdi mdi-tag-text-outline bg-warning text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="font-16"> الوحدات التجارية</h5>
+                                        <h5 class="font-16"> @lang('Number units') @lang('NonResidential')</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $nonResidentialCount }}</h3>
                                     @if ($numberOfUnits > 0)
                                     @php
-                                        $occupiedPercentage = ($nonResidentialCount / $numberOfUnits) * 100;
+
+                                        $occupiedPercentage = number_format(($nonResidentialCount / $numberOfUnits) * 100, 1);
                                     @endphp
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'warning' : 'danger' }}" role="progressbar" style="width: {{ $occupiedPercentage }}%"
@@ -219,12 +220,12 @@
                                         <i class="mdi mdi-tag-text-outline bg-warning text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="font-16"> الوحدات السكنية </h5>
+                                        <h5 class="font-16"> @lang('Number units') @lang('Residential')</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $residentialCount }}</h3>
                                     @if ($numberOfUnits > 0)
                                     @php
-                                        $occupiedPercentage = ($residentialCount / $numberOfUnits) * 100;
+                                        $occupiedPercentage = number_format(($residentialCount / $numberOfUnits) * 100,1);
                                     @endphp
                                     <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'warning' : 'danger' }}" role="progressbar" style="width: {{ $occupiedPercentage }}%"
@@ -247,15 +248,10 @@
                                         <i class="mdi mdi-buffer bg-danger text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="font-16"> طلبات الاهتمام </h5>
+                                        <h5 class="font-16">@lang('Requests for interest')</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $numberOfInterests }}</h3>
-                                    <div class="progress mt-4" style="height: 4px;">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="text-muted mt-2 mb-0"><span class="float-right">75%</span>
-                                    </p>
+
                                 </div>
                             </div>
                         </div>

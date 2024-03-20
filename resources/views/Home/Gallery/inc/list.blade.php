@@ -29,11 +29,15 @@
                                 <div class="row justify-content-end mb-2">
 
                                     <div class="w-auto">
-                                        @if ($unit->type == 'rent' || $unit->type == 'both')
-                                            <span class="rent">للايجار</span>
+                                        @if ($unit->type == 'rent')
+                                            <span class="rent">@lang('rent')</span>
                                         @endif
-                                        @if ($unit->type == 'sale' || $unit->type == 'both')
-                                            <span class="sale">للبيع</span>
+                                        @if ($unit->type == 'sale')
+                                            <span class="sale">@lang('sale')</span>
+                                        @endif
+
+                                        @if ($unit->type == 'rent_sale')
+                                            <span class="sale">@lang('rent_sale')</span>
                                         @endif
                                     </div>
                                 </div>
@@ -69,7 +73,7 @@
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
                             <span class=" w-auto mb-2" style="color: #989898">
-                                {{ __('الاشغال') }}: الاشغال
+                                {{ __('الاشغال') }}: {{ __($unit->status) ?? '' }}
 
                             </span>
                         </div>
@@ -105,7 +109,7 @@
                                     </span>
                                 </div>
 
-                            </div>
+                        </div>
                             @endif
 
 
@@ -151,7 +155,7 @@
 
                                 </div>
                                 @endif
-                                @if ($unit->area)
+                                @if ($unit->space)
 
                                 <div class="area w-auto" style="height: fit-content;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="30"
@@ -176,7 +180,7 @@
                                             </g>
                                         </g>
                                     </svg>
-                                    <span>{{ $unit->area }}</span>
+                                    <span>{{ $unit->space }}</span>
 
                                 </div>
                                 @endif

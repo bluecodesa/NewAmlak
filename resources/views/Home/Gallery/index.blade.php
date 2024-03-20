@@ -10,12 +10,13 @@
             <input hidden name="gallery_name" value="" />
             <div class="row p-0 mb-4">
                 <div class="gallery-cover"
-                    style="background-image: url({{ asset('dashboard/assets/new-icons/cover1.png') }})">
+                style="background-image: url({{ $gallery->gallery_cover ? asset($gallery->gallery_cover) : asset('dashboard/assets/new-icons/cover1.png') }})">
 
-                    {{-- @if ($office->setting->gallery_cover)
-                    <img src="{{ asset('Gallery_covers/' . $office->setting->gallery_cover) }}" />
+
+                {{-- @if ($gallery->gallery_cover)
+                    <img src="{{ asset($gallery->gallery_cover)}}" />
                 @else
-                    <img src="{{ asset('dashboard/assets/new-icons/cover1.jpeg') }}" />
+                    <img src="{{ asset('dashboard/assets/new-icons/cover1.png') }}" />
                 @endif --}}
 
                 </div>
