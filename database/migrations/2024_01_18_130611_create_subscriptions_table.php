@@ -21,8 +21,8 @@ class CreateSubscriptionsTable extends Migration
             $table->boolean('is_start')->default(0);
             $table->boolean('is_new')->default(0);
             $table->boolean('is_suspend')->default(0);
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
             $table->double('total', 8, 2)->nullable();
             $table->string('payment_type')->nullable();
             $table->foreign('subscription_type_id')->references('id')->on('subscription_types')->onDelete('cascade');
