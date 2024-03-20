@@ -10,6 +10,7 @@ use App\Services\Admin\PermissionService;
 use App\Services\Admin\RoleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Permission;
 
 
@@ -20,11 +21,15 @@ class RoleController extends Controller
 
     public function __construct(PermissionService $PermissionService, RoleService $RoleService)
     {
-        $this->middleware('auth');
-        $this->middleware('permission:create-role|edit-role|delete-role', ['only' => ['index', 'show']]);
-        $this->middleware('permission:create-role', ['only' => ['create', 'store']]);
-        $this->middleware('permission:edit-role', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:delete-role', ['only' => ['destroy']]);
+        // $this->middleware('auth');
+        // $this->middleware('permission:create-role|edit-role|delete-role', ['only' => ['index', 'show']]);
+        // $this->middleware('permission:create-role', ['only' => ['create', 'store']]);
+        // $this->middleware('permission:edit-role', ['only' => ['edit', 'update']]);
+        // $this->middleware('permission:delete-role', ['only' => ['destroy']]);
+        $this->middleware(['can:read-role'])->only(['index']);
+        $this->middleware(['can:create-role'])->only(['store', 'create']);
+        $this->middleware(['can:update-role'])->only(['edit', 'update']);
+        $this->middleware(['can:delete-role'])->only(['destroy']);
         $this->PermissionService = $PermissionService;
         $this->RoleService = $RoleService;
     }
@@ -68,9 +73,38 @@ class RoleController extends Controller
         return view('Admin.roles.edit', get_defined_vars());
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        $this->RoleService->update($id, $request->all());
+
+        $roles = $request->name;
+
+        $permissions = $request->permission;
+        $rules = [];
+        $rules = ['name' => [
+            'required',
+            Rule::unique('roles')->ignore($role->id),
+            'max:25',
+        ]];
+
+        $request->validate($rules);
+        $role->update($request->all());
+        $permissions = Permission::whereIn('id', $request->permission)->get();
+        $role->syncPermissions($permissions);
+
+        $users =   User::whereHas('roles', function ($q) use ($roles) {
+            $q->where('name', $roles);
+        })->get();
+
+        foreach ($users as $user) {
+            $user->roles()->detach();
+            $user->syncRoles($roles);
+            $roles = Role::where('id', $role->id)->get();
+
+            foreach ($roles as $perm) {
+                $user->syncPermissions($perm->permissions);
+            }
+        }
+        // $this->RoleService->update($id, $request->all());
         return redirect()->route('Admin.roles.index')->withSuccess(__('Update successfully'));
     }
 

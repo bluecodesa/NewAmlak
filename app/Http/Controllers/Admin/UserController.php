@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Broker;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -19,17 +20,17 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('permission:create-user|edit-user|delete-user', ['only' => ['index', 'show']]);
-        $this->middleware('permission:create-user', ['only' => ['create', 'store']]);
-        $this->middleware('permission:edit-user', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:delete-user', ['only' => ['destroy']]);
+
+        $this->middleware(['role_or_permission:read-users'])->only(['index']);
+        $this->middleware(['role_or_permission:create-users'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:update-users'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-users'])->only(['destroy']);
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
         $users =  User::getAdmins();
         return view('Admin.users.index', get_defined_vars());
@@ -164,23 +165,22 @@ class UserController extends Controller
     // }
 
     public function destroy(User $user): RedirectResponse
-{
-    $authenticatedUser = auth()->user();
+    {
+        $authenticatedUser = auth()->user();
 
-    if ($authenticatedUser->id === 1) {
-        if ($user->id === 1) {
-            return redirect()->route('Admin.users.index')->withError('Super Admin with ID 1 cannot be deleted.');
+        if ($authenticatedUser->id === 1) {
+            if ($user->id === 1) {
+                return redirect()->route('Admin.users.index')->withError('Super Admin with ID 1 cannot be deleted.');
+            }
+
+
+            $user->syncRoles([]);
+            $user->delete();
+
+            return redirect()->route('Admin.users.index')->withSuccess('User is deleted successfully.');
         }
 
 
-        $user->syncRoles([]);
-        $user->delete();
-
-        return redirect()->route('Admin.users.index')->withSuccess('User is deleted successfully.');
+        abort(403, 'You are not authorized to delete this user.');
     }
-
-
-    abort(403, 'You are not authorized to delete this user.');
-}
-
 }

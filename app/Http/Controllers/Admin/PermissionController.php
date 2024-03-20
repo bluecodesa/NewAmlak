@@ -15,11 +15,10 @@ class PermissionController extends Controller
 
     public function __construct(PermissionService $PermissionService, SectionService $SectionService)
     {
-        $this->middleware('auth');
-        $this->middleware('permission:create-role|edit-role|delete-role', ['only' => ['index', 'show']]);
-        $this->middleware('permission:create-role', ['only' => ['create', 'store']]);
-        $this->middleware('permission:edit-role', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:delete-role', ['only' => ['destroy']]);
+        $this->middleware(['can:read-permissionssss'])->only(['index']);
+        $this->middleware(['can:create-permission'])->only(['store', 'create']);
+        $this->middleware(['can:update-permission'])->only(['edit', 'update']);
+        $this->middleware(['can:delete-permission'])->only(['destroy']);
         $this->PermissionService = $PermissionService;
         $this->SectionService = $SectionService;
     }

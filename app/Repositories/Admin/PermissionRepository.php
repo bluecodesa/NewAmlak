@@ -15,7 +15,7 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public function create($data)
     {
-        return Section::create($data);
+        return Permission::create($data);
     }
     function ShowById($id)
     {
@@ -27,18 +27,18 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     function getById($id)
     {
-        return Section::find($id);
+        return Permission::find($id);
     }
 
     public function update($id, $data)
     {
-        $Section = Section::findOrFail($id);
+        $Section = Permission::findOrFail($id);
         $Section->update($data);
         return $Section;
     }
 
     public function delete($id)
     {
-        return Section::findOrFail($id)->delete();
+        return Permission::findOrFail($id)->delete();
     }
 }
