@@ -148,6 +148,8 @@ $endDate = $endDate->format('Y-m-d H:i:s');
             'password.required' => __('The password field is required.'),
             'broker_logo.image' => __('The broker logo must be an image.'),
             'id_number.unique' => __('The ID number has already been taken.'),
+            'password.confirmed' => __('The password confirmation does not match.'),
+
 
         ];
 
