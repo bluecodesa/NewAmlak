@@ -52,6 +52,7 @@ class RoleRepository implements RoleRepositoryInterface
             $query->where('name', $role->name);
         })->get();
 
+
         // Sync the role for each user
         foreach ($users as $user) {
             $user->syncRoles([$role->name]);

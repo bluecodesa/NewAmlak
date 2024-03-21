@@ -37,40 +37,53 @@
                                     <div class="col-3">
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
                                             aria-orientation="vertical">
-                                            <button class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
-                                                data-target="#v-pills-home" type="button" role="tab"
-                                                aria-controls="v-pills-home" aria-selected="true">
-                                                @lang('Website Setting')</button>
+                                            @if (Auth::user()->hasPermission('update-PlatformSettings'))
+                                                <button class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
+                                                    data-target="#v-pills-home" type="button" role="tab"
+                                                    aria-controls="v-pills-home" aria-selected="true">
+                                                    @lang('Website Setting')</button>
+                                            @endif
+                                            {{-- @if (Auth::user()->hasPermission('update-Billing')) --}}
                                             <button class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
                                                 data-target="#v-pills-profile" type="button" role="tab"
                                                 aria-controls="v-pills-profile" aria-selected="false">
                                                 @lang('PayTabs')</button>
-                                            <button class="nav-link" id="v-pills-tax-tab" data-toggle="pill"
-                                                data-target="#v-pills-tax" type="button" role="tab"
-                                                aria-controls="v-pills-tax" aria-selected="false">
-                                                @lang('Mange of invoices')</button>
+                                            {{-- @endif --}}
+                                            @if (Auth::user()->hasPermission('update-Billing'))
+                                                <button class="nav-link" id="v-pills-tax-tab" data-toggle="pill"
+                                                    data-target="#v-pills-tax" type="button" role="tab"
+                                                    aria-controls="v-pills-tax" aria-selected="false">
+                                                    @lang('Mange of invoices')</button>
+                                            @endif
+
                                             <button class="nav-link" id="v-pills-messages-tab" data-toggle="pill"
                                                 data-target="#v-pills-messages" type="button" role="tab"
                                                 aria-controls="v-pills-messages" aria-selected="false">
                                                 @lang('Notification Mange')</button>
-                                            <button class="nav-link" id="v-pills-interests-tab" data-toggle="pill"
-                                                data-target="#v-pills-interests" type="button" role="tab"
-                                                aria-controls="v-pills-interests"
-                                                aria-selected="false">@lang('Gallary Mange')</button>
 
-                                            <button class="nav-link" id="v-pills-HomePage-tab" data-toggle="pill"
-                                                data-target="#v-pills-HomePage" type="button" role="tab"
-                                                aria-controls="v-pills-HomePage"
-                                                aria-selected="false">@lang('Domain settings')</button>
+                                            @if (Auth::user()->hasPermission('read-GallaryManagement'))
+                                                <button class="nav-link" id="v-pills-interests-tab" data-toggle="pill"
+                                                    data-target="#v-pills-interests" type="button" role="tab"
+                                                    aria-controls="v-pills-interests"
+                                                    aria-selected="false">@lang('Gallary Mange')</button>
+                                            @endif
+                                            @if (Auth::user()->hasPermission('update-DomainSettings'))
+                                                <button class="nav-link" id="v-pills-HomePage-tab" data-toggle="pill"
+                                                    data-target="#v-pills-HomePage" type="button" role="tab"
+                                                    aria-controls="v-pills-HomePage"
+                                                    aria-selected="false">@lang('Domain settings')</button>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-9">
                                         <!--  اعدادات المنصه -->
                                         <div class="tab-content" id="v-pills-tabContent">
-                                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                                                aria-labelledby="v-pills-home-tab">
-                                                @include('Admin.settings.inc._GeneralSetting')
-                                            </div>
+                                            @if (Auth::user()->hasPermission('update-PlatformSettings'))
+                                                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                                    aria-labelledby="v-pills-home-tab">
+                                                    @include('Admin.settings.inc._GeneralSetting')
+                                                </div>
+                                            @endif
                                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                                 aria-labelledby="v-pills-messages-tab">
                                                 @include('Admin.settings.inc._NotificationsManagement')
@@ -142,8 +155,8 @@
 
                                             <!--interests types gallery mange-->
                                             <div class="tab-pane fade" id="v-pills-interests" role="tabpanel"
-                                            aria-labelledby="v-pills-interests-tab">
-                                            @include('Admin.settings.InterestType.index')
+                                                aria-labelledby="v-pills-interests-tab">
+                                                @include('Admin.settings.InterestType.index')
                                             </div>
 
 

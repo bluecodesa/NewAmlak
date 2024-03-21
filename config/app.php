@@ -169,7 +169,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Paytabscom\Laravel_paytabs\PaypageServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ])->toArray(),
 

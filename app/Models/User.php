@@ -21,11 +21,8 @@ class User extends Authenticatable
      */
     protected $guarded = [];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -84,5 +81,15 @@ class User extends Authenticatable
             }
         }
         return $sectionNames;
+    }
+
+    public function hasPermission(string $permissionName): bool
+    {
+        return $this->hasPermissionTo($permissionName);
+    }
+
+    public function hasAnyOfPermissions(array $permissions): bool
+    {
+        return $this->hasAnyPermission($permissions);
     }
 }

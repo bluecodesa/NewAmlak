@@ -13,6 +13,10 @@ class SectionController extends Controller
 
     public function __construct(SectionService $SectionService)
     {
+        $this->middleware(['role_or_permission:read-sections'])->only(['index']);
+        $this->middleware(['role_or_permission:create-sections'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:update-sections'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-sections'])->only(['destroy']);
         $this->SectionService = $SectionService;
     }
 
