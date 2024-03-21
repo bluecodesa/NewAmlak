@@ -14,50 +14,64 @@
                     </a>
                 </li>
 
-
-                <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i
-                            class="mdi mdi-bank-minus
-                        "></i><span> @lang('Subscriber management')<span
-                                class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                    <ul class="submenu">
-                        <li><a href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
-                        <li><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Subscriptions')</a></li>
-                        <li><a href="{{ route('Admin.SystemInvoice.index') }}">@lang('Clients Bills')</a></li>
-                    </ul>
-                </li>
-                @canany(['read-users', 'read-role', 'read-permission', 'read-sections', 'read-SupportTickets'])
+                @if (Auth::user()->hasAnyOfPermissions(['read-subscribers', 'read-SubscriptionTypes', 'read-SystemInvoice']))
+                    <li>
+                        <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-bank-minus"></i><span>
+                                @lang('Subscriber management')<span class="float-right menu-arrow"><i
+                                        class="mdi mdi-chevron-right"></i></span> </span></a>
+                        <ul class="submenu">
+                            @if (Auth::user()->hasPermission('read-subscribers'))
+                                <li><a href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
+                            @endif
+                            @if (Auth::user()->hasPermission('read-SubscriptionTypes'))
+                                <li><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Subscriptions')</a></li>
+                            @endif
+                            @if (Auth::user()->hasPermission('read-SystemInvoice'))
+                                <li><a href="{{ route('Admin.SystemInvoice.index') }}">@lang('Clients Bills')</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
+                @if (Auth::user()->hasAnyOfPermissions([
+                        'read-users',
+                        'read-role',
+                        'read-permission',
+                        'read-sections',
+                        'read-SupportTickets',
+                    ]))
                     <li>
                         <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-bank-minus "></i><span>
                                 @lang('User management')<span class="float-right menu-arrow"><i
                                         class="mdi mdi-chevron-right"></i></span> </span></a>
                         <ul class="submenu">
-                            @can('read-users')
+                            @if (Auth::user()->hasPermission('read-users'))
                                 <li><a href="{{ route('Admin.users.index') }}">@lang('Users')</a></li>
-                            @endcan
-                            @can('read-role')
+                            @endif
+                            @if (Auth::user()->hasPermission('read-role'))
                                 <li><a href="{{ route('Admin.roles.index') }}">@lang('Roles')</a></li>
-                            @endcan
-                            @can('read-permission')
+                            @endif
+                            @if (Auth::user()->hasPermission('read-permission'))
                                 <li><a href="{{ route('Admin.Permissions.index') }}">@lang('Permissions')</a></li>
-                            @endcan
-                            @can('read-sections')
+                            @endif
+                            @if (Auth::user()->hasPermission('read-sections'))
                                 <li><a href="{{ route('Admin.Sections.index') }}">@lang('sections')</a></li>
-                            @endcan
-                            @can('read-SupportTickets')
+                            @endif
+                            @if (Auth::user()->hasPermission('read-SupportTickets'))
                                 <li><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Technical Support Orders')</a></li>
-                            @endcan
+                            @endif
                         </ul>
                     </li>
-                @endcanany
+                @endif
+
                 <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="icon-setting-2"></i><span>
                             @lang('Settings')<span class="float-right menu-arrow"><i
                                     class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
-                        @can('read-settings-admin')
+
+                        @if (Auth::user()->hasPermission('read-settings-admin'))
                             <li><a href="{{ route('Admin.settings.index') }}">@lang('General Settings')</a></li>
-                        @endcan
+                        @endif
                         <li>
                             <a href="javascript:void(0);" class="waves-effect"><span>
                                     @lang('Cities') & @lang('districts') <span class="float-right menu-arrow"><i

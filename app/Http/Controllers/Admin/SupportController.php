@@ -9,14 +9,16 @@ use Illuminate\Http\Request;
 
 class SupportController extends Controller
 {
-
     protected $SupportService;
 
     public function __construct(SupportService $SupportService)
     {
+        $this->middleware(['role_or_permission:read-SupportTickets'])->only(['index']);
+        $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-SupportTickets'])->only(['destroy']);
         $this->SupportService = $SupportService;
     }
-
     public function index()
     {
         $tickets = $this->SupportService->getAll();

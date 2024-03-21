@@ -16,9 +16,13 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.roles.update', $role->id) }}">@lang('Edit')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.roles.index') }}">@lang('Roles')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.roles.update', $role->id) }}">@lang('Edit')</a>
+                                        </li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.roles.index') }}">@lang('Roles')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
                             </div>
@@ -85,7 +89,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12" id="permissions">
-                                                @foreach ($permissions->groupBy('model') as $model => $permissions)
+                                                @foreach ($permissions->groupBy('section_id') as $model => $permissions)
                                                     <div class="col-md-12 col-xl-12 {{ $permissions[0]->type }}">
                                                         <div class="card shadow-none bg-transparent border-primary mb-0">
                                                             <div class="card-body p-3 px-0">

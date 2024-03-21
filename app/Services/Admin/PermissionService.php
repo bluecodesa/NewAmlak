@@ -34,7 +34,7 @@ class PermissionService
         $rules = [];
         $rules = ['name' => ['required', Rule::unique('permissions', 'name')]];
         $rules += [
-            'name_ar' => 'required|string|max:255',
+            'name_ar' => 'required|string',
             'section_id' => 'required', // Update to expect 'section_id' instead of 'model'
             'is_admin' => 'required_if:is_user,0',
         ];

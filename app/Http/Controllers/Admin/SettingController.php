@@ -23,13 +23,13 @@ class SettingController extends Controller
     protected $settingService;
     protected $paymentGateway;
     protected $EmailSettingService;
-
     public function __construct(
         SettingRepositoryInterface $settingRepo,
         SettingService $settingService,
         EmailSettingService $EmailSettingService,
         PaymentGatewayRepositoryInterface $paymentGateway
     ) {
+        $this->middleware(['role_or_permission:read-settings-admin'])->only(['index']);
         $this->settingRepo = $settingRepo;
         $this->settingService = $settingService;
         $this->paymentGateway = $paymentGateway;
@@ -163,7 +163,8 @@ class SettingController extends Controller
 
 
 
-    public function createInterestType(){
+    public function createInterestType()
+    {
         return view('Admin.settings.InterestType.create');
     }
 
@@ -192,5 +193,4 @@ class SettingController extends Controller
         return redirect()->route('Admin.settings.index')
             ->withSuccess(__('Deleted successfully'));
     }
-
 }
