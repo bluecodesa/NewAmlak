@@ -89,7 +89,7 @@ class ProjectController extends Controller
     public function destroy(string $id)
     {
         $this->projectService->deleteProject($id);
-        return back()->back()->route('Broker.Project.index')->with('success', __('Deleted successfully'));
+        return redirect()->route('Broker.Project.index')->with('success', __('Deleted successfully'));
     }
 
     public function createProperty($id)

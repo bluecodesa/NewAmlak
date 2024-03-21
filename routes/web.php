@@ -29,6 +29,7 @@ Route::get('/clear', function () {
     $exitCode = Artisan::call('cache:clear');
     $exitCode = Artisan::call('view:clear');
     $exitCode = Artisan::call('route:clear');
+    $exitCode = Artisan::call('key:generate');
     // $exitCode = Artisan::call('route:cache');
     // $exitCode = Artisan::call('optimize');
     return '<h1>Cache facade value cleared</h1>';
@@ -57,7 +58,6 @@ Route::group(
         Route::get('gallery/{gallery_name}/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
         Route::post('/unit_interests',  [UnitInterestController::class, 'store'])->name('unit_interests.store');
         Route::get('/download-qrcode/{link}', [GallaryController::class, 'downloadQRCode'])->name('download.qrcode');
-
     }
 
 );
