@@ -56,6 +56,7 @@ Route::group(
         Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
         Route::get('gallery/{gallery_name}/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
         Route::post('/unit_interests',  [UnitInterestController::class, 'store'])->name('unit_interests.store');
+        Route::get('/download-qrcode/{link}', [GallaryController::class, 'downloadQRCode'])->name('download.qrcode');
 
     }
 

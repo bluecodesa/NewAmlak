@@ -65,6 +65,8 @@
 
 
                                 <div class="col-12">
+                                    <div class="tab-content" id="v-pills-tabContent">
+
 
                                     <!--Menu Gallery-->
                                     @include('Broker.Gallary.inc._MenuGallery')
@@ -76,6 +78,7 @@
                                     @include('Broker.Gallary.inc._ListGallery')
 
                                     <!--End list-->
+                                    </div>
 
                                 </div>
                             </div>

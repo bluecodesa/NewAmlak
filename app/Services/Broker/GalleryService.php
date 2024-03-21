@@ -138,22 +138,38 @@ class GalleryService
     }
     }
 
-    public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter)
-    {
-        if ($adTypeFilter !== 'all') {
-            $units = $units->where('type', $adTypeFilter);
-        }
-
-        if ($typeUseFilter !== 'all') {
-            $units = $units->where('type_use', $typeUseFilter);
-        }
-
-        if (!is_null($cityFilter)) {
-            $units = $units->where('city_id', $cityFilter);
-        }
-
-        return $units;
+    public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter)
+{
+    if ($adTypeFilter !== 'all') {
+        $units = $units->where('type', $adTypeFilter);
     }
+
+
+    if ($typeUseFilter !== 'all') {
+        $units = $units->where('property_usage_id', $typeUseFilter);
+    }
+
+
+    if (!is_null($cityFilter)) {
+        $units = $units->where('city_id', $cityFilter);
+    }
+
+
+    if (!is_null($districtFilter)) {
+        $units = $units->where('district_id', $districtFilter);
+    }
+
+    // dd($units);
+
+
+
+    // if (!is_null($projectFilter)) {
+    //     $units = $units->where('project_id', $projectFilter);
+    // }
+
+    return $units;
+}
+
 
 
 

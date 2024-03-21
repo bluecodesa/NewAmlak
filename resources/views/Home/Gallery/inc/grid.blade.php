@@ -308,17 +308,17 @@
 
                             <div class="row pb-5 pt-4 flex-nowrap align-items-center">
                                 <div class="w-auto">
-
+                                    {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) !!}
                                 </div>
                                 <div class="d-flex gap-4" style="flex: auto;flex-direction:column">
                                     <p>قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا العقار
                                         عن طريق الجوال
                                     </p>
                                     @php
-                                        $url = "route('galleryOfficeUnit', ['gallery_name' => $unit->gallery_name, 'id' => $unit->id])";
+                                        $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
                                     @endphp
-                                    <a href=""
-                                        class="d-block btn btn-new-b mt-3">Download QR Code</a>
+
+                                        <a href="{{ route('download.qrcode', $url) }}" class="d-block btn btn-new-b mt-3" style="width: fit-content">Download QR Code</a>
 
                                 </div>
                             </div>

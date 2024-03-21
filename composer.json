@@ -16,6 +16,7 @@
         "laravel/ui": "^4.3",
         "mcamara/laravel-localization": "^1.8",
         "paytabscom/laravel_paytabs": "^1.4",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-permission": "^6.3"
     },
     "require-dev": {

@@ -22,8 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Broker\GalleryService;
 use App\Services\Admin\SettingService;
-
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class GallaryController extends Controller
 {
@@ -82,7 +81,10 @@ class GallaryController extends Controller
         $adTypeFilter = request()->input('ad_type_filter', 'all');
         $typeUseFilter = request()->input('type_use_filter', 'all');
         $cityFilter = request()->input('city_filter');
-        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter);
+        $districtFilter = request()->input('district_filter');
+        $projectFilter = request()->input('project_filter');
+        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter);
+        // dd($units);
         //
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
@@ -207,6 +209,25 @@ class GallaryController extends Controller
 
 
 
+
+        public function downloadQrCode($url)
+    {
+        // Generate the QR code as a data URI
+        $qrCode = QrCode::size(200)->generate($url);
+        $dataUri = 'data:image/png;base64,' . base64_encode($qrCode);
+
+        // Set response headers for downloading the file
+        $headers = [
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'attachment; filename="qrcode.png"',
+        ];
+
+        // Return the QR code as a downloadable file
+        return response()->stream(function () use ($dataUri) {
+            echo file_get_contents($dataUri);
+        }, 200, $headers);
+        // Return the QR code as a downloadable file
+    }
 
 
 

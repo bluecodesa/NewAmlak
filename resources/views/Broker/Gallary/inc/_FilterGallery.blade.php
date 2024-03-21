@@ -14,38 +14,53 @@
                     @endforeach
                 </select>
             </div>
-            {{-- <div class="w-auto col-4">
+            <div class="w-auto col-4">
                 <span>@lang('Type use')</span>
                 <select class="form-control form-control-sm" id="type_use_filter" name="type_use_filter">
-                    @foreach (['سكني', 'تجاري'] as $usage)
-                        <option value="{{ $usage }}">{{ $usage}}</option>
+                    @foreach ($usages as $usage)
+                    <option value="{{ $usage->id }}">
+                    {{ $usage->name }}</option>
                     @endforeach
                 </select>
-            </div> --}}
+            </div>
             <div class="w-auto col-4">
                 <span>@lang('city')</span>
                 <select class="form-control form-control-sm" id="city_filter" name="city_filter">
-                    <option value="">All Cities</option>
-                    @foreach ($units as $unit)
-                    <option value="{{ $unit->CityData->id }}">{{ $unit->CityData->name }}</option>
-                @endforeach
+                    @php
+                        $uniqueCityIds = $units->pluck('CityData.id')->unique();
+                    @endphp
+                    @foreach ($uniqueCityIds as $cityId)
+                        @php
+                            $cityData = $units->where('CityData.id', $cityId)->first()->CityData;
+                        @endphp
+                        <option value="{{ $cityData->id }}">{{ $cityData->name }}</option>
+                    @endforeach
                 </select>
-            </div>
-            {{-- <div class="w-auto col-4">
-                <span>@lang('districts')</span>
-                <select class="form-control form-control-sm" id="district_filter" name="district_filter">
-                    <option value="">All Districts</option>
-                    @foreach ($units as $unit)
-                @endforeach
-                </select>
+
             </div>
             <div class="w-auto col-4">
+                <span>@lang('districts')</span>
+                <select class="form-control form-control-sm" id="district_filter" name="district_filter">
+                    @foreach ($uniqueCityIds as $cityId)
+                        @php
+                            $cityData = $units->where('CityData.id', $cityId)->first()->CityData;
+                            $uniqueDistrictIds = $cityData->DistrictsCity->pluck('id')->unique();
+                        @endphp
+                        @foreach ($uniqueDistrictIds as $districtId)
+                            @php
+                                $district = $cityData->DistrictsCity->where('id', $districtId)->first();
+                            @endphp
+                            <option value="{{ $district->id }}">{{ $district->name }}</option>
+                        @endforeach
+                    @endforeach
+                </select>
+
+            </div>
+            {{-- <div class="w-auto col-4">
                 <span>@lang('Project')</span>
                 <select class="form-control form-control-sm" id="project_filter" name="project_filter">
-                    <option value="">All Projects</option>
-                    @foreach ($projects as $projectId => $projectName)
-                        <option value="{{ $projectId }}">{{ $projectName }}</option>
-                    @endforeach
+                    <option value=""></option>
+
                 </select>
             </div> --}}
             <div class="w-auto text-center col-12">
