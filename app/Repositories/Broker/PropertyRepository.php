@@ -33,12 +33,14 @@ class PropertyRepository implements PropertyRepositoryInterface
                 ]);
             }
         }
+
         return $property;
     }
 
     public function update($id, $data, $images)
     {
         $property = Property::findOrFail($id);
+
         if ($images) {
             foreach ($images as $image) {
                 $ext = uniqid() . '.' . $image->clientExtension();
@@ -49,6 +51,7 @@ class PropertyRepository implements PropertyRepositoryInterface
                 ]);
             }
         };
+        $property->update($data);
         return $property;
     }
 
