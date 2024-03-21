@@ -88,7 +88,7 @@
                                 <div class="input-group">
                                 <input type="text" class="form-control"
                                 id="galleryName" disabled
-                                value="{{ env('APP_URL', 'https://newamlak.tryamlak.com') }}/ar/gallery/{{ $gallery->gallery_name }}/{{ $unit->id }}">
+                                value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://newamlak.tryamlak.com') }}/ar/gallery/{{ $gallery->gallery_name }}/{{ $unit->id }}">
                             <div class="input-group-append">
                                 <span class="input-group-text"
                                     style="cursor: pointer;"
