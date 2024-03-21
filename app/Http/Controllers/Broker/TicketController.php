@@ -138,5 +138,17 @@ class TicketController extends Controller
 
         return redirect()->back()->with('success', __('Response added successfully'));
     }
+    public function closeTicket(Request $request, $id)
+    {
+        // Find the ticket by ID
+        $ticket = Ticket::findOrFail($id);
+
+        // Update the ticket status to 'closed'
+        $ticket->status = 'Closed';
+        $ticket->save();
+
+        // Redirect back or to any other page as needed
+        return redirect()->back()->with('success', __('Ticket closed successfully'));
+    }
 
 }

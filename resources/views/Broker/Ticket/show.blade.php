@@ -65,24 +65,32 @@
                                     <th>@lang('التعليق')</th>
                                     <th>@lang('status')</th>
                                     <th>@lang('Date')</th>
+                                    <th>@lang('Actions')</th> <!-- Add a new column for actions -->
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach($ticketResponses as $response)
                                 <tr>
-
-                                    <td>{{ $response->response }}</td> <!-- Display the response -->
-                                    <td>{{ __($ticket->status)}}</td> <!-- Display the response -->
-                                    <td>{{ $response->created_at->format('Y-m-d H:i:s') }}</td> <!-- Display the creation date -->
+                                    <td>{{ $response->response }}</td>
+                                    <td>{{ __($ticket->status) }}</td>
+                                    <td>{{ $response->created_at->format('Y-m-d H:i:s') }}</td>
+                                    <td>
+                                        @if($ticket->status !== 'Closed')
+                                            <form action="{{ route('Broker.closeTicket', $ticket->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger">@lang('Close Ticket')</button>
+                                            </form>
+                                        @endif
+                                    </td>
                                 </tr>
-                            @endforeach
-
+                                @endforeach
                             </tbody>
+
                         </table>
                     </div>
 
                       {{-- @endif --}}
+                      @if($ticket->status !="Closed")
 
                       <!-- Form to add response -->
                       <div class="mt-4">
@@ -91,11 +99,13 @@
                             @csrf
                               <div class="mb-3">
                                   <label for="response" class="form-label">@lang('التعليق')</label>
-                                  <textarea class="form-control" id="response" name="response" rows="5" required></textarea>
+                                  <textarea class="form-control" id="response" name="response" rows="5" @if($ticket->status === 'closed') disabled @endif required></textarea>
                               </div>
-                              <button type="submit" class="btn btn-primary">@lang('Submit Comment')</button>
+                              <button type="submit" class="btn btn-primary" @if($ticket->status === 'closed') disabled @endif>@lang('Submit Comment')</button>
                           </form>
                       </div>
+
+                      @endif
                     </div>
                 </div>
             </div>
