@@ -145,7 +145,8 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Area (square metres)')</label>
+                                        <label class="form-label">@lang('Area (square metres)') <span class="required-color">*</span>
+                                        </label>
                                         <input type="number" required name="space" class="form-control"
                                             placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
                                     </div>
@@ -221,7 +222,7 @@
                                             </div>
                                             <div class="col">
                                                 <input type="text" name="qty[]" class="form-control"
-                                                    placeholder="@lang('value')" value="{{ old('qty') }}" />
+                                                    placeholder="@lang('value')" value="{{ old('qty*') }}" />
                                             </div>
                                             <div class="col">
                                                 <button type="button" class="btn btn-primary w-100"
