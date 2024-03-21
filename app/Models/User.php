@@ -92,4 +92,14 @@ class User extends Authenticatable
     {
         return $this->hasAnyPermission($permissions);
     }
+
+    public function TicketsData()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    public function ticketResponses()
+    {
+        return $this->hasMany(TicketResponse::class);
+    }
 }
