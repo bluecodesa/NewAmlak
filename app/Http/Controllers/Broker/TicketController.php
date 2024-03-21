@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use App\Models\TicketResponse;
 use App\Models\TicketType;
 use Illuminate\Http\Request;
 
@@ -15,8 +16,8 @@ class TicketController extends Controller
     public function index()
     {
         //
-        $broker_id = auth()->user()->UserBrokerData->id;
-        $tickets = Ticket::where('broker_id', $broker_id)->get();
+        $user_id = auth()->user()->id;
+        $tickets = Ticket::where('user_id', $user_id)->get();
 
         return view ('Broker.Ticket.index',get_defined_vars());
     }
@@ -58,17 +59,9 @@ class TicketController extends Controller
 
         // Create a new ticket instance
         $ticket = new Ticket();
-        $user = auth()->user();
-        $broker_id = auth()->user()->UserBrokerData->id;
+        $user_id = auth()->user()->id;
+        $ticket->user_id = $user_id;
 
-
-        if ($user->is_broker) {
-            // If the user is a broker, set the broker_id
-            $ticket->broker_id = $broker_id;
-        } elseif ($user->is_office) {
-            // If the user is an office, set the office_id
-            $ticket->office_id = $user->id; // Assuming the office ID is the user ID
-        }
         $ticket->subject = $validatedData['subject'];
         $ticket->content = $validatedData['content'];
         $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null
@@ -87,7 +80,13 @@ class TicketController extends Controller
     {
         //
         $ticket = Ticket::findOrFail($id);
-        return view('Broker.Ticket.show', compact('ticket'));
+
+        $userId =auth()->user()->id;
+
+        $ticketResponses = $ticket->ticketResponses()->where('user_id', $userId)->get();
+
+
+        return view('Broker.Ticket.show',get_defined_vars());
     }
 
     /**
@@ -113,4 +112,31 @@ class TicketController extends Controller
     {
         //
     }
+
+    public function addResponse(Request $request, $ticketId)
+    {
+        $request->validate([
+            'response' => 'required|string',
+        ]);
+
+
+        $ticket = Ticket::findOrFail($ticketId);
+
+        // Check if the current status is different from 'Waiting for the customer'
+        if ($ticket->status !== 'Waiting for the customer') {
+            // Update the status to 'Waiting for the customer'
+            $ticket->status = 'Waiting for the customer';
+
+            $ticket->save();
+        }
+
+        $response = new TicketResponse();
+        $response->ticket_id = $ticketId;
+        $response->user_id = auth()->user()->id;
+        $response->response = $request->input('response');
+        $response->save();
+
+        return redirect()->back()->with('success', __('Response added successfully'));
+    }
+
 }
