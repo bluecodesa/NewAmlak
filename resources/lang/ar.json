@@ -330,5 +330,18 @@
     "Waiting for client": "بانتظار العميل ",
     "Hours Until End": "ساعة متبقيه علي الانتهاء",
     "Residential": "السكنية",
-    "NonResidential": "التجارية"
+    "NonResidential": "التجارية",
+    "Support contact information": "بيانات التواصل مع الدعم",
+    "Integration via API": "تكامل عبر API",
+    "Comments": "التعليقات",
+    "comment": "التعليق",
+    "Image": "الصوره",
+    "Date": "التاريخ",
+    "Close Ticket": "غلق التذكرة",
+    "Tickets Support": "تذاكر الدعم",
+    "View Ticket": "عرض التذكرة",
+    "If you cannot find a solution to the problem you are facing in the help content. You can send a technical support ticket and select the relevant department from below.": "اذا كنت لا تستطيع ايجاد حل للمشكله التي تواجهك في محتوي المساعدة . يمكنك ارسال تذكرة دعم فني وحدد القسم المختص من الاسفل.",
+    "Attention!": "تنبيه!",
+    "Technical support center": "مركز الدعم الفني",
+    "Client Name": "اسم العميل"
 }

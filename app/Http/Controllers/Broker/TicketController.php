@@ -18,7 +18,10 @@ class TicketController extends Controller
         //
         $user_id = auth()->user()->id;
         $tickets = Ticket::where('user_id', $user_id)->get();
-
+        $tickets->transform(function ($ticket) {
+            $ticket->formatted_id = "100{$ticket->id}";
+            return $ticket;
+        });
         return view ('Broker.Ticket.index',get_defined_vars());
     }
 
@@ -57,7 +60,6 @@ class TicketController extends Controller
             $validatedData['image'] = '/Brokers/Tickets/' . $fileName;
         }
 
-        // Create a new ticket instance
         $ticket = new Ticket();
         $user_id = auth()->user()->id;
         $ticket->user_id = $user_id;
@@ -78,13 +80,10 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        //
+
         $ticket = Ticket::findOrFail($id);
-
-        $userId =auth()->user()->id;
-
-        $ticketResponses = $ticket->ticketResponses()->where('user_id', $userId)->get();
-
+        $user=auth()->user();
+       $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
 
         return view('Broker.Ticket.show',get_defined_vars());
     }
@@ -122,10 +121,8 @@ class TicketController extends Controller
 
         $ticket = Ticket::findOrFail($ticketId);
 
-        // Check if the current status is different from 'Waiting for the customer'
-        if ($ticket->status !== 'Waiting for the customer') {
-            // Update the status to 'Waiting for the customer'
-            $ticket->status = 'Waiting for the customer';
+        if ($ticket->status !== 'Waiting for customer') {
+            $ticket->status = 'Waiting for technical support';
 
             $ticket->save();
         }
@@ -140,14 +137,11 @@ class TicketController extends Controller
     }
     public function closeTicket(Request $request, $id)
     {
-        // Find the ticket by ID
         $ticket = Ticket::findOrFail($id);
 
-        // Update the ticket status to 'closed'
         $ticket->status = 'Closed';
         $ticket->save();
 
-        // Redirect back or to any other page as needed
         return redirect()->back()->with('success', __('Ticket closed successfully'));
     }
 

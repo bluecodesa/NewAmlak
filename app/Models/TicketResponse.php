@@ -17,7 +17,7 @@ class TicketResponse extends Model
 
     public function UserData()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
 }

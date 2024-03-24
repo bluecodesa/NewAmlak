@@ -17,11 +17,11 @@
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-right">
                                     <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Tickets.show',$ticket->id) }}">@lang('View Ticket')</a></li>
+                                        href="{{ route('Admin.SupportTickets.show',$ticket->id) }}">@lang('View Ticket')</a></li>
                                     <li class="breadcrumb-item"><a
-                                            href="{{ route('Broker.Tickets.index') }}">@lang('Tickets List')</a></li>
+                                            href="{{ route('Admin.SupportTickets.index') }}">@lang('Tickets Support')</a></li>
                                     <li class="breadcrumb-item"><a
-                                            href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
+                                            href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                 </ol>
                             </div>
                         </div>
@@ -52,37 +52,45 @@
                             </div>
 
 
-                            <div class="mt-3">
-                                <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-secondary">@lang('Back')</a>
+
+                        </div>
+
+                        <!-- Status and Close Button -->
+                        <div class="row mt-3">
+                            <div class="col-sm-6">
+                                <h3 class="mt-0 header-title">@lang('Ticket Status') : <label class="badge badge-primary">{{ __($ticket->status) }}</label></h3>
+                            </div>
+                            <div class="col-sm-6">
+                                @if($ticket->status !== 'Closed')
+                                    <form action="{{ route('Broker.closeTicket', $ticket->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger">@lang('Close Ticket')</button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
-    <!-- Status and Close Button -->
-    <div class="row mt-3">
-        <div class="col-sm-6">
-            <h3 class="mt-0 header-title">@lang('Ticket Status') : <label class="badge badge-primary">{{ __($ticket->status) }}</label></h3>
-        </div>
-        {{-- <div class="col-sm-6">
-            @if($ticket->status !== 'Closed')
-                <form action="{{ route('Broker.closeTicket', $ticket->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-sm btn-danger">@lang('Close Ticket')</button>
-                </form>
-            @endif
-        </div> --}}
-    </div>
-                      <div class="mt-4">
-                        <h5>@lang('Comments')</h5>
-                        <table class="table table-bordered">
+
+
+                    <h5>@lang('Comments')</h5>
+
+
+                    <div class="table-responsive b-0" data-pattern="priority-columns">
+                        <table id="datatable-buttons" class="table  table-striped">
                             <thead>
                                 <tr>
-                                    <th>@lang('Image')</th> <!-- Add a new column for actions -->
-                                    <th>@lang('comment')</th>
-                                    <th>@lang('Date')</th>
+
+                                    <th scope="col">#</th>
+                                    <th scope="col">@lang('Image')</th>
+                                    <th scope="col">@lang('comment')</th>
+                                    <th scope="col">@lang('Date')</th>
+
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @foreach($ticketResponses as $response)
                                 <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
                                     <td>
                                         <img src="{{ optional($response->UserData)->avatar ?: 'https://www.svgrepo.com/show/29852/user.svg' }}" class="mr-3 rounded-circle" alt="{{ optional($response->UserData)->name ?? 'Default Name' }}" style="width: 64px; height: 64px;">
                                     </td>
@@ -91,10 +99,12 @@
 
                                 </tr>
                                 @endforeach
-                            </tbody>
 
+                            </tbody>
                         </table>
                     </div>
+
+
 
                       {{-- @endif --}}
                       @if($ticket->status !="Closed")
@@ -102,7 +112,7 @@
                       <!-- Form to add response -->
                       <div class="mt-4">
                           <h5>@lang('اضف تعليقك')</h5>
-                          <form action="{{ route('Broker.tickets.addResponse', $ticket->id) }}" method="POST">
+                          <form action="{{ route('Admin.SupportTickets.addResponse', $ticket->id) }}" method="POST">
                             @csrf
                               <div class="mb-3">
                                   <label for="response" class="form-label">@lang('التعليق')</label>

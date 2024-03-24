@@ -71,7 +71,16 @@ Route::group(
             Route::get('/interests-type/{id}', [SettingController::class, 'editInterestType'])->name('edit.interest-type');
             Route::put('/interests-type/{id}', [SettingController::class, 'updateInterestType'])->name('update.interest-type');
             Route::delete('/interests-type/{id}', [SettingController::class, 'destroyInterestType'])->name('delete.interest-type');
-
+            //support tickets
+            Route::get('/TicketsTypes', [SupportController::class, 'getAllTicketTypes'])->name('SupportTickets.tickets-type');
+            Route::get('/ticketType/create', [SupportController::class, 'createTicketType'])->name('SupportTickets.createTicketType');
+            Route::post('/ticketType/store', [SupportController::class, 'storeTicketType'])->name('SupportTickets.storeTicketType');
+            Route::get('/ticketType/{id}/edit', [SupportController::class, 'editTicketType'])->name('SupportTickets.editTicketType');
+            Route::put('/ticketType/{id}/update', [SupportController::class, 'updateTicketType'])->name('SupportTickets.updateTicketType');
+            Route::delete('/ticketType/{id}/destroy', [SupportController::class, 'destroyTicketType'])->name('SupportTickets.destroyTicketType');
+            Route::post('SupportTickets/{ticketId}/add-response', [SupportController::class, 'addResponse'])->name('SupportTickets.addResponse');
+            Route::post('SupportTickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
+            Route::get('/InfoSupport', [SupportController::class, 'showInfoSupport'])->name('Support.showInfoSupport');
 
 
 

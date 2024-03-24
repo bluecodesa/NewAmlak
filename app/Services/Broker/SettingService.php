@@ -40,6 +40,8 @@ class SettingService
             'broker_license' => 'required|string|max:255|unique:brokers,broker_license,'.$id,
             'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'id_number'=>'nullable|unique:brokers,id_number'
+
         ];
 
 
@@ -57,6 +59,10 @@ class SettingService
             'broker_logo.image' => __('The broker logo must be an image.'),
             'city_id.required' => 'The city field is required.',
             'city_id.exists' => 'The selected city is invalid.',
+            'id_number.unique' => __('The ID number has already been taken.'),
+            'password.confirmed' => __('The password confirmation does not match.'),
+
+
         ];
         $request->validate($rules, $messages);
 
