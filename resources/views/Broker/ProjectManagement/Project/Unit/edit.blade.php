@@ -238,14 +238,14 @@
                                         @foreach ($Unit->UnitFeatureData as $feature)
                                             <div class="row p-1">
                                                 <div class="col">
-                                                    <input type="text" required name="name[]"
-                                                        class="form-control search" placeholder="@lang('Field name')"
+                                                    <input type="text" name="name[]" class="form-control search"
+                                                        placeholder="@lang('Field name')"
                                                         value="{{ $feature->FeatureData->name }}" />
                                                 </div>
                                                 <div class="col">
-                                                    <input type="text" required name="qty[]"
-                                                        value="{{ $feature->qty }}" class="form-control"
-                                                        placeholder="@lang('value')" value="" />
+                                                    <input type="text" name="qty[]" value="{{ $feature->qty }}"
+                                                        class="form-control" placeholder="@lang('value')"
+                                                        value="" />
                                                 </div>
                                                 <div class="col">
                                                     <button type="button"

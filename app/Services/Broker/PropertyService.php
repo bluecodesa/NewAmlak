@@ -106,18 +106,18 @@ class PropertyService
             ],
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
-            'space' => 'required|numeric',
-            'rooms' => 'sometimes|numeric',
-            'bathrooms' => 'sometimes|numeric',
+            // 'space' => 'sometimes|numeric',
+            // 'rooms' => 'sometimes|numeric',
+            // 'bathrooms' => 'sometimes|numeric',
             'show_gallery' => 'nullable',
-            'price' => 'required|numeric',
+            // 'price' => 'required|numeric',
             'type' => ['required', Rule::in(['sale', 'rent'])],
             'service_id' => 'required|array',
             'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
             'name' => 'required|array',
-            'name.*' => 'string',
+            // 'name.*' => 'string',
             'qty' => 'required|array',
-            'qty.*' => 'integer|min:0',
+            // 'qty.*' => 'integer|min:0',
         ];
 
         // Validate data
