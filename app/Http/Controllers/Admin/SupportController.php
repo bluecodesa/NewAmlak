@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Services\Admin\SectionService;
@@ -57,7 +58,6 @@ class SupportController extends Controller
             $user=auth()->user();
            // Load ticket responses
            $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
-
            return view('Admin.supports.Tickets.show', get_defined_vars());
     }
 
@@ -78,27 +78,43 @@ class SupportController extends Controller
 
     public function addResponse(Request $request, $ticketId)
     {
+        // Validate the request data
         $request->validate([
             'response' => 'required|string',
+            'response_attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules for the attachment
+
         ]);
 
-
+        // Find the ticket
         $ticket = Ticket::findOrFail($ticketId);
 
+        // Update the ticket status if necessary
         if ($ticket->status !== 'Waiting for customer') {
             $ticket->status = 'Waiting for the customer';
-
             $ticket->save();
         }
 
+        // Create a new ticket response instance
         $response = new TicketResponse();
         $response->ticket_id = $ticketId;
         $response->user_id = auth()->user()->id;
         $response->response = $request->input('response');
+
+        // Handle file upload if a file is provided
+        if ($request->hasFile('response_attachment')) {
+            $file = $request->file('response_attachment');
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('Tickets/responses'), $fileName);
+            $response->response_attachment = 'Tickets/responses/' . $fileName; // Save the file path without leading slash
+        }
+
+        // Save the ticket response
         $response->save();
 
+        // Redirect back with a success message
         return redirect()->back()->with('success', __('Response added successfully'));
     }
+
 
     public function destroy($id)
     {
@@ -145,9 +161,29 @@ class SupportController extends Controller
     public function showInfoSupport()
     {
        // Retrieve all tickets
-       $tickets = Ticket::all();
+       $settings = Setting::first();
 
-       return view('Admin.supports.Setting.index', compact('tickets'));
+       return view('Admin.supports.Setting.index', compact('settings'));
 
+    }
+
+    public function updateInfoSupport(Request $request)
+    {
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'support_email' => ['nullable', 'email', 'max:255'],
+            'support_phone' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        // Retrieve the settings record
+        $settings = Setting::first();
+
+        // Update the support contact information
+        $settings->update([
+            'support_email' => $validatedData['support_email'],
+            'support_phone' => $validatedData['support_phone'],
+        ]);
+
+        return redirect()->back()->with('success', 'Support contact information updated successfully.');
     }
 }

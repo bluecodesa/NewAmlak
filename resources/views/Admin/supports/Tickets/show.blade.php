@@ -71,39 +71,39 @@
                         </div>
 
 
-                    <h5>@lang('Comments')</h5>
-
-
-                    <div class="table-responsive b-0" data-pattern="priority-columns">
-                        <table id="datatable-buttons" class="table  table-striped">
-                            <thead>
-                                <tr>
-
-                                    <th scope="col">#</th>
-                                    <th scope="col">@lang('Image')</th>
-                                    <th scope="col">@lang('comment')</th>
-                                    <th scope="col">@lang('Date')</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
+                        <div class="mt-4">
+                            <h5>@lang('Comments')</h5>
                                 @foreach($ticketResponses as $response)
-                                <tr>
-                                    <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>
-                                        <img src="{{ optional($response->UserData)->avatar ?: 'https://www.svgrepo.com/show/29852/user.svg' }}" class="mr-3 rounded-circle" alt="{{ optional($response->UserData)->name ?? 'Default Name' }}" style="width: 64px; height: 64px;">
-                                    </td>
-                                    <td>{{ $response->response }}</td>
-                                    <td>{{ $response->created_at->format('Y-m-d H:i:s') }}</td>
+                                <div class="col-lg-9 mb-9">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <img src="{{ optional($response->UserData)->avatar ?: 'https://www.svgrepo.com/show/29852/user.svg' }}" class="mr-3 rounded-circle" alt="{{ optional($response->UserData)->name ?? 'Default Name' }}" style="width: 64px; height: 64px;">
+                                                <div>
+                                                    <h6 class="mb-0">{{ optional($response->UserData)->name ?? 'Anonymous' }}</h6>
+                                                    <small class="text-muted">{{ $response->created_at->format('Y-m-d H:i:s') }}</small>
+                                                </div>
+                                            </div>
+                                            <p class="card-text">{{ $response->response }}</p>
 
-                                </tr>
+                                            <div class="bg-light text-black rounded p-3 shadow-sm">
+                                                @if($response->response_attachment)
+                                                    <label for="response" class="form-label">@lang('Attachment')</label>
+                                                    <div class="d-flex align-items-center">
+                                                        <span>{{ basename($response->response_attachment) }}</span>
+                                                        <a href="{{ asset($response->response_attachment) }}" download class="ms-2 text-black">
+                                                            <i class="fas fa-download"></i>
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
                                 @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
-
+                        </div>
 
 
                       {{-- @endif --}}
@@ -111,13 +111,17 @@
 
                       <!-- Form to add response -->
                       <div class="mt-4">
-                          <h5>@lang('اضف تعليقك')</h5>
-                          <form action="{{ route('Admin.SupportTickets.addResponse', $ticket->id) }}" method="POST">
+                          <h5>@lang('Add your comment')</h5>
+                          <form action="{{ route('Admin.SupportTickets.addResponse', $ticket->id) }}" method="POST"  enctype="multipart/form-data">
                             @csrf
                               <div class="mb-3">
-                                  <label for="response" class="form-label">@lang('التعليق')</label>
+                                  <label for="response" class="form-label">@lang('comment')</label>
                                   <textarea class="form-control" id="response" name="response" rows="5" @if($ticket->status === 'closed') disabled @endif required></textarea>
                               </div>
+                              <div class="mb-3">
+                                <label for="attachment" class="form-label">@lang('file')</label>
+                                <input type="file" class="form-control" id="attachment" name="response_attachment" accept="image/*, application/pdf" @if($ticket->status === 'closed') disabled @endif>
+                            </div>
                               <button type="submit" class="btn btn-primary" @if($ticket->status === 'closed') disabled @endif>@lang('Submit Comment')</button>
                           </form>
                       </div>

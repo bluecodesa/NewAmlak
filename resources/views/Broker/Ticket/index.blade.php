@@ -29,29 +29,39 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                <div class="col-xl-12">
+                                    <div class="card m-b-30">
+                                        <h5 class="card-header mt-0">@lang('Support contact information')</h5>
+                                        <div class="card-body">
+                                            <h4 class="card-title font-16 mt-0">@lang('If you cannot find a solution to the problem you are facing in the help content. You can send a technical support ticket and select the relevant department from below.')</h4>
 
-                            <div class="col-xl-12">
-                                <div class="card m-b-30">
-                                    <h5 class="card-header mt-0">@lang('Attention!')</h5>
-                                    <div class="card-body">
-                                        <h4 class="card-title font-16 mt-0">@lang('If you cannot find a solution to the problem you are facing in the help content. You can send a technical support ticket and select the relevant department from below.')</h4>
-
-                                        <div class="col-sm-6 col-xl-3">
-                                            <div class="card shadow-sm">
-                                                <div class="card-heading p-4">
-                                                    <div class="mini-stat-icon float-left">
-                                                        <a href="#"><i class="mdi mdi-email bg-primary  text-white"></i></a>
-
-                                                        <h5 class="font-16">@lang('Technical support center')</h5>
-
+                                            <div class="row">
+                                                <div class="col-sm-6 col-xl-3">
+                                                    <div class="card shadow-sm">
+                                                        <div class="card-heading p-4">
+                                                            <div class="mini-stat-icon float-left">
+                                                                <a href="mailto:{{ $settings->support_email }}"><i class="mdi mdi-email bg-primary text-white"></i></a>
+                                                                <h5 class="font-16">@lang('Technical support center')</h5>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
+                                                </div>
+                                                <div class="col-sm-6 col-xl-3">
+                                                    <div class="card shadow-sm">
+                                                        <div class="card-heading p-4">
+                                                            <div class="mini-stat-icon float-left">
+                                                                <a href="tel:{{ $settings->support_phone }}"><i class="mdi mdi-phone bg-primary text-white"></i></a>
+                                                                <h5 class="font-16">@lang('Technical support center')</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+
 
                                 <h4 class="mt-0 header-title">
 
@@ -82,7 +92,7 @@
                                                 <td>
                                                     <a href="{{ route('Broker.Tickets.show', $ticket->id) }}"
                                                         class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Show')</a>
-                                                    
+
                                                 </td>
                                             </tr>
                                             @endforeach
