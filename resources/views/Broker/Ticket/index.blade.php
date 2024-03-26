@@ -40,6 +40,7 @@
                                                     <div class="card shadow-sm">
                                                         <div class="card-heading p-4">
                                                             <div class="mini-stat-icon float-left">
+                                                                <p>{{ $settings->support_email }}</p>
                                                                 <a href="mailto:{{ $settings->support_email }}"><i class="mdi mdi-email bg-primary text-white"></i></a>
                                                                 <h5 class="font-16">@lang('Technical support center')</h5>
                                                             </div>
@@ -50,6 +51,7 @@
                                                     <div class="card shadow-sm">
                                                         <div class="card-heading p-4">
                                                             <div class="mini-stat-icon float-left">
+                                                                <p>{{ $settings->support_phone }}</p>
                                                                 <a href="tel:{{ $settings->support_phone }}"><i class="mdi mdi-phone bg-primary text-white"></i></a>
                                                                 <h5 class="font-16">@lang('Technical support center')</h5>
                                                             </div>
