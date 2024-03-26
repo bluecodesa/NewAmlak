@@ -32,6 +32,11 @@ class UnitService
             // 'property_usage_id' => 'required',
             // 'owner_id' => 'required',
             // 'instrument_number' => 'nullable',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('units'),
+                'max:25'
+            ],
             // 'service_type_id' => 'required',
             // "show_gallery" => 'required',
             // 'space' => 'required|numeric',

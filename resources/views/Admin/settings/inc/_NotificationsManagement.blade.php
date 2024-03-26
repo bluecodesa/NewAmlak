@@ -200,7 +200,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>@lang('notification_name') @lang('ar') </label>
+                        <label>@lang('notification_name') {{ __('ar ') }} </label>
                         <input type="text" required name="notification_name_ar" class="form-control"
                             value="" placeholder="@lang('notification_name')">
                     </div>

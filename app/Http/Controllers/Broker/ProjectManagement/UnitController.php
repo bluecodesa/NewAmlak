@@ -15,7 +15,7 @@ use App\Services\PropertyUsageService;
 use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\Rule;
 
 class UnitController extends Controller
 {
@@ -74,6 +74,35 @@ class UnitController extends Controller
 
     public function store(Request $request)
     {
+        // return $request;
+        $rules = [];
+        $rules = [
+            'number_unit' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('units'),
+                'max:25'
+            ],
+        ];
+        $messages = [
+            'number_unit.required' => 'The number unit field is required.',
+            'number_unit.string' => 'The number unit must be a string.',
+            'number_unit.max' => 'The number unit may not be greater than :max characters.',
+            'location.required' => 'The location field is required.',
+            'location.string' => 'The location must be a string.',
+            'location.max' => 'The location may not be greater than :max characters.',
+            'city_id.required' => 'The city ID field is required.',
+            'city_id.exists' => 'The selected city ID is invalid.',
+            'owner_id.required' => 'The owner ID field is required.',
+            'owner_id.exists' => 'The selected owner ID is invalid.',
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+            'instrument_number.max' => 'The instrument number may not be greater than :max characters.'
+        ];
+        $request->validate($rules, $messages);
+
         $this->UnitService->store($request->all());
         return redirect()->route('Broker.Unit.index')->with('success', __('added successfully'));
     }

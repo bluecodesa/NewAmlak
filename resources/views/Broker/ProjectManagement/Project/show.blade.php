@@ -102,10 +102,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <img class="rounded mr-2" alt="200x200" style="width: 100%;height: 86%;"
-                                            @if ($project->image == null) src="{{ url('/Brokers/Projects/default.jpg') }}"
-                                        @else
-                                        src="{{ url($project->image) }}" @endif
-                                            data-holder-rendered="true">
+                                            src="{{ $project->image_url }}" data-holder-rendered="true">
                                     </div>
                                 </div>
 
