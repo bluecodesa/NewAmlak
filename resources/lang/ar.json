@@ -344,5 +344,11 @@
     "If you cannot find a solution to the problem you are facing in the help content. You can send a technical support ticket and select the relevant department from below.": "اذا كنت لا تستطيع ايجاد حل للمشكله التي تواجهك في محتوي المساعدة . يمكنك ارسال تذكرة دعم فني وحدد القسم المختص من الاسفل.",
     "Attention!": "تنبيه!",
     "Technical support center": "مركز الدعم الفني",
-    "Client Name": "اسم العميل"
+    "Client Name": "اسم العميل",
+    "Attachment": "المرفقات",
+    "Add your comment": "اضف تعليقك",
+    "Ticket Details": "تفاصيل التذكرة",
+    "Ticket Image": "صورة التذكره",
+    "Closed": "مغلقة"
+
 }

@@ -40,8 +40,10 @@ class SettingService
             'broker_license' => 'required|string|max:255|unique:brokers,broker_license,'.$id,
             'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'id_number'=>'nullable|unique:brokers,id_number'
-
+            'id_number' => [
+                'nullable',
+                Rule::unique('brokers')->ignore($id),
+            ],
         ];
 
 
@@ -83,13 +85,19 @@ class SettingService
 
         $user = $broker->UserData();
 
-        $user->update([
+        $userData = [
             'name' => $request->name,
             'email' => $request->email,
-            'avatar' => '/Brokers/Logos/' . $ext,
+        ];
 
-        ]);
+        // Check if $ext is defined and not empty
+        if (isset($ext) && !empty($ext)) {
+            // Construct the avatar path only if $ext is defined
+            $userData['avatar'] = '/Brokers/Logos/' . $ext;
+        }
 
+        $user->update($userData);
+        
         if ($request->filled('password')) {
             $user->update(['password' => bcrypt($request->password)]);
         }

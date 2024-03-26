@@ -76,18 +76,30 @@ class GallaryController extends Controller
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
         $brokerId = auth()->user()->UserBrokerData->id;
+
+        // Get all units for the broker
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
-        //filters
+        $uniqueIds = $units->pluck('CityData.id')->unique();
+        $uniqueNames = $units->pluck('CityData.name')->unique();
+        $unitsWithDistricts = $units->filter(function ($unit) {
+            return $unit->CityData->DistrictsCity->isNotEmpty();
+        });
+
+        $uniqueDistrictIds = $unitsWithDistricts->pluck('CityData.DistrictsCity.*.id')->flatten()->unique();
+        $uniqueDistrictNames = $unitsWithDistricts->pluck('CityData.DistrictsCity.*.name')->flatten()->unique();
+
+
+        // Filter units based on request parameters
         $adTypeFilter = request()->input('ad_type_filter', 'all');
         $typeUseFilter = request()->input('type_use_filter', 'all');
-        $cityFilter = request()->input('city_filter','all');
-        $districtFilter = request()->input('district_filter','all');
-        $projectFilter = request()->input('project_filter','all');
+        $cityFilter = request()->input('city_filter', 'all');
+        $districtFilter = request()->input('district_filter', 'all');
+        $projectFilter = request()->input('project_filter', 'all');
         $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter);
-        // dd($units);
-        //
+        // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
+
         return view('Broker.Gallary.index', get_defined_vars());
     }
 
@@ -154,25 +166,11 @@ class GallaryController extends Controller
             return view('Home.Gallery.Unit.show', $data);
         }
 
-    public function showByName($name)
+        public function showByName($name)
         {
-
-            $city_filter = request()->input('city_filter');
-            $prj_filter = request()->input('prj_filter');
-            $type_filter = request()->input('type_filter');
-            $price_from = request()->input('price_from');
-            $price_to = request()->input('price_to');
-            $rent_status = request()->input('rent_status');
-            $without_images = request()->has('without_images') ? true : false;
-            $with_images = request()->has('with_images') ? true : false;
-            $with_price = request()->has('with_price') ? true : false;
-            $without_price = request()->has('without_price') ? true : false;
-            $reserved_units = request()->has('reserved_units') ? true : false;
-
-            $data = $this->galleryService->showByName($name, $city_filter, $prj_filter, $type_filter, $price_from, $price_to, $rent_status, $without_images, $with_images, $with_price, $without_price, $reserved_units);
-
+            $data = $this->galleryService->showByName($name);
             if (empty($data)) {
-                return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+                return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
             }
 
             return view('Home.Gallery.index', $data);

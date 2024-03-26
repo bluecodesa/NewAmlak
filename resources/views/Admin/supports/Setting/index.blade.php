@@ -30,17 +30,29 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Admin.Sections.store') }}" method="POST" class="row">
+                                <form action="{{ route('Admin.InfoSupport.update') }}" method="POST" class="row">
                                     @csrf
                                     @method('put')
-                                        <div class="col-6">
-                                            <div class="mb-3">
+                                            <div class="form-group col-md-4">
                                                 <label class="form-label">
                                                     @lang('Email content')<span
                                                         class="required-color">*</span></label>
                                                 <input type="text" required id="modalRoleName"
-                                                    name="email" class="form-control"
-                                                    placeholder="email">
+                                                    name="support_email" class="form-control"
+                                                    placeholder="email" value="{{ old('support_email', $settings->support_email) }}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="mobile">@lang('phone')<span
+                                                    class="text-danger">*</span></label>
+                                            <div style="position:relative">
+
+                                                <input type="tel" class="form-control" id="mobile" minlength="9"
+                                                    maxlength="9" pattern="[0-9]*"
+                                                    oninvalid="setCustomValidity('Please enter 9 numbers.')"
+                                                    onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
+                                                    name="support_phone" required="" value="{{ old('support_phone', $settings->support_phone) }}">
+
+                                            </div>
                                             </div>
                                         </div>
                                     <div class="col-12">

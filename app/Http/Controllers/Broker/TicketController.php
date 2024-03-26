@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Models\TicketType;
@@ -18,6 +19,8 @@ class TicketController extends Controller
         //
         $user_id = auth()->user()->id;
         $tickets = Ticket::where('user_id', $user_id)->get();
+        $settings = Setting::first();
+
         $tickets->transform(function ($ticket) {
             $ticket->formatted_id = "100{$ticket->id}";
             return $ticket;
@@ -116,14 +119,13 @@ class TicketController extends Controller
     {
         $request->validate([
             'response' => 'required|string',
+            'response_attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules for the attachment
         ]);
-
 
         $ticket = Ticket::findOrFail($ticketId);
 
         if ($ticket->status !== 'Waiting for customer') {
             $ticket->status = 'Waiting for technical support';
-
             $ticket->save();
         }
 
@@ -131,6 +133,17 @@ class TicketController extends Controller
         $response->ticket_id = $ticketId;
         $response->user_id = auth()->user()->id;
         $response->response = $request->input('response');
+
+        if ($request->hasFile('response_attachment')) {
+            $file = $request->file('response_attachment');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = uniqid() . '.' . $ext;
+            $file->move(public_path('Tickets/responses'), $fileName);
+            $response->response_attachment = 'Tickets/responses/' . $fileName; // Save the file path without leading slash
+        }
+
+
+
         $response->save();
 
         return redirect()->back()->with('success', __('Response added successfully'));

@@ -26,14 +26,8 @@
             <div class="w-auto col-4">
                 <span>@lang('city')</span>
                 <select class="form-control form-control-sm" id="city_filter" name="city_filter">
-                    @php
-                        $uniqueCityIds = $units->pluck('CityData.id')->unique();
-                    @endphp
-                    @foreach ($uniqueCityIds as $cityId)
-                        @php
-                            $cityData = $units->where('CityData.id', $cityId)->first()->CityData;
-                        @endphp
-                        <option value="{{ $cityData->id }}">{{ $cityData->name }}</option>
+                    @foreach ($uniqueIds as $index => $id)
+                    <option value="{{ $id }}">{{ $uniqueNames[$index] }}</option>
                     @endforeach
                 </select>
 
@@ -41,30 +35,28 @@
             <div class="w-auto col-4">
                 <span>@lang('districts')</span>
                 <select class="form-control form-control-sm" id="district_filter" name="district_filter">
-                    @foreach ($uniqueCityIds as $cityId)
-                        @php
-                            $cityData = $units->where('CityData.id', $cityId)->first()->CityData;
-                            $uniqueDistrictIds = $cityData->DistrictsCity->pluck('id')->unique();
-                        @endphp
-                        @foreach ($uniqueDistrictIds as $districtId)
-                            @php
-                                $district = $cityData->DistrictsCity->where('id', $districtId)->first();
-                            @endphp
-                            <option value="{{ $district->id }}">{{ $district->name }}</option>
-                        @endforeach
+                    @foreach ($uniqueDistrictIds as $index => $id)
+                        <option value="{{ $id }}">{{ $uniqueDistrictNames[$index] }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+
+
+            <div class="w-auto col-4">
+                <span>@lang('Project')</span>
+                <select class="form-control form-control-sm" id="project_filter" name="project_filter">
+                    @foreach ($units as $unit)
+                        @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
+                            <option value="{{ $unit->PropertyData->ProjectData->id }}">{{ $unit->PropertyData->ProjectData->name }}</option>
+                        @endif
                     @endforeach
                 </select>
 
             </div>
-            {{-- <div class="w-auto col-4">
-                <span>@lang('Project')</span>
-                <select class="form-control form-control-sm" id="project_filter" name="project_filter">
-                    <option value=""></option>
-
-                </select>
-            </div> --}}
             <div class="w-auto text-center col-12">
-                <button type="submit" class="w-auto btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
+                <button type="submit" class="btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
+                <a href="{{ route('Broker.Gallery.index') }}" class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
             </div>
         </div>
     </form>

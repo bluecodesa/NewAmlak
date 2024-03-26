@@ -81,6 +81,7 @@ Route::group(
             Route::post('SupportTickets/{ticketId}/add-response', [SupportController::class, 'addResponse'])->name('SupportTickets.addResponse');
             Route::post('SupportTickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
             Route::get('/InfoSupport', [SupportController::class, 'showInfoSupport'])->name('Support.showInfoSupport');
+            Route::put('InfoSupport/update', [SupportController::class, 'updateInfoSupport'])->name('InfoSupport.update');
 
 
 
