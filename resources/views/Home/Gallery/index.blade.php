@@ -36,7 +36,149 @@
 
             <div class="row p-0 gap-5 justify-content-center pe-2 ps-2">
                 <div class="filter-container-col">
+                    <div class="filter">
 
+                        <form action="{{ route('Broker.Unit.index') }}" method="GET" id="unitsForm">
+                            <div class="row gap-3" style="align-items: end;">
+                                <div class="col-12 p-0 ml-2 ">
+                                    <span>المدينة</span>
+                                    <select
+                                        class="w-100 form-control select-input @if ($city_filter != 'all') checked @endif "
+                                        id="city_filter" required name="city_filter" style="width:95%!important"
+                                        onchange="reloadUnits()">
+                                        <option value="all" @if ($city_filter == 'all') {{ 'selected' }} @endif>
+                                            اختر </option>
+                                        @foreach ($cities as $c)
+                                            <option value="{{ $c }}"
+                                                @if ($city_filter == $c) {{ 'selected' }} @endif>
+                                                {{ $c }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-12  p-0 ml-2">
+                                    <span>المشروع</span>
+                                    <select
+                                        class="form-control select-input @if ($prj_filter != 'all') checked @endif "
+                                        id="prj_filter" required name="prj_filter" style="width:95%!important"
+                                        onchange="reloadUnits()">
+                                        <option value="all" @if ($prj_filter == 'all') {{ 'selected' }} @endif>
+                                            اختر</option>
+
+                                        @foreach ($projects as $project)
+                                            <option value="{{ $project->id }}"
+                                                @if ($prj_filter == $project->id) {{ 'selected' }} @endif>
+                                                {{ $project->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                                <div class="col-12  p-0 ml-2">
+                                    <span>الفئات</span>
+                                    <select
+                                        class="form-control select-input   @if ($type_filter != 'all') checked @endif "
+                                        id="type_filter" required name="type_filter" style="width:95%!important"
+                                        onchange="reloadUnits()">
+                                        <option value="all"
+                                            @if ($type_filter == 'all') {{ 'selected' }} @endif>
+                                            اختر </option>
+
+                                        <option value="تجار"
+                                            @if ($type_filter == 'تجار') {{ 'selected' }} @endif>
+                                            تجاري </option>
+
+                                        <option value="سكن"
+                                            @if ($type_filter == 'سكن') {{ 'selected' }} @endif>
+                                            سكني </option>
+
+                                    </select>
+                                </div>
+
+                                <div class="col-12  p-0 ml-2">
+                                    <span>السعر</span>
+                                    <div class="row m-0 p-0 gap-3 ">
+                                        <div class="col-5 p-0">
+                                            <input class="form-control" name="price_from" id="price_from" placeholder="من"
+                                                value="{{ $price_from }}" onchange="reloadUnits()" />
+                                        </div>
+                                        <div class="col-5 p-0">
+                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي"
+                                                value="{{ $price_to }}" onchange="reloadUnits()" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12  p-0 mt-4" style="margin-left:0.5rem;margin-right:0.5rem;width:90%">
+                                    <div class="row d-flex justify-content-between m-0 p-0 filter-statuses">
+                                        <div class="w-auto item sale @if ($rent_status == 'sale') active @endif "
+                                            onclick="reloadUnits('sale')" status="sale">للبيع</div>
+                                        <div class="w-auto item rent @if ($rent_status == 'rent') active @endif "
+                                            onclick="reloadUnits('rent')" status="rent">للايجار</div>
+                                        <div class="w-auto item both @if ($rent_status == 'both' || !$rent_status) active @endif "
+                                            onclick="reloadUnits('both')" status="both">بيع/إيجار</div>
+
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="form-group d-flex">
+                                        <input type="checkbox" id="without_images" name="without_images"
+                                            @if ($without_images) checked @endif onchange="reloadUnits()">
+                                        <label class="w-auto"
+                                            style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون
+                                            الصور
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group d-flex">
+                                        <input type="checkbox" id="with_images" name="with_images"
+                                            @if ($with_images) checked @endif onchange="reloadUnits()">
+                                        <label class="w-auto"
+                                        style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع الصور
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group d-flex">
+                                        <input type="checkbox" id="with_price" name="with_price"
+                                            @if ($with_price) checked @endif onchange="reloadUnits()">
+                                        <label class="w-auto"
+                                        style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع السعر
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group d-flex">
+                                        <input type="checkbox" id="without_price" name="without_price"
+                                            @if ($without_price) checked @endif onchange="reloadUnits()">
+                                        <label class="w-auto"
+                                        style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون
+                                            السعر
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group d-flex">
+                                        <input type="checkbox" id="reserved_units" name="reserved_units"
+                                            @if ($reserved_units) checked @endif onchange="reloadUnits()">
+                                        <label class="w-auto"
+                                        style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">اعلانات العقارات
+                                            المحجوزة
+                                        </label>
+                                    </div>
+                                </div>
+                                <div>
+
+
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
                 <div class="cards-gallery-container">
 

@@ -5,6 +5,8 @@ namespace App\Services\Broker;
 use App\Interfaces\Broker\GalleryRepositoryInterface;
 use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Models\Broker;
+use App\Models\City;
+use App\Models\Project;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Validation\Rule;
@@ -116,7 +118,7 @@ class GalleryService
         return get_defined_vars();
     }
 
-    public function showByName($name)
+    public function showByName($name, $city_filter, $prj_filter, $type_filter, $price_from, $price_to, $rent_status, $without_images, $with_images, $with_price, $without_price, $reserved_units)
     {
         $gallery = $this->galleryRepository->findByGalleryName($name);
         if ($gallery->gallery_status == 0) {
@@ -124,6 +126,10 @@ class GalleryService
         }else{
 
         $units = $this->UnitRepository->getAll($gallery['broker_id']);
+        $cities = City::all();
+        $projects =Project::all();
+        $filteredUnits = $this->filterUnitsPublic($units, $city_filter, $prj_filter, $type_filter, $price_from, $price_to, $rent_status, $without_images, $with_images, $with_price, $without_price, $reserved_units);
+
 
         $unit = $units->first();
         $id = $unit ? $unit->id : null;
@@ -135,7 +141,7 @@ class GalleryService
         $broker=Broker::findOrFail($unit->broker_id);
         $user_id=$broker->user_id;
         return get_defined_vars();
-    }
+        }
     }
 
     public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter)
@@ -170,6 +176,63 @@ class GalleryService
     return $units;
 }
 
+private function filterUnitsPublic($units, $city_filter, $prj_filter, $type_filter, $price_from, $price_to, $rent_status, $without_images, $with_images, $with_price, $without_price, $reserved_units)
+{
+    // Apply filters on units based on parameters
+    $filteredUnits = $units;
+
+    // Implement filtering logic here based on the parameters
+
+    // Filter by city
+    if ($city_filter != 'all') {
+        $filteredUnits = $filteredUnits->where('city', $city_filter);
+    }
+
+    // Filter by project
+    if ($prj_filter != 'all') {
+        $filteredUnits = $filteredUnits->where('project_id', $prj_filter);
+    }
+
+    // Filter by type
+    if ($type_filter != 'all') {
+        $filteredUnits = $filteredUnits->where('type', $type_filter);
+    }
+
+    // Filter by price range
+    if ($price_from && $price_to) {
+        $filteredUnits = $filteredUnits->whereBetween('price', [$price_from, $price_to]);
+    } elseif ($price_from) {
+        $filteredUnits = $filteredUnits->where('price', '>=', $price_from);
+    } elseif ($price_to) {
+        $filteredUnits = $filteredUnits->where('price', '<=', $price_to);
+    }
+
+    // Filter by rent status
+    if ($rent_status) {
+        $filteredUnits = $filteredUnits->where('rent_status', $rent_status);
+    }
+
+    // Filter by image presence
+    if ($without_images) {
+        $filteredUnits = $filteredUnits->where('image', null);
+    } elseif ($with_images) {
+        $filteredUnits = $filteredUnits->whereNotNull('image');
+    }
+
+    // Filter by price presence
+    if ($with_price) {
+        $filteredUnits = $filteredUnits->whereNotNull('price');
+    } elseif ($without_price) {
+        $filteredUnits = $filteredUnits->whereNull('price');
+    }
+
+    // Filter by reserved units
+    if ($reserved_units) {
+        $filteredUnits = $filteredUnits->where('reserved', true);
+    }
+
+    return $filteredUnits;
+}
 
 
 

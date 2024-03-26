@@ -80,9 +80,9 @@ class GallaryController extends Controller
         //filters
         $adTypeFilter = request()->input('ad_type_filter', 'all');
         $typeUseFilter = request()->input('type_use_filter', 'all');
-        $cityFilter = request()->input('city_filter');
-        $districtFilter = request()->input('district_filter');
-        $projectFilter = request()->input('project_filter');
+        $cityFilter = request()->input('city_filter','all');
+        $districtFilter = request()->input('district_filter','all');
+        $projectFilter = request()->input('project_filter','all');
         $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter);
         // dd($units);
         //
@@ -144,7 +144,7 @@ class GallaryController extends Controller
 
 
 
-        public function showUnitPublic($gallery_name, $id)
+    public function showUnitPublic($gallery_name, $id)
         {
 
             $data = $this->galleryService->showUnitPublic($gallery_name, $id);
@@ -154,11 +154,25 @@ class GallaryController extends Controller
             return view('Home.Gallery.Unit.show', $data);
         }
 
-        public function showByName($name)
+    public function showByName($name)
         {
-            $data = $this->galleryService->showByName($name);
+
+            $city_filter = request()->input('city_filter');
+            $prj_filter = request()->input('prj_filter');
+            $type_filter = request()->input('type_filter');
+            $price_from = request()->input('price_from');
+            $price_to = request()->input('price_to');
+            $rent_status = request()->input('rent_status');
+            $without_images = request()->has('without_images') ? true : false;
+            $with_images = request()->has('with_images') ? true : false;
+            $with_price = request()->has('with_price') ? true : false;
+            $without_price = request()->has('without_price') ? true : false;
+            $reserved_units = request()->has('reserved_units') ? true : false;
+
+            $data = $this->galleryService->showByName($name, $city_filter, $prj_filter, $type_filter, $price_from, $price_to, $rent_status, $without_images, $with_images, $with_price, $without_price, $reserved_units);
+
             if (empty($data)) {
-                return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
+                return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
             }
 
             return view('Home.Gallery.index', $data);
