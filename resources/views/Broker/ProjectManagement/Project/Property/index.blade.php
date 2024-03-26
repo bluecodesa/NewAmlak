@@ -14,7 +14,8 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -45,11 +46,11 @@
                                                 <th>#</th>
                                                 <th>@lang('property name')</th>
                                                 <th>@lang('city')</th>
-                                                <th>@lang('location')</th>
+                                                {{-- <th>@lang('location')</th> --}}
                                                 <th>@lang('Property type')</th>
                                                 <th>@lang('Type use')</th>
                                                 <th>@lang('owner name')</th>
-                                                <th>@lang('Instrument number')</th>
+                                                {{-- <th>@lang('Instrument number')</th> --}}
                                                 <th>@lang('Action')</th>
                                             </tr>
                                         </thead>
@@ -59,11 +60,11 @@
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $property->name ?? '' }}</td>
                                                     <td>{{ $property->CityData->name ?? '' }}</td>
-                                                    <td>{{ $property->location ?? '' }}</td>
+                                                    {{-- <td>{{ $property->location ?? '' }}</td> --}}
                                                     <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
                                                     <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
                                                     <td>{{ $property->OwnerData->name ?? '' }}</td>
-                                                    <td>{{ $property->instrument_number ?? '' }}</td>
+                                                    {{-- <td>{{ $property->instrument_number ?? '' }}</td> --}}
 
                                                     <td>
 

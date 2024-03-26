@@ -102,7 +102,11 @@ class UnitController extends Controller
 
     public function update(Request $request, $id)
     {
+        $Unit = $this->UnitService->findById($id);
         $this->UnitService->update($id, $request->all());
+        if ($Unit->property_id != null) {
+            return redirect()->route('Broker.Property.show', $Unit->property_id)->with('success', __('Update successfully'));
+        }
         return redirect()->route('Broker.Unit.index')->with('success', __('Update successfully'));
     }
 
@@ -110,5 +114,11 @@ class UnitController extends Controller
     {
         $this->UnitService->delete($id);
         return redirect()->route('Broker.Unit.index')->with('success', __('Deleted successfully'));
+    }
+
+    function deleteImage($id)
+    {
+        $unit = $this->UnitService->findById($id);
+        $unit->UnitImages[0]->update(['image' => '/Brokers/Projects/default.jpg']);
     }
 }

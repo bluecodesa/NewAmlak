@@ -152,23 +152,24 @@
                                     <div class="col-sm-12 col-md-12 mb-3">
                                         <label class="form-label">@lang('Project photo') </label>
                                         <input type="file" name="image" class="dropify"
+                                            data-url="{{ route('Broker.Project.deleteImage', $project->id) }}"
                                             data-default-file="{{ url($project->image) }}" />
                                     </div>
 
 
-                                    {{--
-                                    <div class="col-sm-12 col-md-6 mb-3">
+
+                                    {{-- <div class="col-sm-12 col-md-6 mb-3">
                                         <label class="form-label">@lang('address')</label>
                                         <input type="text" required name="address" id="address" class="form-control"
                                             placeholder="@lang('address')" value="{{ old('address') }}" />
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="col-sm-12 col-md-6 mb-3">
+                                    <div class="col-sm-12 col-md-6 mb-3" hidden>
                                         <label class="form-label">@lang('lat&long')</label>
                                         <input type="text" required readonly name="lat_long" id="location_tag"
                                             class="form-control" placeholder="@lang('lat&long')"
                                             value="{{ old('location_tag') }}" />
-                                    </div> --}}
+                                    </div>
 
 
                                     <div class="col-12">
@@ -192,6 +193,16 @@
     </div>
     @push('scripts')
         <script>
+            $('.dropify-clear').click(function() {
+                var url = $('.dropify').data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function(data) {
+                        alertify.success(@json(__('The image has been successfully deleted')));
+                    },
+                });
+            });
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
@@ -245,7 +256,7 @@
                     var lat = place.geometry.location.lat();
                     var long = place.geometry.location.lng();
                     // $("#address").val(address);
-                    // $("#location_tag").val(lat + "," + long);
+                    $("#location_tag").val(lat + "," + long);
                     // Log the details to the console (or do something else with them)
                 });
             });

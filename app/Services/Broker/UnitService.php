@@ -75,11 +75,11 @@ class UnitService
             // 'space' => 'sometimes|numeric',
             // 'rooms' => 'sometimes|numeric',
             // 'bathrooms' => 'sometimes|numeric',
-            'show_gallery' => 'nullable',
+            // 'show_gallery' => 'nullable',
             // 'price' => 'required|numeric',
             'type' => ['required', Rule::in(['sale', 'rent'])],
-            'service_id' => 'required|array',
-            'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
+            // 'service_id' => 'required|array',
+            // 'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
             'name' => 'required|array',
             // 'name.*' => 'string',
             'qty' => 'required|array',

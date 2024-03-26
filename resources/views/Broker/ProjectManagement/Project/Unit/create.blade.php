@@ -218,7 +218,7 @@
 
                                     <div class="col-sm-12 col-md-6 mb-3" hidden>
                                         <label class="form-label">@lang('lat&long')</label>
-                                        <input type="text" required readonly name="lat_long" id="location_tag"
+                                        <input type="text" readonly name="lat_long" id="location_tag"
                                             class="form-control" placeholder="@lang('lat&long')"
                                             value="{{ old('location_tag') }}" />
                                     </div>

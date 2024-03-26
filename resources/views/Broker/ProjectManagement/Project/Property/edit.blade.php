@@ -181,6 +181,7 @@
                                     <div class="col-sm-12 col-md-12 mb-3">
                                         <label class="form-label">@lang('Pictures property') </label>
                                         <input type="file" name="images[]"
+                                            data-url="{{ route('Broker.Property.deleteImage', $Property->id) }}"
                                             @if ($Property->PropertyImages->count() > 0) data-default-file="{{ url($Property->PropertyImages[0]->image) }}" @endif
                                             multiple class="dropify" accept="image/jpeg, image/png" />
                                     </div>
@@ -216,6 +217,17 @@
     </div>
     @push('scripts')
         <script>
+            $('.dropify-clear').click(function() {
+                var url = $('.dropify').data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function(data) {
+                        alertify.success(@json(__('The image has been successfully deleted')));
+                    },
+                });
+            });
+
             $(document).ready(function() {
                 // Intercept form submission
                 $('#OwnerForm').submit(function(event) {
