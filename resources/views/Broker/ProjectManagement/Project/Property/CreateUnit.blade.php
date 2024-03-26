@@ -195,9 +195,8 @@
 
 
                                     <div class="form-group col-md-3 mb-3">
-                                        <label>@lang('services') <span class="required-color">*</span> </label>
-                                        <select class="select2 form-control" name="service_id[]" multiple="multiple"
-                                            required>
+                                        <label>@lang('services') </label>
+                                        <select class="select2 form-control" name="service_id[]" multiple="multiple">
                                             <option disabled value="">@lang('services')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}">

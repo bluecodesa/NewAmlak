@@ -173,14 +173,14 @@
                                                         {{-- <a href="{{ route('Broker.Project.show', $unit->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a> --}}
 
-                                                        <a href="{{ route('Broker.Project.edit', $unit->id) }}"
+                                                        <a href="{{ route('Broker.Unit.edit', $unit->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
 
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $unit->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
                                                         <form id="delete-form-{{ $unit->id }}"
-                                                            action="{{ route('Broker.Project.edit', $unit->id) }}"
+                                                            action="{{ route('Broker.Unit.destroy', $unit->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')

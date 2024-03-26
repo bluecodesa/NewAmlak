@@ -127,4 +127,10 @@ class ProjectController extends Controller
         $this->projectService->storeProperty($request->except('images'), $id, $images);
         return redirect()->route('Broker.Project.show', $id)->with('success', __('added successfully'));
     }
+
+    function deleteImage($id)
+    {
+        $project = $this->projectService->findProjectById($id);
+        $project->update(['image' => '/Brokers/Projects/default.jpg']);
+    }
 }

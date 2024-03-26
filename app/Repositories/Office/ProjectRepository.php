@@ -17,13 +17,14 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function create($data, $images)
     {
+
         if ($images) {
             $ext = $images->getClientOriginalExtension();
             $imageName = uniqid() . '.' . $ext;
             $images->move(public_path('/Brokers/Projects/'), $imageName);
             $data['image'] = '/Brokers/Projects/' . $imageName;
         } else {
-            $data['image'] = '/Brokers/Projects/default.svg';
+            $data['image'] = '/Brokers/Projects/default.jpg';
         }
         return Project::create($data);
     }
@@ -37,7 +38,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             $images->move(public_path('/Brokers/Projects/'), $imageName);
             $data['image'] = '/Brokers/Projects/' . $imageName;
         } else {
-            $data['image'] = '/Brokers/Projects/default.svg';
+            $data['image'] = '/Brokers/Projects/default.jpg';
         }
         $project->update($data);
         return $project;

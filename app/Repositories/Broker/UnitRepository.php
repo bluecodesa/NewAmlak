@@ -29,14 +29,20 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['images']);
         unset($unit_data['service_id']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
-        if ($data['show_gallery'] == 'on') {
-            $unit_data['show_gallery'] = 1;
+        if (isset($data['show_gallery'])) {
+            if ($data['show_gallery'] == 'on') {
+                $unit_data['show_gallery'] = 1;
+            } else {
+                $unit_data['show_gallery'] = 0;
+            }
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_gallery'] = 1;
         }
         $unit = Unit::create($unit_data);
-        foreach ($data['service_id'] as  $service) {
-            UnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
+        if (isset($data['service_id'])) {
+            foreach ($data['service_id'] as  $service) {
+                UnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
+            }
         }
         if (isset($data['name'])) {
             foreach ($data['name'] as $index => $Feature_name) {
@@ -70,7 +76,7 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['images']);
         unset($unit_data['service_id']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
-        if (isset($data['service_id'])) {
+        if (isset($data['show_gallery'])) {
             if ($data['show_gallery'] == 'on') {
                 $unit_data['show_gallery'] = 1;
             } else {
