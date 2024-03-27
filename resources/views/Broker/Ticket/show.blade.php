@@ -104,7 +104,7 @@
                       <!-- Form to add response -->
                       <div class="mt-4">
                         <h5>@lang('Add your comment')</h5>
-                        <form action="{{ route('Broker.tickets.addResponse', $ticket->id) }}" method="POST" enctype="multipart/form-data">
+                        <form id="commentForm" action="{{ route('Broker.tickets.addResponse', $ticket->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="response" class="form-label">@lang('comment')</label>

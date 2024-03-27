@@ -122,7 +122,13 @@ class TicketController extends Controller
             'response_attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules for the attachment
         ]);
 
+
+
         $ticket = Ticket::findOrFail($ticketId);
+
+        if ($ticket->status === 'Closed') {
+            return redirect()->back()->with('error', __('Cannot add response. Ticket is already closed.'));
+        }
 
         if ($ticket->status !== 'Waiting for customer') {
             $ticket->status = 'Waiting for technical support';
@@ -157,5 +163,6 @@ class TicketController extends Controller
 
         return redirect()->back()->with('success', __('Ticket closed successfully'));
     }
+
 
 }
