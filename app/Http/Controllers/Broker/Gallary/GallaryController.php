@@ -166,17 +166,23 @@ class GallaryController extends Controller
             return view('Home.Gallery.Unit.show', $data);
         }
 
-        public function showByName($name)
-        {
-            $usages =  $this->propertyUsageService->getAllPropertyUsages();
+    public function showByName(Request $request, $name)
 
-            $data = $this->galleryService->showByName($name);
-            if (empty($data)) {
-                return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
-            }
+    {
+            $cityFilter = $request->input('city_filter', 'all');
+            $projectFilter = $request->input('project_filter', 'all');
+            $typeUseFilter = $request->input('type_use_filter', 'all');
+            $priceFrom = $request->input('price_from',null);
+            $priceTo = $request->input('price_to',null);
 
-            return view('Home.Gallery.index', $data);
-        }
+            // Call the showByName() method with all required arguments
+            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$priceFrom , $priceTo);
+            // dd($data);
+                if (empty($data)) {
+                    return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+                }
+                return view('Home.Gallery.index',$data);
+    }
 
     public function update(Request $request, $galleryId)
     {
@@ -246,29 +252,6 @@ class GallaryController extends Controller
 
 
     ///
-
-
-    public function fetchFilteredUnits(Request $request)
-{
-    // Retrieve filter parameters from the request
-    $cityId = $request->input('city_filter');
-    $prjId = $request->input('prj_filter');
-    $type = $request->input('type_filter');
-    $priceFrom = $request->input('price_from');
-    $priceTo = $request->input('price_to');
-
-    // Query to fetch filtered units based on filter parameters
-    $filteredUnits = Unit::where('city_id', $cityId)
-        ->where('project_id', $prjId)
-        ->where('type', $type)
-        ->whereBetween('price', [$priceFrom, $priceTo])
-        ->get();
-
-    // Return JSON response with filtered units
-    return response()->json($filteredUnits);
-}
-
-
 }
 
 

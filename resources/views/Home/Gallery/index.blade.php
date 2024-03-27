@@ -37,49 +37,57 @@
             <div class="row p-0 gap-5 justify-content-center pe-2 ps-2">
                 <div class="filter-container-col">
                     <div class="filter">
-                        <div class="row gap-3" style="align-items: end;">
-                            <div class="col-12 p-0 ml-2">
-                                <span>المدينة</span>
-                                <select class="w-100 form-control select-input" id="city_filter" required name="city_filter" style="width:95%!important" onchange="reloadUnits()">
-                                    <option value="all">اختر</option>
-                                    @foreach ($units as $unit)
-                                    @if ($unit->CityData)
-                                        <option value="{{ $unit->CityData->id }}">{{ $unit->CityData->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
-                            </div>
-                            <div class="col-12 p-0 ml-2">
-                                <span>المشروع</span>
-                                <select class="form-control select-input" id="prj_filter" required name="prj_filter" style="width:95%!important" onchange="reloadUnits()">
-                                    <option value="all">اختر</option>
-                                    @foreach ($units as $unit)
-                                    @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
-                                        <option value="{{ $unit->PropertyData->ProjectData->id }}">{{ $unit->PropertyData->ProjectData->name }}</option>
-                                    @endif
-                                @endforeach                                </select>
-                            </div>
-                            <div class="col-12 p-0 ml-2">
-                                <span>الفئات</span>
-                                <select class="form-control select-input" id="type_filter" required name="type_filter" style="width:95%!important" onchange="reloadUnits()">
-                                    <option value="all">اختر</option>
-                                    @foreach ($usages as $usage)
-                                    <option value="{{ $usage->id }}">
-                                    {{ $usage->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-12 p-0 ml-2">
-                                <span>السعر</span>
-                                <div class="row m-0 p-0 gap-3">
-                                    <div class="col-5 p-0">
-                                        <input class="form-control" name="price_from" id="price_from" placeholder="من" value="" onchange="reloadUnits()" />
-                                    </div>
-                                    <div class="col-5 p-0">
-                                        <input class="form-control" name="price_to" id="price_to" placeholder="الي" value="" onchange="reloadUnits()" />
+
+                        <form action="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" method="GET">
+                            <div class="row gap-3" style="align-items: end;">
+                                <div class="col-12 p-0 ml-2">
+                                    <span>المدينة</span>
+                                    <select class="form-control" name="city_filter" id="cityFilter">
+                                        <option value="all" {{ old('city_filter') == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                        @foreach ($uniqueIds as $index => $id)
+                                            <option value="{{ $id }}" {{ old('city_filter') == $id ? 'selected' : '' }}>{{ $uniqueNames[$index] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-12 p-0 ml-2">
+                                    <span>المشروع</span>
+                                    <select class="form-control form-control-sm" id="project_filter" name="project_filter">
+                                        <option value="all" {{ old('project_filter') == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                        @foreach ($units as $unit)
+                                            @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
+                                                <option value="{{ $unit->PropertyData->ProjectData->id }}" {{ old('project_filter') == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>{{ $unit->PropertyData->ProjectData->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-12 p-0 ml-2">
+                                    <span>الفئات</span>
+                                    <select class="form-control" name="type_use_filter" id="typeUseFilter">
+                                        <option value="all" {{ old('type_use_filter') == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                        @foreach ($usages as $usage)
+                                            <option value="{{ $usage->id }}" {{ old('type_use_filter') == $usage->id ? 'selected' : '' }}>{{ $usage->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-12 p-0 ml-2">
+                                    <span>السعر</span>
+                                    <div class="row m-0 p-0 gap-3">
+                                        <div class="col-5 p-0">
+                                            <input class="form-control" name="price_from" id="price_from" placeholder="من" value="{{ request()->input('price_from', null) }}" onchange="reloadUnits()" />
+                                        </div>
+                                        <div class="col-5 p-0">
+                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي" value="{{ request()->input('price_to', null) }}" onchange="reloadUnits()" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                
+                                <div class="col-12 p-0 ml-2">
+                                    <button type="submit" class="btn btn-primary">تطبيق الفلتر</button>
+                                    <a href="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
+                                </div>
+                            
+                        </form>
+                        
                             <div class="col-12 p-0 mt-4" style="margin-left:0.5rem;margin-right:0.5rem;width:90%">
                                 <div class="row d-flex justify-content-between m-0 p-0 filter-statuses">
                                     <div class="w-auto item sale" onclick="reloadUnits('sale')" status="sale">للبيع</div>

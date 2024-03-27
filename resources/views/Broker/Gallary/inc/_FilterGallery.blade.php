@@ -9,6 +9,7 @@
             <div class="w-auto col-4">
                 <span>@lang('Ad type')</span>
                 <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
+                    <option value="all">@lang('All')</option>
                     @foreach (['rent', 'sale', 'rent_sale'] as $type)
                         <option value="{{ $type }}">{{ __($type) }}</option>
                     @endforeach
@@ -17,42 +18,40 @@
             <div class="w-auto col-4">
                 <span>@lang('Type use')</span>
                 <select class="form-control form-control-sm" id="type_use_filter" name="type_use_filter">
+                    <option value="all">@lang('All')</option>
                     @foreach ($usages as $usage)
-                    <option value="{{ $usage->id }}">
-                    {{ $usage->name }}</option>
+                        <option value="{{ $usage->id }}">{{ $usage->name }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="w-auto col-4">
                 <span>@lang('city')</span>
                 <select class="form-control form-control-sm" id="city_filter" name="city_filter">
+                    <option value="all">@lang('All')</option>
                     @foreach ($uniqueIds as $index => $id)
-                    <option value="{{ $id }}">{{ $uniqueNames[$index] }}</option>
+                        <option value="{{ $id }}">{{ $uniqueNames[$index] }}</option>
                     @endforeach
                 </select>
-
             </div>
             <div class="w-auto col-4">
                 <span>@lang('districts')</span>
                 <select class="form-control form-control-sm" id="district_filter" name="district_filter">
+                    <option value="all">@lang('All')</option>
                     @foreach ($uniqueDistrictIds as $index => $id)
                         <option value="{{ $id }}">{{ $uniqueDistrictNames[$index] }}</option>
                     @endforeach
                 </select>
             </div>
-
-
-
             <div class="w-auto col-4">
                 <span>@lang('Project')</span>
                 <select class="form-control form-control-sm" id="project_filter" name="project_filter">
+                    <option value="all">@lang('All')</option>
                     @foreach ($units as $unit)
                         @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
                             <option value="{{ $unit->PropertyData->ProjectData->id }}">{{ $unit->PropertyData->ProjectData->name }}</option>
                         @endif
                     @endforeach
                 </select>
-
             </div>
             <div class="w-auto text-center col-12">
                 <button type="submit" class="btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
@@ -60,6 +59,7 @@
             </div>
         </div>
     </form>
+
         </div>
     </div>
 </div>
