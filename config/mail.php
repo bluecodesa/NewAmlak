@@ -87,7 +87,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_DRIVER', 'info@trymarafiq.com'),
+        'address' => env('MAIL_DRIVER', $email->user_name),
         'name' => env('MAIL_USERNAME', 'amalak'),
     ],
 
