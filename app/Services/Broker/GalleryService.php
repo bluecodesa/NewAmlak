@@ -9,18 +9,26 @@ use App\Models\City;
 use App\Models\Project;
 use App\Models\Unit;
 use App\Models\User;
+use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 
 class GalleryService
 {
     protected $galleryRepository;
     protected $UnitRepository;
+    protected $propertyUsageService;
 
 
-    public function __construct(UnitRepositoryInterface $UnitRepository,GalleryRepositoryInterface $galleryRepository)
+
+    public function __construct(UnitRepositoryInterface $UnitRepository,
+    GalleryRepositoryInterface $galleryRepository,
+    PropertyUsageService  $propertyUsageService
+
+    )
     {
         $this->galleryRepository = $galleryRepository;
         $this->UnitRepository = $UnitRepository;
+        $this->propertyUsageService =$propertyUsageService;
 
     }
 
@@ -120,6 +128,8 @@ class GalleryService
 
     public function showByName($name)
     {
+        $usages =  $this->propertyUsageService->getAll();
+
         $gallery = $this->galleryRepository->findByGalleryName($name);
         if ($gallery->gallery_status == 0) {
             return [];
@@ -128,15 +138,20 @@ class GalleryService
         $units = $this->UnitRepository->getAll($gallery['broker_id']);
 
         $unit = $units->first();
-        $id = $unit ? $unit->id : null;
+        if ($unit) {
+            $id = $unit->id;
+            $unitDetails = $this->galleryRepository->findById($id);
+            $unit_id = $unit->id;
+            $broker = Broker::findOrFail($unit->broker_id);
+            $user_id = $broker->user_id;
+        } else {
+            $unit_id = null;
+            $unitDetails = null;
+            $user_id = null;
+        }
 
-        $unitDetails = $id ? $this->galleryRepository->findById($id) : null;
-
-        $unit_id=$unit->id;
-
-        $broker=Broker::findOrFail($unit->broker_id);
-        $user_id=$broker->user_id;
         return get_defined_vars();
+
         }
     }
 

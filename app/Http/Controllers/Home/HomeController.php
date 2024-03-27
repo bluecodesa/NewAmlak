@@ -18,7 +18,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\SubscriptionTypeRole;
-
+use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -323,4 +323,8 @@ class HomeController extends Controller
         $user = User::find(Auth::id());
         $user->update(['fcm_token' => $request->token]);
     }
+
+
+
+
 }

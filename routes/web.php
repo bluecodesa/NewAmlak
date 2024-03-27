@@ -58,6 +58,8 @@ Route::group(
         Route::get('gallery/{gallery_name}/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
         Route::post('/unit_interests',  [UnitInterestController::class, 'store'])->name('unit_interests.store');
         Route::get('/download-qrcode/{link}', [GallaryController::class, 'downloadQRCode'])->name('download.qrcode');
+        Route::get('/filtered-units', [GallaryController::class, 'fetchFilteredUnits'])->name('filtered.units');
+
     }
 
 );

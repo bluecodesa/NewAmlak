@@ -168,6 +168,8 @@ class GallaryController extends Controller
 
         public function showByName($name)
         {
+            $usages =  $this->propertyUsageService->getAllPropertyUsages();
+
             $data = $this->galleryService->showByName($name);
             if (empty($data)) {
                 return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
@@ -241,6 +243,30 @@ class GallaryController extends Controller
         // Return the QR code as a downloadable file
     }
 
+
+
+    ///
+
+
+    public function fetchFilteredUnits(Request $request)
+{
+    // Retrieve filter parameters from the request
+    $cityId = $request->input('city_filter');
+    $prjId = $request->input('prj_filter');
+    $type = $request->input('type_filter');
+    $priceFrom = $request->input('price_from');
+    $priceTo = $request->input('price_to');
+
+    // Query to fetch filtered units based on filter parameters
+    $filteredUnits = Unit::where('city_id', $cityId)
+        ->where('project_id', $prjId)
+        ->where('type', $type)
+        ->whereBetween('price', [$priceFrom, $priceTo])
+        ->get();
+
+    // Return JSON response with filtered units
+    return response()->json($filteredUnits);
+}
 
 
 }

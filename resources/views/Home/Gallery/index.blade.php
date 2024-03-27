@@ -37,142 +37,90 @@
             <div class="row p-0 gap-5 justify-content-center pe-2 ps-2">
                 <div class="filter-container-col">
                     <div class="filter">
-
-                        <form action="" method="GET" id="unitsForm">
-                            <div class="row gap-3" style="align-items: end;">
-                                <div class="col-12 p-0 ml-2 ">
-                                    <span>المدينة</span>
-                                    <select
-                                        class="w-100 form-control select-input "
-                                        id="city_filter" required name="city_filter" style="width:95%!important"
-                                        onchange="reloadUnits()">
-                                        <option value="all">
-                                            اختر </option>
-                                            <option value="">
-
-                                            </option>
-                                    </select>
-                                </div>
-
-
-                                <div class="col-12  p-0 ml-2">
-                                    <span>المشروع</span>
-                                    <select
-                                        class="form-control select-input"
-                                        id="prj_filter" required name="prj_filter" style="width:95%!important"
-                                        onchange="reloadUnits()">
-                                        <option value="all">
-                                            اختر</option>
-                                            <option value="">
-
-                                            </option>
-
-                                    </select>
-                                </div>
-                                <div class="col-12  p-0 ml-2">
-                                    <span>الفئات</span>
-                                    <select
-                                        class="form-control select-input "
-                                        id="type_filter" required name="type_filter" style="width:95%!important"
-                                        onchange="reloadUnits()">
-                                        <option value="all"
-                                           >
-                                            اختر </option>
-
-                                        <option value="تجار"
-                                            >
-                                            تجاري </option>
-
-                                        <option value="سكن"
-                                            >
-                                            سكني </option>
-
-                                    </select>
-                                </div>
-
-                                <div class="col-12  p-0 ml-2">
-                                    <span>السعر</span>
-                                    <div class="row m-0 p-0 gap-3 ">
-                                        <div class="col-5 p-0">
-                                            <input class="form-control" name="price_from" id="price_from" placeholder="من"
-                                                value="" onchange="reloadUnits()" />
-                                        </div>
-                                        <div class="col-5 p-0">
-                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي"
-                                                value="" onchange="reloadUnits()" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12  p-0 mt-4" style="margin-left:0.5rem;margin-right:0.5rem;width:90%">
-                                    <div class="row d-flex justify-content-between m-0 p-0 filter-statuses">
-                                        <div class="w-auto item sale"
-                                            onclick="reloadUnits('sale')" status="sale">للبيع</div>
-                                        <div class="w-auto item rent"
-                                            onclick="reloadUnits('rent')" status="rent">للايجار</div>
-                                        <div class="w-auto item both"
-                                            onclick="reloadUnits('both')" status="both">بيع/إيجار</div>
-
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="form-group d-flex">
-                                        <input type="checkbox" id="without_images" name="without_images"
-                                            onchange="reloadUnits()">
-                                        <label class="w-auto"
-                                            style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون
-                                            الصور
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group d-flex">
-                                        <input type="checkbox" id="with_images" name="with_images"
-                                            onchange="reloadUnits()">
-                                        <label class="w-auto"
-                                        style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع الصور
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group d-flex">
-                                        <input type="checkbox" id="with_price" name="with_price"
-                                           onchange="reloadUnits()">
-                                        <label class="w-auto"
-                                        style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع السعر
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group d-flex">
-                                        <input type="checkbox" id="without_price" name="without_price"
-                                           onchange="reloadUnits()">
-                                        <label class="w-auto"
-                                        style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون
-                                            السعر
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group d-flex">
-                                        <input type="checkbox" id="reserved_units" name="reserved_units"
-                                          onchange="reloadUnits()">
-                                        <label class="w-auto"
-                                        style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">اعلانات العقارات
-                                            المحجوزة
-                                        </label>
-                                    </div>
-                                </div>
-                                <div>
-
-
-                                </div>
-
+                        <div class="row gap-3" style="align-items: end;">
+                            <div class="col-12 p-0 ml-2">
+                                <span>المدينة</span>
+                                <select class="w-100 form-control select-input" id="city_filter" required name="city_filter" style="width:95%!important" onchange="reloadUnits()">
+                                    <option value="all">اختر</option>
+                                    @foreach ($units as $unit)
+                                    @if ($unit->CityData)
+                                        <option value="{{ $unit->CityData->id }}">{{ $unit->CityData->name }}</option>
+                                    @endif
+                                @endforeach
+                                </select>
                             </div>
-                        </form>
-
+                            <div class="col-12 p-0 ml-2">
+                                <span>المشروع</span>
+                                <select class="form-control select-input" id="prj_filter" required name="prj_filter" style="width:95%!important" onchange="reloadUnits()">
+                                    <option value="all">اختر</option>
+                                    @foreach ($units as $unit)
+                                    @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
+                                        <option value="{{ $unit->PropertyData->ProjectData->id }}">{{ $unit->PropertyData->ProjectData->name }}</option>
+                                    @endif
+                                @endforeach                                </select>
+                            </div>
+                            <div class="col-12 p-0 ml-2">
+                                <span>الفئات</span>
+                                <select class="form-control select-input" id="type_filter" required name="type_filter" style="width:95%!important" onchange="reloadUnits()">
+                                    <option value="all">اختر</option>
+                                    @foreach ($usages as $usage)
+                                    <option value="{{ $usage->id }}">
+                                    {{ $usage->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 p-0 ml-2">
+                                <span>السعر</span>
+                                <div class="row m-0 p-0 gap-3">
+                                    <div class="col-5 p-0">
+                                        <input class="form-control" name="price_from" id="price_from" placeholder="من" value="" onchange="reloadUnits()" />
+                                    </div>
+                                    <div class="col-5 p-0">
+                                        <input class="form-control" name="price_to" id="price_to" placeholder="الي" value="" onchange="reloadUnits()" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 p-0 mt-4" style="margin-left:0.5rem;margin-right:0.5rem;width:90%">
+                                <div class="row d-flex justify-content-between m-0 p-0 filter-statuses">
+                                    <div class="w-auto item sale" onclick="reloadUnits('sale')" status="sale">للبيع</div>
+                                    <div class="w-auto item rent" onclick="reloadUnits('rent')" status="rent">للايجار</div>
+                                    <div class="w-auto item both" onclick="reloadUnits('both')" status="both">بيع/إيجار</div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="form-group d-flex">
+                                    <input type="checkbox" id="without_images" name="without_images" onchange="reloadUnits()">
+                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون الصور</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group d-flex">
+                                    <input type="checkbox" id="with_images" name="with_images" onchange="reloadUnits()">
+                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع الصور</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group d-flex">
+                                    <input type="checkbox" id="with_price" name="with_price" onchange="reloadUnits()">
+                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع السعر</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group d-flex">
+                                    <input type="checkbox" id="without_price" name="without_price" onchange="reloadUnits()">
+                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون السعر</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group d-flex">
+                                    <input type="checkbox" id="reserved_units" name="reserved_units" onchange="reloadUnits()">
+                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">اعلانات العقارات المحجوزة</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="cards-gallery-container">
 
                     @include('Home.Gallery.inc.filtered')
@@ -368,109 +316,7 @@
         }
 
 
-        function reloadUnits(rent_status, page = 1) {
 
-            if (rent_status == 'rent') {
-                document.querySelector('.filter-statuses .item.active').classList.remove('active');
-                document.querySelector('.filter-statuses .item.rent').classList.add('active');
-            } else if (rent_status == 'sale') {
-                document.querySelector('.filter-statuses .item.active').classList.remove('active');
-                document.querySelector('.filter-statuses .item.sale').classList.add('active');
-            } else if (rent_status == 'both') {
-                document.querySelector('.filter-statuses .item.active').classList.remove('active');
-                document.querySelector('.filter-statuses .item.both').classList.add('active');
-            }
-
-            let city = document.querySelector('select#city_filter').value;
-            let prj_id = document.querySelector('select#prj_filter').value;
-            let type_filter = document.querySelector('select#type_filter').value;
-
-            let price_from = document.querySelector('input#price_from').value;
-            let price_to = document.querySelector('input#price_to').value;
-            let gallery_name = document.querySelector('input[name="gallery_name"]').value;
-
-            $.ajax({
-                url: '/gallery/' + gallery_name + '?page=' + page,
-                method: 'GET',
-
-                data: {
-                    'prj_filter': prj_id,
-                    'city': city,
-                    'type_filter': type_filter,
-                    'rent_status': document.querySelector('.filter-statuses .item.active').getAttribute('status'),
-                    'price_from': price_from,
-                    'price_to': price_to,
-                    'without_images': document.querySelector('input#without_images').checked ? 1 : 0,
-                    'with_images': document.querySelector('input#with_images').checked ? 1 : 0,
-                    'with_price': document.querySelector('input#with_price').checked ? 1 : 0,
-                    'without_price': document.querySelector('input#without_price').checked ? 1 : 0,
-                    'reserved_units': document.querySelector('input#reserved_units').checked ? 1 : 0
-                },
-
-                success: function(data) {
-
-                    document.querySelector('.cards-gallery-container').innerHTML = data;
-
-
-                    if (city != 'all') {
-                        document.querySelector('.galler-filter').innerHTML +=
-                            `<div><span class="filter-name"><span class="city">${city}</span> <span class="close-filter" onclick="closeCityFilter()">x</span></span></div>`;
-                        document.querySelector('.view-filters').style.display = 'flex';
-                    }
-
-
-                    if (prj_id != 'all') {
-                        let index = document.querySelector('select#prj_filter').selectedIndex
-                        prj_name = document.querySelector('select#prj_filter').options[index].text;
-
-                        document.querySelector('.galler-filter').innerHTML +=
-                            `<div><span class="filter-name"><span class="project">${prj_name}</span> <span class="close-filter" onclick="closeProjectFilter()">x</span></span></div>`;
-                        document.querySelector('.view-filters').style.display = 'flex';
-
-                    }
-
-
-                    if (type_filter != 'all') {
-                        let index = document.querySelector('select#type_filter').selectedIndex;
-                        let type_name = document.querySelector('select#type_filter').options[index].text;
-
-                        document.querySelector('.galler-filter').innerHTML +=
-                            `<div><span class="filter-name"><span class="type_filter">${type_name}</span> <span class="close-filter" onclick="closeTypeFilter()">x</span></span></div>`;
-                        document.querySelector('.view-filters').style.display = 'flex';
-
-                    }
-                    checkCurrentVie();
-                }
-            });
-
-        }
-
-
-        function closeTypeFilter() {
-            document.querySelector('select#type_filter').selectedIndex = 0;
-            reloadUnits();
-
-        }
-
-        function closeCityFilter() {
-            document.querySelector('select#city_filter').selectedIndex = 0;
-            reloadUnits();
-        }
-
-
-        function closeProjectFilter() {
-            document.querySelector('select#prj_filter').selectedIndex = 0;
-            reloadUnits();
-        }
-
-        function clearAllFilters() {
-            document.querySelector('select#type_filter').selectedIndex = 0;
-            document.querySelector('select#city_filter').selectedIndex = 0;
-            document.querySelector('select#prj_filter').selectedIndex = 0;
-
-            reloadUnits();
-
-        }
 
 
         function changeView(type) {
@@ -500,5 +346,49 @@
 
 
         checkCurrentVie();
+
+
+
+
+        // Function to reload units based on selected filters
+function reloadUnits() {
+    // Get selected filter values
+    var city = document.getElementById('city_filter').value;
+    var project = document.getElementById('prj_filter').value;
+    var type = document.getElementById('type_filter').value;
+    var price_from = document.getElementById('price_from').value;
+    var price_to = document.getElementById('price_to').value;
+
+    // Make AJAX request to fetch filtered units
+    $.ajax({
+        url: "{{ route('filtered.units') }}",
+        type: "GET",
+        data: {
+            city_filter: city,
+            prj_filter: project,
+            type_filter: type,
+            price_from: price_from,
+            price_to: price_to
+        },
+        success: function(data) {
+            // Handle the received data (update the view with filtered units)
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+
+// Attach event listeners to select elements
+$(document).ready(function() {
+    $('#city_filter, #prj_filter, #type_filter, #price_from, #price_to').change(function() {
+        reloadUnits();
+    });
+});
+
+
     </script>
+
+
+
 @endpush
