@@ -5,20 +5,30 @@ namespace App\Services\Broker;
 use App\Interfaces\Broker\GalleryRepositoryInterface;
 use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Models\Broker;
+use App\Models\City;
+use App\Models\Project;
 use App\Models\Unit;
 use App\Models\User;
+use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 
 class GalleryService
 {
     protected $galleryRepository;
     protected $UnitRepository;
+    protected $propertyUsageService;
 
 
-    public function __construct(UnitRepositoryInterface $UnitRepository,GalleryRepositoryInterface $galleryRepository)
+
+    public function __construct(UnitRepositoryInterface $UnitRepository,
+    GalleryRepositoryInterface $galleryRepository,
+    PropertyUsageService  $propertyUsageService
+
+    )
     {
         $this->galleryRepository = $galleryRepository;
         $this->UnitRepository = $UnitRepository;
+        $this->propertyUsageService =$propertyUsageService;
 
     }
 
@@ -118,6 +128,8 @@ class GalleryService
 
     public function showByName($name)
     {
+        $usages =  $this->propertyUsageService->getAll();
+
         $gallery = $this->galleryRepository->findByGalleryName($name);
         if ($gallery->gallery_status == 0) {
             return [];
@@ -126,49 +138,49 @@ class GalleryService
         $units = $this->UnitRepository->getAll($gallery['broker_id']);
 
         $unit = $units->first();
-        $id = $unit ? $unit->id : null;
+        if ($unit) {
+            $id = $unit->id;
+            $unitDetails = $this->galleryRepository->findById($id);
+            $unit_id = $unit->id;
+            $broker = Broker::findOrFail($unit->broker_id);
+            $user_id = $broker->user_id;
+        } else {
+            $unit_id = null;
+            $unitDetails = null;
+            $user_id = null;
+        }
 
-        $unitDetails = $id ? $this->galleryRepository->findById($id) : null;
-
-        $unit_id=$unit->id;
-
-        $broker=Broker::findOrFail($unit->broker_id);
-        $user_id=$broker->user_id;
         return get_defined_vars();
-    }
+
+        }
     }
 
     public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter)
-{
-    if ($adTypeFilter !== 'all') {
-        $units = $units->where('type', $adTypeFilter);
+    {
+        // Filter by advertisement type if not 'all'
+        if ($adTypeFilter !== 'all') {
+            $units = $units->where('type', $adTypeFilter);
+        }
+
+        // Filter by property usage if not 'all'
+        if ($typeUseFilter !== 'all') {
+            $units = $units->where('property_usage_id', $typeUseFilter);
+        }
+
+        // Filter by city if not 'all'
+        if ($cityFilter !== 'all') {
+            $units = $units->where('city_id', $cityFilter);
+        }
+
+        // Filter by district if not 'all'
+        if ($districtFilter !== 'all') {
+            $units = $units->where('district_id', $districtFilter);
+        }
+
+        return $units;
     }
 
 
-    if ($typeUseFilter !== 'all') {
-        $units = $units->where('property_usage_id', $typeUseFilter);
-    }
-
-
-    if (!is_null($cityFilter)) {
-        $units = $units->where('city_id', $cityFilter);
-    }
-
-
-    if (!is_null($districtFilter)) {
-        $units = $units->where('district_id', $districtFilter);
-    }
-
-    // dd($units);
-
-
-
-    // if (!is_null($projectFilter)) {
-    //     $units = $units->where('project_id', $projectFilter);
-    // }
-
-    return $units;
-}
 
 
 

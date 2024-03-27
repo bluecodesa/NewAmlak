@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin\Subscribers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
-use App\Models\Section;
-use App\Models\SubscriptionType;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\Admin\SectionService;
 use Illuminate\Http\Request;
@@ -16,7 +14,7 @@ class SubscriptionTypesController extends Controller
     protected $subscriptionTypeService;
     protected $SectionService;
 
-    public function __construct(SubscriptionTypeService $subscriptionTypeService,SectionService $SectionService)
+    public function __construct(SubscriptionTypeService $subscriptionTypeService, SectionService $SectionService)
     {
         $this->subscriptionTypeService = $subscriptionTypeService;
         $this->SectionService = $SectionService;

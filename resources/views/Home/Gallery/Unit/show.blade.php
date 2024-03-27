@@ -89,7 +89,7 @@
                                             </g>
                                         </g>
                                     </svg>
-                                    <span>{{ $Unit->rooms }}</span>
+                                    <span>@lang('number rooms') : {{ $Unit->rooms }}</span>
 
                                 </div>
                                 @endif
@@ -108,7 +108,7 @@
                                             </g>
                                         </svg>
                                     </div>
-                                    <span>{{ $Unit->bathrooms }}</span>
+                                    <span>@lang('Number bathrooms') : {{ $Unit->bathrooms }}</span>
 
 
                                 </div>
@@ -138,12 +138,46 @@
                                             </g>
                                         </g>
                                     </svg>
-                                    <span>{{ $Unit->space }}</span>
+                                    <span>@lang('Area (square metres)') : {{ $Unit->space }}</span>
 
                                 </div>
                                 @endif
                             </div>
 
+                        </div>
+
+                        <div class="row justify-content-between gap-3">
+                            @if ($Unit->UnitFeatureData)
+
+                            <div class="d-block text-black">
+
+                                <strong>@lang('Additional details')</strong>
+                            </div>
+                             <ol class="list-group list-group-numbered">
+                                 @foreach ($Unit->UnitFeatureData as $feature)
+
+                                    <div class="fw-bold">{{ $feature->FeatureData->name ?? '' }}</div>
+
+                                    <span style="font-size: 12px;"
+                                    class="badge bg-primary fw-bold text-white  rounded-pill">{{ $feature->qty }}</span>
+
+                                 @endforeach
+                             </ol>
+                         @endif
+                         @if ($Unit->UnitServicesData)
+                         <div class="d-block text-black" role="alert">
+                            <strong>@lang('services')</strong>
+                        </div>
+                        <ol class="list-group list-group-numbered">
+
+                                <span class="text-with-ellipsis">
+
+                                @foreach ($Unit->UnitServicesData as $service)
+                                <span>{{ $service->ServiceData->name ?? '' }}</span>
+                                 @endforeach
+                                </span>
+                        </ol>
+                    @endif
                         </div>
 
                     </div>
@@ -230,38 +264,7 @@
                             style="height: 43px;border: 1px solid #eeecec;border-radius: 12px;cursor: pointer;" /></a>
                 </div>
 
-                <!--الخدمات والتفاصيل الاضافيه-->
-                <hr class="mb-3" style=" color: #bab2b2;" />
-                @if ($Unit->UnitFeatureData)
-                    <div class="d-block btn-new text-center text-white" role="alert">
-                        <strong>@lang('Additional details')</strong>
-                    </div>
-                    <ol class="list-group list-group-numbered">
-                        @foreach ($Unit->UnitFeatureData as $feature)
 
-                                    <div class="fw-bold">{{ $feature->FeatureData->name ?? '' }}</div>
-
-                                    <span style="font-size: 12px;"
-                                    class="badge bg-primary fw-bold text-white  rounded-pill">{{ $feature->qty }}</span>
-                            
-                        @endforeach
-                    </ol>
-                @endif
-                <div class="row m-0 justify-content-between mt-3 align-items-center">
-
-                    <div class="d-block btn-new text-center text-white" role="alert">
-                        <strong>@lang('services')</strong>
-                    </div>
-                    <ol class="list-group list-group-numbered">
-
-                            <span class="text-with-ellipsis">
-
-                            @foreach ($Unit->UnitServicesData as $service)
-                            <span>{{ $service->ServiceData->name ?? '' }}</span>
-                             @endforeach
-                            </span>
-                    </ol>
-                </div>
 
             </div>
 

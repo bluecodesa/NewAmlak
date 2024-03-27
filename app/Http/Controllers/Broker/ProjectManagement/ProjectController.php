@@ -89,7 +89,7 @@ class ProjectController extends Controller
     public function destroy(string $id)
     {
         $this->projectService->deleteProject($id);
-        return back()->back()->route('Broker.Project.index')->with('success', __('Deleted successfully'));
+        return redirect()->route('Broker.Project.index')->with('success', __('Deleted successfully'));
     }
 
     public function createProperty($id)
@@ -126,5 +126,11 @@ class ProjectController extends Controller
         $images = $request->file('images');
         $this->projectService->storeProperty($request->except('images'), $id, $images);
         return redirect()->route('Broker.Project.show', $id)->with('success', __('added successfully'));
+    }
+
+    function deleteImage($id)
+    {
+        $project = $this->projectService->findProjectById($id);
+        $project->update(['image' => '/Brokers/Projects/default.jpg']);
     }
 }

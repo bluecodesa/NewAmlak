@@ -29,29 +29,41 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                <div class="col-xl-12">
+                                    <div class="card m-b-30">
+                                        <h5 class="card-header mt-0">@lang('Support contact information')</h5>
+                                        <div class="card-body">
+                                            <h4 class="card-title font-16 mt-0">@lang('If you cannot find a solution to the problem you are facing in the help content. You can send a technical support ticket and select the relevant department from below.')</h4>
 
-                            <div class="col-xl-12">
-                                <div class="card m-b-30">
-                                    <h5 class="card-header mt-0">تنبيه!</h5>
-                                    <div class="card-body">
-                                        <h4 class="card-title font-16 mt-0">اذا كنت لا تستطيع ايجاد حل للمشكله التي تواجهك في محتوي المساعدة . يمكنك  ارسال تذكرة دعم فني  وحدد القسم المختص من الاسفل.</h4>
-
-                                        <div class="col-sm-6 col-xl-3">
-                                            <div class="card">
-                                                <div class="card-heading p-4">
-                                                    <div class="mini-stat-icon float-left">
-                                                        <a href="#"><i class="mdi mdi-email bg-primary  text-white"></i></a>
-
-                                                        <h5 class="font-16">مركز الدعم الفني</h5>
-
+                                            <div class="row">
+                                                <div class="col-sm-6 col-xl-3">
+                                                    <div class="card shadow-sm">
+                                                        <div class="card-heading p-4">
+                                                            <div class="mini-stat-icon float-left">
+                                                                <p>{{ $settings->support_email }}</p>
+                                                                <a href="mailto:{{ $settings->support_email }}"><i class="mdi mdi-email bg-primary text-white"></i></a>
+                                                                <h5 class="font-16">@lang('Technical support center')</h5>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
+                                                </div>
+                                                <div class="col-sm-6 col-xl-3">
+                                                    <div class="card shadow-sm">
+                                                        <div class="card-heading p-4">
+                                                            <div class="mini-stat-icon float-left">
+                                                                <p>{{ $settings->support_phone }}</p>
+                                                                <a href="tel:{{ $settings->support_phone }}"><i class="mdi mdi-phone bg-primary text-white"></i></a>
+                                                                <h5 class="font-16">@lang('Technical support center')</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+
 
                                 <h4 class="mt-0 header-title">
 
@@ -75,22 +87,14 @@
                                             @foreach($tickets as $ticket)
                                             <tr>
                                                 <th scope="row">{{ $loop->iteration }}</th>
-                                                <td>{{ $ticket->id }}</td> <!-- Assuming id is the ticket number -->
+                                                <td>{{$ticket->formatted_id  }}</td> <!-- Assuming id is the ticket number -->
                                                 <td>{{  $ticket->ticketType->name }}</td> <!-- Assuming type is the ticket type -->
                                                 <td>{{ $ticket->subject }}</td> <!-- Assuming subject is the ticket address -->
                                                 <td>{{ __($ticket->status) }}</td> <!-- Assuming status is the ticket status -->
                                                 <td>
                                                     <a href="{{ route('Broker.Tickets.show', $ticket->id) }}"
                                                         class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Show')</a>
-                                                    <a href="javascript:void(0);" onclick="handleDelete()"
-                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                        @lang('Delete')
-                                                    </a>
-                                                    <form id="delete-form" action="{{ route('Broker.Tickets.destroy', $ticket->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
+
                                                 </td>
                                             </tr>
                                             @endforeach

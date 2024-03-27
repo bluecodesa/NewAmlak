@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Tickets')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Tickets')</a></li>
                                         <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
@@ -34,7 +34,7 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                             <div class="col-md-6" >
-                                    <a href="{{ route('Admin.SupportTickets.create') }}"
+                                    <a href="{{ route('Admin.SupportTickets.createTicketType') }}"
                                         class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
                                         @lang('Add New Ticket')
                                     </a>
@@ -57,7 +57,7 @@
                                                 <td>{{ $ticket->name }} </td>
                                                 <td>
 
-                                                    <a href="{{ route('Admin.SupportTickets.edit', $ticket->id) }}"
+                                                    <a href="{{ route('Admin.SupportTickets.editTicketType', $ticket->id) }}"
                                                         class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
                                                     <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $ticket->id }}')"
@@ -65,7 +65,7 @@
                                                         @lang('Delete')
                                                     </a>
                                                     <form id="delete-form-{{ $ticket->id }}"
-                                                        action="{{ route('Admin.SupportTickets.destroy', $ticket->id) }}"
+                                                        action="{{ route('Admin.SupportTickets.destroyTicketType', $ticket->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')

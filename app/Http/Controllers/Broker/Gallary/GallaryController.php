@@ -76,18 +76,30 @@ class GallaryController extends Controller
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
         $brokerId = auth()->user()->UserBrokerData->id;
+
+        // Get all units for the broker
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
-        //filters
+        $uniqueIds = $units->pluck('CityData.id')->unique();
+        $uniqueNames = $units->pluck('CityData.name')->unique();
+        $unitsWithDistricts = $units->filter(function ($unit) {
+            return $unit->CityData->DistrictsCity->isNotEmpty();
+        });
+
+        $uniqueDistrictIds = $unitsWithDistricts->pluck('CityData.DistrictsCity.*.id')->flatten()->unique();
+        $uniqueDistrictNames = $unitsWithDistricts->pluck('CityData.DistrictsCity.*.name')->flatten()->unique();
+
+
+        // Filter units based on request parameters
         $adTypeFilter = request()->input('ad_type_filter', 'all');
         $typeUseFilter = request()->input('type_use_filter', 'all');
-        $cityFilter = request()->input('city_filter');
-        $districtFilter = request()->input('district_filter');
-        $projectFilter = request()->input('project_filter');
+        $cityFilter = request()->input('city_filter', 'all');
+        $districtFilter = request()->input('district_filter', 'all');
+        $projectFilter = request()->input('project_filter', 'all');
         $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter);
-        // dd($units);
-        //
+        // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
+
         return view('Broker.Gallary.index', get_defined_vars());
     }
 
@@ -144,7 +156,7 @@ class GallaryController extends Controller
 
 
 
-        public function showUnitPublic($gallery_name, $id)
+    public function showUnitPublic($gallery_name, $id)
         {
 
             $data = $this->galleryService->showUnitPublic($gallery_name, $id);
@@ -156,6 +168,8 @@ class GallaryController extends Controller
 
         public function showByName($name)
         {
+            $usages =  $this->propertyUsageService->getAllPropertyUsages();
+
             $data = $this->galleryService->showByName($name);
             if (empty($data)) {
                 return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
@@ -229,6 +243,30 @@ class GallaryController extends Controller
         // Return the QR code as a downloadable file
     }
 
+
+
+    ///
+
+
+    public function fetchFilteredUnits(Request $request)
+{
+    // Retrieve filter parameters from the request
+    $cityId = $request->input('city_filter');
+    $prjId = $request->input('prj_filter');
+    $type = $request->input('type_filter');
+    $priceFrom = $request->input('price_from');
+    $priceTo = $request->input('price_to');
+
+    // Query to fetch filtered units based on filter parameters
+    $filteredUnits = Unit::where('city_id', $cityId)
+        ->where('project_id', $prjId)
+        ->where('type', $type)
+        ->whereBetween('price', [$priceFrom, $priceTo])
+        ->get();
+
+    // Return JSON response with filtered units
+    return response()->json($filteredUnits);
+}
 
 
 }

@@ -182,7 +182,7 @@
                                     <div class="col-sm-12 col-md-3 mb-3">
                                         <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
                                         </label>
-                                        <input type="checkbox" required name="show_gallery"
+                                        <input type="checkbox" name="show_gallery"
                                             {{ $Unit->show_gallery == 1 ? 'checked' : '' }} class="toggleHomePage"
                                             data-toggle="toggle" data-onstyle="primary">
                                     </div>
@@ -210,9 +210,8 @@
 
 
                                     <div class="form-group col-md-3 mb-3">
-                                        <label>@lang('services') <span class="required-color">*</span> </label>
-                                        <select class="select2 form-control" name="service_id[]" multiple="multiple"
-                                            required>
+                                        <label>@lang('services')</label>
+                                        <select class="select2 form-control" name="service_id[]" multiple="multiple">
                                             <option disabled value="">@lang('services')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}"
@@ -238,14 +237,14 @@
                                         @foreach ($Unit->UnitFeatureData as $feature)
                                             <div class="row p-1">
                                                 <div class="col">
-                                                    <input type="text" required name="name[]"
-                                                        class="form-control search" placeholder="@lang('Field name')"
+                                                    <input type="text" name="name[]" class="form-control search"
+                                                        placeholder="@lang('Field name')"
                                                         value="{{ $feature->FeatureData->name }}" />
                                                 </div>
                                                 <div class="col">
-                                                    <input type="text" required name="qty[]"
-                                                        value="{{ $feature->qty }}" class="form-control"
-                                                        placeholder="@lang('value')" value="" />
+                                                    <input type="text" name="qty[]" value="{{ $feature->qty }}"
+                                                        class="form-control" placeholder="@lang('value')"
+                                                        value="" />
                                                 </div>
                                                 <div class="col">
                                                     <button type="button"
@@ -262,6 +261,7 @@
                                     <div class="col-sm-12 col-md-12 mb-3">
                                         <label class="form-label">@lang('Pictures property') </label>
                                         <input type="file" name="images[]"
+                                            data-url="{{ route('Broker.Unit.deleteImage', $Unit->id) }}"
                                             @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif
                                             multiple class="dropify" accept="image/jpeg, image/png" />
                                     </div>
@@ -290,6 +290,17 @@
             $(document).ready(function() {
                 $(document).on('click', '.remove-feature', function() {
                     $(this).closest('.row').remove();
+                });
+            });
+
+            $('.dropify-clear').click(function() {
+                var url = $('.dropify').data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function(data) {
+                        alertify.success(@json(__('The image has been successfully deleted')));
+                    },
                 });
             });
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\Ticket;
+use App\Models\TicketResponse;
 use App\Models\TicketType;
 use Illuminate\Http\Request;
 
@@ -15,9 +17,14 @@ class TicketController extends Controller
     public function index()
     {
         //
-        $broker_id = auth()->user()->UserBrokerData->id;
-        $tickets = Ticket::where('broker_id', $broker_id)->get();
+        $user_id = auth()->user()->id;
+        $tickets = Ticket::where('user_id', $user_id)->get();
+        $settings = Setting::first();
 
+        $tickets->transform(function ($ticket) {
+            $ticket->formatted_id = "100{$ticket->id}";
+            return $ticket;
+        });
         return view ('Broker.Ticket.index',get_defined_vars());
     }
 
@@ -56,19 +63,10 @@ class TicketController extends Controller
             $validatedData['image'] = '/Brokers/Tickets/' . $fileName;
         }
 
-        // Create a new ticket instance
         $ticket = new Ticket();
-        $user = auth()->user();
-        $broker_id = auth()->user()->UserBrokerData->id;
+        $user_id = auth()->user()->id;
+        $ticket->user_id = $user_id;
 
-
-        if ($user->is_broker) {
-            // If the user is a broker, set the broker_id
-            $ticket->broker_id = $broker_id;
-        } elseif ($user->is_office) {
-            // If the user is an office, set the office_id
-            $ticket->office_id = $user->id; // Assuming the office ID is the user ID
-        }
         $ticket->subject = $validatedData['subject'];
         $ticket->content = $validatedData['content'];
         $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null
@@ -85,9 +83,12 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        //
+
         $ticket = Ticket::findOrFail($id);
-        return view('Broker.Ticket.show', compact('ticket'));
+        $user=auth()->user();
+       $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
+
+        return view('Broker.Ticket.show',get_defined_vars());
     }
 
     /**
@@ -113,4 +114,55 @@ class TicketController extends Controller
     {
         //
     }
+
+    public function addResponse(Request $request, $ticketId)
+    {
+        $request->validate([
+            'response' => 'required|string',
+            'response_attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules for the attachment
+        ]);
+
+
+
+        $ticket = Ticket::findOrFail($ticketId);
+
+        if ($ticket->status === 'Closed') {
+            return redirect()->back()->with('error', __('Cannot add response. Ticket is already closed.'));
+        }
+
+        if ($ticket->status !== 'Waiting for customer') {
+            $ticket->status = 'Waiting for technical support';
+            $ticket->save();
+        }
+
+        $response = new TicketResponse();
+        $response->ticket_id = $ticketId;
+        $response->user_id = auth()->user()->id;
+        $response->response = $request->input('response');
+
+        if ($request->hasFile('response_attachment')) {
+            $file = $request->file('response_attachment');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = uniqid() . '.' . $ext;
+            $file->move(public_path('Tickets/responses'), $fileName);
+            $response->response_attachment = 'Tickets/responses/' . $fileName; // Save the file path without leading slash
+        }
+
+
+
+        $response->save();
+
+        return redirect()->back()->with('success', __('Response added successfully'));
+    }
+    public function closeTicket(Request $request, $id)
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        $ticket->status = 'Closed';
+        $ticket->save();
+
+        return redirect()->back()->with('success', __('Ticket closed successfully'));
+    }
+
+
 }

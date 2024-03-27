@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\PropertyImage;
 use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
@@ -14,6 +15,7 @@ use App\Services\PropertyUsageService;
 use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PropertyController extends Controller
 {
@@ -60,6 +62,26 @@ class PropertyController extends Controller
 
     public function store(Request $request)
     {
+
+        $rules = [];
+        $rules = [
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'service_type_id' => 'required|exists:service_types,id',
+            // 'is_divided' => 'required|boolean',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('properties'),
+                'max:25'
+            ],
+        ];
+        $messages = [
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+        ];
+        $request->validate($rules, $messages);
+
         $images = $request->file('images');
         $this->PropertyService->store($request->except('images'), $images);
         return redirect()->route('Broker.Property.index')->with('success', __('added successfully'));
@@ -87,8 +109,27 @@ class PropertyController extends Controller
 
     public function update(Request $request, $id)
     {
-        $images = $request->image;
-        $this->PropertyService->update($id, $request->except('image'), $images);
+        $rules = [];
+        $rules = [
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'service_type_id' => 'required|exists:service_types,id',
+            // 'is_divided' => 'required|boolean',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('properties')->ignore($id),
+                'max:25'
+            ],
+        ];
+        $messages = [
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+        ];
+        $request->validate($rules, $messages);
+
+        $images = $request->images;
+        $this->PropertyService->update($id, $request->except('images'), $images);
         return redirect()->route('Broker.Property.index')->with('success', __('Update successfully'));
     }
 
@@ -126,5 +167,16 @@ class PropertyController extends Controller
     {
         $this->PropertyService->StoreUnit($id, $request->all());
         return redirect()->route('Broker.Property.show', $id)->with('success', __('added successfully'));
+    }
+
+
+    function deleteImage($id)
+    {
+        $Property = $this->PropertyService->findById($id);
+        $Property->PropertyImages()->delete();
+        PropertyImage::create([
+            'image' => '/Brokers/Projects/default.jpg',
+            'property_id' => $id,
+        ]);
     }
 }

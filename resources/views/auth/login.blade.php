@@ -25,6 +25,14 @@
         * {
             font-family: 'Tajawal';
         }
+
+        .hover-zoom:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+.pointer {
+    cursor: pointer;
+}
     </style>
 </head>
 
@@ -132,23 +140,23 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-12 col-md-6 account_type next-step pointer" onclick="redirectToCreateOffice()">
-                                    <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <div class="img-smm-y">
-                                                <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }}" class="img-fluid">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="card shadow-sm hover-zoom" onclick="redirectToCreateOffice()">
+                                        <div class="card-body pointer">
+                                            <div class="fas fa-building">
+                                                <p class="mt-2">مكتب </p>
                                             </div>
-                                            <p class="mt-2">مكتب </p>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-sm-12 col-md-6 pointer" onclick="redirectToCreateBroker()">
-                                    <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <div class="img-smm-y">
-                                                <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }}" class="img-fluid">
+                                    <div class="card shadow-sm hover-zoom">
+                                        <div class="card-body pointer">
+                                            <div class="fas fa-home">
+                                                <p class="mt-2 ">مسوق عقاري</p>
+
                                             </div>
-                                            <p class="mt-2">مسوق عقاري</p>
                                         </div>
                                     </div>
                                 </div>

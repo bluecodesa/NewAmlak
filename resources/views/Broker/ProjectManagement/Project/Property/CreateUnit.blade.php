@@ -145,7 +145,8 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Area (square metres)')</label>
+                                        <label class="form-label">@lang('Area (square metres)') <span class="required-color">*</span>
+                                        </label>
                                         <input type="number" required name="space" class="form-control"
                                             placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
                                     </div>
@@ -194,9 +195,8 @@
 
 
                                     <div class="form-group col-md-3 mb-3">
-                                        <label>@lang('services') <span class="required-color">*</span> </label>
-                                        <select class="select2 form-control" name="service_id[]" multiple="multiple"
-                                            required>
+                                        <label>@lang('services') </label>
+                                        <select class="select2 form-control" name="service_id[]" multiple="multiple">
                                             <option disabled value="">@lang('services')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}">
@@ -221,7 +221,7 @@
                                             </div>
                                             <div class="col">
                                                 <input type="text" name="qty[]" class="form-control"
-                                                    placeholder="@lang('value')" value="{{ old('qty') }}" />
+                                                    placeholder="@lang('value')" value="{{ old('qty*') }}" />
                                             </div>
                                             <div class="col">
                                                 <button type="button" class="btn btn-primary w-100"

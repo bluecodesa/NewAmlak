@@ -18,7 +18,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\SubscriptionTypeRole;
-
+use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -218,6 +218,8 @@ class HomeController extends Controller
             'password.required' => __('The password field is required.'),
             'broker_logo.image' => __('The broker logo must be an image.'),
             'id_number.unique' => __('The ID number has already been taken.'),
+            'password.confirmed' => __('The password confirmation does not match.'),
+
 
         ];
 
@@ -321,4 +323,8 @@ class HomeController extends Controller
         $user = User::find(Auth::id());
         $user->update(['fcm_token' => $request->token]);
     }
+
+
+
+
 }

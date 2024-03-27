@@ -155,9 +155,8 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Area (square metres)') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="space" class="form-control"
+                                        <label class="form-label">@lang('Area (square metres)')</label>
+                                        <input type="number" name="space" class="form-control"
                                             placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
                                     </div>
 
@@ -205,9 +204,8 @@
 
 
                                     <div class="form-group col-md-3 mb-3">
-                                        <label>@lang('services') <span class="required-color">*</span> </label>
-                                        <select class="select2 form-control" name="service_id[]" required
-                                            multiple="multiple">
+                                        <label>@lang('services') </label>
+                                        <select class="select2 form-control" name="service_id[]" multiple="multiple">
                                             <option disabled value="">@lang('services')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}">
@@ -218,7 +216,7 @@
 
                                     <div class="col-sm-12 col-md-6 mb-3" hidden>
                                         <label class="form-label">@lang('lat&long')</label>
-                                        <input type="text" required readonly name="lat_long" id="location_tag"
+                                        <input type="text" readonly name="lat_long" id="location_tag"
                                             class="form-control" placeholder="@lang('lat&long')"
                                             value="{{ old('location_tag') }}" />
                                     </div>

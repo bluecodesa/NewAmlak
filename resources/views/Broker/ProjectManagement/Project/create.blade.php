@@ -279,7 +279,7 @@
                     var lat = place.geometry.location.lat();
                     var long = place.geometry.location.lng();
                     // $("#address").val(address);
-                    // $("#location_tag").val(lat + "," + long);
+                    $("#location_tag").val(lat + "," + long);
                     // Log the details to the console (or do something else with them)
                 });
             });

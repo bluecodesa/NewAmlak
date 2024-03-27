@@ -55,23 +55,6 @@ class PropertyService
 
     public function update($id, $data, $images)
     {
-        // Validation rules
-        $rules = [
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'service_type_id' => 'required|exists:service_types,id',
-            // 'is_divided' => 'required|boolean',
-            'city_id' => 'required|exists:cities,id',
-            'owner_id' => 'required|exists:owners,id',
-            'instrument_number' => [
-                'nullable',
-                Rule::unique('properties')->ignore($id),
-                'max:25'
-            ],
-        ];
-
-        // Validate data
-        validator($data, $rules)->validate();
 
         // Update project
         $project = $this->PropertyRepository->update($id, $data, $images);
@@ -106,18 +89,18 @@ class PropertyService
             ],
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
-            'space' => 'required|numeric',
-            'rooms' => 'sometimes|numeric',
-            'bathrooms' => 'sometimes|numeric',
-            'show_gallery' => 'nullable',
-            'price' => 'required|numeric',
+            // 'space' => 'sometimes|numeric',
+            // 'rooms' => 'sometimes|numeric',
+            // 'bathrooms' => 'sometimes|numeric',
+            // 'show_gallery' => 'nullable',
+            // 'price' => 'required|numeric',
             'type' => ['required', Rule::in(['sale', 'rent'])],
-            'service_id' => 'required|array',
-            'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
-            'name' => 'required|array',
-            'name.*' => 'string',
-            'qty' => 'required|array',
-            'qty.*' => 'integer|min:0',
+            // 'service_id' => 'required|array',
+            // 'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
+            // 'name' => 'required|array',
+            // 'name.*' => 'string',
+            // 'qty' => 'required|array',
+            // 'qty.*' => 'integer|min:0',
         ];
 
         // Validate data

@@ -43,4 +43,13 @@ class Project extends Model
     {
         return $this->belongsTo(ServiceType::class, 'service_type_id');
     }
+
+    public function getImageUrlAttribute()
+    {
+        $imageUrl = $this->image ? url($this->image) : url('/Brokers/Projects/default.jpg');
+        if (!file_exists(public_path($this->image))) {
+            $imageUrl = url('/Brokers/Projects/default.jpg');
+        }
+        return $imageUrl;
+    }
 }

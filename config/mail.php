@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+
+$email = DB::table('email_settings')->first();
 return [
 
     /*
@@ -36,11 +39,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.titan.email'),
-            'port' => env('MAIL_PORT', 465),
+            'host' => env('MAIL_HOST', $email->host),
+            'port' => env('MAIL_PORT', $email->port),
             'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
-            'username' => 'info@trymarafiq.com',
-            'password' => '46554655Amr@',
+            'username' => $email->user_name,
+            'password' => $email->password,
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -84,7 +87,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_DRIVER', 'info@trymarafiq.com'),
+        'address' => env('MAIL_DRIVER', $email->user_name),
         'name' => env('MAIL_USERNAME', 'amalak'),
     ],
 
