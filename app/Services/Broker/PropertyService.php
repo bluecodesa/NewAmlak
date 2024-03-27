@@ -97,9 +97,9 @@ class PropertyService
             'type' => ['required', Rule::in(['sale', 'rent'])],
             // 'service_id' => 'required|array',
             // 'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
-            'name' => 'required|array',
+            // 'name' => 'required|array',
             // 'name.*' => 'string',
-            'qty' => 'required|array',
+            // 'qty' => 'required|array',
             // 'qty.*' => 'integer|min:0',
         ];
 
