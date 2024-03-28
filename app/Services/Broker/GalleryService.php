@@ -127,26 +127,27 @@ class GalleryService
     }
 
     public function showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo )
-    {
-    $usages =  $this->propertyUsageService->getAll();
 
-    $gallery = $this->galleryRepository->findByGalleryName($name);
-    if ($gallery->gallery_status == 0) {
-        return [];
-    } else {
+    {
+        $usages =  $this->propertyUsageService->getAll();
+
+        $gallery = $this->galleryRepository->findByGalleryName($name);
+        if ($gallery->gallery_status == 0) {
+            return [];
+        }else{
+
         $units = $this->UnitRepository->getAll($gallery['broker_id']);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $units = $this->filterUnitsPublic($units, $cityFilter,$projectFilter, $typeUseFilter,$adTypeFilter,$priceFrom, $priceTo);
         $unit = $units->first();
+
         if ($unit) {
             $id = $unit->id;
             // $unitDetails = $this->galleryRepository->findById($id);
-            // dd($unitDetails);
             $unit_id = $unit->id;
             $broker = Broker::findOrFail($unit->broker_id);
             $user_id = $broker->user_id;
-
         } else {
             $unit_id = null;
             $unitDetails = null;
@@ -155,8 +156,8 @@ class GalleryService
 
         return get_defined_vars();
     }
-}
 
+}
 
 public function filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter,$adTypeFilter, $priceFrom, $priceTo)
 {
@@ -188,35 +189,33 @@ public function filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseF
             $units = $units->where('price', '<=', $priceTo);
         }
 
-
-    return $units;
-}
-
-
-public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter)
-{
-    // Filter by advertisement type if not 'all'
-    if ($adTypeFilter !== 'all') {
-        $units = $units->where('type', $adTypeFilter);
+        return $units;
     }
 
-    // Filter by property usage if not 'all'
-    if ($typeUseFilter !== 'all') {
-        $units = $units->where('property_usage_id', $typeUseFilter);
-    }
+    public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter)
+    {
+        // Filter by advertisement type if not 'all'
+        if ($adTypeFilter !== 'all') {
+            $units = $units->where('type', $adTypeFilter);
+        }
 
-    // Filter by city if not 'all'
-    if ($cityFilter !== 'all') {
-        $units = $units->where('city_id', $cityFilter);
-    }
+        // Filter by property usage if not 'all'
+        if ($typeUseFilter !== 'all') {
+            $units = $units->where('property_usage_id', $typeUseFilter);
+        }
 
-    // Filter by district if not 'all'
-    if ($districtFilter !== 'all') {
-        $units = $units->where('district_id', $districtFilter);
-    }
+        // Filter by city if not 'all'
+        if ($cityFilter !== 'all') {
+            $units = $units->where('city_id', $cityFilter);
+        }
 
-    return $units;
-}
+        // Filter by district if not 'all'
+        if ($districtFilter !== 'all') {
+            $units = $units->where('district_id', $districtFilter);
+        }
+
+        return $units;
+    }
 
 
 

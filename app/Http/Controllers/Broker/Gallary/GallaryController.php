@@ -166,9 +166,10 @@ class GallaryController extends Controller
             return view('Home.Gallery.Unit.show', $data);
         }
 
-    public function showByName(Request $request, $name)
+        public function showByName(Request $request, $name)
+        {
 
-    {
+
             $cityFilter = $request->input('city_filter', 'all');
             $projectFilter = $request->input('project_filter', 'all');
             $typeUseFilter = $request->input('type_use_filter', 'all');
@@ -184,6 +185,7 @@ class GallaryController extends Controller
                 }
                 return view('Home.Gallery.index',$data);
     }
+
 
     public function update(Request $request, $galleryId)
     {
@@ -246,6 +248,7 @@ class GallaryController extends Controller
             echo file_get_contents($dataUri);
         }, 200, $headers);
     }
+
 
 
 }

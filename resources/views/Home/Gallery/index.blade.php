@@ -97,13 +97,13 @@
 
                         </form>
 
-                            {{-- <div class="col-12 p-0 mt-4" style="margin-left:0.5rem;margin-right:0.5rem;width:90%">
-                                <div class="row d-flex justify-content-between m-0 p-0 filter-statuses">
+
+                                {{-- <div class="row d-flex justify-content-between m-0 p-0 filter-statuses">
                                     <div class="w-auto item sale" onclick="reloadUnits('sale')" status="sale">للبيع</div>
                                     <div class="w-auto item rent" onclick="reloadUnits('rent')" status="rent">للايجار</div>
                                     <div class="w-auto item both" onclick="reloadUnits('both')" status="both">بيع/إيجار</div>
                                 </div>
-                            </div> --}}
+                            </div>  --}}
                             <div class="row mt-3">
                                 <div class="form-group d-flex">
                                     <input type="checkbox" id="without_images" name="without_images" onchange="reloadUnits()">
