@@ -37,7 +37,7 @@
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p><strong>@lang('Ticket Number'):</strong> {{ $ticket->id }}</p>
+                                    <p><strong>@lang('Ticket Number'):</strong> {{ $formatted_id }}</p>
                                     <p><strong>@lang('Ticket Type'):</strong> {{ $ticket->ticketType->name }}</p>
                                     <p><strong>@lang('Ticket Address'):</strong> {{ $ticket->subject }}</p>
                                     <p><strong>@lang('Ticket Status'):</strong> {{ __($ticket->status) }}</p>

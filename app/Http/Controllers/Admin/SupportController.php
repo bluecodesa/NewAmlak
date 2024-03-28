@@ -55,6 +55,7 @@ class SupportController extends Controller
     {
         //
            $ticket = Ticket::findOrFail($id);
+           $formatted_id = "100{$ticket->id}";
             $user=auth()->user();
            // Load ticket responses
            $ticketResponses = TicketResponse::where('ticket_id', $id)->get();

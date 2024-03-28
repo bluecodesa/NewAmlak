@@ -70,6 +70,15 @@
                                     </select>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
+                                    <span>@lang('Ad type')</span>
+                                    <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
+                                     <option value="all">@lang('All')</option>
+                                @foreach (['rent', 'sale', 'rent_sale'] as $type)
+                                    <option value="{{ $type }}">{{ __($type) }}</option>
+                                @endforeach
+                            </select>
+                                </div>
+                                <div class="col-12 p-0 ml-2">
                                     <span>السعر</span>
                                     <div class="row m-0 p-0 gap-3">
                                         <div class="col-5 p-0">
@@ -80,21 +89,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-12 p-0 ml-2">
-                                    <button type="submit" class="btn btn-primary">تطبيق الفلتر</button>
+                                    <button type="submit" class="btn btn-primary">@lang('Filter')</button>
                                     <a href="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
                                 </div>
-                            
+
                         </form>
-                        
-                            <div class="col-12 p-0 mt-4" style="margin-left:0.5rem;margin-right:0.5rem;width:90%">
+
+                            {{-- <div class="col-12 p-0 mt-4" style="margin-left:0.5rem;margin-right:0.5rem;width:90%">
                                 <div class="row d-flex justify-content-between m-0 p-0 filter-statuses">
                                     <div class="w-auto item sale" onclick="reloadUnits('sale')" status="sale">للبيع</div>
                                     <div class="w-auto item rent" onclick="reloadUnits('rent')" status="rent">للايجار</div>
                                     <div class="w-auto item both" onclick="reloadUnits('both')" status="both">بيع/إيجار</div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row mt-3">
                                 <div class="form-group d-flex">
                                     <input type="checkbox" id="without_images" name="without_images" onchange="reloadUnits()">

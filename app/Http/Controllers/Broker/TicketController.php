@@ -85,6 +85,7 @@ class TicketController extends Controller
     {
 
         $ticket = Ticket::findOrFail($id);
+        $formatted_id = "100{$ticket->id}";
         $user=auth()->user();
        $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
 

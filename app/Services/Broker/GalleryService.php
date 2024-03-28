@@ -126,7 +126,7 @@ class GalleryService
         return get_defined_vars();
     }
 
-    public function showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$priceFrom , $priceTo )
+    public function showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo )
     {
     $usages =  $this->propertyUsageService->getAll();
 
@@ -137,7 +137,7 @@ class GalleryService
         $units = $this->UnitRepository->getAll($gallery['broker_id']);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
-        $units = $this->filterUnitsPublic($units, $cityFilter,$projectFilter, $typeUseFilter,$priceFrom, $priceTo);
+        $units = $this->filterUnitsPublic($units, $cityFilter,$projectFilter, $typeUseFilter,$adTypeFilter,$priceFrom, $priceTo);
         $unit = $units->first();
         if ($unit) {
             $id = $unit->id;
@@ -158,7 +158,7 @@ class GalleryService
 }
 
 
-public function filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter, $priceFrom, $priceTo)
+public function filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter,$adTypeFilter, $priceFrom, $priceTo)
 {
     // Filter by city if not 'all'
     if ($cityFilter !== 'all' ) {
@@ -173,6 +173,10 @@ public function filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseF
     // Filter by property usage if not 'all'
     if ($typeUseFilter !== 'all') {
         $units = $units->where('property_usage_id', $typeUseFilter);
+    }
+
+    if ($adTypeFilter !== 'all') {
+        $units = $units->where('type', $adTypeFilter);
     }
 
     // Filter by price range (from and to)

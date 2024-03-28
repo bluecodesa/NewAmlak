@@ -31,7 +31,9 @@
                             <div class="input-group">
                             <input type="text" class="form-control"
                             id="galleryName" disabled
-                            value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/{{ $gallery->gallery_name }}/{{ $unit->id }}">
+                            value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" />
+
+                            {{-- value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/{{ $gallery->gallery_name }}/{{ $unit->id }}"> --}}
                         <div class="input-group-append">
                             <span class="input-group-text"
                                 style="cursor: pointer;"
@@ -54,8 +56,8 @@
                             @php
                                 $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
                             @endphp
-                            <a href="{{ route('download.qrcode', $url) }}" class="d-block btn btn-new-b mt-3" style="width: fit-content">Download QR Code</a>
-                        </div>
+<a href="{{ route('download.qrcode', ['link' => $url]) }}" class="d-block btn btn-new-b mt-3" style="width: fit-content">Download QR Code</a>
+</div>
                     </div>
                 </div>
             </div>

@@ -172,11 +172,12 @@ class GallaryController extends Controller
             $cityFilter = $request->input('city_filter', 'all');
             $projectFilter = $request->input('project_filter', 'all');
             $typeUseFilter = $request->input('type_use_filter', 'all');
+            $adTypeFilter = request()->input('ad_type_filter', 'all');
             $priceFrom = $request->input('price_from',null);
             $priceTo = $request->input('price_to',null);
 
             // Call the showByName() method with all required arguments
-            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$priceFrom , $priceTo);
+            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo);
             // dd($data);
                 if (empty($data)) {
                     return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
@@ -230,28 +231,23 @@ class GallaryController extends Controller
 
 
 
-        public function downloadQrCode($url)
+
+    public function downloadQrCode($link)
     {
-        // Generate the QR code as a data URI
-        $qrCode = QrCode::size(200)->generate($url);
+        $qrCode = QrCode::size(200)->generate($link);
         $dataUri = 'data:image/png;base64,' . base64_encode($qrCode);
 
-        // Set response headers for downloading the file
         $headers = [
             'Content-Type' => 'image/png',
             'Content-Disposition' => 'attachment; filename="qrcode.png"',
         ];
 
-        // Return the QR code as a downloadable file
         return response()->stream(function () use ($dataUri) {
             echo file_get_contents($dataUri);
         }, 200, $headers);
-        // Return the QR code as a downloadable file
     }
 
 
-
-    ///
 }
 
 
