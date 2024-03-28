@@ -145,6 +145,12 @@ class UnitController extends Controller
         return redirect()->route('Broker.Unit.index')->with('success', __('Deleted successfully'));
     }
 
+    public function destroyUnitGallery(string $id)
+    {
+        $this->UnitService->delete($id);
+        return redirect()->route('Broker.Gallery.index')->with('success', __('Deleted successfully'));
+    }
+
     function deleteImage($id)
     {
         $unit = $this->UnitService->findById($id);

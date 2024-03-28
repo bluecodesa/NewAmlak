@@ -237,11 +237,11 @@ class GallaryController extends Controller
     public function downloadQrCode($link)
     {
         $qrCode = QrCode::size(200)->generate($link);
-        $dataUri = 'data:image/png;base64,' . base64_encode($qrCode);
+        $dataUri = 'data:image/jpg;base64,' . base64_encode($qrCode);
 
         $headers = [
-            'Content-Type' => 'image/png',
-            'Content-Disposition' => 'attachment; filename="qrcode.png"',
+            'Content-Type' => 'image/jpg',
+            'Content-Disposition' => 'attachment; filename="qrcode.jpg"',
         ];
 
         return response()->stream(function () use ($dataUri) {

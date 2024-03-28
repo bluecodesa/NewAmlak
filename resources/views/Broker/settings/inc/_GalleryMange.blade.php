@@ -14,6 +14,10 @@ aria-labelledby="v-pills-gallary-tab">
                     method="post">
                     @csrf
                     @method('PUT')
+
+                    @error('gallery_name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                     @enderror
                     <div class="form-group">
                         <label
                             for="galleryName">@lang('Gallery URL')</label>
@@ -45,7 +49,7 @@ aria-labelledby="v-pills-gallary-tab">
                                     id="editGalleryName"
                                     placeholder="@lang('Gallery Name')"
                                     value="{{ explode('@', $gallery->gallery_name)[0] }}"
-                                    oninput="validateName(this)">
+                                    oninput="trimInput(this)">
                                 <input type="text"
                                     class="form-control"
                                     id="galleryName" disabled
@@ -144,3 +148,9 @@ aria-labelledby="v-pills-gallary-tab">
 </div>
 
 @endif
+
+<script>
+    function trimInput(input) {
+        input.value = input.value.trim();
+    }
+</script>

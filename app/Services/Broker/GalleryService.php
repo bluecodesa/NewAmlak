@@ -62,8 +62,8 @@ class GalleryService
             'gallery_status' => 'nullable|in:0,1',
         ]);
         $messages = [
-            'gallery_name.required' => __('The gallery_name field is required.'),
-            'gallery_name.unique' => __('The gallery_name has already been taken.'),
+            'gallery_name.required' => __('The gallery name field is required.'),
+            'gallery_name.unique' => __('The gallery name has already been taken.'),
         ];
         validator($data, $messages)->validate();
 

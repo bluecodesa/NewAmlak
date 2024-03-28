@@ -56,8 +56,8 @@
                             @php
                                 $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
                             @endphp
-<a href="{{ route('download.qrcode', ['link' => $url]) }}" class="d-block btn btn-new-b mt-3" style="width: fit-content">Download QR Code</a>
-</div>
+                        <a href="{{ route('download.qrcode', ['link' => $url]) }}" class="d-block btn btn-new-b mt-3" style="width: fit-content">Download QR Code</a>
+                        </div>
                     </div>
                 </div>
             </div>
