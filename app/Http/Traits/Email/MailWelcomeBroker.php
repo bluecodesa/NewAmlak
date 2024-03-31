@@ -36,10 +36,10 @@ trait MailWelcomeBroker
                 $placeholder = '$data[' . $key . ']';
                 $content = str_replace($placeholder, $value, $content);
             }
-            try {
-                Mail::to($email)->send(new WelcomeBroker($data, $content, $subject, $EmailTemplate));
-            } catch (\Throwable $th) {
-            }
+            // try {
+            Mail::to($email)->send(new WelcomeBroker($data, $content, $subject, $EmailTemplate));
+            // } catch (\Throwable $th) {
+            // }
         }
     }
 }
