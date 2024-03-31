@@ -45,11 +45,20 @@ class LoginController extends Controller
             return redirect()->route('Admin.home');
         } else {
 
-            return back()->with('sorry', 'Email-Address And Password Are Wrong.');
+            $errors = [];
+
+            if (!filter_var($request->user_name, FILTER_VALIDATE_EMAIL)) {
+                $errors['user_name'] = __('The provided email is incorrect.');
+            } else {
+                $errors['password'] = __('The provided password is incorrect.');
+            }
+
+            return back()->withInput()->withErrors($errors);
         }
-
-
     }
+
+
+    
 
 
     public function __construct()

@@ -350,6 +350,9 @@
     "Ticket Details": "تفاصيل التذكرة",
     "Ticket Image": "صورة التذكره",
     "Closed": "مغلقة",
-    "All": "الكل"
+    "All": "الكل",
+    "Forgot your password?": "هل نسيت كلمه المرور؟",
+    "Verification Code": "رمز التحقق",
+    "Verify": "تحقق"
 
 }

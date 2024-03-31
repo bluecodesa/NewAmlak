@@ -53,9 +53,11 @@
                 </div>
                 <h5 class="font-18 text-center">@lang('sign in') </h5>
 
+                @include('Admin.layouts.Inc._errors')
+
                 <form class="form-horizontal m-t-30" method="POST" id="register" action="{{ route('login') }}">
                     @csrf
-                    @if ($errors->any())
+                    {{-- @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
                                 @foreach ($errors->all() as $error)
@@ -63,7 +65,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
+                    @endif --}}
 
                     {{-- <form class="form-horizontal m-t-30" method="POST"  id="register" action="{{ route('login') }}">
                                 @csrf --}}
@@ -72,11 +74,11 @@
                             <label>@lang('Email')</label>
                             <input class="form-control @error('user_name') is-invalid @enderror" type="text" required
                                 placeholder="الايميل" name="user_name">
-                            @error('user_name')
+                                {{-- @error('user_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                            @enderror
+                            @enderror --}}
                         </div>
                     </div>
 
@@ -108,8 +110,7 @@
 
                     <div class="form-group row m-t-30 m-b-0">
                         <div class="col-sm-7">
-                            <a href="pages-recoverpw.html" class="text-muted"><i class="fa fa-lock m-r-5"></i> Forgot
-                                your password?</a>
+                            <a href="{{ route('forget.password.get') }}" class="text-muted"><i class="fa fa-lock m-r-5"></i> @lang('Forgot your password?')</a>
                         </div>
                         <div class="col-sm-5 text-right">
                         <a class="text-muted" href="#" data-toggle="modal" data-target="#addSubscriberModal">@lang('Create an account')</a>

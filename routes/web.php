@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Middleware\PendingPaymentPopup;
 
@@ -60,6 +61,12 @@ Route::group(
         Route::get('/download-qrcode/{link}', [GallaryController::class, 'downloadQRCode'])->name('download.qrcode');
         Route::get('/filtered-units', [GallaryController::class, 'fetchFilteredUnits'])->name('filtered.units');
 
+        //rest password
+        Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+        Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+        Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+        Route::post('send-code', [ForgotPasswordController::class, 'submitCodeForm'])->name('reset.password.code');
+        Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
     }
 
 );
