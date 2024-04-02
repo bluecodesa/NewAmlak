@@ -34,7 +34,7 @@ use App\Http\Middleware\PendingPaymentPopup;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment','CheckSubscription','checkUserRole:broker']
     ],
     function () {
         Route::prefix('broker')->name('Broker.')->group(function () {

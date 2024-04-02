@@ -80,5 +80,8 @@ class Kernel extends HttpKernel
         'CheckSubscription' => CheckSubscriptionMiddleware::class,
         'pendingPayment'  => PendingPaymentPopup::class,
         'redirect.users' => \App\Http\Middleware\RedirectUsers::class,
+        'checkUserRole' => \App\Http\Middleware\CheckUserRole::class,
+
+
     ];
 }
