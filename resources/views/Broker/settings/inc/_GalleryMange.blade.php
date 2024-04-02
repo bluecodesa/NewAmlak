@@ -6,7 +6,7 @@ aria-labelledby="v-pills-gallary-tab">
     <div class="col-lg-10">
         <div class="card timeline shadow">
             <div class="card-header">
-                <h5 class="card-title">@lang('اعدادات المعرض')</h5>
+                <h5 class="card-title">@lang('Gallery setting')</h5>
             </div>
             <div class="card-body">
                 <form

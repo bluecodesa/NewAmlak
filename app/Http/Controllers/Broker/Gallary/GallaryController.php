@@ -78,7 +78,8 @@ class GallaryController extends Controller
         $brokerId = auth()->user()->UserBrokerData->id;
 
         // Get all units for the broker
-        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id)
+        ->where('show_gallery', 1);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $unitsWithDistricts = $units->filter(function ($unit) {
@@ -147,6 +148,7 @@ class GallaryController extends Controller
 
     public function showInterests()
     {
+
         $gallery = $this->galleryService->findByBrokerId(auth()->user()->UserBrokerData->id) ?? null;
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $interests =$this->settingService->getAllInterestTypes();
@@ -161,6 +163,7 @@ class GallaryController extends Controller
 
             $data = $this->galleryService->showUnitPublic($gallery_name, $id);
             if (empty($data)) {
+
                 return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
             }
             return view('Home.Gallery.Unit.show', $data);
@@ -181,7 +184,7 @@ class GallaryController extends Controller
             $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo);
             // dd($data);
                 if (empty($data)) {
-                    return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+                       return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
                 }
                 return view('Home.Gallery.index',$data);
     }

@@ -15,12 +15,21 @@ class RedirectUsers
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()) {
-            if ($request->user()->is_broker) {
+         if (auth()->check()) {
+            // Check if the authenticated user is a broker
+            if (auth()->user()->is_broker) {
                 return redirect()->route('Broker.home');
-            } elseif ($request->user()->is_office) {
+            }
+            // Check if the authenticated user is an office user
+            elseif (auth()->user()->is_office) {
                 return redirect()->route('Office.home');
             }
+            // Check if the authenticated user is an admin
+            // elseif (auth()->user()->is_admin) {
+            //     // Handle admin redirection if needed
+            //     // For example, you can redirect admins to a specific route
+            //     // return redirect()->route('admin.dashboard');
+            // }
         }
 
         return $next($request);

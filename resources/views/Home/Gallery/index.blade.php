@@ -9,16 +9,7 @@
         <div class="row gallery-public m-0 p-0 justify-content-center">
             <input hidden name="gallery_name" value="" />
             <div class="row p-0 mb-4">
-                <div class="gallery-cover"
-                style="background-image: url({{ $gallery->gallery_cover ? asset($gallery->gallery_cover) : asset('dashboard/assets/new-icons/cover1.png') }})">
-
-
-                {{-- @if ($gallery->gallery_cover)
-                    <img src="{{ asset($gallery->gallery_cover)}}" />
-                @else
-                    <img src="{{ asset('dashboard/assets/new-icons/cover1.png') }}" />
-                @endif --}}
-
+                <div class="gallery-cover" style="background-image: url({{ $gallery->gallery_cover ? asset($gallery->gallery_cover) : asset('dashboard/assets/new-icons/cover1.png') }}); height: 200px; width: 100%; background-size: cover;">
                 </div>
             </div>
 
@@ -37,15 +28,17 @@
             <div class="row p-0 gap-5 justify-content-center pe-2 ps-2">
                 <div class="filter-container-col">
                     <div class="filter">
-
                         <form action="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" method="GET">
                             <div class="row gap-3" style="align-items: end;">
                                 <div class="col-12 p-0 ml-2">
-                                    <span>المدينة</span>
-                                    <select class="form-control" name="city_filter" id="cityFilter">
-                                        <option value="all" {{ old('city_filter') == 'all' ? 'selected' : '' }}>@lang('All')</option>
+
+                                    <span>@lang('City')</span>
+                                    <select class="form-control form-control-sm" id="city_filter" name="city_filter">
+                                        <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
                                         @foreach ($uniqueIds as $index => $id)
-                                            <option value="{{ $id }}" {{ old('city_filter') == $id ? 'selected' : '' }}>{{ $uniqueNames[$index] }}</option>
+                                            <option value="{{ $id }}" {{ $cityFilter == $id ? 'selected' : '' }}>
+                                                {{ $uniqueNames[$index] }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -61,22 +54,26 @@
                                     </select>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
-                                    <span>الفئات</span>
-                                    <select class="form-control" name="type_use_filter" id="typeUseFilter">
-                                        <option value="all" {{ old('type_use_filter') == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                    <span>@lang('Type use')</span>
+                                    <select class="form-control form-control-sm" id="type_use_filter" name="type_use_filter">
+                                        <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
                                         @foreach ($usages as $usage)
-                                            <option value="{{ $usage->id }}" {{ old('type_use_filter') == $usage->id ? 'selected' : '' }}>{{ $usage->name }}</option>
+                                            <option value="{{ $usage->id }}" {{ $typeUseFilter == $usage->id ? 'selected' : '' }}>
+                                                {{ $usage->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Ad type')</span>
-                                    <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
-                                     <option value="all">@lang('All')</option>
-                                @foreach (['rent', 'sale', 'rent_sale'] as $type)
-                                    <option value="{{ $type }}">{{ __($type) }}</option>
-                                @endforeach
-                            </select>
+                        <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
+                            <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                            @foreach (['rent', 'sale', 'rent_sale'] as $type)
+                                <option value="{{ $type }}" {{ $adTypeFilter == $type ? 'selected' : '' }}>
+                                    {{ __($type) }}
+                                </option>
+                            @endforeach
+                        </select>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>السعر</span>
@@ -89,54 +86,46 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-12 p-0 ml-2">
                                     <button type="submit" class="btn btn-primary">@lang('Filter')</button>
                                     <a href="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
                                 </div>
-
+                            </div>
                         </form>
 
-
-                                {{-- <div class="row d-flex justify-content-between m-0 p-0 filter-statuses">
-                                    <div class="w-auto item sale" onclick="reloadUnits('sale')" status="sale">للبيع</div>
-                                    <div class="w-auto item rent" onclick="reloadUnits('rent')" status="rent">للايجار</div>
-                                    <div class="w-auto item both" onclick="reloadUnits('both')" status="both">بيع/إيجار</div>
-                                </div>
-                            </div>  --}}
-                            <div class="row mt-3">
-                                <div class="form-group d-flex">
-                                    <input type="checkbox" id="without_images" name="without_images" onchange="reloadUnits()">
-                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون الصور</label>
-                                </div>
+                        <div class="row mt-3">
+                            <div class="form-group d-flex">
+                                <input type="checkbox" id="without_images" name="without_images" onchange="reloadUnits()" {{ old('without_images') ? 'checked' : '' }}>
+                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون الصور</label>
                             </div>
-                            <div class="row">
-                                <div class="form-group d-flex">
-                                    <input type="checkbox" id="with_images" name="with_images" onchange="reloadUnits()">
-                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع الصور</label>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group d-flex">
+                                <input type="checkbox" id="with_images" name="with_images" onchange="reloadUnits()" {{ old('with_images') ? 'checked' : '' }}>
+                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع الصور</label>
                             </div>
-                            <div class="row">
-                                <div class="form-group d-flex">
-                                    <input type="checkbox" id="with_price" name="with_price" onchange="reloadUnits()">
-                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع السعر</label>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group d-flex">
+                                <input type="checkbox" id="with_price" name="with_price" onchange="reloadUnits()" {{ old('with_price') ? 'checked' : '' }}>
+                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع السعر</label>
                             </div>
-                            <div class="row">
-                                <div class="form-group d-flex">
-                                    <input type="checkbox" id="without_price" name="without_price" onchange="reloadUnits()">
-                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون السعر</label>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group d-flex">
+                                <input type="checkbox" id="without_price" name="without_price" onchange="reloadUnits()" {{ old('without_price') ? 'checked' : '' }}>
+                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون السعر</label>
                             </div>
-                            <div class="row">
-                                <div class="form-group d-flex">
-                                    <input type="checkbox" id="reserved_units" name="reserved_units" onchange="reloadUnits()">
-                                    <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">اعلانات العقارات المحجوزة</label>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group d-flex">
+                                <input type="checkbox" id="reserved_units" name="reserved_units" onchange="reloadUnits()" {{ old('reserved_units') ? 'checked' : '' }}>
+                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">اعلانات العقارات المحجوزة</label>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="cards-gallery-container">
 

@@ -110,12 +110,16 @@ class GalleryService
             return [];
         }
 
-        $units = $this->UnitRepository->getAll($gallery['broker_id']);
+        $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
         $Unit = $this->UnitRepository->findById($id);
+
         if (!$Unit) {
             abort(404);
         }
 
+        if ($Unit->show_gallery != 1) {
+            abort(404, 'Unauthorized action.');
+        }
         $gallery = $this->galleryRepository->findByBrokerId($gallery->broker_id);
 
         $broker=Broker::findOrFail($Unit->broker_id);
@@ -133,10 +137,12 @@ class GalleryService
 
         $gallery = $this->galleryRepository->findByGalleryName($name);
         if ($gallery->gallery_status == 0) {
+            $brokerId=$gallery->broker_id;
+            $broker = Broker::findOrFail($brokerId);
             return [];
         }else{
 
-        $units = $this->UnitRepository->getAll($gallery['broker_id']);
+        $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $units = $this->filterUnitsPublic($units, $cityFilter,$projectFilter, $typeUseFilter,$adTypeFilter,$priceFrom, $priceTo);

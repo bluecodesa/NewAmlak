@@ -73,7 +73,7 @@ class HomeController extends Controller
         $nonResidentialCount = $counts['non_residential'];
         $numberOfInterests = UnitInterest::where('user_id', auth()->user()->id)->count();
         $numberOfVacantUnits = $this->UnitService->getAll($brokerId)->where('status', 'vacant')->count();
-        $numberOfRentedUnits = $this->UnitService->getAll($brokerId)->where('status', 'rened')->count();
+        $numberOfRentedUnits = $this->UnitService->getAll($brokerId)->where('status', 'rented')->count();
         if ($user && $user->is_broker && $user->UserBrokerData) {
             $subscription = $user->UserBrokerData->UserSubscriptionPending;
             $pendingPayment = $subscription && $subscription->status === 'pending';

@@ -186,7 +186,7 @@
 
                                     <div class="col-sm-12 col-md-3 mb-3">
                                         <label class="form-label">@lang('price')</label>
-                                        <input type="number" required name="price" class="form-control"
+                                        <input type="number"  name="price" class="form-control"
                                             placeholder="@lang('price')" value="{{ old('price') }}" />
                                     </div>
 

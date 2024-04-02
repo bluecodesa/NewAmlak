@@ -82,15 +82,20 @@ class TicketController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
+{
+    $ticket = Ticket::findOrFail($id);
+    $formatted_id = "100{$ticket->id}";
+    $user = auth()->user();
 
-        $ticket = Ticket::findOrFail($id);
-        $formatted_id = "100{$ticket->id}";
-        $user=auth()->user();
-       $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
-
-        return view('Broker.Ticket.show',get_defined_vars());
+    // Check if the ticket belongs to the authenticated user
+    if ($ticket->user_id !== $user->id) {
+        return redirect()->route('Broker.home');
     }
+
+    $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
+
+    return view('Broker.Ticket.show', compact('ticket', 'formatted_id', 'ticketResponses'));
+}
 
     /**
      * Show the form for editing the specified resource.

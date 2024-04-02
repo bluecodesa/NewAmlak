@@ -11,15 +11,8 @@
                                                                     @csrf
                                                                     @method('PUT')
 
-                                                                    @if ($errors->any())
-                                                                        <div class="alert alert-danger">
-                                                                            <ul>
-                                                                                @foreach ($errors->all() as $error)
-                                                                                    <li>{{ $error }}</li>
-                                                                                @endforeach
-                                                                            </ul>
-                                                                        </div>
-                                                                    @endif
+                                                                    @include('Admin.layouts.Inc._errors')
+
 
                                                                     <div class="mb-3 row">
                                                                         <div class="col-md-6">
