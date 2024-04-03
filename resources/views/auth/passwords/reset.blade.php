@@ -1,6 +1,34 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-@section('content')
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>{{ $sitting->title }} @lang('register')</title>
+    <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
+    <meta content="Themesdesign" name="author" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <link href="{{ url('dashboard_files/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/icons.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/style.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="http://fonts.cdnfonts.com/css/tajawal" rel="stylesheet">
+    <style>
+        body,
+        h4,
+        h5,
+        strong,
+        label span,
+        * {
+            font-family: 'Tajawal';
+        }
+    </style>
+</head>
+
+<body>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -11,7 +39,7 @@
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 
-                        <input type="hidden" name="token" value="{{ $token }}">
+                        <input type="hidden" name="token" value="">
 
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
@@ -62,4 +90,5 @@
         </div>
     </div>
 </div>
-@endsection
+</body>
+</html>

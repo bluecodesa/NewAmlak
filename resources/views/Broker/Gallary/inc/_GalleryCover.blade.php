@@ -13,7 +13,7 @@
         </svg>
 
     </a>
-    <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid">
+    <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid" style="height: 200px; width: 100%;">
 </div>
 
 

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('ticket_id');
             $table->unsignedBigInteger('user_id');
             $table->text('response')->nullable();
-            $table->string('response_attachment')->nullable();
             $table->timestamps();
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

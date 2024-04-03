@@ -5,7 +5,7 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">{{ __('Residential number') }}: {{ $unit->number_unit ?? '' }}</h5>
-                        <p class="card-text">{{ __('الاشغال') }}: الاشغال</p>
+                        <p class="card-text">{{ __('Occupancy') }}: {{ __($unit->status) }}  </p>
                         <p class="card-text">{{ __('Ad type') }}: {{ __($unit->type) ?? '' }}</p>
                         <p class="card-text">{{ __('city') }}: {{ $unit->CityData->name ?? '' }}</p>
                         <p class="card-text">{{ __('Show in Gallery') }}: {{ $unit->show_gallery == 1 ? __('Show') : __('hide') }}</p>

@@ -15,7 +15,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light container">
                 <div class="navbar-nav align-items-start ">
 
-                    <a class="navbar-brand" href="">
+                    <a class="navbar-brand" href="{{ route('welcome') }}">
                         <img src="{{ asset('HOME_PAGE/images/amlak1.svg') }}" height="50" class="logo-light-mode"
                             alt="">
                     </a>

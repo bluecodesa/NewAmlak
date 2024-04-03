@@ -39,9 +39,9 @@
 
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">{{ __('Type') }} <span class="required-color">*</span></label>
+                                        <label class="form-label">{{ __('Ticket Type') }} <span class="required-color">*</span></label>
                                         <select class="form-control" name="type" required>
-                                            <option value="" selected disabled> @lang('Subscription Type') </option>
+                                            <option value="" selected disabled> @lang('Ticket Type') </option>
                                             @foreach ($ticketTypes as $ticketType)
                                             <option value="{{ $ticketType->id }}">
                                                 {{ $ticketType->name }}</option>
@@ -72,7 +72,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary me-1">{{ __('Save') }}</button>
+                                    <button type="submit" class="btn btn-primary me-1">{{ __('save') }}</button>
                                 </div>
                             </form>
                         </div>

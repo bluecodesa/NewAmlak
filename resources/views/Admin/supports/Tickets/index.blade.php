@@ -43,6 +43,7 @@
                                                 <th scope="col">@lang('Ticket Type')</th>
                                                 <th scope="col">@lang('Ticket Address')</th>
                                                 <th scope="col">@lang('Ticket Status')</th>
+                                                <th scope="col">@lang('Create Date')</th>
                                                 <th scope="col">@lang('Action')</th>
                                             </tr>
                                         </thead>
@@ -55,6 +56,7 @@
                                                 <td>{{  $ticket->ticketType->name }}</td> <!-- Assuming type is the ticket type -->
                                                 <td>{{ $ticket->subject }}</td> <!-- Assuming subject is the ticket address -->
                                                 <td>{{ __($ticket->status) }}</td> <!-- Assuming status is the ticket status -->
+                                                <td>{{ $ticket->created_at }}</td> <!-- Assuming status is the ticket status -->
                                                 <td>
                                                     <a href="{{ route('Admin.SupportTickets.show', $ticket->id) }}"
                                                         class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Show')</a>

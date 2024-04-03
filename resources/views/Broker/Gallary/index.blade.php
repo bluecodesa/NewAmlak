@@ -73,12 +73,17 @@
 
                                     <!--End Menu-->
 
+                                    @include('Broker.Gallary.inc._shareGallery')
+
+
                                     <!--List Gallery-->
 
                                     @include('Broker.Gallary.inc._ListGallery')
 
                                     <!--End list-->
                                     </div>
+
+
 
                                 </div>
                             </div>

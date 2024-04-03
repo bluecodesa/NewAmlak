@@ -6,7 +6,7 @@ aria-labelledby="v-pills-gallary-tab">
     <div class="col-lg-10">
         <div class="card timeline shadow">
             <div class="card-header">
-                <h5 class="card-title">@lang('اعدادات المعرض')</h5>
+                <h5 class="card-title">@lang('Gallery setting')</h5>
             </div>
             <div class="card-body">
                 <form
@@ -14,13 +14,19 @@ aria-labelledby="v-pills-gallary-tab">
                     method="post">
                     @csrf
                     @method('PUT')
+
+                    @error('gallery_name')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                     @enderror
                     <div class="form-group">
                         <label
                             for="galleryName">@lang('Gallery URL')</label>
                         <div class="input-group">
                             <input type="text" class="form-control"
                                 id="galleryName" disabled
-                                value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/{{ $gallery->gallery_name }}">
+                                value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" />
+
+                                {{-- value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/{{ $gallery->gallery_name }}"> --}}
                             <div class="input-group-append">
                                 <span class="input-group-text"
                                     style="cursor: pointer;"
@@ -43,11 +49,13 @@ aria-labelledby="v-pills-gallary-tab">
                                     id="editGalleryName"
                                     placeholder="@lang('Gallery Name')"
                                     value="{{ explode('@', $gallery->gallery_name)[0] }}"
-                                    oninput="validateName(this)">
+                                    oninput="trimInput(this)">
                                 <input type="text"
                                     class="form-control"
                                     id="galleryName" disabled
-                                    value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/">
+                                    value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" />
+
+                                    {{-- value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/"> --}}
                             </div>
                         </div>
                         <div class="row validate-result"
@@ -140,3 +148,9 @@ aria-labelledby="v-pills-gallary-tab">
 </div>
 
 @endif
+
+<script>
+    function trimInput(input) {
+        input.value = input.value.trim();
+    }
+</script>

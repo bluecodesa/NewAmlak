@@ -110,8 +110,12 @@ class UnitController extends Controller
     public function show($id)
     {
         $Unit = $this->UnitService->findById($id);
-        return view('Broker.ProjectManagement.Project.Unit.show',  get_defined_vars());
-    }
+
+        if(auth()->user()->UserBrokerData->id === $Unit->broker_id) {
+            return view('Broker.ProjectManagement.Project.Unit.show', compact('Unit'));
+        } else {
+            abort(403, 'Unauthorized action.');
+        } }
 
     public function edit($id)
     {
@@ -143,6 +147,12 @@ class UnitController extends Controller
     {
         $this->UnitService->delete($id);
         return redirect()->route('Broker.Unit.index')->with('success', __('Deleted successfully'));
+    }
+
+    public function destroyUnitGallery(string $id)
+    {
+        $this->UnitService->delete($id);
+        return redirect()->route('Broker.Gallery.index')->with('success', __('Deleted successfully'));
     }
 
     function deleteImage($id)

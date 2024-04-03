@@ -8,7 +8,7 @@
                 <tr>
                     <th>#</th>
                     <th>@lang('Residential number')</th>
-                    <th>@lang('الاشغال')</th>
+                    <th>@lang('Occupancy')</th>
                     <th>@lang('Ad type')</th>
                     <th>@lang('city')</th>
                     <th>@lang('Show in Gallery')</th>
@@ -43,7 +43,7 @@
                                 onclick="handleDelete('{{ $unit->id }}')"
                                 class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
                             <form id="delete-form-{{ $unit->id }}"
-                                action="{{ route('Broker.Unit.destroy', $unit->id) }}"
+                                action="{{ route('Broker.gallery.unit.destroy', $unit->id) }}"
                                 method="POST" style="display: none;">
                                 @csrf
                                 @method('DELETE')
@@ -55,7 +55,6 @@
             </tbody>
         </table>
     </div>
-   @include('Broker.Gallary.inc._shareGallery')
     </div>
 
     <script>

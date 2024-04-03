@@ -189,9 +189,8 @@
 
 
                                     <div class="col-sm-12 col-md-3 mb-3">
-                                        <label class="form-label">@lang('price') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="price" class="form-control"
+                                        <label class="form-label">@lang('price')
+                                        <input type="number"  name="price" class="form-control"
                                             placeholder="@lang('price')" value="{{ $Unit->price }}" />
                                     </div>
 

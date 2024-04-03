@@ -100,7 +100,7 @@
                                                     <div class="card timeline shadow">
                                                         <div class="card-header">
                                                             <strong class="card-title">
-                                                                @lang('Mange of invoices')
+                                                                @lang('Value added tax')
                                                             </strong>
                                                         </div>
                                                         <div class="card-body">

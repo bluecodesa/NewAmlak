@@ -155,11 +155,12 @@
                             </div>
                              <ol class="list-group list-group-numbered">
                                  @foreach ($Unit->UnitFeatureData as $feature)
+                                 <span>{{ $feature->FeatureData->name ?? '' }} : {{ $feature->qty }}</span>
 
-                                    <div class="fw-bold">{{ $feature->FeatureData->name ?? '' }}</div>
+                                    {{-- <div class="fw-bold">{{ $feature->FeatureData->name ?? '' }}</div>
 
                                     <span style="font-size: 12px;"
-                                    class="badge bg-primary fw-bold text-white  rounded-pill">{{ $feature->qty }}</span>
+                                    class="badge bg-primary fw-bold text-white  rounded-pill">{{ $feature->qty }}</span> --}}
 
                                  @endforeach
                              </ol>

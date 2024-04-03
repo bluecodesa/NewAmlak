@@ -7,7 +7,10 @@ use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Models\TicketType;
+use App\Models\User;
+use App\Notifications\Admin\NewTicketNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class TicketController extends Controller
 {
@@ -72,24 +75,39 @@ class TicketController extends Controller
         $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null
         $ticket->ticket_type_id = $validatedData['type'];
         $ticket->save();
+        $this->notifyAdmins($ticket);
 
         return redirect()->route('Broker.Tickets.index')->with('success', 'Ticket created successfully');
 
 
     }
 
+    protected function notifyAdmins(Ticket $ticket)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewTicketNotification($ticket));
+        }
+    }
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
-    {
+{
+    $ticket = Ticket::findOrFail($id);
+    $formatted_id = "100{$ticket->id}";
+    $user = auth()->user();
 
-        $ticket = Ticket::findOrFail($id);
-        $user=auth()->user();
-       $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
-
-        return view('Broker.Ticket.show',get_defined_vars());
+    // Check if the ticket belongs to the authenticated user
+    if ($ticket->user_id !== $user->id) {
+        return redirect()->route('Broker.home');
     }
+
+    $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
+
+    return view('Broker.Ticket.show', compact('ticket', 'formatted_id', 'ticketResponses'));
+}
 
     /**
      * Show the form for editing the specified resource.

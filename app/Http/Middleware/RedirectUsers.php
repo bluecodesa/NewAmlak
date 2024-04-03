@@ -15,12 +15,14 @@ class RedirectUsers
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()) {
-            if ($request->user()->is_broker) {
+         if (auth()->user()) {
+            if (auth()->user()->is_broker) {
                 return redirect()->route('Broker.home');
-            } elseif ($request->user()->is_office) {
+            }
+            elseif (auth()->user()->is_office) {
                 return redirect()->route('Office.home');
             }
+
         }
 
         return $next($request);

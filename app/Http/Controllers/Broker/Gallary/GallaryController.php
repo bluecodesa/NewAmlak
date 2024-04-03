@@ -81,6 +81,8 @@ class GallaryController extends Controller
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
+        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->unique();
+        $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
         $unitsWithDistricts = $units->filter(function ($unit) {
             return $unit->CityData->DistrictsCity->isNotEmpty();
         });
@@ -95,7 +97,7 @@ class GallaryController extends Controller
         $cityFilter = request()->input('city_filter', 'all');
         $districtFilter = request()->input('district_filter', 'all');
         $projectFilter = request()->input('project_filter', 'all');
-        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter);
+        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter,$projectFilter);
         // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
@@ -147,6 +149,7 @@ class GallaryController extends Controller
 
     public function showInterests()
     {
+
         $gallery = $this->galleryService->findByBrokerId(auth()->user()->UserBrokerData->id) ?? null;
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $interests =$this->settingService->getAllInterestTypes();
@@ -161,22 +164,29 @@ class GallaryController extends Controller
 
             $data = $this->galleryService->showUnitPublic($gallery_name, $id);
             if (empty($data)) {
+
                 return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
             }
             return view('Home.Gallery.Unit.show', $data);
         }
 
-        public function showByName($name)
-        {
-            $usages =  $this->propertyUsageService->getAllPropertyUsages();
-
-            $data = $this->galleryService->showByName($name);
-            if (empty($data)) {
-                return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
+    public function showByName(Request $request, $name)
+    {
+            $cityFilter = $request->input('city_filter', 'all');
+            $projectFilter = $request->input('project_filter', 'all');
+            $typeUseFilter = $request->input('type_use_filter', 'all');
+            $adTypeFilter = request()->input('ad_type_filter', 'all');
+            $priceFrom = $request->input('price_from',null);
+            $priceTo = $request->input('price_to',null);
+            $hasImageFilter = $request->input('has_image_filter', false);
+            $hasPriceFilter = $request->input('has_price_filter', false);
+            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter);
+            if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
+                return view('Broker.Gallary.inc._GalleryComingsoon',$data);
             }
+            return view('Home.Gallery.index',$data);
+    }
 
-            return view('Home.Gallery.index', $data);
-        }
 
     public function update(Request $request, $galleryId)
     {
@@ -224,49 +234,22 @@ class GallaryController extends Controller
 
 
 
-        public function downloadQrCode($url)
-    {
-        // Generate the QR code as a data URI
-        $qrCode = QrCode::size(200)->generate($url);
-        $dataUri = 'data:image/png;base64,' . base64_encode($qrCode);
 
-        // Set response headers for downloading the file
+    public function downloadQrCode($link)
+    {
+        $qrCode = QrCode::size(200)->generate($link);
+        $dataUri = 'data:image/jpg;base64,' . base64_encode($qrCode);
+
         $headers = [
-            'Content-Type' => 'image/png',
-            'Content-Disposition' => 'attachment; filename="qrcode.png"',
+            'Content-Type' => 'image/jpg',
+            'Content-Disposition' => 'attachment; filename="qrcode.jpg"',
         ];
 
-        // Return the QR code as a downloadable file
         return response()->stream(function () use ($dataUri) {
             echo file_get_contents($dataUri);
         }, 200, $headers);
-        // Return the QR code as a downloadable file
     }
 
-
-
-    ///
-
-
-    public function fetchFilteredUnits(Request $request)
-{
-    // Retrieve filter parameters from the request
-    $cityId = $request->input('city_filter');
-    $prjId = $request->input('prj_filter');
-    $type = $request->input('type_filter');
-    $priceFrom = $request->input('price_from');
-    $priceTo = $request->input('price_to');
-
-    // Query to fetch filtered units based on filter parameters
-    $filteredUnits = Unit::where('city_id', $cityId)
-        ->where('project_id', $prjId)
-        ->where('type', $type)
-        ->whereBetween('price', [$priceFrom, $priceTo])
-        ->get();
-
-    // Return JSON response with filtered units
-    return response()->json($filteredUnits);
-}
 
 
 }

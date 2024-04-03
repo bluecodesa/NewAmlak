@@ -175,7 +175,7 @@ class PropertyController extends Controller
         $Property = $this->PropertyService->findById($id);
         $Property->PropertyImages()->delete();
         PropertyImage::create([
-            'image' => '/Brokers/Projects/default.jpg',
+            'image' => 'Offices/Projects/default.svg',
             'property_id' => $id,
         ]);
     }

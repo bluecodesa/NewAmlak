@@ -56,12 +56,11 @@
             @if (in_array('Technical-support', $sectionNames) || in_array('الدعم الفني', $sectionNames))
 
             <li>
-                <a href="javascript:void(0);" class="waves-effect"><i class=" icon-setting-2"></i><span>
-                        @lang('technical support')<span class="float-right menu-arrow"><i
-                                class="mdi mdi-chevron-right"></i></span> </span></a>
-                <ul class="submenu">
+                <a href="{{ route('Broker.Tickets.index') }}" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                        @lang('technical support')<span class="float-right menu-arrow"></span> </span></a>
+                {{-- <ul class="submenu">
                     <li><a href="{{ route('Broker.Tickets.index') }}">@lang('Tickets List')</a></li>
-                </ul>
+                </ul> --}}
             </li>
             @endif
 

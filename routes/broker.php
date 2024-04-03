@@ -34,7 +34,7 @@ use App\Http\Middleware\PendingPaymentPopup;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment','CheckSubscription','checkUserRole:broker']
     ],
     function () {
         Route::prefix('broker')->name('Broker.')->group(function () {
@@ -69,6 +69,7 @@ Route::group(
             Route::get('Gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showGalleryUnit'])->name('Gallary.showUnit')->middleware('CheckSubscription');
             Route::post('/Interest/status/{id}', [UnitInterestController::class, 'update'])->name('Interest.status.update')->middleware('CheckSubscription');
             Route::get('Interests', [UnitInterestController::class, 'index'])->name('Gallary.showInterests')->middleware('CheckSubscription');
+            Route::delete('/gallery/unit/{id}', [UnitController::class, 'destroyUnitGallery'])->name('gallery.unit.destroy');
 
 
             Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Broker.GetCitiesByRegion')->middleware('CheckSubscription');
