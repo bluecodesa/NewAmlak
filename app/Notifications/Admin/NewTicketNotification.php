@@ -30,7 +30,7 @@ class NewTicketNotification extends Notification
     {
         $formattedId = "100{$this->ticket->id}";
         $ticket = Ticket::findOrFail($this->ticket->id);
-        dd($ticket->UserData()->name);
+        // dd($ticket->UserData()->name);
 
         return [
             'msg' => __('You have an update on a support ticket:') . ' ' . ($formattedId),
