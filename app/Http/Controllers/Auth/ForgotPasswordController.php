@@ -107,23 +107,28 @@ class ForgotPasswordController extends Controller
 
 
         public function submitCodeForm(Request $request)
-        {
-            $request->validate([
-                'email' => 'required|email|exists:users',
-                'code' => 'required|digits:4',
-            ]);
+{
+    $request->validate([
+        'email' => 'required|email|exists:users',
+        'code' => 'required|digits:4',
+    ]);
 
-            $cachedCode = Cache::get('password_reset_code_' . $request->email);
+    $cachedCode = Cache::get('password_reset_code_' . $request->email);
 
-            if ($cachedCode && $cachedCode === $request->code) {
-                return view('auth.reset_password.reset')->with([
-                    'email' => $request->email,
-                    'token' => $request->token,
-                ]);
-            } else {
-                return back()->withErrors(['code' => 'Invalid code. Please try again.']);
-            }
-        }
+    if ($cachedCode && $cachedCode === $request->code) {
+        return view('auth.reset_password.reset')->with([
+            'email' => $request->email,
+            'token' => $request->token,
+        ]);
+    } else {
+        return view('auth.reset_password.confirm')->with([
+            'email' => $request->email,
+            'token' => $request->token,
+            'code' => 'Invalid code. Please try again.',
+        ]);
+    }
+}
+
 
 
 

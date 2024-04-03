@@ -72,11 +72,11 @@
                                 <div class="col-12">
                                         <label>@lang('Verification Code')</label>
                                         <input id="code" type="text" class="form-control @error('code') is-invalid @enderror" name="code" required autocomplete="current-code">
-                                        @error('code')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                        @if (isset($code))
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $code }}
+                                        </div>
+                                    @endif
                                     </div>
                             </div>
 
