@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Email\MailWelcomeBroker;
 use App\Models\Gallery;
+use App\Notifications\Admin\NewBrokerNotification;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\Office;
@@ -21,6 +22,7 @@ use App\Models\SubscriptionTypeRole;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
 
@@ -255,6 +257,9 @@ class HomeController extends Controller
             'broker_logo' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
         ]);
 
+        $this->notifyAdmins($broker);
+
+
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
         $startDate = Carbon::now();
         $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
@@ -315,6 +320,14 @@ class HomeController extends Controller
         }
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
         return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
+    }
+
+    protected function notifyAdmins(Broker $broker)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewBrokerNotification($broker));
+        }
     }
 
 
