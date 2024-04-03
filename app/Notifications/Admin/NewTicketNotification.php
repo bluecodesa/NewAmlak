@@ -29,11 +29,10 @@ class NewTicketNotification extends Notification
     public function toDatabase($notifiable)
     {
         $formattedId = "100{$this->ticket->id}";
-        $ticket = Ticket::findOrFail($this->ticket->id);
-        // dd($ticket->UserData()->name);
+        $type=$this->ticket->ticketType->name;
 
         return [
-            'msg' => __('You have an update on a support ticket:') . ' ' . ($formattedId),
+            'msg' => __('You have a new support ticket:') . ' ' . ($formattedId).' : '.($type),
             'url' => route('Admin.SupportTickets.index'),
             'type_noty' => 'NewTicket',
             'service_name' => 'NewTicket',

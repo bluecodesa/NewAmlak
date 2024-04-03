@@ -367,7 +367,9 @@
     "Time remaining": "الوقت المتبقي",
     "Send New Code?": "ارسال رمز تحقق جديد؟",
     "Your reset password code is:": "رمز إعادة تعيين كلمة المرور الخاصة بك هو:",
-    "A new Broker Risgter": "تم تسجيل مسوق جديد"
-
+    "A new Broker Risgter": "تم تسجيل مسوق جديد",
+    "You have an update on a support ticket:": "لديك تحديث على تذكرة دعم",
+    "You have a new support ticket:": "لديك تذكرة دعم جديدة",
+    "NewTicket": "تذكرة دعم جديده"
 
 }
