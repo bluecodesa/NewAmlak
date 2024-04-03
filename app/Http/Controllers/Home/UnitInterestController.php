@@ -8,6 +8,8 @@ use App\Models\InterestTypeTranslation;
 use App\Models\PropertyUsage;
 use App\Models\Unit;
 use App\Models\UnitInterest;
+use App\Models\User;
+use App\Notifications\Admin\NewIntrestOrderNotification;
 use Illuminate\Http\Request;
 use App\Services\Admin\SettingService;
 use App\Services\Broker\UnitService;
@@ -21,9 +23,7 @@ use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Services\Broker\GalleryService;
 use App\Services\Admin\DistrictService;
-
-
-
+use Illuminate\Support\Facades\Notification;
 
 class UnitInterestController extends Controller
 {
@@ -118,12 +118,22 @@ class UnitInterestController extends Controller
         $requestData = $request->all();
         $requestData['status'] = $statusId;
 
-        UnitInterest::create($requestData);
+        $intrestOrder=UnitInterest::create($requestData);
+
+        $this->notifyAdmins($intrestOrder);
+
 
         return redirect()->back()->with('success', 'Unit Interest created successfully.');
     }
 
 
+    protected function notifyAdmins(UnitInterest $intrestOrder)
+    {
+        $borkers = User::where('is_broker', true)->get();
+        foreach ($borkers as $borker) {
+            Notification::send($borker, new NewIntrestOrderNotification($intrestOrder));
+        }
+    }
     /**
      * Display the specified resource.
      */

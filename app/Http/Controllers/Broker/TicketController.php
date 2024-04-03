@@ -7,7 +7,10 @@ use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Models\TicketType;
+use App\Models\User;
+use App\Notifications\Admin\NewTicketNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class TicketController extends Controller
 {
@@ -72,10 +75,19 @@ class TicketController extends Controller
         $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null
         $ticket->ticket_type_id = $validatedData['type'];
         $ticket->save();
+        $this->notifyAdmins($ticket);
 
         return redirect()->route('Broker.Tickets.index')->with('success', 'Ticket created successfully');
 
 
+    }
+
+    protected function notifyAdmins(Ticket $ticket)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewTicketNotification($ticket));
+        }
     }
 
     /**

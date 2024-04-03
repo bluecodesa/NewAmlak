@@ -166,6 +166,8 @@
     "Search Your notifications..": "ابحث في إشعاراتك..",
     "A new office has been added to the platform with the name:": "تم انضمام مكتب جديد في المنصة باسم",
     "NewOffice": "مكتب عقاري جديد",
+    "A new Broker has been added to the platform with the name:": "تم انضمام مسوق جديد في المنصة باسم",
+    "NewBroker": "مسوق عقاري جديد",
     "mobile": "رقم الجوال",
     "view": "عرض",
     "Invoice": "الفاتورة",
@@ -363,7 +365,9 @@
     "Ads with price": "الاعلانات مع السعر",
     "Create Date": "تاريخ الانشاء",
     "Time remaining": "الوقت المتبقي",
-    "Send New Code?": "ارسال رمز تحقق جديد؟"
+    "Send New Code?": "ارسال رمز تحقق جديد؟",
+    "Your reset password code is:": "رمز إعادة تعيين كلمة المرور الخاصة بك هو:",
+    "A new Broker Risgter": "تم تسجيل مسوق جديد"
 
 
 }

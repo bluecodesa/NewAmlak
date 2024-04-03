@@ -61,7 +61,7 @@
 
                                             {!! $content !!}
 
-                                            <p>Your reset password code is: <strong>{{ $code }}</strong></p>
+                                            <p>@lang('Your reset password code is:') <strong>{{ $code }}</strong></p>
 
                                         </td>
                                     </tr>

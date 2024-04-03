@@ -6,7 +6,7 @@ use App\Models\Broker;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\Admin\NewOfficeNotification;
+use App\Notifications\Admin\NewBrokerNotification;
 
 
 class BrokerCreationService
@@ -23,7 +23,19 @@ class BrokerCreationService
             'broker_logo' => $brokerData['broker_logo'] ?? null,
         ]);
 
-        return $broker;
+          $this->notifyAdmins($broker);
+
+          return $broker;
+        }
+
+    protected function notifyAdmins(Broker $broker)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewBrokerNotification($broker));
+        }
     }
+
+
 
 }
