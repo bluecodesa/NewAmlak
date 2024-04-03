@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\Subscribers\SystemInvoiceController;
 use App\Http\Controllers\Admin\SubUserController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Broker\TicketController;
 use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -74,6 +75,7 @@ Route::group(
             //support tickets
             Route::get('/TicketsTypes', [SupportController::class, 'getAllTicketTypes'])->name('SupportTickets.tickets-type');
             Route::get('/ticketType/create', [SupportController::class, 'createTicketType'])->name('SupportTickets.createTicketType');
+            Route::post('tickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
             Route::post('/ticketType/store', [SupportController::class, 'storeTicketType'])->name('SupportTickets.storeTicketType');
             Route::get('/ticketType/{id}/edit', [SupportController::class, 'editTicketType'])->name('SupportTickets.editTicketType');
             Route::put('/ticketType/{id}/update', [SupportController::class, 'updateTicketType'])->name('SupportTickets.updateTicketType');

@@ -62,7 +62,6 @@ Route::group(
             route::resource('Gallery', GallaryController::class)->middleware('CheckSubscription');
             route::resource('Tickets', TicketController::class)->middleware('CheckSubscription');
             Route::post('tickets/{ticketId}/add-response', [TicketController::class, 'addResponse'])->name('tickets.addResponse');
-            Route::post('tickets/{id}/close', [TicketController::class, 'closeTicket'])->name('closeTicket');
             Route::post('/update-cover', [GallaryController::class, 'updateCover'])->name('Gallery.update-cover');
             Route::post('/gallery/create', [GallaryController::class, 'createGallery'])->name('Gallery.create');
             Route::post('/gallery/custom-update/{gallery}', [GallaryController::class, 'customUpdate'])->name('Gallery.customUpdate')->middleware('CheckSubscription');

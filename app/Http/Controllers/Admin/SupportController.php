@@ -187,4 +187,13 @@ class SupportController extends Controller
 
         return redirect()->back()->with('success', 'Support contact information updated successfully.');
     }
+    public function closeTicket(Request $request, $id)
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        $ticket->status = 'Closed';
+        $ticket->save();
+
+        return redirect()->back()->with('success', __('Ticket closed successfully'));
+    }
 }
