@@ -55,15 +55,15 @@
                             </div>
                         <h5 class="font-18 text-center">@lang('تغيير  كلمة المرور')</h5>
                         @include('Admin.layouts.Inc._errors')
-                    <form action="{{ route('reset.password.post') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="token" value="{{ $token }}"> <!-- Include the token here -->
+                        <form action="{{ route('reset.password.post') }}" method="POST"> <!-- Ensure method is set to POST -->
+                            @csrf <!-- Include CSRF token -->
+                            <input type="hidden" name="token" value="{{ $token }}"> <!-- Include the token here -->
 
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
 
                             <div class="col-md-9">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus disabled>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">

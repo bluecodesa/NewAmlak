@@ -121,7 +121,7 @@ class ForgotPasswordController extends Controller
                     'token' => $request->token,
                 ]);
             } else {
-                return view('auth.reset_password.confirm')->with(['code' => 'Invalid code. Please try again.'])->withInput();
+                return back()->withErrors(['code' => 'Invalid code. Please try again.']);
             }
         }
 
@@ -160,12 +160,12 @@ class ForgotPasswordController extends Controller
         }
 
 
-        public function showresetform()
-        {
-            $setting =   Setting::first();
+        // public function showresetform()
+        // {
+        //     $setting =   Setting::first();
 
-           return view('auth.reset_password.confirm');
-        }
+        //    return view('auth.reset_password.confirm');
+        // }
 
 
 

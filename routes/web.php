@@ -67,11 +67,12 @@ Route::group(
         Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
         Route::post('send-code', [ForgotPasswordController::class, 'submitCodeForm'])->name('reset.password.code');
         Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
     }
 
 );
 // NotificationController
-Route::get('reset', [ForgotPasswordController::class, 'showresetform'])->name('reset.password.post');
+// Route::get('reset', [ForgotPasswordController::class, 'showresetform']);
 
 Route::post('/fcm-token', 'Home\HomeController@UpdateToken')->name('fcmToken');
 Route::post('/send-notification', [HomeController::class, 'notification'])->name('notification');
