@@ -77,8 +77,8 @@ class ForgotPasswordController extends Controller
                 ]);
             }
 
-            $code = str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT); // Generate 4-digit code
-            $expiry = Carbon::now()->addMinutes(30); // Expiry time for the code
+            $code = str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            $expiry = Carbon::now()->addMinutes(1);
 
             $currentTime = Carbon::now();
             $expiryTime = Carbon::parse($expiry);
@@ -161,6 +161,13 @@ class ForgotPasswordController extends Controller
             return redirect('/login')->with('message', 'Your password has been changed!');
         }
 
+
+        public function showresetform()
+        {
+            $setting =   Setting::first();
+
+           return view('auth.reset_password.confirm');
+        }
 
 
 

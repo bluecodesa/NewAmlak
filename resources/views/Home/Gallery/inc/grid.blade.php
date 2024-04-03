@@ -13,7 +13,7 @@
                     <input hidden name="unit_id" value="{{ $unit->id }}" />
 
                     <input hidden name="edit_unit_number" value="{{ __('Residential number') }}: {{ $unit->number_unit ?? '' }}" />
-                    <input hidden name="edit_unit_area" value="{{ __('الاشغال') }}: {{ __($unit->status) ?? ''  }}" />
+                    <input hidden name="edit_unit_area" value="{{ __('Occupancy') }}: {{ __($unit->status) ?? ''  }}" />
                     <input hidden name="edit_unit_rooms" value="{{ __('Ad type') }}: {{ __($unit->type) ?? '' }}" />
                     <input hidden name="edit_unit_bathrooms" value="{{ __('city') }}: {{ $unit->CityData->name ?? '' }}" />
                     <input hidden name="edit_unit_view_in_gallery " value="{{ $unit->view_in_gallery }}" />
@@ -80,7 +80,7 @@
                                     style="width: 18px;height: fit-content;" class="p-0" />
                                     <span class="mb-2 w-auto" style="color: #989898">
 
-                                        {{ __('الاشغال') }}:  {{ __($unit->status) ?? '' }}
+                                        {{ __('Occupancy') }}:  {{ __($unit->status) ?? '' }}
                                       </span>
 
 
@@ -98,7 +98,7 @@
                             <div class="row gallery-services mb-3"
                             style="
                              @if (!$unit->UnitServicesData || count($unit->UnitServicesData) ==0 ) visibility:hidden @endif">
-                            <p class="w-auto m-0 p-0" style="color: #989898">الخدمات</p>
+                            <p class="w-auto m-0 p-0" style="color: #989898">@lang('services')</p>
                             @if ($unit->UnitServicesData && count($unit->UnitServicesData) > 0)
                                 <div class="text-container">
                                     <span class="text-with-ellipsis">

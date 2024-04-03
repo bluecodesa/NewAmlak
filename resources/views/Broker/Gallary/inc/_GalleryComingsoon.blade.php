@@ -55,7 +55,7 @@
 
                         <div class="text-center">
                             {{-- <p>تواصل مع المسوق</p> --}}
-                            <a href="https://api.whatsapp.com/send?phone=100000" class="btn btn-primary" target="_blank">@lang('Connect by whats app')</a>
+                            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}" class="btn btn-primary" target="_blank">@lang('Connect by whats app')</a>
                             {{-- <button type="submit" class="btn btn-primary">@lang('Connect by whats app')</button> --}}
                                     {{-- <a  href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}>Whatsapp</a> --}}
                             </div>

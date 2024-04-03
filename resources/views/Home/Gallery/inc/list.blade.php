@@ -73,7 +73,7 @@
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
                             <span class=" w-auto mb-2" style="color: #989898">
-                                {{ __('الاشغال') }}: {{ __($unit->status) ?? '' }}
+                                {{ __('Occupancy') }}: {{ __($unit->status) ?? '' }}
 
                             </span>
                         </div>

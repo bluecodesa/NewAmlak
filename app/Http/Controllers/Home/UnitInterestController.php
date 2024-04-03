@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\InterestType;
+use App\Models\InterestTypeTranslation;
 use App\Models\PropertyUsage;
 use App\Models\Unit;
 use App\Models\UnitInterest;
@@ -111,9 +113,10 @@ class UnitInterestController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
+        $statusId = InterestTypeTranslation::where('name', 'new order')->value('id');
 
         $requestData = $request->all();
-        $requestData['status'] = 'new order';
+        $requestData['status'] = $statusId;
 
         UnitInterest::create($requestData);
 

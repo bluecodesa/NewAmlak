@@ -61,13 +61,13 @@
                                 <div class="form-group">
                                         <div class="col-12">
                                                 <label>@lang('Email')</label>
-                                            <input class="form-control" name="email" type="text" required="" placeholder="Email">
+                                            <input class="form-control" name="email" type="text" required="" placeholder="@lang('Email')">
                                         </div>
                                     </div>
 
                             <div class="form-group text-center m-t-20">
                                 <div class="col-12">
-                                    <button class="btn btn-primary btn-block btn-lg waves-effect waves-light" type="submit">@lang('تحقق من الايميل')</button>
+                                    <button class="btn btn-primary btn-block btn-lg waves-effect waves-light" type="submit">@lang('تحقق من البريد الالكتروني')</button>
                                 </div>
                             </div>
                         </form>

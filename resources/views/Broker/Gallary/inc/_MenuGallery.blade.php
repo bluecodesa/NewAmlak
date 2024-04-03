@@ -8,7 +8,7 @@
                 <tr>
                     <th>#</th>
                     <th>@lang('Residential number')</th>
-                    <th>@lang('الاشغال')</th>
+                    <th>@lang('Occupancy')</th>
                     <th>@lang('Ad type')</th>
                     <th>@lang('city')</th>
                     <th>@lang('Show in Gallery')</th>

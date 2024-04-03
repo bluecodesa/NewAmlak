@@ -51,12 +51,10 @@
                         <span>@lang('Project')</span>
                         <select class="form-control form-control-sm" id="project_filter" name="project_filter">
                             <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
-                            @foreach ($units as $unit)
-                                @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
-                                    <option value="{{ $unit->PropertyData->ProjectData->id }}" {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
-                                        {{ $unit->PropertyData->ProjectData->name }}
+                            @foreach ($projectuniqueIds as $index => $id)
+                                    <option value="{{ $id }}" {{ $projectFilter == $id ? 'selected' : '' }}>
+                                        {{ $projectUniqueNames[$index] }}
                                     </option>
-                                @endif
                             @endforeach
                         </select>
                     </div>

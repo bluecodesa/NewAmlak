@@ -51,9 +51,18 @@
                             <a href="{{ route('welcome') }}" class="logo logo-admin"><img src="{{ url($sitting->icon) }}" alt=""
                                     height="100"></a>
                         </div>
+                        {{-- <h5 class="font-18 text-center">@lang('تم ارسال رمز التحقق الي هذا الايميل') </h5> --}}
                         <h5 class="font-18 text-center">@lang('تم ارسال رمز التحقق الي هذا الايميل') {{ $email }}</h5>
-                        <p id="countdown" class="font-16 text-center">Time remaining: <span id="countdown-value">{{ gmdate("H:i:s", $remainingTime) }}</span></p>
 
+                        {{-- <p id="countdown" class="font-16 text-center">Time remaining: <span id="countdown-value">{{ gmdate("H:i:s", $remainingTime) }}</span></p> --}}
+                        <p id="countdown" class="font-16 text-center">@lang('Time remaining'): <span id="countdown-value">5</span></p>
+
+                        <!-- New link button -->
+                        <div class="form-group text-center m-t-10">
+                            <div class="col-12">
+                                <a href="{{ route('forget.password.post') }}" id="new-code-button" class="col-12 text-primary" style="display: none;">@lang('Send New Code?')</a>
+                            </div>
+                        </div>
                         <form method="POST" action="{{ route('reset.password.code') }}">
                             @csrf
                             <input type="hidden" name="email" value="{{ $email }}">
@@ -81,8 +90,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
         <!-- END wrapper -->
 
         <!-- jQuery  -->
@@ -96,7 +104,43 @@
         <script src="assets/js/app.js"></script>
 
 
-     
+<!-- jQuery  -->
+<script src="{{ url('dashboard_files/assets/js/jquery.min.js') }}"></script>
+
+<script>
+    var countdownValue = 5;
+    var countdownElement = document.getElementById("countdown-value");
+    var countdownInterval;
+
+    function updateCountdown() {
+        if (countdownValue <= 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("new-code-button").style.display = "block";
+            document.getElementById("countdown").style.display = "none";
+        } else {
+            countdownValue--;
+            countdownElement.textContent = countdownValue;
+        }
+    }
+
+    function startCountdown() {
+        updateCountdown();
+        countdownInterval = setInterval(updateCountdown, 1000);
+    }
+
+    function sendNewCode() {
+        // alert("New code sent!"); // Placeholder alert, replace with actual code
+        countdownValue = 5;
+        document.getElementById("new-code-button").style.display = "none";
+        document.getElementById("countdown").style.display = "block";
+        startCountdown();
+    }
+
+    // Call the startCountdown function when the page is loaded
+    $(document).ready(function() {
+        startCountdown();
+    });
+</script>
 
     </body>
 

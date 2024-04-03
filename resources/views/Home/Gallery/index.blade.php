@@ -31,6 +31,19 @@
                         <form action="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" method="GET">
                             <div class="row gap-3" style="align-items: end;">
                                 <div class="col-12 p-0 ml-2">
+                                    <span>@lang('Ads with images')</span>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="hasImageFilter" name="has_image_filter" {{ $hasImageFilter ? 'checked' : '' }}>
+                                    </div>
+                                </div>
+                                <div class="col-12 p-0 ml-2">
+                                    <span>@lang('Ads with price')</span>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="hasImageFilter" name="has_image_filter" {{ $hasPriceFilter ? 'checked' : '' }}>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 p-0 ml-2">
 
                                     <span>@lang('City')</span>
                                     <select class="form-control form-control-sm" id="city_filter" name="city_filter">
@@ -43,12 +56,14 @@
                                     </select>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
-                                    <span>المشروع</span>
+                                    <span>@lang('Project')</span>
                                     <select class="form-control form-control-sm" id="project_filter" name="project_filter">
-                                        <option value="all" {{ old('project_filter') == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                        <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
                                         @foreach ($units as $unit)
                                             @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
-                                                <option value="{{ $unit->PropertyData->ProjectData->id }}" {{ old('project_filter') == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>{{ $unit->PropertyData->ProjectData->name }}</option>
+                                                <option value="{{ $unit->PropertyData->ProjectData->id }}" {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
+                                                    {{ $unit->PropertyData->ProjectData->name }}
+                                                </option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -66,14 +81,14 @@
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Ad type')</span>
-                        <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
-                            <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
-                            @foreach (['rent', 'sale', 'rent_sale'] as $type)
-                                <option value="{{ $type }}" {{ $adTypeFilter == $type ? 'selected' : '' }}>
-                                    {{ __($type) }}
-                                </option>
-                            @endforeach
-                        </select>
+                            <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
+                                <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                @foreach (['rent', 'sale', 'rent_sale'] as $type)
+                                    <option value="{{ $type }}" {{ $adTypeFilter == $type ? 'selected' : '' }}>
+                                        {{ __($type) }}
+                                    </option>
+                                @endforeach
+                            </select>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>السعر</span>
@@ -93,36 +108,7 @@
                             </div>
                         </form>
 
-                        <div class="row mt-3">
-                            <div class="form-group d-flex">
-                                <input type="checkbox" id="without_images" name="without_images" onchange="reloadUnits()" {{ old('without_images') ? 'checked' : '' }}>
-                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون الصور</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group d-flex">
-                                <input type="checkbox" id="with_images" name="with_images" onchange="reloadUnits()" {{ old('with_images') ? 'checked' : '' }}>
-                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع الصور</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group d-flex">
-                                <input type="checkbox" id="with_price" name="with_price" onchange="reloadUnits()" {{ old('with_price') ? 'checked' : '' }}>
-                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات مع السعر</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group d-flex">
-                                <input type="checkbox" id="without_price" name="without_price" onchange="reloadUnits()" {{ old('without_price') ? 'checked' : '' }}>
-                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">الاعلانات بدون السعر</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group d-flex">
-                                <input type="checkbox" id="reserved_units" name="reserved_units" onchange="reloadUnits()" {{ old('reserved_units') ? 'checked' : '' }}>
-                                <label class="w-auto" style="margin-bottom:7px;margin-top:7px;margin-right: 10px;font-size: 14px;">اعلانات العقارات المحجوزة</label>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 

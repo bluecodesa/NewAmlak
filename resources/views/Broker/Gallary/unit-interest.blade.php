@@ -46,11 +46,10 @@
                                     <select class="form-control form-control-sm" id="status_filter" name="status_filter" onchange="reloadInterests()">
                                         <option value="all" {{ $statusFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
                                         @foreach ($interestsTypes as $interestsType)
-                                        <option value="{{ __($interestsType->name) }}"  {{ $statusFilter == $interestsType->name ? 'selected' : '' }}>
+                                        <option value="{{ __($interestsType->id) }}"  {{ $statusFilter == $interestsType->id ? 'selected' : '' }}>
                                             {{ __($interestsType->name) }}
                                         </option>
                                     @endforeach
-
                                     </select>
                                     </div>
                                     <div class="w-auto  p-0 ml-2">
@@ -91,6 +90,7 @@
                                                 </option>
                                             @endif
                                         @endforeach
+
                                     </select>
                                     </div>
 
@@ -101,10 +101,12 @@
                                             @foreach ($unitInterests as $unitInterest)
                                             @if ($unitInterest->name )
                                                 <option value="{{ $unitInterest->id }}" {{ $clientFilter == $unitInterest->id ? 'selected' : '' }}>
-                                                    {{ $unitInterest->name }}
+                                                    {{ _($unitInterest->name) }}
                                                 </option>
                                             @endif
                                         @endforeach
+
+
                                         </select>
                                     </div>
                                 </div>
@@ -146,13 +148,14 @@
                                                                 <input type="hidden" name="id" value="{{ $client->id }}">
                                                                 <select class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
                                                                     @foreach ($interestsTypes as $interestsType)
-                                                                        <option value="{{ __($interestsType->name) }}" {{ $client->status == __($interestsType->name) ? 'selected' : '' }}>
+                                                                        <option value="{{ $interestsType->id }}" {{ $client->status == $interestsType->id ? 'selected' : '' }}>
                                                                             {{ __($interestsType->name) }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
                                                                 <button type="submit" class="submit-from" hidden=""></button>
                                                             </form>
+
 
                                                         </td>
 

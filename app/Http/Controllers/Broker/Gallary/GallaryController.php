@@ -78,10 +78,11 @@ class GallaryController extends Controller
         $brokerId = auth()->user()->UserBrokerData->id;
 
         // Get all units for the broker
-        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id)
-        ->where('show_gallery', 1);
+        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
+        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->unique();
+        $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
         $unitsWithDistricts = $units->filter(function ($unit) {
             return $unit->CityData->DistrictsCity->isNotEmpty();
         });
@@ -96,7 +97,7 @@ class GallaryController extends Controller
         $cityFilter = request()->input('city_filter', 'all');
         $districtFilter = request()->input('district_filter', 'all');
         $projectFilter = request()->input('project_filter', 'all');
-        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter);
+        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter,$projectFilter);
         // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
@@ -169,24 +170,21 @@ class GallaryController extends Controller
             return view('Home.Gallery.Unit.show', $data);
         }
 
-        public function showByName(Request $request, $name)
-        {
-
-
+    public function showByName(Request $request, $name)
+    {
             $cityFilter = $request->input('city_filter', 'all');
             $projectFilter = $request->input('project_filter', 'all');
             $typeUseFilter = $request->input('type_use_filter', 'all');
             $adTypeFilter = request()->input('ad_type_filter', 'all');
             $priceFrom = $request->input('price_from',null);
             $priceTo = $request->input('price_to',null);
-
-            // Call the showByName() method with all required arguments
-            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo);
-            // dd($data);
-                if (empty($data)) {
-                       return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
-                }
-                return view('Home.Gallery.index',$data);
+            $hasImageFilter = $request->input('has_image_filter', false);
+            $hasPriceFilter = $request->input('has_price_filter', false);
+            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter);
+            if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
+                return view('Broker.Gallary.inc._GalleryComingsoon',$data);
+            }
+            return view('Home.Gallery.index',$data);
     }
 
 
