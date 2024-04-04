@@ -53,14 +53,20 @@
                         </div>
                         {{-- <h5 class="font-18 text-center">@lang('تم ارسال رمز التحقق الي هذا الايميل') </h5> --}}
                         <h5 class="font-18 text-center">@lang('تم ارسال رمز التحقق الي هذا البريد الالكتروني') {{ $email }}</h5>
-
+                        <p class="font-16 text-center">@lang('هذا الرمز ساري لمده ساعه')</p>
                         {{-- <p id="countdown" class="font-16 text-center">Time remaining: <span id="countdown-value">{{ gmdate("H:i:s", $remainingTime) }}</span></p> --}}
                         <p id="countdown" class="font-16 text-center">@lang('Send New Code:') <span id="countdown-value">59</span></p>
 
                         <!-- New link button -->
+
                         <div class="form-group text-center m-t-10">
                             <div class="col-12">
-                                <a href="{{ route('forget.password.post') }}" id="new-code-button" class="col-12 text-primary" style="display: none;">@lang('Send New Code?')</a>
+                                <form id="new-code-button" method="POST" action="{{ route('forget.password.newcode') }}" style="display: none;">
+                                    @csrf
+                                    <input type="hidden" name="email" id="email-input" value="{{ $email }}">
+                                    <button type="submit" id="new-code-button" class="btn btn-link">@lang('Send New Code?')</button>
+                                </form>
+                                {{-- <a href="{{route('forget.password.newcode',['email' => $email]) }}" id="new-code-button" class="col-12 text-primary" style="display: none;">@lang('Send New Code?')</a> --}}
                             </div>
                         </div>
                         <form method="POST" action="{{ route('reset.password.code') }}">
@@ -141,6 +147,9 @@
         startCountdown();
     });
 </script>
+
+
+
 
     </body>
 

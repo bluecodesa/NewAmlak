@@ -55,32 +55,24 @@
                             </div>
                         <h5 class="font-18 text-center">@lang('تغيير  كلمة المرور')</h5>
                         @include('Admin.layouts.Inc._errors')
-                        <form class="form-horizontal m-t-30" action="{{ route('reset.password.post') }}" method="POST"> <!-- Ensure method is set to POST -->
+                    <form class="form-horizontal m-t-30" action="{{ route('reset.password.post') }}" method="POST"> <!-- Ensure method is set to POST -->
                             @csrf <!-- Include CSRF token -->
                             <input type="hidden" name="token" value="{{ $token }}"> <!-- Include the token here -->
 
-                        <div class="row mb-3">
+                            <div class="row mb-3">
 
                             <div class="col-md-9">
                                 <input id="email" hidden type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
 
-                        <div class="col-12">
+                            </div>
+                           </div>
+
+                           <div class="col-12">
                             <label for="password" >{{ __('New Password') }}</label>
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                        </div>
+
+                         </div>
 
                         <div class="col-12">
                             <label for="password-confirm" >{{ __('Confirm Password') }}</label>
