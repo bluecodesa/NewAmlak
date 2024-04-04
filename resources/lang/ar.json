@@ -167,7 +167,7 @@
     "A new office has been added to the platform with the name:": "تم انضمام مكتب جديد في المنصة باسم",
     "NewOffice": "مكتب عقاري جديد",
     "A new Broker has been added to the platform with the name:": "تم انضمام مسوق جديد في المنصة باسم",
-    "NewBroker": "مسوق عقاري جديد",
+    "NewBroker": "تم تسجيل مسوق عقاري جديد",
     "mobile": "رقم الجوال",
     "view": "عرض",
     "Invoice": "الفاتورة",
@@ -368,11 +368,11 @@
     "Send New Code?": "ارسال رمز تحقق جديد؟",
     "Your reset password code is:": "رمز إعادة تعيين كلمة المرور الخاصة بك هو:",
     "A new Broker Risgter": "تم تسجيل مسوق جديد",
-    "You have an update on a support ticket:": "لديك تحديث على تذكرة دعم",
-    "You have a new support ticket:": "لديك تذكرة دعم جديدة",
+    "You have an update on a support ticket": "لديك تحديث على تذكرة دعم",
+    "You have a new support ticket": "لديك تذكرة دعم جديدة",
     "NewTicket": "تذكرة دعم جديده",
     "ResponseTicket": " تحديث على تذكرة دعم",
-    "NewIntrestOrder": "طلب اهتام جديد",
-    "You have a new Intrest Order :": "لديك طلب اهتمام جديد"
+    "NewIntrestOrder": "طلب اهتمام جديد",
+    "You have a new Intrest Order": "لديك طلب اهتمام جديد"
 
 }

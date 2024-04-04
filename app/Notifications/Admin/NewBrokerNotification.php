@@ -37,7 +37,7 @@ class NewBrokerNotification extends Notification
         $subscriptionType = $subscriber->SubscriptionTypeData;
         $subscriptionTypeName = $subscriptionType ? $subscriptionType->name : '';
         return [
-            'msg' => __('A new Broker Risgter') . ' ' . ($user->name).' '. __('Subscription Type'). ' ' .($subscriptionTypeName),
+            'msg' => __('') . ' ' . ($user->name).' '. __('Subscription Type'). ' ' .($subscriptionTypeName),
             'url' => route('Admin.Subscribers.show', $subscriber->id),
             'type_noty' => 'NewBroker',
             'service_name' => 'NewBroker',

@@ -30,9 +30,9 @@ class NewIntrestOrderNotification extends Notification
         $unit_name=$this->intrestOrder->unit->number_unit;
 
         return [
-            'msg' => __('You have a new Intrest Order :') . ' ' . ($unit_name),
+            'msg' => __('') . ' ' . ($unit_name),
             'url' => route('Broker.Gallary.showInterests'),
-            'type_noty' => 'NewIntrestOrder',
+            'type_noty' => 'You have a new Intrest Order',
             'service_name' => 'NewIntrestOrder',
             'created_at' => now(),
         ];

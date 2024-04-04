@@ -39,9 +39,9 @@ class ResponseTicketNotification extends Notification
         $user_name=$user->name;
 
         return [
-            'msg' => __('You have an update on a support ticket:') . ' ' . ($formattedId).' : '.($type),
+            'msg' => __('') . ' ' . ($formattedId).' : '.($type),
             'url' => route('Broker.Tickets.show', $ticket_id),
-            'type_noty' => 'ResponseTicket',
+            'type_noty' => 'You have an update on a support ticket',
             'service_name' => 'ResponseTicket',
             'created_at' => now(),
         ];
