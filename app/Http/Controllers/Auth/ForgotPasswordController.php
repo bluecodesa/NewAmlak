@@ -77,7 +77,7 @@ class ForgotPasswordController extends Controller
                 ]);
             }
 
-            $code = str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            $code = str_pad(mt_rand(0, 9999), 6, '0', STR_PAD_LEFT);
             $expiry = Carbon::now()->addMinutes(1);
 
             $currentTime = Carbon::now();
@@ -110,7 +110,7 @@ class ForgotPasswordController extends Controller
 {
     $request->validate([
         'email' => 'required|email|exists:users',
-        'code' => 'required|digits:4',
+        'code' => 'required|digits:6',
     ]);
 
     $cachedCode = Cache::get('password_reset_code_' . $request->email);
@@ -138,7 +138,7 @@ class ForgotPasswordController extends Controller
             // dd($request);
             $request->validate([
                 'email' => 'required|email|exists:users',
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|confirmed',
                 'password_confirmation' => 'required'
             ]);
 
