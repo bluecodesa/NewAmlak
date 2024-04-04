@@ -28,7 +28,7 @@ class CheckSubscriptionMiddleware
                 $subscriptionType = SubscriptionType::find($subscription['subscription_type_id']);
                 $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
                 $subscription->update([
-                    'status' => 'pending',
+                    'status' => 'expired',
                     'notified' => 0,
                     'is_end' => 0,
                     'is_start' => 0,
