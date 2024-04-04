@@ -62,7 +62,7 @@
                         <div class="row">
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
-                            <span class=" w-auto mb-2" style="color: #989898"> @lang('Property type') :
+                            <span class=" w-auto mb-2" style="color: #989898">
                                 {{ $Unit->PropertyTypeData->name ?? ''  }}
                             </span>
 
@@ -147,38 +147,33 @@
                         </div>
 
                         <div class="row justify-content-between gap-3">
-                            @if ($Unit->UnitFeatureData)
-
+                            @if ($Unit->UnitFeatureData->isNotEmpty() && $Unit->UnitFeatureData->whereNotNull('qty')->isNotEmpty())
                             <div class="d-block text-black">
-
                                 <strong>@lang('Additional details')</strong>
                             </div>
-                             <ol class="list-group list-group-numbered">
-                                 @foreach ($Unit->UnitFeatureData as $feature)
-                                 <span>{{ $feature->FeatureData->name ?? '' }} : {{ $feature->qty }}</span>
+                            <ol class="list-group list-group-numbered">
+                                @foreach ($Unit->UnitFeatureData as $feature)
+                                    @if ($feature->qty)
+                                        <span>{{ $feature->FeatureData->name ?? '' }} : {{ $feature->qty }}</span>
+                                    @endif
+                                @endforeach
+                            </ol>
+                        @endif
 
-                                    {{-- <div class="fw-bold">{{ $feature->FeatureData->name ?? '' }}</div>
 
-                                    <span style="font-size: 12px;"
-                                    class="badge bg-primary fw-bold text-white  rounded-pill">{{ $feature->qty }}</span> --}}
-
-                                 @endforeach
-                             </ol>
-                         @endif
-                         @if ($Unit->UnitServicesData)
-                         <div class="d-block text-black" role="alert">
+                        @if ($Unit->UnitServicesData->isNotEmpty())
+                        <div class="d-block text-black" role="alert">
                             <strong>@lang('services')</strong>
                         </div>
                         <ol class="list-group list-group-numbered">
-
-                                <span class="text-with-ellipsis">
-
+                            <span class="text-with-ellipsis">
                                 @foreach ($Unit->UnitServicesData as $service)
-                                <span>{{ $service->ServiceData->name ?? '' }}</span>
-                                 @endforeach
-                                </span>
+                                    <span>{{ $service->ServiceData->name ?? '' }}</span>
+                                @endforeach
+                            </span>
                         </ol>
                     @endif
+
                         </div>
 
                     </div>

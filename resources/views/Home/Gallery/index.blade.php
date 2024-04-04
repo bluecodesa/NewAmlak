@@ -3,6 +3,7 @@
     معرض العقارات
 @stop
 @section('content')
+@include('Home.layouts.inc.__addSubscriberModal')
 
     <link href="{{ asset('HOME_PAGE/css/public_gallery.css') }}" rel="stylesheet" type="text/css" id="theme-opt" />
     <section id="gallery_public" class="container">
@@ -39,7 +40,7 @@
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Ads with price')</span>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="hasImageFilter" name="has_image_filter" {{ $hasPriceFilter ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="hasPriceFilter" name="has_price_filter" {{ $hasPriceFilter ? 'checked' : '' }}>
                                     </div>
                                 </div>
 
@@ -381,6 +382,14 @@ $(document).ready(function() {
 
     </script>
 
+<script>
+    function redirectToCreateBroker() {
+        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+    }
+    function redirectToCreateOffice() {
+        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 
+    }
+</script>
 
 @endpush

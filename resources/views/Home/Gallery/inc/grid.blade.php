@@ -80,7 +80,7 @@
                                     style="width: 18px;height: fit-content;" class="p-0" />
                                     <span class="mb-2 w-auto" style="color: #989898">
 
-                                        {{ __('Occupancy') }}:  {{ __($unit->status) ?? '' }}
+                                        {{ __('Property type') }}:  {{ __($unit->PropertyTypeData->name) ?? '' }}
                                       </span>
 
 

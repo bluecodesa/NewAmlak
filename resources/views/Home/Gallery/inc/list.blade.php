@@ -20,7 +20,7 @@
                                 <img src="{{ url($unit->UnitImages->first()->image) }}" class="img-fluid"
                                         style="height:177px;object-fit:cover" />
                                 @else
-                                    <img src="{{ asset('dashboard/assets/new-icons/pngwing.png') }}" class="img-fluid"
+                                    <img src="{{ asset('Offices/Projects/default.svg') }}" class="img-fluid"
                                         style="height:177px;object-fit:cover" />
                                 @endif
 
@@ -73,7 +73,7 @@
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
                             <span class=" w-auto mb-2" style="color: #989898">
-                                {{ __('Occupancy') }}: {{ __($unit->status) ?? '' }}
+                                {{ __('Property type') }}: {{ __($unit->PropertyTypeData->name) ?? '' }}
 
                             </span>
                         </div>
