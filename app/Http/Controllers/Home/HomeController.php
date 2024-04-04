@@ -257,8 +257,6 @@ class HomeController extends Controller
             'broker_logo' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
         ]);
 
-        $this->notifyAdmins($broker);
-
 
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
         $startDate = Carbon::now();
@@ -318,6 +316,9 @@ class HomeController extends Controller
         } else {
             $gallery = null;
         }
+
+        $this->notifyAdmins($broker);
+
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
         return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
     }

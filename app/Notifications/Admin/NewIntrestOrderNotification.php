@@ -27,8 +27,10 @@ class NewIntrestOrderNotification extends Notification
 
     public function toDatabase($notifiable)
     {
+        $unit_name=$this->intrestOrder->unit->number_unit;
+
         return [
-            'msg' => __('A new Intrest Order has been added from a client name :') . ' ' . ($this->intrestOrder->name),
+            'msg' => __('You have a new Intrest Order :') . ' ' . ($unit_name),
             'url' => route('Broker.Gallary.showInterests'),
             'type_noty' => 'NewIntrestOrder',
             'service_name' => 'NewIntrestOrder',

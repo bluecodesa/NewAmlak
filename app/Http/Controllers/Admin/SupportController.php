@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
+use App\Models\User;
+use App\Notifications\Admin\AdminResponseTicketNotification;
+use App\Notifications\Admin\ResponseTicketNotification;
 use App\Services\Admin\SectionService;
 use App\Services\Admin\SupportService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class SupportController extends Controller
 {
@@ -111,12 +115,19 @@ class SupportController extends Controller
 
         // Save the ticket response
         $response->save();
+        $this->notifyBroker($response);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', __('Response added successfully'));
     }
 
-
+    protected function notifyBroker(TicketResponse $response)
+    {
+        $brokers = User::where('is_broker', true)->get();
+        foreach ($brokers as $broker) {
+            Notification::send($broker, new ResponseTicketNotification($response));
+        }
+    }
     public function destroy($id)
     {
         $this->SupportService->delete($id);

@@ -370,6 +370,9 @@
     "A new Broker Risgter": "تم تسجيل مسوق جديد",
     "You have an update on a support ticket:": "لديك تحديث على تذكرة دعم",
     "You have a new support ticket:": "لديك تذكرة دعم جديدة",
-    "NewTicket": "تذكرة دعم جديده"
+    "NewTicket": "تذكرة دعم جديده",
+    "ResponseTicket": " تحديث على تذكرة دعم",
+    "NewIntrestOrder": "طلب اهتام جديد",
+    "You have a new Intrest Order :": "لديك طلب اهتمام جديد"
 
 }

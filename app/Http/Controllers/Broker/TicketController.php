@@ -8,7 +8,9 @@ use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Models\TicketType;
 use App\Models\User;
+use App\Notifications\Admin\AdminResponseTicketNotification;
 use App\Notifications\Admin\NewTicketNotification;
+use App\Notifications\Admin\ResponseTicketNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
@@ -166,11 +168,21 @@ class TicketController extends Controller
             $response->response_attachment = 'Tickets/responses/' . $fileName; // Save the file path without leading slash
         }
 
-
-
         $response->save();
 
+            $this->notifyAdmin($response);
+
+
         return redirect()->back()->with('success', __('Response added successfully'));
+    }
+
+
+    protected function notifyAdmin(TicketResponse $response)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new AdminResponseTicketNotification($response));
+        }
     }
     public function closeTicket(Request $request, $id)
     {
