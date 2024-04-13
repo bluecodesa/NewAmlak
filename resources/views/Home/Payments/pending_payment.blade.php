@@ -65,7 +65,7 @@
                     <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-toggle="modal"
                         data-target=".bs-example-modal-lg" data-url="{{ route('Broker.ViewInvoice') }}">اكمال
                         الدفع</button>
-                    <a href="#" class="btn btn-outline-warning">@lang('Support')</a>
+                    <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
                 </div>
 
             </div>

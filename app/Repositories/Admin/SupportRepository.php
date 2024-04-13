@@ -4,26 +4,28 @@ namespace App\Repositories\Admin;
 
 use App\Interfaces\Admin\SupportRepositoryInterface;
 use App\Models\Section;
+use App\Models\Ticket;
+use App\Models\TicketResponse;
 use App\Models\TicketType;
 
 class SupportRepository implements SupportRepositoryInterface
 {
-    public function getAll()
+    public function getAllTicketTypes()
     {
         return TicketType::get();
     }
 
-    public function create($data)
+    public function createTicketType($data)
     {
         return TicketType::create($data);
     }
 
-    function getById($id)
+    function getTicketTypById($id)
     {
         return TicketType::find($id);
     }
 
-    public function update($id, $data)
+    public function updateTicketType($id, $data)
     {
         $Section = TicketType::findOrFail($id);
         $Section->update($data);
@@ -34,4 +36,23 @@ class SupportRepository implements SupportRepositoryInterface
     {
         return TicketType::findOrFail($id)->delete();
     }
+
+
+    public function createTicketResponse(TicketResponse $response)
+    {
+        return $response->save();
+    }
+
+    public function findTicketById(int $ticketId)
+    {
+        return Ticket::findOrFail($ticketId);
+    }
+    public function closeTicket(int $ticketId)
+    {
+        $ticket = $this->findTicketById($ticketId);
+        $ticket->status = 'Closed';
+        $ticket->save();
+    }
+
+
 }

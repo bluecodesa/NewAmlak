@@ -12,41 +12,37 @@ use App\Notifications\Admin\AdminResponseTicketNotification;
 use App\Notifications\Admin\NewTicketNotification;
 use App\Notifications\Admin\ResponseTicketNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use App\Services\broker\TicketService;
+use Illuminate\Support\Facades\Validator;
 
 class TicketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $ticketService;
+
+    public function __construct(TicketService $ticketService)
+    {
+        $this->ticketService = $ticketService;
+    }
+
     public function index()
     {
-        //
-        $user_id = auth()->user()->id;
-        $tickets = Ticket::where('user_id', $user_id)->get();
+        $tickets = $this->ticketService->getUserTickets(Auth::id());
         $settings = Setting::first();
-
         $tickets->transform(function ($ticket) {
             $ticket->formatted_id = "100{$ticket->id}";
             return $ticket;
         });
-        return view ('Broker.Ticket.index',get_defined_vars());
+        return view('Broker.Ticket.index',get_defined_vars());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
-        $ticketTypes=TicketType::all();
-        return view ('Broker.Ticket.create',get_defined_vars());
-
+        $ticketTypes = TicketType::all();
+        return view('Broker.Ticket.create', compact('ticketTypes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
@@ -84,6 +80,42 @@ class TicketController extends Controller
 
     }
 
+    public function show(string $id)
+    {
+        $ticket = $this->ticketService->findTicketById($id);
+        $formatted_id  = "100{$ticket->id}";
+        $user = auth()->user();
+
+        // Check if the ticket belongs to the authenticated user
+        if ($ticket->user_id !== $user->id) {
+            return redirect()->route('Broker.home');
+        }
+
+        $ticketResponses = $this->ticketService->getTicketResponses($id);
+
+        return view('Broker.Ticket.show', get_defined_vars());
+    }
+
+    public function addResponse(Request $request, $ticketId)
+    {
+        $ticketData = [
+            'user_id' => auth()->user()->id,
+            'response' => $request->input('response'),
+            'response_attachment' => $request->file('response_attachment'),
+        ];
+
+        $this->ticketService->addResponseToTicket($ticketId, $ticketData);
+
+        return redirect()->back()->with('success', __('Response added successfully'));
+    }
+
+
+    public function closeTicket(Request $request, $id)
+    {
+        $this->ticketService->closeTicket($id);
+        return redirect()->back()->with('success', __('Ticket closed successfully'));
+    }
+
     protected function notifyAdmins(Ticket $ticket)
     {
         $admins = User::where('is_admin', true)->get();
@@ -91,108 +123,5 @@ class TicketController extends Controller
             Notification::send($admin, new NewTicketNotification($ticket));
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-{
-    $ticket = Ticket::findOrFail($id);
-    $formatted_id = "100{$ticket->id}";
-    $user = auth()->user();
-
-    // Check if the ticket belongs to the authenticated user
-    if ($ticket->user_id !== $user->id) {
-        return redirect()->route('Broker.home');
-    }
-
-    $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
-
-    return view('Broker.Ticket.show', compact('ticket', 'formatted_id', 'ticketResponses'));
 }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-    public function addResponse(Request $request, $ticketId)
-    {
-        $request->validate([
-            'response' => 'required|string',
-            'response_attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules for the attachment
-        ]);
-
-
-
-        $ticket = Ticket::findOrFail($ticketId);
-
-        if ($ticket->status === 'Closed') {
-            return redirect()->back()->with('error', __('Cannot add response. Ticket is already closed.'));
-        }
-
-        if ($ticket->status !== 'Waiting for customer') {
-            $ticket->status = 'Waiting for technical support';
-            $ticket->save();
-        }
-
-        $response = new TicketResponse();
-        $response->ticket_id = $ticketId;
-        $response->user_id = auth()->user()->id;
-        $response->response = $request->input('response');
-
-        if ($request->hasFile('response_attachment')) {
-            $file = $request->file('response_attachment');
-            $ext = $file->getClientOriginalExtension();
-            $fileName = uniqid() . '.' . $ext;
-            $file->move(public_path('Tickets/responses'), $fileName);
-            $response->response_attachment = 'Tickets/responses/' . $fileName; // Save the file path without leading slash
-        }
-
-        $response->save();
-
-            $this->notifyAdmin($response);
-
-
-        return redirect()->back()->with('success', __('Response added successfully'));
-    }
-
-
-    protected function notifyAdmin(TicketResponse $response)
-    {
-        $admins = User::where('is_admin', true)->get();
-        foreach ($admins as $admin) {
-            Notification::send($admin, new AdminResponseTicketNotification($response));
-        }
-    }
-    public function closeTicket(Request $request, $id)
-    {
-        $ticket = Ticket::findOrFail($id);
-
-        $ticket->status = 'Closed';
-        $ticket->save();
-
-        return redirect()->back()->with('success', __('Ticket closed successfully'));
-    }
-
-
-}

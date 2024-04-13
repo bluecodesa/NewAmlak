@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Section extends Model
 {
     use Translatable;
-    public $translatedAttributes = ['name'];
+    public $translatedAttributes = ['name','description'];
     protected $guarded = [];
 }

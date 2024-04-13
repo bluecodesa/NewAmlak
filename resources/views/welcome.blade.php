@@ -612,14 +612,14 @@
                 <div class="col-4 center-price soon-feature" style="padding-bottom: 30px">
                     <a class="btn ArFont" disabled
                         style="    border: 1px solid #497aac;
-    color: #060D07;
-    border-radius: 25px;
-    background-color: #fff;    cursor: auto;    min-width: fit-content;
-    padding: 0 11px;
-    min-height: 40px;
-    margin: auto;
-    border-radius: 12px;">ابدأ
-                        الآن</a>
+        color: #060D07;
+        border-radius: 25px;
+        background-color: #fff;    cursor: auto;    min-width: fit-content;
+        padding: 0 11px;
+        min-height: 40px;
+        margin: auto;
+        border-radius: 12px;">ابدأ
+                            الآن</a>
                 </div>
             </div>
             <div class="col-12">

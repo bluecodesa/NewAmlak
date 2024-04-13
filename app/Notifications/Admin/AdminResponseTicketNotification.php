@@ -39,7 +39,7 @@ class AdminResponseTicketNotification extends Notification
         $user_name=$user->name;
 
         return [
-            'msg' => __('You have an update on a support ticket:') . ' ' . ($formattedId).' : '.($user_name),
+            'msg' => __('You have an update on a support ticket') . ' ' . ($formattedId).' : '.($user_name),
             'url' => route('Admin.SupportTickets.show',$ticket_id),
             'type_noty' => 'ResponseTicket',
             'service_name' => 'ResponseTicket',

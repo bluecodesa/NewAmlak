@@ -30,13 +30,10 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['service_id']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         if (isset($data['show_gallery'])) {
-            if ($data['show_gallery'] == 'on') {
-                $unit_data['show_gallery'] = 1;
-            } else {
-                $unit_data['show_gallery'] = 0;
-            }
+            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+
         } else {
-            $unit_data['show_gallery'] = 1;
+            $unit_data['show_gallery'] = 0;
         }
         $unit = Unit::create($unit_data);
         if (isset($data['service_id'])) {

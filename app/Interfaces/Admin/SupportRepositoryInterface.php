@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Interfaces\Admin;
+use App\Models\TicketResponse;
+
 
 interface SupportRepositoryInterface
 {
-    public function getAll();
-    public function create($data);
-    public function getById($data);
-    public function update($id, $data);
+    public function getAllTicketTypes();
+    public function createTicketType($data);
+    public function getTicketTypById($data);
+    public function updateTicketType($id, $data);
     public function delete($id);
+
+    public function createTicketResponse(TicketResponse $response);
+    public function closeTicket(int $ticketId);
+
 }

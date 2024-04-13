@@ -45,6 +45,16 @@
                                                     placeholder="{{ __('Name') }} {{ __($locale) }}">
                                             </div>
                                         </div>
+                                        <div class="col-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    {{ __('Description') }} {{ __($locale) }}</label>
+                                                    <textarea id="{{ $locale }}Description" name="{{ $locale }}[description]"
+                                                     class="form-control"
+                                                      placeholder="{{ __('Description') }} {{ __($locale) }}">
+                                                    </textarea>
+                                            </div>
+                                        </div>
                                     @endforeach
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary me-1">

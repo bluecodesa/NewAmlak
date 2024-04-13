@@ -60,7 +60,7 @@ Route::group(
             Route::post('SaveNewOwners', [UnitController::class, 'SaveNewOwners'])->name('Unit.SaveNewOwners');
             Route::get('/UnitdeleteImage/{id}', 'ProjectManagement\UnitController@deleteImage')->name('Unit.deleteImage')->middleware('CheckSubscription');
             route::resource('Gallery', GallaryController::class)->middleware('CheckSubscription');
-            route::resource('Tickets', TicketController::class)->middleware('CheckSubscription');
+            route::resource('Tickets', TicketController::class);
             Route::post('tickets/{ticketId}/add-response', [TicketController::class, 'addResponse'])->name('tickets.addResponse');
             Route::post('/update-cover', [GallaryController::class, 'updateCover'])->name('Gallery.update-cover');
             Route::post('/gallery/create', [GallaryController::class, 'createGallery'])->name('Gallery.create');

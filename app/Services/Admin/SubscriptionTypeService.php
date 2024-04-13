@@ -12,6 +12,10 @@ class SubscriptionTypeService
     {
         $this->subscriptionTypeRepository = $subscriptionTypeRepository;
     }
+    public function getAll()
+    {
+        return $this->subscriptionTypeRepository->getAll();
+    }
 
     public function getAllFiltered($status, $period, $price)
     {

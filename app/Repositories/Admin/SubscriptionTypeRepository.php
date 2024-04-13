@@ -9,6 +9,12 @@ use App\Models\SubscriptionTypeSection;
 
 class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
 {
+    public function getAll()
+    {
+        $query = SubscriptionType::where('is_deleted', 0);
+        return $query->get();
+
+    }
     public function getAllFiltered($status, $period, $price)
     {
         $query = SubscriptionType::where('is_deleted', 0);

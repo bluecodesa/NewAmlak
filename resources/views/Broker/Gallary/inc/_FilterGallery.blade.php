@@ -87,4 +87,35 @@
         document.querySelector('input#district_filter').value = districtFilter;
         document.querySelector('input#project_filter').value = projectFilter;
     });
+
+
+// Add an event listener to the city dropdown
+$('#city_filter').on('change', function() {
+    console.log('City selected:', $(this).val()); // Add this line to check if the event is triggered
+
+    var cityId = $(this).val();
+
+    // Filter districts based on the selected city
+    var filteredDistricts = allDistricts.filter(function(district) {
+        return district.city_id == cityId;
+    });
+
+    // Clear existing options and populate the districts dropdown with filtered data
+    $('#district_filter').empty();
+    $('#district_filter').append($('<option>', {
+        value: 'all',
+        text: '@lang('All')'
+    }));
+
+    filteredDistricts.forEach(function(district) {
+        $('#district_filter').append($('<option>', {
+            value: district.id,
+            text: district.name
+        }));
+    });
+});
+
 </script>
+
+
+

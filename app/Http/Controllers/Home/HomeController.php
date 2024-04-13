@@ -24,30 +24,35 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
-
+use App\Services\Admin\SubscriptionTypeService;
+use App\Services\Admin\SectionService;
 
 
 class HomeController extends Controller
 {
     use MailWelcomeBroker;
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+
+
+    protected $subscriptionTypeService;
+    protected $SectionService;
+
+    public function __construct(SubscriptionTypeService $subscriptionTypeService, SectionService $SectionService)
     {
-        // $this->middleware('auth');
+        $this->subscriptionTypeService = $subscriptionTypeService;
+        $this->SectionService = $SectionService;
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
+
     public function index()
     {
+        //subscrptions
 
+        $subscriptionTypes = $this->subscriptionTypeService->getAll();
+        $sections = $this->SectionService->getAll();
+
+
+        ///
         $sitting =   Setting::first();
         if ($sitting->active_home_page == 1) {
             return view('Home.home', get_defined_vars());
@@ -337,7 +342,6 @@ class HomeController extends Controller
         $user = User::find(Auth::id());
         $user->update(['fcm_token' => $request->token]);
     }
-
 
 
 
