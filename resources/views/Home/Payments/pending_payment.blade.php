@@ -25,9 +25,9 @@
 
 
                 @if ($pendingPayment)
-                    <p class="card-text"> {{ __('status.expired') }} </p>
+                    <p class="card-text"> {{ __('broker.expired') }} </p>
                 @else
-                    <p class="card-text"> {{ __('status.pending') }} </p>
+                    <p class="card-text"> {{ __('broker.pending') }} </p>
                 @endif
 
 
