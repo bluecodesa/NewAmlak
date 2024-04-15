@@ -143,9 +143,19 @@
 
 
                                                     <div class="col-md-3">
-                                                        <h6> @lang('price') :
+                                                        <h6> @lang('selling price') :
                                                             <span class="badge font-13 badge-primary">
                                                                 {{ $Unit->price }} <sup>@lang('SAR')</sup>
+                                                            </span>
+                                                        </h6>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <h6> @lang('Rental price') :
+                                                            <span class="badge font-13 badge-primary">
+                                                                {{ $Unit->getRentPriceByType() }}
+                                                                <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                                                </sup>
                                                             </span>
                                                         </h6>
                                                     </div>
@@ -170,8 +180,31 @@
                                                     </div>
 
                                                 </div>
-                                                <a href="{{ route('Broker.Unit.edit', $Unit->id) }}"
-                                                    class="btn btn-warning">@lang('Edit') </a>
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <a href="{{ route('Broker.Unit.edit', $Unit->id) }}"
+                                                                class="btn btn-warning">@lang('Edit') </a>
+                                                        </div>
+                                                        @php($types = ['daily', 'monthly', 'quarterly', 'midterm', 'yearly'])
+
+
+                                                        <div class="form-group col-md-4 mb-3">
+                                                            <select class="form-control UpdateRentPriceByType">
+                                                                <option disabled value="" selected>@lang('Choose the rental price')
+                                                                </option>
+                                                                @foreach ($types as $type)
+                                                                    <option value="{{ $type }}"
+                                                                        data-url="{{ route('Broker.Unit.UpdateRentPriceByType', $Unit->id) }}"
+                                                                        data-type="{{ $type }}">
+                                                                        {{ __($type) }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
 
 
                                             </div>
@@ -297,4 +330,31 @@
         </div>
 
     </div>
+
+    @push('scripts')
+        <script>
+            $('.UpdateRentPriceByType').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                var rent_type_show = selectedOption.data('type');
+                $.ajax({
+                    url: url,
+                    method: "get",
+                    data: {
+                        rent_type_show: rent_type_show
+                    },
+                    success: function(data) {
+                        alertify.success(@json(__('rental price has been updated')));
+                        // setTimeout(location.reload(), 5000);
+                        setTimeout(function() {
+                            location.reload()
+                        }, 1000);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+        </script>
+    @endpush
 @endsection

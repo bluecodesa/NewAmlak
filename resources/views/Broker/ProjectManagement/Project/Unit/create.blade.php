@@ -175,19 +175,24 @@
                                             placeholder="@lang('Number bathrooms')" value="{{ old('Number bathrooms') }}" />
                                     </div>
 
-                                    <div class="col-sm-12 col-md-3 mb-3">
+                                    <div class="col-sm-12 col-md-2 mb-3">
                                         <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
                                         </label>
                                         <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
                                             data-toggle="toggle" data-onstyle="primary">
                                     </div>
 
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('selling price')</label>
+                                        <input type="number" name="price" class="form-control"
+                                            placeholder="@lang('selling price')" value="{{ old('price') }}" />
+                                    </div>
 
 
-                                    <div class="col-sm-12 col-md-3 mb-3">
-                                        <label class="form-label">@lang('price')</label>
-                                        <input type="number"  name="price" class="form-control"
-                                            placeholder="@lang('price')" value="{{ old('price') }}" />
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('Monthly rental price')</label>
+                                        <input type="number" name="monthly" class="form-control"
+                                            placeholder="@lang('Monthly rental price')" value="{{ old('price') }}" />
                                     </div>
 
 
@@ -239,6 +244,15 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    <div class="form-group col-12">
+                                        <label>@lang('Description')</label>
+                                        <div>
+                                            <textarea name="note" class="form-control" rows="5"></textarea>
+                                        </div>
+                                    </div>
+
                                     <div class="col-sm-12 col-md-12 mb-3">
                                         <label class="form-label">@lang('Pictures property') </label>
                                         <input type="file" name="images[]" multiple class="dropify"

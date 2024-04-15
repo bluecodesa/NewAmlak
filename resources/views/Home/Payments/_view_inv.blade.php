@@ -20,6 +20,14 @@
                 </div>
                 <div class="row text-center">
                     <div class="col-6">
+                        <h5>من</h5>
+                        <p>{{ $sitting->title }}</p>
+                        <p class="phone">+966500334691</p>
+                        <p class="location">الرياض - السعودية</p>
+                        <p class="id">رقم السجل التجاري: 1010697291</p>
+                    </div>
+
+                    <div class="col-6">
                         <h5>الي</h5>
                         <p>{{ Auth::user()->name }}</p>
                         <p class="phone"> {{ auth()->user()->phone ?? __('phone') }} </p>
@@ -30,13 +38,7 @@
                             {{ Auth::user()->UserBrokerData->broker_license ?? (Auth::user()->UserOfficeData->CRN ?? '') }}
                         </p>
                     </div>
-                    <div class="col-6">
-                        <h5>من</h5>
-                        <p>{{ $sitting->title }}</p>
-                        <p class="phone">+966500334691</p>
-                        <p class="location">الرياض - السعودية</p>
-                        <p class="id">رقم السجل التجاري: 1010697291</p>
-                    </div>
+
                 </div>
                 <div class="card">
                     <div class="card-body">

@@ -47,11 +47,8 @@ class HomeController extends Controller
     public function index()
     {
         //subscrptions
-
         $subscriptionTypes = $this->subscriptionTypeService->getAll();
         $sections = $this->SectionService->getAll();
-
-
         ///
         $sitting =   Setting::first();
         if ($sitting->active_home_page == 1) {
@@ -209,7 +206,7 @@ class HomeController extends Controller
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'id_number'=>'nullable|unique:brokers,id_number'
+            'id_number' => 'nullable|unique:brokers,id_number'
 
         ];
 
@@ -342,7 +339,4 @@ class HomeController extends Controller
         $user = User::find(Auth::id());
         $user->update(['fcm_token' => $request->token]);
     }
-
-
-
 }

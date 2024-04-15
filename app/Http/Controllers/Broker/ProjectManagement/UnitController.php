@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Unit;
 use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
@@ -111,11 +112,12 @@ class UnitController extends Controller
     {
         $Unit = $this->UnitService->findById($id);
 
-        if(auth()->user()->UserBrokerData->id === $Unit->broker_id) {
+        if (auth()->user()->UserBrokerData->id === $Unit->broker_id) {
             return view('Broker.ProjectManagement.Project.Unit.show', compact('Unit'));
         } else {
             abort(403, 'Unauthorized action.');
-        } }
+        }
+    }
 
     public function edit($id)
     {
@@ -159,5 +161,12 @@ class UnitController extends Controller
     {
         $unit = $this->UnitService->findById($id);
         $unit->UnitImages[0]->update(['image' => '/Brokers/Projects/default.jpg']);
+    }
+
+    function UpdateRentPriceByType(Request $request, $id)
+    {
+        Unit::find($id)->update([
+            'rent_type_show' => $request->rent_type_show
+        ]);
     }
 }

@@ -59,6 +59,9 @@ Route::group(
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
             Route::post('SaveNewOwners', [UnitController::class, 'SaveNewOwners'])->name('Unit.SaveNewOwners');
             Route::get('/UnitdeleteImage/{id}', 'ProjectManagement\UnitController@deleteImage')->name('Unit.deleteImage')->middleware('CheckSubscription');
+            Route::get('/UpdateRentPriceByType/{id}', 'ProjectManagement\UnitController@UpdateRentPriceByType')->name('Unit.UpdateRentPriceByType')->middleware('CheckSubscription');
+
+
             route::resource('Gallery', GallaryController::class)->middleware('CheckSubscription');
             route::resource('Tickets', TicketController::class);
             Route::post('tickets/{ticketId}/add-response', [TicketController::class, 'addResponse'])->name('tickets.addResponse');
