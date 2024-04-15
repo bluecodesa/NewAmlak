@@ -8,6 +8,7 @@ use App\Models\District;
 use App\Models\Owner;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
+use App\Models\SystemInvoice;
 use App\Models\UnitInterest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -144,6 +145,19 @@ class HomeController extends Controller
 
         $Invoice  = Auth::user()->UserBrokerData->UserSystemInvoicePending;
 
-        $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
+        if (!$Invoice) {
+            SystemInvoice::create([
+                'broker_id' => $subscription->broker_id,
+                'office_id' => $subscription->office_id,
+                'amount' => $SubscriptionType->price,
+                'subscription_name' => $SubscriptionType->name,
+                'period' => $SubscriptionType->period,
+                'period_type' => $SubscriptionType->period_type,
+                'invoice_ID' => 'INV_' . uniqid(),
+                'status' => 'pending'
+            ]);
+        } else {
+            $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
+        }
     }
 }

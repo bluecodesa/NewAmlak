@@ -22,6 +22,8 @@
                             {{ Auth::user()->company_name }}</h4>
                     @endif
                 @endif
+
+
                 @if ($pendingPayment)
                     <p class="card-text"> {{ __('status.expired') }} </p>
                 @else
