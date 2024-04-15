@@ -41,15 +41,16 @@ class HomeController extends Controller
 
 
 
-    public function __construct(UnitService $UnitService,SubscriptionService $subscriptionService,
-    RegionService $regionService,
-     CityService $cityService,
-     OwnerService $ownerService,
-     SubscriptionTypeService $SubscriptionTypeService,
-     GalleryService $galleryService,
-     PropertyUsageService $propertyUsageService
-     )
-    {
+    public function __construct(
+        UnitService $UnitService,
+        SubscriptionService $subscriptionService,
+        RegionService $regionService,
+        CityService $cityService,
+        OwnerService $ownerService,
+        SubscriptionTypeService $SubscriptionTypeService,
+        GalleryService $galleryService,
+        PropertyUsageService $propertyUsageService
+    ) {
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->regionService = $regionService;
@@ -63,6 +64,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
+        // return Auth::user()->UserBrokerData->UserSubscriptionPending->status;
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = $this->ownerService->getAllByBrokerId($brokerId)->count();
@@ -80,7 +82,7 @@ class HomeController extends Controller
         }
 
         $subscriber = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
-        $SubscriptionType=$this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
+        $SubscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
 
         //
         $sectionNames = [];
@@ -97,14 +99,20 @@ class HomeController extends Controller
 
         $startDate = \Carbon\Carbon::parse($subscriber->start_date);
         $endDate = \Carbon\Carbon::parse($subscriber->end_date);
-        $numOfDays = $endDate->diffInDays($startDate);
         $now = \Carbon\Carbon::now();
         $daysUntilEnd = $now->diffInDays($endDate, false); // Calculate remaining days
-        // $hoursUntilEnd = $now->diffInHours($endDate, false); // Get remaining hours
         $hoursUntilEnd = $now->diffInHours($endDate->copy()->subDays($daysUntilEnd), false); // Get remaining hours
         $minutesUntilEnd = $now->diffInMinutes($endDate, false); // Get remaining minutes
+        $numOfDays = $endDate->diffInDays($startDate);
+        if ($numOfDays == 0) {
+            $prec = 100;
+        } else {
 
-        $prec=($daysUntilEnd /$numOfDays) * 100;
+            $prec = ($daysUntilEnd / $numOfDays) * 100;
+        }
+
+        // Now you can use $prec for further calculations or output
+
         //
         return view('Broker.dashboard',  get_defined_vars());
     }

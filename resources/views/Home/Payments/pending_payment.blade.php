@@ -6,7 +6,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title mt-0"> @lang('pending')! </h5>
+                <h5 class="modal-title mt-0"> @lang('subscription') : @lang(Auth::user()->UserBrokerData->UserSubscriptionPending->status ?? 'pending') </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -23,13 +23,13 @@
                     @endif
                 @endif
                 @if ($pendingPayment)
-                    <p class="card-text">@lang('Please complete the subscription payment to be able to activate your account and use the system')</p>
+                    <p class="card-text"> {{ __('status.expired') }} </p>
                 @else
-                    <p class="card-text">@lang('Please renew the subscription payment to be able to activate your account and use the system')</p>
+                    <p class="card-text"> {{ __('status.pending') }} </p>
                 @endif
 
 
-                <p>@lang('Current subscription')</p>
+                <p>@lang('Choose the subscription system that suits you')</p>
                 <div class="col-12">
                     <div class="row text-center">
                         @forelse ($UserSubscriptionTypes as $type)

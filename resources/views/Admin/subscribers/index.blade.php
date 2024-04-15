@@ -17,8 +17,10 @@
 
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.Subscribers.index') }}">@lang('Subscribers')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
 
@@ -109,6 +111,18 @@
                                                     <td>{{ $subscriber->start_date }}</td>
                                                     <td>{{ $subscriber->end_date }}</td>
                                                     <td>
+                                                        @if ($subscriber->office_id)
+                                                            <a href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->OfficeData->UserData->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-ligh">
+                                                                @lang('login')
+                                                            </a>
+                                                        @elseif ($subscriber->broker_id)
+                                                            <a href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->BrokerData->UserData->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-ligh">
+                                                                @lang('login')
+                                                            </a>
+                                                        @endif
+
                                                         @if ($subscriber->is_suspend)
                                                             <form
                                                                 action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"

