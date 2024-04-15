@@ -362,6 +362,7 @@
 
                             <div class="row pb-5 pt-4 flex-nowrap align-items-center">
                                 <div class="w-auto">
+                                    {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $Unit->id])) !!}
 
                                 </div>
                                 <div class="d-flex gap-4" style="flex: auto;flex-direction:column">
@@ -371,8 +372,7 @@
                                     @php
                                         $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $Unit->id]) ";
                                     @endphp
-                                    <a href=""
-                                        class="d-block btn btn-new-b mt-3">Download QR Code</a>
+                                    <a href="{{ route('download.qrcode', $url) }}" class="d-block btn btn-new-b mt-3" style="width: fit-content">Download QR Code</a>
 
                                 </div>
                             </div>

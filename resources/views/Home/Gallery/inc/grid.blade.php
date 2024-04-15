@@ -194,14 +194,14 @@
                                 <div class="col-6 p-3" style="border-left: 1px solid #ededed">
 
                                     <a
-                                        href="tel:"><img
+                                        href="tel:{{ env('COUNTRY_CODE') . $broker->moblie }}"><img
                                             src="{{ asset('dashboard/assets/new-icons/call.png') }}"
                                             style="width: 22px;height: fit-content;" class="p-0" /></a>
 
 
                                 </div>
                                 <div class="col-6 p-3">
-                                    <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') }}"
+                                    <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}"
                                         target="_blank"> <img src="{{ asset('dashboard/assets/new-icons/chatt.png') }}"
                                             style="width: 22px;height: fit-content;" class="p-0" /></a>
 
