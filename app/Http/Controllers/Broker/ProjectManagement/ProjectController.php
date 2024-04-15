@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subscription;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
 use App\Services\Broker\ProjectService;
@@ -39,6 +40,7 @@ class ProjectController extends Controller
 
     public function index()
     {
+        // return   $subscriptions = Subscription::whereDate('end_date', '<=', now()->format('Y-m-d'))->get();
         $Projects = $this->projectService->getAllProjectsByBrokerId(auth()->user()->UserBrokerData->id);
         return view('Broker.ProjectManagement.Project.index',  get_defined_vars());
     }

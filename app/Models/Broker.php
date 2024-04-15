@@ -29,7 +29,7 @@ class Broker extends Model
 
     public function UserSubscriptionPending()
     {
-        return $this->hasOne(Subscription::class, 'broker_id')->where('status', 'pending');
+        return $this->hasOne(Subscription::class, 'broker_id')->where('status', '!=', 'active');
     }
 
     public function UserSubscriptionSuspend()
@@ -50,9 +50,9 @@ class Broker extends Model
     }
 
 
-    public function GalleryData(){
+    public function GalleryData()
+    {
 
-            return $this->hasOne(Gallery::class, 'broker_id');
-
+        return $this->hasOne(Gallery::class, 'broker_id');
     }
 }

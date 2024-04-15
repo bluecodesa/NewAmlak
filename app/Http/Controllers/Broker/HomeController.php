@@ -41,15 +41,16 @@ class HomeController extends Controller
 
 
 
-    public function __construct(UnitService $UnitService,SubscriptionService $subscriptionService,
-    RegionService $regionService,
-     CityService $cityService,
-     OwnerService $ownerService,
-     SubscriptionTypeService $SubscriptionTypeService,
-     GalleryService $galleryService,
-     PropertyUsageService $propertyUsageService
-     )
-    {
+    public function __construct(
+        UnitService $UnitService,
+        SubscriptionService $subscriptionService,
+        RegionService $regionService,
+        CityService $cityService,
+        OwnerService $ownerService,
+        SubscriptionTypeService $SubscriptionTypeService,
+        GalleryService $galleryService,
+        PropertyUsageService $propertyUsageService
+    ) {
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->regionService = $regionService;
@@ -80,7 +81,7 @@ class HomeController extends Controller
         }
 
         $subscriber = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
-        $SubscriptionType=$this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
+        $SubscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
 
         //
         $sectionNames = [];
@@ -104,7 +105,7 @@ class HomeController extends Controller
         $hoursUntilEnd = $now->diffInHours($endDate->copy()->subDays($daysUntilEnd), false); // Get remaining hours
         $minutesUntilEnd = $now->diffInMinutes($endDate, false); // Get remaining minutes
 
-        $prec=($daysUntilEnd /$numOfDays) * 100;
+        $prec = ($daysUntilEnd / $numOfDays) * 100;
         //
         return view('Broker.dashboard',  get_defined_vars());
     }
