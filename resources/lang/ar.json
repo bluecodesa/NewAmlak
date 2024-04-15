@@ -105,7 +105,8 @@
     "week": "اسبوع",
     "month": "شهر",
     "year": "سنه",
-    "pending": "مُعلق (بنتظار الدفع)",
+    "pending": "مُعلق",
+    "Choose the subscription system that suits you": "اختر نظام الاشتراك الذي يناسبك",
     "appear": "تظهر",
     "show": "تظهر",
     "hide": "لا تظهر",
@@ -377,5 +378,4 @@
     "NewIntrestOrder": "طلب اهتمام جديد",
     "You have a new Intrest Order": "لديك طلب اهتمام جديد",
     "Submit Comment": "تعليق"
-
 }
