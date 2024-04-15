@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription', 'redirect.users','checkUserRole:admin']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription', 'redirect.users', 'checkUserRole:admin']
     ],
     function () {
         Route::prefix('app')->name('Admin.')->group(function () {
@@ -116,6 +116,7 @@ Route::group(
             Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
             Route::post('Subscribers.CreateBroker', [SubscriptionController::class, 'storeBroker'])->name('Subscribers.CreateBroker');
             Route::post('Subscribers.SuspendSubscription/{id}', [SubscriptionController::class, 'SuspendSubscription'])->name('Subscribers.SuspendSubscription');
+            Route::get('LoginByUser/{id}', 'Subscribers\SubscriptionController@LoginByUser')->name('Subscribers.LoginByUser');
         });
     }
 );
