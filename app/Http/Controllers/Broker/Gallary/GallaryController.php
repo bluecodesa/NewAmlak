@@ -172,6 +172,7 @@ class GallaryController extends Controller
 
     public function showUnitPublic($gallery_name, $id)
         {
+            dd(request()->ip());
 
             $data = $this->galleryService->showUnitPublic($gallery_name, $id);
             if (empty($data)) {
@@ -185,9 +186,7 @@ class GallaryController extends Controller
             ->where('visited_at', '>=', now()->subHour())
             ->first();
 
-            if ($visitor) {
-                return view('Home.Gallery.Unit.show', $data);
-            }
+            if (!$visitor) {
 
             $newVisitor = new Visitor();
             $newVisitor->unit_id = $id;
@@ -195,7 +194,13 @@ class GallaryController extends Controller
             $newVisitor->ip_address = request()->ip();
             $newVisitor->visited_at = now();
             $newVisitor->save();
+            }
+            $unitVisitorsCount = [];
+            foreach ($data['units'] as $unit) {
+                $unitVisitorsCount[$id] = Visitor::where('unit_id', $unit->id)->count();
+            }
 
+            $data['unitVisitorsCount'] = $unitVisitorsCount;
             return view('Home.Gallery.Unit.show', $data);
         }
 

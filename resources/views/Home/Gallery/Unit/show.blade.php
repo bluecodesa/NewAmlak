@@ -155,6 +155,16 @@
 
                                 </div>
                                 @endif
+
+                                <div class="row justify-content-between m-0 p-0 mt-2 mb-3">
+                                    <!-- Add eye icon -->
+                                    <span class="w-auto m-0 p-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path d="M8 1a7 7 0 0 1 7 7c0 3.07-2.5 5.572-5.571 5.572A5.573 5.573 0 0 1 2.429 8 5.573 5.573 0 0 1 8 2.429 5.573 5.573 0 0 1 13.571 8 7 7 0 0 1 8 1zm0 2a5 5 0 0 0-5 5c0 1.993 1.226 3.714 3 4.413V11a1 1 0 0 0 2 0v-.586c1.774-.699 3-2.42 3-4.413a5 5 0 0 0-5-5zm0 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                                        </svg>
+                                        {{ $unitVisitorsCount[$Unit->id] ?? 0 }}
+                                    </span>
+                                </div>
                             </div>
 
                         </div>
