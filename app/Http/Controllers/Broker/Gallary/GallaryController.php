@@ -172,7 +172,6 @@ class GallaryController extends Controller
 
     public function showUnitPublic($gallery_name, $id)
         {
-            dd(request()->ip());
 
             $data = $this->galleryService->showUnitPublic($gallery_name, $id);
             if (empty($data)) {
