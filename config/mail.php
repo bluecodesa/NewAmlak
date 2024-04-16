@@ -47,7 +47,7 @@ return [
             'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
             // 'username' => $email->user_name,
             'username' =>  'info@bluecode.sa',
-            'password' => '12345678',
+            'password' => '01003315Amr@',
             'timeout' => null,
             'auth_mode' => null,
         ],

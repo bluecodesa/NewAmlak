@@ -22,7 +22,6 @@ return new class extends Migration
             $table->foreign('gallery_id')->references('id')->on('galleries')->onDelete('cascade');
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
 
-            $table->timestamps();
         });
     }
 
