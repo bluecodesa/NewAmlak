@@ -295,6 +295,8 @@
     </section>
 
 
+
+
     {{-- <section class="pricing container" id="pricing">
         <div class="row align-items-center">
             <div class="sec-title">
@@ -302,89 +304,78 @@
                 <p>توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
             </div>
         </div>
-
-        <div id="pricing-container" class="pricing-container desktop">
-            <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
-
-                <div class="row first-fix">
-                    <div class="col-3" style="padding-top: 50px;">
-                        <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
-                            ابدأ معنا الآن
-                            <br />واختر خطتك !
-                        </h5>
-                        <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
-                    </div>
-                    @foreach($subscriptionTypes as $subscriptionType)
-
-
-                    <div class="col-3 custom-grad"
-                        style="border-top-right-radius: 41px;padding-top: 50px; border-top-left-radius: 41px;">
-                        <div class="img-smm-y" style="margin: auto;background-color: #fff;">
-                            <img src="{{ asset('HOME_PAGE/images/new/Star.png') }}" class="img-fluid" />
-                        </div>
-                        <h5>{{ $subscriptionType->name }}</h5>
-                        <p class="change_period first"><span class="yel-price">{{ $subscriptionType->price }}</span><span class="month"> رس /
-                                شهريا</span></p>
-                    </div>
-
-                    @endforeach
-
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="form-check form-switch">
-                            <div class="check">
-                                <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
-                                <div class="check2" onclick="changePeriod(2)">سنوي</div>
+        <div class="pricing-container desktop">
+        <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
+            <div class="row first-fix">
+                <div class="col-3" style="padding-top: 50px;">
+                    <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
+                        ابدأ معنا الآن
+                        <br />واختر خطتك !
+                    </h5>
+                    <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <div class="check">
+                                    <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
+                                    <div class="check2" onclick="changePeriod(2)">سنوي</div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
+                </div>
+                @foreach ($subscriptionTypes as $subscriptionType)
+                <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
+                    <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
+                        <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
+                    </div>
+                    <h5>{{ $subscriptionType->name }}</h5>
+                    <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
                     <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
                         @guest
                             <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
                                 data-target="#exampleModalCenter">ابدأ الآن</a>
                         @endguest
                         @auth
-                            <a class="btn btn-new2 ArFont" href="">ابدأ الآن</a>
+                            <a class="btn btn-new2 ArFont" href="{{ route('login') }}">ابدأ الآن</a>
                         @endauth
-                    </div>
-
-                </div>
-                <div class="row" style="background-color:#F6F9FC ;">
-                    <div class="col-3">
-                        <p>مدة الاشتراك</p>
-                    </div>
-                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                        <p>{{ $subscriptionType->period . ' ' . $subscriptionType->period_type }}                        </p>
-                    </div>
-
-                </div>
-                @foreach ($sections as $section)
-
-                <div class="row">
-                    <div class="col-3">
-                        <p>{{ $section->name }}</p>
-                    </div>
-                    <div class="col-3">
-                        @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; fill: #497aac;">
-                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                        @else
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; fill: #ff0000;">
-                            <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm5 11h-10v-2h10v2z"/>
-                        </svg>
-                        @endif
                     </div>
                 </div>
                 @endforeach
 
             </div>
+
+            @foreach ($sections as $section)
+
+            <div class="row" style="background-color:#F6F9FC ;">
+
+                <div class="col-3">
+                    <p> {{ $section->name }}</p>
+                </div>
+
+
+                <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                    @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+
+                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                        style="width: 20px;
+                fill: #497aac;">
+                        <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                        <path
+                            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                    </svg>
+                    @endif
+                </p>
+            </div>
+
+            </div>
+            @endforeach
+
+        </div>
         </div>
 
-
     </section> --}}
-
 
     <section class="pricing container" id="pricing">
         <div class="row align-items-center">
@@ -394,81 +385,87 @@
             </div>
         </div>
 
-        <div id="pricing-container" class="pricing-container desktop">
+        <div class="pricing-container desktop">
             <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
                 <div class="row first-fix">
                     <div class="col-3" style="padding-top: 50px;">
-                        <div class="row">
                         <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
                             ابدأ معنا الآن
                             <br />واختر خطتك !
                         </h5>
                         <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
-
-                        </div>
-                        <div class="row form-check form-switch">
-                            <div class="check">
-                                <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
-                                <div class="check2" onclick="changePeriod(2)">سنوي</div>
-                            </div>
-                        </div>
-
-                        @foreach ($sections as $section)
                         <div class="row">
-                            <div >
-                                <p>{{ $section->name }}</p>
+                            <div class="col-3">
+                                <div class="form-check form-switch">
+                                    <div class="check">
+                                        <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
+                                        <div class="check2" onclick="changePeriod(2)">سنوي</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        @endforeach
+                        @foreach ($sections as $section)
+                            <div class="row" style="background-color:#F6F9FC ;">
+                                <div class="col-3">
+                                    <p>{{ $section->name }}</p>
+                                </div>
+                            </div>
+                            @endforeach
                     </div>
-
-                    @foreach($subscriptionTypes as $subscriptionType)
-                    <div id ="subscriptionTypeDiv" class="col-3 center-price"
-                        style="border-top-right-radius: 41px;padding-top: 50px; border-top-left-radius: 41px; width: 10%">
-                       <div class="row">
-                        <div class="img-smm-y" style="margin: auto;background-color: #fff;">
-                            <img src="{{ asset('HOME_PAGE/images/new/Star.png') }}" class="img-fluid" />
+                    @foreach ($subscriptionTypes as $subscriptionType)
+                    <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
+                        <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
+                            <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
                         </div>
                         <h5>{{ $subscriptionType->name }}</h5>
-                        <p class="change_period first">
-                            <span class="yel-price">{{ $subscriptionType->price }}</span>
-                            <span class="month"> رس / شهريا</span>
-                        </p>
-                    </div>
-                    <div class="row">
-                        <div class="col-4 custom-grad" style="padding-bottom: 30px">
+                        <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
                             @guest
-                            <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
-                                data-target="#exampleModalCenter">ابدأ الآن</a>
+                            <a class="btn btn-new2 ArFont" data-toggle="modal" data-target="#addSubscriberModal" onclick="tabsFunc()">ابدأ الآن</a>
                             @endguest
                             @auth
-                            <a class="btn btn-new2 ArFont" href="">ابدأ الآن</a>
+                            <a class="btn btn-new2 ArFont" href="{{ route('login') }}">ابدأ الآن</a>
                             @endauth
 
                         </div>
-                    </div>
-                        @foreach ($sections as $section)
-                        <div class="col-3">
-                            @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; fill: #497aac;">
-                                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                            @else
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; fill: #ff0000;">
-                                <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm5 11h-10v-2h10v2z"/>
-                            </svg>
-                            @endif
+
+
+                        <div class="col-12">
+                            @foreach ($sections as $section)
+                            <div class="row" style="background-color:#F6F9FC ;">
+                                {{-- <div class="col-3">
+                                    <p>{{ $section->name }}</p>
+                                </div> --}}
+                                <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                                    @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                            style="width: 20px; fill: #497aac;">
+                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                        </svg>
+                                    </p>
+                                    @else
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                            style="width: 20px; fill: #b73404;">
+                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                        </svg>
+                                    </p>
+                                    @endif
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
                     @endforeach
                 </div>
+                </div>
             </div>
-        </div>
     </section>
-
-
-
 
 
     <section class="services container">
@@ -836,7 +833,7 @@
     }
 </script>
 
-<script>
+{{-- <script>
     // Get all elements with the class 'center-price'
     var subscriptionTypeDivs = document.querySelectorAll(".center-price");
 
@@ -851,7 +848,7 @@
             this.classList.toggle("custom-grad");
         });
     });
-</script>
+</script> --}}
 
 
 

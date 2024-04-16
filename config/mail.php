@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
-$email = DB::table('email_settings')->first();
+// $email = DB::table('email_settings')->first();
 return [
 
     /*
@@ -39,11 +39,15 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', $email->host),
-            'port' => env('MAIL_PORT', $email->port),
+            // 'host' => env('MAIL_HOST', $email->host),
+            'host' => env('MAIL_HOST', 'smtp.titan.email'),
+            // 'port' => env('MAIL_PORT', $email->port),
+            'port' => env('MAIL_PORT', '465'),
+
             'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
-            'username' => $email->user_name,
-            'password' => $email->password,
+            // 'username' => $email->user_name,
+            'username' =>  'info@bluecode.sa',
+            'password' => '12345678',
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -87,7 +91,9 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_DRIVER', $email->user_name),
+        // 'address' => env('MAIL_DRIVER', $email->user_name),
+        'address' => env('MAIL_DRIVER', 'info@bluecode.sa'),
+
         'name' => env('MAIL_USERNAME', 'amalak'),
     ],
 

@@ -16,8 +16,8 @@
 
             <div class="row filter sort">
                 <div class="view-select">
-                    <div class="col-menu grid selected" style="cursor: pointer" onclick="changeView('grid')">menu</div>
-                    <div class="col-list list" style="cursor: pointer" onclick="changeView('list')">list</div>
+                    <div class="col-menu grid selected" style="cursor: pointer" onclick="changeView('grid')">@lang('Card')</div>
+                    <div class="col-list list" style="cursor: pointer" onclick="changeView('list')">@lang('List')</div>
                 </div>
                 <select class="form-control select-input h-auto" id="city" required name="city">
                     <option value="all">

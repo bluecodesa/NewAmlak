@@ -56,8 +56,21 @@
                                 @lang('Residential number') :
                                     {{ $Unit->number_unit }}
                                 </span>
-                            <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $Unit->price }}
-                                @lang('SAR')</span>
+                                @if ($Unit->type == 'rent')
+                                <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $Unit->getRentPriceByType() }}
+                                    <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                    </sup></span>
+                                @endif
+                                @if ($Unit->type == 'sale')
+                                <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $Unit->price }}
+                                    <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                    </sup></span>
+                                @endif
+                                @if ($Unit->type == 'rent_sale')
+                                <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $Unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                </sup> / @lang('sale'){{ $Unit->price }} @lang('SAR')
+                                   </span>
+                                @endif
                         </div>
                         <div class="row">
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"

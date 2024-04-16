@@ -187,11 +187,21 @@
                             </div>
 
 
-                            @if ($unit->price && !$unit->hide_price)
-                                <span class="w-auto m-0 p-0"
-                                    style="color: #5c88b4;font-weight:900">{{ $unit->price }}
-                                    sar</span>
-                            @endif
+                            @if ($unit->type == 'rent')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->getRentPriceByType() }}
+                                        <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        </sup></span>
+                                    @endif
+                                    @if ($unit->type == 'sale')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->price }}
+                                        <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        </sup></span>
+                                    @endif
+                                    @if ($unit->type == 'rent_sale')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                    </sup> / @lang('sale'){{ $unit->price }} @lang('SAR')
+                                       </span>
+                                    @endif
 
                         </div>
                     </div>

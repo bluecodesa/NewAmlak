@@ -70,9 +70,20 @@
                             <div class="row justify-content-between m-0 p-0 mt-2 mb-3">
                                 <span class="w-auto m-0 p-0 " style="font-weight: 900">
                                     {{ __('Residential number') }} / {{ $unit->number_unit ?? '' }}</span>
-                                    @if ($unit->price && !$unit->hide_price)
+                                    @if ($unit->type == 'rent')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->getRentPriceByType() }}
+                                        <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        </sup></span>
+                                    @endif
+                                    @if ($unit->type == 'sale')
                                     <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->price }}
-                                        sar</span>
+                                        <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        </sup></span>
+                                    @endif
+                                    @if ($unit->type == 'rent_sale')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                    </sup> / @lang('sale'){{ $unit->price }} @lang('SAR')
+                                       </span>
                                     @endif
                             </div>
                             <div class="row m-0 p-0">
