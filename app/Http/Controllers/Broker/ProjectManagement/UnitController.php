@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Unit;
+use App\Models\UnitInterest;
+use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
@@ -30,8 +32,10 @@ class UnitController extends Controller
     protected $AllServiceService;
     protected $FeatureService;
     protected $ownerService;
+    protected $settingService;
 
-    public function __construct(OwnerService $ownerService, UnitService $UnitService, RegionService $regionService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+
+    public function __construct(SettingService $settingService,OwnerService $ownerService, UnitService $UnitService, RegionService $regionService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -43,6 +47,8 @@ class UnitController extends Controller
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
         $this->ownerService = $ownerService;
+        $this->settingService = $settingService;
+
     }
 
     public function index()
@@ -111,12 +117,16 @@ class UnitController extends Controller
     public function show($id)
     {
         $Unit = $this->UnitService->findById($id);
+        $interestsTypes =$this->settingService->getAllInterestTypes();
+        $unitInterests = UnitInterest::where('unit_id', $id)
+            ->get();
 
         if (auth()->user()->UserBrokerData->id === $Unit->broker_id) {
-            return view('Broker.ProjectManagement.Project.Unit.show', compact('Unit'));
+            return view('Broker.ProjectManagement.Project.Unit.show', get_defined_vars());
         } else {
             abort(403, 'Unauthorized action.');
         }
+
     }
 
     public function edit($id)

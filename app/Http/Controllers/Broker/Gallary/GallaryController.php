@@ -17,6 +17,8 @@ use App\Models\Broker;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\Unit;
+use App\Models\UnitInterest;
+use App\Models\Visitor;
 use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,6 +104,12 @@ class GallaryController extends Controller
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
 
+        $numberOfVisitorsForEachUnit = [];
+        foreach ($units as $unit) {
+            $numberOfVisitorsForEachUnit[$unit->id] = $unit->visitors()->count();
+        }
+
+
         return view('Broker.Gallary.index', get_defined_vars());
     }
 
@@ -133,6 +141,9 @@ class GallaryController extends Controller
     {
         //
         $Unit = $this->UnitService->findById($id);
+        $unitInterests = UnitInterest::where('unit_id', $id)
+        ->get();
+        $interestsTypes =$this->settingService->getAllInterestTypes();
         return view('Broker.Gallary.show',  get_defined_vars());
     }
 
@@ -167,6 +178,24 @@ class GallaryController extends Controller
 
                 return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
             }
+
+
+            $visitor = Visitor::where('unit_id', $id)
+            ->where('ip_address', request()->ip())
+            ->where('visited_at', '>=', now()->subHour())
+            ->first();
+
+            if ($visitor) {
+                return view('Home.Gallery.Unit.show', $data);
+            }
+
+            $newVisitor = new Visitor();
+            $newVisitor->unit_id = $id;
+            $newVisitor->gallery_id = $data['gallery']->id;
+            $newVisitor->ip_address = request()->ip();
+            $newVisitor->visited_at = now();
+            $newVisitor->save();
+
             return view('Home.Gallery.Unit.show', $data);
         }
 
@@ -184,7 +213,28 @@ class GallaryController extends Controller
             if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
                 return view('Broker.Gallary.inc._GalleryComingsoon',$data);
             }
-            return view('Home.Gallery.index',$data);
+
+            $visitor = Visitor::where('gallery_id', $data['gallery']->id)
+            ->where('ip_address', $request->ip())
+            ->where('visited_at', '>=', now()->subHour())
+            ->first();
+
+            if (!$visitor) {
+                $newVisitor = new Visitor();
+                $newVisitor->gallery_id = $data['gallery']->id;
+                $newVisitor->unit_id = null;
+                $newVisitor->ip_address = $request->ip();
+                $newVisitor->visited_at = now();
+                $newVisitor->save();
+            }
+
+            $unitVisitorsCount = [];
+            foreach ($data['units'] as $unit) {
+                $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->count();
+            }
+
+            $data['unitVisitorsCount'] = $unitVisitorsCount;
+        return view('Home.Gallery.index',$data);
     }
 
 

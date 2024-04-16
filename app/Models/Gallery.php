@@ -25,4 +25,9 @@ class Gallery extends Model
     {
         return $this->belongsTo(Broker::class, 'broker_id');
     }
+
+    public function visitors()
+    {
+        return $this->hasMany(Visitor::class);
+    }
 }

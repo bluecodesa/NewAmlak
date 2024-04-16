@@ -49,6 +49,12 @@ class HomeController extends Controller
         //subscrptions
         $subscriptionTypes = $this->subscriptionTypeService->getAll();
         $sections = $this->SectionService->getAll();
+        ////
+        $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+        $subscriptionTypesRoles = SubscriptionType::where('is_deleted', 0)
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->get();
         ///
         $sitting =   Setting::first();
         if ($sitting->active_home_page == 1) {

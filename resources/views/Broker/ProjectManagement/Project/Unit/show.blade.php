@@ -284,18 +284,48 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>@lang('property name')</th>
-                                                <th>@lang('city')</th>
-                                                <th>@lang('location')</th>
-                                                <th>@lang('Property type')</th>
-                                                <th>@lang('Type use')</th>
-                                                <th>@lang('owner name')</th>
-                                                <th>@lang('Instrument number')</th>
-                                                <th>@lang('Action')</th>
+
+                                                    <th>@lang('Client Name')</th>
+                                                    <th>@lang('phone')</th>
+                                                    <th>@lang('status')</th>
+                                                    <th>@lang('Action')</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($unitInterests as $index => $client)
+                                            <tr>
 
+                                                <td>{{ $index + 1 }}</td>
+                                                <td> {{ $client->name }}</td>
+                                                <td>{{ $client->whatsapp }}</td>
+                                                <td>
+                                                    <form method="POST" action="{{ route('Broker.Interest.status.update', $client->id) }}">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $client->id }}">
+                                                        <select class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
+                                                            @foreach ($interestsTypes as $interestsType)
+                                                                <option value="{{ $interestsType->id }}" {{ $client->status == $interestsType->id ? 'selected' : '' }}>
+                                                                    {{ __($interestsType->name) }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <button type="submit" class="submit-from" hidden=""></button>
+                                                    </form>
+
+
+                                                </td>
+
+                                                <td>
+                                                    <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" data-toggle="modal" data-target="#shareLinkUnit{{ $client->id }}"
+                                                        href="tel:{{ env('COUNTRY_CODE') . $client->whatsapp }}" onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
+                                                        @lang('مكالمة')</a>
+                                                    <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $client->whatsapp }}"
+                                                        class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
+
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>

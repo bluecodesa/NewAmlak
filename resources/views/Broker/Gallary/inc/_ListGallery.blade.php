@@ -11,6 +11,10 @@
                         <p class="card-text">{{ __('Show in Gallery') }}: {{ $unit->show_gallery == 1 ? __('Show') : __('hide') }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
+
+                                <a class="btn btn-success fas fa-eye" data-toggle="modal" data-target="#shareLinkUnit{{ $unit->id }}">
+                                    {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}
+                                </a>
                                 <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" data-toggle="modal" data-target="#shareLinkUnit{{ $unit->id }}"
                                     href="" onclick="document.querySelector('#shareLinkUnit{{ $unit->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
                                     @lang('Share')</a>

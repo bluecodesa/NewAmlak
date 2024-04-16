@@ -291,12 +291,12 @@
                                     <div>
                                         <h5 class="font-16">زوار المعرض</h5>
                                     </div>
-                                    <h3 class="mt-4">43,225</h3>
-                                    <div class="progress mt-4" style="height: 4px;">
+                                    <h3 class="mt-4">{{ $visitorCount }}</h3>
+                                    {{-- <div class="progress mt-4" style="height: 4px;">
                                         <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="text-muted mt-2 mb-0"><span class="float-right">75%</span>
+                                    </div> --}}
+                                    {{-- <p class="text-muted mt-2 mb-0"><span class="float-right">75%</span> --}}
                                     </p>
                                 </div>
                             </div>

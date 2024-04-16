@@ -295,88 +295,7 @@
     </section>
 
 
-
-
-    {{-- <section class="pricing container" id="pricing">
-        <div class="row align-items-center">
-            <div class="sec-title">
-                <h4>باقات وأسعار أملاك</h4>
-                <p>توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
-            </div>
-        </div>
-        <div class="pricing-container desktop">
-        <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
-            <div class="row first-fix">
-                <div class="col-3" style="padding-top: 50px;">
-                    <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
-                        ابدأ معنا الآن
-                        <br />واختر خطتك !
-                    </h5>
-                    <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="form-check form-switch">
-                                <div class="check">
-                                    <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
-                                    <div class="check2" onclick="changePeriod(2)">سنوي</div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                @foreach ($subscriptionTypes as $subscriptionType)
-                <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
-                    <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
-                        <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
-                    </div>
-                    <h5>{{ $subscriptionType->name }}</h5>
-                    <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
-                    <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-                        @guest
-                            <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
-                                data-target="#exampleModalCenter">ابدأ الآن</a>
-                        @endguest
-                        @auth
-                            <a class="btn btn-new2 ArFont" href="{{ route('login') }}">ابدأ الآن</a>
-                        @endauth
-                    </div>
-                </div>
-                @endforeach
-
-            </div>
-
-            @foreach ($sections as $section)
-
-            <div class="row" style="background-color:#F6F9FC ;">
-
-                <div class="col-3">
-                    <p> {{ $section->name }}</p>
-                </div>
-
-
-                <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                    @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                        style="width: 20px;
-                fill: #497aac;">
-                        <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                        <path
-                            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                    </svg>
-                    @endif
-                </p>
-            </div>
-
-            </div>
-            @endforeach
-
-        </div>
-        </div>
-
-    </section> --}}
-
+    @guest
     <section class="pricing container" id="pricing">
         <div class="row align-items-center">
             <div class="sec-title">
@@ -418,14 +337,14 @@
                             <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
                         </div>
                         <h5>{{ $subscriptionType->name }}</h5>
+                        <p>
+                            @foreach ($subscriptionType->roles as $role)
+                                <span> اشتراك   {{ $role->name_ar }}</span>
+                            @endforeach
+                        </p>
                         <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
                         <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-                            @guest
                             <a class="btn btn-new2 ArFont" data-toggle="modal" data-target="#addSubscriberModal" onclick="tabsFunc()">ابدأ الآن</a>
-                            @endguest
-                            @auth
-                            <a class="btn btn-new2 ArFont" href="{{ route('login') }}">ابدأ الآن</a>
-                            @endauth
 
                         </div>
 
@@ -466,6 +385,96 @@
                 </div>
             </div>
     </section>
+    @endguest
+
+    @auth
+    <section class="pricing container" id="pricing">
+        <div class="row align-items-center">
+            <div class="sec-title">
+                <h4>باقات وأسعار أملاك</h4>
+                <p>توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
+            </div>
+        </div>
+
+        <div class="pricing-container desktop">
+            <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
+                <div class="row first-fix">
+                    <div class="col-3" style="padding-top: 50px;">
+                        <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
+                            ابدأ معنا الآن
+                            <br />واختر خطتك !
+                        </h5>
+                        <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check form-switch">
+                                    <div class="check">
+                                        <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
+                                        <div class="check2" onclick="changePeriod(2)">سنوي</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @foreach ($sections as $section)
+                            <div class="row" style="background-color:#F6F9FC ;">
+                                <div class="col-3">
+                                    <p>{{ $section->name }}</p>
+                                </div>
+                            </div>
+                            @endforeach
+                    </div>
+                    @foreach ($subscriptionTypesRoles as $subscriptionType)
+                    <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
+                        <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
+                            <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
+                        </div>
+                        <h5>{{ $subscriptionType->name }}</h5>
+                        <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+
+
+                            <a class="btn btn-new2 ArFont" href="{{ route('login') }}">ابدأ الآن</a>
+
+                        </div>
+
+
+                        <div class="col-12">
+                            @foreach ($sections as $section)
+                            <div class="row" style="background-color:#F6F9FC ;">
+                                {{-- <div class="col-3">
+                                    <p>{{ $section->name }}</p>
+                                </div> --}}
+                                <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                                    @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                            style="width: 20px; fill: #497aac;">
+                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                        </svg>
+                                    </p>
+                                    @else
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                            style="width: 20px; fill: #b73404;">
+                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                        </svg>
+                                    </p>
+                                    @endif
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                </div>
+            </div>
+    </section>
+    @endauth
 
 
     <section class="services container">

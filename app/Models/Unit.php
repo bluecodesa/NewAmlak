@@ -69,6 +69,11 @@ class Unit extends Model
         return $this->hasOne(UnitRentalPrice::class);
     }
 
+    public function visitors()
+    {
+        return $this->hasMany(Visitor::class);
+    }
+
 
     public function getRentPriceByType()
     {

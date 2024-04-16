@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Broker;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\District;
+use App\Models\Gallery;
 use App\Models\Owner;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
@@ -112,9 +113,11 @@ class HomeController extends Controller
             $prec = ($daysUntilEnd / $numOfDays) * 100;
         }
 
-        // Now you can use $prec for further calculations or output
-
-        //
+        $gallery = $this->galleryService->findByBrokerId($brokerId)->get();
+        $visitorCount = 0;
+        foreach ($gallery as $g) {
+            $visitorCount += $g->visitors()->distinct('ip_address')->count('ip_address');
+        }
         return view('Broker.dashboard',  get_defined_vars());
     }
 
