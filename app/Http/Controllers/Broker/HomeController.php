@@ -113,10 +113,12 @@ class HomeController extends Controller
             $prec = ($daysUntilEnd / $numOfDays) * 100;
         }
 
-        $gallery = $this->galleryService->findByBrokerId($brokerId)->get();
         $visitorCount = 0;
-        foreach ($gallery as $g) {
-            $visitorCount += $g->visitors()->distinct('ip_address')->count('ip_address');
+        $gallery = $this->galleryService->findByBrokerId($brokerId);
+        if ($gallery) {
+            foreach ($gallery as $g) {
+                $visitorCount += $g->visitors()->distinct('ip_address')->count('ip_address');
+            }
         }
         return view('Broker.dashboard',  get_defined_vars());
     }

@@ -68,7 +68,6 @@ Route::group(
         Route::post('send-code', [ForgotPasswordController::class, 'submitCodeForm'])->name('reset.password.code');
         Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
         Route::post('forget-password/send-new-code', [ForgotPasswordController::class, 'sendNewCode'])->name('forget.password.newcode');
-
     }
 
 );
@@ -94,5 +93,3 @@ Route::group(
     }
 
 );
-
-

@@ -17,7 +17,7 @@ class PaymentController extends Controller
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     function store(Request $request)
