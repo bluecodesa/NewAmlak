@@ -51,6 +51,16 @@ class SystemInvoiceService
         return $this->systemInvoiceRepository->find($id);
     }
 
+    public function findByBrokerId($brokerId)
+    {
+        return $this->systemInvoiceRepository->findByBrokerId($brokerId);
+    }
+
+    public function findByOfficeId($officeId)
+    {
+        return $this->systemInvoiceRepository->findByOfficeId($officeId);
+    }
+
 
     public function store(Request $request)
     {

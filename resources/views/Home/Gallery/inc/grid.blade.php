@@ -77,12 +77,12 @@
                                     @endif
                                     @if ($unit->type == 'sale')
                                     <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->price }}
-                                        <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        <sup>@lang('SAR')
                                         </sup></span>
                                     @endif
                                     @if ($unit->type == 'rent_sale')
                                     <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
-                                    </sup> / @lang('sale'){{ $unit->price }} @lang('SAR')
+                                    </sup>
                                        </span>
                                     @endif
                             </div>
@@ -121,6 +121,20 @@
                                 </div>
                             @endif
                          </div>
+
+
+                         <div class="row gallery-services mb-3"
+                         style="
+                          @if (!$unit->daily_rent ) visibility:hidden @endif">
+                         <p class="w-auto m-0 p-0" style="color: #989898">متاج @lang('Daily Rent')</p>
+                             <div class="text-container">
+                                 <span class="text-with-ellipsis">
+                                 <span>{{ $unit->UnitRentPrice->daily  }}</span>
+
+                                 </span>
+                             </div>
+
+                      </div>
 
 
                             <div class="row justify-content-between gap-3">

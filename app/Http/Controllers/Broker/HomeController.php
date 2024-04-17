@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Gallery;
@@ -37,13 +38,13 @@ class HomeController extends Controller
     protected $propertyUsageService;
 
     protected $galleryService;
-
-
+    protected $systemInvoiceRepository;
 
 
 
 
     public function __construct(
+        SystemInvoiceRepositoryInterface $systemInvoiceRepository,
         UnitService $UnitService,
         SubscriptionService $subscriptionService,
         RegionService $regionService,
@@ -61,6 +62,8 @@ class HomeController extends Controller
         $this->UnitService = $UnitService;
         $this->galleryService = $galleryService;
         $this->propertyUsageService = $propertyUsageService;
+        $this->systemInvoiceRepository = $systemInvoiceRepository;
+
         $this->middleware('auth');
     }
 
@@ -113,14 +116,17 @@ class HomeController extends Controller
             $prec = ($daysUntilEnd / $numOfDays) * 100;
         }
 
-        $visitorCount = 0;
+
         $gallery = $this->galleryService->findByBrokerId($brokerId);
-        if ($gallery) {
-            foreach ($gallery as $g) {
-                $visitorCount += $g->visitors()->distinct('ip_address')->count('ip_address');
+            $visitorCount = 0;
+
+            if ($gallery !== null) {
+                $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
+
             }
-        }
-        return view('Broker.dashboard',  get_defined_vars());
+
+     return view('Broker.dashboard',  get_defined_vars());
+
     }
 
     function ViewInvoice()
@@ -164,5 +170,25 @@ class HomeController extends Controller
         } else {
             $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
         }
+    }
+
+
+    public function showSubscription()
+    {
+        $brokerId = auth()->user()->UserBrokerData->id;
+
+        $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
+        if ($brokerId)
+            $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
+            $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
+
+        return view('Broker.Subscription.show', get_defined_vars());
+    }
+
+    public function ShowInvoice($id)
+    {
+        $invoice = $this->systemInvoiceRepository->find($id);
+
+        return view('Broker.Subscription.invoices.show',get_defined_vars());
     }
 }

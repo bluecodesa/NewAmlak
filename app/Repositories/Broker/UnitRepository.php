@@ -37,6 +37,13 @@ class UnitRepository implements UnitRepositoryInterface
         } else {
             $unit_data['show_gallery'] = 0;
         }
+
+        if (isset($data['daily_rent'])) {
+            $unit_data['daily_rent'] = $data['daily_rent'] == 'on' ? 1 : 0;
+        } else {
+            $unit_data['daily_rent'] = 0;
+        }
+
         $unit = Unit::create($unit_data);
         if (isset($data['service_id'])) {
             foreach ($data['service_id'] as  $service) {
@@ -96,6 +103,13 @@ class UnitRepository implements UnitRepositoryInterface
         } else {
             $unit_data['show_gallery'] = 0;
         }
+
+        if (isset($data['daily_rent'])) {
+            $unit_data['daily_rent'] = $data['daily_rent'] == 'on' ? 1 : 0;
+        } else {
+            $unit_data['daily_rent'] = 0;
+        }
+
         $unit = Unit::find($id);
         $unit->update($unit_data);
         if (isset($data['service_id'])) {

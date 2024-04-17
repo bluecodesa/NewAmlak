@@ -85,32 +85,34 @@
                                 {{ __('city') }}: {{ $unit->CityData->name ?? '' }}
                             </span>
                         </div>
-                        @if ($unit->services && count($unit->services) > 0)
+                        <div class="row gallery-services mb-3"
+                        style="
+                         @if (!$unit->UnitServicesData || count($unit->UnitServicesData) ==0 ) visibility:hidden @endif">
+                        <p class="w-auto m-0 p-0" style="color: #989898">@lang('services')</p>
+                        @if ($unit->UnitServicesData && count($unit->UnitServicesData) > 0)
+                            <div class="text-container">
+                                <span class="text-with-ellipsis">
 
-                        <div class="row gallery-services mb-3">
-                                <p class="w-auto m-0 p-0" style="color: #989898">الخدمات</p>
-                                <div class="text-container">
+                                @foreach ($unit->UnitServicesData as $service)
+                                <span>{{ $service->ServiceData->name ?? '' }}</span>
+                                 @endforeach
+                                </span>
+                            </div>
+                        @endif
+                     </div>
 
-                                    @php
-                                        $alt = '';
-                                    @endphp
-                                    @foreach ($unit->services as $service)
-                                        @php
-                                            $alt .= $service->name . ' ,';
-                                            $alt1 = rtrim($alt, ",");
-                                        @endphp
-                                    @endforeach
+                     <div class="row gallery-services mb-3"
+                     style="
+                      @if (!$unit->daily_rent ) visibility:hidden @endif">
+                     <p class="w-auto m-0 p-0" style="color: #989898">متاج @lang('Daily Rent')</p>
+                         <div class="text-container">
+                             <span class="text-with-ellipsis">
+                             <span>{{ $unit->UnitRentPrice->daily  }}</span>
 
-                                    <span class="text-with-ellipsis" data-alt="{{ $alt1 }}">
+                             </span>
+                         </div>
 
-                                        @foreach ($unit->services as $service)
-                                            <span>{{ $service->name }} </span>
-                                        @endforeach
-                                    </span>
-                                </div>
-
-                        </div>
-                            @endif
+                  </div>
 
 
                         <div class="row justify-content-between gap-3 m-0 p-0 mt-3">
@@ -204,12 +206,12 @@
                                     @endif
                                     @if ($unit->type == 'sale')
                                     <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->price }}
-                                        <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        <sup>@lang('SAR')
                                         </sup></span>
                                     @endif
                                     @if ($unit->type == 'rent_sale')
                                     <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
-                                    </sup> / @lang('sale'){{ $unit->price }} @lang('SAR')
+                                    </sup>
                                        </span>
                                     @endif
 

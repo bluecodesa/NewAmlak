@@ -234,12 +234,56 @@
                                 </div>
 
                             </div>
+
+                            <div class="col-12">
+                                <div class="card m-b-30">
+                                    <div class="card-body">
+                                        <div class="col-sm-6">
+                                            <h4 class="page-title">
+                                                @lang('سجل تاريخ الاشتراك')</h4>
+                                        </div>
+                                        <div class="table-responsive b-0" data-pattern="priority-columns">
+                                            <table id="datatable-buttons"
+                                                class="table table-striped table-bordered dt-responsive nowrap"
+                                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+
+                                                            <th>@lang('Subscription Name')</th>
+                                                            <th>@lang('Subscription Time')</th>
+                                                            <th>@lang('Subscription Status')</th>
+                                                            <th>@lang('Action')</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                    @foreach ($invoices as $index => $invoice)
+                                                    <tr>
+
+                                                        <td>{{ 1 }}</td>
+                                                        <td> {{  $invoice->subscription_name }} </td>
+                                                        <td>{{ __('ar.' . $invoice->period_type) }} </td>
+                                                       <td>{{  __($invoice->status) }} </td>
+
+                                                       <td>
+                                                        <a href="{{ route('Admin.SystemInvoice.show', $invoice->id) }}"
+                                                            class="btn btn-dark btn-sm waves-effect waves-light">@lang('view')</a>
+
+                                                    </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 
 
