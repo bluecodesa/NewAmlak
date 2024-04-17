@@ -94,7 +94,7 @@
                                                         <div class="card shadow-none bg-transparent border-primary mb-0">
                                                             <div class="card-body p-3 px-0">
                                                                 <h4 class="card-title">
-                                                                    {{ $permissions[0]->SectionDate->name }}</h4>
+                                                                    {{ $permissions[0]->SectionDate->name ?? '' }}</h4>
                                                                 <div class="row">
                                                                     <div class="col-12">
                                                                         <div class="form-check">

@@ -116,6 +116,7 @@ class HomeController extends Controller
             $prec = ($daysUntilEnd / $numOfDays) * 100;
         }
 
+
         $gallery = $this->galleryService->findByBrokerId($brokerId);
             $visitorCount = 0;
 
@@ -125,6 +126,7 @@ class HomeController extends Controller
             }
 
      return view('Broker.dashboard',  get_defined_vars());
+
     }
 
     function ViewInvoice()
