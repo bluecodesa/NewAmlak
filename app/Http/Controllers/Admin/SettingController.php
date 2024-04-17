@@ -69,6 +69,7 @@ class SettingController extends Controller
 
     public function update(Request $request, Setting $setting)
     {
+
         $this->settingService->updateSetting($request, $setting);
 
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));

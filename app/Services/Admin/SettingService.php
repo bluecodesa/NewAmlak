@@ -26,12 +26,15 @@ class SettingService
 
     public function updateSetting(Request $request, Setting $setting)
     {
+
         $data = $request->validate([
             'ar.title' => 'required|string',
             'en.title' => 'required|string',
             'facebook' => 'nullable|url',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'terms_pdf' => 'nullable|file',
+            'phone' => 'nullable',
+            'crn' => 'nullable',
             'privacy_pdf' => 'nullable|file',
             'color' => 'nullable|string',
         ]);

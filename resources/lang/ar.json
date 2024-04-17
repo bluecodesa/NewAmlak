@@ -111,7 +111,6 @@
     "quarterly": "ربع سنوياً",
     "midterm": "نصف سنوي",
     "yearly": "سنوياً",
-
     "Rental price": "سعر الايجار",
     "Choose the rental price": "اختار سعر التأجير",
     "rental price has been updated": "تم تحديث سعر التأجير",
@@ -372,6 +371,7 @@
     "All": "الكل",
     "Forgot your password?": "هل نسيت كلمه المرور؟",
     "Verification Code": "رمز التحقق",
+    "crn": "رقم السجل التجاري",
     "Verify": "تحقق",
     "Connect by whats app": "تواصل عبر الواتس  اب",
     "This Gallery is not available now / contact the Broker": "هذا المعرض العقاري غير متاح الآن /تواصل مع المسوق",
@@ -397,5 +397,4 @@
     "Card": "كروت",
     "List": "قائمة",
     "Unit number:": "رقم الوحدة"
-
 }

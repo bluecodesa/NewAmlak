@@ -55,10 +55,22 @@
                     </div>
 
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="color">@lang('Color')</label>
                         <input name="color" class="form-control" type="color"
                             value="{{ $settings->color ?? '#30419b' }}" id="color">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="color">@lang('phone')</label>
+                        <input name="phone" class="form-control" type="number" placeholder="@lang('phone')"
+                            value="{{ $settings->phone }}" id="number">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="color">@lang('crn')</label>
+                        <input name="crn" class="form-control" type="number" placeholder="@lang('crn')"
+                            value="{{ $settings->crn }}" id="number">
                     </div>
 
                     <div class="col-12">
