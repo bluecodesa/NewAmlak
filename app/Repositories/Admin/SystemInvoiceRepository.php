@@ -12,6 +12,16 @@ class SystemInvoiceRepository implements SystemInvoiceRepositoryInterface
         return SystemInvoice::all();
     }
 
+    public function findByBrokerId($brokerId)
+    {
+        return SystemInvoice::where('broker_id', $brokerId)->get();
+    }
+
+    public function findByOfficeId($officeId)
+    {
+        return SystemInvoice::where('office_id', $officeId)->get();
+    }
+
     public function find($id)
     {
         return SystemInvoice::find($id);
@@ -22,5 +32,5 @@ class SystemInvoiceRepository implements SystemInvoiceRepositoryInterface
         return SystemInvoice::create($data);
     }
 
-   
+
 }

@@ -8,6 +8,7 @@
     "Users": "المستخدمين",
     "Add New Admin": "اضافة اداري جديد",
     "Types subscriptions": "انواع الاشتراكات",
+    "Subscription Management": " إدارة الاشتراك",
     "New subscription type": "نوع اشتراك جديد",
     "Edit": "تعديل",
     "Show": "عرض",
@@ -396,6 +397,7 @@
     "Submit Comment": "تعليق",
     "Card": "كروت",
     "List": "قائمة",
-    "Unit number:": "رقم الوحدة"
+    "Unit number:": "رقم الوحدة",
+    "Daily Rent": "الايجار اليومي"
 
 }

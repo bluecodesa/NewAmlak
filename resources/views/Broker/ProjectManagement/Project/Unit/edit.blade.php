@@ -186,6 +186,12 @@
                                             data-toggle="toggle" data-onstyle="primary">
                                     </div>
 
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label" style="display: block !important;">@lang('Daily Rent')
+                                        </label>
+                                        <input type="checkbox"  name="daily_rent" {{ $Unit->daily_rent == 1 ? 'checked' : '' }}
+                                        class="toggleHomePage" data-toggle="toggle" data-onstyle="primary">
+                                    </div>
 
                                     <div class="form-group mb-3 col-md-4">
                                         <label>@lang('Ad type') <span class="required-color">*</span> </label>

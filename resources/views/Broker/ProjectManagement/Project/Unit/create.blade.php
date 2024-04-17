@@ -183,6 +183,13 @@
                                     </div>
 
                                     <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label" style="display: block !important;">@lang('Daily Rent')
+                                        </label>
+                                        <input type="checkbox"  name="daily_rent" class="toggleHomePage"
+                                            data-toggle="toggle" data-onstyle="primary">
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-2 mb-3">
                                         <label class="form-label">@lang('selling price')</label>
                                         <input type="number" name="price" class="form-control"
                                             placeholder="@lang('selling price')" value="{{ old('price') }}" />

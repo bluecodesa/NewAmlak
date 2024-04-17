@@ -327,6 +327,8 @@
                             <div class="row" style="background-color:#F6F9FC ;">
                                 <div class="col-3">
                                     <p>{{ $section->name }}</p>
+                                    <p>{{ $section->description}}</p>
+
                                 </div>
                             </div>
                             @endforeach
@@ -343,10 +345,25 @@
                             @endforeach
                         </p>
                         <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
+                        @if ( $role->name == "RS-Broker" )
                         <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-                            <a class="btn btn-new2 ArFont" data-toggle="modal" data-target="#addSubscriberModal" onclick="tabsFunc()">ابدأ الآن</a>
+                            <a class="btn btn-new2 ArFont" data-toggle="modal"
+                             onclick="redirectToCreateBroker()">ابدأ الآن</a>
 
                         </div>
+                        @elseif( $role->name == "Office-Admin" )
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+                            <a class="btn btn-new2 ArFont" data-toggle="modal"
+                             onclick="redirectToCreateOffice()">ابدأ الآن</a>
+
+                        </div>
+                        @else
+
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+                            <a href="" data-toggle="modal" data-target="#addSubscriberModal"
+                                style="margin-right: 9px;" onclick="tabsFunc()">ابدأ الآن</a>
+                        @endif
+
 
 
                         <div class="col-12">
@@ -416,12 +433,14 @@
                             </div>
                         </div>
                         @foreach ($sections as $section)
-                            <div class="row" style="background-color:#F6F9FC ;">
-                                <div class="col-3">
-                                    <p>{{ $section->name }}</p>
-                                </div>
+                        <div class="row" style="background-color:#F6F9FC;">
+                            <div class="text-container">
+                                <p>{{ $section->name }}</p>
+                                <span style="font-size: smaller;">{{ $section->description }}</span>
                             </div>
-                            @endforeach
+                        </div>
+                    @endforeach
+
                     </div>
                     @foreach ($subscriptionTypesRoles as $subscriptionType)
                     <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
@@ -456,11 +475,8 @@
                                     </p>
                                     @else
                                     <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                            style="width: 20px; fill: #b73404;">
-                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                            <path
-                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; fill: #ff0000;">
+                                            <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm5 11h-10v-2h10v2z"/>
                                         </svg>
                                     </p>
                                     @endif

@@ -41,6 +41,8 @@ Route::group(
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('UpdateSubscription/{id}', 'HomeController@UpdateSubscription')->name('UpdateSubscription');
             Route::get('ViewInvoice', 'HomeController@ViewInvoice')->name('ViewInvoice');
+            Route::get('ShowSubscription', 'HomeController@showSubscription')->name('ShowSubscription')->middleware('CheckSubscription');
+            Route::get('ShowInvoice/{id}', 'HomeController@ShowInvoice')->name('ShowInvoice')->middleware('CheckSubscription');
             route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
             route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
             route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
