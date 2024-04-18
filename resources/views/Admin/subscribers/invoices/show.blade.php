@@ -32,6 +32,12 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="row">
+                                            <div class="col-4 text-left">
+                                                <img src="{{ url($sitting->icon) }}"
+                                                    style="border: 1px solid; border-radius: 10px;" width="190"
+                                                    alt="">
+                                            </div>
+
                                             <div class="col-4 text-center">
                                                 <h1>فاتورة ضربية</h1>
                                                 <div class="row">
@@ -45,7 +51,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-8 text-right">
+
+                                            <div class="col-4 text-right">
                                                 {{ \QrCode::size(200)->style('dot')->eye('circle')->color(0, 0, 255)->margin(1)->generate(route('Admin.SystemInvoice.show', $invoice->id)) }}
                                             </div>
                                         </div>
