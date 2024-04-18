@@ -5,6 +5,7 @@ namespace App\Services\Admin;
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Models\Broker;
 use App\Models\Gallery;
+use App\Models\SubscriptionHistory;
 use App\Models\SubscriptionType;
 use App\Notifications\Admin\NewBrokerNotification;
 use App\Services\UserCreationService;
@@ -212,12 +213,25 @@ $endDate = $endDate->format('Y-m-d H:i:s');
             'end_date' => $endDate,
             'total' => $subscriptionType->price
         ]);
+        $this->createSubscriptionHistory($subscription);
+
 
         $this->createSystemInvoiceBroker($broker, $subscriptionType, $status);
 
         $this->notifyAdmins($broker);
 
         return $subscription;
+    }
+
+    protected function createSubscriptionHistory($subscription)
+    {
+        SubscriptionHistory::create([
+            'subscription_id' => $subscription->id,
+            'start_date' => $subscription->start_date,
+            'end_date' => $subscription->end_date,
+            'status' => $subscription->status,
+            // Add other attributes you want to track
+        ]);
     }
 
     protected function notifyAdmins(Broker $broker)

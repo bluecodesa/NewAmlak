@@ -265,7 +265,8 @@
                                                         <td>{{ 1 }}</td>
                                                         <td> {{  $invoice->subscription_name }} </td>
                                                         <td>{{ __('ar.' . $invoice->period_type) }} </td>
-                                                       <td>{{  __($invoice->status) }} </td>
+                                                        
+                                                       <td>{{  __($subscriber->status) }} </td>
 
                                                        <td>
                                                         <a href="{{ route('Admin.SystemInvoice.show', $invoice->id) }}"

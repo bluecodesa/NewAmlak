@@ -170,6 +170,7 @@ class HomeController extends Controller
         } else {
             $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
         }
+        
     }
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\SubscriptionHistory;
 use App\Models\SystemInvoice;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use Illuminate\Http\Request;
@@ -63,6 +64,8 @@ class PaymentController extends Controller
 
         if ($subscription) {
             $subscription->update(['status' => 'active', 'is_start' => 1]);
+            $this->updateSubscriptionHistory($subscription);
+
         }
 
         $invoice = $officeData ? $brokerData->UserSubscriptionPending : $brokerData->UserSystemInvoicePending;
@@ -79,5 +82,15 @@ class PaymentController extends Controller
 
     function query_transaction()
     {
+    }
+
+
+    protected function updateSubscriptionHistory($subscription)
+    {
+        $subscriptionHistory = SubscriptionHistory::where('subscription_id', $subscription->id)->latest()->first();
+
+        if ($subscriptionHistory) {
+            $subscriptionHistory->update(['status' => 'active']);
+        }
     }
 }
