@@ -61,6 +61,14 @@
             border: 1px solid #2f419c;
         }
 
+        .border-info {
+            border: 1px solid #28C76F !important;
+        }
+
+        .border-success {
+            border: 1px solid #28C76F !important
+        }
+
         body,
         h4,
         h1,

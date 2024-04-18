@@ -43,7 +43,7 @@
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <h5>الرقم التسلسلي</h5>
-                                                        <b> SM1000</b>
+                                                        <b> {{ $invoice->invoice_ID }} </b>
                                                     </div>
                                                     <div class="col-6">
                                                         <h5>التاريخ</h5>
@@ -58,126 +58,285 @@
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-6">
-                                                <address>
-                                                    <strong>@lang('From'):</strong><br>
-                                                    {{ $sitting->title }} <br>
-                                                    +966500334691<br>
-                                                    الرياض - السعودية<br>
-                                                    1010697291
-                                                </address>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                @if ($invoice->OfficeData != null)
-                                                    <address>
-                                                        <strong> @lang('To'):</strong><br>
-                                                        {{ $invoice->OfficeData->company_name }} <br>
-                                                        {{ $invoice->OfficeData->presenter_number }}<br>
-                                                        {{ $invoice->OfficeData->CityData->name }}<br>
-                                                        {{ $invoice->OfficeData->CRN }}
-                                                    </address>
-                                                @else
-                                                    <address>
-                                                        <strong> @lang('To'):</strong><br>
-                                                        {{ $invoice->BrokerData->UserData->name }} <br>
-                                                        {{ $invoice->BrokerData->mobile }}<br>
-                                                        {{ $invoice->BrokerData->CityData->name }}<br>
-                                                        {{ $invoice->BrokerData->broker_license }}
-                                                    </address>
-                                                @endif
+                                            <div class="col-12 border-success p-1">
+                                                <h2 style="font-weight: bolder;">معلومات البائع</h2>
+                                                <div class="row" style="padding: 0px 10px;">
+                                                    <div class="col-6">
+                                                        <div class="row p-2">
+                                                            <div class="col-6"
+                                                                style="border-right: 2px solid; height: 55px;">
+                                                                <b>
+                                                                    أسم البائع </b>
+                                                                <br>
+                                                                <span class="text-success" style="font-size: 13px;">
+                                                                    {{ $sitting->title }}</span>
+                                                            </div>
+
+                                                            <div class="col-6"
+                                                                style="border-right: 2px solid; height: 55px;">
+                                                                <b>
+                                                                    عنوان البائع </b>
+                                                                <br>
+
+                                                                <span class="text-success" style="font-size: 13px;">
+                                                                    الرياض - السعودية
+                                                                </span>
+                                                            </div>
 
 
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-6">
+
+                                                        <div class="row p-2">
+                                                            <div class="col-6"
+                                                                style="border-right: 2px solid; height: 55px;">
+                                                                <b>
+                                                                    رقم تسجيل ضريبة القيمه المضافة للبائع
+                                                                </b>
+                                                                <br>
+                                                                <span class="text-success" style="font-size: 13px;">
+                                                                    {{ $sitting->trn }}</span>
+                                                            </div>
+
+                                                            <div class="col-6"
+                                                                style="border-right: 2px solid; height: 55px;">
+                                                                <b>
+                                                                    رقم السجل التجاري
+                                                                </b>
+                                                                <br>
+
+                                                                <span class="text-success" style="font-size: 13px;">
+                                                                    {{ $sitting->crn }}
+                                                                </span>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
+                                        <hr style="border: 2px solid #28C76F !important;">
+
+                                        @php
+                                            if ($invoice->OfficeData != null) {
+                                                $name = $invoice->OfficeData->company_name;
+                                                $presenter_number = $invoice->OfficeData->presenter_number;
+                                                $city = $invoice->OfficeData->CityData->name;
+                                                $CRN = $invoice->OfficeData->CRN;
+                                            } else {
+                                                $name = $invoice->BrokerData->UserData->name;
+                                                $presenter_number = $invoice->BrokerData->mobile;
+                                                $city = $invoice->BrokerData->CityData->name;
+                                                $CRN = $invoice->BrokerData->broker_license;
+                                            }
+                                        @endphp
+                                        <div class="row">
+                                            <div class="col-12 border-success p-1">
+                                                <h2 style="font-weight: bolder;"> معلومات المشتري </h2>
+                                                <div class="row" style="padding: 0px 10px;">
+                                                    <div class="col-6">
+                                                        <div class="row p-2">
+                                                            <div class="col-6"
+                                                                style="border-right: 2px solid; height: 55px;">
+                                                                <b>
+                                                                    اسم المشتري
+                                                                </b>
+                                                                <br>
+                                                                <span class="text-success" style="font-size: 13px;">
+                                                                    {{ $name }}</span>
+                                                            </div>
+
+                                                            <div class="col-6"
+                                                                style="border-right: 2px solid; height: 55px;">
+                                                                <b>
+                                                                    عنوان المشتري </b>
+                                                                <br>
+
+                                                                <span class="text-success" style="font-size: 13px;">
+                                                                    {{ $city }}
+                                                                </span>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-6">
+
+                                                        <div class="row p-2">
+                                                            <div class="col-6"
+                                                                style="border-right: 2px solid; height: 55px;">
+                                                                <b>
+                                                                    رقم السجل التجاري
+                                                                </b>
+                                                                <br>
+                                                                <span class="text-success" style="font-size: 13px;">
+                                                                    {{ $CRN }}
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="col-6"
+                                                                style="border-right: 2px solid; height: 55px;">
+                                                                <b>
+                                                                    رقم تسجيل ضريبة القيمه المضافة للمشتري
+                                                                </b>
+                                                                <br>
+
+                                                                <span class="text-success" style="font-size: 13px;">
+                                                                    {{ $presenter_number }}
+                                                                </span>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr style="border: 2px solid #28C76F !important;">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <table class="table border-success">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>المنتج</th>
+                                                            <th>سعر الوحدة</th>
+                                                            <th>الكمية </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{{ $invoice->subscription_name }}
+                                                            </td>
+                                                            <td> {{ $invoice->amount }} </td>
+                                                            <td> 1 </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-3">
+
+                                                <table class="table border-info">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>المجموع الفرعي بدون ضريبة </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+
+                                                            <td> {{ $invoice->amount - $invoice->amount * $sitting->tax_rate }}
+                                                                <sup class="text-body"><small>ر.س</small></sup>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="col-3">
+
+                                                <table class="table border-success">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>نسبة الضريبة </th>
+                                                            <th>قيمة الضريبة </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td> {{ $sitting->tax_rate * 100 }}% </td>
+
+                                                            <td> {{ $invoice->amount * $sitting->tax_rate }} <sup
+                                                                    class="text-body"><small>ر.س</small></sup>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="col-3">
+
+                                                <table class="table border-info">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>عمولة {{ $sitting->title }} </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+
+                                                            <td> 0 <sup class="text-body"><small>ر.س</small></sup>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+
 
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="panel panel-default">
-                                            <div class="p-2">
-                                                <h3 class="panel-title font-20"><strong>@lang('Invoice details') </strong></h3>
-                                            </div>
-                                            <div class="">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <td class="text-center"><strong>@lang('service type')</strong>
-                                                                </td>
-                                                                <td class="text-center"><strong>@lang('amount')</strong>
-                                                                </td>
-                                                                <td class="text-center"><strong>@lang('quantity')</strong>
-                                                                </td>
-                                                                <td class="text-center"><strong>@lang('Subtotal')</strong>
-                                                                </td>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!-- foreach ($order->lineItems as $line) or some such thing here -->
-                                                            <tr>
-                                                                <td class="text-center">{{ $invoice->subscription_name }}
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    {{ number_format($invoice->amount, 2) }}
-                                                                    <sub>@lang('SAR')</sub>
-                                                                </td>
-                                                                <td class="text-center">1</td>
-                                                                <td class="text-center">
-                                                                    {{ number_format($invoice->amount, 2) }}
-                                                                    <sub>@lang('SAR')</sub>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td class="thick-line"></td>
-                                                                <td class="thick-line"></td>
-                                                                <td class="thick-line text-center">
-                                                                    <strong>@lang('Subtotal')</strong>
-                                                                </td>
-                                                                <td class="thick-line text-right">$670.99</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="no-line"></td>
-                                                                <td class="no-line"></td>
-                                                                <td class="no-line text-center">
-                                                                    <strong>@lang('Value added tax')</strong>
-                                                                </td>
-                                                                <td class="no-line text-right">44</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="no-line"></td>
-                                                                <td class="no-line"></td>
-                                                                <td class="no-line text-center">
-                                                                    <strong>@lang('Total')</strong>
-                                                                </td>
-                                                                <td class="no-line text-right">
-                                                                    <h4 class="m-0">
-                                                                        {{ number_format($invoice->amount, 2) }}
-                                                                        <sub>@lang('SAR')</sub>
-                                                                    </h4>
-                                                                </td>
-                                                            </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                                <div class="d-print-none mo-mt-2">
-                                                    <div class="float-right">
-                                                        <a href="javascript:window.print()"
-                                                            class="btn btn-success waves-effect waves-light"><i
-                                                                class="fa fa-print"></i></a>
-                                                        <a href="#"
-                                                            class="btn btn-primary waves-effect waves-light">Send</a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="col-12 border-info p-1">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="bolder">
+                                                المجموع </span>
                                         </div>
 
+                                        <div class="col-6">
+                                            <span>
+                                                {{ $invoice->amount - $invoice->amount * $sitting->tax_rate }} <sup
+                                                    class="text-body"><small>ر.س</small></sup>
+                                            </span>
+                                        </div>
                                     </div>
-                                </div> <!-- end row -->
+                                </div>
+                                <br>
+                                <div class="col-12 border-success p-1">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="bolder">
+                                                ضريبة القيمة المضافة ( {{ $sitting->tax_rate * 100 }}% )
+                                            </span>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <span>
+                                                {{ $invoice->amount * $sitting->tax_rate }} <sup
+                                                    class="text-body"><small>ر.س</small></sup>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="col-12 border-info p-1">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="bolder">
+                                                المجموع مع الضريبة ( {{ $sitting->tax_rate * 100 }}% ) + عمولة
+                                                {{ $sitting->title }} (
+                                                0% )
+                                            </span>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <span>
+                                                {{ $invoice->amount }} <sup class="text-body"><small>ر.س</small></sup>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
