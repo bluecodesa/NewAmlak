@@ -31,12 +31,14 @@ class NewBrokerNotification extends Notification
     {
         $user_id=$this->broker->user_id;
         $user=User::where('id',$user_id)->first();
-
-    $subscriptionType = $this->broker->subscriptionType;
-    $subscriptionTypeName = $subscriptionType ? $subscriptionType->name : '';
+        $broker=Broker::where('user_id',$user_id)->first();
+        $subscriber=Subscription::where('broker_id',$broker->id)->first();
+        // dd($subscriber);
+        $subscriptionType = $subscriber->SubscriptionTypeData;
+        $subscriptionTypeName = $subscriptionType ? $subscriptionType->name : '';
         return [
-            'msg' => __('A new Broker Risgter') . ' ' . ($user->name).' '. __('Subscription Type'). ' ' .($subscriptionTypeName),
-            'url' => route('Admin.Subscribers.index'),
+            'msg' => __('') . ' ' . ($user->name).' '. __('Subscription Type'). ' ' .($subscriptionTypeName),
+            'url' => route('Admin.Subscribers.show', $subscriber->id),
             'type_noty' => 'NewBroker',
             'service_name' => 'NewBroker',
             'created_at' => now(),

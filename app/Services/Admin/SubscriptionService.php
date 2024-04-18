@@ -3,17 +3,21 @@
 namespace App\Services\Admin;
 
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
+use App\Models\Broker;
 use App\Models\Gallery;
 use App\Models\SubscriptionType;
+use App\Notifications\Admin\NewBrokerNotification;
 use App\Services\UserCreationService;
 use Illuminate\Validation\Rule;
 use App\Models\SystemInvoice;
+use App\Models\User;
 use App\Notifications\Admin\NewOfficeNotification;
 use App\Services\OfficeCreationService;
 use App\Services\BrokerCreationService;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class SubscriptionService
 {
@@ -170,28 +174,28 @@ $endDate = $endDate->format('Y-m-d H:i:s');
 
         $subscriptionType = SubscriptionType::find($data['subscription_type_id']);
 
- //
- $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+         //
+        $hasRealEstateGallerySection = $subscriptionType->sections()->get();
 
- $sectionNames = [];
- foreach ($hasRealEstateGallerySection as $section) {
-     $sectionNames[] = $section->name;
- }
+        $sectionNames = [];
+        foreach ($hasRealEstateGallerySection as $section) {
+            $sectionNames[] = $section->name;
+        }
 
- if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
-     // Create the gallery
-     $galleryName = explode('@', $request->email)[0];
-     $defaultCoverImage = '/Gallery/cover/cover.png';
+        if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+            // Create the gallery
+            $galleryName = explode('@', $request->email)[0];
+            $defaultCoverImage = '/Gallery/cover/cover.png';
 
-     $gallery = Gallery::create([
-         'broker_id' => $broker->id,
-         'gallery_name' => $galleryName,
-         'gallery_status' => 1,
-         'gallery_cover' => $defaultCoverImage,
-     ]);
- } else {
-     $gallery = null;
- }
+            $gallery = Gallery::create([
+                'broker_id' => $broker->id,
+                'gallery_name' => $galleryName,
+                'gallery_status' => 1,
+                'gallery_cover' => $defaultCoverImage,
+            ]);
+        } else {
+            $gallery = null;
+        }
 
  ///
         $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
@@ -211,9 +215,19 @@ $endDate = $endDate->format('Y-m-d H:i:s');
 
         $this->createSystemInvoiceBroker($broker, $subscriptionType, $status);
 
+        $this->notifyAdmins($broker);
 
         return $subscription;
     }
+
+    protected function notifyAdmins(Broker $broker)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewBrokerNotification($broker));
+        }
+    }
+
 
     public function updateSubscription($id, array $data)
     {

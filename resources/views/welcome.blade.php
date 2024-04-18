@@ -612,13 +612,13 @@
                 <div class="col-4 center-price soon-feature" style="padding-bottom: 30px">
                     <a class="btn ArFont" disabled
                         style="    border: 1px solid #497aac;
-    color: #060D07;
-    border-radius: 25px;
-    background-color: #fff;    cursor: auto;    min-width: fit-content;
-    padding: 0 11px;
-    min-height: 40px;
-    margin: auto;
-    border-radius: 12px;">ابدأ
+        color: #060D07;
+        border-radius: 25px;
+        background-color: #fff;    cursor: auto;    min-width: fit-content;
+        padding: 0 11px;
+        min-height: 40px;
+        margin: auto;
+        border-radius: 12px;">ابدأ
                         الآن</a>
                 </div>
             </div>
@@ -1105,106 +1105,119 @@
     <!-- Modal -->
 
 
-        <script>
-            window.onload = function() {
-                document.querySelector('a#pay-btnn').click();
+    <script>
+        window.onload = function() {
+            document.querySelector('a#pay-btnn').click();
 
-            }
-        </script>
-        <style>
-            .modal.show .modal-dialog {
-                width: 58%;
-                transform: none;
-                top: 4%;
-                max-width: initial;
-                margin-bottom: 50px;
-            }
+        }
+    </script>
+    <style>
+        .modal.show .modal-dialog {
+            width: 58%;
+            transform: none;
+            top: 4%;
+            max-width: initial;
+            margin-bottom: 50px;
+        }
 
-            .details.row {
-                border: 2px solid #F5D566C7;
-                border-radius: 17px;
-                padding: 10px;
-                margin: auto;
-            }
+        .details.row {
+            border: 2px solid #F5D566C7;
+            border-radius: 17px;
+            padding: 10px;
+            margin: auto;
+        }
 
-            button.btn.btn-primary.modal-submit {
-                background: #497AAC 0% 0% no-repeat padding-box;
-                box-shadow: 0px 8px 20px #91C0E973;
-                border-radius: 9px;
-                line-height: 1.8em;
-                width: 100%;
-            }
+        button.btn.btn-primary.modal-submit {
+            background: #497AAC 0% 0% no-repeat padding-box;
+            box-shadow: 0px 8px 20px #91C0E973;
+            border-radius: 9px;
+            line-height: 1.8em;
+            width: 100%;
+        }
 
-            .modal-dialog p,
-            .modal-dialog span,
-            .modal-dialog strong {
-                color: #2B3641
-            }
-
-        </style>
+        .modal-dialog p,
+        .modal-dialog span,
+        .modal-dialog strong {
+            color: #2B3641
+        }
+    </style>
 
 
 
     <!--end footer-->
     <!-- Footer End -->
-    <style>.zsiq_theme1.zsiq_floatmain {
+    <style>
+        .zsiq_theme1.zsiq_floatmain {
 
-    display: none!important;
-}</style>
+            display: none !important;
+        }
+    </style>
 
     @push('home-scripts')
- <script type="text/javascript" id="zsiqchat">var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "siqf8adecbae539f10442e3263a1c7449fe02f8434ebbe72fa0f7a759edb7870245", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zohopublic.com/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);</script>
-
+        <script type="text/javascript" id="zsiqchat">
+            var $zoho = $zoho || {};
+            $zoho.salesiq = $zoho.salesiq || {
+                widgetcode: "siqf8adecbae539f10442e3263a1c7449fe02f8434ebbe72fa0f7a759edb7870245",
+                values: {},
+                ready: function() {}
+            };
+            var d = document;
+            s = d.createElement("script");
+            s.type = "text/javascript";
+            s.id = "zsiqscript";
+            s.defer = true;
+            s.src = "https://salesiq.zohopublic.com/widget";
+            t = d.getElementsByTagName("script")[0];
+            t.parentNode.insertBefore(s, t);
+        </script>
     @endpush
 
-<!--add new subscribers-->
-<div class="modal fade" id="addSubscriberModal" tabindex="-1" role="dialog"
-    aria-labelledby="addSubscriberModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                {{-- <h5 class="modal-title" id="addSubscriberModalLabel"></h5> --}}
-                <p style="text-align: center;font-weight: 900; margin-bottom: 25px;">
-                    نوع الحساب</p>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card-deck">
-                    <!-- Add New Office Card -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="row account_row">
-                                    <div class="col-sm-12 col-md-6 account_type next-step">
-                                        <div class="img-smm">
-                                            <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}"
-                                                class="img-fluid">
+    <!--add new subscribers-->
+    <div class="modal fade" id="addSubscriberModal" tabindex="-1" role="dialog"
+        aria-labelledby="addSubscriberModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    {{-- <h5 class="modal-title" id="addSubscriberModalLabel"></h5> --}}
+                    <p style="text-align: center;font-weight: 900; margin-bottom: 25px;">
+                        نوع الحساب</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-deck">
+                        <!-- Add New Office Card -->
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="row account_row">
+                                        <div class="col-sm-12 col-md-6 account_type next-step">
+                                            <div class="img-smm">
+                                                <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}"
+                                                    class="img-fluid">
+                                            </div>
+                                            <p>مكتب</p>
                                         </div>
-                                        <p>مكتب</p>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6 account_type">
-                                        <div class="img-smm-y">
-                                            <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }} "
-                                                class="img-fluid">
+                                        <div class="col-sm-12 col-md-6 account_type">
+                                            <div class="img-smm-y">
+                                                <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }} "
+                                                    class="img-fluid">
+                                            </div>
+                                            <p>مسوق عقاري</p>
                                         </div>
-                                        <p>مسوق عقاري</p>
                                     </div>
+
+                                </div>
                             </div>
+                            <!-- Add New Broker Card -->
 
                         </div>
                     </div>
-                    <!-- Add New Broker Card -->
+
 
                 </div>
+
             </div>
-
-
         </div>
-
-    </div>
-</div>
-
-
-@endsection
+    @endsection

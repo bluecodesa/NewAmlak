@@ -10,6 +10,7 @@ use App\Models\PropertyImage;
 use App\Models\Unit;
 use App\Models\UnitFeature;
 use App\Models\UnitImage;
+use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,22 +29,35 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['qty']);
         unset($unit_data['images']);
         unset($unit_data['service_id']);
+        unset($unit_data['monthly']);
+        unset($unit_data['note']); // Remove the attempt to set the 'note' column
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         if (isset($data['show_gallery'])) {
-            if ($data['show_gallery'] == 'on') {
-                $unit_data['show_gallery'] = 1;
-            } else {
-                $unit_data['show_gallery'] = 0;
-            }
+            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
         } else {
-            $unit_data['show_gallery'] = 1;
+            $unit_data['show_gallery'] = 0;
         }
+
+        if (isset($data['daily_rent'])) {
+            $unit_data['daily_rent'] = $data['daily_rent'] == 'on' ? 1 : 0;
+        } else {
+            $unit_data['daily_rent'] = 0;
+        }
+
         $unit = Unit::create($unit_data);
         if (isset($data['service_id'])) {
             foreach ($data['service_id'] as  $service) {
                 UnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
             }
         }
+        UnitRentalPrice::create([
+            'unit_id' => $unit->id,
+            'daily' => $data['monthly'] / 30,
+            'monthly' => $data['monthly'],
+            'quarterly' => $data['monthly'] * 3,
+            'midterm' => $data['monthly'] * 6,
+            'yearly' => $data['monthly'] * 12,
+        ]);
         if (isset($data['name'])) {
             foreach ($data['name'] as $index => $Feature_name) {
                 $Feature =    Feature::where('name', $Feature_name)->first();
@@ -75,13 +89,27 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['qty']);
         unset($unit_data['images']);
         unset($unit_data['service_id']);
+
+        unset($unit_data['daily']);
+        unset($unit_data['monthly']);
+        unset($unit_data['quarterly']);
+        unset($unit_data['midterm']);
+        unset($unit_data['yearly']);
+
+
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         if (isset($data['show_gallery'])) {
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
-
         } else {
             $unit_data['show_gallery'] = 0;
         }
+
+        if (isset($data['daily_rent'])) {
+            $unit_data['daily_rent'] = $data['daily_rent'] == 'on' ? 1 : 0;
+        } else {
+            $unit_data['daily_rent'] = 0;
+        }
+
         $unit = Unit::find($id);
         $unit->update($unit_data);
         if (isset($data['service_id'])) {
@@ -90,6 +118,15 @@ class UnitRepository implements UnitRepositoryInterface
                 UnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
             }
         }
+        UnitRentalPrice::updateOrCreate(['unit_id' => $unit->id], [
+            'unit_id' => $unit->id,
+            'daily' => $data['daily'],
+            'monthly' => $data['monthly'],
+            'quarterly' => $data['quarterly'],
+            'midterm' => $data['midterm'],
+            'yearly' => $data['yearly'],
+        ]);
+
         if (isset($data['name'])) {
             $unit->UnitFeatureData()->delete();
             foreach ($data['name'] as $index => $Feature_name) {

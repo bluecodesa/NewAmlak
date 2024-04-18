@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
+use App\Models\User;
+use App\Notifications\Admin\AdminResponseTicketNotification;
+use App\Notifications\Admin\ResponseTicketNotification;
 use App\Services\Admin\SectionService;
 use App\Services\Admin\SupportService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class SupportController extends Controller
 {
@@ -46,7 +50,7 @@ class SupportController extends Controller
 
     public function store(Request $request)
     {
-        $this->SupportService->create($request->all());
+        $this->SupportService->createTicketType($request->all());
         return redirect()->route('Admin.SupportTickets.index')
             ->withSuccess(__('added successfully'));
     }
@@ -65,55 +69,37 @@ class SupportController extends Controller
 
     public function edit($id)
     {
-        $Ticket  =   $this->SupportService->getById($id);
+        $Ticket  =   $this->SupportService->getTicketTypById($id);
         return view('Admin.supports.TicketsType.edit', get_defined_vars());
     }
 
 
     public function update(Request $request, $id)
     {
-        $this->SupportService->update($id, $request->all());
+        $this->SupportService->updateTicketType($id, $request->all());
         return redirect()->route('Admin.SupportTickets.index')
             ->withSuccess(__('Update successfully'));
     }
+
 
     public function addResponse(Request $request, $ticketId)
     {
         // Validate the request data
         $request->validate([
             'response' => 'required|string',
-            'response_attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the validation rules for the attachment
-
+            'response_attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Find the ticket
-        $ticket = Ticket::findOrFail($ticketId);
+        $response = $this->SupportService->addResponse($request->all(), $ticketId);
 
-        // Update the ticket status if necessary
-        if ($ticket->status !== 'Waiting for customer') {
-            $ticket->status = 'Waiting for the customer';
-            $ticket->save();
-        }
-
-        // Create a new ticket response instance
-        $response = new TicketResponse();
-        $response->ticket_id = $ticketId;
-        $response->user_id = auth()->user()->id;
-        $response->response = $request->input('response');
-
-        // Handle file upload if a file is provided
-        if ($request->hasFile('response_attachment')) {
-            $file = $request->file('response_attachment');
-            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('Tickets/responses'), $fileName);
-            $response->response_attachment = 'Tickets/responses/' . $fileName; // Save the file path without leading slash
-        }
-
-        // Save the ticket response
-        $response->save();
-
-        // Redirect back with a success message
         return redirect()->back()->with('success', __('Response added successfully'));
+    }
+
+
+    public function closeTicket(Request $request, $id)
+    {
+        $this->SupportService->closeTicket($id);
+        return redirect()->back()->with('success', __('Ticket closed successfully'));
     }
 
 
@@ -124,10 +110,11 @@ class SupportController extends Controller
             ->withSuccess(__('Deleted successfully'));
     }
 
+        // TicketTypes
 
     public function getAllTicketTypes()
     {
-        $tickets = $this->SupportService->getAll();
+        $tickets = $this->SupportService->getAllTicketTypes();
         return view('Admin.supports.TicketsType.index', get_defined_vars());
     }
     public function createTicketType()
@@ -136,19 +123,19 @@ class SupportController extends Controller
     }
     public function storeTicketType(Request $request)
     {
-        $this->SupportService->create($request->all());
+        $this->SupportService->createTicketType($request->all());
         return redirect()->route('Admin.SupportTickets.tickets-type')
             ->withSuccess(__('added successfully'));
     }
 
     public function editTicketType($id)
     {
-        $Ticket  =   $this->SupportService->getById($id);
+        $Ticket  =   $this->SupportService->getTicketTypById($id);
         return view('Admin.supports.TicketsType.edit', get_defined_vars());
     }
     public function updateTicketType(Request $request, $id)
     {
-        $this->SupportService->update($id, $request->all());
+        $this->SupportService->updateTicketType($id, $request->all());
         return redirect()->route('Admin.SupportTickets.tickets-type')
             ->withSuccess(__('Update successfully'));
     }
@@ -159,11 +146,13 @@ class SupportController extends Controller
             ->withSuccess(__('Deleted successfully'));
     }
 
+
+           // InfoSupport
+
     public function showInfoSupport()
     {
        // Retrieve all tickets
        $settings = Setting::first();
-
        return view('Admin.supports.Setting.index', compact('settings'));
 
     }
@@ -187,4 +176,7 @@ class SupportController extends Controller
 
         return redirect()->back()->with('success', 'Support contact information updated successfully.');
     }
+
+
+
 }

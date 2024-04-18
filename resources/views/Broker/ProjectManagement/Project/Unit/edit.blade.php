@@ -158,9 +158,8 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Area (square metres)') <span
-                                                class="required-color">*</span></label>
-                                        <input type="number" required name="space" class="form-control"
+                                        <label class="form-label">@lang('Area (square metres)') </label>
+                                        <input type="number" name="space" class="form-control"
                                             placeholder="@lang('Area (square metres)')" value="{{ $Unit->space }}" />
                                     </div>
 
@@ -179,7 +178,7 @@
                                             placeholder="@lang('Number bathrooms')" value="{{ $Unit->bathrooms }}" />
                                     </div>
 
-                                    <div class="col-sm-12 col-md-3 mb-3">
+                                    <div class="col-sm-12 col-md-4 mb-3">
                                         <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
                                         </label>
                                         <input type="checkbox" name="show_gallery"
@@ -187,15 +186,14 @@
                                             data-toggle="toggle" data-onstyle="primary">
                                     </div>
 
-
-                                    <div class="col-sm-12 col-md-3 mb-3">
-                                        <label class="form-label">@lang('price')
-                                        <input type="number"  name="price" class="form-control"
-                                            placeholder="@lang('price')" value="{{ $Unit->price }}" />
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label" style="display: block !important;">@lang('Daily Rent')
+                                        </label>
+                                        <input type="checkbox"  name="daily_rent" {{ $Unit->daily_rent == 1 ? 'checked' : '' }}
+                                        class="toggleHomePage" data-toggle="toggle" data-onstyle="primary">
                                     </div>
 
-
-                                    <div class="form-group mb-3 col-md-3">
+                                    <div class="form-group mb-3 col-md-4">
                                         <label>@lang('Ad type') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="type" id="type" required>
                                             <option disabled value="">@lang('Ad type') </option>
@@ -208,7 +206,8 @@
                                     </div>
 
 
-                                    <div class="form-group col-md-3 mb-3">
+
+                                    <div class="form-group col-md-4 mb-3">
                                         <label>@lang('services')</label>
                                         <select class="select2 form-control" name="service_id[]" multiple="multiple">
                                             <option disabled value="">@lang('services')</option>
@@ -219,6 +218,52 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+
+                                    {{--  --}}
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('selling price')</label>
+                                        <input type="number" name="price" class="form-control"
+                                            placeholder="@lang('selling price')" value="{{ $Unit->price }}" />
+                                    </div>
+
+
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('daily rental price')</label>
+                                        <input type="number" name="daily" class="form-control"
+                                            placeholder="@lang('daily rental price')"
+                                            value="{{ $Unit->UnitRentPrice->daily ?? '' }}" />
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('Monthly rental price')</label>
+                                        <input type="number" name="monthly" class="form-control"
+                                            placeholder="@lang('Monthly rental price')"
+                                            value="{{ $Unit->UnitRentPrice->monthly ?? '' }}" />
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('quarterly rental price')</label>
+                                        <input type="number" name="quarterly" class="form-control"
+                                            placeholder="@lang('quarterly rental price')"
+                                            value="{{ $Unit->UnitRentPrice->quarterly ?? '' }}" />
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('midterm rental price')</label>
+                                        <input type="number" name="midterm" class="form-control"
+                                            placeholder="@lang('midterm rental price')"
+                                            value="{{ $Unit->UnitRentPrice->midterm ?? '' }}" />
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('yearly rental price')</label>
+                                        <input type="number" name="yearly" class="form-control"
+                                            placeholder="@lang('yearly rental price')"
+                                            value="{{ $Unit->UnitRentPrice->yearly ?? '' }}" />
+                                    </div>
+
+                                    {{--  --}}
 
                                     <div class="col-sm-12 col-md-6 mb-3" hidden>
                                         <label class="form-label">@lang('lat&long')</label>
@@ -254,6 +299,13 @@
 
                                         <div id="features" class="row p-2">
 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        <label>@lang('Description')</label>
+                                        <div>
+                                            <textarea name="note" class="form-control" rows="5">{{ $Unit->note }}</textarea>
                                         </div>
                                     </div>
 

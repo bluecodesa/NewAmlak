@@ -49,12 +49,12 @@
                                     <ul class="nav nav-pills nav-justified" role="tablist">
                                         <li class="nav-item waves-effect waves-light">
                                             <a id="v-pills-menu-tab" class="nav-link active" data-toggle="tab" href="#home-1" role="tab" data-target="#v-pills-menu" aria-controls="v-pills-menu">
-                                                <span class="d-none d-md-block">@lang('Menu')</span><span class="d-block d-md-none"><i class="mdi mdi-home-variant h5"></i></span>
+                                                <span class="d-none d-md-block">@lang('List')</span><span class="d-block d-md-none"><i class="mdi mdi-home-variant h5"></i></span>
                                             </a>
                                         </li>
                                         <li class="nav-item waves-effect waves-light">
                                             <a id="v-pills-List-tab" class="nav-link" aria-controls="v-pills-List" data-target="#v-pills-List" data-toggle="tab" href="#profile-1" role="tab">
-                                                <span class="d-none d-md-block">@lang('List')</span><span class="d-block d-md-none"><i class="mdi mdi-account h5"></i></span>
+                                                <span class="d-none d-md-block">@lang('Card')</span><span class="d-block d-md-none"><i class="mdi mdi-account h5"></i></span>
                                             </a>
                                         </li>
 

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Models\City;
 use App\Models\District;
+use App\Models\Gallery;
 use App\Models\Owner;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
+use App\Models\SystemInvoice;
 use App\Models\UnitInterest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,21 +38,22 @@ class HomeController extends Controller
     protected $propertyUsageService;
 
     protected $galleryService;
+    protected $systemInvoiceRepository;
 
 
 
 
-
-
-    public function __construct(UnitService $UnitService,SubscriptionService $subscriptionService,
-    RegionService $regionService,
-     CityService $cityService,
-     OwnerService $ownerService,
-     SubscriptionTypeService $SubscriptionTypeService,
-     GalleryService $galleryService,
-     PropertyUsageService $propertyUsageService
-     )
-    {
+    public function __construct(
+        SystemInvoiceRepositoryInterface $systemInvoiceRepository,
+        UnitService $UnitService,
+        SubscriptionService $subscriptionService,
+        RegionService $regionService,
+        CityService $cityService,
+        OwnerService $ownerService,
+        SubscriptionTypeService $SubscriptionTypeService,
+        GalleryService $galleryService,
+        PropertyUsageService $propertyUsageService
+    ) {
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->regionService = $regionService;
@@ -58,11 +62,14 @@ class HomeController extends Controller
         $this->UnitService = $UnitService;
         $this->galleryService = $galleryService;
         $this->propertyUsageService = $propertyUsageService;
+        $this->systemInvoiceRepository = $systemInvoiceRepository;
+
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
+        // return Auth::user()->UserBrokerData->UserSubscriptionPending->status;
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = $this->ownerService->getAllByBrokerId($brokerId)->count();
@@ -80,7 +87,7 @@ class HomeController extends Controller
         }
 
         $subscriber = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
-        $SubscriptionType=$this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
+        $SubscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
 
         //
         $sectionNames = [];
@@ -97,16 +104,29 @@ class HomeController extends Controller
 
         $startDate = \Carbon\Carbon::parse($subscriber->start_date);
         $endDate = \Carbon\Carbon::parse($subscriber->end_date);
-        $numOfDays = $endDate->diffInDays($startDate);
         $now = \Carbon\Carbon::now();
         $daysUntilEnd = $now->diffInDays($endDate, false); // Calculate remaining days
-        // $hoursUntilEnd = $now->diffInHours($endDate, false); // Get remaining hours
         $hoursUntilEnd = $now->diffInHours($endDate->copy()->subDays($daysUntilEnd), false); // Get remaining hours
         $minutesUntilEnd = $now->diffInMinutes($endDate, false); // Get remaining minutes
+        $numOfDays = $endDate->diffInDays($startDate);
+        if ($numOfDays == 0) {
+            $prec = 100;
+        } else {
 
-        $prec=($daysUntilEnd /$numOfDays) * 100;
-        //
-        return view('Broker.dashboard',  get_defined_vars());
+            $prec = ($daysUntilEnd / $numOfDays) * 100;
+        }
+
+
+        $gallery = $this->galleryService->findByBrokerId($brokerId);
+            $visitorCount = 0;
+
+            if ($gallery !== null) {
+                $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
+
+            }
+
+     return view('Broker.dashboard',  get_defined_vars());
+
     }
 
     function ViewInvoice()
@@ -136,6 +156,39 @@ class HomeController extends Controller
 
         $Invoice  = Auth::user()->UserBrokerData->UserSystemInvoicePending;
 
-        $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
+        if (!$Invoice) {
+            SystemInvoice::create([
+                'broker_id' => $subscription->broker_id,
+                'office_id' => $subscription->office_id,
+                'amount' => $SubscriptionType->price,
+                'subscription_name' => $SubscriptionType->name,
+                'period' => $SubscriptionType->period,
+                'period_type' => $SubscriptionType->period_type,
+                'invoice_ID' => 'INV_' . uniqid(),
+                'status' => 'pending'
+            ]);
+        } else {
+            $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
+        }
+    }
+
+
+    public function showSubscription()
+    {
+        $brokerId = auth()->user()->UserBrokerData->id;
+
+        $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
+        if ($brokerId)
+            $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
+            $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
+
+        return view('Broker.Subscription.show', get_defined_vars());
+    }
+
+    public function ShowInvoice($id)
+    {
+        $invoice = $this->systemInvoiceRepository->find($id);
+
+        return view('Broker.Subscription.invoices.show',get_defined_vars());
     }
 }

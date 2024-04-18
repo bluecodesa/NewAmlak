@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-sm-6">
                                 @if($ticket->status !== 'Closed')
-                                    <form action="{{ route('Broker.closeTicket', $ticket->id) }}" method="POST">
+                                    <form action="{{ route('Admin.closeTicket', $ticket->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-danger">@lang('Close Ticket')</button>
                                     </form>

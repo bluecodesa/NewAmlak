@@ -21,21 +21,21 @@ class CheckSubscriptionMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $subscriptions = Subscription::where([['end_date', '<=', now()->format('Y-m-d')]])->get();
+        $subscriptions = Subscription::whereDate('end_date', '<=', now()->format('Y-m-d'))->get();
 
         foreach ($subscriptions as  $subscription) {
             if ($subscription->status == 'active') {
                 $subscriptionType = SubscriptionType::find($subscription['subscription_type_id']);
                 $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
                 $subscription->update([
-                    'status' => 'pending',
+                    'status' => 'expired',
                     'notified' => 0,
                     'is_end' => 0,
                     'is_start' => 0,
                     'is_new' => 0,
                     'is_suspend' => 0,
-                    'start_date' => now()->format('Y-m-d'),
-                    'end_date' => $endDate,
+                    // 'start_date' => now()->format('Y-m-d'),
+                    // 'end_date' => $endDate,
                 ]);
                 $status = ($subscriptionType->price > 0) ? 'pending' : 'active';
                 SystemInvoice::create([

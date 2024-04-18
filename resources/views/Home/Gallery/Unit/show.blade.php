@@ -56,13 +56,26 @@
                                 @lang('Residential number') :
                                     {{ $Unit->number_unit }}
                                 </span>
-                            <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $Unit->price }}
-                                @lang('SAR')</span>
+                                @if ($Unit->type == 'rent')
+                                <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $Unit->getRentPriceByType() }}
+                                    <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                    </sup></span>
+                                @endif
+                                @if ($Unit->type == 'sale')
+                                <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $Unit->price }}
+                                    <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                    </sup></span>
+                                @endif
+                                @if ($Unit->type == 'rent_sale')
+                                <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $Unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                </sup> / @lang('sale'){{ $Unit->price }} @lang('SAR')
+                                   </span>
+                                @endif
                         </div>
                         <div class="row">
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
-                            <span class=" w-auto mb-2" style="color: #989898"> @lang('Property type') :
+                            <span class=" w-auto mb-2" style="color: #989898">
                                 {{ $Unit->PropertyTypeData->name ?? ''  }}
                             </span>
 
@@ -142,43 +155,48 @@
 
                                 </div>
                                 @endif
+
+                                <div class="row justify-content-between m-0 p-0 mt-2 mb-3">
+                                    <!-- Add eye icon -->
+                                    <span class="w-auto m-0 p-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path d="M8 1a7 7 0 0 1 7 7c0 3.07-2.5 5.572-5.571 5.572A5.573 5.573 0 0 1 2.429 8 5.573 5.573 0 0 1 8 2.429 5.573 5.573 0 0 1 13.571 8 7 7 0 0 1 8 1zm0 2a5 5 0 0 0-5 5c0 1.993 1.226 3.714 3 4.413V11a1 1 0 0 0 2 0v-.586c1.774-.699 3-2.42 3-4.413a5 5 0 0 0-5-5zm0 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                                        </svg>
+                                        {{ $unitVisitorsCount[$Unit->id] ?? 0 }}
+                                    </span>
+                                </div>
                             </div>
 
                         </div>
 
                         <div class="row justify-content-between gap-3">
-                            @if ($Unit->UnitFeatureData)
-
+                            @if ($Unit->UnitFeatureData->isNotEmpty() && $Unit->UnitFeatureData->whereNotNull('qty')->isNotEmpty())
                             <div class="d-block text-black">
-
                                 <strong>@lang('Additional details')</strong>
                             </div>
-                             <ol class="list-group list-group-numbered">
-                                 @foreach ($Unit->UnitFeatureData as $feature)
-                                 <span>{{ $feature->FeatureData->name ?? '' }} : {{ $feature->qty }}</span>
+                            <ol class="list-group list-group-numbered">
+                                @foreach ($Unit->UnitFeatureData as $feature)
+                                    @if ($feature->qty)
+                                        <span>{{ $feature->FeatureData->name ?? '' }} : {{ $feature->qty }}</span>
+                                    @endif
+                                @endforeach
+                            </ol>
+                        @endif
 
-                                    {{-- <div class="fw-bold">{{ $feature->FeatureData->name ?? '' }}</div>
 
-                                    <span style="font-size: 12px;"
-                                    class="badge bg-primary fw-bold text-white  rounded-pill">{{ $feature->qty }}</span> --}}
-
-                                 @endforeach
-                             </ol>
-                         @endif
-                         @if ($Unit->UnitServicesData)
-                         <div class="d-block text-black" role="alert">
+                        @if ($Unit->UnitServicesData->isNotEmpty())
+                        <div class="d-block text-black" role="alert">
                             <strong>@lang('services')</strong>
                         </div>
                         <ol class="list-group list-group-numbered">
-
-                                <span class="text-with-ellipsis">
-
+                            <span class="text-with-ellipsis">
                                 @foreach ($Unit->UnitServicesData as $service)
-                                <span>{{ $service->ServiceData->name ?? '' }}</span>
-                                 @endforeach
-                                </span>
+                                    <span>{{ $service->ServiceData->name ?? '' }}</span>
+                                @endforeach
+                            </span>
                         </ol>
                     @endif
+
                         </div>
 
                     </div>
@@ -367,6 +385,7 @@
 
                             <div class="row pb-5 pt-4 flex-nowrap align-items-center">
                                 <div class="w-auto">
+                                    {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $Unit->id])) !!}
 
                                 </div>
                                 <div class="d-flex gap-4" style="flex: auto;flex-direction:column">
@@ -376,8 +395,7 @@
                                     @php
                                         $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $Unit->id]) ";
                                     @endphp
-                                    <a href=""
-                                        class="d-block btn btn-new-b mt-3">Download QR Code</a>
+                                    <a href="{{ route('download.qrcode', $url) }}" class="d-block btn btn-new-b mt-3" style="width: fit-content">Download QR Code</a>
 
                                 </div>
                             </div>

@@ -64,5 +64,32 @@ class Unit extends Model
         return $this->hasMany(UnitInterest::class);
     }
 
-    
+    public function UnitRentPrice()
+    {
+        return $this->hasOne(UnitRentalPrice::class);
+    }
+
+    public function visitors()
+    {
+        return $this->hasMany(Visitor::class);
+    }
+
+
+    public function getRentPriceByType()
+    {
+        switch ($this->rent_type_show) {
+            case 'daily':
+                return $this->UnitRentPrice->daily;
+            case 'monthly':
+                return $this->UnitRentPrice->monthly;
+            case 'quarterly':
+                return $this->UnitRentPrice->quarterly;
+            case 'midterm':
+                return $this->UnitRentPrice->midterm;
+            case 'yearly':
+                return $this->UnitRentPrice->yearly;
+            default:
+                return null;
+        }
+    }
 }

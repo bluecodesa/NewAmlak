@@ -70,9 +70,20 @@
                             <div class="row justify-content-between m-0 p-0 mt-2 mb-3">
                                 <span class="w-auto m-0 p-0 " style="font-weight: 900">
                                     {{ __('Residential number') }} / {{ $unit->number_unit ?? '' }}</span>
-                                    @if ($unit->price && !$unit->hide_price)
+                                    @if ($unit->type == 'rent')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->getRentPriceByType() }}
+                                        <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        </sup></span>
+                                    @endif
+                                    @if ($unit->type == 'sale')
                                     <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->price }}
-                                        sar</span>
+                                        <sup>@lang('SAR')
+                                        </sup></span>
+                                    @endif
+                                    @if ($unit->type == 'rent_sale')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                    </sup>
+                                       </span>
                                     @endif
                             </div>
                             <div class="row m-0 p-0">
@@ -80,7 +91,7 @@
                                     style="width: 18px;height: fit-content;" class="p-0" />
                                     <span class="mb-2 w-auto" style="color: #989898">
 
-                                        {{ __('Occupancy') }}:  {{ __($unit->status) ?? '' }}
+                                        {{ __('Property type') }}:  {{ __($unit->PropertyTypeData->name) ?? '' }}
                                       </span>
 
 
@@ -109,7 +120,21 @@
                                     </span>
                                 </div>
                             @endif
-                        </div>
+                         </div>
+
+
+                         <div class="row gallery-services mb-3"
+                         style="
+                          @if (!$unit->daily_rent ) visibility:hidden @endif">
+                         <p class="w-auto m-0 p-0" style="color: #989898">متاج @lang('Daily Rent')</p>
+                             <div class="text-container">
+                                 <span class="text-with-ellipsis">
+                                 <span>{{ $unit->UnitRentPrice->daily  }}</span>
+
+                                 </span>
+                             </div>
+
+                      </div>
 
 
                             <div class="row justify-content-between gap-3">
@@ -184,6 +209,16 @@
 
                                     </div>
                                     @endif
+
+                                    <div class="row justify-content-between m-0 p-0 mt-2 mb-3">
+                                        <!-- Add eye icon -->
+                                        <span class="w-auto m-0 p-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                <path d="M8 1a7 7 0 0 1 7 7c0 3.07-2.5 5.572-5.571 5.572A5.573 5.573 0 0 1 2.429 8 5.573 5.573 0 0 1 8 2.429 5.573 5.573 0 0 1 13.571 8 7 7 0 0 1 8 1zm0 2a5 5 0 0 0-5 5c0 1.993 1.226 3.714 3 4.413V11a1 1 0 0 0 2 0v-.586c1.774-.699 3-2.42 3-4.413a5 5 0 0 0-5-5zm0 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                                            </svg>
+                                            {{ $unitVisitorsCount[$unit->id] ?? 0 }}
+                                        </span>
+                                    </div>
                                 </div>
 
                             </div>
@@ -194,14 +229,14 @@
                                 <div class="col-6 p-3" style="border-left: 1px solid #ededed">
 
                                     <a
-                                        href="tel:"><img
+                                        href="tel:{{ env('COUNTRY_CODE') . $broker->moblie }}"><img
                                             src="{{ asset('dashboard/assets/new-icons/call.png') }}"
                                             style="width: 22px;height: fit-content;" class="p-0" /></a>
 
 
                                 </div>
                                 <div class="col-6 p-3">
-                                    <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') }}"
+                                    <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}"
                                         target="_blank"> <img src="{{ asset('dashboard/assets/new-icons/chatt.png') }}"
                                             style="width: 22px;height: fit-content;" class="p-0" /></a>
 

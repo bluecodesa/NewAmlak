@@ -19,6 +19,7 @@ use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Interfaces\Admin\SubscriptionTypeRepositoryInterface;
 use App\Interfaces\Admin\SupportRepositoryInterface;
 use App\Repositories\Admin\SupportRepository;
+use App\Repositories\Broker\TicketRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -61,6 +62,7 @@ use App\Repositories\Broker\ProjectRepository as BrokerProjectRepository;
 use App\Repositories\Broker\PropertyRepository;
 use App\Repositories\Broker\SettingRepository as BrokerSettingRepository;
 use App\Repositories\Broker\UnitRepository;
+use App\Interfaces\Broker\TicketRepositoryInterface;
 // office
 use App\Repositories\Office\AdvisorRepository;
 use App\Repositories\Office\DeveloperRepository;
@@ -76,6 +78,16 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+
+        $this->app->bind(
+            SupportRepositoryInterface::class,
+            SupportRepository::class
+        );
+        $this->app->bind(
+            TicketRepositoryInterface::class,
+            TicketRepository::class
+        );
+
         $this->app->bind(
             SubscriptionRepositoryInterface::class,
             SubscriptionRepository::class

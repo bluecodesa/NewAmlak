@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\Subscribers\SystemInvoiceController;
 use App\Http\Controllers\Admin\SubUserController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Broker\TicketController;
 use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -45,7 +46,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription', 'redirect.users','checkUserRole:admin']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription', 'redirect.users', 'checkUserRole:admin']
     ],
     function () {
         Route::prefix('app')->name('Admin.')->group(function () {
@@ -74,6 +75,7 @@ Route::group(
             //support tickets
             Route::get('/TicketsTypes', [SupportController::class, 'getAllTicketTypes'])->name('SupportTickets.tickets-type');
             Route::get('/ticketType/create', [SupportController::class, 'createTicketType'])->name('SupportTickets.createTicketType');
+            Route::post('tickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
             Route::post('/ticketType/store', [SupportController::class, 'storeTicketType'])->name('SupportTickets.storeTicketType');
             Route::get('/ticketType/{id}/edit', [SupportController::class, 'editTicketType'])->name('SupportTickets.editTicketType');
             Route::put('/ticketType/{id}/update', [SupportController::class, 'updateTicketType'])->name('SupportTickets.updateTicketType');
@@ -114,6 +116,7 @@ Route::group(
             Route::get('Subscribers.CreateBroker', [SubscriptionController::class, 'createBroker'])->name('Subscribers.CreateBroker');
             Route::post('Subscribers.CreateBroker', [SubscriptionController::class, 'storeBroker'])->name('Subscribers.CreateBroker');
             Route::post('Subscribers.SuspendSubscription/{id}', [SubscriptionController::class, 'SuspendSubscription'])->name('Subscribers.SuspendSubscription');
+            Route::get('LoginByUser/{id}', 'Subscribers\SubscriptionController@LoginByUser')->name('Subscribers.LoginByUser');
         });
     }
 );

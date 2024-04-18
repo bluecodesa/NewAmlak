@@ -20,7 +20,7 @@
                                 <img src="{{ url($unit->UnitImages->first()->image) }}" class="img-fluid"
                                         style="height:177px;object-fit:cover" />
                                 @else
-                                    <img src="{{ asset('dashboard/assets/new-icons/pngwing.png') }}" class="img-fluid"
+                                    <img src="{{ asset('Offices/Projects/default.svg') }}" class="img-fluid"
                                         style="height:177px;object-fit:cover" />
                                 @endif
 
@@ -73,7 +73,7 @@
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
                             <span class=" w-auto mb-2" style="color: #989898">
-                                {{ __('Occupancy') }}: {{ __($unit->status) ?? '' }}
+                                {{ __('Property type') }}: {{ __($unit->PropertyTypeData->name) ?? '' }}
 
                             </span>
                         </div>
@@ -85,32 +85,34 @@
                                 {{ __('city') }}: {{ $unit->CityData->name ?? '' }}
                             </span>
                         </div>
-                        @if ($unit->services && count($unit->services) > 0)
+                        <div class="row gallery-services mb-3"
+                        style="
+                         @if (!$unit->UnitServicesData || count($unit->UnitServicesData) ==0 ) visibility:hidden @endif">
+                        <p class="w-auto m-0 p-0" style="color: #989898">@lang('services')</p>
+                        @if ($unit->UnitServicesData && count($unit->UnitServicesData) > 0)
+                            <div class="text-container">
+                                <span class="text-with-ellipsis">
 
-                        <div class="row gallery-services mb-3">
-                                <p class="w-auto m-0 p-0" style="color: #989898">الخدمات</p>
-                                <div class="text-container">
+                                @foreach ($unit->UnitServicesData as $service)
+                                <span>{{ $service->ServiceData->name ?? '' }}</span>
+                                 @endforeach
+                                </span>
+                            </div>
+                        @endif
+                     </div>
 
-                                    @php
-                                        $alt = '';
-                                    @endphp
-                                    @foreach ($unit->services as $service)
-                                        @php
-                                            $alt .= $service->name . ' ,';
-                                            $alt1 = rtrim($alt, ",");
-                                        @endphp
-                                    @endforeach
+                     <div class="row gallery-services mb-3"
+                     style="
+                      @if (!$unit->daily_rent ) visibility:hidden @endif">
+                     <p class="w-auto m-0 p-0" style="color: #989898">متاج @lang('Daily Rent')</p>
+                         <div class="text-container">
+                             <span class="text-with-ellipsis">
+                             <span>{{ $unit->UnitRentPrice->daily  }}</span>
 
-                                    <span class="text-with-ellipsis" data-alt="{{ $alt1 }}">
+                             </span>
+                         </div>
 
-                                        @foreach ($unit->services as $service)
-                                            <span>{{ $service->name }} </span>
-                                        @endforeach
-                                    </span>
-                                </div>
-
-                        </div>
-                            @endif
+                  </div>
 
 
                         <div class="row justify-content-between gap-3 m-0 p-0 mt-3">
@@ -184,14 +186,34 @@
 
                                 </div>
                                 @endif
+
+                                <div class="row justify-content-between m-0 p-0 mt-2 mb-3">
+                                    <!-- Add eye icon -->
+                                    <span class="w-auto m-0 p-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path d="M8 1a7 7 0 0 1 7 7c0 3.07-2.5 5.572-5.571 5.572A5.573 5.573 0 0 1 2.429 8 5.573 5.573 0 0 1 8 2.429 5.573 5.573 0 0 1 13.571 8 7 7 0 0 1 8 1zm0 2a5 5 0 0 0-5 5c0 1.993 1.226 3.714 3 4.413V11a1 1 0 0 0 2 0v-.586c1.774-.699 3-2.42 3-4.413a5 5 0 0 0-5-5zm0 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                                        </svg>
+                                        {{ $unitVisitorsCount[$unit->id] ?? 0 }}
+                                    </span>
+                                </div>
                             </div>
 
 
-                            @if ($unit->price && !$unit->hide_price)
-                                <span class="w-auto m-0 p-0"
-                                    style="color: #5c88b4;font-weight:900">{{ $unit->price }}
-                                    sar</span>
-                            @endif
+                            @if ($unit->type == 'rent')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->getRentPriceByType() }}
+                                        <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        </sup></span>
+                                    @endif
+                                    @if ($unit->type == 'sale')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">{{ $unit->price }}
+                                        <sup>@lang('SAR')
+                                        </sup></span>
+                                    @endif
+                                    @if ($unit->type == 'rent_sale')
+                                    <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
+                                    </sup>
+                                       </span>
+                                    @endif
 
                         </div>
                     </div>

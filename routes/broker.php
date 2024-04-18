@@ -34,13 +34,15 @@ use App\Http\Middleware\PendingPaymentPopup;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment','CheckSubscription','checkUserRole:broker']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment', 'checkUserRole:broker']
     ],
     function () {
         Route::prefix('broker')->name('Broker.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('UpdateSubscription/{id}', 'HomeController@UpdateSubscription')->name('UpdateSubscription');
             Route::get('ViewInvoice', 'HomeController@ViewInvoice')->name('ViewInvoice');
+            Route::get('ShowSubscription', 'HomeController@showSubscription')->name('ShowSubscription')->middleware('CheckSubscription');
+            Route::get('ShowInvoice/{id}', 'HomeController@ShowInvoice')->name('ShowInvoice')->middleware('CheckSubscription');
             route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
             route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
             route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
@@ -59,10 +61,12 @@ Route::group(
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
             Route::post('SaveNewOwners', [UnitController::class, 'SaveNewOwners'])->name('Unit.SaveNewOwners');
             Route::get('/UnitdeleteImage/{id}', 'ProjectManagement\UnitController@deleteImage')->name('Unit.deleteImage')->middleware('CheckSubscription');
+            Route::get('/UpdateRentPriceByType/{id}', 'ProjectManagement\UnitController@UpdateRentPriceByType')->name('Unit.UpdateRentPriceByType')->middleware('CheckSubscription');
+
+
             route::resource('Gallery', GallaryController::class)->middleware('CheckSubscription');
-            route::resource('Tickets', TicketController::class)->middleware('CheckSubscription');
+            route::resource('Tickets', TicketController::class);
             Route::post('tickets/{ticketId}/add-response', [TicketController::class, 'addResponse'])->name('tickets.addResponse');
-            Route::post('tickets/{id}/close', [TicketController::class, 'closeTicket'])->name('closeTicket');
             Route::post('/update-cover', [GallaryController::class, 'updateCover'])->name('Gallery.update-cover');
             Route::post('/gallery/create', [GallaryController::class, 'createGallery'])->name('Gallery.create');
             Route::post('/gallery/custom-update/{gallery}', [GallaryController::class, 'customUpdate'])->name('Gallery.customUpdate')->middleware('CheckSubscription');

@@ -12,8 +12,11 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SystemInvoice.show',$invoice->id) }}">@lang('Invoice')</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SystemInvoice.index') }}">@lang('invoices')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Admin.SystemInvoice.show', $invoice->id) }}">@lang('Invoice')</a>
+                                </li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Admin.SystemInvoice.index') }}">@lang('invoices')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -28,13 +31,30 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="invoice-title">
-                                            <h4 class="float-right font-16"><strong
-                                                    class="badge p-1 badge-{{ $invoice->status == 'pending' ? 'danger' : 'success' }}">
-                                                    {{ __(app()->getLocale() . '.' . $invoice->status) }} </strong></h4>
-                                            <h3 class="m-t-0">
-                                                <img src="{{ url($sitting->icon) }}" alt="logo" height="24" />
-                                            </h3>
+                                        <div class="row">
+                                            <div class="col-4 text-left">
+                                                <img src="{{ url($sitting->icon) }}"
+                                                    style="border: 1px solid; border-radius: 10px;" width="190"
+                                                    alt="">
+                                            </div>
+
+                                            <div class="col-4 text-center">
+                                                <h1>فاتورة ضربية</h1>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <h5>الرقم التسلسلي</h5>
+                                                        <b> SM1000</b>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <h5>التاريخ</h5>
+                                                        <b> {{ $invoice->created_at->format('H:m:i - Y/m/d') }} </b>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4 text-right">
+                                                {{ \QrCode::size(200)->style('dot')->eye('circle')->color(0, 0, 255)->margin(1)->generate(route('Admin.SystemInvoice.show', $invoice->id)) }}
+                                            </div>
                                         </div>
                                         <hr>
                                         <div class="row">

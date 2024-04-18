@@ -145,9 +145,9 @@
 
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Area (square metres)') <span class="required-color">*</span>
+                                        <label class="form-label">@lang('Area (square metres)')
                                         </label>
-                                        <input type="number" required name="space" class="form-control"
+                                        <input type="number" name="space" class="form-control"
                                             placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
                                     </div>
 
@@ -173,16 +173,30 @@
                                             data-toggle="toggle" data-onstyle="primary">
                                     </div>
 
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label" style="display: block !important;">@lang('Daily Rent')
+                                        </label>
+                                        <input type="checkbox"  name="daily_rent" class="toggleHomePage"
+                                            data-toggle="toggle" data-onstyle="primary">
+                                    </div>
 
-
-                                    <div class="col-sm-12 col-md-3 mb-3">
-                                        <label class="form-label">@lang('price')</label>
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('selling price')</label>
                                         <input type="number" name="price" class="form-control"
-                                            placeholder="@lang('price')" value="{{ old('price') }}" />
+                                            placeholder="@lang('selling price')" value="{{ old('price') }}" />
                                     </div>
 
 
-                                    <div class="form-group mb-3 col-md-3">
+                                    <div class="col-sm-12 col-md-2 mb-3">
+                                        <label class="form-label">@lang('Monthly rental price')</label>
+                                        <input type="number" name="monthly" class="form-control"
+                                            placeholder="@lang('Monthly rental price')" value="{{ old('price') }}" />
+                                    </div>
+
+
+
+
+                                    <div class="form-group mb-2 col-md-3">
                                         <label>@lang('Ad type') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="type" id="type" required>
                                             <option disabled value="">@lang('Ad type') </option>

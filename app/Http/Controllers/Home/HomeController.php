@@ -24,30 +24,38 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
-
+use App\Services\Admin\SubscriptionTypeService;
+use App\Services\Admin\SectionService;
 
 
 class HomeController extends Controller
 {
     use MailWelcomeBroker;
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+
+
+    protected $subscriptionTypeService;
+    protected $SectionService;
+
+    public function __construct(SubscriptionTypeService $subscriptionTypeService, SectionService $SectionService)
     {
-        // $this->middleware('auth');
+        $this->subscriptionTypeService = $subscriptionTypeService;
+        $this->SectionService = $SectionService;
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
+
     public function index()
     {
-
+        //subscrptions
+        $subscriptionTypes = $this->subscriptionTypeService->getAll();
+        $sections = $this->SectionService->getAll();
+        ////
+        $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+        $subscriptionTypesRoles = SubscriptionType::where('is_deleted', 0)
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->get();
+        ///
         $sitting =   Setting::first();
         if ($sitting->active_home_page == 1) {
             return view('Home.home', get_defined_vars());
@@ -204,7 +212,7 @@ class HomeController extends Controller
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'id_number'=>'nullable|unique:brokers,id_number'
+            'id_number' => 'nullable|unique:brokers,id_number'
 
         ];
 
@@ -256,8 +264,6 @@ class HomeController extends Controller
             'id_number' => $request->id_number ?? null,
             'broker_logo' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
         ]);
-
-        $this->notifyAdmins($broker);
 
 
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
@@ -318,6 +324,9 @@ class HomeController extends Controller
         } else {
             $gallery = null;
         }
+
+        $this->notifyAdmins($broker);
+
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
         return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
     }
@@ -336,8 +345,4 @@ class HomeController extends Controller
         $user = User::find(Auth::id());
         $user->update(['fcm_token' => $request->token]);
     }
-
-
-
-
 }

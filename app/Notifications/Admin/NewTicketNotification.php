@@ -32,9 +32,9 @@ class NewTicketNotification extends Notification
         $type=$this->ticket->ticketType->name;
 
         return [
-            'msg' => __('You have a new support ticket:') . ' ' . ($formattedId).' : '.($type),
-            'url' => route('Admin.SupportTickets.index'),
-            'type_noty' => 'NewTicket',
+            'msg' => __('') . ' ' . ($formattedId).' : '.($type),
+            'url' => route('Admin.SupportTickets.show',$this->ticket->id),
+            'type_noty' => 'You have a new support ticket',
             'service_name' => 'NewTicket',
             'created_at' => now(),
         ];

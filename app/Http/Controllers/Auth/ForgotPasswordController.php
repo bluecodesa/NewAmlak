@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Hash;
 use DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ForgotPasswordController extends Controller
@@ -50,7 +51,10 @@ class ForgotPasswordController extends Controller
         {
             $request->validate([
                 'email' => 'required|email|exists:users',
+            ], [
+                'email.exists' => 'The email address is not registered.', // Custom message for email not found
             ]);
+
 
             // Check if a password reset entry already exists for the provided email
             $existingReset = DB::table('password_resets')
@@ -77,7 +81,7 @@ class ForgotPasswordController extends Controller
                 ]);
             }
 
-            $code = str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            $code = str_pad(mt_rand(0, 9999), 6, '0', STR_PAD_LEFT);
             $expiry = Carbon::now()->addMinutes(1);
 
             $currentTime = Carbon::now();
@@ -106,24 +110,29 @@ class ForgotPasswordController extends Controller
         }
 
 
-        public function submitCodeForm(Request $request)
-        {
-            $request->validate([
-                'email' => 'required|email|exists:users',
-                'code' => 'required|digits:4',
-            ]);
+public function submitCodeForm(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email|exists:users',
+        'code' => 'required|digits:6',
+    ]);
 
-            $cachedCode = Cache::get('password_reset_code_' . $request->email);
+    $cachedCode = Cache::get('password_reset_code_' . $request->email);
 
-            if ($cachedCode && $cachedCode === $request->code) {
-                return view('auth.reset_password.reset')->with([
-                    'email' => $request->email,
-                    'token' => $request->token,
-                ]);
-            } else {
-                return back()->withErrors(['code' => 'Invalid code. Please try again.']);
-            }
-        }
+    if ($cachedCode && $cachedCode === $request->code) {
+        return view('auth.reset_password.reset')->with([
+            'email' => $request->email,
+            'token' => $request->token,
+        ]);
+    } else {
+        return view('auth.reset_password.confirm')->with([
+            'email' => $request->email,
+            'token' => $request->token,
+            'code' => 'Invalid code. Please try again.',
+        ]);
+    }
+}
+
 
 
 
@@ -131,11 +140,18 @@ class ForgotPasswordController extends Controller
         public function submitResetPasswordForm(Request $request)
         {
             // dd($request);
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'email' => 'required|email|exists:users',
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|confirmed',
                 'password_confirmation' => 'required'
             ]);
+
+            if ($validator->fails()) {
+                return view('auth.reset_password.reset')->withErrors($validator)->with([
+                    'email' => $request->email,
+                    'token' => $request->token,
+                ]);
+            }
 
             $token = $request->token;
 
@@ -149,6 +165,7 @@ class ForgotPasswordController extends Controller
 
             if(!$updatePassword){
                 return back()->withInput()->with('error', 'Invalid token!');
+
             }
 
             $user = User::where('email', $request->email)
@@ -167,6 +184,44 @@ class ForgotPasswordController extends Controller
         //    return view('auth.reset_password.confirm');
         // }
 
+
+
+        public function sendNewCode(Request $request)
+        {
+            $email = $request->email; // Get the email from the request
+
+            // Make sure the email is not null
+            if (!$email) {
+                return back()->with('error', 'Email is missing.');
+            }
+
+            // Generate a new token
+            $token = Str::random(64);
+
+            // Generate a new code
+            $code = str_pad(mt_rand(0, 9999), 6, '0', STR_PAD_LEFT);
+
+            // Calculate expiry time
+            $expiry = Carbon::now()->addMinutes(1);
+
+            // Calculate remaining time
+            $currentTime = Carbon::now();
+            $expiryTime = Carbon::parse($expiry);
+            $remainingTime = $expiryTime->diffInSeconds($currentTime);
+
+            // Store the new code in the cache with the email as the key
+            Cache::put('password_reset_code_' . $email, $code, $expiry);
+
+            // Send email notification with the new code
+            $this->MailForgotPassword($email, $code);
+
+            return view('auth.reset_password.confirm')->with([
+                'message' => 'New code has been sent successfully!',
+                'email' => $email,
+                'token' => $token,
+                'remainingTime' => $remainingTime
+            ]);
+        }
 
 
 }

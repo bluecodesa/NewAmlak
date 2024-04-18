@@ -29,19 +29,18 @@
 
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#home">عن أملاك <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ route('welcome') }}#home">عن أملاك <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#features">المميزات</a>
+                            <a class="nav-link" href="{{ route('welcome') }}#features">المميزات</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#pricing">الباقات</a>
+                            <a class="nav-link" href="{{ route('welcome') }}#pricing">الباقات</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#footer">تواصل معنا</a>
                         </li>
                         @auth
-
                             @if (Session::has('gallery_name') && Session::has('gallery'))
                                 <li class="nav-item">
                                     <a class="nav-link"
@@ -60,8 +59,6 @@
                             </a>
                             <a href="" data-toggle="modal" data-target="#addSubscriberModal"
                                 style="margin-right: 9px;" onclick="tabsFunc()">
-
-
                                 <div class="btn btn-new ArFont"> سجل معنا الآن </div>
                             </a>
                         @endguest

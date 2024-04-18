@@ -28,21 +28,33 @@ class SectionService
     {
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('section_translations', 'name')]];
+            $rules += [
+                $locale . '.name' => ['required', Rule::unique('section_translations', 'name')],
+                $locale . '.description' => 'nullable|string' // Add validation rule for description
+            ];
         }
         validator($data, $rules)->validate();
         return $this->SectionRepository->create($data);
     }
 
+
+
+
     public function update($id, $data)
     {
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('section_translations', 'name')->ignore($id, 'section_id')]];
+            $rules += [
+                $locale . '.name' => ['required', Rule::unique('section_translations', 'name')->ignore($id, 'section_id')],
+                $locale . '.description' => 'nullable|string' // Add validation rule for description
+
+            ];
         }
         validator($data, $rules)->validate();
         return $this->SectionRepository->update($id, $data);
     }
+
+
 
     public function delete($id)
     {

@@ -23,19 +23,11 @@ class BrokerCreationService
             'broker_logo' => $brokerData['broker_logo'] ?? null,
         ]);
 
-          $this->notifyAdmins($broker);
 
           return $broker;
         }
 
-    protected function notifyAdmins(Broker $broker)
-    {
-        $admins = User::where('is_admin', true)->get();
-        foreach ($admins as $admin) {
-            Notification::send($admin, new NewBrokerNotification($broker));
-        }
-    }
-
+    
 
 
 }

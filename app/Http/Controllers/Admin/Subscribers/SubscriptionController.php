@@ -16,6 +16,8 @@ use App\Services\RegionService;
 use App\Services\CityService;
 use App\Services\OwnerService;
 use App\Services\Broker\UnitService;
+use Illuminate\Support\Facades\Auth;
+use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 
 
 class SubscriptionController extends Controller
@@ -26,14 +28,18 @@ class SubscriptionController extends Controller
     protected $ownerService;
     protected $UnitService;
 
+    protected $systemInvoiceRepository;
 
-    public function __construct(UnitService $UnitService,OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
+
+
+    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository,UnitService $UnitService, OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
     {
         $this->subscriptionService = $subscriptionService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
         $this->ownerService = $ownerService;
         $this->UnitService = $UnitService;
+        $this->systemInvoiceRepository = $systemInvoiceRepository;
 
     }
 
@@ -76,10 +82,16 @@ class SubscriptionController extends Controller
         if ($brokerId) {
             $numberOfowners = $this->ownerService->getNumberOfOwners($brokerId);
             $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
+            $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
+
         } elseif ($officeId) {
             $numberOfowners = $this->ownerService->getNumberOfOwners($officeId);
             $numberOfUnits = $this->UnitService->getAll($officeId)->count();
+            $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
+
         }
+
+
 
         return view('Admin.subscribers.show', get_defined_vars());
     }
@@ -144,5 +156,11 @@ class SubscriptionController extends Controller
     {
         $pendingPayment = false;
         return view('Home.Payments.pending_payment', get_defined_vars());
+    }
+
+    function LoginByUser($id)
+    {
+        Auth::loginUsingId($id);
+        return redirect()->route('Admin.home');
     }
 }

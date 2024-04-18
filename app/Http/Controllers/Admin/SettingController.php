@@ -69,6 +69,7 @@ class SettingController extends Controller
 
     public function update(Request $request, Setting $setting)
     {
+
         $this->settingService->updateSetting($request, $setting);
 
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
@@ -102,12 +103,14 @@ class SettingController extends Controller
 
     public function updateTax(Request $request, Setting $setting)
     {
+
         $this->validate($request, [
             'tax_rate' => 'nullable|numeric|min:1|max:100',
+            'trn' => 'nullable|min:1|max:100',
         ]);
-
         $taxRate = $request->input('tax_rate') / 100;
         $setting->tax_rate = $taxRate;
+        $setting->trn = $request->trn;
         $setting->save();
 
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));

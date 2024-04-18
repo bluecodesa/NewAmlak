@@ -6,7 +6,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title mt-0"> @lang('pending')! </h5>
+                <h5 class="modal-title mt-0"> @lang('subscription') : @lang(Auth::user()->UserBrokerData->UserSubscriptionPending->status ?? 'pending') </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -22,14 +22,16 @@
                             {{ Auth::user()->company_name }}</h4>
                     @endif
                 @endif
+
+
                 @if ($pendingPayment)
-                    <p class="card-text">@lang('Please complete the subscription payment to be able to activate your account and use the system')</p>
+                    <p class="card-text"> {{ __('broker.expired') }} </p>
                 @else
-                    <p class="card-text">@lang('Please renew the subscription payment to be able to activate your account and use the system')</p>
+                    <p class="card-text"> {{ __('broker.pending') }} </p>
                 @endif
 
 
-                <p>@lang('Current subscription')</p>
+                <p>@lang('Choose the subscription system that suits you')</p>
                 <div class="col-12">
                     <div class="row text-center">
                         @forelse ($UserSubscriptionTypes as $type)
@@ -65,7 +67,7 @@
                     <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-toggle="modal"
                         data-target=".bs-example-modal-lg" data-url="{{ route('Broker.ViewInvoice') }}">اكمال
                         الدفع</button>
-                    <a href="#" class="btn btn-outline-warning">@lang('Support')</a>
+                    <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
                 </div>
 
             </div>

@@ -53,6 +53,18 @@
                 </li>
             @endif
 
+
+            @if (in_array('Subscription-Management', $sectionNames) || in_array('إدارة الاشتراك', $sectionNames))
+
+            <li>
+                <a href="{{ route('Broker.ShowSubscription') }}" class="waves-effect"><i class=" icon-setting-2"></i><span>
+                        @lang('Subscription Management')<span class="float-right menu-arrow"></span> </span></a>
+                {{-- <ul class="submenu">
+                    <li><a href="{{ route('Broker.Tickets.index') }}">@lang('Tickets List')</a></li>
+                </ul> --}}
+            </li>
+            @endif
+
             @if (in_array('Technical-support', $sectionNames) || in_array('الدعم الفني', $sectionNames))
 
             <li>

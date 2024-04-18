@@ -294,6 +294,8 @@
         </div>
     </section>
 
+
+    @guest
     <section class="pricing container" id="pricing">
         <div class="row align-items-center">
             <div class="sec-title">
@@ -302,7 +304,7 @@
             </div>
         </div>
 
-        <div id="pricing-container" class="pricing-container desktop">
+        <div class="pricing-container desktop">
             <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
                 <div class="row first-fix">
                     <div class="col-3" style="padding-top: 50px;">
@@ -311,489 +313,184 @@
                             <br />واختر خطتك !
                         </h5>
                         <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check form-switch">
+                                    <div class="check">
+                                        <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
+                                        <div class="check2" onclick="changePeriod(2)">سنوي</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @foreach ($sections as $section)
+                            <div class="row" style="background-color:#F6F9FC ;">
+                                <div class="col-3">
+                                    <p>{{ $section->name }}</p>
+                                    <p>{{ $section->description}}</p>
+
+                                </div>
+                            </div>
+                            @endforeach
                     </div>
+                    @foreach ($subscriptionTypes as $subscriptionType)
                     <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
                         <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
                             <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
                         </div>
-                        <h5>مجانية</h5>
-                        <p><span class="yel-price">0</span> رس </p>
-                    </div>
-                    <div class="col-3 custom-grad"
-                        style="border-top-right-radius: 41px;padding-top: 50px; border-top-left-radius: 41px;">
-                        <div class="img-smm-y" style="margin: auto;background-color: #fff;">
-                            <img src="{{ asset('HOME_PAGE/images/new/Star.png') }}" class="img-fluid" />
+                        <h5>{{ $subscriptionType->name }}</h5>
+                        <p>
+                            @foreach ($subscriptionType->roles as $role)
+                                <span> اشتراك   {{ $role->name_ar }}</span>
+                            @endforeach
+                        </p>
+                        <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
+                        @if ( $role->name == "RS-Broker" )
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+                            <a class="btn btn-new2 ArFont" data-toggle="modal"
+                             onclick="redirectToCreateBroker()">ابدأ الآن</a>
+
                         </div>
-                        <h5>شهرية</h5>
-                        <p class="change_period first"><span class="yel-price">49</span><span class="month"> رس /
-                                شهريا</span></p>
-                    </div>
-                    <div class="col-3 center-price soooon" style="padding-top: 50px; ">
-                        <div class="soon-feature">
-                            <div class="img-smm-y" style="margin: auto">
-                                <img src="{{ asset('HOME_PAGE/images/new/medal.png') }}" class="img-fluid" />
+                        @elseif( $role->name == "Office-Admin" )
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+                            <a class="btn btn-new2 ArFont" data-toggle="modal"
+                             onclick="redirectToCreateOffice()">ابدأ الآن</a>
+
+                        </div>
+                        @else
+
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+                            <a href="" data-toggle="modal" data-target="#addSubscriberModal"
+                                style="margin-right: 9px;" onclick="tabsFunc()">ابدأ الآن</a>
+                        @endif
+
+
+
+                        <div class="col-12">
+                            @foreach ($sections as $section)
+                            <div class="row" style="background-color:#F6F9FC ;">
+                                {{-- <div class="col-3">
+                                    <p>{{ $section->name }}</p>
+                                </div> --}}
+                                <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                                    @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                            style="width: 20px; fill: #497aac;">
+                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                        </svg>
+                                    </p>
+                                    @else
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                            style="width: 20px; fill: #b73404;">
+                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                        </svg>
+                                    </p>
+                                    @endif
+                                </div>
                             </div>
-                            <h5>سنوية</h5>
-                            <p class="change_period second"><span class="yel-price">?</span><span class="month"> رس
-                                    /
-                                    شهريا</span></p>
+                            @endforeach
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="form-check form-switch">
-                            <div class="check">
-                                <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
-                                <div class="check2" onclick="changePeriod(2)">سنوي</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-                        @guest
-                            <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
-                                data-target="#exampleModalCenter">ابدأ الآن</a>
-                        @endguest
-                        @auth
-                            <a class="btn btn-new2 ArFont" href="">ابدأ الآن</a>
-                        @endauth
-                    </div>
-                    <div class="col-3 custom-grad" style="padding-bottom: 30px">
-                        @guest
-                            <a class="btn btn-new-b ArFont" href="javascript:void(0)" data-toggle="modal"
-                                data-target="#exampleModalCenter">ابدأ الآن</a>
-                        @endguest
-                        @auth
-                            <a class="btn btn-new-b ArFont" href="">ابدأ الآن</a>
-                        @endauth
-                    </div>
-                    <div class="col-3 center-price soon-feature"
-                        style="padding-bottom: 30px ;border-left: 1px solid #e3e1e1;">
-                        <a class="btn  ArFont" disabled
-                            style=" border: 1px solid #497aac;color: #060D07;  border-radius: 25px; background-color: #fff;    cursor: auto;">ابدأ
-                            الآن</a>
-                    </div>
-                </div>
-                <div class="row" style="background-color:#F6F9FC ;">
-                    <div class="col-3">
-                        <p>مدة الاشتراك</p>
-                    </div>
-                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                        <p>اسبوع</p>
-                    </div>
-                    <div class="col-3 custom-grad">
-                        <p>شهر</p>
-                    </div>
-                    <div class="col-3 center-price soon-feature" style="border-left: 1px solid #e3e1e1;">
-                        <p>12 شهر </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <p>عدد لا محدود من ملاك العقارات</p>
-                    </div>
-                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-
-
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                        fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-                    <div class="col-3 custom-grad">
-                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                        </p>
-                    </div>
-                    <div class="col-3 center-price soon-feature">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-
-                </div>
-                <div class="row" style="background-color:#F6F9FC">
-                    <div class="col-3">
-                        <p>عدد لا محدود من العقارات</p>
-                    </div>
-                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-                    <div class="col-3 custom-grad">
-                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                        </p>
-                    </div>
-                    <div class="col-3 center-price soon-feature">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <p>عدد لا محدود من العملاء</p>
-                    </div>
-                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-                    <div class="col-3 custom-grad">
-                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                        </p>
-                    </div>
-                    <div class="col-3 center-price soon-feature">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-
-                </div>
-                <div class="row" style="background-color:#F6F9FC ;">
-                    <div class="col-3">
-                        <p>عدد لا محدود من العقود</p>
-                    </div>
-                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-                    <div class="col-3 custom-grad">
-                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                        </p>
-                    </div>
-                    <div class="col-3 center-price soon-feature">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <p>عدد لا محدود من المستخدمين</p>
-                    </div>
-                    <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-                    <div class="col-3 custom-grad"
-                        style="border-bottom-left-radius: 41px;
-                border-bottom-right-radius: 41px;">
-                        <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                        </p>
-                    </div>
-                    <div class="col-3 center-price soon-feature">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                style="width: 20px;
-                    fill: #497aac;">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                            </svg>
-                        </p>
-                    </div>
-
                 </div>
             </div>
-        </div>
-
-        <div id="pricing-container" class="pricing-container mobile">
-            <div class="row">
-                <div class="col-12" style="padding-top: 5px;">
-                    <h5
-                        style="font-size: 28px!important;
-                    font-weight: 900!important;
-                    line-height: 1.50em;">
-                        ابدأ معنا الآن
-                        واختر خطتك !
-                    </h5>
-                    <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
-                    <div class="form-check form-switch">
-                        <div class="check">
-                            <div class="check1 active-check">شهري</div>
-                            <div class="check2">سنوي</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 center-price" style="padding-top: 30px;">
-                    <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
-                        <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
-                    </div>
-                    <h5>مجانية</h5>
-                    <p><span class="yel-price">0</span> رس / شهريا</p>
-                </div>
-                <div class="col-4 custom-grad"
-                    style="border-top-right-radius: 41px;padding-top: 30px;
-                border-top-left-radius: 41px;">
-                    <div class="img-smm-y" style="margin: auto;background-color: #fff;">
-                        <img src="{{ asset('HOME_PAGE/images/new/Star.png') }}" class="img-fluid" />
-                    </div>
-                    <h5>شهرية</h5>
-                    <p><span class="yel-price">49</span> رس / شهريا</p>
-                </div>
-                <div class="col-4 center-price soooon" style="padding-top: 30px;">
-                    <div class="soon-feature">
-                        <div class="img-smm-y" style="margin: auto">
-                            <img src="{{ asset('HOME_PAGE/images/new/medal.png') }}" class="img-fluid" />
-                        </div>
-                        <h5>سنوية</h5>
-                        <p><span class="yel-price">؟</span> رس / شهريا</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="col-4 center-price" style="padding-bottom: 30px">
-                    @guest
-                        <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
-                            data-target="#exampleModalCenter">ابدأ الآن</a>
-                    @endguest
-                    @auth
-                        <a class="btn btn-new2 ArFont" href="">ابدأ الآن</a>
-                    @endauth
-                </div>
-                <div class="col-4 custom-grad" style="padding-bottom: 30px">
-                    @guest
-                        <a class="btn btn-new2 ArFont" href="javascript:void(0)" data-toggle="modal"
-                            data-target="#exampleModalCenter">ابدأ الآن</a>
-                    @endguest
-                    @auth
-                        <a class="btn btn-new2 ArFont" href="">ابدأ الآن</a>
-                    @endauth
-                </div>
-                <div class="col-4 center-price soon-feature" style="padding-bottom: 30px">
-                    <a class="btn ArFont" disabled
-                        style="    border: 1px solid #497aac;
-                        color: #060D07;
-                        border-radius: 25px;
-                        background-color: #fff;    cursor: auto;    min-width: fit-content;
-                        padding: 0 11px;
-                        min-height: 40px;
-                        margin: auto;
-                        border-radius: 12px;">ابدأ
-                        الآن</a>
-                </div>
-            </div>
-            <div class="col-12">
-                <p>مدة الاشتراك</p>
-            </div>
-            <div class="row" style="background-color:#F6F9FC">
-                <div class="col-4 center-price">
-                    <p>اسبوع</p>
-                </div>
-                <div class="col-4 custom-grad">
-                    <p>شهر</p>
-                </div>
-                <div class="col-4 center-price soon-feature">
-                    <p>12 شهر </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p>عدد لا محدود من ملاك العقارات</p>
-                </div>
-                <div class="col-4 center-price">
-
-
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                        fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-                <div class="col-4 custom-grad">
-                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                    </p>
-                </div>
-                <div class="col-4 center-price soon-feature">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-
-            </div>
-            <div class="row" style="background-color:#F6F9FC">
-                <div class="col-12">
-                    <p>عدد لا محدود من العقارات</p>
-                </div>
-                <div class="col-4 center-price">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-                <div class="col-4 custom-grad">
-                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                    </p>
-                </div>
-                <div class="col-4 center-price soon-feature">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p>عدد لا محدود من العملاء</p>
-                </div>
-                <div class="col-4 center-price">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-                <div class="col-4 custom-grad">
-                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                    </p>
-                </div>
-                <div class="col-4 center-price soon-feature">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-
-            </div>
-            <div class="row" style="background-color:#F6F9FC">
-                <div class="col-12">
-                    <p>عدد لا محدود من العقود</p>
-                </div>
-                <div class="col-4 center-price">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-                <div class="col-4 custom-grad">
-                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                    </p>
-                </div>
-                <div class="col-4 center-price soon-feature">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p>عدد لا محدود من المستخدمين</p>
-                </div>
-                <div class="col-4 center-price">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-                <div class="col-4 custom-grad"
-                    style="border-bottom-left-radius: 41px;
-                border-bottom-right-radius: 41px;">
-                    <p><img src="{{ asset('HOME_PAGE/images/new/check.png') }}" alt="">
-                    </p>
-                </div>
-                <div class="col-4 center-price soon-feature">
-                    <p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                            style="width: 20px;
-                    fill: #497aac;">
-                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                        </svg>
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
     </section>
+    @endguest
 
+    @auth
+    <section class="pricing container" id="pricing">
+        <div class="row align-items-center">
+            <div class="sec-title">
+                <h4>باقات وأسعار أملاك</h4>
+                <p>توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
+            </div>
+        </div>
+
+        <div class="pricing-container desktop">
+            <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
+                <div class="row first-fix">
+                    <div class="col-3" style="padding-top: 50px;">
+                        <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
+                            ابدأ معنا الآن
+                            <br />واختر خطتك !
+                        </h5>
+                        <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check form-switch">
+                                    <div class="check">
+                                        <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
+                                        <div class="check2" onclick="changePeriod(2)">سنوي</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @foreach ($sections as $section)
+                        <div class="row" style="background-color:#F6F9FC;">
+                            <div class="text-container">
+                                <p>{{ $section->name }}</p>
+                                <span style="font-size: smaller;">{{ $section->description }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    </div>
+                    @foreach ($subscriptionTypesRoles as $subscriptionType)
+                    <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
+                        <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
+                            <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
+                        </div>
+                        <h5>{{ $subscriptionType->name }}</h5>
+                        <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+
+
+                            <a class="btn btn-new2 ArFont" href="{{ route('login') }}">ابدأ الآن</a>
+
+                        </div>
+
+
+                        <div class="col-12">
+                            @foreach ($sections as $section)
+                            <div class="row" style="background-color:#F6F9FC ;">
+                                {{-- <div class="col-3">
+                                    <p>{{ $section->name }}</p>
+                                </div> --}}
+                                <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
+                                    @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                            style="width: 20px; fill: #497aac;">
+                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                            <path
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+                                        </svg>
+                                    </p>
+                                    @else
+                                    <p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; fill: #ff0000;">
+                                            <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm5 11h-10v-2h10v2z"/>
+                                        </svg>
+                                    </p>
+                                    @endif
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                </div>
+            </div>
+    </section>
+    @endauth
 
 
     <section class="services container">
@@ -1150,55 +847,7 @@
     @endpush
 
 <!--add new subscribers-->
-<div class="modal fade" id="addSubscriberModal" tabindex="-1" role="dialog"
-    aria-labelledby="addSubscriberModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                {{-- <h5 class="modal-title" id="addSubscriberModalLabel"></h5> --}}
-                <p style="text-align: center;font-weight: 900; margin-bottom: 25px;">
-                    نوع الحساب</p>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card-deck">
-                    <!-- Add New Office Card -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="row account_row">
-                                    <div class="col-sm-12 col-md-6 account_type next-step" onclick="redirectToCreateOffice()">
-                                        <div class="img-smm">
-                                            <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}"
-                                                class="img-fluid">
-                                        </div>
-                                        <p>مكتب</p>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6 account_type" onclick="redirectToCreateBroker()">
-                                        <div class="img-smm-y">
-                                            <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }} "
-                                                class="img-fluid">
-                                        </div>
-                                        <p>مسوق عقاري</p>
-                                    </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- Add New Broker Card -->
-
-                </div>
-            </div>
-
-
-        </div>
-
-    </div>
-</div>
-</div>
-
+@include('Home.layouts.inc.__addSubscriberModal')
 <script>
     function redirectToCreateBroker() {
         window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
@@ -1208,5 +857,25 @@
 
     }
 </script>
+
+{{-- <script>
+    // Get all elements with the class 'center-price'
+    var subscriptionTypeDivs = document.querySelectorAll(".center-price");
+
+    // Add click event listener to each element
+    subscriptionTypeDivs.forEach(function(element) {
+        element.addEventListener("click", function() {
+            // Remove 'custom-grad' class from all elements
+            subscriptionTypeDivs.forEach(function(el) {
+                el.classList.remove("custom-grad");
+            });
+            // Toggle 'custom-grad' class on the clicked element
+            this.classList.toggle("custom-grad");
+        });
+    });
+</script> --}}
+
+
+
 
 @endsection
