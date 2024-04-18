@@ -110,71 +110,70 @@ class ForgotPasswordController extends Controller
         }
 
 
-public function submitCodeForm(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email|exists:users',
-        'code' => 'required|digits:6',
-    ]);
-
-    $cachedCode = Cache::get('password_reset_code_' . $request->email);
-
-    if ($cachedCode && $cachedCode === $request->code) {
-        return view('auth.reset_password.reset')->with([
-            'email' => $request->email,
-            'token' => $request->token,
+    public function submitCodeForm(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users',
         ]);
-    } else {
-        return view('auth.reset_password.confirm')->with([
-            'email' => $request->email,
-            'token' => $request->token,
-            'code' => 'Invalid code. Please try again.',
-        ]);
-    }
-}
 
+        $cachedCode = Cache::get('password_reset_code_' . $request->email);
 
-
-
-
-        public function submitResetPasswordForm(Request $request)
-        {
-            // dd($request);
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email|exists:users',
-                'password' => 'required|string|confirmed',
-                'password_confirmation' => 'required'
+        if ($cachedCode && $cachedCode === $request->code) {
+            return view('auth.reset_password.reset')->with([
+                'email' => $request->email,
+                'token' => $request->token,
             ]);
-
-            if ($validator->fails()) {
-                return view('auth.reset_password.reset')->withErrors($validator)->with([
-                    'email' => $request->email,
-                    'token' => $request->token,
-                ]);
-            }
-
-            $token = $request->token;
-
-            $updatePassword = DB::table('password_resets')
-                                ->where([
-                                  'email' => $request->email,
-                                  'token' => $request->token
-                                ])
-                                ->first();
-
-
-            if(!$updatePassword){
-                return back()->withInput()->with('error', 'Invalid token!');
-
-            }
-
-            $user = User::where('email', $request->email)
-                        ->update(['password' => Hash::make($request->password)]);
-
-            DB::table('password_resets')->where(['email'=> $request->email])->delete();
-
-            return redirect('/login')->with('message', 'Your password has been changed!');
+        } else {
+            return view('auth.reset_password.confirm')->with([
+                'email' => $request->email,
+                'token' => $request->token,
+                'code' => 'Invalid code. Please try again.',
+            ]);
         }
+    }
+
+
+
+
+
+    public function submitResetPasswordForm(Request $request)
+    {
+        // dd($request);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users',
+            'password' => 'required|string|confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return view('auth.reset_password.reset')->withErrors($validator)->with([
+                'email' => $request->email,
+                'token' => $request->token,
+            ]);
+        }
+
+        $token = $request->token;
+
+        $updatePassword = DB::table('password_resets')
+                            ->where([
+                                'email' => $request->email,
+                                'token' => $request->token
+                            ])
+                            ->first();
+
+
+        if(!$updatePassword){
+            return back()->withInput()->with('error', 'Invalid token!');
+
+        }
+
+        $user = User::where('email', $request->email)
+                    ->update(['password' => Hash::make($request->password)]);
+
+        DB::table('password_resets')->where(['email'=> $request->email])->delete();
+
+        return redirect('/login')->with('message', 'Your password has been changed!');
+    }
 
 
         // public function showresetform()
@@ -186,42 +185,42 @@ public function submitCodeForm(Request $request)
 
 
 
-        public function sendNewCode(Request $request)
-        {
-            $email = $request->email; // Get the email from the request
+    public function sendNewCode(Request $request)
+    {
+        $email = $request->email; // Get the email from the request
 
-            // Make sure the email is not null
-            if (!$email) {
-                return back()->with('error', 'Email is missing.');
-            }
-
-            // Generate a new token
-            $token = Str::random(64);
-
-            // Generate a new code
-            $code = str_pad(mt_rand(0, 9999), 6, '0', STR_PAD_LEFT);
-
-            // Calculate expiry time
-            $expiry = Carbon::now()->addMinutes(1);
-
-            // Calculate remaining time
-            $currentTime = Carbon::now();
-            $expiryTime = Carbon::parse($expiry);
-            $remainingTime = $expiryTime->diffInSeconds($currentTime);
-
-            // Store the new code in the cache with the email as the key
-            Cache::put('password_reset_code_' . $email, $code, $expiry);
-
-            // Send email notification with the new code
-            $this->MailForgotPassword($email, $code);
-
-            return view('auth.reset_password.confirm')->with([
-                'message' => 'New code has been sent successfully!',
-                'email' => $email,
-                'token' => $token,
-                'remainingTime' => $remainingTime
-            ]);
+        // Make sure the email is not null
+        if (!$email) {
+            return back()->with('error', 'Email is missing.');
         }
+
+        // Generate a new token
+        $token = Str::random(64);
+
+        // Generate a new code
+        $code = str_pad(mt_rand(0, 9999), 6, '0', STR_PAD_LEFT);
+
+        // Calculate expiry time
+        $expiry = Carbon::now()->addMinutes(1);
+
+        // Calculate remaining time
+        $currentTime = Carbon::now();
+        $expiryTime = Carbon::parse($expiry);
+        $remainingTime = $expiryTime->diffInSeconds($currentTime);
+
+        // Store the new code in the cache with the email as the key
+        Cache::put('password_reset_code_' . $email, $code, $expiry);
+
+        // Send email notification with the new code
+        $this->MailForgotPassword($email, $code);
+
+        return view('auth.reset_password.confirm')->with([
+            'message' => 'New code has been sent successfully!',
+            'email' => $email,
+            'token' => $token,
+            'remainingTime' => $remainingTime
+        ]);
+    }
 
 
 }
