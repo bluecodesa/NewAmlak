@@ -26,7 +26,7 @@
                 <!-- end page-title -->
 
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-12" id="myDiv">
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="row">
@@ -60,7 +60,7 @@
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-12 border-success p-1">
+                                            <div class="col-12 border-success">
                                                 <h2 style="font-weight: bolder;">معلومات البائع</h2>
                                                 <div class="row" style="padding: 0px 10px;">
                                                     <div class="col-6">
@@ -340,9 +340,15 @@
                                     </div>
                                 </div>
 
+
                             </div>
                         </div>
                     </div> <!-- end col -->
+                    <br>
+                    <div class="col-12 text-center mt-1 mb-1">
+                        <button id="btnPrint" class="btn btn-outline-primary waves-effect">
+                            طباعة الفاتورة </button>
+                    </div>
                 </div> <!-- end row -->
 
 
@@ -355,4 +361,34 @@
 
 
     </div>
+
+    @push('scripts')
+        <script>
+            $('#btnPrint').on('click', function() {
+                $('#myDiv').printThis({
+                    debug: false, // show the iframe for debugging
+                    importCSS: true, // import parent page css
+                    importStyle: true, // import style tags
+                    printContainer: true, // print outer container/$.selector
+                    loadCSS: "", // path to additional css file - use an array [] for multiple
+                    pageTitle: "", // add title to print page
+                    removeInline: false, // remove inline styles from print elements
+                    removeInlineSelector: "*", // custom selectors to filter inline styles. removeInline must be true
+                    printDelay: 500, // variable print delay
+                    header: null, // prefix to html
+                    footer: null, // postfix to html
+                    base: false, // preserve the BASE tag or accept a string for the URL
+                    formValues: true, // preserve input/form values
+                    canvas: false, // copy canvas content
+                    doctypeString: '...', // enter a different doctype for older markup
+                    removeScripts: false, // remove script tags from print content
+                    copyTagClasses: true, // copy classes from the html & body tag
+                    copyTagStyles: true, // copy styles from html & body tag (for CSS Variables)
+                    beforePrintEvent: null, // function for printEvent in iframe
+                    beforePrint: null, // function called before iframe is filled
+                    afterPrint: null
+                });
+            })
+        </script>
+    @endpush
 @endsection
