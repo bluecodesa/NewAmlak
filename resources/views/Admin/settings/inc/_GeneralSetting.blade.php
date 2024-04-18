@@ -68,9 +68,9 @@
                     </div>
 
                     <div class="form-group col-md-4">
-                        <label for="color">@lang('crn')</label>
+                        <label for="crn">@lang('crn')</label>
                         <input name="crn" class="form-control" type="number" placeholder="@lang('crn')"
-                            value="{{ $settings->crn }}" id="number">
+                            value="{{ $settings->crn }}" id="crn">
                     </div>
 
                     <div class="col-12">

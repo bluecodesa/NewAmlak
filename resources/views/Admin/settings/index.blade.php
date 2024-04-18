@@ -123,6 +123,20 @@
                                                                             <span class="sub-input">%</span>
                                                                         </div>
                                                                     </div>
+
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="trn">
+                                                                            <span class="required-color">*</span>
+                                                                            @lang('trn')
+                                                                        </label><br />
+                                                                        <div class="wrapper" style="position: relative;">
+                                                                            <input type="number" name="trn"
+                                                                                id="trn" class="form-control"
+                                                                                placeholder="@lang('trn')"
+                                                                                value="{{ $settings->trn }}" />
+                                                                        </div>
+                                                                    </div>
+
                                                                     <div class="col-12">
                                                                         <button type="submit"
                                                                             class="btn btn-primary waves-effect waves-light">@lang('Save')</button>
