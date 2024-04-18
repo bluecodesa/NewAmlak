@@ -129,7 +129,7 @@ class GalleryService
         return get_defined_vars();
     }
 
-    public function showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter)
+    public function showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
 
     {
         $usages =  $this->propertyUsageService->getAll();
@@ -145,7 +145,7 @@ class GalleryService
         $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
-        $units = $this->filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter );
+        $units = $this->filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
         $unit = $units->first();
         if ($unit) {
             $id = $unit->id;
@@ -164,7 +164,7 @@ class GalleryService
 
     }
 
-    public function filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter)
+    public function filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent)
     {
         // Filter by city if not 'all'
         if ($cityFilter !== 'all' ) {
@@ -207,6 +207,10 @@ class GalleryService
             // Filter by units with price
             if ($hasPriceFilter) {
                 $units = $units->whereNotNull('price');
+            }
+
+            if ($daily_rent) {
+                $units = $units->where('daily_rent' , 1);
             }
 
 

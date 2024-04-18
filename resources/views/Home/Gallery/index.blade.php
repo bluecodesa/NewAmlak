@@ -43,6 +43,12 @@
                                         <input class="form-check-input" type="checkbox" id="hasPriceFilter" name="has_price_filter" {{ $hasPriceFilter ? 'checked' : '' }}>
                                     </div>
                                 </div>
+                                <div class="col-12 p-0 ml-2">
+                                    <span>@lang('Available For Daily Rent')</span>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="daily_rent" name="daily_rent" {{ $daily_rent ? 'checked' : '' }}>
+                                    </div>
+                                </div>
 
                                 <div class="col-12 p-0 ml-2">
 

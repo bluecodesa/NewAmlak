@@ -213,7 +213,8 @@ class GallaryController extends Controller
             $priceTo = $request->input('price_to',null);
             $hasImageFilter = $request->input('has_image_filter', false);
             $hasPriceFilter = $request->input('has_price_filter', false);
-            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter);
+            $daily_rent = $request->input('daily_rent', false);
+            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter,$daily_rent);
             if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
                 return view('Broker.Gallary.inc._GalleryComingsoon',$data);
             }
