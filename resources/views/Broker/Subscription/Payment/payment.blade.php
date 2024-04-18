@@ -37,7 +37,7 @@
                                         <div class="card-body text-black">
                                             {{ $type->name }}
                                             <p class="card-text">
-                                                {{ $type->period }} {{ __('ar.' . $type->period_type) }}
+                                                {{ $type->period }} {{ __($type->period_type) }}
                                                 <br> {{ $type->price }} <sup>@lang('SAR')</sup>
                                             </p>
                                         </div>
@@ -62,7 +62,7 @@
                     <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-toggle="modal"
                         data-target=".bs-example-modal-lg" data-url="{{ route('Broker.ViewInvoice') }}">اكمال
                         الدفع</button>
-                        {{-- <a href="{{ route('Broker.ViewInvoice') }}" class="btn btn-primary">@lang('technical support')</a> --}}
+                    {{-- <a href="{{ route('Broker.ViewInvoice') }}" class="btn btn-primary">@lang('technical support')</a> --}}
 
                     <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
                 </div>

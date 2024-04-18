@@ -61,6 +61,14 @@
             border: 1px solid #2f419c;
         }
 
+        .border-info {
+            border: 1px solid #28C76F !important;
+        }
+
+        .border-success {
+            border: 1px solid #28C76F !important
+        }
+
         body,
         h4,
         h1,
@@ -152,6 +160,8 @@
     <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/bootstrap4-toggle.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/printThis.js') }}"></script>
+
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
     @include('Admin.layouts.Inc.js')

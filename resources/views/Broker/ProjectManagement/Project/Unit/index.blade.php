@@ -48,7 +48,7 @@
                                                 <th>#</th>
                                                 <th>@lang('Residential number')</th>
                                                 <th>@lang('owner name')</th>
-                                                <th>@lang('price')</th>
+                                                {{-- <th>@lang('price')</th> --}}
                                                 <th>@lang('property')</th>
                                                 <th>@lang('Property type')</th>
                                                 <th>@lang('Ad type')</th>
@@ -63,7 +63,7 @@
                                                     <td>{{ $unit->OwnerData->name ?? '' }}</td>
 
 
-                                                    <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td>
+                                                    {{-- <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td> --}}
                                                     <td>
                                                         <span
                                                             class="badge badge-pill badge-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
