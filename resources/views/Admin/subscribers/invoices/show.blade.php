@@ -53,7 +53,9 @@
                                             </div>
 
                                             <div class="col-4 text-right">
-                                                {{ \QrCode::size(200)->style('dot')->eye('circle')->color(0, 0, 255)->margin(1)->generate(route('Admin.SystemInvoice.show', $invoice->id)) }}
+                                                {{ \QrCode::size(200)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route('Admin.SystemInvoice.show', $invoice->id)) }}
+
+
                                             </div>
                                         </div>
                                         <hr>
