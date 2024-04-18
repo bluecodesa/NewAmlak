@@ -89,7 +89,7 @@
                                                         @endif
                                                     </td>
                                                     <td> {{ $subscriber->SubscriptionTypeData->period }}
-                                                        {{ __('ar.' . $subscriber->SubscriptionTypeData->period_type) }}
+                                                        {{ __($subscriber->SubscriptionTypeData->period_type) }}
                                                     </td>
                                                     <td>
                                                         <span
