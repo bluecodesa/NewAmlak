@@ -265,9 +265,14 @@
                                                         <td>{{ 1 }}</td>
                                                         <td> {{  $invoice->subscription_name }} </td>
                                                         <td>{{ __('ar.' . $invoice->period_type) }} </td>
-                                                        
-                                                       <td>{{  __($subscriber->status) }} </td>
 
+                                                        <td>
+                                                            @if($loop->last)
+                                                                {{ __($subscriber->status) }}
+                                                            @else
+                                                                {{ __('expired') }}
+                                                            @endif
+                                                        </td>
                                                        <td>
                                                         <a href="{{ route('Admin.SystemInvoice.show', $invoice->id) }}"
                                                             class="btn btn-dark btn-sm waves-effect waves-light">@lang('view')</a>

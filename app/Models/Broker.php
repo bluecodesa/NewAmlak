@@ -32,6 +32,12 @@ class Broker extends Model
         return $this->hasOne(Subscription::class, 'broker_id')->where('status', '!=', 'active');
     }
 
+    public function UserSubscription()
+    {
+        return $this->hasOne(Subscription::class, 'broker_id');
+    }
+
+
     public function UserSubscriptionSuspend()
     {
         return $this->hasOne(Subscription::class, 'broker_id')->where('is_suspend', 1);
