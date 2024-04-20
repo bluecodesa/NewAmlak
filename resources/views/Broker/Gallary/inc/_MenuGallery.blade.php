@@ -60,15 +60,5 @@
     </div>
     </div>
 
-    <script>
-        function toggleShare(type) {
-            if (type === 'share-link') {
-                document.getElementById('share-link').style.display = 'block';
-                document.getElementById('qr-code').style.display = 'none';
-            } else if (type === 'qr-code') {
-                document.getElementById('share-link').style.display = 'none';
-                document.getElementById('qr-code').style.display = 'block';
-            }
-        }
-    </script>
+ 
 
