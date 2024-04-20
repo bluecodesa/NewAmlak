@@ -452,7 +452,7 @@
                         <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
 
 
-                            <a class="btn btn-new2 ArFont" href="{{ route('login') }}">ابدأ الآن</a>
+                            <a class="btn btn-new2 ArFont" href="{{ route('Admin.home') }}">ابدأ الآن</a>
 
                         </div>
 

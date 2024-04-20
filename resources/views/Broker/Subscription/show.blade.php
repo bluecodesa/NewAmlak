@@ -2,11 +2,12 @@
 @section('title', __('Subscribers'))
 @section('content')
 
-    <div class="content-page">
-        <!-- Start content -->
-        <div id="myModal" class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
+
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
                     <div class="row align-items-center">
 
                         <div class="col-sm-6">
@@ -17,11 +18,10 @@
                         </div>
 
                     </div> <!-- end row -->
-                </div>
             </div>
                 <!-- end page-title -->
-
-                <div class="col-12 col-md-12">
+            <div class="row">
+                <div class="col-12">
                     <div class="card pricing-box mt-4">
                         <div class="pricing-icon">
                             @lang('Subscription Type')
@@ -60,7 +60,8 @@
                         <div class="card-body">
                             <div class="col-sm-6">
                                 <h4 class="page-title">
-                                    @lang('سجل تاريخ الاشتراك')</h4>
+                                    @lang('سجل تاريخ الاشتراك')
+                                </h4>
                             </div>
                             <div class="table-responsive b-0" data-pattern="priority-columns">
                                 <table id="datatable-buttons"
@@ -98,18 +99,19 @@
                                 </table>
                             </div>
 
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
+            </div>
         </div>
-
-
     </div>
-
+{{--
                     <div id="paymentModalContent" style="display: none;">
                         @include('Broker.Subscription.Payment.payment')
-                    </div>
+                    </div> --}}
 
 
 @endsection

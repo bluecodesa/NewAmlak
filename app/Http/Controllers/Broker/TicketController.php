@@ -14,7 +14,7 @@ use App\Notifications\Admin\ResponseTicketNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
-use App\Services\broker\TicketService;
+use App\Services\Broker\TicketService;
 use Illuminate\Support\Facades\Validator;
 
 class TicketController extends Controller

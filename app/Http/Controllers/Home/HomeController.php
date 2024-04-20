@@ -52,7 +52,7 @@ class HomeController extends Controller
         ////
         $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
-        $subscriptionTypesRoles = SubscriptionType::where('is_deleted', 0)
+        $subscriptionTypesRoles = SubscriptionType::where('is_deleted', 0)->where('is_show',1)
         ->whereIn('id', $RolesSubscriptionTypeIds)
         ->get();
         ///

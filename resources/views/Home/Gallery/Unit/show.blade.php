@@ -68,10 +68,21 @@
                                 @endif
                                 @if ($Unit->type == 'rent_sale')
                                 <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $Unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
-                                </sup> / @lang('sale'){{ $Unit->price }} @lang('SAR')
+                                </sup>
                                    </span>
                                 @endif
                         </div>
+
+                        <div class="row">
+
+                            <span class=" w-auto mb-2" style="color: #989898">
+                                {{$Unit->note ?? ''  }}
+                            </span>
+
+
+
+                        </div>
+
                         <div class="row">
                             <img src="{{ asset('dashboard/assets/new-icons/build.png') }}"
                                 style="width: 18px;height: fit-content;" class="p-0" />
@@ -168,7 +179,18 @@
                             </div>
 
                         </div>
+                        <div class="row gallery-services mb-3"
+                        style="
+                         @if (!$Unit->daily_rent ) visibility:hidden @endif">
+                        <p class="w-auto m-0 p-0" style="color: #989898">متاج @lang('Daily Rent')</p>
+                            <div class="text-container">
+                                <span class="text-with-ellipsis">
+                                <span>{{ $Unit->UnitRentPrice->daily  }}</span>
 
+                                </span>
+                            </div>
+
+                     </div>
                         <div class="row justify-content-between gap-3">
                             @if ($Unit->UnitFeatureData->isNotEmpty() && $Unit->UnitFeatureData->whereNotNull('qty')->isNotEmpty())
                             <div class="d-block text-black">

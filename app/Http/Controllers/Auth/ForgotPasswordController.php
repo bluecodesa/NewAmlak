@@ -143,6 +143,14 @@ class ForgotPasswordController extends Controller
             'email' => 'required|email|exists:users',
             'password' => 'required|string|confirmed',
             'password_confirmation' => 'required'
+        ], [
+            'email.required' => 'The email field is required.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.exists' => 'The provided email does not exist.',
+            'password.required' => 'The password field is required.',
+            'password.string' => 'Please provide a valid password.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'password_confirmation.required' => 'Please confirm your password.'
         ]);
 
         if ($validator->fails()) {

@@ -273,7 +273,7 @@
                             </div>
                         </div>
                     </div>
-
+                    @if ($unitInterests->isNotEmpty())
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
@@ -322,7 +322,7 @@
                                                 <td>
                                                     <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" data-toggle="modal" data-target="#shareLinkUnit{{ $client->id }}"
                                                         href="tel:{{ env('COUNTRY_CODE') . $client->whatsapp }}" onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
-                                                        @lang('مكالمة')</a>
+                                                        @lang('Call')</a>
                                                     <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $client->whatsapp }}"
                                                         class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
 
@@ -337,6 +337,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+
                 </div> <!-- end col -->
             </div> <!-- end row -->
 
