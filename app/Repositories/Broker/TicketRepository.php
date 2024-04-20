@@ -8,6 +8,10 @@ use App\Models\TicketResponse;
 
 class TicketRepository implements TicketRepositoryInterface
 {
+    public function getAll()
+    {
+        return Ticket::all();
+    }
     public function getUserTickets(int $userId)
     {
         return Ticket::where('user_id', $userId)->get();
@@ -39,7 +43,7 @@ class TicketRepository implements TicketRepositoryInterface
         }
 
         $response->save();
-    }    
+    }
 
     public function closeTicket(int $ticketId)
     {

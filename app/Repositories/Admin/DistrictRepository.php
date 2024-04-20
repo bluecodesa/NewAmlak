@@ -22,6 +22,11 @@ class DistrictRepository implements DistrictRepositoryInterface
         return District::find($id);
     }
 
+    public function getDistrictsByCity($cityId)
+    {
+        return District::where('city_id', $cityId)->get();
+    }
+
     public function update($id, $data)
     {
         $District = District::findOrFail($id);

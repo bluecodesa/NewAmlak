@@ -4,6 +4,7 @@ namespace App\Services\Broker;
 
 use App\Interfaces\Broker\SettingRepositoryInterface;
 use App\Models\Broker;
+use App\Models\Setting;
 use Illuminate\Validation\Rule;
 
 class SettingService
@@ -97,7 +98,7 @@ class SettingService
         }
 
         $user->update($userData);
-        
+
         if ($request->filled('password')) {
             $user->update(['password' => bcrypt($request->password)]);
         }
@@ -111,5 +112,13 @@ class SettingService
 
     }
 
+    public function getSettings()
+    {
+        // Fetch settings from the database
+        $settings = Setting::first();
+
+        // Return the settings data
+        return $settings;
+    }
 
 }

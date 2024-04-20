@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Notifications\Admin\AdminResponseTicketNotification;
 use App\Notifications\Admin\NewTicketNotification;
 use App\Notifications\Admin\ResponseTicketNotification;
+use App\Services\Admin\TicketTypeService;
+use App\Services\Broker\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -20,16 +22,25 @@ use Illuminate\Support\Facades\Validator;
 class TicketController extends Controller
 {
     protected $ticketService;
+    protected $settingService;
+    protected $ticketTypeService;
 
-    public function __construct(TicketService $ticketService)
+
+    public function __construct(TicketService $ticketService,
+    SettingService $settingService,
+    TicketTypeService $ticketTypeService)
     {
         $this->ticketService = $ticketService;
+        $this->settingService =  $settingService;
+        $this->ticketTypeService =  $ticketTypeService;
+
     }
 
     public function index()
     {
-        $tickets = $this->ticketService->getUserTickets(Auth::id());
-        $settings = Setting::first();
+        $tickets = $this->ticketService->getUserTickets(auth()->id());
+        // $settings = Setting::first();
+        $settings=$this->settingService->getSettings();
         $tickets->transform(function ($ticket) {
             $ticket->formatted_id = "100{$ticket->id}";
             return $ticket;
@@ -39,7 +50,8 @@ class TicketController extends Controller
 
     public function create()
     {
-        $ticketTypes = TicketType::all();
+        // $ticketTypes = TicketType::all();
+        $ticketTypes=$this->ticketTypeService->getAllTicketTypes();
         return view('Broker.Ticket.create', compact('ticketTypes'));
     }
 

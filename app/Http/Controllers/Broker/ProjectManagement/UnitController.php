@@ -11,6 +11,7 @@ use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
 use App\Services\Broker\OwnerService;
+use App\Services\Broker\UnitInterestService;
 use App\Services\Broker\UnitService;
 use App\Services\FeatureService;
 use App\Services\PropertyTypeService;
@@ -33,9 +34,14 @@ class UnitController extends Controller
     protected $FeatureService;
     protected $ownerService;
     protected $settingService;
+    protected $unitInterestService;
 
 
-    public function __construct(SettingService $settingService,OwnerService $ownerService, UnitService $UnitService, RegionService $regionService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+
+    public function __construct(SettingService $settingService,OwnerService $ownerService, UnitService $UnitService, RegionService $regionService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService
+    , PropertyUsageService $propertyUsageService,
+    UnitInterestService $unitInterestService)
+
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -48,6 +54,8 @@ class UnitController extends Controller
         $this->FeatureService = $FeatureService;
         $this->ownerService = $ownerService;
         $this->settingService = $settingService;
+        $this->unitInterestService =$unitInterestService;
+
 
     }
 
@@ -118,8 +126,8 @@ class UnitController extends Controller
     {
         $Unit = $this->UnitService->findById($id);
         $interestsTypes =$this->settingService->getAllInterestTypes();
-        $unitInterests = UnitInterest::where('unit_id', $id)
-            ->get();
+        // $unitInterests = UnitInterest::where('unit_id', $id)->get();
+        $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
 
         if (auth()->user()->UserBrokerData->id === $Unit->broker_id) {
             return view('Broker.ProjectManagement.Project.Unit.show', get_defined_vars());
@@ -175,7 +183,11 @@ class UnitController extends Controller
 
     function UpdateRentPriceByType(Request $request, $id)
     {
-        Unit::find($id)->update([
+        // Unit::find($id)->update([
+        //     'rent_type_show' => $request->rent_type_show
+        // ]);
+
+        $this->UnitService->findById($id)->update([
             'rent_type_show' => $request->rent_type_show
         ]);
     }

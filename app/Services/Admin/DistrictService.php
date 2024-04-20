@@ -3,6 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Interfaces\Admin\DistrictRepositoryInterface;
+use App\Models\District;
 use Illuminate\Validation\Rule;
 
 class DistrictService
@@ -24,6 +25,10 @@ class DistrictService
         return $this->DistrictRepository->getDistrictById($id);
     }
 
+    public function getDistrictsByCity($cityId)
+    {
+        return $this->DistrictRepository->getDistrictsByCity($cityId);
+    }
 
     public function create($data)
     {

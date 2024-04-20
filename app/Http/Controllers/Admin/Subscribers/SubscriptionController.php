@@ -55,11 +55,8 @@ class SubscriptionController extends Controller
     {
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
-            ->whereHas('Roles', function ($query) {
-                $query->where('name', 'Office-Admin');
-            })
-            ->get();
+        $subscriptionTypes = $this->subscriptionService->getSubscriptionTypesForOffice();
+
 
         return view('Admin.admin.Subscriptions.create', get_defined_vars());
     }
@@ -134,11 +131,7 @@ class SubscriptionController extends Controller
     {
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
-            ->whereHas('Roles', function ($query) {
-                $query->where('name', 'RS-Broker');
-            })
-            ->get();
+        $subscriptionTypes = $this->subscriptionService->getSubscriptionTypesForBroker();
 
         return view('Admin.admin.Subscriptions.create_broker', get_defined_vars());
     }
@@ -160,7 +153,7 @@ class SubscriptionController extends Controller
 
     function LoginByUser($id)
     {
-        Auth::loginUsingId($id);
+        auth()->loginUsingId($id);
         return redirect()->route('Admin.home');
     }
 }

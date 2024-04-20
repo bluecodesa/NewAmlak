@@ -83,4 +83,22 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
             ->where('price', '>', 0)
             ->get();
     }
+
+    public function getSubscriptionTypesForOffice()
+    {
+        return SubscriptionType::where('is_deleted', 0)
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'Office-Admin');
+            })
+            ->get();
+    }
+
+    public function getSubscriptionTypesForBroker()
+    {
+        return SubscriptionType::where('is_deleted', 0)
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'RS-Broker');
+            })
+            ->get();
+    }
 }

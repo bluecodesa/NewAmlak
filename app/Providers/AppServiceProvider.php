@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
+use App\Interfaces\Admin\TicketTypeRepositoryInterface;
 use App\Interfaces\Broker\AdvisorRepositoryInterface as BrokerAdvisorRepositoryInterface;
 use App\Interfaces\Broker\DeveloperRepositoryInterface as BrokerDeveloperRepositoryInterface;
 use App\Interfaces\Broker\OwnerRepositoryInterface as BrokerOwnerRepositoryInterface;
@@ -63,6 +64,9 @@ use App\Repositories\Broker\PropertyRepository;
 use App\Repositories\Broker\SettingRepository as BrokerSettingRepository;
 use App\Repositories\Broker\UnitRepository;
 use App\Interfaces\Broker\TicketRepositoryInterface;
+use App\Interfaces\Broker\UnitInterestRepositoryInterface;
+use App\Repositories\Admin\TicketTypeRepository;
+use App\Repositories\Broker\UnitInterestRepository;
 // office
 use App\Repositories\Office\AdvisorRepository;
 use App\Repositories\Office\DeveloperRepository;
@@ -78,6 +82,16 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+
+        $this->app->bind(
+            UnitInterestRepositoryInterface::class,
+            UnitInterestRepository::class
+        );
+
+        $this->app->bind(
+            TicketTypeRepositoryInterface::class,
+            TicketTypeRepository::class
+        );
 
         $this->app->bind(
             SupportRepositoryInterface::class,

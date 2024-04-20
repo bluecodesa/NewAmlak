@@ -18,6 +18,10 @@ class TicketService
         $this->ticketRepository = $ticketRepository;
     }
 
+    public function getAllTickets()
+    {
+        return $this->ticketRepository->getAll();
+    }
     public function getUserTickets(int $userId)
     {
         return $this->ticketRepository->getUserTickets($userId);

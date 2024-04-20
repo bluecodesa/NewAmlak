@@ -12,9 +12,11 @@ use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\SystemInvoice;
 use App\Models\UnitInterest;
+use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Unit;
+use App\Services\Admin\RegionService as AdminRegionService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\RegionService;
@@ -22,6 +24,7 @@ use App\Services\CityService;
 use App\Services\Broker\OwnerService;
 use App\Services\Broker\UnitService;
 use App\Services\Broker\GalleryService;
+use App\Services\Broker\UnitInterestService;
 use App\Services\PropertyUsageService;
 
 
@@ -31,6 +34,8 @@ class HomeController extends Controller
 {
     protected $subscriptionService;
     protected $regionService;
+    protected $RegionService;
+    protected $districtService;
     protected $cityService;
     protected $ownerService;
     protected $UnitService;
@@ -39,6 +44,7 @@ class HomeController extends Controller
 
     protected $galleryService;
     protected $systemInvoiceRepository;
+    protected $unitInterestService;
 
 
 
@@ -48,21 +54,27 @@ class HomeController extends Controller
         UnitService $UnitService,
         SubscriptionService $subscriptionService,
         RegionService $regionService,
+        AdminRegionService $RegionService,
+        DistrictService $districtService,
         CityService $cityService,
         OwnerService $ownerService,
         SubscriptionTypeService $SubscriptionTypeService,
         GalleryService $galleryService,
-        PropertyUsageService $propertyUsageService
+        PropertyUsageService $propertyUsageService,
+        UnitInterestService $unitInterestService
     ) {
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->regionService = $regionService;
+        $this->RegionService = $RegionService;
+        $this->districtService = $districtService;
         $this->cityService = $cityService;
         $this->ownerService = $ownerService;
         $this->UnitService = $UnitService;
         $this->galleryService = $galleryService;
         $this->propertyUsageService = $propertyUsageService;
         $this->systemInvoiceRepository = $systemInvoiceRepository;
+        $this->unitInterestService =$unitInterestService;
 
         $this->middleware('auth');
     }
@@ -78,7 +90,7 @@ class HomeController extends Controller
         $counts = $this->UnitService->countUnitsForBroker($brokerId);
         $residentialCount = $counts['residential'];
         $nonResidentialCount = $counts['non_residential'];
-        $numberOfInterests = UnitInterest::where('user_id', auth()->user()->id)->count();
+        $numberOfInterests = $this->unitInterestService->getNumberOfInterests();
         $numberOfVacantUnits = $this->UnitService->getAll($brokerId)->where('status', 'vacant')->count();
         $numberOfRentedUnits = $this->UnitService->getAll($brokerId)->where('status', 'rented')->count();
         if ($user && $user->is_broker && $user->UserBrokerData) {
@@ -136,41 +148,47 @@ class HomeController extends Controller
 
     public function GetCitiesByRegion($id)
     {
-        $cities = City::where('region_id', $id)->get();
+        // $cities = City::where('region_id', $id)->get();
+        $cities =$this->RegionService->getCityByRegionId($id);
         return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
 
     public function GetDistrictsByCity($id)
     {
-        $districts = District::where('city_id', $id)->get();
+        // $districts = District::where('city_id', $id)->get();
+        $districts =$this->districtService->getDistrictsByCity($id);
+
         return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
 
     function UpdateSubscription($id)
     {
-        $SubscriptionType = SubscriptionType::find($id);
+        // $SubscriptionType = SubscriptionType::find($id);
+        $SubscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($id);
 
-        $subscription = Auth::user()->UserBrokerData->UserSubscriptionPending;
+        $subscription = auth()->user()->UserBrokerData->UserSubscriptionPending;
 
         $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price]);
 
-        $Invoice  = Auth::user()->UserBrokerData->UserSystemInvoicePending;
+        $Invoice  =  auth()->user()->UserBrokerData->UserSystemInvoicePending;
+
+        $data = [
+            'broker_id' => $subscription->broker_id,
+            'office_id' => $subscription->office_id,
+            'amount' => $SubscriptionType->price,
+            'subscription_name' => $SubscriptionType->name,
+            'period' => $SubscriptionType->period,
+            'period_type' => $SubscriptionType->period_type,
+            'invoice_ID' => 'INV_' . uniqid(),
+            'status' => 'pending'
+        ];
 
         if (!$Invoice) {
-            SystemInvoice::create([
-                'broker_id' => $subscription->broker_id,
-                'office_id' => $subscription->office_id,
-                'amount' => $SubscriptionType->price,
-                'subscription_name' => $SubscriptionType->name,
-                'period' => $SubscriptionType->period,
-                'period_type' => $SubscriptionType->period_type,
-                'invoice_ID' => 'INV_' . uniqid(),
-                'status' => 'pending'
-            ]);
-        } else {
+            $this->systemInvoiceRepository->create($data);
+        }else {
             $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
         }
-        
+
     }
 
 

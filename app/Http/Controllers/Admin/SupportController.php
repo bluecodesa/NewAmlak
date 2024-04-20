@@ -11,25 +11,30 @@ use App\Notifications\Admin\AdminResponseTicketNotification;
 use App\Notifications\Admin\ResponseTicketNotification;
 use App\Services\Admin\SectionService;
 use App\Services\Admin\SupportService;
+use App\Services\Broker\TicketService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
 class SupportController extends Controller
 {
     protected $SupportService;
+    protected $ticketService;
 
-    public function __construct(SupportService $SupportService)
+
+    public function __construct(SupportService $SupportService,TicketService $ticketService)
     {
         $this->middleware(['role_or_permission:read-SupportTickets'])->only(['index']);
         $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
         $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
         $this->middleware(['role_or_permission:delete-SupportTickets'])->only(['destroy']);
         $this->SupportService = $SupportService;
+        $this->ticketService = $ticketService;
+
     }
     public function index()
     {
-       // Retrieve all tickets
-       $tickets = Ticket::all();
+    //    $tickets = Ticket::all();
+        $tickets=$this->ticketService->getAllTickets();
        $tickets->transform(function ($ticket) {
         $ticket->formatted_id = "100{$ticket->id}";
         return $ticket;
@@ -58,7 +63,9 @@ class SupportController extends Controller
     public function show(string $id)
     {
         //
-           $ticket = Ticket::findOrFail($id);
+        //    $ticket = Ticket::findOrFail($id);
+        $ticket=$this->ticketService->findTicketById($id);
+
            $formatted_id = "100{$ticket->id}";
             $user=auth()->user();
            // Load ticket responses

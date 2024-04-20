@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Broker\GalleryService;
 use App\Services\Admin\SettingService;
+use App\Services\Broker\UnitInterestService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class GallaryController extends Controller
@@ -40,12 +41,26 @@ class GallaryController extends Controller
     protected $FeatureService;
     protected $galleryService;
     protected $settingService;
+    protected $unitInterestService;
+
 
 
 
 
     public function __construct(SettingService $settingService,
-    GalleryService $galleryService,UnitService $UnitService,  RegionService $regionService,DistrictService $districtService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    GalleryService $galleryService,
+    UnitService $UnitService,
+     RegionService $regionService,
+     DistrictService $districtService,
+      AllServiceService $AllServiceService,
+       FeatureService $FeatureService,
+       CityService $cityService,
+       BrokerDataService $brokerDataService,
+        PropertyTypeService $propertyTypeService,
+        ServiceTypeService $ServiceTypeService,
+         PropertyUsageService $propertyUsageService,
+        UnitInterestService $unitInterestService)
+
     {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
@@ -60,6 +75,8 @@ class GallaryController extends Controller
         $this->FeatureService = $FeatureService;
         $this->galleryService = $galleryService;
         $this->settingService = $settingService;
+        $this->unitInterestService =$unitInterestService;
+
 
 
     }
@@ -141,8 +158,8 @@ class GallaryController extends Controller
     {
         //
         $Unit = $this->UnitService->findById($id);
-        $unitInterests = UnitInterest::where('unit_id', $id)
-        ->get();
+        // $unitInterests = UnitInterest::where('unit_id', $id)->get();
+        $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
         $interestsTypes =$this->settingService->getAllInterestTypes();
         return view('Broker.Gallary.show',  get_defined_vars());
     }

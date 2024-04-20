@@ -7,6 +7,8 @@ interface DistrictRepositoryInterface
     public function getAllDistrict();
     public function createDistrict($data);
     public function getDistrictById($data);
+    public function getDistrictsByCity($cityId);
+
     public function update($id, $data);
     public function delete($id);
 }
