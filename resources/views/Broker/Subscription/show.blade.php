@@ -54,6 +54,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
 
                 <div class="col-12">
                     <div class="card m-b-30">
@@ -86,7 +88,13 @@
                                             <td>{{ 1 }}</td>
                                             <td> {{  $invoice->subscription_name }} </td>
                                             <td>{{ __('ar.' . $invoice->period_type) }} </td>
-                                           <td>{{  __($invoice->status) }} </td>
+                                           <td>
+                                              @if($loop->last)
+                                                                {{ __($subscription->status) }}
+                                                            @else
+                                                                {{ __('expired') }}
+                                                            @endif
+                                           </td>
 
                                            <td>
                                             <a href="{{ route('Broker.ShowInvoice', $invoice->id) }}"
@@ -108,10 +116,10 @@
             </div>
         </div>
     </div>
-{{--
-                    <div id="paymentModalContent" style="display: none;">
-                        @include('Broker.Subscription.Payment.payment')
-                    </div> --}}
+
+    <div id="paymentModalContent" style="display: none;">
+        @include('Broker.Subscription.Payment.payment')
+    </div>
 
 
 @endsection
