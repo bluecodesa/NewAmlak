@@ -18,6 +18,7 @@ use App\Models\SystemInvoice;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\Role;
+use App\Models\SubscriptionSection;
 use App\Models\SubscriptionTypeRole;
 use App\Models\Unit;
 use Illuminate\Support\Facades\Auth;
@@ -52,9 +53,9 @@ class HomeController extends Controller
         ////
         $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
-        $subscriptionTypesRoles = SubscriptionType::where('is_deleted', 0)->where('is_show',1)
-        ->whereIn('id', $RolesSubscriptionTypeIds)
-        ->get();
+        $subscriptionTypesRoles = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->get();
         ///
         $sitting =   Setting::first();
         if ($sitting->active_home_page == 1) {
@@ -245,7 +246,6 @@ class HomeController extends Controller
             $request_data['broker_logo'] = '/Brokers/' . 'Logos/' . $ext;
         }
 
-
         $user = User::create([
             'is_broker' => 1,
             'name' => $request->name,
@@ -276,7 +276,7 @@ class HomeController extends Controller
             $SubType = 'free';
             $status = 'active';
         }
-        $subscription =    Subscription::create([
+        $subscription = Subscription::create([
             'broker_id' => $broker->id,
             'subscription_type_id' => $request->subscription_type_id,
             'status' => $status,
@@ -286,6 +286,12 @@ class HomeController extends Controller
             'end_date' => $endDate,
             'total' => '200'
         ]);
+        foreach ($subscriptionType->sections()->get() as $section_id) {
+            SubscriptionSection::create([
+                'section_id' => $section_id->id,
+                'subscription_id' => $subscription->id,
+            ]);
+        }
         $Invoice =   SystemInvoice::create([
             'broker_id' => $broker->id,
             'subscription_name' => $subscriptionType->name,
@@ -299,7 +305,6 @@ class HomeController extends Controller
 
         $galleryName = explode('@', $request->email)[0];
         $defaultCoverImage = '/Gallery/cover/cover.png';
-
 
 
         //

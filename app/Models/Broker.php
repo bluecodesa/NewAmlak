@@ -55,6 +55,11 @@ class Broker extends Model
         return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status', 'paid')->latest();
     }
 
+    public function UserSystemInvoiceLatest()
+    {
+        return $this->hasOne(SystemInvoice::class, 'broker_id')->latest();
+    }
+
 
     public function GalleryData()
     {

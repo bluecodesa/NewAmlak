@@ -162,11 +162,7 @@
                                                 aria-labelledby="v-pills-HomePage-tab">
                                                 @include('Admin.settings.inc._LandingPage')
                                             </div>
-
-
                                             <!-- بوابات الدفع -->
-
-
                                             <!--interests types gallery mange-->
                                             <div class="tab-pane fade" id="v-pills-interests" role="tabpanel"
                                                 aria-labelledby="v-pills-interests-tab">

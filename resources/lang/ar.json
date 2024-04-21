@@ -402,7 +402,10 @@
     "Available For Daily Rent": "متاح للايجار اليومي",
     "Subscription Management": "ادارة الاشتراك",
     "Subscription Name": "اسم الاشتراك",
-    "Call": "مكالمة"
-
-
+    "Call": "مكالمة",
+    "_paid": "مدفوعة",
+    "_pending": "مستحقة",
+    "_active": "مدفوعة",
+    "Please renew your subscription to activate your account": "بالرجاء تجديد الاشتراك لتتمكن من استخدام حسابك",
+    "Subscription upgrade": "ترقية الاشتراك"
 }

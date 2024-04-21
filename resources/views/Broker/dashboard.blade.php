@@ -69,14 +69,14 @@
                             @if ($pendingPayment)
                                 <a href="javascript:void(0)" onclick="handleRenewClick()"
                                     class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
-                                <a href="{{ route('welcome') }}#pricing"
-                                    class="btn btn-secondary modal-btn2 w-auto" target="_blank">@lang('Compare Plans')</a>
+                                <a href="{{ route('welcome') }}#pricing" class="btn btn-secondary modal-btn2 w-auto"
+                                    target="_blank">@lang('Compare Plans')</a>
                             @elseif ($daysUntilEnd <= 7)
                                 <a href="javascript:void(0)"
                                     onclick="document.querySelector('#exampleModalCenterbtn').click();"
                                     class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
-                                <a href="{{ route('welcome') }}#pricing"
-                                    class="btn btn-secondary modal-btn2 w-auto" target="_blank">@lang('Compare Plans')</a>
+                                <a href="{{ route('welcome') }}#pricing" class="btn btn-secondary modal-btn2 w-auto"
+                                    target="_blank">@lang('Compare Plans')</a>
                             @elseif ($daysUntilEnd <= 0)
                                 <a href="javascript:void(0)"
                                     onclick="document.querySelector('#exampleModalCenterbtn').click();"

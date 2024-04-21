@@ -31,13 +31,13 @@ class Subscription extends Model
         return $this->belongsTo(User::class, 'subscription_type_id');
     }
 
-    // public function getEndDateAttribute($date)
-    // {
-    //     return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
-    // }
+    public function SubscriptionSectionData()
+    {
+        return $this->hasMany(SubscriptionSection::class, 'subscription_id');
+    }
 
     public function subscriptionHistories()
-{
-    return $this->hasMany(SubscriptionHistory::class);
-}
+    {
+        return $this->hasMany(SubscriptionHistory::class);
+    }
 }

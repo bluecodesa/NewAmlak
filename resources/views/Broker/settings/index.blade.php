@@ -9,6 +9,11 @@
             border-radius: 10px;
         }
     </style>
+    @php
+        $sectionsIds = Auth::user()
+            ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+            ->toArray();
+    @endphp
     <div class="content-page">
         <!-- Start content -->
         <div class="content">
@@ -64,31 +69,35 @@
 
 
                                             <!-- gallary mange -->
-                                        @if($gallery)
-                                            @include('Broker.settings.inc._GalleryMange')
-
-                                        @elseif(!$gallery && in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames))
-                                            @include('Broker.settings.inc._GalleryEnable')
-                                        @else
-                                        <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel" aria-labelledby="v-pills-gallary-tab">
-                                            <div class="row justify-content-center">
-                                                <div class="col-lg-10">
-                                                    <div class="card timeline shadow">
-                                                        <div class="card-header">
-                                                            <h5 class="card-title">@lang('لا يوجد معرض')</h5>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
-                                                            <form action="{{ route('Broker.Gallery.create')}}" method="post">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-primary">@lang(' ترقيه الاشتراك')</button>
-                                                            </form>
+                                            @if ($gallery)
+                                                @include('Broker.settings.inc._GalleryMange')
+                                            @elseif(in_array(18, $sectionsIds))
+                                                @include('Broker.settings.inc._GalleryEnable')
+                                            @else
+                                                <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel"
+                                                    aria-labelledby="v-pills-gallary-tab">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-10">
+                                                            <div class="card timeline shadow">
+                                                                <div class="card-header">
+                                                                    <h5 class="card-title">@lang('لا يوجد معرض')</h5>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
+                                                                    {{-- <form action="{{ route('Broker.Gallery.create') }}"
+                                                                        method="post">
+                                                                        @csrf --}}
+                                                                    <button type="button" data-toggle="modal"
+                                                                        data-target="#exampleModal"
+                                                                        class="btn btn-primary">@lang('Subscription upgrade')</button>
+                                                                    {{-- </form> --}}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        @endif
+                                                @include('Broker.settings.inc._upgradePackage')
+                                            @endif
 
 
 
@@ -172,10 +181,10 @@
                     document.execCommand("copy");
                 }
             </script>
-{{--
+            {{--
 <script>
     // Check conditions and submit form if necessary
-    if (@if ($gallery && !in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) true @else false @endif) {
+    if (@if (($gallery && !in_array('Realestate-gallery', $sectionNames)) || in_array('المعرض العقاري', $sectionNames)) true @else false @endif) {
         // Enable the form and change method to POST
         var form = document.getElementById('galleryForm');
         form.disabled = false;
