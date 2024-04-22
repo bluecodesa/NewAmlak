@@ -20,6 +20,8 @@ use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Services\Admin\SubscriptionService;
+use App\Services\Admin\SubscriptionTypeService;
 
 class UnitController extends Controller
 {
@@ -35,12 +37,18 @@ class UnitController extends Controller
     protected $ownerService;
     protected $settingService;
     protected $unitInterestService;
+    protected $SubscriptionTypeService;
+
+    protected $subscriptionService;
+
 
 
 
     public function __construct(SettingService $settingService,OwnerService $ownerService, UnitService $UnitService, RegionService $regionService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService
     , PropertyUsageService $propertyUsageService,
-    UnitInterestService $unitInterestService)
+    UnitInterestService $unitInterestService,
+    SubscriptionTypeService $SubscriptionTypeService,
+    SubscriptionService $subscriptionService)
 
     {
         $this->regionService = $regionService;
@@ -55,6 +63,8 @@ class UnitController extends Controller
         $this->ownerService = $ownerService;
         $this->settingService = $settingService;
         $this->unitInterestService =$unitInterestService;
+        $this->subscriptionService = $subscriptionService;
+        $this->SubscriptionTypeService = $SubscriptionTypeService;
 
 
     }
@@ -125,10 +135,17 @@ class UnitController extends Controller
     public function show($id)
     {
         $Unit = $this->UnitService->findById($id);
-        $interestsTypes =$this->settingService->getAllInterestTypes();
-        // $unitInterests = UnitInterest::where('unit_id', $id)->get();
-        $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
-
+        $brokerId = auth()->user()->UserBrokerData->id;
+        $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
+        if ($subscription) {
+            $subscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscription->subscription_type_id);
+            $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+            $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
+            if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)){
+                $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
+                $interestsTypes =$this->settingService->getAllInterestTypes();
+            }
+        }
         if (auth()->user()->UserBrokerData->id === $Unit->broker_id) {
             return view('Broker.ProjectManagement.Project.Unit.show', get_defined_vars());
         } else {

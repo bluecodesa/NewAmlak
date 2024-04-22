@@ -266,10 +266,14 @@
                             </div>
                         </div>
                     </div>
-
+                    @if (!empty($unitInterests))
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">
+                                        @lang('Requests for interest')</h4>
+                                </div>
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
                                     <table id="datatable-buttons"
                                         class="table table-striped table-bordered dt-responsive nowrap"
@@ -326,6 +330,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div> <!-- end col -->
             </div> <!-- end row -->
 

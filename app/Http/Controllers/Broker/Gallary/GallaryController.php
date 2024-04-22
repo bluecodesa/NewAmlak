@@ -26,6 +26,8 @@ use App\Services\Broker\GalleryService;
 use App\Services\Admin\SettingService;
 use App\Services\Broker\UnitInterestService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Services\Admin\SubscriptionService;
+use App\Services\Admin\SubscriptionTypeService;
 
 class GallaryController extends Controller
 {
@@ -42,6 +44,10 @@ class GallaryController extends Controller
     protected $galleryService;
     protected $settingService;
     protected $unitInterestService;
+    protected $SubscriptionTypeService;
+
+    protected $subscriptionService;
+
 
 
 
@@ -59,7 +65,11 @@ class GallaryController extends Controller
         PropertyTypeService $propertyTypeService,
         ServiceTypeService $ServiceTypeService,
          PropertyUsageService $propertyUsageService,
-        UnitInterestService $unitInterestService)
+        UnitInterestService $unitInterestService,
+        SubscriptionTypeService $SubscriptionTypeService,
+        SubscriptionService $subscriptionService
+
+        )
 
     {
         $this->UnitService = $UnitService;
@@ -76,6 +86,8 @@ class GallaryController extends Controller
         $this->galleryService = $galleryService;
         $this->settingService = $settingService;
         $this->unitInterestService =$unitInterestService;
+        $this->subscriptionService = $subscriptionService;
+        $this->SubscriptionTypeService = $SubscriptionTypeService;
 
 
 
@@ -159,8 +171,19 @@ class GallaryController extends Controller
         //
         $Unit = $this->UnitService->findById($id);
         // $unitInterests = UnitInterest::where('unit_id', $id)->get();
-        $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
-        $interestsTypes =$this->settingService->getAllInterestTypes();
+        $brokerId = auth()->user()->UserBrokerData->id;
+        $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
+        if ($subscription) {
+            $subscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscription->subscription_type_id);
+            $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+            $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
+            if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)){
+                $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
+                $interestsTypes =$this->settingService->getAllInterestTypes();
+            }
+        }
+
+
         return view('Broker.Gallary.show',  get_defined_vars());
     }
 
