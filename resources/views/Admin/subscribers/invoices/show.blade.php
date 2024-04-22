@@ -51,7 +51,7 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <h5>التاريخ</h5>
-                                                        <b> {{ $invoice->created_at->format('H:m:i - Y/m/d') }} </b>
+                                                        <b> {{ $invoice->created_at->format('h:i:m - Y/m/d') }} </b>
                                                     </div>
                                                 </div>
                                             </div>
@@ -218,6 +218,10 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>{{ $invoice->subscription_name }}
+                                                                @if ($invoice->discount != null)
+                                                                    <small style="display: block;">خصم
+                                                                        ({{ $invoice->discount * 100 }}%)</small>
+                                                                @endif
                                                             </td>
                                                             <td> {{ $invoice->amount }} </td>
                                                             <td> 1 </td>
@@ -349,13 +353,13 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <span class="bolder">
-                                                اخر تاريخ تحديث للفاتورة
+                                                وقت اصدار الفاتورة
                                             </span>
                                         </div>
 
                                         <div class="col-6">
                                             <span>
-                                                {{ $invoice->updated_at->format('H:m:i - Y/m/d') }}
+                                                {{ $invoice->updated_at->format('h:i:m - Y/m/d') }}
                                             </span>
                                         </div>
                                     </div>

@@ -90,6 +90,11 @@ Route::group(
         //
         Route::post('callback_payments_packageUpgarde/{id}', 'PaymentController@Payment_callBackUpgarde')->name('callback_payments_package_upgrade');
         Route::get('callback_payments_packageUpgarde/{id}', 'PaymentController@Payment_callBackUpgarde')->name('callback_payments_package_upgrade');
+        //
+        Route::post('UpgradeSubscription', 'PaymentController@UpgradeSubscription')->name('UpgradeSubscription');
+
+        Route::get('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
+        Route::post('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
     }
 
 );
