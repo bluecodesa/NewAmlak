@@ -46,9 +46,8 @@
                                         <p class="font-14 mb-2">@lang('Subscription End') {{ $subscription->end_date }}</p>
                                     </div>
                                     <div class="col-6">
-                                        <a href="javascript:void(0)" onclick="handleRenewClick()"
-                                            class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
-
+                                        <a href="javascript:void(0)" data-toggle="modal" class="btn btn-primary"
+                                            data-target="#exampleModal">@lang('Renew')</a>
 
                                         <a href="{{ route('welcome') }}#pricing" class="btn btn-secondary modal-btn2 w-auto"
                                             target="_blank">@lang('Compare Plans')</a>
@@ -126,20 +125,11 @@
         @include('Broker.Subscription.Payment.payment')
     </div>
 
-
+    @include('Broker.settings.inc._upgradePackage')
 @endsection
 
 
 <script>
-    function handleRenewClick() {
-        // Get the content of the hidden div
-        var modalContent = document.getElementById('paymentModalContent').innerHTML;
-        // Set the content in the modal
-        document.getElementById('myModal').innerHTML = modalContent;
-        // Open the modal
-        openModal();
-    }
-
     function openModal() {
         // Display the modal
         var modal = document.getElementById('myModal');
