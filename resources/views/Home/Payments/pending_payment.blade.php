@@ -25,9 +25,9 @@
 
 
                 @if ($pendingPayment)
-                    <p class="card-text"> {{ __('broker.expired') }} </p>
+                    <p class="card-text"> {{ __('Please renew your subscription to activate your account') }} </p>
                 @else
-                    <p class="card-text"> {{ __('broker.pending') }} </p>
+                    <p class="card-text"> {{ __('Please renew your subscription to activate your account') }} </p>
                 @endif
 
 

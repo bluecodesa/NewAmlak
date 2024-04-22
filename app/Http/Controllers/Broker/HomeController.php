@@ -9,6 +9,7 @@ use App\Models\District;
 use App\Models\Gallery;
 use App\Models\Owner;
 use App\Models\Subscription;
+use App\Models\SubscriptionSection;
 use App\Models\SubscriptionType;
 use App\Models\SystemInvoice;
 use App\Models\UnitInterest;
@@ -74,14 +75,24 @@ class HomeController extends Controller
         $this->galleryService = $galleryService;
         $this->propertyUsageService = $propertyUsageService;
         $this->systemInvoiceRepository = $systemInvoiceRepository;
-        $this->unitInterestService =$unitInterestService;
+        $this->unitInterestService = $unitInterestService;
 
         $this->middleware('auth');
     }
 
     public function index(Request $request)
     {
-        // return Auth::user()->UserBrokerData->UserSubscriptionPending->status;
+        // return Auth::user()->UserBrokerData->UserSubscription->SubscriptionSectionData;
+        // return Auth::user()->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')->toArray();
+        // $subscriptionType = subscriptionType::find(Auth::user()->UserBrokerData->UserSubscription->subscription_type_id);
+        // if (!Auth::user()->UserBrokerData->UserSubscription->SubscriptionSectionData) {
+        //     foreach ($subscriptionType->sections()->get() as $section_id) {
+        //         SubscriptionSection::create([
+        //             'section_id' => $section_id->id,
+        //             'subscription_id' => Auth::user()->UserBrokerData->UserSubscription->id,
+        //         ]);
+        //     }
+        // }
         $user = $request->user();
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = $this->ownerService->getAllByBrokerId($brokerId)->count();
@@ -130,15 +141,13 @@ class HomeController extends Controller
 
 
         $gallery = $this->galleryService->findByBrokerId($brokerId);
-            $visitorCount = 0;
+        $visitorCount = 0;
 
-            if ($gallery !== null) {
-                $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
+        if ($gallery !== null) {
+            $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
+        }
 
-            }
-
-     return view('Broker.dashboard',  get_defined_vars());
-
+        return view('Broker.dashboard',  get_defined_vars());
     }
 
     function ViewInvoice()
@@ -149,14 +158,14 @@ class HomeController extends Controller
     public function GetCitiesByRegion($id)
     {
         // $cities = City::where('region_id', $id)->get();
-        $cities =$this->RegionService->getCityByRegionId($id);
+        $cities = $this->RegionService->getCityByRegionId($id);
         return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
 
     public function GetDistrictsByCity($id)
     {
         // $districts = District::where('city_id', $id)->get();
-        $districts =$this->districtService->getDistrictsByCity($id);
+        $districts = $this->districtService->getDistrictsByCity($id);
 
         return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
@@ -168,7 +177,7 @@ class HomeController extends Controller
 
         $subscription = auth()->user()->UserBrokerData->UserSubscriptionPending;
 
-        $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price]);
+        $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price, 'status' => 'pending']);
 
         $Invoice  =  auth()->user()->UserBrokerData->UserSystemInvoicePending;
 
@@ -185,21 +194,20 @@ class HomeController extends Controller
 
         if (!$Invoice) {
             $this->systemInvoiceRepository->create($data);
-        }else {
+        } else {
             $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
         }
-
     }
-
 
     public function showSubscription()
     {
+        // return Auth::user()->UserBrokerData->UserSystemInvoiceLatest;
         $brokerId = auth()->user()->UserBrokerData->id;
 
         $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
         if ($brokerId)
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
-            $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
 
         return view('Broker.Subscription.show', get_defined_vars());
     }
@@ -208,6 +216,6 @@ class HomeController extends Controller
     {
         $invoice = $this->systemInvoiceRepository->find($id);
 
-        return view('Broker.Subscription.invoices.show',get_defined_vars());
+        return view('Broker.Subscription.invoices.show', get_defined_vars());
     }
 }

@@ -39,5 +39,5 @@ class CheckUserRole
 
         // If the user is not authenticated or doesn't have the required role, redirect to login page
         return redirect()->route('Admin.home');
-        }
+    }
 }

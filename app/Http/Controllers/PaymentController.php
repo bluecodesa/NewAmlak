@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\SubscriptionHistory;
+use App\Models\SubscriptionSection;
 use App\Models\SystemInvoice;
+use Carbon\Carbon;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,11 +63,19 @@ class PaymentController extends Controller
         } else {
             $subscription = $brokerData->UserSubscriptionPending;
         }
-
+        $subscriptionType =  $subscription->SubscriptionTypeData;
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+        $sections = $subscription->SubscriptionTypeData->sections()->get();
+        $subscription->SubscriptionSectionData()->delete();
+        foreach ($sections as $section_id) {
+            SubscriptionSection::create([
+                'section_id' => $section_id->id,
+                'subscription_id' => $subscription->id,
+            ]);
+        }
         if ($subscription) {
-            $subscription->update(['status' => 'active', 'is_start' => 1]);
-            $this->updateSubscriptionHistory($subscription);
-
+            $subscription->update(['status' => 'active', 'is_start' => 1, 'start_date' => now()->format('Y-m-d H:i:s'), 'end_date' => $endDate]);
+            // $this->updateSubscriptionHistory($subscription);
         }
 
         $invoice = $officeData ? $brokerData->UserSubscriptionPending : $brokerData->UserSystemInvoicePending;
@@ -83,7 +93,6 @@ class PaymentController extends Controller
     function query_transaction()
     {
     }
-
 
     protected function updateSubscriptionHistory($subscription)
     {

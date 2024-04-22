@@ -34,13 +34,15 @@ class SettingController extends Controller
     protected $SubscriptionTypeService;
 
 
-    public function __construct(SubscriptionService $subscriptionService, SettingService $settingService, UnitService $UnitService,
-     RegionService $regionService,
-     CityService $cityService,
-     EmailSettingService $EmailSettingService,
-     SubscriptionTypeService $SubscriptionTypeService
-     )
-    {
+    public function __construct(
+        SubscriptionService $subscriptionService,
+        SettingService $settingService,
+        UnitService $UnitService,
+        RegionService $regionService,
+        CityService $cityService,
+        EmailSettingService $EmailSettingService,
+        SubscriptionTypeService $SubscriptionTypeService
+    ) {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
         $this->EmailSettingService = $EmailSettingService;
@@ -48,7 +50,6 @@ class SettingController extends Controller
         $this->settingService = $settingService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
-
     }
     public function index()
     {
@@ -69,6 +70,8 @@ class SettingController extends Controller
             $hasRealEstateGallerySection = $subscriptionType->sections()->get();
             $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
         }
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
+        // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
         return view('Broker.settings.index', get_defined_vars());
     }
 
