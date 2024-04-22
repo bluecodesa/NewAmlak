@@ -48,14 +48,18 @@ class HomeController extends Controller
     public function index()
     {
         //subscrptions
-        $subscriptionTypes = $this->subscriptionTypeService->getAll();
+        $subscriptionTypes = $this->subscriptionTypeService->getAll()
+        ->where('is_deleted', 0)
+        ->where('is_show', 1)
+        ->where('status', 1);
         $sections = $this->SectionService->getAll();
         ////
         $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
-        $subscriptionTypesRoles = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)
-            ->whereIn('id', $RolesSubscriptionTypeIds)
-            ->get();
+        $subscriptionTypesRoles = $this->subscriptionTypeService->getAll()
+        ->where('is_deleted', 0)->where('is_show', 1)->where('status',1)
+            ->whereIn('id', $RolesSubscriptionTypeIds);
+
         ///
         $sitting =   Setting::first();
         if ($sitting->active_home_page == 1) {
@@ -86,7 +90,7 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status',1)
             ->whereIn('id', $RolesSubscriptionTypeIds)
             ->get();
         return view('Home.Auth.broker.create', get_defined_vars());
@@ -103,7 +107,7 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::whereIn('id', $RolesSubscriptionTypeIds)->get();
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status',1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
 
         $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
             $query->where('name', 'Office-Admin');
