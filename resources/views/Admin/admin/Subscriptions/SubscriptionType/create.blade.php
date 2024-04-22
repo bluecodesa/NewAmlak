@@ -15,8 +15,10 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.create') }}">@lang('Add New Type subscription')</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Types subscriptions')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Admin.SubscriptionTypes.create') }}">@lang('Add New Type subscription')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Types subscriptions')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -49,9 +51,8 @@
                                             </div>
                                         @endforeach
 
-                                        <div class="col-md-6 mb-3">
-                                            <label for="period"> <span
-                                                class="required-color">*</span>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="period"> <span class="required-color">*</span>
                                                 @lang('Required subscription period')</label>
                                             <div class="wrapper" style="position: relative; ">
                                                 <input type="number" name="period" id="period" class="form-control"
@@ -65,10 +66,9 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="price"> <span
-                                                class="required-color">*</span>
-                                                 @lang('the amount')</label><br />
+                                        <div class="col-md-4 mb-3">
+                                            <label for="price"> <span class="required-color">*</span>
+                                                @lang('the amount')</label><br />
                                             <div class="wrapper" style="position: relative; ">
 
                                                 <input type="text" name="price" id="price" class="form-control"
@@ -76,8 +76,16 @@
                                                 <span class="sub-input">SAR
                                                 </span>
                                             </div>
-
                                         </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label for="upgrade_rate">@lang('Discount applied')</label><br />
+                                            <div class="wrapper" style="position: relative; ">
+                                                <input type="text" name="upgrade_rate" id="upgrade_rate"
+                                                    placeholder="20%" class="form-control" min="0" max="100" />
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-3 mb-3">
                                             <p>@lang('status')</p>
                                             <input type="radio" id="active" name="status" value="1" checked
@@ -94,7 +102,8 @@
                                                 checked required>
                                             <label for="show">@lang('show')</label>
                                             <br />
-                                            <input type="radio" id="hide" name="is_show" value="{{ 0 }}">
+                                            <input type="radio" id="hide" name="is_show"
+                                                value="{{ 0 }}">
                                             <label for="hide">@lang('hide')</label>
                                         </div>
 
@@ -107,8 +116,10 @@
                                                     $checked = '';
                                                 @endphp
                                                 <div class="form-check">
-                                                    <input type="checkbox" id="role_{{ $roleId }}" name="roles[]" value="{{ $roleId }}" {{ $checked }}>
-                                                    <label class="form-check-label" for="role_{{ $roleId }}">{{ $roleName }}</label>
+                                                    <input type="checkbox" id="role_{{ $roleId }}" name="roles[]"
+                                                        value="{{ $roleId }}" {{ $checked }}>
+                                                    <label class="form-check-label"
+                                                        for="role_{{ $roleId }}">{{ $roleName }}</label>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -122,8 +133,11 @@
                                                     $checked = '';
                                                 @endphp
                                                 <div class="form-check">
-                                                    <input type="checkbox" id="section_{{ $sectionId }}" name="sections[]" value="{{ $sectionId }}" {{ $checked }}>
-                                                    <label class="form-check-label" for="section_{{ $sectionId }}">{{ $sectionName }}</label>
+                                                    <input type="checkbox" id="section_{{ $sectionId }}"
+                                                        name="sections[]" value="{{ $sectionId }}"
+                                                        {{ $checked }}>
+                                                    <label class="form-check-label"
+                                                        for="section_{{ $sectionId }}">{{ $sectionName }}</label>
                                                 </div>
                                             @endforeach
                                         </div>

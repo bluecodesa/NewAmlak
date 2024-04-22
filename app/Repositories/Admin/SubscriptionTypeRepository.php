@@ -11,9 +11,8 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
 {
     public function getAll()
     {
-        $query = SubscriptionType::where('is_deleted', 0)->where('is_show',1);
+        $query = SubscriptionType::where('is_deleted', 0)->where('is_show', 1);
         return $query->get();
-
     }
     public function getAllFiltered($status, $period, $price)
     {
@@ -36,8 +35,10 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
 
     public function create($data)
     {
-        $data=request();
-        $subscriptionType = SubscriptionType::create($data->except(['roles', 'sections']));
+        $data = request();
+        $Subscriptiondata = $data->except(['roles', 'sections']);
+        $Subscriptiondata['upgrade_rate'] =  $data['upgrade_rate'] / 100;
+        $subscriptionType = SubscriptionType::create($Subscriptiondata);
 
         foreach ($data['sections'] as $section) {
             SubscriptionTypeSection::create(['subscription_type_id' => $subscriptionType->id, 'section_id' => $section]);
@@ -58,8 +59,10 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
     public function update($id, $data)
     {
         $subscriptionType = SubscriptionType::find($id);
-        $data=request();
-        $subscriptionType->update($data->except(['roles', 'sections']));
+        $data = request();
+        $Subscriptiondata = $data->except(['roles', 'sections']);
+        $Subscriptiondata['upgrade_rate'] =  $data['upgrade_rate'] / 100;
+        $subscriptionType->update($Subscriptiondata);
 
         // Sync sections
         $subscriptionType->sections()->sync($data['sections']);

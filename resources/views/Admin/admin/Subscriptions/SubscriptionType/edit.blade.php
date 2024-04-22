@@ -15,8 +15,11 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.edit', $SubscriptionType->id) }}">@lang('Edit Types subscriptions')</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Types subscriptions')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Admin.SubscriptionTypes.edit', $SubscriptionType->id) }}">@lang('Edit Types subscriptions')</a>
+                                </li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Types subscriptions')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -54,22 +57,23 @@
                                         @php
                                             $days = ['day', 'week', 'month', 'year'];
                                         @endphp
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="period">@lang('Required subscription period')</label>
                                             <div class="wrapper" style="position: relative; ">
-                                                <input type="number" value="{{ $SubscriptionType->period }}" name="period"
-                                                    id="period" class="form-control" min="1" required />
+                                                <input type="number" value="{{ $SubscriptionType->period }}"
+                                                    name="period" id="period" class="form-control" min="1"
+                                                    required />
                                                 <select name="period_type" id="period_type" class="sub-input">
                                                     @foreach ($days as $type)
                                                         <option value="{{ $type }}"
-                                                            {{ $SubscriptionType->period_type == ($type) ? 'selected' : '' }}>
+                                                            {{ $SubscriptionType->period_type == $type ? 'selected' : '' }}>
                                                             @lang($type)</option>
                                                     @endforeach
 
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <label for="price"> @lang('the amount')</label><br />
                                             <div class="wrapper" style="position: relative; ">
 
@@ -80,6 +84,16 @@
                                             </div>
 
                                         </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label for="upgrade_rate">@lang('Discount applied')</label><br />
+                                            <div class="wrapper" style="position: relative; ">
+                                                <input type="text" name="upgrade_rate" id="upgrade_rate"
+                                                    value="{{ $SubscriptionType->upgrade_rate }}" placeholder="20%"
+                                                    class="form-control" min="0" max="100" />
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-3 mb-3">
                                             <p>@lang('status')</p>
                                             <input type="radio" id="active" name="status" value="{{ 1 }}"
@@ -111,8 +125,10 @@
                                                     $checked = in_array($roleId, $rolesIds) ? 'checked' : '';
                                                 @endphp
                                                 <div class="form-check">
-                                                    <input type="checkbox" id="role_{{ $roleId }}" name="roles[]" value="{{ $roleId }}" {{ $checked }}>
-                                                    <label class="form-check-label" for="role_{{ $roleId }}">{{ $roleName }}</label>
+                                                    <input type="checkbox" id="role_{{ $roleId }}" name="roles[]"
+                                                        value="{{ $roleId }}" {{ $checked }}>
+                                                    <label class="form-check-label"
+                                                        for="role_{{ $roleId }}">{{ $roleName }}</label>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -126,8 +142,11 @@
                                                     $checked = in_array($sectionId, $sectionIds) ? 'checked' : '';
                                                 @endphp
                                                 <div class="form-check">
-                                                    <input type="checkbox" id="section_{{ $sectionId }}" name="sections[]" value="{{ $sectionId }}" {{ $checked }}>
-                                                    <label class="form-check-label" for="section_{{ $sectionId }}">{{ $sectionName }}</label>
+                                                    <input type="checkbox" id="section_{{ $sectionId }}"
+                                                        name="sections[]" value="{{ $sectionId }}"
+                                                        {{ $checked }}>
+                                                    <label class="form-check-label"
+                                                        for="section_{{ $sectionId }}">{{ $sectionName }}</label>
                                                 </div>
                                             @endforeach
                                         </div>
