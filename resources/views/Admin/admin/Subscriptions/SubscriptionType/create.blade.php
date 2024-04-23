@@ -109,15 +109,15 @@
 
                                         <div class="col-md-3 mb-3">
                                             <p>@lang('role name')</p>
-                                            @foreach ($roles as $role)
+                                            @foreach ($roles as $index => $role)
                                                 @php
                                                     $roleId = $role->id;
                                                     $roleName = $role->name;
-                                                    $checked = '';
+                                                    $checked = $index === 0 ? 'checked' : '';
                                                 @endphp
                                                 <div class="form-check">
                                                     <input type="checkbox" id="role_{{ $roleId }}" name="roles[]"
-                                                        value="{{ $roleId }}" {{ $checked }}>
+                                                        value="{{ $roleId }}" {{ $checked }} required>
                                                     <label class="form-check-label"
                                                         for="role_{{ $roleId }}">{{ $roleName }}</label>
                                                 </div>

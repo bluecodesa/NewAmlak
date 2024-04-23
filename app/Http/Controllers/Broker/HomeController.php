@@ -121,7 +121,7 @@ class HomeController extends Controller
         }
 
         //
-        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status',1);
 
         //statistics calc
 

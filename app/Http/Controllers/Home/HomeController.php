@@ -90,7 +90,7 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status',1)
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status',1)
             ->whereIn('id', $RolesSubscriptionTypeIds)
             ->get();
         return view('Home.Auth.broker.create', get_defined_vars());

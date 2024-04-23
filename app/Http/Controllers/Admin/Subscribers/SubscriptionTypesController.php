@@ -55,12 +55,13 @@ class SubscriptionTypesController extends Controller
         $rules += [
             'period' => 'required',
             'period_type' => 'required',
-            'roles*' => 'required',
-            'sections*' => 'required',
+            'roles' => 'required|array|min:1', // At least one role must be selected
+            'sections' => 'required|array',
         ];
         $messages = [
             'required' => __('The :attribute field is required.'),
             'unique' => __('The :attribute has already been taken.'),
+            'roles.min' => __('Please select at least one role.'),
         ];
         $request->validate($rules, $messages);
 
