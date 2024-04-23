@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('unit_rental_prices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('daily')->nullable();
-            $table->integer('monthly')->nullable();
-            $table->integer('quarterly')->nullable();
-            $table->integer('midterm')->nullable();
-            $table->integer('yearly')->nullable();
+            $table->bigInteger('daily')->nullable();
+            $table->bigInteger('monthly')->nullable();
+            $table->bigInteger('quarterly')->nullable();
+            $table->bigInteger('midterm')->nullable();
+            $table->bigInteger('yearly')->nullable();
             $table->integer('unit_id')->unsigned()->nullable();
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->timestamps();

@@ -174,15 +174,14 @@ class GallaryController extends Controller
         $brokerId = auth()->user()->UserBrokerData->id;
         $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
         if ($subscription) {
-            $subscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscription->subscription_type_id);
-            $hasRealEstateGallerySection = $subscriptionType->sections()->get();
-            $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
-            if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)){
-                $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
-                $interestsTypes =$this->settingService->getAllInterestTypes();
+            $sectionsIds = auth()->user()
+        ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+        if (in_array(18, $sectionsIds)){
+        $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
+        $interestsTypes =$this->settingService->getAllInterestTypes();
             }
         }
-
 
         return view('Broker.Gallary.show',  get_defined_vars());
     }

@@ -266,7 +266,7 @@
                             </div>
                         </div>
                     </div>
-                    @if (!empty($unitInterests))
+                    @if (!empty($unitInterests) && count($unitInterests) > 0)
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">

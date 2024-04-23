@@ -12,8 +12,8 @@
                 <h5>@lang('Your account is suspended')</h5>
                 @lang('Sorry, your account has been suspended. Please contact technical support')
                 <br>
-                <button type="button" class="btn btn-outline-primary mt-1 waves-effect waves-light"> @lang('technical support')
-                </button>
+                <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-primary mt-1 waves-effect waves-light" role="button">@lang('technical support')</a>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

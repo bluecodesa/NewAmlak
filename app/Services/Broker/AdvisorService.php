@@ -45,7 +45,22 @@ class AdvisorService
             ],
         ];
 
-        validator($data, $rules)->validate();
+        $messages = [
+            'name.required' => 'The name field is required.',
+            'name.string' => 'The name must be a string.',
+            'name.max' => 'The name may not be greater than :max characters.',
+            'city_id.required' => 'The city field is required.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.unique' => 'The email has already been taken.',
+            'email.max' => 'The email may not be greater than :max characters.',
+            'phone.required' => 'The phone field is required.',
+            'phone.unique' => 'The phone has already been taken.',
+            'phone.max' => 'The phone may not be greater than :max characters.',
+        ];
+
+        validator($data, $rules, $messages)->validate();
+        
         $data['broker_id'] = Auth::user()->UserBrokerData->id;
         return $this->advisorRepository->createAdvisor($data);
     }
