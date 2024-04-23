@@ -40,6 +40,10 @@
 
                                             <div class="col-4 text-center">
                                                 <h1>فاتورة ضربية</h1>
+
+                                                <span
+                                                    class="badge badge-{{ $invoice->status == 'pending' ? 'danger' : 'success' }}">
+                                                    {{ __('_' . $invoice->status) }}</span>
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <h5>الرقم التسلسلي</h5>
@@ -47,7 +51,7 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <h5>التاريخ</h5>
-                                                        <b> {{ $invoice->created_at->format('H:m:i - Y/m/d') }} </b>
+                                                        <b> {{ $invoice->created_at->format('h:i:m - Y/m/d') }} </b>
                                                     </div>
                                                 </div>
                                             </div>
@@ -125,15 +129,15 @@
 
                                         @php
                                             if ($invoice->OfficeData != null) {
-                                                $name = $invoice->OfficeData->company_name;
-                                                $presenter_number = $invoice->OfficeData->presenter_number;
-                                                $city = $invoice->OfficeData->CityData->name;
-                                                $CRN = $invoice->OfficeData->CRN;
+                                                $name = $invoice->OfficeData->company_name ?? '-';
+                                                $presenter_number = $invoice->OfficeData->presenter_number ?? '-';
+                                                $city = $invoice->OfficeData->CityData->name ?? '-';
+                                                $CRN = $invoice->OfficeData->CRN ?? '-';
                                             } else {
-                                                $name = $invoice->BrokerData->UserData->name;
-                                                $presenter_number = $invoice->BrokerData->mobile;
-                                                $city = $invoice->BrokerData->CityData->name;
-                                                $CRN = $invoice->BrokerData->broker_license;
+                                                $name = $invoice->BrokerData->UserData->name ?? '-';
+                                                $presenter_number = $invoice->BrokerData->mobile ?? '-';
+                                                $city = $invoice->BrokerData->CityData->name ?? '-';
+                                                $CRN = $invoice->BrokerData->broker_license ?? '-';
                                             }
                                         @endphp
                                         <div class="row">
@@ -214,6 +218,10 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>{{ $invoice->subscription_name }}
+                                                                @if ($invoice->discount != null)
+                                                                    <small style="display: block;">خصم
+                                                                        ({{ $invoice->discount * 100 }}%)</small>
+                                                                @endif
                                                             </td>
                                                             <td> {{ $invoice->amount }} </td>
                                                             <td> 1 </td>
@@ -268,13 +276,14 @@
                                                 <table class="table border-info">
                                                     <thead>
                                                         <tr>
-                                                            <th>عمولة {{ $sitting->title }} </th>
+                                                            <th> المجموع شامل الضريبة </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
 
-                                                            <td> 0 <sup class="text-body"><small>ر.س</small></sup>
+                                                            <td> {{ $invoice->amount }} <sup
+                                                                    class="text-body"><small>ر.س</small></sup>
                                                             </td>
 
                                                         </tr>
@@ -326,9 +335,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <span class="bolder">
-                                                المجموع مع الضريبة ( {{ $sitting->tax_rate * 100 }}% ) + عمولة
-                                                {{ $sitting->title }} (
-                                                0% )
+                                                المجموع مع الضريبة ( {{ $sitting->tax_rate * 100 }}% )
                                             </span>
                                         </div>
 
@@ -339,7 +346,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br>
+                                <br>
 
+                                <div class="col-12 border-info p-1">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="bolder">
+                                                وقت اصدار الفاتورة
+                                            </span>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <span>
+                                                {{ $invoice->updated_at->format('h:i:m - Y/m/d') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>

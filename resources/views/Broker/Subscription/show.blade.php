@@ -97,7 +97,7 @@
 
                                                     <td>
                                                         <a href="{{ route('Broker.ShowInvoice', $invoice->id) }}"
-                                                            class="btn btn-dark btn-sm waves-effect waves-light">@lang('view')</a>
+                                                            class="btn btn-dark btn-sm waves-effect waves-light">@lang('view') @lang('Invoice')</a>
 
                                                     </td>
                                                 </tr>
