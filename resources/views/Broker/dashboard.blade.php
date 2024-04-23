@@ -67,20 +67,21 @@
                             <p class="sub-title" class="highlighter-rouge">@lang('Subscription End') {{ $subscriber->end_date }}</p>
 
                             @if ($pendingPayment)
-                                <a href="javascript:void(0)" onclick="handleRenewClick()"
-                                    class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                            <button type="button" data-toggle="modal"
+                            data-target="#exampleModal"
+                            class="btn btn-primary">@lang('Subscription upgrade')</button>
                                 <a href="{{ route('welcome') }}#pricing" class="btn btn-secondary modal-btn2 w-auto"
                                     target="_blank">@lang('Compare Plans')</a>
                             @elseif ($daysUntilEnd <= 7)
-                                <a href="javascript:void(0)"
-                                    onclick="document.querySelector('#exampleModalCenterbtn').click();"
-                                    class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                            <button type="button" data-toggle="modal"
+                            data-target="#exampleModal"
+                            class="btn btn-primary">@lang('Subscription upgrade')</button>
                                 <a href="{{ route('welcome') }}#pricing" class="btn btn-secondary modal-btn2 w-auto"
                                     target="_blank">@lang('Compare Plans')</a>
                             @elseif ($daysUntilEnd <= 0)
-                                <a href="javascript:void(0)"
-                                    onclick="document.querySelector('#exampleModalCenterbtn').click();"
-                                    class="w-auto btn btn-primary modal-btn2">@lang('Renew')</a>
+                            <button type="button" data-toggle="modal"
+                            data-target="#exampleModal"
+                            class="btn btn-primary">@lang('Subscription upgrade')</button>
                                 <p class="text-danger">{{ __($subscriber->status) }}</p>
                             @else
                                 @include('Broker.inc._SubscriptionSuspend')
@@ -90,6 +91,7 @@
                 </div>
 
 
+                @include('Broker.settings.inc._upgradePackage')
 
 
 

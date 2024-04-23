@@ -29,7 +29,7 @@
                             <li><a href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
                             <li><a href="{{ route('Broker.Developer.index') }}">@lang('developers')</a></li>
                             <li><a href="{{ route('Broker.Advisor.index') }}">@lang('advisors')</a></li>
-                            <li><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li>
+                            {{-- <li><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li> --}}
                         </ul>
                     </li>
                 @endif
@@ -52,6 +52,13 @@
                                 </li>
                             @endif
                         </ul>
+                    </li>
+                @endif
+                @if (in_array(16, $sectionsIds))
+                    <li>
+                        <a href="{{ route('Broker.Owner.index') }}" class="waves-effect"><i
+                                class=" icon-setting-2"></i><span>
+                                @lang('Owners Management')<span class="float-right menu-arrow"></span> </span></a>
                     </li>
                 @endif
                 @if (in_array(12, $sectionsIds))

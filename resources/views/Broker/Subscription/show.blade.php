@@ -1,7 +1,6 @@
 @extends('Admin.layouts.app')
-@section('title', __('Subscribers'))
+@section('title', __('Tickets'))
 @section('content')
-
 
     <div class="content-page">
         <!-- Start content -->
@@ -9,7 +8,11 @@
             <div class="container-fluid">
                 <div class="page-title-box">
                     <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">
+                                @lang('Subscription Management')</h4>
 
+                        </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item"><a
@@ -21,58 +24,52 @@
                     </div> <!-- end row -->
                 </div>
                 <!-- end page-title -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card pricing-box mt-4">
-                            <div class="pricing-icon">
-                                @lang('Subscription Type')
-                            </div>
-                            <div class="pricing-content">
-                                <div class="text-center">
-                                    <h5 class="text-uppercase mt-5">
-                                        {{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->subscription_name }}
-                                    </h5>
-                                    <div class="pricing-plan mt-4 pt-2">
-                                        <h1>{{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period }} <small
-                                                class="font-16">
-                                                {{ __(Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period_type) }}</small>
-                                        </h1>
-                                    </div>
-                                    <div class="pricing-border mt-5"></div>
-                                </div>
-                                <div class=" row pricing-features mt-4">
-                                    <div class="col-6">
-                                        <p class="font-14 mb-2">@lang('Subscription Start') {{ $subscription->start_date }}</p>
-                                        <p class="font-14 mb-2">@lang('Subscription End') {{ $subscription->end_date }}</p>
-                                    </div>
-                                    <div class="col-6">
-                                        <a href="javascript:void(0)" data-toggle="modal" class="btn btn-primary"
-                                            data-target="#exampleModal">@lang('Renew')</a>
 
-                                        <a href="{{ route('welcome') }}#pricing" class="btn btn-secondary modal-btn2 w-auto"
-                                            target="_blank">@lang('Compare Plans')</a>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
 
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('سجل تاريخ الاشتراك')
-                                    </h4>
+                                <div class="col-xl-12">
+                                    <div class="card m-b-30">
+                                        <div class="card-body">
+                                            <h5 class="text-uppercase mt-5">
+                                                {{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->subscription_name }}
+                                            </h5>
+                                            <div class="pricing-plan mt-4 pt-2">
+                                                <h1>{{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period }} <small
+                                                        class="font-16">
+                                                        {{ __(Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period_type) }}</small>
+                                                </h1>
+                                            </div>
+
+                                            <div class=" row pricing-features mt-4">
+                                                <div class="col-6">
+                                                    <p class="font-14 mb-2">@lang('Subscription Start') {{ $subscription->start_date }}</p>
+                                                    <p class="font-14 mb-2">@lang('Subscription End') {{ $subscription->end_date }}</p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <button type="button" data-toggle="modal"
+                                                    data-target="#exampleModal"
+                                                    class="btn btn-primary">@lang('Subscription upgrade')</button>
+
+                                                    <a href="{{ route('welcome') }}#pricing" class="btn btn-secondary modal-btn2 w-auto"
+                                                        target="_blank">@lang('Compare Plans')</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
+
+
+                                <h4 class="mt-0 header-title">
+                                    @lang('سجل تاريخ الاشتراك')
+
+
+                                </h4>
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
-                                    <table id="datatable-buttons"
-                                        class="table table-striped table-bordered dt-responsive nowrap"
-                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    <table id="datatable-buttons" class="table  table-striped">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -84,8 +81,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
-
                                             @foreach ($invoices as $index => $invoice)
                                                 <tr>
 
@@ -113,34 +108,16 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div> <!-- end col -->
+                </div> <!-- end col -->
+            </div> <!-- end row -->
 
-                </div>
-
-            </div>
         </div>
+        <!-- container-fluid -->
+
+        @include('Broker.settings.inc._upgradePackage')
+
     </div>
 
-    <div id="paymentModalContent" style="display: none;">
-        @include('Broker.Subscription.Payment.payment')
-    </div>
 
-    @include('Broker.settings.inc._upgradePackage')
 @endsection
-
-
-<script>
-    function openModal() {
-        // Display the modal
-        var modal = document.getElementById('myModal');
-        modal.style.display = "block";
-    }
-
-    // Close the modal when the user clicks anywhere outside of it
-    window.onclick = function(event) {
-        var modal = document.getElementById('myModal');
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
