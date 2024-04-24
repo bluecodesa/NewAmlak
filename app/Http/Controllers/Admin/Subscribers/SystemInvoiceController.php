@@ -8,8 +8,9 @@ use App\Services\RegionService;
 use App\Services\CityService;
 use App\Http\Controllers\Controller;
 use App\Models\SubscriptionType;
+use App\Models\SystemInvoice;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class SystemInvoiceController extends Controller
 {
@@ -17,7 +18,7 @@ class SystemInvoiceController extends Controller
     protected $regionService;
     protected $cityService;
 
-    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository,RegionService $regionService, CityService $cityService)
+    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository, RegionService $regionService, CityService $cityService)
     {
         $this->systemInvoiceRepository = $systemInvoiceRepository;
         $this->regionService = $regionService;

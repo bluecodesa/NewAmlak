@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
         '*/callback_payments_package/*',
         '*/return_payments_package/*',
         '*/callback_payments_packageUpgarde/*',
+        '*/callback_UpgradeSubscription/*',
     ];
 }
