@@ -75,18 +75,18 @@ class UnitService
                 Rule::unique('units')->ignore($id),
                 'max:25'
             ],
-            'price' => 'numeric|digits_between:0,10',
+            'price' => 'digits_between:0,10',
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
             'type' => ['required', Rule::in(['sale', 'rent','rent_sale'])],
             'name' => 'required|array',
             'qty' => 'required|array',
 
-            'monthly' => 'numeric|digits_between:0,8',
-            'daily' => 'numeric|digits_between:0,8',
-            'quarterly' => 'numeric|digits_between:0,8',
-            'midterm' => 'numeric|digits_between:0,10',
-            'yearly' => 'numeric|digits_between:0,10',
+            'monthly' => 'digits_between:0,8',
+            'daily' => 'digits_between:0,8',
+            'quarterly' => 'digits_between:0,8',
+            'midterm' => 'digits_between:0,10',
+            'yearly' => 'digits_between:0,10',
 
         ];
         $messages = [
