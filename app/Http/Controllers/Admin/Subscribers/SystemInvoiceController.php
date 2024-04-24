@@ -8,9 +8,7 @@ use App\Services\RegionService;
 use App\Services\CityService;
 use App\Http\Controllers\Controller;
 use App\Models\SubscriptionType;
-use App\Models\SystemInvoice;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SystemInvoiceController extends Controller
 {
@@ -25,9 +23,6 @@ class SystemInvoiceController extends Controller
         $this->cityService = $cityService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $invoices = $this->systemInvoiceRepository->all();
