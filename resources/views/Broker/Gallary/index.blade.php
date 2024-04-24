@@ -39,48 +39,56 @@
                                 <!--End of gallery cover-->
 
                                 <!--Filter-->
-                               @include('Broker.Gallary.inc._FilterGallery')
+                                @include('Broker.Gallary.inc._FilterGallery')
                                 <!--End of filter-->
 
-                                    <div class="col-xl-12">
-                                        <div class="card m-b-30">
-                                            <div class="card-body">
+                                <div class="col-xl-12">
+                                    <div class="card m-b-30">
+                                        <div class="card-body">
 
-                                    <ul class="nav nav-pills nav-justified" role="tablist">
-                                        <li class="nav-item waves-effect waves-light">
-                                            <a id="v-pills-menu-tab" class="nav-link active" data-toggle="tab" href="#home-1" role="tab" data-target="#v-pills-menu" aria-controls="v-pills-menu">
-                                                <span class="d-none d-md-block">@lang('List')</span><span class="d-block d-md-none"><i class="mdi mdi-home-variant h5"></i></span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item waves-effect waves-light">
-                                            <a id="v-pills-List-tab" class="nav-link" aria-controls="v-pills-List" data-target="#v-pills-List" data-toggle="tab" href="#profile-1" role="tab">
-                                                <span class="d-none d-md-block">@lang('Card')</span><span class="d-block d-md-none"><i class="mdi mdi-account h5"></i></span>
-                                            </a>
-                                        </li>
+                                            <ul class="nav nav-pills nav-justified" role="tablist">
+                                                <li class="nav-item waves-effect waves-light">
+                                                    <a id="v-pills-menu-tab" class="nav-link active" data-toggle="tab"
+                                                        href="#home-1" role="tab" data-target="#v-pills-menu"
+                                                        aria-controls="v-pills-menu">
+                                                        <span class="d-none d-md-block">@lang('List')</span><span
+                                                            class="d-block d-md-none"><i
+                                                                class="mdi mdi-home-variant h5"></i></span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item waves-effect waves-light">
+                                                    <a id="v-pills-List-tab" class="nav-link" aria-controls="v-pills-List"
+                                                        data-target="#v-pills-List" data-toggle="tab" href="#profile-1"
+                                                        role="tab">
+                                                        <span class="d-none d-md-block">@lang('Card')</span><span
+                                                            class="d-block d-md-none"><i
+                                                                class="mdi mdi-account h5"></i></span>
+                                                    </a>
+                                                </li>
 
-                                    </ul>
-                                            </div>
+                                            </ul>
                                         </div>
                                     </div>
+                                </div>
 
 
                                 <div class="col-12">
                                     <div class="tab-content" id="v-pills-tabContent">
 
 
-                                    <!--Menu Gallery-->
-                                    @include('Broker.Gallary.inc._MenuGallery')
+                                        <!--Menu Gallery-->
+                                        @include('Broker.Gallary.inc._MenuGallery')
 
-                                    <!--End Menu-->
+                                        <!--End Menu-->
 
-                                    @include('Broker.Gallary.inc._shareGallery')
+                                        @include('Broker.Gallary.inc._shareGallery')
 
 
-                                    <!--List Gallery-->
+                                        <!--List Gallery-->
 
-                                    @include('Broker.Gallary.inc._ListGallery')
+                                        @include('Broker.Gallary.inc._ListGallery')
 
-                                    <!--End list-->
+                                        <!--End list-->
                                     </div>
 
 
@@ -89,22 +97,22 @@
                             </div>
 
 
-                                            <!-- share -->
+                            <!-- share -->
 
 
 
 
-                                        <!--end share -->
+                            <!--end share -->
 
 
-                            </div>
                         </div>
                     </div>
-                </div> <!-- end col -->
-            </div> <!-- end row -->
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
 
-        </div>
-        <!-- container-fluid -->
+    </div>
+    <!-- container-fluid -->
 
     </div>
 
@@ -127,17 +135,17 @@
         });
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var editImageLink = document.getElementById('editImageLink');
-        var imageEditFormContainer = document.getElementById('imageEditFormContainer');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var editImageLink = document.getElementById('editImageLink');
+            var imageEditFormContainer = document.getElementById('imageEditFormContainer');
 
-        editImageLink.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent the default link behavior
-            imageEditFormContainer.style.display = 'block'; // Show the form container
+            editImageLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent the default link behavior
+                imageEditFormContainer.style.display = 'block'; // Show the form container
+            });
         });
-    });
-</script>
+    </script>
 
 
 @endsection

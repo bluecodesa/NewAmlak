@@ -6,7 +6,8 @@
                     <div class="w-auto col-4">
                         <span>@lang('Ad type')</span>
                         <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
-                            <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                            <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')
+                            </option>
                             @foreach (['rent', 'sale', 'rent_sale'] as $type)
                                 <option value="{{ $type }}" {{ $adTypeFilter == $type ? 'selected' : '' }}>
                                     {{ __($type) }}
@@ -17,9 +18,11 @@
                     <div class="w-auto col-4">
                         <span>@lang('Type use')</span>
                         <select class="form-control form-control-sm" id="type_use_filter" name="type_use_filter">
-                            <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                            <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>@lang('All')
+                            </option>
                             @foreach ($usages as $usage)
-                                <option value="{{ $usage->id }}" {{ $typeUseFilter == $usage->id ? 'selected' : '' }}>
+                                <option value="{{ $usage->id }}"
+                                    {{ $typeUseFilter == $usage->id ? 'selected' : '' }}>
                                     {{ $usage->name }}
                                 </option>
                             @endforeach
@@ -28,7 +31,8 @@
                     <div class="w-auto col-4">
                         <span>@lang('City')</span>
                         <select class="form-control form-control-sm" id="city_filter" name="city_filter">
-                            <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                            <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>@lang('All')
+                            </option>
                             @foreach ($uniqueIds as $index => $id)
                                 <option value="{{ $id }}" {{ $cityFilter == $id ? 'selected' : '' }}>
                                     {{ $uniqueNames[$index] }}
@@ -39,10 +43,11 @@
                     <div class="w-auto col-4">
                         <span>@lang('districts')</span>
                         <select class="form-control form-control-sm" id="district_filter" name="district_filter">
-                            <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                            <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>@lang('All')
+                            </option>
                             @foreach ($uniqueDistrictIds as $index => $id)
                                 <option value="{{ $id }}" {{ $districtFilter == $id ? 'selected' : '' }}>
-                                    {{ $uniqueDistrictNames[$index] }}
+                                    {{-- {{ $uniqueDistrictNames[$index] }} --}}
                                 </option>
                             @endforeach
                         </select>
@@ -50,17 +55,19 @@
                     <div class="w-auto col-4">
                         <span>@lang('Project')</span>
                         <select class="form-control form-control-sm" id="project_filter" name="project_filter">
-                            <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                            <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>@lang('All')
+                            </option>
                             @foreach ($projectuniqueIds as $index => $id)
-                                    <option value="{{ $id }}" {{ $projectFilter == $id ? 'selected' : '' }}>
-                                        {{ $projectUniqueNames[$index] }}
-                                    </option>
+                                <option value="{{ $id }}" {{ $projectFilter == $id ? 'selected' : '' }}>
+                                    {{ $projectUniqueNames[$index] }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="w-auto text-center col-12">
                         <button type="submit" class="btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
-                        <a href="{{ route('Broker.Gallery.index') }}" class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
+                        <a href="{{ route('Broker.Gallery.index') }}"
+                            class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
                     </div>
                 </div>
             </form>
@@ -89,33 +96,29 @@
     });
 
 
-// Add an event listener to the city dropdown
-$('#city_filter').on('change', function() {
-    console.log('City selected:', $(this).val()); // Add this line to check if the event is triggered
+    // Add an event listener to the city dropdown
+    $('#city_filter').on('change', function() {
+        console.log('City selected:', $(this).val()); // Add this line to check if the event is triggered
 
-    var cityId = $(this).val();
+        var cityId = $(this).val();
 
-    // Filter districts based on the selected city
-    var filteredDistricts = allDistricts.filter(function(district) {
-        return district.city_id == cityId;
-    });
+        // Filter districts based on the selected city
+        var filteredDistricts = allDistricts.filter(function(district) {
+            return district.city_id == cityId;
+        });
 
-    // Clear existing options and populate the districts dropdown with filtered data
-    $('#district_filter').empty();
-    $('#district_filter').append($('<option>', {
-        value: 'all',
-        text: '@lang('All')'
-    }));
-
-    filteredDistricts.forEach(function(district) {
+        // Clear existing options and populate the districts dropdown with filtered data
+        $('#district_filter').empty();
         $('#district_filter').append($('<option>', {
-            value: district.id,
-            text: district.name
+            value: 'all',
+            text: '@lang('All')'
         }));
+
+        filteredDistricts.forEach(function(district) {
+            $('#district_filter').append($('<option>', {
+                value: district.id,
+                text: district.name
+            }));
+        });
     });
-});
-
 </script>
-
-
-
