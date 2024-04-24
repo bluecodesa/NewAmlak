@@ -3,7 +3,7 @@
         @foreach ($units as $index => $unit)
             <div class="col-md-6">
                 <div class="card mb-4">
-                    <div class="card-body">
+                    <div class="card-body shadow-sm">
                         <h5 class="card-title">{{ __('Residential number') }}: {{ $unit->number_unit ?? '' }}</h5>
                         <p class="card-text">{{ __('Occupancy') }}: {{ __($unit->status) }} </p>
                         <p class="card-text">{{ __('Ad type') }}: {{ __($unit->type) ?? '' }}</p>
