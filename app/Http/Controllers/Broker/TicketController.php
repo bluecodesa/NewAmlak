@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Services\Broker\TicketService;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class TicketController extends Controller
@@ -26,40 +27,40 @@ class TicketController extends Controller
     protected $ticketTypeService;
 
 
-    public function __construct(TicketService $ticketService,
-    SettingService $settingService,
-    TicketTypeService $ticketTypeService)
-    {
+    public function __construct(
+        TicketService $ticketService,
+        SettingService $settingService,
+        TicketTypeService $ticketTypeService
+    ) {
         $this->ticketService = $ticketService;
         $this->settingService =  $settingService;
         $this->ticketTypeService =  $ticketTypeService;
-
     }
 
     public function index()
     {
         $tickets = $this->ticketService->getUserTickets(auth()->id());
         // $settings = Setting::first();
-        $settings=$this->settingService->getSettings();
+        $settings = $this->settingService->getSettings();
         $tickets->transform(function ($ticket) {
             $ticket->formatted_id = "100{$ticket->id}";
             return $ticket;
         });
-        return view('Broker.Ticket.index',get_defined_vars());
+        return view('Broker.Ticket.index', get_defined_vars());
     }
 
     public function create()
     {
         // $ticketTypes = TicketType::all();
-        $ticketTypes=$this->ticketTypeService->getAllTicketTypes();
+        $ticketTypes = $this->ticketTypeService->getAllTicketTypes();
         return view('Broker.Ticket.create', compact('ticketTypes'));
     }
 
     public function store(Request $request)
     {
         //
-         // Validate the form data
-         $validatedData = $request->validate([
+        // Validate the form data
+        $validatedData = $request->validate([
             'type' => 'required',
             'subject' => 'required',
             'content' => 'required',
@@ -88,8 +89,6 @@ class TicketController extends Controller
         $this->notifyAdmins($ticket);
 
         return redirect()->route('Broker.Tickets.index')->with('success', 'Ticket created successfully');
-
-
     }
 
     public function show(string $id)
@@ -104,6 +103,17 @@ class TicketController extends Controller
         }
 
         $ticketResponses = $this->ticketService->getTicketResponses($id);
+
+        $url = URL::current();
+        if (isset(auth()->user()->unreadNotifications)) {
+            $notifications = auth()->user()->unreadNotifications
+                ->filter(function ($notification) use ($url) {
+                    return data_get($notification->data, 'url') == $url;
+                });
+            $notifications->each(function ($notification) {
+                $notification->markAsRead();
+            });
+        }
 
         return view('Broker.Ticket.show', get_defined_vars());
     }
@@ -136,4 +146,3 @@ class TicketController extends Controller
         }
     }
 }
-

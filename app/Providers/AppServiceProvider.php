@@ -73,6 +73,8 @@ use App\Repositories\Office\DeveloperRepository;
 use App\Repositories\Office\EmployeeRepository;
 use App\Repositories\Office\OwnerRepository;
 use App\Repositories\Office\ProjectRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -259,6 +261,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (Auth::check()) {
+            $url = URL::current();
+            if (isset(auth()->user()->unreadNotifications)) {
+                $notifications = auth()->user()->unreadNotifications
+                    ->filter(function ($notification) use ($url) {
+                        return data_get($notification->data, 'url') == $url;
+                    });
+                $notifications->each(function ($notification) {
+                    $notification->markAsRead();
+                });
+            }
+        }
         //
         Schema::defaultStringLength(191);
         Paginator::useBootstrapFive();
