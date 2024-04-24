@@ -53,7 +53,6 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['images']);
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
-        unset($unit_data['note']); // Remove the attempt to set the 'note' column
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         if (isset($data['show_gallery'])) {
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
