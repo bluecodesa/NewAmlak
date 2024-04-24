@@ -16,8 +16,10 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
                                 <div class="col-md-6" style="text-align: end">
@@ -84,13 +86,14 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-
+                                <hr>
+                                {{ $Cities->links() }}
                             </div>
                         </div>
                     </div> <!-- end col -->
                 </div> <!-- end col -->
-            </div> <!-- end row -->
 
+            </div> <!-- end row -->
         </div>
         <!-- container-fluid -->
 
