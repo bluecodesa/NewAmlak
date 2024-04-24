@@ -25,11 +25,11 @@ class UnitRepository implements UnitRepositoryInterface
     public function store($data)
     {
         $rules = [
-            'monthly' => 'numeric|digits_between:0,8',
-            'daily' => 'numeric|digits_between:0,8',
-            'quarterly' => 'numeric|digits_between:0,8',
-            'midterm' => 'numeric|digits_between:0,10',
-            'yearly' => 'numeric|digits_between:0,10',
+            'monthly' => 'digits_between:0,8',
+            'daily' => 'digits_between:0,8',
+            'quarterly' => 'digits_between:0,8',
+            'midterm' => 'digits_between:0,10',
+            'yearly' => 'digits_between:0,10',
 
 
 
@@ -108,11 +108,11 @@ class UnitRepository implements UnitRepositoryInterface
     public function update($id, $data)
     {
         $rules = [
-            'monthly' => 'numeric|digits_between:0,8',
-            'daily' => 'numeric|digits_between:0,8',
-            'quarterly' => 'numeric|digits_between:0,8',
-            'midterm' => 'numeric|digits_between:0,10',
-            'yearly' => 'numeric|digits_between:0,10',
+            'monthly' => 'digits_between:0,8',
+            'daily' => 'digits_between:0,8',
+            'quarterly' => 'digits_between:0,8',
+            'midterm' => 'digits_between:0,10',
+            'yearly' => 'digits_between:0,10',
 
 
 

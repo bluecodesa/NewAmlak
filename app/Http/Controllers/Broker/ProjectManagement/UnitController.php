@@ -106,8 +106,8 @@ class UnitController extends Controller
             'location' => 'required|string|max:255',
             'city_id' => 'required|exists:cities,id',
             'owner_id' => 'required|exists:owners,id',
-            'price' => 'numeric|digits_between:0,10',
-            'monthly' => 'numeric|digits_between:0,8',
+            'price' => 'digits_between:0,10',
+            'monthly' => 'digits_between:0,8',
             'instrument_number' => [
                 'nullable',
                 Rule::unique('units'),
