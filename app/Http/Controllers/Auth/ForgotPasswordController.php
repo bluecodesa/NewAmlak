@@ -124,12 +124,15 @@ class ForgotPasswordController extends Controller
                 'token' => $request->token,
             ]);
         } else {
+            session(['cachedCode' => $cachedCode]);
+
             return view('auth.reset_password.confirm')->with([
                 'email' => $request->email,
                 'token' => $request->token,
                 'cachedCode' => $cachedCode, // Pass the cached code to the view
                 'code' => 'Invalid code. Please try again.',
             ]);
+
         }
     }
 
@@ -218,7 +221,7 @@ class ForgotPasswordController extends Controller
         $remainingTime = $expiryTime->diffInSeconds($currentTime);
 
         // Store the new code in the cache with the email as the key
-        Cache::put('password_reset_code_' . $email, $code, $expiry);
+        $cachedCode=Cache::put('password_reset_code_' . $email, $code, $expiry);
 
         // Send email notification with the new code
         $this->MailForgotPassword($email, $code);
@@ -227,6 +230,7 @@ class ForgotPasswordController extends Controller
             'message' => 'New code has been sent successfully!',
             'email' => $email,
             'token' => $token,
+            'cachedCode' => $cachedCode,
             'remainingTime' => $remainingTime
         ]);
     }
