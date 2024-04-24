@@ -37,23 +37,25 @@
                                                 {{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->subscription_name }}
                                             </h5>
                                             <div class="pricing-plan mt-4 pt-2">
-                                                <h1>{{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period }} <small
-                                                        class="font-16">
+                                                <h1>{{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period }}
+                                                    <small class="font-16">
                                                         {{ __(Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period_type) }}</small>
                                                 </h1>
                                             </div>
 
                                             <div class=" row pricing-features mt-4">
                                                 <div class="col-6">
-                                                    <p class="font-14 mb-2">@lang('Subscription Start') {{ $subscription->start_date }}</p>
-                                                    <p class="font-14 mb-2">@lang('Subscription End') {{ $subscription->end_date }}</p>
+                                                    <p class="font-14 mb-2">@lang('Subscription Start')
+                                                        {{ $subscription->start_date }}</p>
+                                                    <p class="font-14 mb-2">@lang('Subscription End') {{ $subscription->end_date }}
+                                                    </p>
                                                 </div>
                                                 <div class="col-6">
-                                                    <button type="button" data-toggle="modal"
-                                                    data-target="#exampleModal"
-                                                    class="btn btn-primary">@lang('Subscription upgrade')</button>
+                                                    <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                                        class="btn btn-primary">@lang('Subscription upgrade')</button>
 
-                                                    <a href="{{ route('welcome') }}#pricing" class="btn btn-secondary modal-btn2 w-auto"
+                                                    <a href="{{ route('welcome') }}#pricing"
+                                                        class="btn btn-secondary modal-btn2 w-auto"
                                                         target="_blank">@lang('Compare Plans')</a>
                                                 </div>
                                             </div>
@@ -81,12 +83,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($invoices as $index => $invoice)
+                                            @foreach ($invoices->unique('created_at') as $index => $invoice)
                                                 <tr>
-
                                                     <td>{{ 1 }}</td>
                                                     <td> {{ $invoice->subscription_name }} </td>
-                                                    <td>{{ __('ar.' . $invoice->period_type) }} </td>
+                                                    <td>{{ __($invoice->period_type) }} </td>
                                                     <td>
                                                         @if ($loop->last)
                                                             {{ __($subscription->status) }}
@@ -97,7 +98,8 @@
 
                                                     <td>
                                                         <a href="{{ route('Broker.ShowInvoice', $invoice->id) }}"
-                                                            class="btn btn-dark btn-sm waves-effect waves-light">@lang('view') @lang('Invoice')</a>
+                                                            class="btn btn-dark btn-sm waves-effect waves-light">@lang('view')
+                                                            @lang('Invoice')</a>
 
                                                     </td>
                                                 </tr>

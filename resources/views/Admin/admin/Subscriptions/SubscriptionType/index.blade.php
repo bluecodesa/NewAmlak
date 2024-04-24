@@ -16,7 +16,8 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Types subscriptions')</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="{{ route('Admin.SubscriptionTypes.index') }}">@lang('Types subscriptions')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -76,7 +77,10 @@
                                         <div class="w-auto text-center col-12">
                                             <button type="submit" class="w-auto btn btn-primary mt-2 btn-sm">تصفية</button>
                                             @php
-                                                $filter_counter = ($period_filter != 'all') + ($price_filter != 'all') + ($status_filter != 'all');
+                                                $filter_counter =
+                                                    ($period_filter != 'all') +
+                                                    ($price_filter != 'all') +
+                                                    ($status_filter != 'all');
                                             @endphp
                                             @if ($filter_counter > 0)
                                                 <a href="{{ route('Admin.SubscriptionTypes.index') }}"
@@ -119,7 +123,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($subscriptions as $index => $sub)
-                                                {{-- <td> @foreach($sub->sections as $section)
+                                                    {{-- <td> @foreach ($sub->sections as $section)
                                                     <li>{{ $section->name }}</li>
                                                 @endforeach</td> --}}
                                                     <tr>
@@ -129,11 +133,11 @@
                                                             @if ($sub->price > 0)
                                                                 <span class="badge badge-pill badge-warning"
                                                                     style="background-color: #add0e87d;color: #497AAC;">
-                                                                    {{ $sub->period . ' ' . $sub->period_type }}
+                                                                    {{ $sub->period }} {{ __($sub->period_type) }}
                                                                 </span>
                                                             @else
                                                                 <span class="badge badge-pill badge-warning">
-                                                                    {{ $sub->period . ' ' . $sub->period_type }}
+                                                                    {{ $sub->period }} {{ __($sub->period_type) }}
                                                                 </span>
                                                             @endif
 

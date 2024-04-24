@@ -51,7 +51,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($invoices as $index => $invoice)
+                                            @foreach ($invoices->unique('created_at') as $index => $invoice)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $invoice->OfficeData->UserData->name ?? ($invoice->BrokerData->UserData->name ?? '') }}
@@ -60,7 +60,7 @@
                                                         {{ __($invoice->subscription_type) }}
                                                     </td>
 
-                                                    <td>{{ __('__' . $invoice->status) }}</td>
+                                                    <td>{{ __('_' . $invoice->status) }}</td>
                                                     <td>{{ number_format($invoice->amount, 2) }}
                                                         <sup>@lang('SAR')</sup>
                                                     </td>

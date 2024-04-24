@@ -1,30 +1,35 @@
 <div class="alert alert-primary mb-0 text-center">
-    <h4>فاتورة الفاتورة (
-        {{ Auth::user()->UserBrokerData->UserSystemInvoicePaid ?? '' !== '' ? 'تجديد إشتراك' : 'اشتراك جديد' }}
-        )</h4>
+    <h4> الفاتورة </h4>
+
+    {{-- {{ Auth::user()->UserBrokerData->UserSystemInvoicePaid ?? '' !== '' ? 'تجديد إشتراك' : 'اشتراك جديد' }} --}}
+
     <p>(رقم الفاتورة -
         {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? '' }}
         )</p>
 </div>
 <div class="row text-center">
     <div class="col-6">
+        <h5>من</h5>
+        <p>{{ $sitting->title }}</p>
+        <p class="phone">{{ $sitting->phone }}</p>
+        <p class="location">الرياض - السعودية</p>
+        <p class="id"> @lang('crn') : {{ $sitting->crn }}</p>
+    </div>
+
+    <div class="col-6">
         <h5>الي</h5>
         <p>{{ Auth::user()->name }}</p>
-        <p class="phone"> {{ auth()->user()->phone ?? __('phone') }} </p>
+        <p class="phone">
+            {{ Auth::user()->UserBrokerData->mobile ?? (Auth::user()->UserOfficeData->presenter_number ?? auth()->user()->phone) }}
+        </p>
         <p class="location">
             {{ Auth::user()->UserBrokerData->CityData->name ?? (Auth::user()->UserOfficeData->CityData->name ?? '') }}
         </p>
-        <p class="id">
+        {{-- <p class="id">
             {{ Auth::user()->UserBrokerData->broker_license ?? (Auth::user()->UserOfficeData->CRN ?? '') }}
-        </p>
+        </p> --}}
     </div>
-    <div class="col-6">
-        <h5>من</h5>
-        <p>{{ $sitting->title }}</p>
-        <p class="phone">+966500334691</p>
-        <p class="location">الرياض - السعودية</p>
-        <p class="id">رقم السجل التجاري: 1010697291</p>
-    </div>
+
 </div>
 <div class="card">
     <div class="card-body">
@@ -52,9 +57,9 @@
                     <th>@lang('Invoice Status')</th>
                     <th>
                         @if (isset(Auth::user()->UserOfficeData->UserSystemInvoicePending))
-                            {{ __(Auth::user()->UserOfficeData->UserSystemInvoicePending->status) }}
+                            {{ __('_' . Auth::user()->UserOfficeData->UserSystemInvoicePending->status) }}
                         @else
-                            {{ __(Auth::user()->UserBrokerData->UserSystemInvoicePending->status) }}
+                            {{ __('_' . Auth::user()->UserBrokerData->UserSystemInvoicePending->status) }}
                         @endif
                     </th>
                 </tr>

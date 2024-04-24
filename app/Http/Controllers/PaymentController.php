@@ -60,9 +60,9 @@ class PaymentController extends Controller
         $brokerData = Auth::user()->UserBrokerData;
 
         if ($officeData) {
-            $subscription = $officeData->UserSubscriptionPending;
+            $subscription = $officeData->UserSubscription;
         } else {
-            $subscription = $brokerData->UserSubscriptionPending;
+            $subscription = $brokerData->UserSubscription;
         }
         $subscriptionType =  $subscription->SubscriptionTypeData;
         $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
