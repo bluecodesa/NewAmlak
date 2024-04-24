@@ -24,6 +24,29 @@ class UnitRepository implements UnitRepositoryInterface
 
     public function store($data)
     {
+        $rules = [
+            'monthly' => 'numeric|digits_between:0,8',
+            'daily' => 'numeric|digits_between:0,8',
+            'quarterly' => 'numeric|digits_between:0,8',
+            'midterm' => 'numeric|digits_between:0,10',
+            'yearly' => 'numeric|digits_between:0,10',
+
+
+
+        ];
+
+        // Define custom validation messages
+        $messages = [
+
+            'monthly' => 'Monthly price must be smaller than or equal to 8.',
+            'daily' => 'Monthly price must be smaller than or equal to 8.',
+            'quarterly' => 'Monthly price must be smaller than or equal to 8.',
+            'midterm' => 'Monthly price must be smaller than or equal to 10.',
+            'yearly' => 'Monthly price must be smaller than or equal to 10.',
+
+        ];
+
+
         $unit_data = $data;
         unset($unit_data['name']);
         unset($unit_data['qty']);
@@ -84,12 +107,33 @@ class UnitRepository implements UnitRepositoryInterface
 
     public function update($id, $data)
     {
+        $rules = [
+            'monthly' => 'numeric|digits_between:0,8',
+            'daily' => 'numeric|digits_between:0,8',
+            'quarterly' => 'numeric|digits_between:0,8',
+            'midterm' => 'numeric|digits_between:0,10',
+            'yearly' => 'numeric|digits_between:0,10',
+
+
+
+        ];
+
+        // Define custom validation messages
+        $messages = [
+
+            'monthly' => 'Monthly price must be smaller than or equal to 8.',
+            'daily' => 'daily price must be smaller than or equal to 8.',
+            'quarterly' => 'quarterly price must be smaller than or equal to 8.',
+            'midterm' => 'midterm price must be smaller than or equal to 10.',
+            'yearly' => 'yearly price must be smaller than or equal to 10.',
+
+        ];
+
         $unit_data = $data;
         unset($unit_data['name']);
         unset($unit_data['qty']);
         unset($unit_data['images']);
         unset($unit_data['service_id']);
-
         unset($unit_data['daily']);
         unset($unit_data['monthly']);
         unset($unit_data['quarterly']);

@@ -117,7 +117,7 @@
                                                 @endphp
                                                 <div class="form-check">
                                                     <input type="checkbox" id="role_{{ $roleId }}" name="roles[]"
-                                                        value="{{ $roleId }}" {{ $checked }} required>
+                                                        value="{{ $roleId }}" {{ $checked }}>
                                                     <label class="form-check-label"
                                                         for="role_{{ $roleId }}">{{ $roleName }}</label>
                                                 </div>

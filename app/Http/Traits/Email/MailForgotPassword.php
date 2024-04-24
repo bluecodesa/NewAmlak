@@ -26,8 +26,9 @@ trait MailForgotPassword
             $data['variable_agreement_expire_date'] = '';
             $data['variable_settel_date'] = '';
             $data['variable_verification_code'] = $code;
-            $data['variable_broker_name'] = $user->UserBrokerData->name != null ? $user->UserBrokerData->name : "";
-            // $data['variable_broker_name'] = $user->name != null ? $user->name : "";
+            // $data['variable_broker_name'] = $user->UserBrokerData->name != null ? $user->UserBrokerData->name : "";
+            $data['variable_broker_name'] = $user->name != null ? $user->name : "";
+            $data['variable_subscriber_name'] = $user->name != null ? $user->name : "";
             // $email = $user->email;
             $content = $EmailTemplate->content;
             foreach ($data as $key => $value) {

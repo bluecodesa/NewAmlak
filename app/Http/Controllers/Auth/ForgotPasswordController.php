@@ -127,6 +127,7 @@ class ForgotPasswordController extends Controller
             return view('auth.reset_password.confirm')->with([
                 'email' => $request->email,
                 'token' => $request->token,
+                'cachedCode' => $cachedCode, // Pass the cached code to the view
                 'code' => 'Invalid code. Please try again.',
             ]);
         }

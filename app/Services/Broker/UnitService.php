@@ -75,24 +75,38 @@ class UnitService
                 Rule::unique('units')->ignore($id),
                 'max:25'
             ],
+            'price' => 'numeric|digits_between:0,10',
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
-            // 'space' => 'sometimes|numeric',
-            // 'rooms' => 'sometimes|numeric',
-            // 'bathrooms' => 'sometimes|numeric',
-            // 'show_gallery' => 'nullable',
-            // 'price' => 'required|numeric',
-            'type' => ['required', Rule::in(['sale', 'rent'])],
-            // 'service_id' => 'required|array',
-            // 'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
+            'type' => ['required', Rule::in(['sale', 'rent','rent_sale'])],
             'name' => 'required|array',
-            // 'name.*' => 'string',
             'qty' => 'required|array',
-            // 'qty.*' => 'integer|min:0',
+
+            'monthly' => 'numeric|digits_between:0,8',
+            'daily' => 'numeric|digits_between:0,8',
+            'quarterly' => 'numeric|digits_between:0,8',
+            'midterm' => 'numeric|digits_between:0,10',
+            'yearly' => 'numeric|digits_between:0,10',
+
+        ];
+        $messages = [
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+            'service_type_id.required' => 'The service type field is required.',
+            'type.required' => 'The type field is required.',
+            'type.in' => 'The selected type is invalid.',
+            'name.required' => 'The name field is required.',
+            'qty.required' => 'The quantity field is required.',
+            'price' => 'price must be smaller than or equal to 10 numbers.',
+            'monthly' => 'Monthly price must be smaller than or equal to 8.',
+            'daily' => 'daily price must be smaller than or equal to 8.',
+            'quarterly' => 'quarterly price must be smaller than or equal to 8.',
+            'midterm' => 'midterm price must be smaller than or equal to 10.',
+            'yearly' => 'yearly price must be smaller than or equal to 10.',
+
         ];
 
         // Validate data
-        validator($data, $rules)->validate();
+        validator($data, $rules,$messages)->validate();
 
         $unit = $this->UnitRepository->update($id, $data);
 

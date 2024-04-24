@@ -106,6 +106,8 @@ class UnitController extends Controller
             'location' => 'required|string|max:255',
             'city_id' => 'required|exists:cities,id',
             'owner_id' => 'required|exists:owners,id',
+            'price' => 'numeric|digits_between:0,10',
+            'monthly' => 'numeric|digits_between:0,8',
             'instrument_number' => [
                 'nullable',
                 Rule::unique('units'),
@@ -124,7 +126,11 @@ class UnitController extends Controller
             'owner_id.required' => 'The owner ID field is required.',
             'owner_id.exists' => 'The selected owner ID is invalid.',
             'instrument_number.unique' => 'The instrument number has already been taken.',
-            'instrument_number.max' => 'The instrument number may not be greater than :max characters.'
+            'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
+            'price' => 'price must be smaller than or equal to 10 numbers.',
+            'monthly' => 'Monthly price must be smaller than or equal to 8.',
+
+
         ];
         $request->validate($rules, $messages);
 

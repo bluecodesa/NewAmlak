@@ -89,22 +89,24 @@ class PropertyService
             ],
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
-            // 'space' => 'sometimes|numeric',
-            // 'rooms' => 'sometimes|numeric',
-            // 'bathrooms' => 'sometimes|numeric',
-            // 'show_gallery' => 'nullable',
-            // 'price' => 'required|numeric',
-            'type' => ['required', Rule::in(['sale', 'rent'])],
-            // 'service_id' => 'required|array',
-            // 'service_id.*' => 'exists:services,id', // Assuming your services table name is 'services'
-            // 'name' => 'required|array',
-            // 'name.*' => 'string',
-            // 'qty' => 'required|array',
-            // 'qty.*' => 'integer|min:0',
+            'type' => ['required', Rule::in(['sale', 'rent','rent_sale'])],
+
+        ];
+        $messages = [
+            'number_unit.required' => 'The number unit field is required.',
+            'city_id.required' => 'The city field is required.',
+            'location.required' => 'The location field is required.',
+            'property_type_id.required' => 'The property type field is required.',
+            'property_usage_id.required' => 'The property usage field is required.',
+            'owner_id.required' => 'The owner field is required.',
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+            'service_type_id.required' => 'The service type field is required.',
+            'type.required' => 'The type field is required.',
+            'type.in' => 'The selected type is invalid.',
         ];
 
         // Validate data
-        validator($data, $rules)->validate();
+        validator($data, $rules,$messages)->validate();
 
         $unit = $this->PropertyRepository->StoreUnit($id, $data);
 

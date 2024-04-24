@@ -344,8 +344,14 @@
                                 <span> اشتراك   {{ $role->name_ar }}</span>
                             @endforeach
                         </p>
+
                         <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
-                        @if ( $role->name == "RS-Broker" )
+                        @if ($subscriptionType && $subscriptionType->roles->count() == 2)
+                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
+                            <a class="btn btn-new2 ArFont" href="" data-toggle="modal" data-target="#addSubscriberModal"
+                                style="margin-right: 9px;" onclick="tabsFunc()">ابدأ الآن</a>
+                        </div>
+                        @elseif ($role->name == "RS-Broker" )
                         <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
                             <a class="btn btn-new2 ArFont" data-toggle="modal"
                              onclick="redirectToCreateBroker()">ابدأ الآن</a>
@@ -357,14 +363,9 @@
                              onclick="redirectToCreateOffice()">ابدأ الآن</a>
 
                         </div>
-                        @else
-
-                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-                            <a href="" data-toggle="modal" data-target="#addSubscriberModal"
-                                style="margin-right: 9px;" onclick="tabsFunc()">ابدأ الآن</a>
-                        @endif
 
 
+                       @endif
 
                         <div class="col-12">
                             @foreach ($sections as $section)

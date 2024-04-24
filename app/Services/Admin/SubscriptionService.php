@@ -6,6 +6,7 @@ use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Models\Broker;
 use App\Models\Gallery;
 use App\Models\SubscriptionHistory;
+use App\Models\SubscriptionSection;
 use App\Models\SubscriptionType;
 use App\Notifications\Admin\NewBrokerNotification;
 use App\Services\UserCreationService;
@@ -213,6 +214,12 @@ $endDate = $endDate->format('Y-m-d H:i:s');
             'end_date' => $endDate,
             'total' => $subscriptionType->price
         ]);
+        foreach ($subscriptionType->sections()->get() as $section_id) {
+            SubscriptionSection::create([
+                'section_id' => $section_id->id,
+                'subscription_id' => $subscription->id,
+            ]);
+        }
         $this->createSubscriptionHistory($subscription);
 
 

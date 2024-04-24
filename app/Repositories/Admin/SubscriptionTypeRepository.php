@@ -76,6 +76,8 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
     public function delete($id)
     {
         SubscriptionType::where('id', $id)->update(['is_deleted' => 1]);
+        // return SubscriptionType::findOrFail($id)->delete();
+
     }
     public function getUserSubscriptionTypes()
     {

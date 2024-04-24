@@ -273,7 +273,8 @@
                             </div>
                         </div>
                     </div>
-                    @if (!empty($unitInterests) && count($unitInterests) > 0)
+                    {{-- @if (!empty($unitInterests) && count($unitInterests) > 0) --}}
+                    @if (in_array(18, $sectionsIds))
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
