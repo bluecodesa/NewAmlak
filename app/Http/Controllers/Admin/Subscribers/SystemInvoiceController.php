@@ -10,23 +10,19 @@ use App\Http\Controllers\Controller;
 use App\Models\SubscriptionType;
 use Illuminate\Http\Request;
 
-
 class SystemInvoiceController extends Controller
 {
     protected $systemInvoiceRepository;
     protected $regionService;
     protected $cityService;
 
-    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository,RegionService $regionService, CityService $cityService)
+    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository, RegionService $regionService, CityService $cityService)
     {
         $this->systemInvoiceRepository = $systemInvoiceRepository;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $invoices = $this->systemInvoiceRepository->all();

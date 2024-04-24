@@ -42,9 +42,20 @@ class UnitInterestController extends Controller
     protected $settingService;
 
 
-    public function __construct(SettingService $settingService,
-    GalleryService $galleryService,UnitService $UnitService,  RegionService $regionService,DistrictService $districtService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
-    {
+    public function __construct(
+        SettingService $settingService,
+        GalleryService $galleryService,
+        UnitService $UnitService,
+        RegionService $regionService,
+        DistrictService $districtService,
+        AllServiceService $AllServiceService,
+        FeatureService $FeatureService,
+        CityService $cityService,
+        BrokerDataService $brokerDataService,
+        PropertyTypeService $propertyTypeService,
+        ServiceTypeService $ServiceTypeService,
+        PropertyUsageService $propertyUsageService
+    ) {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -58,15 +69,13 @@ class UnitInterestController extends Controller
         $this->FeatureService = $FeatureService;
         $this->galleryService = $galleryService;
         $this->settingService = $settingService;
-
-
     }
 
 
     public function index(Request $request)
     {
 
-        $interestsTypes =$this->settingService->getAllInterestTypes();
+        $interestsTypes = $this->settingService->getAllInterestTypes();
         $statusFilter = $request->input('status_filter', 'all');
         $propFilter = $request->input('prop_filter', 'all');
         $unitFilter = $request->input('unit_filter', 'all');
@@ -78,17 +87,17 @@ class UnitInterestController extends Controller
             ->where('user_id', $userId)
             ->get();
 
-            $unitInterests = $this->getFilteredUnitInterests(
-                $userId,
-                $statusFilter,
-                $propFilter,
-                $unitFilter,
-                $projectFilter,
-                $clientFilter
-            );
+        $unitInterests = $this->getFilteredUnitInterests(
+            $userId,
+            $statusFilter,
+            $propFilter,
+            $unitFilter,
+            $projectFilter,
+            $clientFilter
+        );
 
 
-        return view('Broker.Gallary.unit-interest',get_defined_vars());
+        return view('Broker.Gallary.unit-interest', get_defined_vars());
     }
 
 
@@ -118,7 +127,7 @@ class UnitInterestController extends Controller
         $requestData = $request->all();
         $requestData['status'] = $statusId;
 
-        $intrestOrder=UnitInterest::create($requestData);
+        $intrestOrder = UnitInterest::create($requestData);
 
         $this->notifyAdmins($intrestOrder);
 
@@ -170,7 +179,6 @@ class UnitInterestController extends Controller
 
         // Optionally, you can return a response or redirect
         return redirect()->back()->with('success', 'Status updated successfully.');
-
     }
 
     /**
@@ -214,5 +222,4 @@ class UnitInterestController extends Controller
 
         return $query->get();
     }
-
 }

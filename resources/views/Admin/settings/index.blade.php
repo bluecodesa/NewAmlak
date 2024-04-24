@@ -126,7 +126,6 @@
 
                                                                     <div class="col-md-6 mb-3">
                                                                         <label for="trn">
-                                                                            <span class="required-color">*</span>
                                                                             @lang('trn')
                                                                         </label><br />
                                                                         <div class="wrapper" style="position: relative;">
