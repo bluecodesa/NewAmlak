@@ -35,7 +35,15 @@ class RoleService
             'name' => 'required|string|max:250|unique:roles,name',
             'permission' => 'required',
         ];
-        validator($data, $rules)->validate();
+        $messages = [
+            'name.required' => __('The name field is required.'),
+            'name.string' => __('The name must be a string.'),
+            'name.max' => __('The name may not be greater than :max characters.', ['max' => 250]),
+            'name.unique' => __('The name has already been taken.'),
+            'permission.required' => __('The permission field is required.'),
+        ];
+    
+        validator($data, $rules, $messages)->validate();        
         return $this->RoleRepository->create($data);
     }
 
@@ -54,7 +62,14 @@ class RoleService
                 'max:25',
             ]
         ];
-        validator($data, $rules)->validate();
+        $messages = [
+            'name_ar.required' => __('The name field is required.'),
+            'name_ar.string' => __('The name must be a string.'),
+            'name_ar.max' => __('The name may not be greater than :max characters.', ['max' => 255]),
+            'section_id.required' => __('The section field is required.'),
+        ];
+    
+        validator($data, $rules, $messages)->validate();        
         return $this->RoleRepository->update($id, $data);
     }
 
