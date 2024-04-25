@@ -33,6 +33,31 @@
 .pointer {
     cursor: pointer;
 }
+
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5; /* Adjust the opacity to your preference */
+}
+
+.disabled .disabled-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+}
+
+.disabled .disabled-overlay span {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(137, 4, 4); /* Adjust the color to your preference */
+}
+
     </style>
 </head>
 
@@ -142,10 +167,13 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
-                                    <div class="card shadow-sm hover-zoom" onclick="redirectToCreateOffice()">
+                                    <div class="card shadow-sm hover-zoom disabled" onclick="redirectToCreateOffice()">
                                         <div class="card-body pointer">
                                             <div class="fas fa-building">
                                                 <p class="mt-2">مكتب </p>
+                                                <div class="disabled-overlay">
+                                                    <span>قريبا</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

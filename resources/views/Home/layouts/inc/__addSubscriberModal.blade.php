@@ -17,12 +17,14 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="row account_row">
-                                    <div class="col-sm-12 col-md-6 account_type next-step" onclick="redirectToCreateOffice()">
+                                    <div class="col-sm-12 col-md-6 account_type next-step disabled">
                                         <div class="img-smm">
-                                            <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}"
-                                                class="img-fluid">
+                                            <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}" class="img-fluid">
                                         </div>
                                         <p>مكتب</p>
+                                        <div class="disabled-overlay">
+                                            <span>مكتب قريبا </span>
+                                        </div>
                                     </div>
                                     <div class="col-sm-12 col-md-6 account_type" onclick="redirectToCreateBroker()">
                                         <div class="img-smm-y">
