@@ -133,7 +133,6 @@ class GalleryService
 
     {
         $usages =  $this->propertyUsageService->getAll();
-
         $gallery = $this->galleryRepository->findByGalleryName($name);
         if ($gallery->gallery_status == 0) {
             $brokerId = $gallery->broker_id;
@@ -149,7 +148,6 @@ class GalleryService
         $unit = $units->first();
         if ($unit) {
             $id = $unit->id;
-            // $unitDetails = $this->galleryRepository->findById($id);
             $unit_id = $unit->id;
             $broker = Broker::findOrFail($unit->broker_id);
             $user_id = $broker->user_id;
