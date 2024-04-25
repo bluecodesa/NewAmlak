@@ -40,7 +40,21 @@ class PaymentGatewayService implements PaymentGatewayRepositoryInterface
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
-        validator($data, $rules)->validate();
+        $messages = [
+            'name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            'name.string' => __('The :attribute must be a string.', ['attribute' => __('name')]),
+            'api_key.required' => __('The :attribute field is required.', ['attribute' => __('API key')]),
+            'api_key.string' => __('The :attribute must be a string.', ['attribute' => __('API key')]),
+            'profile_id.required' => __('The :attribute field is required.', ['attribute' => __('profile ID')]),
+            'profile_id.string' => __('The :attribute must be a string.', ['attribute' => __('profile ID')]),
+            'client_key.required' => __('The :attribute field is required.', ['attribute' => __('client key')]),
+            'client_key.string' => __('The :attribute must be a string.', ['attribute' => __('client key')]),
+            'image.image' => __('The :attribute must be an image.', ['attribute' => __('image')]),
+            'image.mimes' => __('The :attribute must be a file of type: :values.', ['attribute' => __('image'), 'values' => 'jpeg, png, jpg, gif']),
+            'image.max' => __('The :attribute may not be greater than :max kilobytes.', ['attribute' => __('image'), 'max' => 2048]),
+        ];
+        
+        validator($data, $rules, $messages)->validate();        
         $user_id = Auth::user()->id;
 
         if ($request->hasFile('image')) {
@@ -70,8 +84,21 @@ class PaymentGatewayService implements PaymentGatewayRepositoryInterface
              'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
          ];
 
-         validator($data, $rules)->validate();
-
+         $messages = [
+            'name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            'name.string' => __('The :attribute must be a string.', ['attribute' => __('name')]),
+            'api_key.required' => __('The :attribute field is required.', ['attribute' => __('API key')]),
+            'api_key.string' => __('The :attribute must be a string.', ['attribute' => __('API key')]),
+            'profile_id.required' => __('The :attribute field is required.', ['attribute' => __('profile ID')]),
+            'profile_id.string' => __('The :attribute must be a string.', ['attribute' => __('profile ID')]),
+            'client_key.required' => __('The :attribute field is required.', ['attribute' => __('client key')]),
+            'client_key.string' => __('The :attribute must be a string.', ['attribute' => __('client key')]),
+            'image.image' => __('The :attribute must be an image.', ['attribute' => __('image')]),
+            'image.mimes' => __('The :attribute must be a file of type: :values.', ['attribute' => __('image'), 'values' => 'jpeg, png, jpg, gif']),
+            'image.max' => __('The :attribute may not be greater than :max kilobytes.', ['attribute' => __('image'), 'max' => 2048]),
+        ];
+        
+        validator($data, $rules, $messages)->validate();
          if ($request->hasFile('image')) {
             // Delete previous image
             if ($data['image']) {

@@ -104,7 +104,12 @@ class SettingService
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')]];
         }
-        validator($data, $rules)->validate();
+        $messages = [
+            '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
+        ];
+    
+        validator($data, $rules, $messages)->validate();        
         return $this->settingRepository->createInterestType($data);
     }
 
@@ -114,7 +119,12 @@ class SettingService
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')->ignore($id, 'interest_type_id')]];
         }
-        validator($data, $rules)->validate();
+        $messages = [
+            '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
+        ];
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->settingRepository->updateInterestType($id, $data);
     }
 

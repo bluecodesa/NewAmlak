@@ -39,7 +39,15 @@ class PermissionService
             'is_admin' => 'required_if:is_user,0',
         ];
 
-        validator($data, $rules)->validate();
+        $messages = [
+            'name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            'name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
+            'name_ar.required' => __('The :attribute field is required.', ['attribute' => __('Arabic name')]),
+            'name_ar.string' => __('The :attribute must be a string.', ['attribute' => __('Arabic name')]),
+            'section_id.required' => __('The :attribute field is required.', ['attribute' => __('section ID')]),
+        ];
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->PermissionRepository->create($data);
     }
 
@@ -58,7 +66,15 @@ class PermissionService
                 'max:25',
             ]
         ];
-        validator($data, $rules)->validate();
+        $messages = [
+            'name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            'name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
+            'name_ar.required' => __('The :attribute field is required.', ['attribute' => __('Arabic name')]),
+            'name_ar.string' => __('The :attribute must be a string.', ['attribute' => __('Arabic name')]),
+            'section_id.required' => __('The :attribute field is required.', ['attribute' => __('section ID')]),
+        ];
+        
+        validator($data, $rules, $messages)->validate();
         return $this->PermissionRepository->update($id, $data);
     }
 

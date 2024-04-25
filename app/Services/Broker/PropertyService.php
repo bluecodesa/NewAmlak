@@ -39,8 +39,27 @@ class PropertyService
         ];
 
         // Validate data
-        validator($data, $rules)->validate();
-
+        $messages = [
+            'name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            'name.string' => __('The :attribute must be a string.', ['attribute' => __('name')]),
+            'name.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('name'), 'max' => 255]),
+            'location.required' => __('The :attribute field is required.', ['attribute' => __('location')]),
+            'location.string' => __('The :attribute must be a string.', ['attribute' => __('location')]),
+            'location.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('location'), 'max' => 255]),
+            'service_type_id.required' => __('The :attribute field is required.', ['attribute' => __('service type')]),
+            'service_type_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('service type')]),
+            'is_divided.required' => __('The :attribute field is required.', ['attribute' => __('is divided')]),
+            'is_divided.boolean' => __('The :attribute field must be true or false.', ['attribute' => __('is divided')]),
+            'city_id.required' => __('The :attribute field is required.', ['attribute' => __('city')]),
+            'city_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('city')]),
+            'owner_id.required' => __('The :attribute field is required.', ['attribute' => __('owner')]),
+            'owner_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('owner')]),
+            'instrument_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('instrument number')]),
+            'instrument_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('instrument number'), 'max' => 25]),
+        ];
+        
+        validator($data, $rules, $messages)->validate();
+        
         $data['broker_id'] = Auth::user()->UserBrokerData->id;
 
         $Property = $this->PropertyRepository->store($data, $images);

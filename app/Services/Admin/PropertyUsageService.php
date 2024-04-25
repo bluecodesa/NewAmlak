@@ -31,7 +31,13 @@ class PropertyUsageService
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('property_usage_translations', 'name')]];
         }
-        validator($data, $rules)->validate();
+        $messages = [];
+        foreach (config('translatable.locales') as $locale) {
+            $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
+            $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
+        }
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->PropertyUsageRepository->create($data);
     }
 
@@ -41,7 +47,13 @@ class PropertyUsageService
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('property_usage_translations', 'name')->ignore($id, 'property_usage_id')]];
         }
-        validator($data, $rules)->validate();
+        $messages = [];
+        foreach (config('translatable.locales') as $locale) {
+            $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
+            $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
+        }
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->PropertyUsageRepository->update($id, $data);
     }
 

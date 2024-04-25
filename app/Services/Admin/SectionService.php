@@ -33,7 +33,13 @@ class SectionService
                 $locale . '.description' => 'nullable|string' // Add validation rule for description
             ];
         }
-        validator($data, $rules)->validate();
+        $messages = [
+            '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
+            '*.description.string' => __('The :attribute must be a string.', ['attribute' => __('description')])
+        ];
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->SectionRepository->create($data);
     }
 
@@ -50,7 +56,13 @@ class SectionService
 
             ];
         }
-        validator($data, $rules)->validate();
+        $messages = [
+            '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
+            '*.description.string' => __('The :attribute must be a string.', ['attribute' => __('description')])
+        ];
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->SectionRepository->update($id, $data);
     }
 

@@ -43,7 +43,13 @@ class SupportService
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('ticket_type_translations', 'name')]];
         }
-        validator($data, $rules)->validate();
+        $messages = [];
+        foreach (config('translatable.locales') as $locale) {
+            $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
+            $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
+        }
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->SupportRepository->createTicketType($data);
     }
 
@@ -53,7 +59,13 @@ class SupportService
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('ticket_type_translations', 'name')->ignore($id, 'ticket_type_id')]];
         }
-        validator($data, $rules)->validate();
+        $messages = [];
+        foreach (config('translatable.locales') as $locale) {
+            $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
+            $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
+        }
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->SupportRepository->updateTicketType($id, $data);
     }
 

@@ -32,7 +32,13 @@ class PropertyTypeService
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('property_type_translations', 'name')]];
         }
-        validator($data, $rules)->validate();
+        $messages = [];
+        foreach (config('translatable.locales') as $locale) {
+            $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
+            $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
+        }
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->PropertyTypeRepository->create($data);
     }
 
@@ -42,7 +48,13 @@ class PropertyTypeService
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('property_type_translations', 'name')->ignore($id, 'property_type_id')]];
         }
-        validator($data, $rules)->validate();
+        $messages = [];
+        foreach (config('translatable.locales') as $locale) {
+            $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
+            $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
+        }
+        
+        validator($data, $rules, $messages)->validate();        
         return $this->PropertyTypeRepository->update($id, $data);
     }
 
