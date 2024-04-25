@@ -5,6 +5,7 @@
 @section('content')
     @php
         $districts = App\Models\Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+        $districtsIds = $districts->pluck('district_id')->toArray();
     @endphp
     @include('Home.layouts.inc.__addSubscriberModal')
 
