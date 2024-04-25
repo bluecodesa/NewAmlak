@@ -15,7 +15,8 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Admin.users.index') }}">@lang('User management')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Admin.users.index') }}">@lang('User management')</a>
+                                </li>
                                 <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -56,7 +57,7 @@
                                                     <td>{{ $user->name }}</td>
                                                     <td>{{ $user->email }}</td>
                                                     <td>
-                                                        {{ $user->roles[0]->name ?? '' }}
+                                                        {{ app()->getLocale() == 'ar' ? $user->roles[0]->name_ar : $user->roles[0]->name ?? '' }}
 
                                                     </td>
                                                     <td class="align-middle">

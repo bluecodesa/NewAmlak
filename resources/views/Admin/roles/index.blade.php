@@ -16,8 +16,10 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.roles.index') }}">@lang('Roles')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.roles.index') }}">@lang('Roles')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
 
@@ -34,11 +36,15 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
-                                <div class="col-md-6" >
+                                <div class="col-md-6">
                                     @can('create-role')
                                         <a href="{{ route('Admin.roles.create') }}"
                                             class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light"><i
-                                                class="bi bi-plus-circle"></i> @lang('Add New Role')</a>
+                                                class="bi bi-plus-circle"></i> @lang('Add New Role Admin')</a>
+
+                                        <a href="{{ route('Admin.roles.CreateUser') }}"
+                                            class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light"><i
+                                                class="bi bi-plus-circle"></i> @lang('Add New Role User')</a>
                                     @endcan
                                 </div>
                                 <h4 class="mt-0 header-title">
@@ -75,7 +81,7 @@
 
 
 
-                                                        @can('delete-role')
+                                                    @can('delete-role')
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $role->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">

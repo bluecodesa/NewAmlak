@@ -36,8 +36,14 @@ class RoleController extends Controller
 
     public function create()
     {
-        $permissions = $this->PermissionService->getAll();
+        $permissions =  $this->PermissionService->getAll()->where('type', 'admin');
         return view('Admin.roles.create', get_defined_vars());
+    }
+
+    public function CreateUser()
+    {
+        $permissions =  $this->PermissionService->getAll()->where('type', 'user');
+        return view('Admin.roles.CreateUser', get_defined_vars());
     }
 
 
@@ -63,7 +69,7 @@ class RoleController extends Controller
     {
         $role =   $this->RoleService->getById($id);
         $role_permissions =  $role->permissions->pluck('id')->toArray();;
-        $permissions =  $this->PermissionService->getAll();
+        $permissions =  $this->PermissionService->getAll()->where('type', $role->type);
         return view('Admin.roles.edit', get_defined_vars());
     }
 

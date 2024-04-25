@@ -12,12 +12,12 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('Add New Role Admin')</h4>
+                                        @lang('Add New Role User')</h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a
-                                                href="{{ route('Admin.roles.create') }}">@lang('Add New Role Admin')</a></li>
+                                                href="{{ route('Admin.roles.create') }}">@lang('Add New Role User')</a></li>
                                         <li class="breadcrumb-item"><a
                                                 href="{{ route('Admin.roles.index') }}">@lang('Roles')</a></li>
                                         <li class="breadcrumb-item"><a
@@ -63,11 +63,10 @@
                                         <label class="form-label" for="modalRoleNamear"> @lang('Role type') <span
                                                 class="required-color">*</span></label>
                                         <div class="d-flex">
-
-                                            <div class="form-check mb-2 mx-2">
-                                                <input class="form-check-input TypeUser" data-hide="user" type="radio"
-                                                    name="type" value="admin" id="customradio2" checked="">
-                                                <label class="form-check-label" for="customradio2">@lang('Admin')</label>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input TypeUser" data-hide="admin" checked
+                                                    type="radio" name="type" value="user" id="customradio1">
+                                                <label class="form-check-label" for="customradio1">@lang('User')</label>
                                             </div>
                                         </div>
                                     </div>
@@ -164,13 +163,6 @@
                         checkboxes.prop('checked', $(this).prop('checked'));
                     });
 
-                    $('.TypeUser').on('click', function() {
-
-                        var show = $(this).val();
-                        var hide = $(this).data('hide');
-                        $('.' + show).css('display', 'block')
-                        $('.' + hide).css('display', 'none');
-                    });
 
                 });
             </script>

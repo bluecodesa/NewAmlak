@@ -12,7 +12,8 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('Add New Role')</h4>
+                                        @lang('Edit Role') : {{ app()->getLocale() == 'ar' ? $role->name_ar : $role->name }}
+                                    </h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
@@ -57,7 +58,7 @@
                                                 placeholder="{{ __('Enter the name of the role in Arabic') }}">
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-4" hidden>
                                         <label class="form-label" for="modalRoleNamear"> @lang('Role type')</label>
                                         <div class="d-flex">
                                             <div class="form-check mb-2">
@@ -90,7 +91,7 @@
                                             </div>
                                             <div class="col-12" id="permissions">
                                                 @foreach ($permissions->groupBy('section_id') as $model => $permissions)
-                                                    <div class="col-md-12 col-xl-12 {{ $permissions[0]->type }}">
+                                                    <div class="col-md-12 col-xl-12">
                                                         <div class="card shadow-none bg-transparent border-primary mb-0">
                                                             <div class="card-body p-3 px-0">
                                                                 <h4 class="card-title">
@@ -109,6 +110,7 @@
                                                                     </div>
                                                                     <hr>
                                                                     @foreach ($permissions as $item)
+                                                                        {{-- @if ($role->type == $item->type) --}}
                                                                         <div class="col-md-3">
                                                                             <div class="form-check mb-2">
                                                                                 <input class="form-check-input"
@@ -124,6 +126,7 @@
                                                                                 </label>
                                                                             </div>
                                                                         </div>
+                                                                        {{-- @endif --}}
                                                                     @endforeach
                                                                 </div>
 

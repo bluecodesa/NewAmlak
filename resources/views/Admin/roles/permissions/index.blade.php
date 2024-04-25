@@ -16,8 +16,10 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Permissions.index') }}">@lang('Permissions')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.Permissions.index') }}">@lang('Permissions')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
 
@@ -34,7 +36,7 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
-                                <div class="col-md-6" >
+                                <div class="col-md-6">
                                     <a href="{{ route('Admin.Permissions.create') }}"
                                         class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
                                         @lang('Add New Permission')
@@ -50,6 +52,7 @@
                                             <th>#</th>
                                             <th>@lang('Name')</th>
                                             <th>@lang('Model')</th>
+                                            <th>@lang('user type')</th>
                                             <th>@lang('Action')</th>
                                         </tr>
                                     </thead>
@@ -60,11 +63,12 @@
                                                 <td>{{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}
                                                 </td>
                                                 <td>{{ $permission->SectionDate->name ?? '' }}</td>
+                                                <td>{{ __($permission->type) ?? '' }}</td>
                                                 <td>
 
                                                     <a href="{{ route('Admin.Permissions.edit', $permission->id) }}"
                                                         class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                        <a href="javascript:void(0);"
+                                                    <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $permission->id }}')"
                                                         class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
                                                         @lang('Delete')
@@ -100,4 +104,3 @@
     </div>
 
 @endsection
-

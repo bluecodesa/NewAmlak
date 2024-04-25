@@ -21,27 +21,25 @@ class SupportController extends Controller
     protected $ticketService;
 
 
-    public function __construct(SupportService $SupportService,TicketService $ticketService)
+    public function __construct(SupportService $SupportService, TicketService $ticketService)
     {
-        $this->middleware(['role_or_permission:read-SupportTickets'])->only(['index']);
-        $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
-        $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
-        $this->middleware(['role_or_permission:delete-SupportTickets'])->only(['destroy']);
+        // $this->middleware(['role_or_permission:read-SupportTickets'])->only(['index']);
+        // $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
+        // $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
+        // $this->middleware(['role_or_permission:delete-SupportTickets'])->only(['destroy']);
         $this->SupportService = $SupportService;
         $this->ticketService = $ticketService;
-
     }
     public function index()
     {
-    //    $tickets = Ticket::all();
-        $tickets=$this->ticketService->getAllTickets();
-       $tickets->transform(function ($ticket) {
-        $ticket->formatted_id = "100{$ticket->id}";
-        return $ticket;
-    });
+        //    $tickets = Ticket::all();
+        $tickets = $this->ticketService->getAllTickets();
+        $tickets->transform(function ($ticket) {
+            $ticket->formatted_id = "100{$ticket->id}";
+            return $ticket;
+        });
 
-       return view('Admin.supports.Tickets.index',  get_defined_vars());
-
+        return view('Admin.supports.Tickets.index',  get_defined_vars());
     }
 
 
@@ -64,13 +62,13 @@ class SupportController extends Controller
     {
         //
         //    $ticket = Ticket::findOrFail($id);
-        $ticket=$this->ticketService->findTicketById($id);
+        $ticket = $this->ticketService->findTicketById($id);
 
-           $formatted_id = "100{$ticket->id}";
-            $user=auth()->user();
-           // Load ticket responses
-           $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
-           return view('Admin.supports.Tickets.show', get_defined_vars());
+        $formatted_id = "100{$ticket->id}";
+        $user = auth()->user();
+        // Load ticket responses
+        $ticketResponses = TicketResponse::where('ticket_id', $id)->get();
+        return view('Admin.supports.Tickets.show', get_defined_vars());
     }
 
 
@@ -117,7 +115,7 @@ class SupportController extends Controller
             ->withSuccess(__('Deleted successfully'));
     }
 
-        // TicketTypes
+    // TicketTypes
 
     public function getAllTicketTypes()
     {
@@ -154,14 +152,13 @@ class SupportController extends Controller
     }
 
 
-           // InfoSupport
+    // InfoSupport
 
     public function showInfoSupport()
     {
-       // Retrieve all tickets
-       $settings = Setting::first();
-       return view('Admin.supports.Setting.index', compact('settings'));
-
+        // Retrieve all tickets
+        $settings = Setting::first();
+        return view('Admin.supports.Setting.index', compact('settings'));
     }
 
     public function updateInfoSupport(Request $request)
@@ -183,7 +180,4 @@ class SupportController extends Controller
 
         return redirect()->back()->with('success', 'Support contact information updated successfully.');
     }
-
-
-
 }

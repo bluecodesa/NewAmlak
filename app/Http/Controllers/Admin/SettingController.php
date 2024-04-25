@@ -29,7 +29,7 @@ class SettingController extends Controller
         EmailSettingService $EmailSettingService,
         PaymentGatewayRepositoryInterface $paymentGateway
     ) {
-        $this->middleware(['role_or_permission:read-settings-admin'])->only(['index']);
+        $this->middleware(['role_or_permission:update-PlatformSettings'])->only(['index']);
         $this->settingRepo = $settingRepo;
         $this->settingService = $settingService;
         $this->paymentGateway = $paymentGateway;
