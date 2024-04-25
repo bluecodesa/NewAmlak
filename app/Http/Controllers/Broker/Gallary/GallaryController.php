@@ -53,25 +53,24 @@ class GallaryController extends Controller
 
 
 
-    public function __construct(SettingService $settingService,
-    GalleryService $galleryService,
-    UnitService $UnitService,
-     RegionService $regionService,
-     DistrictService $districtService,
-      AllServiceService $AllServiceService,
-       FeatureService $FeatureService,
-       CityService $cityService,
-       BrokerDataService $brokerDataService,
+    public function __construct(
+        SettingService $settingService,
+        GalleryService $galleryService,
+        UnitService $UnitService,
+        RegionService $regionService,
+        DistrictService $districtService,
+        AllServiceService $AllServiceService,
+        FeatureService $FeatureService,
+        CityService $cityService,
+        BrokerDataService $brokerDataService,
         PropertyTypeService $propertyTypeService,
         ServiceTypeService $ServiceTypeService,
-         PropertyUsageService $propertyUsageService,
+        PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
         SubscriptionTypeService $SubscriptionTypeService,
         SubscriptionService $subscriptionService
 
-        )
-
-    {
+    ) {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -85,12 +84,9 @@ class GallaryController extends Controller
         $this->FeatureService = $FeatureService;
         $this->galleryService = $galleryService;
         $this->settingService = $settingService;
-        $this->unitInterestService =$unitInterestService;
+        $this->unitInterestService = $unitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
-
-
-
     }
     public function index()
     {
@@ -128,7 +124,7 @@ class GallaryController extends Controller
         $cityFilter = request()->input('city_filter', 'all');
         $districtFilter = request()->input('district_filter', 'all');
         $projectFilter = request()->input('project_filter', 'all');
-        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter,$projectFilter);
+        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter);
         // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
@@ -175,11 +171,11 @@ class GallaryController extends Controller
         $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
         if ($subscription) {
             $sectionsIds = auth()->user()
-        ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
-        ->toArray();
-        if (in_array(18, $sectionsIds)){
-        $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
-        $interestsTypes =$this->settingService->getAllInterestTypes();
+                ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+                ->toArray();
+            if (in_array(18, $sectionsIds)) {
+                $unitInterests = $this->unitInterestService->getUnitInterestsByUnitId($id);
+                $interestsTypes = $this->settingService->getAllInterestTypes();
             }
         }
 
@@ -202,29 +198,28 @@ class GallaryController extends Controller
 
         $gallery = $this->galleryService->findByBrokerId(auth()->user()->UserBrokerData->id) ?? null;
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
-        $interests =$this->settingService->getAllInterestTypes();
-        return view('Broker.Gallary.unit-interest',get_defined_vars());
-
+        $interests = $this->settingService->getAllInterestTypes();
+        return view('Broker.Gallary.unit-interest', get_defined_vars());
     }
 
 
 
     public function showUnitPublic($gallery_name, $id)
-        {
+    {
 
-            $data = $this->galleryService->showUnitPublic($gallery_name, $id);
-            if (empty($data)) {
+        $data = $this->galleryService->showUnitPublic($gallery_name, $id);
+        if (empty($data)) {
 
-                return view('Broker.Gallary.inc._GalleryComingsoon',get_defined_vars());
-            }
+            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+        }
 
 
-            $visitor = Visitor::where('unit_id', $id)
+        $visitor = Visitor::where('unit_id', $id)
             ->where('ip_address', request()->ip())
             ->where('visited_at', '>=', now()->subHour())
             ->first();
 
-            if (!$visitor) {
+        if (!$visitor) {
 
             $newVisitor = new Visitor();
             $newVisitor->unit_id = $id;
@@ -232,53 +227,54 @@ class GallaryController extends Controller
             $newVisitor->ip_address = request()->ip();
             $newVisitor->visited_at = now();
             $newVisitor->save();
-            }
-            $unitVisitorsCount = [];
-            foreach ($data['units'] as $unit) {
-                $unitVisitorsCount[$id] = Visitor::where('unit_id', $unit->id)->count();
-            }
-
-            $data['unitVisitorsCount'] = $unitVisitorsCount;
-            return view('Home.Gallery.Unit.show', $data);
         }
+        $unitVisitorsCount = [];
+        foreach ($data['units'] as $unit) {
+            $unitVisitorsCount[$id] = Visitor::where('unit_id', $unit->id)->count();
+        }
+
+        $data['unitVisitorsCount'] = $unitVisitorsCount;
+        return view('Home.Gallery.Unit.show', $data);
+    }
 
     public function showByName(Request $request, $name)
     {
-            $cityFilter = $request->input('city_filter', 'all');
-            $projectFilter = $request->input('project_filter', 'all');
-            $typeUseFilter = $request->input('type_use_filter', 'all');
-            $adTypeFilter = request()->input('ad_type_filter', 'all');
-            $priceFrom = $request->input('price_from',null);
-            $priceTo = $request->input('price_to',null);
-            $hasImageFilter = $request->input('has_image_filter', false);
-            $hasPriceFilter = $request->input('has_price_filter', false);
-            $daily_rent = $request->input('daily_rent', false);
-            $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter,$daily_rent);
-            if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
-                return view('Broker.Gallary.inc._GalleryComingsoon',$data);
-            }
+        $cityFilter = $request->input('city_filter', 'all');
+        $projectFilter = $request->input('project_filter', 'all');
+        $typeUseFilter = $request->input('type_use_filter', 'all');
+        $adTypeFilter = request()->input('ad_type_filter', 'all');
+        $priceFrom = $request->input('price_from', null);
+        $priceTo = $request->input('price_to', null);
+        $hasImageFilter = $request->input('has_image_filter', false);
+        $hasPriceFilter = $request->input('has_price_filter', false);
+        $daily_rent = $request->input('daily_rent', false);
 
-            $visitor = Visitor::where('gallery_id', $data['gallery']->id)
+        $data = $this->galleryService->showByName($name, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+        if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
+            return view('Broker.Gallary.inc._GalleryComingsoon', $data);
+        }
+        $districts = Gallery::where('id', $data['gallery']->id)->first()->BrokerData->BrokerHasUnits;
+        $visitor = Visitor::where('gallery_id', $data['gallery']->id)
             ->where('ip_address', $request->ip())
             ->where('visited_at', '>=', now()->subHour())
             ->first();
 
-            if (!$visitor) {
-                $newVisitor = new Visitor();
-                $newVisitor->gallery_id = $data['gallery']->id;
-                $newVisitor->unit_id = null;
-                $newVisitor->ip_address = $request->ip();
-                $newVisitor->visited_at = now();
-                $newVisitor->save();
-            }
+        if (!$visitor) {
+            $newVisitor = new Visitor();
+            $newVisitor->gallery_id = $data['gallery']->id;
+            $newVisitor->unit_id = null;
+            $newVisitor->ip_address = $request->ip();
+            $newVisitor->visited_at = now();
+            $newVisitor->save();
+        }
 
-            $unitVisitorsCount = [];
-            foreach ($data['units'] as $unit) {
-                $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->count();
-            }
+        $unitVisitorsCount = [];
+        foreach ($data['units'] as $unit) {
+            $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->count();
+        }
 
-            $data['unitVisitorsCount'] = $unitVisitorsCount;
-        return view('Home.Gallery.index',$data);
+        $data['unitVisitorsCount'] = $unitVisitorsCount;
+        return view('Home.Gallery.index', $data);
     }
 
 
@@ -345,7 +341,10 @@ class GallaryController extends Controller
     }
 
 
-
+    function GetDistrictByCity($id)
+    {
+        $districts = $this->districtService->getDistrictsByCity($id);
+        $districtsIds = $this->UnitService->getAll(auth()->user()->UserBrokerData->id)->pluck('district_id')->toArray();
+        return view('Broker.Gallary.inc._district', get_defined_vars());
+    }
 }
-
-

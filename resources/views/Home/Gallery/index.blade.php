@@ -3,20 +3,25 @@
     معرض العقارات
 @stop
 @section('content')
-@include('Home.layouts.inc.__addSubscriberModal')
+    @php
+        $districts = App\Models\Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+    @endphp
+    @include('Home.layouts.inc.__addSubscriberModal')
 
     <link href="{{ asset('HOME_PAGE/css/public_gallery.css') }}" rel="stylesheet" type="text/css" id="theme-opt" />
     <section id="gallery_public" class="container">
         <div class="row gallery-public m-0 p-0 justify-content-center">
             <input hidden name="gallery_name" value="" />
             <div class="row p-0 mb-4">
-                <div class="gallery-cover" style="background-image: url({{ $gallery->gallery_cover ? asset($gallery->gallery_cover) : asset('dashboard/assets/new-icons/cover1.png') }}); height: 200px; width: 100%; background-size: cover;">
+                <div class="gallery-cover"
+                    style="background-image: url({{ $gallery->gallery_cover ? asset($gallery->gallery_cover) : asset('dashboard/assets/new-icons/cover1.png') }}); height: 200px; width: 100%; background-size: cover;">
                 </div>
             </div>
 
             <div class="row filter sort">
                 <div class="view-select">
-                    <div class="col-menu grid selected" style="cursor: pointer" onclick="changeView('grid')">@lang('Card')</div>
+                    <div class="col-menu grid selected" style="cursor: pointer" onclick="changeView('grid')">
+                        @lang('Card')</div>
                     <div class="col-list list" style="cursor: pointer" onclick="changeView('list')">@lang('List')</div>
                 </div>
                 <select class="form-control select-input h-auto" id="city" required name="city">
@@ -34,19 +39,22 @@
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Ads with images')</span>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="hasImageFilter" name="has_image_filter" {{ $hasImageFilter ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="hasImageFilter"
+                                            name="has_image_filter" {{ $hasImageFilter ? 'checked' : '' }}>
                                     </div>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Ads with price')</span>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="hasPriceFilter" name="has_price_filter" {{ $hasPriceFilter ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="hasPriceFilter"
+                                            name="has_price_filter" {{ $hasPriceFilter ? 'checked' : '' }}>
                                     </div>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Available For Daily Rent')</span>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="daily_rent" name="daily_rent" {{ $daily_rent ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="checkbox" id="daily_rent" name="daily_rent"
+                                            {{ $daily_rent ? 'checked' : '' }}>
                                     </div>
                                 </div>
 
@@ -54,7 +62,8 @@
 
                                     <span>@lang('City')</span>
                                     <select class="form-control form-control-sm" id="city_filter" name="city_filter">
-                                        <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                        <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')</option>
                                         @foreach ($uniqueIds as $index => $id)
                                             <option value="{{ $id }}" {{ $cityFilter == $id ? 'selected' : '' }}>
                                                 {{ $uniqueNames[$index] }}
@@ -62,13 +71,32 @@
                                         @endforeach
                                     </select>
                                 </div>
+
+                                <div class="col-12 p-0 ml-2">
+
+                                    <span>@lang('district')</span>
+                                    <select class="form-control form-control-sm" id="district_filter"
+                                        name="district_filter">
+                                        <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')</option>
+                                        @foreach ($districts as $index => $district)
+                                            <option value="{{ $district->district_id }}"
+                                                {{ $cityFilter == $district->district_id ? 'selected' : '' }}>
+                                                {{ $district->DistrictData->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Project')</span>
                                     <select class="form-control form-control-sm" id="project_filter" name="project_filter">
-                                        <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                        <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')</option>
                                         @foreach ($units as $unit)
                                             @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
-                                                <option value="{{ $unit->PropertyData->ProjectData->id }}" {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
+                                                <option value="{{ $unit->PropertyData->ProjectData->id }}"
+                                                    {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
                                                     {{ $unit->PropertyData->ProjectData->name }}
                                                 </option>
                                             @endif
@@ -77,10 +105,13 @@
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Type use')</span>
-                                    <select class="form-control form-control-sm" id="type_use_filter" name="type_use_filter">
-                                        <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
+                                    <select class="form-control form-control-sm" id="type_use_filter"
+                                        name="type_use_filter">
+                                        <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')</option>
                                         @foreach ($usages as $usage)
-                                            <option value="{{ $usage->id }}" {{ $typeUseFilter == $usage->id ? 'selected' : '' }}>
+                                            <option value="{{ $usage->id }}"
+                                                {{ $typeUseFilter == $usage->id ? 'selected' : '' }}>
                                                 {{ $usage->name }}
                                             </option>
                                         @endforeach
@@ -88,29 +119,36 @@
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>@lang('Ad type')</span>
-                            <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
-                                <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')</option>
-                                @foreach (['rent', 'sale', 'rent_sale'] as $type)
-                                    <option value="{{ $type }}" {{ $adTypeFilter == $type ? 'selected' : '' }}>
-                                        {{ __($type) }}
-                                    </option>
-                                @endforeach
-                            </select>
+                                    <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
+                                        <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')</option>
+                                        @foreach (['rent', 'sale', 'rent_sale'] as $type)
+                                            <option value="{{ $type }}"
+                                                {{ $adTypeFilter == $type ? 'selected' : '' }}>
+                                                {{ __($type) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <span>السعر</span>
                                     <div class="row m-0 p-0 gap-3">
                                         <div class="col-5 p-0">
-                                            <input class="form-control" name="price_from" id="price_from" placeholder="من" value="{{ request()->input('price_from', null) }}" onchange="reloadUnits()" />
+                                            <input class="form-control" name="price_from" id="price_from" placeholder="من"
+                                                value="{{ request()->input('price_from', null) }}"
+                                                onchange="reloadUnits()" />
                                         </div>
                                         <div class="col-5 p-0">
-                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي" value="{{ request()->input('price_to', null) }}" onchange="reloadUnits()" />
+                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي"
+                                                value="{{ request()->input('price_to', null) }}"
+                                                onchange="reloadUnits()" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
                                     <button type="submit" class="btn btn-primary">@lang('Filter')</button>
-                                    <a href="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
+                                    <a href="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
+                                        class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
                                 </div>
                             </div>
                         </form>
@@ -350,52 +388,50 @@
 
 
         // Function to reload units based on selected filters
-function reloadUnits() {
-    // Get selected filter values
-    var city = document.getElementById('city_filter').value;
-    var project = document.getElementById('prj_filter').value;
-    var type = document.getElementById('type_filter').value;
-    var price_from = document.getElementById('price_from').value;
-    var price_to = document.getElementById('price_to').value;
+        function reloadUnits() {
+            // Get selected filter values
+            var city = document.getElementById('city_filter').value;
+            var project = document.getElementById('prj_filter').value;
+            var type = document.getElementById('type_filter').value;
+            var price_from = document.getElementById('price_from').value;
+            var price_to = document.getElementById('price_to').value;
 
-    // Make AJAX request to fetch filtered units
-    $.ajax({
-        url: "{{ route('filtered.units') }}",
-        type: "GET",
-        data: {
-            city_filter: city,
-            prj_filter: project,
-            type_filter: type,
-            price_from: price_from,
-            price_to: price_to
-        },
-        success: function(data) {
-            // Handle the received data (update the view with filtered units)
-        },
-        error: function(xhr, status, error) {
-            console.error(error);
+            // Make AJAX request to fetch filtered units
+            $.ajax({
+                url: "{{ route('filtered.units') }}",
+                type: "GET",
+                data: {
+                    city_filter: city,
+                    prj_filter: project,
+                    type_filter: type,
+                    price_from: price_from,
+                    price_to: price_to
+                },
+                success: function(data) {
+                    // Handle the received data (update the view with filtered units)
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
         }
-    });
-}
 
-// Attach event listeners to select elements
-$(document).ready(function() {
-    $('#city_filter, #prj_filter, #type_filter, #price_from, #price_to').change(function() {
-        reloadUnits();
-    });
-});
-
-
+        // Attach event listeners to select elements
+        $(document).ready(function() {
+            $('#city_filter, #prj_filter, #type_filter, #price_from, #price_to').change(function() {
+                reloadUnits();
+            });
+        });
     </script>
 
-<script>
-    function redirectToCreateBroker() {
-        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
-    }
-    function redirectToCreateOffice() {
-        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+    <script>
+        function redirectToCreateBroker() {
+            window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+        }
 
-    }
-</script>
+        function redirectToCreateOffice() {
+            window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 
+        }
+    </script>
 @endpush

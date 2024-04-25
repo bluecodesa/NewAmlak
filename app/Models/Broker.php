@@ -66,4 +66,11 @@ class Broker extends Model
 
         return $this->hasOne(Gallery::class, 'broker_id');
     }
+
+
+    public function BrokerHasUnits()
+    {
+
+        return $this->hasMany(Unit::class, 'broker_id');
+    }
 }

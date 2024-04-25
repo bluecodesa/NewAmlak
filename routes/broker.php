@@ -71,6 +71,9 @@ Route::group(
             Route::post('/gallery/create', [GallaryController::class, 'createGallery'])->name('Gallery.create');
             Route::post('/gallery/custom-update/{gallery}', [GallaryController::class, 'customUpdate'])->name('Gallery.customUpdate')->middleware('CheckSubscription');
             Route::get('Gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showGalleryUnit'])->name('Gallary.showUnit')->middleware('CheckSubscription');
+            Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity')->middleware('CheckSubscription');
+
+
             Route::post('/Interest/status/{id}', [UnitInterestController::class, 'update'])->name('Interest.status.update')->middleware('CheckSubscription');
             Route::get('Interests', [UnitInterestController::class, 'index'])->name('Gallary.showInterests')->middleware('CheckSubscription');
             Route::delete('/gallery/unit/{id}', [UnitController::class, 'destroyUnitGallery'])->name('gallery.unit.destroy');

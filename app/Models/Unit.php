@@ -19,6 +19,11 @@ class Unit extends Model
         return $this->belongsTo(City::class, 'city_id');
     }
 
+    public function DistrictData()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+
     public function PropertyTypeData()
     {
         return $this->belongsTo(PropertyType::class, 'property_type_id');
