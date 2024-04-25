@@ -28,7 +28,7 @@ trait MailWelcomeBroker
             $data['variable_settel_date'] = '';
             $data['variable_date_of_payment'] = $subscription->start_date ?? null;
             $data['variable_payment_amount'] = $Invoice->amount ?? null;
-            $data['variable_broker_name'] = $user->UserBrokerData->name != null ? $user->UserBrokerData->name : "";
+            $data['variable_broker_name'] = $user->name != null ? $user->name : "";
             $data['variable_subscriber_name'] = $user->name != null ? $user->name : "";
             $data['variable_current_subscription'] = $subscriptionType->name != null ? $subscriptionType->name : "";
             $data['variable_subscription_invoice_number'] = $Invoice->invoice_ID ?? null;
