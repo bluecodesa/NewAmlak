@@ -253,7 +253,7 @@ class GallaryController extends Controller
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
-        $districts = Gallery::where('id', $data['gallery']->id)->first()->BrokerData->BrokerHasUnits;
+        $districts = Gallery::where('id', $data['gallery']->id)->first()->BrokerData->BrokerHasUnits; // رجع دي في الفيو
         $visitor = Visitor::where('gallery_id', $data['gallery']->id)
             ->where('ip_address', $request->ip())
             ->where('visited_at', '>=', now()->subHour())
