@@ -6,6 +6,7 @@ use App\Interfaces\Broker\GalleryRepositoryInterface;
 use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Models\Broker;
 use App\Models\City;
+use App\Models\Gallery;
 use App\Models\Project;
 use App\Models\Unit;
 use App\Models\UnitImage;
@@ -129,7 +130,7 @@ class GalleryService
         return get_defined_vars();
     }
 
-    public function showByName($name, $cityFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
+    public function showByName($name, $cityFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
 
     {
         $usages =  $this->propertyUsageService->getAll();
@@ -144,7 +145,7 @@ class GalleryService
         $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
-        $units = $this->filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
+        $units = $this->filterUnitsPublic($units, $cityFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
         $unit = $units->first();
         if ($unit) {
             $id = $unit->id;
@@ -156,13 +157,14 @@ class GalleryService
             $unitDetails = null;
             $user_id = null;
         }
-
+        $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+        $districtsIds = $districts->pluck('district_id')->toArray();
         return get_defined_vars();
     }
 
     }
 
-    public function filterUnitsPublic($units, $cityFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent)
+    public function filterUnitsPublic($units, $cityFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent)
     {
         // Filter by city if not 'all'
         if ($cityFilter !== 'all' ) {
@@ -211,6 +213,9 @@ class GalleryService
                 $units = $units->where('daily_rent' , 1);
             }
 
+            if ($districtFilter !== 'all') {
+                $units = $units->where('district_id', $districtFilter);
+            }
 
             return $units;
     }

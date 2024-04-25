@@ -3,10 +3,7 @@
     معرض العقارات
 @stop
 @section('content')
-    @php
-        $districts = App\Models\Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
-        $districtsIds = $districts->pluck('district_id')->toArray();
-    @endphp
+  
     @include('Home.layouts.inc.__addSubscriberModal')
 
     <link href="{{ asset('HOME_PAGE/css/public_gallery.css') }}" rel="stylesheet" type="text/css" id="theme-opt" />
@@ -65,8 +62,10 @@
                                     <select class="form-control form-control-sm" id="city_filter" name="city_filter">
                                         <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
-                                        @foreach ($uniqueIds as $index => $id)
-                                            <option value="{{ $id }}" {{ $cityFilter == $id ? 'selected' : '' }}>
+                                            @foreach ($uniqueIds as $index => $id)
+                                            <option value="{{ $id }}"
+                                                data-url="{{ route('Broker.Gallary.GetDistrictByCity', $id) }}"
+                                                {{ $cityFilter == $id ? 'selected' : '' }}>
                                                 {{ $uniqueNames[$index] }}
                                             </option>
                                         @endforeach
@@ -78,11 +77,11 @@
                                     <span>@lang('district')</span>
                                     <select class="form-control form-control-sm" id="district_filter"
                                         name="district_filter">
-                                        <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>
+                                        <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
                                         @foreach ($districts as $index => $district)
                                             <option value="{{ $district->district_id }}"
-                                                {{ $cityFilter == $district->district_id ? 'selected' : '' }}>
+                                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
                                                 {{ $district->DistrictData->name }}
                                             </option>
                                         @endforeach
@@ -421,6 +420,24 @@
         $(document).ready(function() {
             $('#city_filter, #prj_filter, #type_filter, #price_from, #price_to').change(function() {
                 reloadUnits();
+            });
+        });
+
+        $('#city_filter').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function() {
+                    $('#district_filter').fadeOut('fast');
+                },
+                success: function(data) {
+                    $('#district_filter').fadeOut('fast', function() {
+                        $(this).empty().append(data);
+                        $(this).fadeIn('fast');
+                    });
+                },
             });
         });
     </script>
