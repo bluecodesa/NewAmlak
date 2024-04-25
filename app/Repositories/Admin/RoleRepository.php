@@ -56,8 +56,6 @@ class RoleRepository implements RoleRepositoryInterface
         // Sync the role for each user
         foreach ($users as $user) {
             $user->syncRoles([$role->name]);
-
-            // Sync permissions directly from the role
             $user->syncPermissions($permissions);
         }
 

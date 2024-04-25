@@ -61,12 +61,12 @@
                                                 aria-controls="v-pills-messages" aria-selected="false">
                                                 @lang('Notification Mange')</button>
 
-                                            @if (Auth::user()->hasPermission('read-GallaryManagement'))
-                                                <button class="nav-link" id="v-pills-interests-tab" data-toggle="pill"
-                                                    data-target="#v-pills-interests" type="button" role="tab"
-                                                    aria-controls="v-pills-interests"
-                                                    aria-selected="false">@lang('Gallary Mange')</button>
-                                            @endif
+
+                                            <button class="nav-link" id="v-pills-interests-tab" data-toggle="pill"
+                                                data-target="#v-pills-interests" type="button" role="tab"
+                                                aria-controls="v-pills-interests"
+                                                aria-selected="false">@lang('Gallary Mange')</button>
+
                                             @if (Auth::user()->hasPermission('update-DomainSettings'))
                                                 <button class="nav-link" id="v-pills-HomePage-tab" data-toggle="pill"
                                                     data-target="#v-pills-HomePage" type="button" role="tab"

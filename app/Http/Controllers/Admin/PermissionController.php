@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\PermissionService;
 use App\Services\Admin\SectionService;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class PermissionController extends Controller
 {
@@ -25,7 +25,9 @@ class PermissionController extends Controller
 
     public function index()
     {
+        // $role =  Auth::user()->roles[0];
         $permissions =  $this->PermissionService->getAll();
+        // $role->givePermissionTo($permissions);
         return view('Admin.roles.permissions.index', get_defined_vars());
     }
 

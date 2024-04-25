@@ -32,13 +32,7 @@
                         </ul>
                     </li>
                 @endif
-                @if (Auth::user()->hasAnyOfPermissions([
-                        'read-users',
-                        'read-role',
-                        'read-permission',
-                        'read-sections',
-                        'read-SupportTickets',
-                    ]))
+                @if (Auth::user()->hasAnyOfPermissions(['read-users', 'read-role', 'read-permission', 'read-sections']))
                     <li>
                         <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-bank-minus "></i><span>
                                 @lang('User management')<span class="float-right menu-arrow"><i
@@ -67,9 +61,9 @@
                                     class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
 
-                @if (Auth::user()->hasPermission('read-SupportTickets'))
-                <li><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Tickets Support')</a></li>
-                @endif
+
+                        <li><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Tickets Support')</a></li>
+
                     </ul>
                 </li>
 
@@ -80,22 +74,24 @@
                                     class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
 
-                        @if (Auth::user()->hasPermission('read-settings-admin'))
-                            <li><a href="{{ route('Admin.settings.index') }}">@lang('General Settings')</a></li>
-                        @endif
 
-                        @if (Auth::user()->hasPermission('read-SupportTickets'))
+                        <li><a href="{{ route('Admin.settings.index') }}">@lang('General Settings')</a></li>
+
+
+
                         <li>
                             <a href="javascript:void(0);" class="waves-effect"><span>
                                     @lang('technical support')<span class="float-right menu-arrow"><i
                                             class="mdi mdi-chevron-right"></i></span> </span></a>
                             <ul class="submenu mm-collapse">
-                                <li><a href="{{ route('Admin.Support.showInfoSupport') }}">@lang('Support contact information')</a></li>
-                                <li><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Ticket Type')</a></li>
+                                <li><a href="{{ route('Admin.Support.showInfoSupport') }}">@lang('Support contact information')</a>
+                                </li>
+                                <li><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Ticket Type')</a>
+                                </li>
                                 {{-- <li><a href="">@lang('Integration via API')</a></li> --}}
                             </ul>
                         </li>
-                        @endif
+
 
                         <li>
                             <a href="javascript:void(0);" class="waves-effect"><span>
