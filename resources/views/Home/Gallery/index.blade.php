@@ -3,7 +3,7 @@
     معرض العقارات
 @stop
 @section('content')
-  
+
     @include('Home.layouts.inc.__addSubscriberModal')
 
     <link href="{{ asset('HOME_PAGE/css/public_gallery.css') }}" rel="stylesheet" type="text/css" id="theme-opt" />

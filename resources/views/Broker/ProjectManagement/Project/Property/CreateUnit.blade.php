@@ -243,6 +243,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group col-12">
+                                        <label>@lang('Description')</label>
+                                        <div>
+                                            <textarea name="note" class="form-control" rows="5"></textarea>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-12 col-md-12 mb-3">
                                         <label class="form-label">@lang('Pictures property') </label>
                                         <input type="file" name="images[]" multiple class="dropify"
