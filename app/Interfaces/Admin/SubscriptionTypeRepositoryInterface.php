@@ -7,6 +7,8 @@ use App\Models\SubscriptionType;
 interface SubscriptionTypeRepositoryInterface
 {
     public function getAll();
+    public function getSubscriptionTypeAll();
+
     public function getAllFiltered($status, $period, $price);
 
 

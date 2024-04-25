@@ -41,4 +41,12 @@ class PermissionRepository implements PermissionRepositoryInterface
     {
         return Permission::findOrFail($id)->delete();
     }
+
+    public function getRolePermissions($roleId)
+    {
+        return Permission::join("role_has_permissions", "permission_id", "=", "id")
+            ->where("role_id", $roleId)
+            ->select('name')
+            ->get();
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Notifications\Admin\AdminResponseTicketNotification;
 use App\Notifications\Admin\ResponseTicketNotification;
 use App\Services\Admin\SectionService;
+use App\Services\Admin\SettingService;
 use App\Services\Admin\SupportService;
 use App\Services\Broker\TicketService;
 use Illuminate\Http\Request;
@@ -19,9 +20,13 @@ class SupportController extends Controller
 {
     protected $SupportService;
     protected $ticketService;
+    protected $settingService;
 
 
-    public function __construct(SupportService $SupportService,TicketService $ticketService)
+
+    public function __construct(SupportService $SupportService,
+    TicketService $ticketService,
+    SettingService $settingService)
     {
         $this->middleware(['role_or_permission:read-SupportTickets'])->only(['index']);
         $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
@@ -29,6 +34,8 @@ class SupportController extends Controller
         $this->middleware(['role_or_permission:delete-SupportTickets'])->only(['destroy']);
         $this->SupportService = $SupportService;
         $this->ticketService = $ticketService;
+        $this->settingService = $settingService;
+
 
     }
     public function index()
@@ -159,7 +166,9 @@ class SupportController extends Controller
     public function showInfoSupport()
     {
        // Retrieve all tickets
-       $settings = Setting::first();
+    //    $settings = Setting::first();
+       $settings = $this->settingService->getFirstSetting();
+
        return view('Admin.supports.Setting.index', compact('settings'));
 
     }

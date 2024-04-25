@@ -10,4 +10,6 @@ interface PermissionRepositoryInterface
     public function ShowById($id);
     public function update($id, $data);
     public function delete($id);
+    public function getRolePermissions($roleId);
+
 }

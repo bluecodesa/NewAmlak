@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\Admin\SectionService;
+use App\Services\RoleService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -13,11 +14,17 @@ class SubscriptionTypesController extends Controller
 {
     protected $subscriptionTypeService;
     protected $SectionService;
+    protected $roleService;
 
-    public function __construct(SubscriptionTypeService $subscriptionTypeService, SectionService $SectionService)
+
+    public function __construct(SubscriptionTypeService $subscriptionTypeService, 
+    SectionService $SectionService,
+    RoleService $roleService)
     {
         $this->subscriptionTypeService = $subscriptionTypeService;
         $this->SectionService = $SectionService;
+        $this->roleService = $roleService;
+
     }
 
     public function index(Request $request)
@@ -40,7 +47,8 @@ class SubscriptionTypesController extends Controller
 
     public function create()
     {
-        $roles = Role::where('type', 'user')->get();
+        // $roles = Role::where('type', 'user')->get();
+        $roles = $this->roleService->getAllRoles();
         $sections = $this->SectionService->getAll();
 
         return view('Admin.admin.Subscriptions.SubscriptionType.create', compact('roles', 'sections'));
@@ -74,7 +82,8 @@ class SubscriptionTypesController extends Controller
     public function edit($id)
     {
         $SubscriptionType = $this->subscriptionTypeService->getSubscriptionTypeById($id);
-        $roles = Role::where('type', 'user')->get();
+        // $roles = Role::where('type', 'user')->get();
+        $roles = $this->roleService->getAllRoles();
         $sections = $this->SectionService->getAll();
         $rolesIds = $SubscriptionType->RolesData->pluck('role_id')->toArray();
         $sectionIds = $SubscriptionType->SectionData->pluck('section_id')->toArray();

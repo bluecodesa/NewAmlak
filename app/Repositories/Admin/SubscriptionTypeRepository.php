@@ -14,6 +14,12 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         $query = SubscriptionType::where('is_deleted', 0)->where('is_show', 1);
         return $query->get();
     }
+    public function getSubscriptionTypeAll()
+    {
+        return SubscriptionType::all();
+
+    }
+
     public function getAllFiltered($status, $period, $price)
     {
         $query = SubscriptionType::where('is_deleted', 0);

@@ -82,4 +82,9 @@ class PermissionService
     {
         return $this->PermissionRepository->delete($id);
     }
+
+    public function getRolePermissions($roleId){
+        return $this->PermissionRepository->getRolePermissions($roleId);
+
+    }
 }

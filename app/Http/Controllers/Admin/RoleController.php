@@ -49,10 +49,11 @@ class RoleController extends Controller
     }
     public function show(Role $role)
     {
-        $rolePermissions = Permission::join("role_has_permissions", "permission_id", "=", "id")
-            ->where("role_id", $role->id)
-            ->select('name')
-            ->get();
+        // $rolePermissions = Permission::join("role_has_permissions", "permission_id", "=", "id")
+        //     ->where("role_id", $role->id)
+        //     ->select('name')
+        //     ->get();
+        $rolePermissions = $this->PermissionService->getRolePermissions($role->id);
         return view('Admin.roles.show', [
             'role' => $role,
             'rolePermissions' => $rolePermissions

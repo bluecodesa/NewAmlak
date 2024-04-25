@@ -1,3 +1,5 @@
 <footer class="footer">
-    © 2019 - 2020 Stexo <span class="d-none d-sm-inline-block"> - Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign</span>.
+    @lang('© Amlak -') {{ env('APP_VERSION','V1.0') }}<a href="{{ env('COMPANY_URL','https://bluecode.sa') }}" target="_blank">@lang(' By Blue Code')</a>
+ <span class="d-none d-sm-inline-block"> </span>
 </footer>
+

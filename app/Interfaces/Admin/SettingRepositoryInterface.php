@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 interface SettingRepositoryInterface
 {
     public function getAllSetting();
+    public function getFirstSetting();
+
     public function updateSetting(Setting $setting, array $data);
     public function createSetting(array $data);
     public function findSettingById(int $id);

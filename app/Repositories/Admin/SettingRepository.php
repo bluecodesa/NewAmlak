@@ -25,7 +25,10 @@ class SettingRepository implements SettingRepositoryInterface
         return $settings;
     }
 
-
+    public function getFirstSetting()
+    {
+        return Setting::first();
+    }
     public function updateSetting(Setting $setting, array $data)
     {
         $setting->update($data);

@@ -23,7 +23,10 @@ class SettingService
         return $this->settingRepository->getAllSetting();
     }
 
-
+    public function getFirstSetting()
+    {
+        return $this->settingRepository->getFirstSetting();
+    }
     public function updateSetting(Request $request, Setting $setting)
     {
 
