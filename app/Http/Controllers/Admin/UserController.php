@@ -20,7 +20,6 @@ class UserController extends Controller
      */
     public function __construct()
     {
-
         $this->middleware(['role_or_permission:read-users'])->only(['index']);
         $this->middleware(['role_or_permission:create-users'])->only(['store', 'create']);
         $this->middleware(['role_or_permission:update-users'])->only(['edit', 'update']);

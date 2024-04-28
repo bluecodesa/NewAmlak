@@ -29,7 +29,15 @@ class SettingController extends Controller
         EmailSettingService $EmailSettingService,
         PaymentGatewayRepositoryInterface $paymentGateway
     ) {
-        $this->middleware(['role_or_permission:update-PlatformSettings'])->only(['index']);
+        $this->middleware(['role_or_permission:update-PlatformSettings'])->only(['update']);
+        $this->middleware(['role_or_permission:update-payment-gateway'])->only(['editPaymentGatewayForm']);
+        $this->middleware(['role_or_permission:update-Billing'])->only(['updateTax']);
+        $this->middleware(['role_or_permission:update-DomainSettings'])->only(['ChangeActiveHomePage']);
+
+        //Interest Type
+        $this->middleware(['role_or_permission:create-interest-request-status'])->only(['createInterestType', 'storeInterestType']);
+        $this->middleware(['role_or_permission:update-interest-request-status'])->only(['editInterestType', 'updateInterestType']);
+        $this->middleware(['role_or_permission:delete-interest-request-status'])->only(['destroyInterestType']);
         $this->settingRepo = $settingRepo;
         $this->settingService = $settingService;
         $this->paymentGateway = $paymentGateway;

@@ -17,7 +17,6 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
     public function getSubscriptionTypeAll()
     {
         return SubscriptionType::all();
-
     }
 
     public function getAllFiltered($status, $period, $price)
@@ -96,18 +95,18 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
     }
 
     public function getGallerySubscriptionTypes()
-{
-    // Retrieve subscription types that have section ID 18
-    return SubscriptionType::where('is_deleted', 0)
-        ->whereHas('roles', function ($query) {
-            $query->where('name', 'RS-Broker');
-        })
-        ->where('price', '>', 0)
-        ->whereHas('sections', function ($query) {
-            $query->where('section_id', 18);
-        })
-        ->get();
-}
+    {
+        // Retrieve subscription types that have section ID 18
+        return SubscriptionType::where('is_deleted', 0)
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'RS-Broker');
+            })
+            ->where('price', '>', 0)
+            ->whereHas('sections', function ($query) {
+                $query->where('section_id', 18);
+            })
+            ->get();
+    }
 
     public function getSubscriptionTypesForOffice()
     {

@@ -70,9 +70,10 @@
                                                     <td>{{ $invoice->created_at->format('M j, Y, g:i A') }}</td>
 
                                                     <td>
-                                                        <a href="{{ route('Admin.SystemInvoice.show', $invoice->id) }}"
-                                                            class="btn btn-dark btn-sm waves-effect waves-light">@lang('view')</a>
-
+                                                        @if (Auth::user()->hasPermission('read-invoice-details'))
+                                                            <a href="{{ route('Admin.SystemInvoice.show', $invoice->id) }}"
+                                                                class="btn btn-dark btn-sm waves-effect waves-light">@lang('view')</a>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

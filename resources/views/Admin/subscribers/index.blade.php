@@ -23,14 +23,15 @@
                                                 href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
-
-                                <div class="col-md-6" style="text-align: end">
-                                    <a href="{{ route('Admin.Subscribers.create') }}"
-                                        class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light" data-toggle="modal"
-                                        data-target="#addSubscriberModal">
-                                        @lang('Add New Subscriber')
-                                    </a>
-                                </div>
+                                @if (Auth::user()->hasPermission('create-subscriber'))
+                                    <div class="col-md-6" style="text-align: end">
+                                        <a href="{{ route('Admin.Subscribers.create') }}"
+                                            class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light"
+                                            data-toggle="modal" data-target="#addSubscriberModal">
+                                            @lang('Add New Subscriber')
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -145,18 +146,22 @@
                                                                     class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('suspend')</button>
                                                             </form>
                                                         @endif
-                                                        <a href="{{ route('Admin.Subscribers.show', $subscriber->id) }}"
-                                                            class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
 
-                                                        <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $subscriber->id }}')"
-                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                        <form id="delete-form-{{ $subscriber->id }}"
-                                                            action="{{ route('Admin.Subscribers.destroy', $subscriber->id) }}"
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
+                                                        @if (Auth::user()->hasPermission('read-subscriber-file'))
+                                                            <a href="{{ route('Admin.Subscribers.show', $subscriber->id) }}"
+                                                                class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission('delete-subscriber'))
+                                                            <a href="javascript:void(0);"
+                                                                onclick="handleDelete('{{ $subscriber->id }}')"
+                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                            <form id="delete-form-{{ $subscriber->id }}"
+                                                                action="{{ route('Admin.Subscribers.destroy', $subscriber->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

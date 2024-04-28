@@ -54,20 +54,19 @@
                         </ul>
                     </li>
                 @endif
+                @if (Auth::user()->hasPermission('read-support-ticket-admin'))
+                    <li>
+                        <a href="javascript:void(0);" class="waves-effect"><i class="icon-setting-2"></i><span>
+                                @lang('technical support')<span class="float-right menu-arrow"><i
+                                        class="mdi mdi-chevron-right"></i></span> </span></a>
+                        <ul class="submenu">
+                            @if (Auth::user()->hasPermission('read-support-ticket-admin'))
+                                <li><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Tickets Support')</a></li>
+                            @endif
+                        </ul>
+                    </li>
 
-                <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-setting-2"></i><span>
-                            @lang('technical support')<span class="float-right menu-arrow"><i
-                                    class="mdi mdi-chevron-right"></i></span> </span></a>
-                    <ul class="submenu">
-
-
-                        <li><a href="{{ route('Admin.SupportTickets.index') }}">@lang('Tickets Support')</a></li>
-
-                    </ul>
-                </li>
-
-
+                @endif
                 <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="icon-setting-2"></i><span>
                             @lang('Settings')<span class="float-right menu-arrow"><i
@@ -76,8 +75,6 @@
 
 
                         <li><a href="{{ route('Admin.settings.index') }}">@lang('General Settings')</a></li>
-
-
 
                         <li>
                             <a href="javascript:void(0);" class="waves-effect"><span>

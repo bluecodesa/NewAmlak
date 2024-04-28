@@ -32,7 +32,7 @@ class SubscriptionController extends Controller
 
 
 
-    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository,UnitService $UnitService, OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
+    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository, UnitService $UnitService, OwnerService $ownerService, SubscriptionService $subscriptionService, RegionService $regionService, CityService $cityService)
     {
         $this->subscriptionService = $subscriptionService;
         $this->regionService = $regionService;
@@ -41,6 +41,11 @@ class SubscriptionController extends Controller
         $this->UnitService = $UnitService;
         $this->systemInvoiceRepository = $systemInvoiceRepository;
 
+        $this->middleware(['role_or_permission:read-subscribers'])->only('index');
+        $this->middleware(['role_or_permission:read-subscriber-file'])->only('show');
+        $this->middleware(['role_or_permission:create-subscriber'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:create-subscriber'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-subscriber'])->only(['destroy']);
     }
 
     public function index()
@@ -56,8 +61,6 @@ class SubscriptionController extends Controller
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $subscriptionTypes = $this->subscriptionService->getSubscriptionTypesForOffice();
-
-
         return view('Admin.admin.Subscriptions.create', get_defined_vars());
     }
 
@@ -84,12 +87,10 @@ class SubscriptionController extends Controller
             $numberOfowners = $this->ownerService->getNumberOfOwners($brokerId);
             $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
-
         } elseif ($officeId) {
             $numberOfowners = $this->ownerService->getNumberOfOwners($officeId);
             $numberOfUnits = $this->UnitService->getAll($officeId)->count();
             $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
-
         }
 
 

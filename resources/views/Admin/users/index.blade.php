@@ -32,11 +32,12 @@
                             <div class="card-body">
 
                                 <h4 class="mt-0 header-title">
-                                    @can('create-user')
+
+                                    @if (Auth::user()->hasPermission('create-users'))
                                         <a href="{{ route('Admin.users.create') }}" class="btn btn-primary btn-sm"><i
                                                 class="bi bi-plus-circle"></i>
                                             @lang('Add New Admin') </a>
-                                    @endcan
+                                    @endif
                                 </h4>
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
                                     <table id="datatable-buttons" class="table  table-striped">
@@ -71,35 +72,32 @@
                                                     </td>
                                                     <td>
 
-                                                        <a href="{{ route('Admin.users.show', $user->id) }}"
-                                                            class="btn btn-outline-warning btn-sm waves-effect waves-light"><i
-                                                                class="bi bi-eye"></i>
-                                                            @lang('Show')</a>
-
-                                                        @if (in_array('Super Admin', $user->getRoleNames()->toArray() ?? []))
-                                                            @if (Auth::user()->hasRole('Super Admin'))
-                                                                <a href="{{ route('users.edit', $user->id) }}"
-                                                                    class="btn btn-primary btn-sm"><i
-                                                                        class="bi bi-pencil-square"></i>
-                                                                    @lang('Edit')</a>
-                                                            @endif
-                                                        @else
-                                                            @can('delete-user')
-                                                                <a href="{{ route('Admin.users.edit', $user->id) }}"
-                                                                    class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                                <a href="javascript:void(0);"
-                                                                    onclick="handleDelete('{{ $user->id }}')"
-                                                                    class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                                    @lang('Delete')
-                                                                </a>
-                                                                <form id="delete-form-{{ $user->id }}"
-                                                                    action="{{ route('Admin.users.destroy', $user->id) }}"
-                                                                    method="POST" style="display: none;">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </form>
-                                                            @endcan
+                                                        @if (Auth::user()->hasPermission('view-users-file'))
+                                                            <a href="{{ route('Admin.users.show', $user->id) }}"
+                                                                class="btn btn-outline-warning btn-sm waves-effect waves-light"><i
+                                                                    class="bi bi-eye"></i>
+                                                                @lang('Show')</a>
                                                         @endif
+                                                        @if (Auth::user()->hasPermission('update-users'))
+                                                            <a href="{{ route('Admin.users.edit', $user->id) }}"
+                                                                class="btn btn-outline-info btn-sm"><i
+                                                                    class="bi bi-pencil-square"></i>
+                                                                @lang('Edit')</a>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission('delete-users'))
+                                                            <a href="javascript:void(0);"
+                                                                onclick="handleDelete('{{ $user->id }}')"
+                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                                @lang('Delete')
+                                                            </a>
+                                                            <form id="delete-form-{{ $user->id }}"
+                                                                action="{{ route('Admin.users.destroy', $user->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        @endif
+
 
 
                                                     </td>

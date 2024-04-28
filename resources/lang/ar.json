@@ -423,5 +423,7 @@
     "Enable Gallery": "تفعيل المعرض",
     "Gallery Setting": "اعدادات المعرض",
     "Facebook": "فيس بوك",
-    "twitter": "توتير"
+    "twitter": "توتير",
+    "Sorry! you don't have permission to complete this action": "عفوا! ليس لديك الصلاحية للقيام بهذا الاجراء.",
+    "Sorry! you don't have permission to Access this page": "عفوا! ليس لديك الصلاحية للوصول لهذه الصفحة."
 }

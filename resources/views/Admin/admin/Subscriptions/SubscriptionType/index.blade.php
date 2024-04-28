@@ -38,9 +38,11 @@
                                                 name="status_filter">
                                                 <option value="all" {{ $status_filter == 'all' ? 'selected' : '' }}>
                                                     @lang('All')</option>
-                                                <option value="1" {{ $status_filter == 1 ? 'selected' : '' }}>@lang('active')
+                                                <option value="1" {{ $status_filter == 1 ? 'selected' : '' }}>
+                                                    @lang('active')
                                                 </option>
-                                                <option value="0" {{ $status_filter == 0 ? 'selected' : '' }}> @lang('inactive')
+                                                <option value="0" {{ $status_filter == 0 ? 'selected' : '' }}>
+                                                    @lang('inactive')
                                                 </option>
                                             </select>
                                         </div>
@@ -64,7 +66,8 @@
                                             <span>@lang('price')</span>
                                             <select class="form-control form-control-sm" id="price_filter"
                                                 name="price_filter">
-                                                <option value="all" {{ $price_filter == 'all' ? 'selected' : '' }}>@lang('All')
+                                                <option value="all" {{ $price_filter == 'all' ? 'selected' : '' }}>
+                                                    @lang('All')
                                                 </option>
                                                 @foreach ($prices as $price)
                                                     <option value="{{ $price }}"
@@ -98,14 +101,14 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
-
-                                <h4 class="mt-0 header-title">
-                                    <a href="{{ route('Admin.SubscriptionTypes.create') }}" type="submit"
-                                        class="btn btn-primary col-1 p-1 m-1 waves-effect waves-light">
-                                        @lang('Add New Type subscription')
-                                    </a>
-                                </h4>
-
+                                @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
+                                    <h4 class="mt-0 header-title">
+                                        <a href="{{ route('Admin.SubscriptionTypes.create') }}" type="submit"
+                                            class="btn btn-primary col-1 p-1 m-1 waves-effect waves-light">
+                                            @lang('Add New Type subscription')
+                                        </a>
+                                    </h4>
+                                @endif
                                 <div class="col-md-12">
                                     <div class="table-responsive b-0" data-pattern="priority-columns">
                                         <table id="datatable-buttons" class="table  table-striped">
@@ -166,21 +169,24 @@
                                                         <td>{{ $sub->status == 1 ? __('active') : __('inactive') }}</td>
 
                                                         <td>
+                                                            @if (Auth::user()->hasPermission('update-SubscriptionTypes'))
+                                                                <a href="{{ route('Admin.SubscriptionTypes.edit', $sub->id) }}"
+                                                                    class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                            @endif
+                                                            @if (Auth::user()->hasPermission('delete-SubscriptionTypes'))
+                                                                <a href="javascript:void(0);"
+                                                                    onclick="handleDelete('{{ $sub->id }}')"
+                                                                    class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                                    @lang('Delete')
+                                                                </a>
 
-                                                            <a href="{{ route('Admin.SubscriptionTypes.edit', $sub->id) }}"
-                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                            <a href="javascript:void(0);"
-                                                                onclick="handleDelete('{{ $sub->id }}')"
-                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                                @lang('Delete')
-                                                            </a>
-                                                            <form id="delete-form-{{ $sub->id }}"
-                                                                action="{{ route('Admin.SubscriptionTypes.destroy', $sub->id) }}"
-                                                                method="POST" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                            </form>
-
+                                                                <form id="delete-form-{{ $sub->id }}"
+                                                                    action="{{ route('Admin.SubscriptionTypes.destroy', $sub->id) }}"
+                                                                    method="POST" style="display: none;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                </form>
+                                                            @endif
                                                         </td>
 
 
