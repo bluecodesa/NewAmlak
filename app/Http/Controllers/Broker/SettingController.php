@@ -70,7 +70,8 @@ class SettingController extends Controller
             $hasRealEstateGallerySection = $subscriptionType->sections()->get();
             $sectionNames = $hasRealEstateGallerySection->pluck('name')->toArray();
         }
-        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes();
+
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
         // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
         return view('Broker.settings.index', get_defined_vars());
     }

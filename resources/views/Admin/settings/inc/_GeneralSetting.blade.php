@@ -15,15 +15,14 @@
                                 placeholder="{{ __('Website Name') }} {{ __($locale) }}">
                         </div>
                     @endforeach
-                    <div class="form-group col-md-6">
-                        <label for="url">@lang('URL')</label>
 
-                        <input name="url" class="form-control" type="url"
-                            value="{{ $settings->facebook ?? '' }}" id="url">
+                    <div class="form-group col-md-6">
+                        <label for="url">@lang('Email')</label>
+
+                        <input name="email" class="form-control" type="email"
+                            value="{{ $settings->email ?? '' }}" id="url">
 
                     </div>
-
-
                     <div class="form-group col-md-6">
                         <label for="logo">@lang('Logo')</label>
                         @if (isset($settings) && $settings->icon)
@@ -34,6 +33,22 @@
                         <input name="icon" class="form-control" type="file" id="logo"
                             accept="image/png, image/jpg, image/jpeg">
                     </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="url">@lang('Facebook')</label>
+
+                        <input name="facebook" class="form-control" type="url"
+                            value="{{ $settings->facebook ?? '' }}" id="url">
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="url">@lang('twitter')</label>
+
+                        <input name="twitter" class="form-control" type="url"
+                            value="{{ $settings->twitter ?? '' }}" id="url">
+
+                    </div>
+
                     <div class="form-group col-md-6">
                         <label for="privacy_pdf">@lang('our privacy policy')</label>
                         @if (isset($settings) && $settings->privacy_pdf)

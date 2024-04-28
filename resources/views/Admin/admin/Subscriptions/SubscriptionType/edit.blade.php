@@ -89,7 +89,7 @@
                                             <label for="upgrade_rate">@lang('Discount applied')</label><br />
                                             <div class="wrapper" style="position: relative; ">
                                                 <input type="text" name="upgrade_rate" id="upgrade_rate"
-                                                    value="{{ $SubscriptionType->upgrade_rate }}" placeholder="20%"
+                                                    value="{{ $SubscriptionType->upgrade_rate  * 100 }}" placeholder="20%"
                                                     class="form-control" min="0" max="100" />
                                             </div>
                                         </div>

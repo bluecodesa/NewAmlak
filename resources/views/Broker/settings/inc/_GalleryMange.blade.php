@@ -66,7 +66,7 @@ aria-labelledby="v-pills-gallary-tab">
                     </div>
                     <div class="form-group">
                         <label
-                        for="editGalleryName">@lang('تفعيل المعرض')</label>
+                        for="editGalleryName">@lang('Enable Gallery')</label>
                         <div class="d-flex" style="margin-top: 10px">
                             @if ($gallery->gallery_status == 0)
                             <input type="checkbox"
@@ -103,7 +103,7 @@ aria-labelledby="v-pills-gallary-tab">
         <div class="col-lg-10">
             <div class="card timeline shadow" disabled>
                 <div class="card-header">
-                    <h5 class="card-title">@lang('اعدادات المعرض')</h5>
+                    <h5 class="card-title">@lang('Gallery Setting')</h5>
                 </div>
                 <div class="card-body">
                     <form id="galleryForm" method="post" disabled>
@@ -135,7 +135,7 @@ aria-labelledby="v-pills-gallary-tab">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="editGalleryName">@lang('تفعيل المعرض')</label>
+                            <label for="editGalleryName">@lang('Enable Gallery')</label>
                             <div class="d-flex" style="margin-top: 10px">
                                 <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status" value="0" data-toggle="toggle" data-onstyle="danger" disabled>
                             </div>

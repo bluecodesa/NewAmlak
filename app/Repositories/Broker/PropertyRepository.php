@@ -136,13 +136,12 @@ class PropertyRepository implements PropertyRepositoryInterface
                     $ext = uniqid() . '.' . $image->clientExtension();
                     $image->move(public_path() . '/Brokers/Projects/Property/Unit', $ext);
                     UnitImage::create([
-                        'image' => '/Brokers/Projects/Property/Unit' . $ext,
+                        'image' => '/Brokers/Projects/Property/Unit/' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }
             }
         }
-
 
         return redirect()->route('Broker.Property.index')->with('success', __('added successfully'));
     }

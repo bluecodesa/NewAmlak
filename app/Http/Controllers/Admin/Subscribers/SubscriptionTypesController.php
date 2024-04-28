@@ -17,7 +17,7 @@ class SubscriptionTypesController extends Controller
     protected $roleService;
 
 
-    public function __construct(SubscriptionTypeService $subscriptionTypeService, 
+    public function __construct(SubscriptionTypeService $subscriptionTypeService,
     SectionService $SectionService,
     RoleService $roleService)
     {
@@ -65,11 +65,14 @@ class SubscriptionTypesController extends Controller
             'period_type' => 'required',
             'roles' => 'required|array|min:1', // At least one role must be selected
             'sections' => 'required|array',
-        ];
+            'upgrade_rate' => 'numeric|min:0|max:100',
+            ];
         $messages = [
             'required' => __('The :attribute field is required.'),
             'unique' => __('The :attribute has already been taken.'),
             'roles.min' => __('Please select at least one role.'),
+            'upgrade_rate.numeric' => __('Discount applied Must be Number '),
+
         ];
         $request->validate($rules, $messages);
 

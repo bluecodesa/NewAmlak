@@ -33,14 +33,14 @@
                                     id="subscriptionsForm">
                                     <div class="row">
                                         <div class="w-auto col-4">
-                                            <span>حالة الاشتراك</span>
+                                            <span>@lang('Subscription Status')</span>
                                             <select class="form-control form-control-sm" id="status_filter"
                                                 name="status_filter">
-                                                <option value="all" {{ $status_filter == 'all' ? 'selected' : '' }}>كل
-                                                    الحالات</option>
-                                                <option value="1" {{ $status_filter == 1 ? 'selected' : '' }}>فعال
+                                                <option value="all" {{ $status_filter == 'all' ? 'selected' : '' }}>
+                                                    @lang('All')</option>
+                                                <option value="1" {{ $status_filter == 1 ? 'selected' : '' }}>@lang('active')
                                                 </option>
-                                                <option value="0" {{ $status_filter == 0 ? 'selected' : '' }}>غير فعال
+                                                <option value="0" {{ $status_filter == 0 ? 'selected' : '' }}> @lang('inactive')
                                                 </option>
                                             </select>
                                         </div>
@@ -61,10 +61,10 @@
                                             </select>
                                         </div>
                                         <div class="w-auto col-4">
-                                            <span>السعر</span>
+                                            <span>@lang('price')</span>
                                             <select class="form-control form-control-sm" id="price_filter"
                                                 name="price_filter">
-                                                <option value="all" {{ $price_filter == 'all' ? 'selected' : '' }}>اختر
+                                                <option value="all" {{ $price_filter == 'all' ? 'selected' : '' }}>@lang('All')
                                                 </option>
                                                 @foreach ($prices as $price)
                                                     <option value="{{ $price }}"
@@ -102,7 +102,7 @@
                                 <h4 class="mt-0 header-title">
                                     <a href="{{ route('Admin.SubscriptionTypes.create') }}" type="submit"
                                         class="btn btn-primary col-1 p-1 m-1 waves-effect waves-light">
-                                        <i class="fas fa-plus"></i>
+                                        @lang('Add New Type subscription')
                                     </a>
                                 </h4>
 
@@ -113,11 +113,11 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>@lang('Name')</th>
-                                                    <th>مدة الاشتراك</th>
-                                                    <th>نوع الاشتراك</th>
+                                                    <th>@lang('Subscription Time')</th>
+                                                    <th>@lang('Subscription Type')</th>
                                                     <th> @lang('role name') </th>
-                                                    <th> السعر</th>
-                                                    <th>الحالة</th>
+                                                    <th>@lang('price')</th>
+                                                    <th>@lang('status')</th>
                                                     <th class="noExl"></th>
                                                 </tr>
                                             </thead>

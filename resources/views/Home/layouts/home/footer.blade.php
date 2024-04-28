@@ -78,17 +78,16 @@
                                 <img src="{{ asset('HOME_PAGE/images/new/Iconly-Bold-Message.png') }}"
                                     class="img-fluid" />
                             </div>
-                            hi@bluecode.sa
-                        </a></li>
+                            {{ $sitting->email }}</a></li>
                     <li><a href="tel:+966500334691">
                             <div class="img-smm-div">
                                 <img src="{{ asset('HOME_PAGE/images/new/Iconly-Bold-Call.png') }}"
                                     class="img-fluid" />
                             </div>
-                            <p style="direction: ltr;display: inline-block;">+966 50 033 4691</p>
+                            <p style="direction: ltr;display: inline-block;">+966 {{ $sitting->phone }}</p>
                         </a></li>
 
-                    <li><a href="https://twitter.com/tryamlak" target="_blank">
+                    <li><a href="{{ $sitting->twitter }}" target="_blank">
                             <div class="img-smm-div">
                                 <img src="{{ asset('HOME_PAGE/images/new/icons8-twitter-48.png') }}"
                                     class="img-fluid" />

@@ -33,7 +33,9 @@ class SettingService
         $data = $request->validate([
             'ar.title' => 'required|string',
             'en.title' => 'required|string',
+            'email' => 'nullable|email',
             'facebook' => 'nullable|url',
+            'twitter' => 'nullable|url',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'terms_pdf' => 'nullable|file',
             'phone' => 'nullable',
@@ -41,6 +43,8 @@ class SettingService
             'privacy_pdf' => 'nullable|file',
             'color' => 'nullable|string',
         ]);
+
+        
 
         foreach (config('translatable.locales') as $locale) {
             $data[$locale]['title'] = $request->input("$locale.title");
@@ -111,8 +115,8 @@ class SettingService
             '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
             '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
         ];
-    
-        validator($data, $rules, $messages)->validate();        
+
+        validator($data, $rules, $messages)->validate();
         return $this->settingRepository->createInterestType($data);
     }
 
@@ -126,8 +130,8 @@ class SettingService
             '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
             '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
         ];
-        
-        validator($data, $rules, $messages)->validate();        
+
+        validator($data, $rules, $messages)->validate();
         return $this->settingRepository->updateInterestType($id, $data);
     }
 

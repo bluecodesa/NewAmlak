@@ -73,7 +73,7 @@
 
                                                 <input type="text" name="price" id="price" class="form-control"
                                                     required min="0" />
-                                                <span class="sub-input">SAR
+                                                <span class="sub-input">@lang('SAR')
                                                 </span>
                                             </div>
                                         </div>
@@ -145,7 +145,7 @@
 
                                         <button class="btn
                                             btn-primary"
-                                            type="submit">حفظ</button>
+                                            type="submit">@lang('save')</button>
                                 </form>
 
                             </div>

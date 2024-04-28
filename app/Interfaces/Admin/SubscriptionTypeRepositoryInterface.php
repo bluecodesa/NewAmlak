@@ -20,5 +20,9 @@ interface SubscriptionTypeRepositoryInterface
 
     public function delete($id);
     public function getUserSubscriptionTypes();
+    public function getGallerySubscriptionTypes();
+
+
+
 
 }
