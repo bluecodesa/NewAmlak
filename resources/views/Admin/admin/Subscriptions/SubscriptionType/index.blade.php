@@ -45,18 +45,18 @@
                                             </select>
                                         </div>
                                         <div class="w-auto col-4">
-                                            <span>مدة الاشتراك</span>
+                                            <span>@lang('Subscription Time')</span>
                                             <select class="form-control form-control-sm" id="period_filter"
                                                 name="period_filter">
-                                                <option value="all" {{ $period_filter == 'all' ? 'selected' : '' }}>اختر
+                                                <option value="all" {{ $period_filter == 'all' ? 'selected' : '' }}>@lang('All')
                                                 </option>
-                                                <option value="day" {{ $period_filter == 'day' ? 'selected' : '' }}>يوم
+                                                <option value="day" {{ $period_filter == 'day' ? 'selected' : '' }}>@lang('day')
                                                 </option>
                                                 <option value="week" {{ $period_filter == 'week' ? 'selected' : '' }}>
-                                                    اسبوع</option>
-                                                <option value="month" {{ $period_filter == 'month' ? 'selected' : '' }}>شهر
+                                                    @lang('week')</option>
+                                                <option value="month" {{ $period_filter == 'month' ? 'selected' : '' }}>@lang('month')
                                                 </option>
-                                                <option value="year" {{ $period_filter == 'year' ? 'selected' : '' }}>سنة
+                                                <option value="year" {{ $period_filter == 'year' ? 'selected' : '' }}>@lang('year')
                                                 </option>
                                             </select>
                                         </div>
@@ -75,7 +75,7 @@
                                             </select>
                                         </div>
                                         <div class="w-auto text-center col-12">
-                                            <button type="submit" class="w-auto btn btn-primary mt-2 btn-sm">تصفية</button>
+                                            <button type="submit" class="w-auto btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
                                             @php
                                                 $filter_counter =
                                                     ($period_filter != 'all') +
@@ -85,7 +85,7 @@
                                             @if ($filter_counter > 0)
                                                 <a href="{{ route('Admin.SubscriptionTypes.index') }}"
                                                     class="clear-filter w-auto btn btn-danger mt-2 btn-sm"
-                                                    style="margin-bottom: 0!important;">إلغاء التصفية
+                                                    style="margin-bottom: 0!important;">@lang('Cancel') @lang('Filter')
                                                     ({{ $filter_counter }})</a>
                                             @endif
                                         </div>

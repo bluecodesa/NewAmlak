@@ -200,7 +200,7 @@
                                         <label>@lang('Ad type') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="type" id="type" required>
                                             <option disabled value="">@lang('Ad type') </option>
-                                            @foreach (['rent', 'sale', 'rent_sale'] as $type)
+                                            @foreach (['rent', 'sale', 'rent and sale'] as $type)
                                                 <option value="{{ $type }}">
                                                     {{ __($type) }}</option>
                                             @endforeach

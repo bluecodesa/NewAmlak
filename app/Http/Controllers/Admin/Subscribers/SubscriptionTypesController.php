@@ -71,7 +71,7 @@ class SubscriptionTypesController extends Controller
             'required' => __('The :attribute field is required.'),
             'unique' => __('The :attribute has already been taken.'),
             'roles.min' => __('Please select at least one role.'),
-            'upgrade_rate.numeric' => __('Discount applied Must be Number '),
+            'upgrade_rate.numeric' => 'Discount applied Must be Number ',
 
         ];
         $request->validate($rules, $messages);
@@ -105,9 +105,17 @@ class SubscriptionTypesController extends Controller
             'period_type' => 'required',
             'roles*' => 'required',
             'sections*' => 'required',
-        ];
-        $request->validate($rules);
+            'upgrade_rate' => 'numeric|min:0|max:100',
 
+        ];
+        $messages = [
+            'required' => __('The :attribute field is required.'),
+            'unique' => __('The :attribute has already been taken.'),
+            'roles.min' => __('Please select at least one role.'),
+            'upgrade_rate.numeric' => 'Discount applied Must be Number ',
+
+        ];
+        $request->validate($rules, $messages);
         $this->subscriptionTypeService->updateSubscriptionType($id, $request->all());
 
         return redirect()->route('Admin.SubscriptionTypes.index')

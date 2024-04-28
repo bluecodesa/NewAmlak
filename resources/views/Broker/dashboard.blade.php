@@ -291,7 +291,7 @@
                                         <i class="fas fa-users bg-primary  text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="font-16">زوار المعرض</h5>
+                                        <h5 class="font-16">@lang('Gallery visitors')</h5>
                                     </div>
                                     <h3 class="mt-4">{{ $visitorCount }}</h3>
                                     {{-- <div class="progress mt-4" style="height: 4px;">
@@ -313,7 +313,7 @@
                             <div class="card m-b-30">
                                 <div class="card-body">
 
-                                    <h4 class="mt-0 header-title mb-4">مؤشرات العقارات </h4>
+                                    <h4 class="mt-0 header-title mb-4">@lang('Real estate indicators')</h4>
 
                                     <div id="overlapping-bars" class="ct-chart ct-golden-section"><svg
                                             xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%"
@@ -530,7 +530,7 @@
                         <div class="col-xl-6">
                             <div class="card m-b-30">
                                 <div class="card-body">
-                                    <h4 class="mt-0 header-title mb-4"> مؤشرات الوحدات</h4>
+                                    <h4 class="mt-0 header-title mb-4">@lang('Unit indicators')</h4>
                                     <div class="row mb-4">
 
                                         @if ($numberOfUnits > 0)

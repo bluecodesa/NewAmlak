@@ -66,7 +66,7 @@
 
 
                                 <h4 class="mt-0 header-title">
-                                    @lang('سجل تاريخ الاشتراك')
+                                    @lang('Record subscription history')
 
 
                                 </h4>

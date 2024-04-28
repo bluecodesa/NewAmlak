@@ -122,7 +122,7 @@
                                     <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
                                         <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
-                                        @foreach (['rent', 'sale', 'rent_sale'] as $type)
+                                        @foreach (['rent', 'sale', 'rent and sale'] as $type)
                                             <option value="{{ $type }}"
                                                 {{ $adTypeFilter == $type ? 'selected' : '' }}>
                                                 {{ __($type) }}

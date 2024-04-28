@@ -248,7 +248,7 @@
                     <div class="card-body">
                         <div class="col-sm-6">
                             <h4 class="page-title">
-                                @lang('سجل تاريخ الاشتراك')</h4>
+                                @lang('Record subscription history')</h4>
                         </div>
                         <div class="table-responsive b-0" data-pattern="priority-columns">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"

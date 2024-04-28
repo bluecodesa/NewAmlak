@@ -36,8 +36,8 @@
                                             <span class="sale">@lang('sale')</span>
                                         @endif
 
-                                        @if ($unit->type == 'rent_sale')
-                                            <span class="sale">@lang('rent_sale')</span>
+                                        @if ($unit->type == 'rent and sale')
+                                            <span class="sale">@lang('rent and sale')</span>
                                         @endif
                                     </div>
                                 </div>
@@ -209,7 +209,7 @@
                                         <sup>@lang('SAR')
                                         </sup></span>
                                     @endif
-                                    @if ($unit->type == 'rent_sale')
+                                    @if ($unit->type == 'rent and sale')
                                     <span class="w-auto m-0 p-0" style="color: #5c88b4;font-weight:900">@lang('rent'){{ $unit->getRentPriceByType() }}  <sup>@lang('SAR') / {{ __($unit->rent_type_show) }}
                                     </sup>
                                        </span>

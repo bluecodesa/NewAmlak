@@ -259,7 +259,7 @@
     "Ad type": "نوع الاعلان",
     "rent": "إيجار",
     "sale": "بيع",
-    "rent_sale": "بيع و إيجار",
+    "rent and sale": "بيع و إيجار",
     "features": "مميزات اضافية",
     "Add feature": "اضافة ميزة",
     "qty": "الكمية",
@@ -423,5 +423,9 @@
     "Enable Gallery": "تفعيل المعرض",
     "Gallery Setting": "اعدادات المعرض",
     "Facebook": "فيس بوك",
-    "twitter": "توتير"
+    "twitter": "توتير",
+    "Gallery visitors": "زوار المعرض",
+    "Unit indicators": "مؤشرات الوحدات",
+    "Real estate indicators": "مؤشرات العقارات",
+    "Record subscription history": "سجل تاريخ الاشتراك"
 }

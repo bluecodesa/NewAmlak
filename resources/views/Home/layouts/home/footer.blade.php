@@ -110,10 +110,9 @@
                 <div class="text-sm-start">
                     <p class="mb-0">
 
-                        جميع الحقوق محفوظه 2022 ©
-                        <a href="https://bluecode.sa/" target="_blank" class="text-reset"> لشركة بلوكود</a> -
-                        أملاك V2.1
-                    </p>
+                        جميع الحقوق محفوظه  ©
+                        <a href="{{ env('COMPANY_URL','https://bluecode.sa') }}" target="_blank" class="text-reset"> لشركة بلوكود</a> -
+                        أملاك {{ env('APP_VERSION','V1.0') }}                    </p>
                 </div>
             </div>
             <!--end col-->

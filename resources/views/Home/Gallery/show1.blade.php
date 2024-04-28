@@ -127,7 +127,7 @@
                                                                                 <div class="w-auto col-4">
                                                                                     <span>@lang('Ad type')</span>
                                                                                     <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
-                                                                                        @foreach (['rent', 'sale', 'rent_sale'] as $type)
+                                                                                        @foreach (['rent', 'sale', 'rent and sale'] as $type)
                                                                                             <option value="{{ $type }}">{{ __($type) }}</option>
                                                                                         @endforeach
                                                                                     </select>

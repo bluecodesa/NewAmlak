@@ -108,7 +108,7 @@ class PropertyService
             ],
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
-            'type' => ['required', Rule::in(['sale', 'rent','rent_sale'])],
+            'type' => ['required', Rule::in(['sale', 'rent','rent and sale'])],
 
         ];
         $messages = [
