@@ -1,5 +1,12 @@
-@if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames))
-    <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel" aria-labelledby="v-pills-gallary-tab">
+{{-- (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) --}}
+@php
+$sectionsIds = Auth::user()
+    ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+    ->toArray();
+@endphp
+@if (in_array(18, $sectionsIds))
+
+<div class="tab-pane fade" id="v-pills-gallary" role="tabpanel" aria-labelledby="v-pills-gallary-tab">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="card timeline shadow">

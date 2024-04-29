@@ -57,9 +57,9 @@ class PropertyService
             'instrument_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('instrument number')]),
             'instrument_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('instrument number'), 'max' => 25]),
         ];
-        
+
         validator($data, $rules, $messages)->validate();
-        
+
         $data['broker_id'] = Auth::user()->UserBrokerData->id;
 
         $Property = $this->PropertyRepository->store($data, $images);
@@ -101,6 +101,8 @@ class PropertyService
             'property_type_id' => 'required',
             'property_usage_id' => 'required',
             'owner_id' => 'required',
+            'price' => 'digits_between:0,10',
+            'monthly' => 'digits_between:0,8',
             'instrument_number' => [
                 'nullable',
                 Rule::unique('properties')->ignore($id),
@@ -122,6 +124,8 @@ class PropertyService
             'service_type_id.required' => 'The service type field is required.',
             'type.required' => 'The type field is required.',
             'type.in' => 'The selected type is invalid.',
+            'price' => 'price must be smaller than or equal to 10 numbers.',
+            'monthly' => 'Monthly price must be smaller than or equal to 8.',
         ];
 
         // Validate data
