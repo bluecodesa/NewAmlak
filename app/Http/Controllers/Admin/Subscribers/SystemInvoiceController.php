@@ -19,16 +19,18 @@ class SystemInvoiceController extends Controller
     protected $subscriptionTypeService;
 
 
-    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository, 
-    RegionService $regionService, 
-    CityService $cityService,
-    SubscriptionTypeService $subscriptionTypeService)
-    {
+    public function __construct(
+        SystemInvoiceRepositoryInterface $systemInvoiceRepository,
+        RegionService $regionService,
+        CityService $cityService,
+        SubscriptionTypeService $subscriptionTypeService
+    ) {
         $this->systemInvoiceRepository = $systemInvoiceRepository;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
         $this->subscriptionTypeService = $subscriptionTypeService;
-
+        $this->middleware(['role_or_permission:read-SystemInvoice'])->only(['index']);
+        $this->middleware(['role_or_permission:read-invoice-details'])->only(['show']);
     }
 
     public function index()

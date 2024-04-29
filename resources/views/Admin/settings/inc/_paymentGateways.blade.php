@@ -7,13 +7,13 @@
                         @lang('PayTabs')</h4>
                 </div>
                 <div class="col-md-6" style="text-align: end">
-                    @can('create-payment')
-                        <a href="#" class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light" data-toggle="modal"
-                            data-target="#addNewPaymentModal">
+                    @if (Auth::user()->hasPermission('create-payment-gateway'))
+                        <a href="#" class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light"
+                            data-toggle="modal" data-target="#addNewPaymentModal">
                             <i class="bi bi-plus-circle"></i>
                             @lang('Add New Payment')
                         </a>
-                    @endcan
+                    @endif
                 </div>
             </div>
         </div>

@@ -37,7 +37,7 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="col-md-6">
-                                    @can('create-role')
+                                    @if (Auth::user()->hasPermission('create-role'))
                                         <a href="{{ route('Admin.roles.create') }}"
                                             class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light"><i
                                                 class="bi bi-plus-circle"></i> @lang('Add New Role Admin')</a>
@@ -45,7 +45,7 @@
                                         <a href="{{ route('Admin.roles.CreateUser') }}"
                                             class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light"><i
                                                 class="bi bi-plus-circle"></i> @lang('Add New Role User')</a>
-                                    @endcan
+                                    @endif
                                 </div>
                                 <h4 class="mt-0 header-title">
 
@@ -71,17 +71,18 @@
                                                 <td>{{ __($role->type) }}</td>
                                                 <td>
 
-                                                    <a href="{{ route('Admin.roles.show', $role->id) }}"
-                                                        class="btn btn-outline-warning btn-sm waves-effect waves-light"><i
-                                                            class="bi bi-eye"></i>
-                                                        @lang('Show')</a>
+                                                    @if (Auth::user()->hasPermission('view-role'))
+                                                        <a href="{{ route('Admin.roles.show', $role->id) }}"
+                                                            class="btn btn-outline-warning btn-sm waves-effect waves-light"><i
+                                                                class="bi bi-eye"></i>
+                                                            @lang('Show')</a>
+                                                    @endif
+                                                    @if (Auth::user()->hasPermission('update-role'))
+                                                        <a href="{{ route('Admin.roles.edit', $role->id) }}"
+                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                    @endif
 
-                                                    <a href="{{ route('Admin.roles.edit', $role->id) }}"
-                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-
-
-
-                                                    @can('delete-role')
+                                                    @if (Auth::user()->hasPermission('delete-role'))
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $role->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
@@ -93,7 +94,7 @@
                                                             @csrf
                                                             @method('DELETE')
                                                         </form>
-                                                    @endcan
+                                                    @endif
 
 
 

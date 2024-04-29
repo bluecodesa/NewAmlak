@@ -25,21 +25,19 @@ class SupportController extends Controller
 
 
 
-    public function __construct(SupportService $SupportService,
-    TicketService $ticketService,
-    SettingService $settingService)
-    {
-        // $this->middleware(['role_or_permission:read-SupportTickets'])->only(['index']);
-        // $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
-        // $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
-        // $this->middleware(['role_or_permission:delete-SupportTickets'])->only(['destroy']);
+    public function __construct(
+        SupportService $SupportService,
+        TicketService $ticketService,
+        SettingService $settingService
+    ) {
+        $this->middleware(['role_or_permission:read-support-ticket-admin'])->only(['index']);
+        $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-SupportTickets'])->only(['destroy']);
         $this->SupportService = $SupportService;
         $this->ticketService = $ticketService;
 
         $this->settingService = $settingService;
-
-
-
     }
     public function index()
     {
@@ -168,13 +166,11 @@ class SupportController extends Controller
     public function showInfoSupport()
     {
 
-       // Retrieve all tickets
-    //    $settings = Setting::first();
-       $settings = $this->settingService->getFirstSetting();
+        // Retrieve all tickets
+        //    $settings = Setting::first();
+        $settings = $this->settingService->getFirstSetting();
 
-       return view('Admin.supports.Setting.index', compact('settings'));
-
-
+        return view('Admin.supports.Setting.index', compact('settings'));
     }
 
     public function updateInfoSupport(Request $request)

@@ -17,14 +17,20 @@ class SubscriptionTypesController extends Controller
     protected $roleService;
 
 
-    public function __construct(SubscriptionTypeService $subscriptionTypeService,
-    SectionService $SectionService,
-    RoleService $roleService)
-    {
+    public function __construct(
+        SubscriptionTypeService $subscriptionTypeService,
+        SectionService $SectionService,
+        RoleService $roleService
+
+    ) {
         $this->subscriptionTypeService = $subscriptionTypeService;
         $this->SectionService = $SectionService;
         $this->roleService = $roleService;
 
+        $this->middleware(['role_or_permission:read-SubscriptionTypes'])->only('index');
+        $this->middleware(['role_or_permission:create-SubscriptionTypes'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:update-SubscriptionTypes'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-SubscriptionTypes'])->only(['destroy']);
     }
 
     public function index(Request $request)
@@ -66,7 +72,7 @@ class SubscriptionTypesController extends Controller
             'roles' => 'required|array|min:1', // At least one role must be selected
             'sections' => 'required|array',
             'upgrade_rate' => 'numeric|min:0|max:100',
-            ];
+        ];
         $messages = [
             'required' => __('The :attribute field is required.'),
             'unique' => __('The :attribute has already been taken.'),

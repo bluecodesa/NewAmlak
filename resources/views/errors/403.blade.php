@@ -31,47 +31,48 @@
 <body>
 
 
-        <!-- Begin page -->
-        <div class="error-bg"></div>
-        <div class="home-btn d-none d-sm-block">
-                <a href="{{ route('welcome') }}" class="text-white"><i class="fas fa-home h2"></i></a>
-            </div>
+    <!-- Begin page -->
+    <div class="error-bg"></div>
+    <div class="home-btn d-none d-sm-block">
+        <a href="{{ route('welcome') }}" class="text-white"><i class="fas fa-home h2"></i></a>
+    </div>
 
-        <div class="account-pages">
+    <div class="account-pages">
 
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 col-md-8">
-                            <div class="card shadow-lg">
-                                <div class="card-block">
-                                    <div class="text-center p-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-8">
+                    <div class="card shadow-lg">
+                        <div class="card-block">
+                            <div class="text-center p-3">
 
-                                            <h1 class="error-page mt-4"><span>403!</span></h1>
-                                        <h4 class="mb-4 mt-5">@lang('Sorry, page not found') </h4>
-                                        <p class="mb-4"></p>
-                                        <a class="btn btn-primary mb-4 waves-effect waves-light" href="{{ route('Admin.home') }}"><i class="mdi mdi-home"></i>@lang('Back to Dashboard')</a>
-                                    </div>
-
-                                </div>
+                                <h1 class="error-page mt-4"><span>403!</span></h1>
+                                <h4 class="mb-4 mt-5">@lang("Sorry! you don't have permission to Access this page") </h4>
+                                <p class="mb-4"></p>
+                                <a class="btn btn-primary mb-4 waves-effect waves-light"
+                                    href="{{ route('Admin.home') }}"><i class="mdi mdi-home"></i>@lang('Back to Dashboard')</a>
                             </div>
 
                         </div>
                     </div>
-                    <!-- end row -->
+
                 </div>
             </div>
-        <!-- END wrapper -->
+            <!-- end row -->
+        </div>
+    </div>
+    <!-- END wrapper -->
 
-     <!-- jQuery  -->
-     <script src="{{ url('dashboard_files/assets/js/jquery.min.js') }}"></script>
-     <script src="{{ url('dashboard_files/assets/js/bootstrap.bundle.min.js') }}"></script>
-     <script src="{{ url('dashboard_files/assets/js/metismenu.min.js') }}"></script>
-     <script src="{{ url('dashboard_files/assets/js/jquery.slimscroll.js') }}"></script>
-     <script src="{{ url('dashboard_files/assets/js/waves.min.js') }}"></script>
+    <!-- jQuery  -->
+    <script src="{{ url('dashboard_files/assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/metismenu.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/jquery.slimscroll.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/waves.min.js') }}"></script>
 
-     <!-- App js -->
-     <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
+    <!-- App js -->
+    <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
 
- </body>
+</body>
 
- </html>
+</html>

@@ -43,12 +43,12 @@
                                                     aria-controls="v-pills-home" aria-selected="true">
                                                     @lang('Website Setting')</button>
                                             @endif
-                                            {{-- @if (Auth::user()->hasPermission('update-Billing')) --}}
-                                            <button class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
-                                                data-target="#v-pills-profile" type="button" role="tab"
-                                                aria-controls="v-pills-profile" aria-selected="false">
-                                                @lang('PayTabs')</button>
-                                            {{-- @endif --}}
+                                            @if (Auth::user()->hasPermission('update-payment-gateway'))
+                                                <button class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
+                                                    data-target="#v-pills-profile" type="button" role="tab"
+                                                    aria-controls="v-pills-profile" aria-selected="false">
+                                                    @lang('PayTabs')</button>
+                                            @endif
                                             @if (Auth::user()->hasPermission('update-Billing'))
                                                 <button class="nav-link" id="v-pills-tax-tab" data-toggle="pill"
                                                     data-target="#v-pills-tax" type="button" role="tab"
@@ -61,12 +61,12 @@
                                                 aria-controls="v-pills-messages" aria-selected="false">
                                                 @lang('Notification Mange')</button>
 
-
-                                            <button class="nav-link" id="v-pills-interests-tab" data-toggle="pill"
-                                                data-target="#v-pills-interests" type="button" role="tab"
-                                                aria-controls="v-pills-interests"
-                                                aria-selected="false">@lang('Gallary Mange')</button>
-
+                                            @if (Auth::user()->hasPermission('read-interest-request-status'))
+                                                <button class="nav-link" id="v-pills-interests-tab" data-toggle="pill"
+                                                    data-target="#v-pills-interests" type="button" role="tab"
+                                                    aria-controls="v-pills-interests"
+                                                    aria-selected="false">@lang('Gallary Mange')</button>
+                                            @endif
                                             @if (Auth::user()->hasPermission('update-DomainSettings'))
                                                 <button class="nav-link" id="v-pills-HomePage-tab" data-toggle="pill"
                                                     data-target="#v-pills-HomePage" type="button" role="tab"
@@ -84,6 +84,12 @@
                                                     @include('Admin.settings.inc._GeneralSetting')
                                                 </div>
                                             @endif
+                                            @if (Auth::user()->hasPermission('update-PlatformSettings'))
+                                                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                                    aria-labelledby="v-pills-profile-tab">
+                                                    @include('Admin.settings.inc._paymentGateways')
+                                                </div>
+                                            @endif
                                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                                 aria-labelledby="v-pills-messages-tab">
                                                 @include('Admin.settings.inc._NotificationsManagement')
@@ -93,82 +99,86 @@
                                                 aria-labelledby="v-pills-settings-tab">
                                             </div>
                                             <!-- tax rate-->
-                                            <div class="tab-pane fade" id="v-pills-tax" role="tabpanel"
-                                                aria-labelledby="v-pills-tax-tab">
 
-                                                <div class="col-md-12 ArFont">
-                                                    <div class="card timeline shadow">
-                                                        <div class="card-header">
-                                                            <strong class="card-title">
-                                                                @lang('Value added tax')
-                                                            </strong>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <form action="{{ route('Admin.update-tax', $settings) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                <div class="form-row">
-                                                                    <div class="col-md-6 mb-3">
-                                                                        <label for="tax_rate">
-                                                                            <span class="required-color">*</span>
-                                                                            @lang('Value added tax rate')
-                                                                        </label><br />
-                                                                        <div class="wrapper" style="position: relative;">
-                                                                            <input type="number" name="tax_rate"
-                                                                                id="tax_rate" class="form-control"
-                                                                                required min="1" max="100"
-                                                                                placeholder="1-100"
-                                                                                value="{{ $settings->tax_rate * 100 }}" />
-                                                                            <span class="sub-input">%</span>
+                                            @if (Auth::user()->hasPermission('update-Billing'))
+                                                <div class="tab-pane fade" id="v-pills-tax" role="tabpanel"
+                                                    aria-labelledby="v-pills-tax-tab">
+
+                                                    <div class="col-md-12 ArFont">
+                                                        <div class="card timeline shadow">
+                                                            <div class="card-header">
+                                                                <strong class="card-title">
+                                                                    @lang('Value added tax')
+                                                                </strong>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <form action="{{ route('Admin.update-tax', $settings) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <div class="form-row">
+                                                                        <div class="col-md-6 mb-3">
+                                                                            <label for="tax_rate">
+                                                                                <span class="required-color">*</span>
+                                                                                @lang('Value added tax rate')
+                                                                            </label><br />
+                                                                            <div class="wrapper"
+                                                                                style="position: relative;">
+                                                                                <input type="number" name="tax_rate"
+                                                                                    id="tax_rate" class="form-control"
+                                                                                    required min="1" max="100"
+                                                                                    placeholder="1-100"
+                                                                                    value="{{ $settings->tax_rate * 100 }}" />
+                                                                                <span class="sub-input">%</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-md-6 mb-3">
+                                                                            <label for="trn">
+                                                                                @lang('trn')
+                                                                            </label><br />
+                                                                            <div class="wrapper"
+                                                                                style="position: relative;">
+                                                                                <input type="number" name="trn"
+                                                                                    id="trn" class="form-control"
+                                                                                    placeholder="@lang('trn')"
+                                                                                    value="{{ $settings->trn }}" />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-12">
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary waves-effect waves-light">@lang('Save')</button>
+                                                                            <button type="reset"
+                                                                                class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
                                                                         </div>
                                                                     </div>
-
-                                                                    <div class="col-md-6 mb-3">
-                                                                        <label for="trn">
-                                                                            @lang('trn')
-                                                                        </label><br />
-                                                                        <div class="wrapper" style="position: relative;">
-                                                                            <input type="number" name="trn"
-                                                                                id="trn" class="form-control"
-                                                                                placeholder="@lang('trn')"
-                                                                                value="{{ $settings->trn }}" />
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-12">
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary waves-effect waves-light">@lang('Save')</button>
-                                                                        <button type="reset"
-                                                                            class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
+
+                                                    {{-- @include('Admin.settings.inc._UpdateTax') --}}
+
                                                 </div>
+                                            @endif
 
-                                                {{-- @include('Admin.settings.inc._UpdateTax') --}}
-
-                                            </div>
                                             <!-- بوابات الدفع -->
-                                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                                aria-labelledby="v-pills-profile-tab">
-                                                @include('Admin.settings.inc._paymentGateways')
-                                            </div>
-
-                                            <div class="tab-pane fade" id="v-pills-HomePage" role="tabpanel"
-                                                aria-labelledby="v-pills-HomePage-tab">
-                                                @include('Admin.settings.inc._LandingPage')
-                                            </div>
+                                            {{-- update-DomainSettings --}}
+                                            @if (Auth::user()->hasPermission('update-DomainSettings'))
+                                                <div class="tab-pane fade" id="v-pills-HomePage" role="tabpanel"
+                                                    aria-labelledby="v-pills-HomePage-tab">
+                                                    @include('Admin.settings.inc._LandingPage')
+                                                </div>
+                                            @endif
                                             <!-- بوابات الدفع -->
                                             <!--interests types gallery mange-->
-                                            <div class="tab-pane fade" id="v-pills-interests" role="tabpanel"
-                                                aria-labelledby="v-pills-interests-tab">
-                                                @include('Admin.settings.InterestType.index')
-                                            </div>
-
-
+                                            @if (Auth::user()->hasPermission('read-interest-request-status'))
+                                                <div class="tab-pane fade" id="v-pills-interests" role="tabpanel"
+                                                    aria-labelledby="v-pills-interests-tab">
+                                                    @include('Admin.settings.InterestType.index')
+                                                </div>
+                                            @endif
 
                                         </div>
 
