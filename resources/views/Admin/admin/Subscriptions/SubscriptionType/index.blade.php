@@ -121,7 +121,7 @@
                                                     <th> @lang('role name') </th>
                                                     <th>@lang('price')</th>
                                                     <th>@lang('status')</th>
-                                                    <th class="noExl"></th>
+                                                    <th>@lang('Action')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -202,12 +202,92 @@
                             </div>
                         </div>
                     </div> <!-- end col -->
-                </div> <!-- end col -->
-            </div> <!-- end row -->
 
-        </div>
-        <!-- container-fluid -->
+                    <div class="col-12">
+                        <div class="card m-b-30">
+                            <div class="card-body">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">
+                                        @lang('Record Deleted subscriptionTypes')</h4>
+                                </div>
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>@lang('Name')</th>
+                                                    <th>@lang('Subscription Time')</th>
+                                                    <th>@lang('Subscription Type')</th>
+                                                    <th> @lang('role name') </th>
+                                                    <th>@lang('price')</th>
+                                                    <th>@lang('status')</th>
+                                                    <th>@lang('Action')</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($subscriptionsDeleted as $index => $sub_deleted)
+
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $sub_deleted->name }}</td>
+                                                        <td>
+                                                            @if ($sub_deleted->price > 0)
+                                                                <span class="badge badge-pill badge-warning"
+                                                                    style="background-color: #add0e87d;color: #497AAC;">
+                                                                    {{ $sub_deleted->period }} {{ __($sub_deleted->period_type) }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge badge-pill badge-warning">
+                                                                    {{ $sub_deleted->period }} {{ __($sub_deleted->period_type) }}
+                                                                </span>
+                                                            @endif
+
+                                                        </td>
+
+                                                        <td>
+                                                            @if ($sub_deleted->price > 0)
+                                                                <span class="badge badge-pill badge-warning"
+                                                                    style="background-color: #add0e87d;color: #497AAC;">@lang('paid')</span>
+                                                            @else
+                                                                <span
+                                                                    class="badge badge-pill badge-warning">@lang('free')</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @foreach ($sub_deleted->RolesData as $role)
+                                                                {{ $role->RoleData->name ?? '' }}
+                                                                @if (!$loop->last)
+                                                                    ,
+                                                                @endif
+                                                            @endforeach
+                                                        </td>
+
+                                                        <td>{{ $sub_deleted->price }} <sup>@lang('SAR')</sup> </td>
+
+                                                        <td>{{ $sub_deleted->status == 1 ? __('active') : __('inactive') }}</td>
+
+                                                        <td></td>
+
+
+                                                    </tr>
+                                                @endforeach
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                    </div>
+
+                </div> <!-- end col -->
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
     </div>
+        <!-- container-fluid -->
 @endsection
 @push('scripts')
     <script>
