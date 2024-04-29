@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gallery;
 use App\Models\SubscriptionHistory;
 use App\Models\SubscriptionSection;
 use App\Models\SubscriptionType;
@@ -157,7 +158,28 @@ class PaymentController extends Controller
         if ($subscription) {
             $subscription->update(['subscription_type_id' => $SubscriptionType->id, 'status' => 'active', 'is_start' => 1, 'start_date' => now()->format('Y-m-d H:i:s'), 'end_date' => $endDate]);
             // $this->updateSubscriptionHistory($subscription);
-        }
+            // Check if section 18 exists
+            $hasSection18 = $sections->contains('id', 18);
+
+            // Check if a gallery exists
+            $hasGallery = Gallery::where('broker_id', $brokerData->id)->exists();
+
+            if ($hasSection18 && !$hasGallery) {
+                // Create a new gallery if section 18 exists but there is no gallery
+                $galleryName = explode('@', auth()->user()->email)[0];
+                $defaultCoverImage = '/Gallery/cover/cover.png';
+
+                Gallery::create([
+                    'broker_id' => $brokerData->id,
+                    'gallery_name' => $galleryName,
+                    'gallery_status' => 1,
+                    'gallery_cover' => $defaultCoverImage,
+                ]);
+            } elseif (!$hasSection18 && $hasGallery) {
+                // Delete the gallery if section 18 does not exist but there is a gallery
+                Gallery::where('broker_id', $brokerData->id)->delete();
+            }
+    }
         $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
         SystemInvoice::create([
             'broker_id' => $subscription->broker_id,

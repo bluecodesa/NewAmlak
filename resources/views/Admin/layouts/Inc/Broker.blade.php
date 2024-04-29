@@ -41,16 +41,16 @@
                             </span>
                         </a>
                         <ul class="submenu">
-                            @if (auth()->user()->UserBrokerData->GalleryData)
+                            {{-- @if (auth()->user()->UserBrokerData->GalleryData) --}}
                                 <li><a href="{{ route('Broker.Gallery.index') }}">@lang('Properties Gallary')</a></li>
                                 <li><a href="{{ route('Broker.Gallary.showInterests') }}">@lang('Requests for interest')</a></li>
-                            @else
+                            {{-- @else
                                 <li>
                                     <a href="#v-pills-gallary" data-toggle="pill">
                                         @lang('Properties Gallary')
                                     </a>
                                 </li>
-                            @endif
+                            @endif --}}
                         </ul>
                     </li>
                 @endif

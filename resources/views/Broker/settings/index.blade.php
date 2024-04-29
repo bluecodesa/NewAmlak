@@ -71,8 +71,8 @@
                                             <!-- gallary mange -->
                                             @if ($gallery)
                                                 @include('Broker.settings.inc._GalleryMange')
-                                            @elseif(in_array(18, $sectionsIds))
-                                                @include('Broker.settings.inc._GalleryEnable')
+                                            {{-- @elseif(in_array(18, $sectionsIds))
+                                                @include('Broker.settings.inc._GalleryEnable') --}}
                                             @else
                                                 <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel"
                                                     aria-labelledby="v-pills-gallary-tab">
