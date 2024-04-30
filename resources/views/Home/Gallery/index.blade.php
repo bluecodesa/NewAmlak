@@ -426,6 +426,9 @@
         $('#city_filter').on('change', function() {
             var selectedOption = $(this).find(':selected');
             var url = selectedOption.data('url');
+            if (selectedOption.val() === 'all') {
+        $('#district_filter').val('all');
+    } else {
             $.ajax({
                 type: "get",
                 url: url,
@@ -439,6 +442,7 @@
                     });
                 },
             });
+        }
         });
     </script>
 

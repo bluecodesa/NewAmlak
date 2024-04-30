@@ -32,7 +32,8 @@ trait MailWelcomeBroker
             $data['variable_subscriber_name'] = $user->name != null ? $user->name : "";
             $data['variable_current_subscription'] = $subscriptionType->name != null ? $subscriptionType->name : "";
             $data['variable_subscription_invoice_number'] = $Invoice->invoice_ID ?? null;
-            $data['variable_subscription_invoice_download_link'] = env('APP_URL');
+            // $data['variable_subscription_invoice_download_link'] = env('APP_URL');
+            $data['variable_subscription_invoice_download_link'] = '<a href="' . route('Admin.SystemInvoice.show', $Invoice->id) . '" class="btn btn-dark btn-sm waves-effect waves-light">تحميل الفاتوره</a>';
             $email = $user->email;
             $content = $EmailTemplate->content;
             foreach ($data as $key => $value) {

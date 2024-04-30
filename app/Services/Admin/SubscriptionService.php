@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Http\Traits\Email\MailWelcomeBroker;
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Models\Broker;
 use App\Models\Gallery;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Notification;
 
 class SubscriptionService
 {
+    use MailWelcomeBroker;
+
     protected $subscriptionRepository;
     protected $userCreationService;
     protected $officeCreationService;
@@ -220,12 +223,24 @@ $endDate = $endDate->format('Y-m-d H:i:s');
                 'subscription_id' => $subscription->id,
             ]);
         }
-        $this->createSubscriptionHistory($subscription);
+
+        $Invoice= SystemInvoice::create([
+            'broker_id' => $broker->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => ($subscriptionType->price > 0) ? 'paid' : 'free',
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV_' . uniqid(),
+        ]);
+        // $this->createSubscriptionHistory($subscription);
 
 
-        $this->createSystemInvoiceBroker($broker, $subscriptionType, $status);
+        // $this->createSystemInvoiceBroker($broker, $subscriptionType, $status);
 
         $this->notifyAdmins($broker);
+        $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
 
         return $subscription;
     }
