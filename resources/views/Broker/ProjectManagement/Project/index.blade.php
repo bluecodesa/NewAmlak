@@ -32,12 +32,18 @@
                             <div class="card-body">
                                 <div class="col-6">
                                     <div class="card-title">
-                                        <a href="{{ route('Broker.Project.create') }}"
-                                            class="btn btn-primary waves-effect waves-light">@lang('Add New Project')</a>
-                                        <a href="{{ route('Broker.Property.create') }}"
-                                            class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
-                                        <a href="{{ route('Broker.Unit.create') }}"
-                                            class="btn btn-info waves-effect waves-light">@lang('Add unit')</a>
+                                        @if (Auth::user()->hasPermission('create-project'))
+                                            <a href="{{ route('Broker.Project.create') }}"
+                                                class="btn btn-primary waves-effect waves-light">@lang('Add New Project')</a>
+                                        @endif
+                                        @if (Auth::user()->hasPermission('create-building'))
+                                            <a href="{{ route('Broker.Property.create') }}"
+                                                class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
+                                        @endif
+                                        @if (Auth::user()->hasPermission('create-unit'))
+                                            <a href="{{ route('Broker.Unit.create') }}"
+                                                class="btn btn-info waves-effect waves-light">@lang('Add unit')</a>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -77,19 +83,21 @@
 
                                                         <a href="{{ route('Broker.Project.show', $project->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
-
-                                                        <a href="{{ route('Broker.Project.edit', $project->id) }}"
-                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-
-                                                        <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $project->id }}')"
-                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                        <form id="delete-form-{{ $project->id }}"
-                                                            action="{{ route('Broker.Project.destroy', $project->id) }}"
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
+                                                        @if (Auth::user()->hasPermission('read-project'))
+                                                            <a href="{{ route('Broker.Project.edit', $project->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission('delete-project'))
+                                                            <a href="javascript:void(0);"
+                                                                onclick="handleDelete('{{ $project->id }}')"
+                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                            <form id="delete-form-{{ $project->id }}"
+                                                                action="{{ route('Broker.Project.destroy', $project->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -121,7 +121,7 @@ class HomeController extends Controller
         }
 
         //
-        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status',1);
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
 
         //statistics calc
 
@@ -146,7 +146,7 @@ class HomeController extends Controller
         if ($gallery !== null) {
             $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
         }
-
+        Auth::user()->assignRole('RS-Broker');
         return view('Broker.dashboard',  get_defined_vars());
     }
 
@@ -203,12 +203,13 @@ class HomeController extends Controller
     public function showSubscription()
     {
         // return Auth::user()->UserBrokerData->UserSystemInvoiceLatest;
+
         $brokerId = auth()->user()->UserBrokerData->id;
 
         $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
         if ($brokerId)
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
-        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status',1);
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
 
         return view('Broker.Subscription.show', get_defined_vars());
     }

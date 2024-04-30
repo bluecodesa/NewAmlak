@@ -10,20 +10,6 @@ class SystemInvoiceRepository implements SystemInvoiceRepositoryInterface
 {
     public function all()
     {
-        $duplicates = SystemInvoice::select('created_at', 'broker_id', DB::raw('COUNT(*) as count'))
-            ->groupBy(['created_at', 'broker_id'])
-            ->havingRaw('count > 1')
-            ->get();
-
-        foreach ($duplicates as $duplicate) {
-            $duplicateRecords = SystemInvoice::where('created_at', $duplicate->created_at)
-                ->where('broker_id', $duplicate->broker_id)
-                ->get();
-
-            // Keep one record and delete the rest
-            $duplicateRecords->slice(1)->each->delete();
-        }
-
         return SystemInvoice::all();
     }
 

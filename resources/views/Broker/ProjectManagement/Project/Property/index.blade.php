@@ -33,8 +33,10 @@
                             <div class="card-body">
                                 <div class="col-6">
                                     <div class="card-title">
-                                        <a href="{{ route('Broker.Property.create') }}"
-                                            class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
+                                        @if (Auth::user()->hasPermission('create-building'))
+                                            <a href="{{ route('Broker.Property.create') }}"
+                                                class="btn btn-dark waves-effect waves-light">@lang('Add new property')</a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
@@ -67,25 +69,27 @@
                                                     {{-- <td>{{ $property->instrument_number ?? '' }}</td> --}}
 
                                                     <td>
-
-                                                        <a href="{{ route('Broker.Property.CreateUnit', $property->id) }}"
-                                                            class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
-
+                                                        @if (Auth::user()->hasPermission('create-unit'))
+                                                            <a href="{{ route('Broker.Property.CreateUnit', $property->id) }}"
+                                                                class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
+                                                        @endif
                                                         <a href="{{ route('Broker.Property.show', $property->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
-
-                                                        <a href="{{ route('Broker.Property.edit', $property->id) }}"
-                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-
-                                                        <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $property->id }}')"
-                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                        <form id="delete-form-{{ $property->id }}"
-                                                            action="{{ route('Broker.Property.destroy', $property->id) }}"
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
+                                                        @if (Auth::user()->hasPermission('update-building'))
+                                                            <a href="{{ route('Broker.Property.edit', $property->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission('delete-building'))
+                                                            <a href="javascript:void(0);"
+                                                                onclick="handleDelete('{{ $property->id }}')"
+                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                            <form id="delete-form-{{ $property->id }}"
+                                                                action="{{ route('Broker.Property.destroy', $property->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -50,6 +50,8 @@ class SettingController extends Controller
         $this->settingService = $settingService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
+
+        $this->middleware(['role_or_permission:read-building'])->only(['index']);
     }
     public function index()
     {

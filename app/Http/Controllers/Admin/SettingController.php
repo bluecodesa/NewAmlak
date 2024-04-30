@@ -38,6 +38,8 @@ class SettingController extends Controller
         $this->middleware(['role_or_permission:create-interest-request-status'])->only(['createInterestType', 'storeInterestType']);
         $this->middleware(['role_or_permission:update-interest-request-status'])->only(['editInterestType', 'updateInterestType']);
         $this->middleware(['role_or_permission:delete-interest-request-status'])->only(['destroyInterestType']);
+        $this->middleware(['role_or_permission:update-notify-content'])->only(['EditEmailTemplate']);
+
         $this->settingRepo = $settingRepo;
         $this->settingService = $settingService;
         $this->paymentGateway = $paymentGateway;
