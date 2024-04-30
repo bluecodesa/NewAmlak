@@ -179,8 +179,9 @@ class PaymentController extends Controller
                 // Delete the gallery if section 18 does not exist but there is a gallery
                 Gallery::where('broker_id', $brokerData->id)->delete();
             }
-    }
+        }
         $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
+
         SystemInvoice::create([
             'broker_id' => $subscription->broker_id,
             'office_id' => $subscription->office_id,

@@ -100,10 +100,11 @@
                                                                     <div class="col-12">
                                                                         <div class="form-check">
                                                                             <input class="form-check-input model-checkbox"
-                                                                                value="{{ $model }}" type="checkbox"
-                                                                                id="{{ $model }}" />
+                                                                                value="{{ 'section_' . $model }}"
+                                                                                type="checkbox"
+                                                                                id="{{ 'section_' . $model }}" />
                                                                             <label class="form-check-label"
-                                                                                for="{{ $model }}">
+                                                                                for="{{ 'section_' . $model }}">
                                                                                 @lang('Select/Deselect All')
                                                                             </label>
                                                                         </div>
@@ -115,7 +116,7 @@
                                                                             <div class="form-check mb-2">
                                                                                 <input class="form-check-input"
                                                                                     name="permission[]"
-                                                                                    data-model="{{ $model }}"
+                                                                                    data-model="{{ 'section_' . $model }}"
                                                                                     @if (in_array($item->id, $role_permissions)) checked @endif
                                                                                     value="{{ $item->id }}"
                                                                                     type="checkbox"
