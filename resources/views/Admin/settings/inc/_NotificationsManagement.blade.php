@@ -8,14 +8,19 @@
                     <strong class="card-title">
                         @lang('Notifications Management')
                     </strong>
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
-                        data-target=".bs-example-modal-lg"> @lang('Settings') </button>
+                    @if (Auth::user()->hasPermission('update-notify-settings'))
+                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
+                            data-target=".bs-example-modal-lg"> @lang('Settings') </button>
+                    @endif
                 </div>
-                <div class="col-6 text-right">
-                    <button type="button" data-toggle="modal" data-target=".bs-example-modal-add"
-                        class="btn btn-primary btn-sm waves-effect waves-light"> @lang('Add')
-                    </button>
-                </div>
+
+                @if (Auth::user()->hasPermission('create-notify'))
+                    <div class="col-6 text-right">
+                        <button type="button" data-toggle="modal" data-target=".bs-example-modal-add"
+                            class="btn btn-primary btn-sm waves-effect waves-light"> @lang('Add')
+                        </button>
+                    </div>
+                @endif
             </div>
 
         </div>
@@ -45,39 +50,43 @@
                                         <input type="checkbox"
                                             data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
                                             data-type="whatsapp" {{ $Notification->whatsapp == 1 ? 'checked' : '' }}
-                                            required name="whatsapp" class="NotificationSetting" data-toggle="toggle"
-                                            data-onstyle="success">
+                                            required name="whatsapp"
+                                            class="{{ Auth::user()->hasPermission('update-notify-settings') == true ? 'NotificationSetting' : '' }}"
+                                            data-toggle="toggle" data-onstyle="success">
                                     </td>
                                     <td>
                                         <input type="checkbox"
                                             data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
                                             data-type="email" {{ $Notification->email == 1 ? 'checked' : '' }} required
-                                            name="email" class="NotificationSetting" data-toggle="toggle"
-                                            data-onstyle="success">
+                                            name="email"
+                                            class="{{ Auth::user()->hasPermission('update-notify-settings') == true ? 'NotificationSetting' : '' }}"
+                                            data-toggle="toggle" data-onstyle="success">
                                     </td>
                                     <td>
                                         <input type="checkbox"
                                             data-url="{{ route('Admin.update.NotificationSetting', $Notification->id) }}"
                                             data-type="sms" {{ $Notification->sms == 1 ? 'checked' : '' }} required
-                                            name="sms" class="NotificationSetting" data-toggle="toggle"
-                                            data-onstyle="success">
+                                            name="sms"
+                                            class="{{ Auth::user()->hasPermission('update-notify-settings') == true ? 'NotificationSetting' : '' }}"
+                                            data-toggle="toggle" data-onstyle="success">
                                     </td>
 
                                     <td>
-
-                                        <div class="btn-group m-b-10">
-                                            <button type="button" class="btn btn-outline-primary dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                @lang('Edit')</button>
-                                            <div class="dropdown-menu" style="">
-                                                <a class="dropdown-item"
-                                                    href="{{ route('Admin.update.EditEmailTemplate', $Notification->id) }}">@lang('Email')</a>
-                                                <a class="dropdown-item" href="#">@lang('SMS')</a>
-                                                <a class="dropdown-item" href="#">@lang('Whatsapp')</a>
-                                                {{-- <div class="dropdown-divider"></div>
+                                        @if (Auth::user()->hasPermission('update-notify-content'))
+                                            <div class="btn-group m-b-10">
+                                                <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    @lang('Edit')</button>
+                                                <div class="dropdown-menu" style="">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('Admin.update.EditEmailTemplate', $Notification->id) }}">@lang('Email')</a>
+                                                    <a class="dropdown-item" href="#">@lang('SMS')</a>
+                                                    <a class="dropdown-item" href="#">@lang('Whatsapp')</a>
+                                                    {{-- <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">@lang('Delete')</a> --}}
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </td>
                                 </tr>
                                 {{-- @endif --}}

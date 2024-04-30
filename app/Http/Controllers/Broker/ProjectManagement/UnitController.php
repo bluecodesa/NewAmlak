@@ -44,13 +44,22 @@ class UnitController extends Controller
 
 
 
-    public function __construct(SettingService $settingService,OwnerService $ownerService, UnitService $UnitService, RegionService $regionService, AllServiceService $AllServiceService, FeatureService $FeatureService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService
-    , PropertyUsageService $propertyUsageService,
-    UnitInterestService $unitInterestService,
-    SubscriptionTypeService $SubscriptionTypeService,
-    SubscriptionService $subscriptionService)
-
-    {
+    public function __construct(
+        SettingService $settingService,
+        OwnerService $ownerService,
+        UnitService $UnitService,
+        RegionService $regionService,
+        AllServiceService $AllServiceService,
+        FeatureService $FeatureService,
+        CityService $cityService,
+        BrokerDataService $brokerDataService,
+        PropertyTypeService $propertyTypeService,
+        ServiceTypeService $ServiceTypeService,
+        PropertyUsageService $propertyUsageService,
+        UnitInterestService $unitInterestService,
+        SubscriptionTypeService $SubscriptionTypeService,
+        SubscriptionService $subscriptionService
+    ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
         $this->UnitService = $UnitService;
@@ -62,11 +71,14 @@ class UnitController extends Controller
         $this->FeatureService = $FeatureService;
         $this->ownerService = $ownerService;
         $this->settingService = $settingService;
-        $this->unitInterestService =$unitInterestService;
+        $this->unitInterestService = $unitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
-
-
+        //
+        $this->middleware(['role_or_permission:read-unit'])->only(['index']);
+        $this->middleware(['role_or_permission:create-unit'])->only(['create', 'store']);
+        $this->middleware(['role_or_permission:update-unit'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-unit'])->only(['destroy']);
     }
 
     public function index()
@@ -145,11 +157,11 @@ class UnitController extends Controller
         $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
         if ($subscription) {
             $sectionsIds = auth()->user()
-        ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
-        ->toArray();
-        if (in_array(18, $sectionsIds)){
-        $unitInterests =$this->unitInterestService->getUnitInterestsByUnitId($id);
-        $interestsTypes =$this->settingService->getAllInterestTypes();
+                ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+                ->toArray();
+            if (in_array(18, $sectionsIds)) {
+                $unitInterests = $this->unitInterestService->getUnitInterestsByUnitId($id);
+                $interestsTypes = $this->settingService->getAllInterestTypes();
             }
         }
         if (auth()->user()->UserBrokerData->id === $Unit->broker_id) {
@@ -157,7 +169,6 @@ class UnitController extends Controller
         } else {
             abort(403, 'Unauthorized action.');
         }
-
     }
 
     public function edit($id)

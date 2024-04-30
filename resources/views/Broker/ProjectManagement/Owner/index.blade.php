@@ -15,7 +15,8 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item"><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a>
+                                </li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
                             </ol>
                         </div>
@@ -30,10 +31,11 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <h4 class="mt-0 header-title">
-
-                                    <a href="{{ route('Broker.Owner.create') }}" class="btn btn-primary btn-sm"><i
-                                            class="bi bi-plus-circle"></i>
-                                        @lang('Add New Owner') </a>
+                                    @if (Auth::user()->hasPermission('create-owner'))
+                                        <a href="{{ route('Broker.Owner.create') }}" class="btn btn-primary btn-sm"><i
+                                                class="bi bi-plus-circle"></i>
+                                            @lang('Add New Owner') </a>
+                                    @endif
                                 </h4>
 
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
@@ -59,19 +61,23 @@
                                                     <td>{{ $owner->CityData->name }}</td>
                                                     <td>{{ $owner->BrokerData->UserData->name }}</td>
                                                     <td>
-                                                        <a href="{{ route('Broker.Owner.edit', $owner->id) }}"
-                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                        <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $owner->id }}')"
-                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                            @lang('Delete')
-                                                        </a>
-                                                        <form id="delete-form-{{ $owner->id }}"
-                                                            action="{{ route('Broker.Owner.destroy', $owner->id) }}"
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
+                                                        @if (Auth::user()->hasPermission('update-owner'))
+                                                            <a href="{{ route('Broker.Owner.edit', $owner->id) }}"
+                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission('delete-owner'))
+                                                            <a href="javascript:void(0);"
+                                                                onclick="handleDelete('{{ $owner->id }}')"
+                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                                @lang('Delete')
+                                                            </a>
+                                                            <form id="delete-form-{{ $owner->id }}"
+                                                                action="{{ route('Broker.Owner.destroy', $owner->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

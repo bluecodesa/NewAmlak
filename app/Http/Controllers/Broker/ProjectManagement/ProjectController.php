@@ -36,6 +36,11 @@ class ProjectController extends Controller
         $this->propertyTypeService = $propertyTypeService;
         $this->propertyUsageService = $propertyUsageService;
         $this->ServiceTypeService = $ServiceTypeService;
+        //
+        $this->middleware(['role_or_permission:read-project'])->only(['index']);
+        $this->middleware(['role_or_permission:create-project'])->only(['create', 'store']);
+        $this->middleware(['role_or_permission:update-project'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-project'])->only(['destroy']);
     }
 
     public function index()

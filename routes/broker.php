@@ -28,13 +28,13 @@ use App\Http\Middleware\PendingPaymentPopup;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+// pendingPayment
 
 
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment', 'checkUserRole:broker']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'checkUserRole:broker']
     ],
     function () {
         Route::prefix('broker')->name('Broker.')->group(function () {

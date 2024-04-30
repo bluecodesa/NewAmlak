@@ -24,9 +24,17 @@
                                 @lang('project management')<span class="float-right menu-arrow"><i
                                         class="mdi mdi-chevron-right"></i></span> </span></a>
                         <ul class="submenu">
-                            <li><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
-                            <li><a href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
-                            <li><a href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
+
+                            @if (Auth::user()->hasPermission('read-project'))
+                                <li><a href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
+                            @endif
+                            @if (Auth::user()->hasPermission('read-building'))
+                                <li><a href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
+                            @endif
+                            @if (Auth::user()->hasPermission('read-unit'))
+                                <li><a href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
+                            @endif
+
                             <li><a href="{{ route('Broker.Developer.index') }}">@lang('developers')</a></li>
                             <li><a href="{{ route('Broker.Advisor.index') }}">@lang('advisors')</a></li>
                             {{-- <li><a href="{{ route('Broker.Owner.index') }}">@lang('owners')</a></li> --}}
@@ -42,8 +50,10 @@
                         </a>
                         <ul class="submenu">
                             {{-- @if (auth()->user()->UserBrokerData->GalleryData) --}}
-                                <li><a href="{{ route('Broker.Gallery.index') }}">@lang('Properties Gallary')</a></li>
+                            <li><a href="{{ route('Broker.Gallery.index') }}">@lang('Properties Gallary')</a></li>
+                            @if (Auth::user()->hasPermission('read-requests-interest'))
                                 <li><a href="{{ route('Broker.Gallary.showInterests') }}">@lang('Requests for interest')</a></li>
+                            @endif
                             {{-- @else
                                 <li>
                                     <a href="#v-pills-gallary" data-toggle="pill">

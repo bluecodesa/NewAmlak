@@ -43,14 +43,12 @@
                                     <div class="col-3">
                                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
                                             aria-orientation="vertical">
-                                            <button class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
-                                                data-target="#v-pills-home" type="button" role="tab"
-                                                aria-controls="v-pills-home" aria-selected="true">
-                                                @lang('profile')</button>
-                                            {{-- <button class="nav-link" id="v-pills-messages-tab" data-toggle="pill"
-                                                data-target="#v-pills-messages" type="button" role="tab"
-                                                aria-controls="v-pills-messages" aria-selected="false">
-                                                @lang('Notification Mange')</button> --}}
+                                            @if (Auth::user()->hasPermission('update-user-profile'))
+                                                <button class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
+                                                    data-target="#v-pills-home" type="button" role="tab"
+                                                    aria-controls="v-pills-home" aria-selected="true">
+                                                    @lang('profile')</button>
+                                            @endif
                                             <button class="nav-link" id="v-pills-gallary-tab" data-toggle="pill"
                                                 data-target="#v-pills-gallary" type="button" role="tab"
                                                 aria-controls="v-pills-gallary"
@@ -62,8 +60,9 @@
 
                                         <div class="tab-content" id="v-pills-tabContent">
 
-
-                                            @include('Broker.settings.inc._GeneralSetting')
+                                            @if (Auth::user()->hasPermission('update-user-profile'))
+                                                @include('Broker.settings.inc._GeneralSetting')
+                                            @endif
                                             <!--  اعدادات المعرض البروفيل -->
 
 
@@ -71,7 +70,7 @@
                                             <!-- gallary mange -->
                                             @if ($gallery)
                                                 @include('Broker.settings.inc._GalleryMange')
-                                            {{-- @elseif(in_array(18, $sectionsIds))
+                                                {{-- @elseif(in_array(18, $sectionsIds))
                                                 @include('Broker.settings.inc._GalleryEnable') --}}
                                             @else
                                                 <div class="tab-pane fade" id="v-pills-gallary" role="tabpanel"

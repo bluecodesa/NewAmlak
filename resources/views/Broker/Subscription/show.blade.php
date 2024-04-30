@@ -51,9 +51,11 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-6">
-                                                    <button type="button" data-toggle="modal" data-target="#exampleModal"
-                                                        class="btn btn-primary">@lang('Subscription upgrade')</button>
-
+                                                    @if (Auth::user()->hasPermission('upgrade-subscription'))
+                                                        <button type="button" data-toggle="modal"
+                                                            data-target="#exampleModal"
+                                                            class="btn btn-primary">@lang('Subscription upgrade')</button>
+                                                    @endif
                                                     <a href="{{ route('welcome') }}#pricing"
                                                         class="btn btn-secondary modal-btn2 w-auto"
                                                         target="_blank">@lang('Compare Plans')</a>
