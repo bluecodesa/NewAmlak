@@ -85,7 +85,7 @@
                                         <tbody>
                                             @foreach ($invoices->unique('created_at') as $index => $invoice)
                                                 <tr>
-                                                    <td>{{ 1 }}</td>
+                                                    <td>{{ $index + 1 }}</td>
                                                     <td> {{ $invoice->subscription_name }} </td>
                                                     <td>{{ __($invoice->period_type) }} </td>
                                                     <td>
