@@ -33,7 +33,7 @@ class SupportController extends Controller
         $this->middleware(['role_or_permission:read-support-ticket-admin'])->only(['index']);
         $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
         $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
-        $this->middleware(['role_or_permission:delete-SupportTickets'])->only(['destroy']);
+        $this->middleware(['role_or_permission:delete-support-ticket-admin'])->only(['destroy']);
         $this->SupportService = $SupportService;
         $this->ticketService = $ticketService;
 
@@ -44,8 +44,8 @@ class SupportController extends Controller
         //    $tickets = Ticket::all();
         $tickets = $this->ticketService->getAllTickets();
         $tickets->transform(function ($ticket) {
-            $ticket->formatted_id = "100{$ticket->id}";
-            return $ticket;
+        $ticket->formatted_id = "100{$ticket->id}";
+        return $ticket;
         });
 
         return view('Admin.supports.Tickets.index',  get_defined_vars());
@@ -72,7 +72,6 @@ class SupportController extends Controller
         //
         //    $ticket = Ticket::findOrFail($id);
         $ticket = $this->ticketService->findTicketById($id);
-
         $formatted_id = "100{$ticket->id}";
         $user = auth()->user();
         // Load ticket responses
@@ -119,7 +118,7 @@ class SupportController extends Controller
 
     public function destroy($id)
     {
-        $this->SupportService->delete($id);
+        $this->SupportService->deleteTicket($id);
         return redirect()->route('Admin.SupportTickets.index')
             ->withSuccess(__('Deleted successfully'));
     }
@@ -155,7 +154,7 @@ class SupportController extends Controller
     }
     public function destroyTicketType($id)
     {
-        $this->SupportService->delete($id);
+        $this->SupportService->deleteTicketType($id);
         return redirect()->route('Admin.SupportTickets.tickets-type')
             ->withSuccess(__('Deleted successfully'));
     }

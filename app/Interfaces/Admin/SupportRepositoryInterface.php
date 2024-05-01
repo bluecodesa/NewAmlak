@@ -10,9 +10,12 @@ interface SupportRepositoryInterface
     public function createTicketType($data);
     public function getTicketTypById($data);
     public function updateTicketType($id, $data);
-    public function delete($id);
+    public function deleteTicketType($id);
+
 
     public function createTicketResponse(TicketResponse $response);
     public function closeTicket(int $ticketId);
+    public function deleteTicket($id);
+
 
 }

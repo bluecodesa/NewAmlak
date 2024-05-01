@@ -22,20 +22,26 @@
                                     onclick="document.querySelector('#shareLinkUnit{{ $unit->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
                                     @lang('Share')</a>
 
-                                <a href="{{ route('Broker.Gallery.show', $unit->id) }}"
-                                    class="btn btn-sm btn-outline-warning">@lang('Show')</a>
+                                    @if (Auth::user()->hasPermission('read-unit'))
+                                    <a href="{{ route('Broker.Unit.show', $unit->id) }}" target="_blank"
+                                    class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                @endif
 
-                                <a href="{{ route('Broker.Unit.edit', $unit->id) }}"
+                                @if (Auth::user()->hasPermission('update-unit'))
+                                    <a href="{{ route('Broker.Unit.edit', $unit->id) }}" target="_blank"
                                     class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-
-                                <a href="javascript:void(0);" onclick="handleDelete('{{ $unit->id }}')"
-                                    class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                <form id="delete-form-{{ $unit->id }}"
-                                    action="{{ route('Broker.Unit.destroy', $unit->id) }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
+                                @endif
+                                @if (Auth::user()->hasPermission('delete-unit'))
+                                    <a href="javascript:void(0);"
+                                        onclick="handleDelete('{{ $unit->id }}')"
+                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                    <form id="delete-form-{{ $unit->id }}"
+                                        action="{{ route('Broker.Unit.destroy', $unit->id) }}"
+                                        method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                @endif
                             </div>
                             <small class="text-muted">{{ $index + 1 }}</small>
                         </div>

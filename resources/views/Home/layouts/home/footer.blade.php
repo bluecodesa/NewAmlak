@@ -73,18 +73,22 @@
                             <br />
                             (الرياض - جدة - الدمام)
                         </a></li>
-                    <li><a href="mailto:hi@bluecode.sa">
+                    <li><a href="mailto:{{ $sitting->email }}">
                             <div class="img-smm-div">
                                 <img src="{{ asset('HOME_PAGE/images/new/Iconly-Bold-Message.png') }}"
                                     class="img-fluid" />
                             </div>
                             {{ $sitting->email }}</a></li>
-                    <li><a href="tel:+966500334691">
+                    <li>
+                        <a href="tel:+966{{ $sitting->phone }}">
                             <div class="img-smm-div">
                                 <img src="{{ asset('HOME_PAGE/images/new/Iconly-Bold-Call.png') }}"
                                     class="img-fluid" />
                             </div>
-                            <p style="direction: ltr;display: inline-block;">+966 {{ $sitting->phone }}</p>
+                            @if ($sitting->phone)
+                            <p style="direction: ltr;display: inline-block;">+966{{ $sitting->phone }}</p>
+                            @endif
+
                         </a></li>
 
                     <li><a href="{{ $sitting->twitter }}" target="_blank">
@@ -92,7 +96,10 @@
                                 <img src="{{ asset('HOME_PAGE/images/new/icons8-twitter-48.png') }}"
                                     class="img-fluid" />
                             </div>
+                            @if ($sitting->twitter)
                             <p style="direction: ltr;display: inline-block;">@tryamlak</p>
+
+                            @endif
                         </a></li>
                 </ul>
             </div>

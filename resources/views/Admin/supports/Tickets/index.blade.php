@@ -64,16 +64,15 @@
                                                         @if (Auth::user()->hasPermission('delete-support-ticket-admin'))
                                                             <a href="{{ route('Admin.SupportTickets.show', $ticket->id) }}"
                                                                 class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Show')</a>
-                                                            <a href="javascript:void(0);" onclick="handleDelete()"
-                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                                @lang('Delete')
-                                                            </a>
-                                                            <form id="delete-form"
-                                                                action="{{ route('Broker.Tickets.destroy', $ticket->id) }}"
-                                                                method="POST" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                            </form>
+                                                                <a href="javascript:void(0);"
+                                                                    onclick="handleDelete('{{ $ticket->id }}')"
+                                                                    class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                                <form id="delete-form-{{ $ticket->id }}"
+                                                                    action="{{ route('Admin.SupportTickets.destroy', $ticket->id) }}"
+                                                                    method="POST" style="display: none;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                </form>
                                                         @endif
                                                     </td>
                                                 </tr>

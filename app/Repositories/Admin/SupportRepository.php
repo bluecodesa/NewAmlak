@@ -32,11 +32,15 @@ class SupportRepository implements SupportRepositoryInterface
         return $Section;
     }
 
-    public function delete($id)
+    public function deleteTicket($id)
+    {
+        return Ticket::findOrFail($id)->delete();
+    }
+
+    public function deleteTicketType($id)
     {
         return TicketType::findOrFail($id)->delete();
     }
-
 
     public function createTicketResponse(TicketResponse $response)
     {

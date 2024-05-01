@@ -42,7 +42,7 @@
                                         <div class="card-body text-black">
                                             {{ $type->name }}
                                             <p class="card-text">
-                                                {{ $type->period }} {{ __('ar.' . $type->period_type) }}
+                                                {{ $type->period }} {{ __($type->period_type) }}
                                                 <br> {{ $type->price }} <sup>@lang('SAR')</sup>
                                             </p>
                                         </div>

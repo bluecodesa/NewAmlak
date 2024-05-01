@@ -48,8 +48,8 @@ class SupportService
             $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
             $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
         }
-        
-        validator($data, $rules, $messages)->validate();        
+
+        validator($data, $rules, $messages)->validate();
         return $this->SupportRepository->createTicketType($data);
     }
 
@@ -64,14 +64,14 @@ class SupportService
             $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
             $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
         }
-        
-        validator($data, $rules, $messages)->validate();        
+
+        validator($data, $rules, $messages)->validate();
         return $this->SupportRepository->updateTicketType($id, $data);
     }
 
-    public function delete($id)
+    public function deleteTicketType($id)
     {
-        return $this->SupportRepository->delete($id);
+        return $this->SupportRepository->deleteTicketType($id);
     }
 
 
@@ -117,6 +117,10 @@ class SupportService
         return $this->ticketRepository->closeTicket($ticketId);
     }
 
+    public function deleteTicket($id)
+    {
+        return $this->SupportRepository->deleteTicket($id);
+    }
 
 
 }

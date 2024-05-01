@@ -110,12 +110,12 @@ class GallaryController extends Controller
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
-        $unitsWithDistricts = $units->filter(function ($unit) {
-            return $unit->CityData->DistrictsCity->isNotEmpty();
-        });
+        // $unitsWithDistricts = $units->filter(function ($unit) {
+        //     return $unit->CityData->DistrictsCity->isNotEmpty();
+        // });
 
-        $uniqueDistrictIds = $unitsWithDistricts->pluck('CityData.DistrictsCity.*.id')->flatten()->unique();
-        $uniqueDistrictNames = $unitsWithDistricts->pluck('CityData.DistrictsCity.*.name')->flatten()->unique();
+        // $uniqueDistrictIds = $unitsWithDistricts->pluck('CityData.DistrictsCity.id')->flatten()->unique();
+        // $uniqueDistrictNames = $unitsWithDistricts->pluck('CityData.DistrictsCity.name')->flatten()->unique();
 
 
         // Filter units based on request parameters
@@ -124,11 +124,13 @@ class GallaryController extends Controller
         $cityFilter = request()->input('city_filter', 'all');
         $districtFilter = request()->input('district_filter', 'all');
         $projectFilter = request()->input('project_filter', 'all');
-        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter);
+        $dailyFilter = request()->input('daily_filter', 'all');
+        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter,$dailyFilter);
         // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
-
+        $districts = $this->galleryService->findById($gallery->id)->BrokerData->BrokerHasUnits;
+        $districtsIds = $districts->pluck('district_id')->toArray();
         $numberOfVisitorsForEachUnit = [];
         foreach ($units as $unit) {
             $numberOfVisitorsForEachUnit[$unit->id] = $unit->visitors()->count();

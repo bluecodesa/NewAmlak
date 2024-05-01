@@ -220,7 +220,7 @@ class GalleryService
             return $units;
     }
 
-    public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter,$projectFilter)
+    public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter,$projectFilter,$dailyFilter)
     {
         // Filter by advertisement type if not 'all'
         if ($adTypeFilter !== 'all') {
@@ -243,6 +243,11 @@ class GalleryService
         }
         if ($projectFilter !== 'all') {
             $units = $units->where('PropertyData.ProjectData.id', $projectFilter);
+        }
+
+        if ($dailyFilter !== 'all') {
+            $dailyRentValue = ($dailyFilter === 'Available') ? 1 : 0;
+            $units = $units->where('daily_rent', $dailyRentValue);
         }
 
         return $units;

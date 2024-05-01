@@ -31,7 +31,7 @@
                             @if (Auth::user()->hasPermission('read-building'))
                                 <li><a href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
                             @endif
-                            @if (Auth::user()->hasPermission('read-unit'))
+                            @if (Auth::user()->hasPermission('read-all-units'))
                                 <li><a href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
                             @endif
 

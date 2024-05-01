@@ -75,7 +75,8 @@ class UnitController extends Controller
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         //
-        $this->middleware(['role_or_permission:read-unit'])->only(['index']);
+        $this->middleware(['role_or_permission:read-unit'])->only(['show']);
+        $this->middleware(['role_or_permission:read-all-units'])->only(['index']);
         $this->middleware(['role_or_permission:create-unit'])->only(['create', 'store']);
         $this->middleware(['role_or_permission:update-unit'])->only(['edit', 'update']);
         $this->middleware(['role_or_permission:delete-unit'])->only(['destroy']);

@@ -47,10 +47,11 @@
                         <select class="form-control form-control-sm" id="district_filter" name="district_filter">
                             <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
-                            @foreach ($uniqueDistrictIds as $index => $id)
-                                <option value="{{ $id }}" {{ $districtFilter == $id ? 'selected' : '' }}>
-                                    {{-- {{ $uniqueDistrictNames[$index] }} --}}
-                                </option>
+                            @foreach ($districts as $index => $district)
+                                            <option value="{{ $district->district_id }}"
+                                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
+                                                {{ $district->DistrictData->name }}
+                                            </option>
                             @endforeach
                         </select>
                     </div>
@@ -64,6 +65,18 @@
                                     {{ $projectUniqueNames[$index] }}
                                 </option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div class="w-auto col-4">
+                        <span>@lang('Daily Rent')</span>
+                        <select class="form-control form-control-sm" id="daily_filter" name="daily_filter">
+                            <option value="all" {{ $dailyFilter == 'all' ? 'selected' : '' }}>@lang('All')
+                            </option>
+                            @foreach (['Available', 'Not_Available'] as $type)
+                            <option value="{{ $type }}" {{ $dailyFilter == $type ? 'selected' : '' }}>
+                                {{ __($type) }}
+                            </option>
+                        @endforeach
                         </select>
                     </div>
                     <div class="w-auto text-center col-12">

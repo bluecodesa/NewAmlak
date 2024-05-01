@@ -185,7 +185,7 @@
                                     </h5>
                                     <div class="pricing-plan mt-4 pt-2">
                                         <h1>{{ $subscriber->SubscriptionTypeData->period }} <small class="font-16">
-                                                {{ __('ar.' . $subscriber->SubscriptionTypeData->period_type) }}</small>
+                                                {{ __($subscriber->SubscriptionTypeData->period_type) }}</small>
                                         </h1>
                                     </div>
                                     <div class="pricing-border mt-5"></div>
@@ -205,12 +205,12 @@
                             </div>
                             <div class="pricing-content">
                                 <div class="text-center">
-                                    <h5 class="text-uppercase mt-5"> احصائيات
+                                    <h5 class="text-uppercase mt-5"> @lang('statistics')
                                     </h5>
                                     <div class="pricing-plan mt-4 pt-2">
                                         <p class="font-16 mb-2">@lang('Number Of Owners') {{ $numberOfowners }}</p>
-                                        <p class="font-16 mb-2">@lang('عدد الوحدات') {{ $numberOfUnits }}</p>
-                                        <p class="font-16 mb-2">@lang('عدد زوار المعرض')</p>
+                                        <p class="font-16 mb-2">@lang('Number units') {{ $numberOfUnits }}</p>
+                                        <p class="font-16 mb-2">@lang('Gallery visitors')</p>
 
                                     </div>
                                 </div>
@@ -282,7 +282,7 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('Admin.SystemInvoice.show', $invoice->id) }}"
-                                                    class="btn btn-dark btn-sm waves-effect waves-light">@lang('view')</a>
+                                                    class="btn btn-dark btn-sm waves-effect waves-light">@lang('view') @lang('Invoice')</a>
 
                                             </td>
                                         </tr>
