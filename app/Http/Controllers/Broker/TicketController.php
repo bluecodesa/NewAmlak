@@ -65,6 +65,13 @@ class TicketController extends Controller
             'subject' => 'required',
             'content' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
+        ], [
+            'type.required' => 'The type field is required.',
+            'subject.required' => 'The subject field is required.',
+            'content.required' => 'The content field is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'Only JPEG, PNG, JPG, and GIF formats are allowed for the image.',
+            'image.max' => 'The image size must not exceed 2048 kilobytes.',
         ]);
 
         // Handle file upload if an image is provided

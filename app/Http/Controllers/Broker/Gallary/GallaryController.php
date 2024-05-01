@@ -108,16 +108,9 @@ class GallaryController extends Controller
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
-        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->unique();
+        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
-        // $unitsWithDistricts = $units->filter(function ($unit) {
-        //     return $unit->CityData->DistrictsCity->isNotEmpty();
-        // });
-
-        // $uniqueDistrictIds = $unitsWithDistricts->pluck('CityData.DistrictsCity.id')->flatten()->unique();
-        // $uniqueDistrictNames = $unitsWithDistricts->pluck('CityData.DistrictsCity.name')->flatten()->unique();
-
-
+    
         // Filter units based on request parameters
         $adTypeFilter = request()->input('ad_type_filter', 'all');
         $typeUseFilter = request()->input('type_use_filter', 'all');
@@ -351,4 +344,24 @@ class GallaryController extends Controller
         $districtsIds = $this->UnitService->getAll(auth()->user()->UserBrokerData->id)->pluck('district_id')->toArray();
         return view('Broker.Gallary.inc._district', get_defined_vars());
     }
+
+    public function showAllGalleries(Request $request)
+    {
+        $cityFilter = $request->input('city_filter', 'all');
+        $projectFilter = $request->input('project_filter', 'all');
+        $typeUseFilter = $request->input('type_use_filter', 'all');
+        $adTypeFilter = request()->input('ad_type_filter', 'all');
+        $priceFrom = $request->input('price_from', null);
+        $priceTo = $request->input('price_to', null);
+        $hasImageFilter = $request->input('has_image_filter', false);
+        $hasPriceFilter = $request->input('has_price_filter', false);
+        $daily_rent = $request->input('daily_rent', false);
+        $districtFilter = request()->input('district_filter', 'all');
+
+
+        $data = $this->galleryService->showAllGalleries($cityFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent);
+        return view('Home.Gallery.indexAll',  $data);
+    }
+
+
 }

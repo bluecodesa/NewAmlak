@@ -67,7 +67,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">@lang('Image')</label>
-                                        <input type="file" class="form-control" name="image">
+                                        <input type="file" class="form-control" name="image" accept="image/jpeg,image/png,image/gif,image/jpg">
                                     </div>
                                 </div>
 

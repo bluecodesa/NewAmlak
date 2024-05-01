@@ -164,6 +164,32 @@ class GalleryService
 
     }
 
+
+    public function showAllGalleries($cityFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
+
+    {
+        $usages =  $this->propertyUsageService->getAll();
+        $galleries = $this->galleryRepository->allPublic();
+        $units = collect();
+
+        foreach ($galleries as $gallery) {
+            $galleryUnits = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+        
+            $units = $units->merge($galleryUnits);
+        }
+        foreach($units as $unit){
+            $broker = Broker::findOrFail($unit->broker_id);
+            $unit_id = $unit->id;
+            $user_id = $broker->user_id;
+        }
+        $uniqueIds = $units->pluck('CityData.id')->unique();
+        $uniqueNames = $units->pluck('CityData.name')->unique();
+        $units = $this->filterUnitsPublic($units, $cityFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
+        $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+        $districtsIds = $districts->pluck('district_id')->toArray();
+        return get_defined_vars();
+
+    }
     public function filterUnitsPublic($units, $cityFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent)
     {
         // Filter by city if not 'all'

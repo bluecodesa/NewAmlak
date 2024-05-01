@@ -13,6 +13,11 @@ class GalleryRepository implements GalleryRepositoryInterface
     {
         return Gallery::all();
     }
+    public function allPublic()
+    {
+        return Gallery::where('gallery_status',1)->get();
+    }
+
 
     public function findById($galleryId)
     {

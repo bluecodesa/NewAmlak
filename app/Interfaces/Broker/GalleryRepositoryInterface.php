@@ -4,6 +4,8 @@ namespace App\Interfaces\Broker;
 interface GalleryRepositoryInterface
 {
     public function all();
+    public function allPublic();
+
 
     public function findById($galleryId);
 

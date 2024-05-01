@@ -62,7 +62,21 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('welcome') }}#pricing">الباقات</a>
+
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('gallery.showAllGalleries') }}" target="_blank">المعرض</a>
+
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              الخدمات
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                              <a class="dropdown-item" href="#" target="_blank">المسوقين العقاريين </a>
+                              <a class="dropdown-item" href="#">المكاتب العقارية</a>
+                            </div>
+                          </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#footer">تواصل معنا</a>
                         </li>
