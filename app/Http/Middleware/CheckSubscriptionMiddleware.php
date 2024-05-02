@@ -20,14 +20,13 @@ class CheckSubscriptionMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
         $subscriptions = Subscription::whereDate('end_date', '<=', now()->format('Y-m-d'))->get();
-
         foreach ($subscriptions as  $subscription) {
             if ($subscription->status == 'active') {
                 $subscriptionType = SubscriptionType::find($subscription['subscription_type_id']);
-                $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
+                $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
                 $subscription->update([
                     'status' => 'expired',
                     'notified' => 0,
@@ -74,6 +73,7 @@ class CheckSubscriptionMiddleware
                 $notification->markAsRead();
             });
         }
+
         return $next($request);
     }
 }
