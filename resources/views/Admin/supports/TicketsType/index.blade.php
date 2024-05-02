@@ -16,8 +16,11 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Tickets')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Tickets')</a>
+                                        </li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
 
@@ -33,11 +36,13 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
-                            <div class="col-md-6" >
-                                    <a href="{{ route('Admin.SupportTickets.createTicketType') }}"
-                                        class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
-                                        @lang('Add New Ticket')
-                                    </a>
+                                <div class="col-md-6">
+                                    @if (Auth::user()->hasPermission('create-support-ticket-type'))
+                                        <a href="{{ route('Admin.SupportTickets.createTicketType') }}"
+                                            class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
+                                            @lang('Add New Ticket')
+                                        </a>
+                                    @endif
                                 </div>
 
                                 <table id="datatable-buttons"
@@ -57,19 +62,23 @@
                                                 <td>{{ $ticket->name }} </td>
                                                 <td>
 
-                                                    <a href="{{ route('Admin.SupportTickets.editTicketType', $ticket->id) }}"
-                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                    <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $ticket->id }}')"
-                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                        @lang('Delete')
-                                                    </a>
-                                                    <form id="delete-form-{{ $ticket->id }}"
-                                                        action="{{ route('Admin.SupportTickets.destroyTicketType', $ticket->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
+                                                    @if (Auth::user()->hasPermission('update-support-ticket-type'))
+                                                        <a href="{{ route('Admin.SupportTickets.editTicketType', $ticket->id) }}"
+                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                    @endif
+                                                    @if (Auth::user()->hasPermission('delete-support-ticket-type'))
+                                                        <a href="javascript:void(0);"
+                                                            onclick="handleDelete('{{ $ticket->id }}')"
+                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
+                                                            @lang('Delete')
+                                                        </a>
+                                                        <form id="delete-form-{{ $ticket->id }}"
+                                                            action="{{ route('Admin.SupportTickets.destroyTicketType', $ticket->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    @endif
 
                                                 </td>
                                             </tr>

@@ -7,6 +7,8 @@ use App\Services\Admin\PermissionService;
 use App\Services\Admin\SectionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
@@ -79,8 +81,14 @@ class PermissionController extends Controller
 
     public function destroy($id)
     {
-        $this->PermissionService->delete($id);
-        return redirect()->route('Admin.Permissions.index')
-            ->withSuccess(__('deleted successfully'));
+        // return Permission::whereid($id)->first();
+        $check =  DB::table('model_has_permissions')->where('permission_id', $id)->first();
+        if ($check) {
+            return back()->with('sorry', __('It could not be deleted because it is linked to a role'));
+        } else {
+            $this->PermissionService->delete($id);
+            return redirect()->route('Admin.Permissions.index')
+                ->withSuccess(__('deleted successfully'));
+        }
     }
 }
