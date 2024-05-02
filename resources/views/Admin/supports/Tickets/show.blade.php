@@ -33,6 +33,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card m-b-30">
+                            @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
                                 <h5 class="card-title">@lang('Ticket Details')</h5>
 
