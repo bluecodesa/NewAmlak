@@ -61,9 +61,11 @@
                                                     <td>{{ $ticket->created_at }}</td>
                                                     <!-- Assuming status is the ticket status -->
                                                     <td>
-                                                        @if (Auth::user()->hasPermission('delete-support-ticket-admin'))
+                                                        @if (Auth::user()->hasPermission('read-support-ticket-admin'))
                                                             <a href="{{ route('Admin.SupportTickets.show', $ticket->id) }}"
                                                                 class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                                @endif
+                                                                @if (Auth::user()->hasPermission('delete-support-ticket-admin'))
                                                                 <a href="javascript:void(0);"
                                                                     onclick="handleDelete('{{ $ticket->id }}')"
                                                                     class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
