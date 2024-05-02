@@ -112,10 +112,12 @@ class GalleryService
     public function showUnitPublic($galleryName, $id)
     {
         $gallery = $this->galleryRepository->findByGalleryName($galleryName);
-
         if ($gallery->gallery_status == 0) {
-            return [];
-        }
+            $brokerId = $gallery->broker_id;
+            $broker = Broker::findOrFail($brokerId);
+            $gallery = $this->galleryRepository->findByGalleryName($galleryName);
+            return get_defined_vars();
+        }else{
 
         $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
         $Unit = $this->UnitRepository->findById($id);
@@ -124,9 +126,6 @@ class GalleryService
             abort(404);
         }
 
-        // if ($Unit->show_gallery != 1) {
-        //     abort(404, 'Unauthorized action.');
-        // }
         $gallery = $this->galleryRepository->findByBrokerId($gallery->broker_id);
 
         $broker=Broker::findOrFail($Unit->broker_id);
@@ -135,6 +134,7 @@ class GalleryService
         $user_id=$broker->user_id;
 
         return get_defined_vars();
+    }
     }
 
     public function showByName($name, $cityFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)

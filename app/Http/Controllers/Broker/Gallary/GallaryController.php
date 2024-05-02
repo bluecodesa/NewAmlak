@@ -110,7 +110,7 @@ class GallaryController extends Controller
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
-    
+
         // Filter units based on request parameters
         $adTypeFilter = request()->input('ad_type_filter', 'all');
         $typeUseFilter = request()->input('type_use_filter', 'all');
@@ -203,9 +203,9 @@ class GallaryController extends Controller
     {
 
         $data = $this->galleryService->showUnitPublic($gallery_name, $id);
-        if (empty($data)) {
+        if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
 
-            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+            return view('Broker.Gallary.inc._GalleryComingsoon',$data);
         }
 
 
