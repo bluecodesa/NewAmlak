@@ -34,6 +34,11 @@ class SupportController extends Controller
         $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
         $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
         $this->middleware(['role_or_permission:delete-support-ticket-admin'])->only(['destroy']);
+
+        $this->middleware(['role_or_permission:create-support-ticket-type'])->only(['createTicketType', 'storeTicketType']);
+        $this->middleware(['role_or_permission:update-support-ticket-type'])->only(['editTicketType', 'updateTicketType']);
+        $this->middleware(['role_or_permission:delete-support-ticket-type'])->only(['destroyTicketType']);
+
         $this->SupportService = $SupportService;
         $this->ticketService = $ticketService;
 
@@ -44,8 +49,8 @@ class SupportController extends Controller
         //    $tickets = Ticket::all();
         $tickets = $this->ticketService->getAllTickets();
         $tickets->transform(function ($ticket) {
-        $ticket->formatted_id = "100{$ticket->id}";
-        return $ticket;
+            $ticket->formatted_id = "100{$ticket->id}";
+            return $ticket;
         });
 
         return view('Admin.supports.Tickets.index',  get_defined_vars());

@@ -18,6 +18,11 @@ class CityController extends Controller
     {
         $this->CityService = $CityService;
         $this->regionService = $regionService;
+
+        $this->middleware(['role_or_permission:read-regions-cities-districts'])->only('index');
+        $this->middleware(['role_or_permission:create-regions-cities-districts'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:update-regions-cities-districts'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-regions-cities-districts'])->only(['destroy']);
     }
 
     public function index()

@@ -81,40 +81,43 @@
                                     @lang('technical support')<span class="float-right menu-arrow"><i
                                             class="mdi mdi-chevron-right"></i></span> </span></a>
                             <ul class="submenu mm-collapse">
-                                <li><a href="{{ route('Admin.Support.showInfoSupport') }}">@lang('Support contact information')</a>
-                                </li>
+                                @if (Auth::user()->hasPermission('update-support-contact'))
+                                    <li><a href="{{ route('Admin.Support.showInfoSupport') }}">@lang('Support contact information')</a>
+                                    </li>
+                                @endif
                                 <li><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Ticket Type')</a>
                                 </li>
                                 {{-- <li><a href="">@lang('Integration via API')</a></li> --}}
                             </ul>
                         </li>
 
+                        @if (Auth::user()->hasPermission('read-regions-cities-districts'))
+                            <li>
+                                <a href="javascript:void(0);" class="waves-effect"><span>
+                                        @lang('Cities') & @lang('districts') <span class="float-right menu-arrow"><i
+                                                class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <ul class="submenu mm-collapse">
+                                    <li><a href="{{ route('Admin.Region.index') }}">@lang('Regions')</a></li>
+                                    <li><a href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
+                                    <li><a href="{{ route('Admin.District.index') }}">@lang('districts')</a></li>
 
-                        <li>
-                            <a href="javascript:void(0);" class="waves-effect"><span>
-                                    @lang('Cities') & @lang('districts') <span class="float-right menu-arrow"><i
-                                            class="mdi mdi-chevron-right"></i></span> </span></a>
-                            <ul class="submenu mm-collapse">
-                                <li><a href="{{ route('Admin.Region.index') }}">@lang('Regions')</a></li>
-                                <li><a href="{{ route('Admin.City.index') }}">@lang('Cities')</a></li>
-                                <li><a href="{{ route('Admin.District.index') }}">@lang('districts')</a></li>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
+                        @endif
 
-
-
-                        <li>
-                            <a href="javascript:void(0);" class="waves-effect"><span>
-                                    @lang('Real estate settings') <span class="float-right menu-arrow"><i
-                                            class="mdi mdi-chevron-right"></i></span> </span></a>
-                            <ul class="submenu mm-collapse">
-                                <li><a href="{{ route('Admin.PropertyType.index') }}">@lang('Property Types')</a></li>
-                                <li><a href="{{ route('Admin.PropertyUsage.index') }}">@lang('property usages')</a></li>
-                                <li><a href="{{ route('Admin.ServiceType.index') }}">@lang('services types')</a></li>
-                                <li><a href="{{ route('Admin.Service.index') }}">@lang('services')</a></li>
-                            </ul>
-                        </li>
-
+                        @if (Auth::user()->hasPermission('read-real-estate-settings'))
+                            <li>
+                                <a href="javascript:void(0);" class="waves-effect"><span>
+                                        @lang('Real estate settings') <span class="float-right menu-arrow"><i
+                                                class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <ul class="submenu mm-collapse">
+                                    <li><a href="{{ route('Admin.PropertyType.index') }}">@lang('Property Types')</a></li>
+                                    <li><a href="{{ route('Admin.PropertyUsage.index') }}">@lang('property usages')</a></li>
+                                    <li><a href="{{ route('Admin.ServiceType.index') }}">@lang('services types')</a></li>
+                                    <li><a href="{{ route('Admin.Service.index') }}">@lang('services')</a></li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </li>
 

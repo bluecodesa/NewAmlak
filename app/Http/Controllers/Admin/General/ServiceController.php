@@ -13,6 +13,10 @@ class ServiceController extends Controller
     public function __construct(ServiceService $ServiceService)
     {
         $this->ServiceService = $ServiceService;
+        $this->middleware(['role_or_permission:read-real-estate-settings'])->only('index');
+        $this->middleware(['role_or_permission:create-real-estate-settings'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:update-real-estate-settings'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-real-estate-settings'])->only(['destroy']);
     }
 
     public function index()
