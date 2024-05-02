@@ -17,8 +17,7 @@
       <p class="card-text">
         @if ($gallery_name)
         <a href="{{ route('gallery.showByName', ['name' => $gallery_name]) }}" class="btn btn-primary" target="_self">
-            عرض الصفحة الشخصية
-        </a>
+زيارة المعرض        </a>
     @else
         <!-- Handle case where no galleries are found for the user -->
     @endif
