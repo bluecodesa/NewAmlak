@@ -12,6 +12,11 @@ class ServiceTypeController extends Controller
     public function __construct(ServiceTypeService $ServiceTypeService)
     {
         $this->ServiceTypeService = $ServiceTypeService;
+
+        $this->middleware(['role_or_permission:read-real-estate-settings'])->only('index');
+        $this->middleware(['role_or_permission:create-real-estate-settings'])->only(['store', 'create']);
+        $this->middleware(['role_or_permission:update-real-estate-settings'])->only(['edit', 'update']);
+        $this->middleware(['role_or_permission:delete-real-estate-settings'])->only(['destroy']);
     }
     public function index()
     {
