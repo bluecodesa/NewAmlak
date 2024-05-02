@@ -87,7 +87,6 @@
                                 @endif
                                 <li><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Ticket Type')</a>
                                 </li>
-                                {{-- <li><a href="">@lang('Integration via API')</a></li> --}}
                             </ul>
                         </li>
 

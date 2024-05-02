@@ -66,6 +66,7 @@ Route::group(
             Route::post('StoreEmailTemplate/{id}', [SettingController::class, 'StoreEmailTemplate'])->name('update.StoreEmailTemplate');
             Route::post('StoreNewNotification', [SettingController::class, 'StoreNewNotification'])->name('StoreNewNotification');
             Route::get('TestSendMail', [SettingController::class, 'TestSendMail'])->name('update.TestSendMail');
+
             Route::get('/interests-type', [SettingController::class, 'showAllInterestTypes'])->name('interests-types');
             Route::get('/interests-type', [SettingController::class, 'createInterestType'])->name('create.interest-type');
             Route::post('/interests-type', [SettingController::class, 'storeInterestType'])->name('store.interest-type');
@@ -76,10 +77,12 @@ Route::group(
             Route::get('/TicketsTypes', [SupportController::class, 'getAllTicketTypes'])->name('SupportTickets.tickets-type');
             Route::get('/ticketType/create', [SupportController::class, 'createTicketType'])->name('SupportTickets.createTicketType');
             Route::post('tickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
+
             Route::post('/ticketType/store', [SupportController::class, 'storeTicketType'])->name('SupportTickets.storeTicketType');
             Route::get('/ticketType/{id}/edit', [SupportController::class, 'editTicketType'])->name('SupportTickets.editTicketType');
             Route::put('/ticketType/{id}/update', [SupportController::class, 'updateTicketType'])->name('SupportTickets.updateTicketType');
             Route::delete('/ticketType/{id}/destroy', [SupportController::class, 'destroyTicketType'])->name('SupportTickets.destroyTicketType');
+
             Route::post('SupportTickets/{ticketId}/add-response', [SupportController::class, 'addResponse'])->name('SupportTickets.addResponse');
             Route::post('SupportTickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
             Route::get('/InfoSupport', [SupportController::class, 'showInfoSupport'])->name('Support.showInfoSupport');
