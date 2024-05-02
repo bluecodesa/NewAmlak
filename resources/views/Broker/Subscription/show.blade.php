@@ -89,7 +89,7 @@
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td> {{ $invoice->subscription_name }} </td>
-                                                    <td>{{ __($invoice->period_type) }} </td>
+                                                    <td>{{ __($invoice->period) }} {{  __($invoice->period_type) }} </td>
                                                     <td>
                                                         @if ($loop->last)
                                                             {{ __($subscription->status) }}
