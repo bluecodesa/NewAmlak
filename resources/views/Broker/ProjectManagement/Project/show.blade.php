@@ -94,9 +94,10 @@
                                                 </div>
                                                 <a href="{{ route('Broker.Project.edit', $project->id) }}"
                                                     class="btn btn-warning">@lang('Edit') </a>
+                                                    @if (Auth::user()->hasPermission('create-building'))
                                                 <a href="{{ route('Broker.Project.CreateProperty', $project->id) }}"
                                                     class="btn btn-primary">@lang('Add new property')</a>
-
+                                                    @endif
                                             </div>
                                         </div>
                                     </div>
@@ -154,10 +155,12 @@
 
                                                         <a href="{{ route('Broker.Property.show', $property->id) }}"
                                                             class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                            @if (Auth::user()->hasPermission('update-building'))
 
                                                         <a href="{{ route('Broker.Property.edit', $property->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-
+                                                            @endif
+                                                            @if (Auth::user()->hasPermission('delete-building'))
                                                         <a href="javascript:void(0);"
                                                             onclick="handleDelete('{{ $property->id }}')"
                                                             class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
@@ -167,6 +170,8 @@
                                                             @csrf
                                                             @method('DELETE')
                                                         </form>
+                                                        @endif
+
                                                     </td>
                                                 </tr>
                                             @endforeach
