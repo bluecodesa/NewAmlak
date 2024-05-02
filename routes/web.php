@@ -50,6 +50,7 @@ Route::group(
             Route::post('create-office', [HomeController::class, 'storeOffice'])->name('Offices.CreateOffice');
             Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
+
         });
         Route::get('/pending', [SubscriptionController::class, 'viewPending'])->name('pending');
         Route::resource('Notification', 'General\NotificationController');
@@ -69,6 +70,9 @@ Route::group(
         Route::post('send-code', [ForgotPasswordController::class, 'submitCodeForm'])->name('reset.password.code');
         Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
         Route::post('forget-password/send-new-code', [ForgotPasswordController::class, 'sendNewCode'])->name('forget.password.newcode');
+
+        Route::get('/brokers',  [HomeController::class, 'showAllBrokers'])->name('brokers');
+
     }
 
 );

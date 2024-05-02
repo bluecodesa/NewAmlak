@@ -354,4 +354,11 @@ class HomeController extends Controller
         $user = User::find(Auth::id());
         $user->update(['fcm_token' => $request->token]);
     }
+
+    public function showAllBrokers(Request $request){
+        $brokers = User::where('is_broker',1)->get();
+        // $broker_id=$brokers->UserBrokerData->id;
+        // $gallery_name = Gallery::where('broker_id',$broker_id)->get();
+        return view('Home.Brokers.index',get_defined_vars());
+    }
 }

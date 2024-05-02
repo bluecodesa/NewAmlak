@@ -100,7 +100,10 @@ class SupportController extends Controller
         // Validate the request data
         $request->validate([
             'response' => 'required|string',
-            'response_attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'response_attachment' => 'nullable|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+        ], [
+            'response_attachment.mimes' => 'The response attachment must be a valid image (jpg, jpeg, png, gif) or PDF file.',
+            'response_attachment.max' => 'The response attachment may not be greater than :max kilobytes.',
         ]);
 
         $response = $this->SupportService->addResponse($request->all(), $ticketId);

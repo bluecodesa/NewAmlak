@@ -12,6 +12,7 @@
                             <h4 class="page-title">
                                 @lang('Gallary')</h4>
                         </div>
+
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item active"><a
@@ -31,6 +32,7 @@
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
+                                @include('Admin.layouts.Inc._errors')
 
 
                                 <!--Gallery cover-->

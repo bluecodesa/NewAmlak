@@ -139,7 +139,7 @@
                                             <div class="mb-3">
                                                 <label for="attachment" class="form-label">@lang('file')</label>
                                                 <input type="file" class="form-control" id="attachment"
-                                                    name="response_attachment" accept="image/*, application/pdf"
+                                                    name="response_attachment" accept="image/jpeg, image/png, image/jpg, image/gif, application/pdf"
                                                     @if ($ticket->status === 'closed') disabled @endif>
                                             </div>
                                             <button type="submit" class="btn btn-primary"

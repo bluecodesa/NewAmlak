@@ -127,6 +127,15 @@ class TicketController extends Controller
 
     public function addResponse(Request $request, $ticketId)
     {
+        $request->validate([
+            'response' => 'required|string',
+            'response_attachment' => 'nullable|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+        ], [
+            'response.required' => 'The response field is required.',
+            'response.string' => 'The response must be a string.',
+            'response_attachment.mimes' => 'The response attachment must be a valid image (jpg, jpeg, png, gif) or PDF file.',
+            'response_attachment.max' => 'The response attachment may not be greater than :max kilobytes.',
+        ]);
         $ticketData = [
             'user_id' => auth()->user()->id,
             'response' => $request->input('response'),

@@ -93,10 +93,17 @@ class GalleryService
     public function updateCover(array $data)
     {
         $request=request();
-        $data=$request->validate([
+        $data = $request->validate([
             'gallery_id' => 'required',
-            'gallery_cover' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gallery_cover' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'gallery_id.required' => 'Please select a gallery.',
+            'gallery_cover.required' => 'Please upload a gallery cover image.',
+            'gallery_cover.image' => 'The gallery cover must be an image.',
+            'gallery_cover.mimes' => 'The gallery cover must be a valid image file (JPEG, PNG, JPG).',
+            'gallery_cover.max' => 'The gallery cover must not exceed 2048 kilobytes in size.',
         ]);
+
 
         return $this->galleryRepository->updateCover($data);
     }
@@ -174,7 +181,7 @@ class GalleryService
 
         foreach ($galleries as $gallery) {
             $galleryUnits = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
-        
+
             $units = $units->merge($galleryUnits);
         }
         foreach($units as $unit){

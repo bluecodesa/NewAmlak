@@ -1,6 +1,6 @@
 @extends('Home.layouts.home.app')
 @section('title')
-    المسوقين العقاريين 
+    المسوقين العقاريين
 @stop
 @section('content')
 
@@ -205,44 +205,7 @@
 
                     </div>
 
-                    <div class="modal-body pb-3">
-                        <p>برجاء ادخال بياناتك وسوف نتواصل مع حضرتك في أقرب وقت</p>
-
-                        <form action="{{ route('unit_interests.store') }}" method="POST">
-                            @csrf
-                            <div class="row">
-                                <input hidden name="unit_id" value="{{ $unit_id }}" />
-                                <input hidden name="user_id" value="{{ $user_id }}" /> <!-- Add this line -->
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="name">الاسم<span class="text-danger">*</span></label>
-
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-
-                                <div class="col-sm-12 col-md-6">
-
-                                    <label for="whatsapp">رقم (واتساب)<span class="text-danger">*</span></label>
-
-                                    <div style="position:relative">
-                                        <input type="tel" class="form-control" id="whatsapp" minlength="9"
-                                            maxlength="9" pattern="[0-9]*"
-                                            oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                            onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                            name="whatsapp" required="" value="">
-
-                                        <span
-                                            style="position: absolute;left: -1px;top: 0;background-color: #e9ecef;height: 100%;display: flex; align-items: center;  justify-content: center;border-top-left-radius: 5px;border-bottom-left-radius: 5px;padding: 0px 20px;border: 1px solid #ced4da; border-top-left-radius: 8px;border-bottom-left-radius: 8px;">966+</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row text-center justify-content-center">
-                                <button type="submit" class="mt-3 w-auto" style="padding:6px 20px">ارسال</button>
-                            </div>
-                        </form>
-
-
-                    </div>
+                  
 
                 </div>
             </div>

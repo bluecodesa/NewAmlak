@@ -70,10 +70,10 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              الخدمات
+                                الوسطاء العقاريين
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="#" target="_blank">المسوقين العقاريين </a>
+                              <a class="dropdown-item" href="{{ route('brokers') }}" target="_blank">المسوقين العقاريين </a>
                               <a class="dropdown-item" href="#">المكاتب العقارية</a>
                             </div>
                           </li>

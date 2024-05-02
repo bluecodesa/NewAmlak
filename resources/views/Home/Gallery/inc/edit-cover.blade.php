@@ -3,17 +3,16 @@
 
     <div class="col-12">
         <div class="form-group">
-            <label for="images">الصورة</label>
+            <label for="images">@lang('Image')</label>
             <div class="upload__box d-flex">
                 <div class="upload__btn-box">
-                    <input type="file" id="images" name="gallery_cover" class="upload__inputfile" required>
-
+                    <input type="file" id="images" name="gallery_cover" class="upload__inputfile" required accept="image/jpeg, image/png, image/jpg">
                 </div>
             </div>
         </div>
     </div>
     <div>
-        <button class="btn btn-dark-canvas btn-sm " type="submit">حفظ</button>
+        <button class="btn btn-dark-canvas btn-sm " type="submit">@lang('save')</button>
     </div>
 </form>
 
