@@ -51,7 +51,7 @@
                                     <label for="roles"
                                         class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('Roles')</strong></label>
                                     <div class="col-md-6" style="line-height: 35px;">
-                                        <span class="badge badge-primary">{{ $user->roles[0]->name ?? '' }}</span>
+                                        <span class="badge badge-primary">{{ app()->getLocale() == 'ar' ? $user->roles[0]->name_ar : $user->roles[0]->name ?? '' }}</span>
                                     </div>
                                 </div>
 

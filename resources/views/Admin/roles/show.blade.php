@@ -35,8 +35,7 @@
                                     <label for="name"
                                         class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('role name'):</strong></label>
                                     <div class="col-md-6" style="line-height: 35px;">
-                                        {{ $role->name }}
-                                    </div>
+                                        {{ app()->getLocale() == 'ar' ? $role->name_ar : $role->name ?? '' }}                                    </div>
                                 </div>
 
                                 <div class="mb-3 row">
@@ -44,11 +43,13 @@
                                         class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('Permissions'):</strong></label>
                                     <div class="col-md-6" style="line-height: 35px;">
 
-                                        @forelse ($rolePermissions as $permission)
-                                            <span
-                                                class="badge badge-primary">{{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}</span>
-                                        @empty
-                                        @endforelse
+                                        @foreach ($rolePermissions as $permission)
+                                        <span
+                                            class="badge badge-primary">{{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}</span>
+                                        @if (!$loop->last)
+                                            ,
+                                        @endif
+                                    @endforeach
 
                                     </div>
                                 </div>
