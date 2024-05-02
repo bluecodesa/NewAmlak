@@ -46,7 +46,7 @@ class PermissionRepository implements PermissionRepositoryInterface
     {
         return Permission::join("role_has_permissions", "permission_id", "=", "id")
             ->where("role_id", $roleId)
-            ->select('name')
+            ->select('name_ar','name')
             ->get();
     }
 }
