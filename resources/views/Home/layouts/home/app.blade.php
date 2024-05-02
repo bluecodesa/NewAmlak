@@ -65,7 +65,7 @@
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('gallery.showAllGalleries') }}" target="_blank">المعرض</a>
+                            <a class="nav-link" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
 
                         </li>
                         <li class="nav-item dropdown">
@@ -73,7 +73,7 @@
                                 الوسطاء العقاريين
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="{{ route('brokers') }}" target="_blank">المسوقين العقاريين </a>
+                              <a class="dropdown-item" href="{{ route('brokers') }}">المسوقين العقاريين </a>
                               <a class="dropdown-item" href="#">المكاتب العقارية</a>
                             </div>
                           </li>

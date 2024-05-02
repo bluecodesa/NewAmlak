@@ -16,7 +16,7 @@
 
       <p class="card-text">
         @if ($gallery_name)
-        <a href="{{ route('gallery.showByName', ['name' => $gallery_name]) }}" class="btn btn-primary">
+        <a href="{{ route('gallery.showByName', ['name' => $gallery_name]) }}" class="btn btn-primary" target="_self">
             عرض الصفحة الشخصية
         </a>
     @else
