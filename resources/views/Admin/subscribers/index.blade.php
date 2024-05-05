@@ -113,40 +113,42 @@
                                                     <td>{{ $subscriber->start_date }}</td>
                                                     <td>{{ $subscriber->end_date }}</td>
                                                     <td>
-                                                        @if ($subscriber->office_id)
-                                                            <a href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->OfficeData->UserData->id) }}"
-                                                                class="btn btn-outline-info btn-sm waves-effect waves-ligh">
-                                                                @lang('login')
-                                                            </a>
-                                                        @elseif ($subscriber->broker_id)
-                                                            <a href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->BrokerData->UserData->id) }}"
-                                                                class="btn btn-outline-info btn-sm waves-effect waves-ligh">
-                                                                @lang('login')
-                                                            </a>
+                                                        @if (Auth::user()->hasPermission('log-in-as-user'))
+                                                            @if ($subscriber->office_id)
+                                                                <a href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->OfficeData->UserData->id) }}"
+                                                                    class="btn btn-outline-info btn-sm waves-effect waves-ligh">
+                                                                    @lang('login')
+                                                                </a>
+                                                            @elseif ($subscriber->broker_id)
+                                                                <a href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->BrokerData->UserData->id) }}"
+                                                                    class="btn btn-outline-info btn-sm waves-effect waves-ligh">
+                                                                    @lang('login')
+                                                                </a>
+                                                            @endif
                                                         @endif
-
-                                                        @if ($subscriber->is_suspend)
-                                                            <form
-                                                                action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                <input type="text" hidden value="{{ 0 }}"
-                                                                    name="is_suspend">
-                                                                <button
-                                                                    class="btn  btn-outline-info btn-sm waves-effect waves-light">@lang('re active')</button>
-                                                            </form>
-                                                        @else
-                                                            <form
-                                                                action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                <input type="text" hidden value="{{ 1 }}"
-                                                                    name="is_suspend">
-                                                                <button
-                                                                    class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('suspend')</button>
-                                                            </form>
+                                                        @if (Auth::user()->hasPermission('suspend-user-subscriber'))
+                                                            @if ($subscriber->is_suspend)
+                                                                <form
+                                                                    action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    <input type="text" hidden
+                                                                        value="{{ 0 }}" name="is_suspend">
+                                                                    <button
+                                                                        class="btn  btn-outline-info btn-sm waves-effect waves-light">@lang('re active')</button>
+                                                                </form>
+                                                            @else
+                                                                <form
+                                                                    action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    <input type="text" hidden
+                                                                        value="{{ 1 }}" name="is_suspend">
+                                                                    <button
+                                                                        class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('suspend')</button>
+                                                                </form>
+                                                            @endif
                                                         @endif
-
                                                         @if (Auth::user()->hasPermission('read-subscriber-file'))
                                                             <a href="{{ route('Admin.Subscribers.show', $subscriber->id) }}"
                                                                 class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
