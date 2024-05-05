@@ -11,4 +11,9 @@ class RegionService
     {
         return Region::all();
     }
+    public function findById($id)
+    {
+        return Region::findOrFail($id);
+
+    }
 }

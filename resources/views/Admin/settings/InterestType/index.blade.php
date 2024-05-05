@@ -5,7 +5,7 @@
             <div class="card-body">
                 @if (Auth::user()->hasPermission('create-interest-request-status'))
                     <div class="col-md-6">
-                        <a href="{{ route('Admin.create.interest-type') }}"
+                        <a href="{{ route('Admin.InterestTypes.create') }}"
                             class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
                             @lang('Add New Interest')
                         </a>
@@ -27,7 +27,7 @@
                                 <td>{{ $interest->name }} </td>
                                 <td>
                                     @if (Auth::user()->hasPermission('update-interest-request-status'))
-                                        <a href="{{ route('Admin.edit.interest-type', $interest->id) }}"
+                                        <a href="{{ route('Admin.InterestTypes.edit', $interest->id) }}"
                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
                                     @endif
                                     @if (Auth::user()->hasPermission('delete-interest-request-status'))
@@ -36,7 +36,7 @@
                                             @lang('Delete')
                                         </a>
                                         <form id="delete-form-{{ $interest->id }}"
-                                            action="{{ route('Admin.delete.interest-type', $interest->id) }}"
+                                            action="{{ route('Admin.InterestTypes.destroy', $interest->id) }}"
                                             method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')

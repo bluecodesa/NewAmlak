@@ -146,7 +146,7 @@ class HomeController extends Controller
         if ($gallery !== null) {
             $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
         }
-        Auth::user()->assignRole('RS-Broker');
+        auth()->user()->assignRole('RS-Broker');
         return view('Broker.dashboard',  get_defined_vars());
     }
 

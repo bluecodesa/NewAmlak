@@ -16,8 +16,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.SupportTickets.updateTicketType', $Ticket->id) }}">@lang('Edit Ticket')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Tickets')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.TicketTypes.update', $Ticket->id) }}">@lang('Edit Ticket')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.TicketTypes.index') }}">@lang('Tickets')</a></li>
                                         <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
@@ -31,7 +31,7 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Admin.SupportTickets.updateTicketType', $Ticket->id) }}" method="POST"
+                                <form action="{{ route('Admin.TicketTypes.update', $Ticket->id) }}" method="POST"
                                     class="row">
                                     @csrf
                                     @method('PUT')

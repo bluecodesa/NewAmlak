@@ -2,8 +2,13 @@
 
 namespace App\Services\Broker;
 
+use App\Models\InterestTypeTranslation;
+use App\Models\UnitInterest;
+use App\Models\User;
+use App\Notifications\Admin\NewIntrestOrderNotification;
 use App\Repositories\Broker\UnitInterestRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class UnitInterestService
 {
@@ -23,10 +28,37 @@ class UnitInterestService
     {
         return $this->unitInterestRepository->create($data);
     }
-
-    public function show(string $id)
+    public function store(Request $request)
     {
-        return $this->unitInterestRepository->show($id);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'whatsapp' => 'nullable|string|max:255',
+            'unit_id' => 'nullable|exists:units,id',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+
+        $statusId = InterestTypeTranslation::where('name', 'new order')->value('id');
+
+        $requestData = $request->all();
+        $requestData['status'] = $statusId;
+        $unitInterest = $this->unitInterestRepository->create($requestData);
+
+        $this->notifyAdmins($unitInterest);
+
+        return $unitInterest;
+    }
+
+    protected function notifyAdmins(UnitInterest $unitInterest)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewIntrestOrderNotification($unitInterest));
+        }
+    }
+    public function find(string $id)
+    {
+        return $this->unitInterestRepository->find($id);
     }
 
     public function update(Request $request, string $id)

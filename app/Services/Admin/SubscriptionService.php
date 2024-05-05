@@ -337,6 +337,26 @@ $endDate = $endDate->format('Y-m-d H:i:s');
             ->get();
     }
 
+    public function homeSubscriptionTypesForBroker()
+    {
+        return SubscriptionType::where('is_deleted', 0)->where('status',1)
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'RS-Broker');
+            })
+            ->get();
+    }
+
+    public function subscriptionTypesRolesBroker()
+    {
+        return SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status',1)
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'RS-Broker');
+            })
+            ->get();
+    }
+
+
+
     public function getSubscriptionTypesForOffice()
     {
         return SubscriptionType::where('is_deleted', 0)

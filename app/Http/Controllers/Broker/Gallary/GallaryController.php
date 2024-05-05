@@ -28,6 +28,7 @@ use App\Services\Broker\UnitInterestService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
+use App\Services\Broker\VisitorService;
 
 class GallaryController extends Controller
 {
@@ -47,9 +48,7 @@ class GallaryController extends Controller
     protected $SubscriptionTypeService;
 
     protected $subscriptionService;
-
-
-
+    protected $visitorService;
 
 
 
@@ -68,7 +67,8 @@ class GallaryController extends Controller
         PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
         SubscriptionTypeService $SubscriptionTypeService,
-        SubscriptionService $subscriptionService
+        SubscriptionService $subscriptionService,
+        VisitorService $visitorService
 
     ) {
         $this->UnitService = $UnitService;
@@ -87,6 +87,8 @@ class GallaryController extends Controller
         $this->unitInterestService = $unitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
+        $this->visitorService = $visitorService;
+
     }
     public function index()
     {
@@ -212,23 +214,20 @@ class GallaryController extends Controller
         }
 
 
-        $visitor = Visitor::where('unit_id', $id)
-            ->where('ip_address', request()->ip())
-            ->where('visited_at', '>=', now()->subHour())
-            ->first();
+        $visitor = $this->visitorService->findVisitorByUnitAndIP($id, request()->ip());
 
-        if (!$visitor) {
 
-            $newVisitor = new Visitor();
-            $newVisitor->unit_id = $id;
-            $newVisitor->gallery_id = $data['gallery']->id;
-            $newVisitor->ip_address = request()->ip();
-            $newVisitor->visited_at = now();
-            $newVisitor->save();
-        }
+            if (!$visitor) {
+                $this->visitorService->createVisitor([
+                    'unit_id' => $id,
+                    'gallery_id' => $data['gallery']->id,
+                    'ip_address' => request()->ip(),
+                    'visited_at' => now(),
+                ]);
+            }
         $unitVisitorsCount = [];
         foreach ($data['units'] as $unit) {
-            $unitVisitorsCount[$id] = Visitor::where('unit_id', $unit->id)->count();
+            $unitVisitorsCount[$id] = $this->visitorService->getUnitVisitorCount($unit->id);
         }
 
         $data['unitVisitorsCount'] = $unitVisitorsCount;
@@ -254,24 +253,25 @@ class GallaryController extends Controller
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
-        $districts = Gallery::where('id', $data['gallery']->id)->first()->BrokerData->BrokerHasUnits; // رجع دي في الفيو
-        $visitor = Visitor::where('gallery_id', $data['gallery']->id)
-            ->where('ip_address', $request->ip())
-            ->where('visited_at', '>=', now()->subHour())
-            ->first();
+        // $districts = Gallery::where('id', $data['gallery']->id)->first()->BrokerData->BrokerHasUnits; // رجع دي في الفيو
+        // $visitor = Visitor::where('gallery_id', $data['gallery']->id)
+        //     ->where('ip_address', $request->ip())
+        //     ->where('visited_at', '>=', now()->subHour())
+        //     ->first();
+        $visitor = $this->visitorService->findVisitorByGalleryAndIP($data['gallery']->id, $request->ip());
 
         if (!$visitor) {
-            $newVisitor = new Visitor();
-            $newVisitor->gallery_id = $data['gallery']->id;
-            $newVisitor->unit_id = null;
-            $newVisitor->ip_address = $request->ip();
-            $newVisitor->visited_at = now();
-            $newVisitor->save();
+            $this->visitorService->createVisitor([
+                'gallery_id' => $data['gallery']->id,
+                'unit_id' => null,
+                'ip_address' => $request->ip(),
+                'visited_at' => now(),
+            ]);
         }
 
         $unitVisitorsCount = [];
         foreach ($data['units'] as $unit) {
-            $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->count();
+            $unitVisitorsCount[$unit->id] = $this->visitorService->getUnitVisitorCount($unit->id);
         }
 
         $data['unitVisitorsCount'] = $unitVisitorsCount;

@@ -10,4 +10,5 @@ class RoleService
     {
         return Role::where('type', 'user')->get();
     }
+    
 }

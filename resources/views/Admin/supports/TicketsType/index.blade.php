@@ -17,7 +17,7 @@
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a
-                                                href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Tickets')</a>
+                                                href="{{ route('Admin.TicketTypes.index') }}">@lang('Tickets')</a>
                                         </li>
                                         <li class="breadcrumb-item"><a
                                                 href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
@@ -38,7 +38,7 @@
                             <div class="card-body">
                                 <div class="col-md-6">
                                     @if (Auth::user()->hasPermission('create-support-ticket-type'))
-                                        <a href="{{ route('Admin.SupportTickets.createTicketType') }}"
+                                        <a href="{{ route('Admin.TicketTypes.create') }}"
                                             class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
                                             @lang('Add New Ticket')
                                         </a>
@@ -63,7 +63,7 @@
                                                 <td>
 
                                                     @if (Auth::user()->hasPermission('update-support-ticket-type'))
-                                                        <a href="{{ route('Admin.SupportTickets.editTicketType', $ticket->id) }}"
+                                                        <a href="{{ route('Admin.TicketTypes.edit', $ticket->id) }}"
                                                             class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
                                                     @endif
                                                     @if (Auth::user()->hasPermission('delete-support-ticket-type'))
@@ -73,7 +73,7 @@
                                                             @lang('Delete')
                                                         </a>
                                                         <form id="delete-form-{{ $ticket->id }}"
-                                                            action="{{ route('Admin.SupportTickets.destroyTicketType', $ticket->id) }}"
+                                                            action="{{ route('Admin.TicketTypes.destroy', $ticket->id) }}"
                                                             method="POST" style="display: none;">
                                                             @csrf
                                                             @method('DELETE')

@@ -35,9 +35,6 @@ class SupportController extends Controller
         $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
         $this->middleware(['role_or_permission:delete-support-ticket-admin'])->only(['destroy']);
 
-        $this->middleware(['role_or_permission:create-support-ticket-type'])->only(['createTicketType', 'storeTicketType']);
-        $this->middleware(['role_or_permission:update-support-ticket-type'])->only(['editTicketType', 'updateTicketType']);
-        $this->middleware(['role_or_permission:delete-support-ticket-type'])->only(['destroyTicketType']);
 
         $this->SupportService = $SupportService;
         $this->ticketService = $ticketService;
@@ -67,9 +64,7 @@ class SupportController extends Controller
 
     public function store(Request $request)
     {
-        $this->SupportService->createTicketType($request->all());
-        return redirect()->route('Admin.SupportTickets.index')
-            ->withSuccess(__('added successfully'));
+
     }
 
     public function show(string $id)
@@ -87,16 +82,13 @@ class SupportController extends Controller
 
     public function edit($id)
     {
-        $Ticket  =   $this->SupportService->getTicketTypById($id);
-        return view('Admin.supports.TicketsType.edit', get_defined_vars());
+
     }
 
 
     public function update(Request $request, $id)
     {
-        $this->SupportService->updateTicketType($id, $request->all());
-        return redirect()->route('Admin.SupportTickets.index')
-            ->withSuccess(__('Update successfully'));
+
     }
 
 
@@ -131,41 +123,8 @@ class SupportController extends Controller
             ->withSuccess(__('Deleted successfully'));
     }
 
-    // TicketTypes
 
-    public function getAllTicketTypes()
-    {
-        $tickets = $this->SupportService->getAllTicketTypes();
-        return view('Admin.supports.TicketsType.index', get_defined_vars());
-    }
-    public function createTicketType()
-    {
-        return view('Admin.supports.TicketsType.create', get_defined_vars());
-    }
-    public function storeTicketType(Request $request)
-    {
-        $this->SupportService->createTicketType($request->all());
-        return redirect()->route('Admin.SupportTickets.tickets-type')
-            ->withSuccess(__('added successfully'));
-    }
 
-    public function editTicketType($id)
-    {
-        $Ticket  =   $this->SupportService->getTicketTypById($id);
-        return view('Admin.supports.TicketsType.edit', get_defined_vars());
-    }
-    public function updateTicketType(Request $request, $id)
-    {
-        $this->SupportService->updateTicketType($id, $request->all());
-        return redirect()->route('Admin.SupportTickets.tickets-type')
-            ->withSuccess(__('Update successfully'));
-    }
-    public function destroyTicketType($id)
-    {
-        $this->SupportService->deleteTicketType($id);
-        return redirect()->route('Admin.SupportTickets.tickets-type')
-            ->withSuccess(__('Deleted successfully'));
-    }
 
 
     // InfoSupport
@@ -189,7 +148,7 @@ class SupportController extends Controller
         ]);
 
         // Retrieve the settings record
-        $settings = Setting::first();
+        $settings = $this->settingService->getFirstSetting();
 
         // Update the support contact information
         $settings->update([

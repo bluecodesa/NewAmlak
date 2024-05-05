@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\Admin\CityRepositoryInterface;
 use App\Interfaces\Admin\DistrictRepositoryInterface;
+use App\Interfaces\Admin\InterestTypeRepositoryInterface;
 use App\Interfaces\Admin\PaymentGatewayInterface;
 use App\Interfaces\Admin\PaymentGatewayRepositoryInterface;
 use App\Interfaces\Admin\PermissionRepositoryInterface;
@@ -65,8 +66,11 @@ use App\Repositories\Broker\SettingRepository as BrokerSettingRepository;
 use App\Repositories\Broker\UnitRepository;
 use App\Interfaces\Broker\TicketRepositoryInterface;
 use App\Interfaces\Broker\UnitInterestRepositoryInterface;
+use App\Interfaces\Broker\VisitorRepositoryInterface;
+use App\Repositories\Admin\InterestTypeRepository;
 use App\Repositories\Admin\TicketTypeRepository;
 use App\Repositories\Broker\UnitInterestRepository;
+use App\Repositories\Broker\VisitorRepository;
 // office
 use App\Repositories\Office\AdvisorRepository;
 use App\Repositories\Office\DeveloperRepository;
@@ -94,6 +98,17 @@ class AppServiceProvider extends ServiceProvider
             TicketTypeRepositoryInterface::class,
             TicketTypeRepository::class
         );
+        $this->app->bind(
+            InterestTypeRepositoryInterface::class,
+            InterestTypeRepository::class
+        );
+
+        $this->app->bind(
+            VisitorRepositoryInterface::class,
+            VisitorRepository::class
+        );
+
+     
 
         $this->app->bind(
             SupportRepositoryInterface::class,

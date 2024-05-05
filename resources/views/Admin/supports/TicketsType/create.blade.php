@@ -16,8 +16,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.SupportTickets.createTicketType') }}">@lang('Add New Ticket')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Tickets')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.TicketTypes.create') }}">@lang('Add New Ticket')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.TicketTypes.index') }}">@lang('Tickets')</a></li>
                                         <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
@@ -31,7 +31,7 @@
                         <div class="card m-b-30">
                             @include('Admin.layouts.Inc._errors')
                             <div class="card-body">
-                                <form action="{{ route('Admin.SupportTickets.storeTicketType') }}" method="POST" class="row">
+                                <form action="{{ route('Admin.TicketTypes.store') }}" method="POST" class="row">
                                     @csrf
                                     @method('post')
                                     @foreach (config('translatable.locales') as $locale)

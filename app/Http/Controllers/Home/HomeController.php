@@ -27,6 +27,11 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\Admin\SectionService;
+use App\Services\Admin\SettingService;
+use App\Services\RoleService;
+use App\Services\Admin\SubscriptionService;
+use App\Services\RegionService;
+use App\Services\CityService;
 
 
 class HomeController extends Controller
@@ -36,11 +41,28 @@ class HomeController extends Controller
 
     protected $subscriptionTypeService;
     protected $SectionService;
+    protected $settingService;
+    protected $subscriptionService;
+    protected $regionService;
+    protected $cityService;
 
-    public function __construct(SubscriptionTypeService $subscriptionTypeService, SectionService $SectionService)
+
+    public function __construct(SubscriptionTypeService $subscriptionTypeService,
+     SectionService $SectionService,
+     SettingService $settingService,
+     RoleService $roleService,
+     SubscriptionService $subscriptionService,
+      RegionService $regionService,
+       CityService $cityService
+     )
     {
         $this->subscriptionTypeService = $subscriptionTypeService;
         $this->SectionService = $SectionService;
+        $this->settingService = $settingService;
+        $this->subscriptionService = $subscriptionService;
+        $this->regionService = $regionService;
+        $this->cityService = $cityService;
+
     }
 
 
@@ -54,14 +76,10 @@ class HomeController extends Controller
         ->where('status', 1);
         $sections = $this->SectionService->getAll();
         ////
-        $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
-        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
-        $subscriptionTypesRoles = $this->subscriptionTypeService->getAll()
-        ->where('is_deleted', 0)->where('is_show', 1)->where('status',1)
-            ->whereIn('id', $RolesSubscriptionTypeIds);
+        $subscriptionTypesRoles = $this->subscriptionService->subscriptionTypesRolesBroker();
 
-        ///
-        $sitting =   Setting::first();
+        $sitting = $this->settingService->getFirstSetting();
+
         if ($sitting->active_home_page == 1) {
             return view('Home.home', get_defined_vars());
         } else {
@@ -71,30 +89,59 @@ class HomeController extends Controller
 
     public function showRegion($id)
     {
-        $region = Region::findOrFail($id);
+        // $region = Region::findOrFail($id);
+        $region=$this->regionService->findById($id);
         $cities = $region->cities;
         return response()->json($cities);
     }
 
 
-
     public function createBroker()
     {
-        $setting =   Setting::first();
-
+        $setting = $this->settingService->getFirstSetting();
         $termsAndConditionsUrl = $setting->terms_pdf;
         $privacyPolicyUrl = $setting->privacy_pdf;
-        $Regions = Region::all();
-        $cities = City::all();
-        $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $subscriptionTypes = $this->subscriptionService->homeSubscriptionTypesForBroker();
 
-        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
-
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status',1)
-            ->whereIn('id', $RolesSubscriptionTypeIds)
-            ->get();
         return view('Home.Auth.broker.create', get_defined_vars());
     }
+
+    public function storeBroker(Request $request)
+    {
+        $this->subscriptionService->createBrokerSubscription($request->all());
+
+        return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
+    }
+
+
+
+    public function UpdateToken(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $user->update(['fcm_token' => $request->token]);
+    }
+
+    public function showAllBrokers(Request $request){
+
+        $brokers = User::where('is_broker',1)->get();
+        foreach ($brokers as $broker) {
+            $gallery_name = Gallery::where('broker_id', $broker->UserBrokerData->id)
+            ->pluck('gallery_name')->first();
+        }
+
+        return view('Home.Brokers.index',get_defined_vars());
+    }
+
+
+
+
+
+
+
+    //office
+
     public function createOffice()
     {
         $setting =   Setting::first();
@@ -206,163 +253,4 @@ class HomeController extends Controller
         return redirect()->route('login')->withSuccess(__('added successfully'));
     }
 
-    public function storeBroker(Request $request)
-    {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|max:255',
-            'mobile' => 'required|unique:brokers,mobile|digits:9',
-            'city_id' => 'required|exists:cities,id',
-            'subscription_type_id' => 'required|exists:subscription_types,id',
-            'license_number' => 'required|string|max:255|unique:brokers,broker_license',
-            'password' => 'required|string|max:255|confirmed',
-            'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'id_number' => 'nullable|unique:brokers,id_number'
-
-        ];
-
-        $messages = [
-            'name.required' => __('The name field is required.'),
-            'email.required' => __('The email field is required.'),
-            'email.unique' => __('The email has already been taken.'),
-            'mobile.required' => __('The mobile field is required.'),
-            'mobile.unique' => __('The mobile has already been taken.'),
-            'mobile.digits' => __('The mobile must be 9 digits.'),
-            'license_number.required' => __('The license number field is required.'),
-            'license_number.unique' => __('The license number has already been taken.'),
-            'password.required' => __('The password field is required.'),
-            'broker_logo.image' => __('The broker logo must be an image.'),
-            'id_number.unique' => __('The ID number has already been taken.'),
-            'password.confirmed' => __('The password confirmation does not match.'),
-
-
-        ];
-
-
-        $request->validate($rules, $messages);
-
-        $request_data = [];
-
-        if ($request->hasFile('broker_logo')) {
-            $file = $request->file('broker_logo');
-            $ext  =  uniqid() . '.' . $file->clientExtension();
-            $file->move(public_path() . '/Brokers/' . 'Logos/', $ext);
-            $request_data['broker_logo'] = '/Brokers/' . 'Logos/' . $ext;
-        }
-
-        $user = User::create([
-            'is_broker' => 1,
-            'name' => $request->name,
-            'email' => $request->email,
-            'user_name' => uniqid(),
-            'password' => bcrypt($request->password),
-            'avatar' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
-        ]);
-
-        // Create Broker
-        $broker = Broker::create([
-            'user_id' => $user->id,
-            'broker_license' => $request->license_number,
-            'mobile' => $request->mobile,
-            'city_id' => $request->city_id,
-            'id_number' => $request->id_number ?? null,
-            'broker_logo' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
-        ]);
-
-
-        $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
-        $startDate = Carbon::now();
-        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
-        if ($subscriptionType->price > 0) {
-            $SubType = 'paid';
-            $status = 'pending';
-        } else {
-            $SubType = 'free';
-            $status = 'active';
-        }
-        $subscription = Subscription::create([
-            'broker_id' => $broker->id,
-            'subscription_type_id' => $request->subscription_type_id,
-            'status' => $status,
-            'is_start' => $status == 'pending' ? 0 : 1,
-            'is_new' => 1,
-            'start_date' => now()->format('Y-m-d H:i:s'),
-            'end_date' => $endDate,
-            'total' => '200'
-        ]);
-        foreach ($subscriptionType->sections()->get() as $section_id) {
-            SubscriptionSection::create([
-                'section_id' => $section_id->id,
-                'subscription_id' => $subscription->id,
-            ]);
-        }
-        $Invoice =   SystemInvoice::create([
-            'broker_id' => $broker->id,
-            'subscription_name' => $subscriptionType->name,
-            'amount' => $subscriptionType->price,
-            'subscription_type' => $SubType,
-            'period' => $subscriptionType->period,
-            'period_type' => $subscriptionType->period_type,
-            'status' => $status,
-            'invoice_ID' => 'INV_' . uniqid(),
-        ]);
-
-        $galleryName = explode('@', $request->email)[0];
-        $defaultCoverImage = '/Gallery/cover/cover.png';
-
-
-        //
-        $hasRealEstateGallerySection = $subscriptionType->sections()->get();
-
-        $sectionNames = [];
-        foreach ($hasRealEstateGallerySection as $section) {
-            $sectionNames[] = $section->name;
-        }
-
-        if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
-            // Create the gallery
-            $galleryName = explode('@', $request->email)[0];
-            $defaultCoverImage = '/Gallery/cover/cover.png';
-
-            $gallery = Gallery::create([
-                'broker_id' => $broker->id,
-                'gallery_name' => $galleryName,
-                'gallery_status' => 1,
-                'gallery_cover' => $defaultCoverImage,
-            ]);
-        } else {
-            $gallery = null;
-        }
-
-        $this->notifyAdmins($broker);
-
-        $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
-        return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
-    }
-
-    protected function notifyAdmins(Broker $broker)
-    {
-        $admins = User::where('is_admin', true)->get();
-        foreach ($admins as $admin) {
-            Notification::send($admin, new NewBrokerNotification($broker));
-        }
-    }
-
-
-    public function UpdateToken(Request $request)
-    {
-        $user = User::find(Auth::id());
-        $user->update(['fcm_token' => $request->token]);
-    }
-
-    public function showAllBrokers(Request $request){
-
-        $brokers = User::where('is_broker',1)->get();
-        foreach ($brokers as $broker) {
-            $gallery_name = Gallery::where('broker_id', $broker->UserBrokerData->id)
-            ->pluck('gallery_name')->first();
-        }
-
-        return view('Home.Brokers.index',get_defined_vars());
-    }
 }

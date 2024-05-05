@@ -54,7 +54,7 @@ class UnitInterestRepository implements UnitInterestRepositoryInterface
         return $unitInterest;
     }
 
-    public function show(string $id)
+    public function find(string $id)
     {
         return UnitInterest::findOrFail($id);
     }

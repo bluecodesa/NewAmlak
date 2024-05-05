@@ -23,6 +23,7 @@ use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Services\Broker\GalleryService;
 use App\Services\Admin\DistrictService;
+use App\Services\Broker\UnitInterestService;
 use Illuminate\Support\Facades\Notification;
 
 class UnitInterestController extends Controller
@@ -40,6 +41,8 @@ class UnitInterestController extends Controller
     protected $FeatureService;
     protected $galleryService;
     protected $settingService;
+    protected $unitInterestService;
+
 
 
     public function __construct(
@@ -54,7 +57,8 @@ class UnitInterestController extends Controller
         BrokerDataService $brokerDataService,
         PropertyTypeService $propertyTypeService,
         ServiceTypeService $ServiceTypeService,
-        PropertyUsageService $propertyUsageService
+        PropertyUsageService $propertyUsageService,
+        UnitInterestService $unitInterestService
     ) {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
@@ -69,6 +73,8 @@ class UnitInterestController extends Controller
         $this->FeatureService = $FeatureService;
         $this->galleryService = $galleryService;
         $this->settingService = $settingService;
+        $this->unitInterestService = $unitInterestService;
+
     }
 
 
@@ -81,21 +87,7 @@ class UnitInterestController extends Controller
         $unitFilter = $request->input('unit_filter', 'all');
         $projectFilter = $request->input('prj_filter', 'all');
         $clientFilter = $request->input('client_filter', 'all');
-
-        $userId = auth()->user()->UserBrokerData->user_id;
-        $unitInterests = UnitInterest::with('unit', 'user')
-            ->where('user_id', $userId)
-            ->get();
-
-        $unitInterests = $this->getFilteredUnitInterests(
-            $userId,
-            $statusFilter,
-            $propFilter,
-            $unitFilter,
-            $projectFilter,
-            $clientFilter
-        );
-
+        $unitInterests =$this->unitInterestService->index($request);
 
         return view('Broker.Gallary.unit-interest', get_defined_vars());
     }
@@ -114,20 +106,8 @@ class UnitInterestController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'whatsapp' => 'nullable|string|max:255',
-            'unit_id' => 'nullable|exists:units,id',
-            'user_id' => 'required|exists:users,id',
-        ]);
 
-        $statusId = InterestTypeTranslation::where('name', 'new order')->value('id');
-
-        $requestData = $request->all();
-        $requestData['status'] = $statusId;
-
-        $intrestOrder = UnitInterest::create($requestData);
+        $intrestOrder= $this->unitInterestService->store($request);
 
         $this->notifyAdmins($intrestOrder);
 
@@ -148,7 +128,6 @@ class UnitInterestController extends Controller
      */
     public function show(string $id)
     {
-        $unitInterest = UnitInterest::find($id);
     }
 
     /**
@@ -172,7 +151,7 @@ class UnitInterestController extends Controller
 
 
         // Find the unit interest by ID
-        $unitInterest = UnitInterest::findOrFail($request->id);
+        $unitInterest = $this->unitInterestService->find($id);
 
         // Update the status
         $unitInterest->update(['status' => $request->status]);
@@ -189,37 +168,5 @@ class UnitInterestController extends Controller
         //
     }
 
-    public function getFilteredUnitInterests($userId, $statusFilter, $propFilter, $unitFilter, $projectFilter, $clientFilter)
-    {
-        $query = UnitInterest::with('unit', 'user')->where('user_id', $userId);
 
-        // Apply status filter
-        if ($statusFilter !== 'all') {
-            $query->where('status', $statusFilter);
-        }
-
-        // Apply property filter
-        if ($propFilter !== 'all') {
-            $query->where('property_id', $propFilter);
-        }
-
-        // Apply unit filter
-        if ($unitFilter !== 'all') {
-            $query->where('unit_id', $unitFilter);
-        }
-
-        // Apply project filter
-        if ($projectFilter !== 'all') {
-            $query->whereHas('unit.PropertyData', function ($q) use ($projectFilter) {
-                $q->where('project_id', $projectFilter);
-            });
-        }
-
-        // Apply client filter
-        if ($clientFilter !== 'all') {
-            $query->where('id', $clientFilter);
-        }
-
-        return $query->get();
-    }
 }

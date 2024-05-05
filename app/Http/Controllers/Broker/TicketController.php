@@ -87,7 +87,6 @@ class TicketController extends Controller
         $ticket = new Ticket();
         $user_id = auth()->user()->id;
         $ticket->user_id = $user_id;
-
         $ticket->subject = $validatedData['subject'];
         $ticket->content = $validatedData['content'];
         $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null

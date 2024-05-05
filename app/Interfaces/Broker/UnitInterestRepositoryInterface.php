@@ -13,7 +13,7 @@ interface UnitInterestRepositoryInterface
 
     public function store(Request $request);
 
-    public function show(string $id);
+    public function find(string $id);
 
     public function update(Request $request, string $id);
 

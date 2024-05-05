@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\General\PropertyUsageController;
 use App\Http\Controllers\Admin\General\RegionController;
 use App\Http\Controllers\Admin\General\ServiceController;
 use App\Http\Controllers\Admin\General\ServiceTypeController;
+use App\Http\Controllers\Admin\InterestTypeController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
 use App\Http\Controllers\Admin\Subscribers\SystemInvoiceController;
 use App\Http\Controllers\Admin\SubUserController;
 use App\Http\Controllers\Admin\SupportController;
+use App\Http\Controllers\Admin\TicketTypeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Broker\TicketController;
 use App\Models\City;
@@ -67,29 +69,17 @@ Route::group(
             Route::post('StoreNewNotification', [SettingController::class, 'StoreNewNotification'])->name('StoreNewNotification');
             Route::get('TestSendMail', [SettingController::class, 'TestSendMail'])->name('update.TestSendMail');
 
-            Route::get('/interests-type', [SettingController::class, 'showAllInterestTypes'])->name('interests-types');
-            Route::get('/interests-type', [SettingController::class, 'createInterestType'])->name('create.interest-type');
-            Route::post('/interests-type', [SettingController::class, 'storeInterestType'])->name('store.interest-type');
-            Route::get('/interests-type/{id}', [SettingController::class, 'editInterestType'])->name('edit.interest-type');
-            Route::put('/interests-type/{id}', [SettingController::class, 'updateInterestType'])->name('update.interest-type');
-            Route::delete('/interests-type/{id}', [SettingController::class, 'destroyInterestType'])->name('delete.interest-type');
+            //interests-type
+     
+
             //support tickets
-            Route::get('/TicketsTypes', [SupportController::class, 'getAllTicketTypes'])->name('SupportTickets.tickets-type');
-            Route::get('/ticketType/create', [SupportController::class, 'createTicketType'])->name('SupportTickets.createTicketType');
             Route::post('tickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
-
-            Route::post('/ticketType/store', [SupportController::class, 'storeTicketType'])->name('SupportTickets.storeTicketType');
-            Route::get('/ticketType/{id}/edit', [SupportController::class, 'editTicketType'])->name('SupportTickets.editTicketType');
-            Route::put('/ticketType/{id}/update', [SupportController::class, 'updateTicketType'])->name('SupportTickets.updateTicketType');
-            Route::delete('/ticketType/{id}/destroy', [SupportController::class, 'destroyTicketType'])->name('SupportTickets.destroyTicketType');
-
             Route::post('SupportTickets/{ticketId}/add-response', [SupportController::class, 'addResponse'])->name('SupportTickets.addResponse');
             Route::post('SupportTickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
             Route::get('/InfoSupport', [SupportController::class, 'showInfoSupport'])->name('Support.showInfoSupport');
             Route::put('InfoSupport/update', [SupportController::class, 'updateInfoSupport'])->name('InfoSupport.update');
 
-
-
+            //
 
             Route::resources([
                 'roles' => RoleController::class,
@@ -113,6 +103,10 @@ Route::group(
                 'ServiceType' => ServiceTypeController::class,
                 'Service' => ServiceController::class,
                 'SupportTickets' => SupportController::class,
+                'TicketTypes' => TicketTypeController::class,
+                'InterestTypes' => InterestTypeController::class,
+
+
 
 
             ]);

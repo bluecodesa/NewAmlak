@@ -85,7 +85,7 @@
                                     <li><a href="{{ route('Admin.Support.showInfoSupport') }}">@lang('Support contact information')</a>
                                     </li>
                                 @endif
-                                <li><a href="{{ route('Admin.SupportTickets.tickets-type') }}">@lang('Ticket Type')</a>
+                                <li><a href="{{ route('Admin.TicketTypes.index') }}">@lang('Ticket Type')</a>
                                 </li>
                             </ul>
                         </li>

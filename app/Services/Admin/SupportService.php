@@ -26,56 +26,6 @@ class SupportService
 
     }
 
-    public function getAllTicketTypes()
-    {
-        return $this->SupportRepository->getAllTicketTypes();
-    }
-
-    function getTicketTypById($id)
-    {
-        return $this->SupportRepository->getTicketTypById($id);
-    }
-
-    public function createTicketType($data)
-    {
-
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('ticket_type_translations', 'name')]];
-        }
-        $messages = [];
-        foreach (config('translatable.locales') as $locale) {
-            $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
-            $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
-        }
-
-        validator($data, $rules, $messages)->validate();
-        return $this->SupportRepository->createTicketType($data);
-    }
-
-    public function updateTicketType($id, $data)
-    {
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('ticket_type_translations', 'name')->ignore($id, 'ticket_type_id')]];
-        }
-        $messages = [];
-        foreach (config('translatable.locales') as $locale) {
-            $messages[$locale . '.name.required'] = __('The :attribute field is required.', ['attribute' => __('name')]);
-            $messages[$locale . '.name.unique'] = __('The :attribute has already been taken.', ['attribute' => __('name')]);
-        }
-
-        validator($data, $rules, $messages)->validate();
-        return $this->SupportRepository->updateTicketType($id, $data);
-    }
-
-    public function deleteTicketType($id)
-    {
-        return $this->SupportRepository->deleteTicketType($id);
-    }
-
-
-
     public function addResponse(array $data, int $ticketId)
     {
         $ticket = $this->ticketRepository->findTicketById($ticketId);
