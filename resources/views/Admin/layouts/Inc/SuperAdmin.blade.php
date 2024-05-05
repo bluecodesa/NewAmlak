@@ -1,4 +1,4 @@
-<div class="left side-menu" id="left-side-menu">
+{{-- <div class="left side-menu" id="left-side-menu">
     <div class="slimscroll-menu" id="remove-scroll">
 
         <!--- Sidemenu -->
@@ -120,18 +120,6 @@
                     </ul>
                 </li>
 
-                {{--
-                <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class=" icon-setting-2"></i><span>
-                            @lang('project management')<span class="float-right menu-arrow"><i
-                                    class="mdi mdi-chevron-right"></i></span> </span></a>
-                    <ul class="submenu">
-                        <li><a href="{{ route('Admin.Developer.index') }}">@lang('developers')</a></li>
-                        <li><a href="{{ route('Admin.Advisor.index') }}">@lang('advisors')</a></li>
-                        <li><a href="{{ route('Admin.Owner.index') }}">@lang('owners')</a></li>
-                        <li><a href="{{ route('Admin.Employee.index') }}">@lang('employees')</a></li>
-                    </ul>
-                </li> --}}
 
 
             </ul>
@@ -143,4 +131,69 @@
     </div>
     <!-- Sidebar -left -->
 
-</div>
+</div> --}}
+
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="{{ route('Admin.home') }}" class="app-brand-link">
+            <img src="{{ url($sitting->icon) }}" alt="" width="60">
+            {{-- <span class="app-brand-text demo menu-text fw-bold">{{ $sitting->title }}</span> --}}
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
+            <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
+        </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+        <!-- Page -->
+        <li class="menu-item ">
+            <a href="{{ route('Admin.home') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Page 1">@lang('dashboard')</div>
+            </a>
+        </li>
+        @if (Auth::user()->hasAnyOfPermissions(['read-subscribers', 'read-SubscriptionTypes', 'read-SystemInvoice']))
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
+                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <div data-i18n="@lang('Subscriber management')">@lang('Subscriber management')</div>
+                </a>
+                <ul class="menu-sub">
+                    @if (Auth::user()->hasPermission('read-subscribers'))
+                        <li class="menu-item">
+                            <a href="{{ route('Admin.Subscribers.index') }}" class="menu-link">
+                                <div data-i18n="@lang('Subscribers')">@lang('Subscribers')</div>
+                            </a>
+                        </li>
+                        @if (Auth::user()->hasPermission('read-SubscriptionTypes'))
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.SubscriptionTypes.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Subscriptions')">@lang('Subscriptions')</div>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->hasPermission('read-SystemInvoice'))
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.SystemInvoice.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Clients Bills')">@lang('Clients Bills')</div>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+                </ul>
+            </li>
+        @endif
+        <li class="menu-item">
+            <a href="page-2.html" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="Page 2">Page 2</div>
+            </a>
+        </li>
+    </ul>
+</aside>

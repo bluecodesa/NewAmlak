@@ -1,4 +1,32 @@
 <script>
+    $(document).ready(function() {
+        $('#SearchInput').on('input', function() {
+            var searchText = $(this).val().toLowerCase();
+            $('tbody tr').each(function() {
+                var rowText = $(this).text().toLowerCase();
+                if (rowText.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        $('#SearchInput2').on('input', function() {
+            var searchText = $(this).val().toLowerCase();
+            $('tbody tr').each(function() {
+                var rowText = $(this).text().toLowerCase();
+                if (rowText.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+
     var firebaseConfig = {
         apiKey: "AIzaSyDaTlIrCFY1OnaNersOjgsgjmZl1AABgJo",
         authDomain: "tryamlak.firebaseapp.com",

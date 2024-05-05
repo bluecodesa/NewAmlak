@@ -3,31 +3,31 @@
 @include('Home.layouts.home.head')
 
 <style>
+    .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+        /* Adjust the opacity to your preference */
+    }
 
-.disabled {
-    pointer-events: none;
-    opacity: 0.5; /* Adjust the opacity to your preference */
-}
+    .disabled .disabled-overlay {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.5);
+        /* Semi-transparent white background */
+    }
 
-.disabled .disabled-overlay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
-}
-
-.disabled .disabled-overlay span {
-    font-size: 18px;
-    font-weight: bold;
-    color: rgb(137, 4, 4); /* Adjust the color to your preference */
-}
-
-
+    .disabled .disabled-overlay span {
+        font-size: 18px;
+        font-weight: bold;
+        color: rgb(137, 4, 4);
+        /* Adjust the color to your preference */
+    }
 </style>
 
 
@@ -55,7 +55,8 @@
 
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('welcome') }}#home">عن أملاك <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ route('welcome') }}#home">عن أملاك <span
+                                    class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('welcome') }}#features">المميزات</a>
@@ -69,14 +70,15 @@
 
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 الوسطاء العقاريين
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="{{ route('brokers') }}">المسوقين العقاريين </a>
-                              <a class="dropdown-item" href="#">المكاتب العقارية</a>
+                                <a class="dropdown-item" href="{{ route('brokers') }}">المسوقين العقاريين </a>
+                                <a class="dropdown-item" href="#">المكاتب العقارية</a>
                             </div>
-                          </li>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#footer">تواصل معنا</a>
                         </li>
