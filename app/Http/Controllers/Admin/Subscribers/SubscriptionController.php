@@ -78,7 +78,7 @@ class SubscriptionController extends Controller
 
         $subscriber = $this->subscriptionService->findSubscriptionById($id);
         if (!$subscriber) {
-            return redirect()->route('Admin.Subscribers.index')->with('error', 'This account is deleted.');
+            abort(404);
         }
         $brokerId = $subscriber->broker_id;
         $officeId = $subscriber->office_id;
