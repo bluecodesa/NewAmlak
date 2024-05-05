@@ -184,11 +184,18 @@ class GalleryService
 
             $units = $units->merge($galleryUnits);
         }
+        $unit_id = null;
+        $unitDetails = null;
+        $user_id = null;
+
+        if ($units) {
         foreach($units as $unit){
             $broker = Broker::findOrFail($unit->broker_id);
             $unit_id = $unit->id;
             $user_id = $broker->user_id;
         }
+    }
+
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
