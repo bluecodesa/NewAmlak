@@ -137,7 +137,7 @@ class GalleryService
     }
     }
 
-    public function showByName($name, $cityFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
+    public function showByName($name, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
 
     {
         $usages =  $this->propertyUsageService->getAll();
@@ -152,7 +152,7 @@ class GalleryService
         $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
-        $units = $this->filterUnitsPublic($units, $cityFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
+        $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
         $unit = $units->first();
         if ($unit) {
             $id = $unit->id;
@@ -172,7 +172,7 @@ class GalleryService
     }
 
 
-    public function showAllGalleries($cityFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
+    public function showAllGalleries($cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
 
     {
         $usages =  $this->propertyUsageService->getAll();
@@ -191,17 +191,21 @@ class GalleryService
         }
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
-        $units = $this->filterUnitsPublic($units, $cityFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
+        $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
         $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
         $districtsIds = $districts->pluck('district_id')->toArray();
         return get_defined_vars();
 
     }
-    public function filterUnitsPublic($units, $cityFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent)
+    public function filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent)
     {
         // Filter by city if not 'all'
         if ($cityFilter !== 'all' ) {
             $units = $units->where('city_id', $cityFilter);
+        }
+
+        if ($propertyTypeFilter !== 'all') {
+            $units = $units->where('PropertyTypeData.id', $propertyTypeFilter);
         }
 
         // Filter by project if not 'all'
@@ -253,12 +257,16 @@ class GalleryService
             return $units;
     }
 
-    public function filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter,$projectFilter,$dailyFilter)
+    public function filterUnits($units, $adTypeFilter,$propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter,$projectFilter,$dailyFilter)
     {
         // Filter by advertisement type if not 'all'
         if ($adTypeFilter !== 'all') {
             $units = $units->where('type', $adTypeFilter);
         }
+        if ($propertyTypeFilter !== 'all') {
+            $units = $units->where('PropertyTypeData.id', $propertyTypeFilter);
+        }
+
 
         // Filter by property usage if not 'all'
         if ($typeUseFilter !== 'all') {

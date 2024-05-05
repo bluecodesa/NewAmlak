@@ -111,14 +111,17 @@ class GallaryController extends Controller
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
 
+        $propertyTypeIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
+        $propertyTypeNames = $units->pluck('PropertyTypeData.name')->unique();
         // Filter units based on request parameters
         $adTypeFilter = request()->input('ad_type_filter', 'all');
+        $propertyTypeFilter = request()->input('property_type_filter', 'all');
         $typeUseFilter = request()->input('type_use_filter', 'all');
         $cityFilter = request()->input('city_filter', 'all');
         $districtFilter = request()->input('district_filter', 'all');
         $projectFilter = request()->input('project_filter', 'all');
         $dailyFilter = request()->input('daily_filter', 'all');
-        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter,$dailyFilter);
+        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $propertyTypeFilter,$typeUseFilter, $cityFilter, $districtFilter, $projectFilter,$dailyFilter);
         // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
@@ -235,6 +238,7 @@ class GallaryController extends Controller
     public function showByName(Request $request, $name)
     {
         $cityFilter = $request->input('city_filter', 'all');
+        $propertyTypeFilter = $request->input('property_type_filter', 'all');
         $projectFilter = $request->input('project_filter', 'all');
         $typeUseFilter = $request->input('type_use_filter', 'all');
         $adTypeFilter = request()->input('ad_type_filter', 'all');
@@ -246,7 +250,7 @@ class GallaryController extends Controller
         $districtFilter = request()->input('district_filter', 'all');
 
 
-        $data = $this->galleryService->showByName($name, $cityFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+        $data = $this->galleryService->showByName($name, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
@@ -348,6 +352,7 @@ class GallaryController extends Controller
     public function showAllGalleries(Request $request)
     {
         $cityFilter = $request->input('city_filter', 'all');
+        $propertyTypeFilter = $request->input('property_type_filter', 'all');
         $projectFilter = $request->input('project_filter', 'all');
         $typeUseFilter = $request->input('type_use_filter', 'all');
         $adTypeFilter = request()->input('ad_type_filter', 'all');
@@ -359,7 +364,7 @@ class GallaryController extends Controller
         $districtFilter = request()->input('district_filter', 'all');
 
 
-        $data = $this->galleryService->showAllGalleries($cityFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent);
+        $data = $this->galleryService->showAllGalleries($cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent);
         return view('Home.Gallery.indexAll',  $data);
     }
 

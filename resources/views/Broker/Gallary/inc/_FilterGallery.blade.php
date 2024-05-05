@@ -15,6 +15,21 @@
                             @endforeach
                         </select>
                     </div>
+
+
+                    <div class="w-auto col-4">
+                        <span>@lang('Property type')</span>
+                        <select class="form-control form-control-sm" id="property_type_filter" name="property_type_filter">
+                            <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')
+                            </option>
+                            @foreach ($propertyTypeIds as $index => $id)
+                                <option value="{{ $id }}" {{ $propertyTypeFilter == $id ? 'selected' : '' }}>
+                                    {{ $propertyTypeNames[$index] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="w-auto col-4">
                         <span>@lang('Type use')</span>
                         <select class="form-control form-control-sm" id="type_use_filter" name="type_use_filter">

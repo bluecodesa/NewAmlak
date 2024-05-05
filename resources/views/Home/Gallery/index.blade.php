@@ -57,6 +57,23 @@
                                 </div>
 
                                 <div class="col-12 p-0 ml-2">
+                                    <span>@lang('Property type')</span>
+                                    <select class="form-control form-control-sm" id="property_type_filter" name="property_type_filter">
+                                        <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')</option>
+                                        @foreach ($units as $unit)
+                                            @if ($unit->PropertyTypeData)
+                                                <option value="{{ $unit->PropertyTypeData->id }}"
+                                                    {{ $propertyTypeFilter == $unit->PropertyTypeData->id ? 'selected' : '' }}>
+                                                    {{ $unit->PropertyTypeData->name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-12 p-0 ml-2">
 
                                     <span>@lang('City')</span>
                                     <select class="form-control form-control-sm" id="city_filter" name="city_filter">
