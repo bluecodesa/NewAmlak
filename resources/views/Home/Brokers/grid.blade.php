@@ -15,12 +15,9 @@
           @endif
 
       <p class="card-text">
-        @if ($gallery_name)
-        <a href="{{ route('gallery.showByName', ['name' => $gallery_name]) }}" class="btn btn-primary" target="_self">
+        <a href="{{ route('gallery.showByName', ['name' => $broker->UserBrokerData->GalleryData->gallery_name]) }}" class="btn btn-primary" target="_self">
 زيارة المعرض        </a>
-    @else
-        <!-- Handle case where no galleries are found for the user -->
-    @endif
+
       </p>
 
 

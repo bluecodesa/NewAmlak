@@ -125,12 +125,15 @@ class HomeController extends Controller
 
     public function showAllBrokers(Request $request){
 
-        $brokers = User::where('is_broker',1)->get();
-        foreach ($brokers as $broker) {
-            $gallery_name = Gallery::where('broker_id', $broker->UserBrokerData->id)
-            ->pluck('gallery_name')->first();
-        }
+        $users = User::where('is_broker', 1)->get();
+        $brokers = [];
 
+        foreach ($users as $broker) {
+            if ($broker->UserBrokerData->GalleryData) {
+                $brokers[] = $broker;
+
+            }
+        }
         return view('Home.Brokers.index',get_defined_vars());
     }
 
