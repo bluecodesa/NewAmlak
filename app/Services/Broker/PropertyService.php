@@ -105,7 +105,7 @@ class PropertyService
             'monthly' => 'digits_between:0,8',
             'instrument_number' => [
                 'nullable',
-                Rule::unique('properties')->ignore($id),
+                Rule::unique('units')->ignore($id),
                 'max:25'
             ],
             'service_type_id' => 'required',
@@ -126,6 +126,8 @@ class PropertyService
             'type.in' => 'The selected type is invalid.',
             'price' => 'price must be smaller than or equal to 10 numbers.',
             'monthly' => 'Monthly price must be smaller than or equal to 8.',
+            'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
+
         ];
 
         // Validate data

@@ -47,8 +47,7 @@
 
                                 </p>
                             @elseif($hoursUntilEnd > 0 || $minutesUntilEnd > 0)
-                                <p class="sub-title" class="highlighter-rouge"> {{ $hoursUntilEnd }} @lang ('Hours Until
-                                    End') </p>
+                                <p class="sub-title" class="highlighter-rouge"> {{ $hoursUntilEnd }} @lang ('Hours Until End') </p>
                             @else
                                 <p class="sub-title" class="highlighter-rouge">{{ __($subscriber->status) }}</p>
                             @endif

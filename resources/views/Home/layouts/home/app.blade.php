@@ -65,7 +65,7 @@
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
+                            <a class="nav-link" href="{{ route('gallery.showAllGalleries') }}">المعرض العقاري</a>
 
                         </li>
                         <li class="nav-item dropdown">

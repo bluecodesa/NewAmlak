@@ -211,7 +211,6 @@ class GalleryService
         $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
         $districtsuniqueIds = $units->pluck('DistrictData.id')->filter()->unique();
         $districtsUniqueNames = $units->pluck('DistrictData.name')->unique();
-        // dd($districtsUniqueNames);
 
         return get_defined_vars();
 
