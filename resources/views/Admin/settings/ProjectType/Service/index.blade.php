@@ -12,11 +12,11 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('services')</h4>
+                                        @lang('Property features')</h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Service.index') }}">@lang('services')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Service.index') }}">@lang('Property features')</a></li>
                                         <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>

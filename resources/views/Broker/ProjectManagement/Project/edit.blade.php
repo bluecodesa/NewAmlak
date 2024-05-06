@@ -137,9 +137,9 @@
                                     </div>
 
                                     <div class="form-group col">
-                                        <label>@lang('service type') <span class="required-color">*</span> </label>
+                                        <label>@lang('Type of real estate service') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="service_type_id" required>
-                                            <option disabled value="">@lang('service type')</option>
+                                            <option disabled value="">@lang('Type of real estate service')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}"
                                                     {{ $service->id == $project->service_type_id ? 'selected' : '' }}>

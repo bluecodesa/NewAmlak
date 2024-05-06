@@ -109,7 +109,7 @@
                             <div class="row gallery-services mb-3"
                             style="
                              @if (!$unit->UnitServicesData || count($unit->UnitServicesData) ==0 ) visibility:hidden @endif">
-                            <p class="w-auto m-0 p-0" style="color: #989898">@lang('services')</p>
+                            <p class="w-auto m-0 p-0" style="color: #989898">@lang('Property features')</p>
                             @if ($unit->UnitServicesData && count($unit->UnitServicesData) > 0)
                                 <div class="text-container">
                                     <span class="text-with-ellipsis">

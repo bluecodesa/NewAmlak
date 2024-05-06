@@ -94,7 +94,7 @@
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        <h6> @lang('service type') :
+                                                        <h6> @lang('Type of real estate service') :
                                                             <span class="badge font-13 badge-primary">
                                                                 {{ $Property->ServiceTypeData->name ?? __('nothing') }}
                                                             </span>

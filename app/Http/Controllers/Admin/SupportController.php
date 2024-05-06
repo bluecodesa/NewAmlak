@@ -30,7 +30,7 @@ class SupportController extends Controller
         TicketService $ticketService,
         SettingService $settingService
     ) {
-        $this->middleware(['role_or_permission:read-support-ticket-admin'])->only(['index']);
+        $this->middleware(['role_or_permission:read-support-ticket-admin'])->only(['index', 'show']);
         $this->middleware(['role_or_permission:create-SupportTickets'])->only(['store', 'create']);
         $this->middleware(['role_or_permission:update-SupportTickets'])->only(['edit', 'update']);
         $this->middleware(['role_or_permission:delete-support-ticket-admin'])->only(['destroy']);

@@ -246,7 +246,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="alert alert-primary" role="alert">
-                                            <strong>@lang('services')</strong>
+                                            <strong>@lang('Property features')</strong>
                                         </div>
                                         <ol class="list-group list-group-numbered">
 

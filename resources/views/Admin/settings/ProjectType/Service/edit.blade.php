@@ -17,7 +17,7 @@
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a href="{{ route('Admin.Service.edit',$Service->id) }}">@lang('Edit')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Service.index') }}">@lang('services')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Service.index') }}">@lang('Property features')</a></li>
                                         <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>

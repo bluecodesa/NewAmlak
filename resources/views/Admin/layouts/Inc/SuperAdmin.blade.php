@@ -112,8 +112,8 @@
                                 <ul class="submenu mm-collapse">
                                     <li><a href="{{ route('Admin.PropertyType.index') }}">@lang('Property Types')</a></li>
                                     <li><a href="{{ route('Admin.PropertyUsage.index') }}">@lang('property usages')</a></li>
-                                    <li><a href="{{ route('Admin.ServiceType.index') }}">@lang('services types')</a></li>
-                                    <li><a href="{{ route('Admin.Service.index') }}">@lang('services')</a></li>
+                                    <li><a href="{{ route('Admin.ServiceType.index') }}">@lang('Types of real estate services')</a></li>
+                                    <li><a href="{{ route('Admin.Service.index') }}">@lang('Property features')</a></li>
                                 </ul>
                             </li>
                         @endif

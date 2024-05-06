@@ -208,7 +208,7 @@
 
                         @if ($Unit->UnitServicesData->isNotEmpty())
                         <div class="d-block text-black" role="alert">
-                            <strong>@lang('services')</strong>
+                            <strong>@lang('Property features')</strong>
                         </div>
                         <ol class="list-group list-group-numbered">
                             <span class="text-with-ellipsis">
@@ -265,6 +265,10 @@
 
                     <div class="w-auto">
                         <p class="mb-0 font-weight-bold">{{ $brokers->name}}</p>
+                        <p class="mb-0 font-weight-bold">رقم رخصة فال : {{ $broker->broker_license}}</p>
+                        @if( $brokers->is_broker)
+                        <p class="mb-0 font-weight-bold">@lang('Broker')</p>
+                        @endif
                         @php
                             $createdAt = new DateTime($brokers->created_at);
 

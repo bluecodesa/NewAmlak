@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('services types'))
+@section('title', __('Types of real estate services'))
 @section('content')
 
     <div class="content-page">
@@ -12,11 +12,11 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                        @lang('services types')</h4>
+                                        @lang('Types of real estate services')</h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.ServiceType.index') }}">@lang('services types')</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ route('Admin.ServiceType.index') }}">@lang('Types of real estate services')</a></li>
                                         <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
                                 </div>
