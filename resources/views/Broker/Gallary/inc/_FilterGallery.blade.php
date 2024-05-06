@@ -62,7 +62,7 @@
                         <select class="form-control form-control-sm" id="district_filter" name="district_filter">
                             <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
-                            @foreach ($districts as $index => $district)
+                            @foreach ($districts->unique('district_id') as $index => $district)
                                             <option value="{{ $district->district_id }}"
                                                 {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
                                                 {{ $district->DistrictData->name }}

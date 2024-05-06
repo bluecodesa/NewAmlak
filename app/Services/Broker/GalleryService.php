@@ -166,6 +166,10 @@ class GalleryService
         }
         $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
         $districtsIds = $districts->pluck('district_id')->toArray();
+        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
+        $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
+        $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
+        $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
         return get_defined_vars();
     }
 
@@ -201,6 +205,14 @@ class GalleryService
         $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
         $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
         $districtsIds = $districts->pluck('district_id')->toArray();
+        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
+        $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
+        $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
+        $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
+        $districtsuniqueIds = $units->pluck('DistrictData.id')->filter()->unique();
+        $districtsUniqueNames = $units->pluck('DistrictData.name')->unique();
+        // dd($districtsUniqueNames);
+
         return get_defined_vars();
 
     }

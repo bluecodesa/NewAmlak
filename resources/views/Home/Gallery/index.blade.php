@@ -61,13 +61,10 @@
                                     <select class="form-control form-control-sm" id="property_type_filter" name="property_type_filter">
                                         <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
-                                        @foreach ($units as $unit)
-                                            @if ($unit->PropertyTypeData)
-                                                <option value="{{ $unit->PropertyTypeData->id }}"
-                                                    {{ $propertyTypeFilter == $unit->PropertyTypeData->id ? 'selected' : '' }}>
-                                                    {{ $unit->PropertyTypeData->name }}
-                                                </option>
-                                            @endif
+                                            @foreach ($propertyuniqueIds as $index => $id)
+                                            <option value="{{ $id }}" {{ $propertyTypeFilter == $id ? 'selected' : '' }}>
+                                                {{ $propertyUniqueNames[$index] }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -96,7 +93,7 @@
                                         name="district_filter">
                                         <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
-                                        @foreach ($districts as $index => $district)
+                                        @foreach ($districts->unique('district_id') as $index => $district)
                                             <option value="{{ $district->district_id }}"
                                                 {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
                                                 {{ $district->DistrictData->name }}
@@ -110,13 +107,10 @@
                                     <select class="form-control form-control-sm" id="project_filter" name="project_filter">
                                         <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
-                                        @foreach ($units as $unit)
-                                            @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
-                                                <option value="{{ $unit->PropertyData->ProjectData->id }}"
-                                                    {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
-                                                    {{ $unit->PropertyData->ProjectData->name }}
-                                                </option>
-                                            @endif
+                                            @foreach ($projectuniqueIds as $index => $id)
+                                            <option value="{{ $id }}" {{ $projectFilter == $id ? 'selected' : '' }}>
+                                                {{ $projectUniqueNames[$index] }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
