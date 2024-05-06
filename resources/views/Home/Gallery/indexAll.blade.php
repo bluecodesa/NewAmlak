@@ -90,11 +90,17 @@
                                         name="district_filter">
                                         <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
-                                            @foreach ($districtsuniqueIds as $index => $district)
+                                            @foreach ($districts->unique('district_id') as $index => $district)
+                                            <option value="{{ $district->district_id }}"
+                                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
+                                                {{ $district->DistrictData->name }}
+                                            </option>
+                                        @endforeach
+                                            {{-- @foreach ($districtsuniqueIds as $index => $district)
                                             <option value="{{ $id }}" {{ $districtFilter == $id ? 'selected' : '' }}>
                                                 {{ $districtsUniqueNames[$index] }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
 
                                     </select>
                                 </div>

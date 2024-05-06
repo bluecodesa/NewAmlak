@@ -182,12 +182,15 @@ class GalleryService
         $usages =  $this->propertyUsageService->getAll();
         $galleries = $this->galleryRepository->allPublic();
         $units = collect();
+        $districts = collect(); // Initialize an empty collection before the loop
 
         foreach ($galleries as $gallery) {
             $galleryUnits = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
-
             $units = $units->merge($galleryUnits);
+            $galleryDistricts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+            $districts = $districts->merge($galleryDistricts);
         }
+
         $unit_id = null;
         $unitDetails = null;
         $user_id = null;
@@ -203,8 +206,8 @@ class GalleryService
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
-        $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
-        $districtsIds = $districts->pluck('district_id')->toArray();
+        // $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+        // $districtsIds = $districts->pluck('district_id')->toArray();
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
         $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
@@ -267,7 +270,6 @@ class GalleryService
             if ($daily_rent) {
                 $units = $units->where('daily_rent' , 1);
             }
-
             if ($districtFilter !== 'all') {
                 $units = $units->where('district_id', $districtFilter);
             }
