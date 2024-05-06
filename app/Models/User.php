@@ -103,12 +103,24 @@ class User extends Authenticatable
         return $this->hasMany(TicketResponse::class);
     }
 
+    // public function getAvatar()
+    // {
+    //     if (!file_exists(public_path(url($this->avatar)))) {
+    //         return 'https://www.svgrepo.com/show/29852/user.svg';
+    //     } else {
+    //         return url($this->avatar);
+    //     }
+    // }
+
     public function getAvatar()
-    {
-        if (!file_exists(public_path(url($this->avatar)))) {
-            return 'https://www.svgrepo.com/show/29852/user.svg';
-        } else {
-            return url($this->avatar);
-        }
+{
+    $avatarPath = public_path($this->avatar);
+
+    if (!file_exists($avatarPath)) {
+        return 'https://www.svgrepo.com/show/29852/user.svg';
+    } else {
+        return asset($this->avatar);
     }
+}
+
 }

@@ -2,32 +2,17 @@
 @section('title', __('Edit') . ' ' . $project->name)
 @section('content')
 
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="card m-b-30">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('Edit') : {{ $project->name }} </h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Project.edit', $project->id) }}">@lang('Edit')</a>
-                                        </li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
+        <div class="content-wrapper">
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="row">
+                    <div class="col-6 py-3 mb-3">
+
+                        <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                            <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
+                            @lang('Edit') : {{ $project->name }}
+                        </h4>
                     </div>
+
                 </div>
 
                 <div class="row">
@@ -172,13 +157,11 @@
                                     </div>
 
 
-                                    <div class="col-12">
                                         <button type="submit" class="btn btn-primary me-1">
 
                                             {{ __('save') }}
                                         </button>
 
-                                    </div>
                                 </form>
 
                             </div>
@@ -190,7 +173,6 @@
         </div>
         <!-- container-fluid -->
 
-    </div>
     @push('scripts')
         <script>
             $('.dropify-clear').click(function() {
