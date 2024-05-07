@@ -2,7 +2,7 @@
 @section('title', __('Projects'))
 @section('content')
 
-        <div class="content-wrapper">
+        {{-- <div class="content-wrapper">
             <div class="container-xxl flex-grow-1 container-p-y">
                 <div class="row">
                     <div class="col-6 py-3 mb-3">
@@ -24,6 +24,7 @@
                             <div class="card-body">
 
                                 <div class="row">
+
                                     <div class="col-md-9">
                                         <div class="card bg-dark text-white mb-3">
                                             <div class="card-body">
@@ -103,26 +104,35 @@
 
                     <div class="col-12">
                         <div class="card m-b-30">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <h5 class="card-header">@lang('Types subscriptions')
-                                            <button type="button" onclick="exportToExcel()"
-                                                class="btn btn-sm btn-icon btn-success waves-effect waves-light">
-                                                <span class="ti ti-table-export"></span>
-                                            </button>
-                                        </h5>
-
-                                    </div>
-                                    <div class="col-3 py-1">
-                                        <input id="SearchInput" class="form-control  rounded-pill mt-3" type="text"
-                                            placeholder="@lang('search...')">
-                                    </div>
-
-
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">@lang('properties')</h5>
                                 </div>
+
+                                <div class="card-datatable table-responsive">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                        <div class="card-header d-flex border-top rounded-0 flex-wrap py-2">
+                                            <div class="me-5 ms-n2 pe-5">
+                                                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                                    <input id="SearchInput" class="form-control" placeholder="@lang('search...')" aria-controls="DataTables_Table_0"></label></div>
+                                            </div>
+                                            <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                                <div class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                                    <div
+                                                        class="dt-buttons btn-group flex-wrap d-flex">
+                                                        <div class="btn-group">
+                                                            <button onclick="exportToExcel()" class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false"><span>
+                                                                <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                            </div>
+
+
+
+                                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <div class="table-responsive text-nowrap">
-                                    <table class="table" id="table2">
+                                    <table class="table" id="table">
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>#</th>
@@ -142,10 +152,6 @@
                                                     <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
                                                     <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
                                                     <td>{{ $property->OwnerData->name ?? '' }}</td>
-                                                    {{-- <td>
-                                                        {{ $property->is_divided == 1 ? __('property') : __('Unit') }}
-                                                    </td> --}}
-                                                    {{-- <td>{{ $property->instrument_number ?? '' }}</td> --}}
 
                                                     <td>
                                                         <div class="dropdown">
@@ -189,7 +195,9 @@
                         </div>
                     </div>
                 </div> <!-- end col -->
+
             </div> <!-- end row -->
+
 
         </div>
         <!-- container-fluid -->
@@ -213,5 +221,250 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
+
+            </div>
+        </div> --}}
+
+
+
+
+        <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="row">
+                    <div class="col-6 py-3 mb-3">
+
+                        <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                            <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
+                            @lang('Project') : {{ $project->name }}
+                        </h4>
+                    </div>
+
+                </div>
+              <div class="row">
+
+                <!-- User Sidebar -->
+                <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+                  <!-- User Card -->
+                  <div class="card mb-4">
+                    <div class="card-body">
+                      <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column">
+                          <img
+                            class="img-fluid rounded mb-3 pt-1 mt-4"
+                            src="{{ $project->image_url }}"
+                            height="100"
+                            width="100"
+                            alt="User avatar" />
+                          <div class="user-info text-center">
+                            <h4 class="mb-2">{{ $project->name }}</h4>
+                            <span class="badge bg-label-secondary mt-1">@lang('Project')</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
+                        <div class="d-flex align-items-start me-4 mt-3 gap-2">
+                          <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
+                          <div>
+                            <p class="mb-0 fw-medium">{{ $project->PropertiesProject->count() }}</p>
+                            <small>@lang('Number Properties')</small>
+                          </div>
+                        </div>
+                        <div class="d-flex align-items-start mt-3 gap-2">
+                          <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-briefcase ti-sm"></i></span>
+                          <div>
+                            <p class="mb-0 fw-medium">568</p>
+                            <small>Projects Done</small>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="mt-4 small text-uppercase text-muted">@lang('Details')</p>
+                      <div class="info-container">
+                        <ul class="list-unstyled">
+                          <li class="mb-2">
+                            <span class="fw-medium me-1"> @lang('project name'):</span>
+                            <span>{{ $project->name }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('owner name') :</span>
+                            <span>{{ $project->OwnerData->name ?? __('nothing') }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('Developer name'):</span>
+                            <span >{{ $project->DeveloperData->name ?? __('nothing') }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('Advisor name'):</span>
+                            <span>{{ $project->AdvisorData->name ?? __('nothing') }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('location name'):</span>
+                            <span>{!! Str::limit($project->location, 20, ' ...') !!}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('city'):</span>
+                            <span>{{ $project->CityData->name ?? __('nothing') }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('Number Properties'):</span>
+                            <span class="badge bg-label-success">{{ $project->PropertiesProject->count() }}
+                                @lang('property')</span>
+                          </li>
+
+                        </ul>
+                        <div class="d-flex justify-content-center">
+                          <a
+                            href="{{ route('Broker.Project.edit', $project->id) }}"
+                            class="btn btn-warning me-3"
+                            data-bs-target="#editUser"
+                            data-bs-toggle="modal"
+                            >@lang('Edit')</a>
+                            @if (Auth::user()->hasPermission('create-building'))
+                          <a href="{{ route('Broker.Project.CreateProperty', $project->id) }}" class="btn btn-primary me-3">@lang('Add new property')</a>
+                          @endif
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /User Card -->
+                  <!-- Plan Card -->
+
+                </div>
+                <!--/ User Sidebar -->
+
+                <!-- User Content -->
+                <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+                  <!-- User Pills -->
+
+                  <!--/ User Pills -->
+
+                  <!-- property table -->
+                  <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">@lang('properties')</h5>
+                    </div>
+                    {{-- <div class="col-3 py-1">
+                        <input id="SearchInput" class="form-control  rounded-pill mt-3" type="text"
+                            placeholder="@lang('search...')">
+                    </div> --}}
+                    <div class="card-datatable table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            <div class="card-header d-flex border-top rounded-0 flex-wrap py-2">
+                                <div class="me-5 ms-n2 pe-5">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                        <input id="SearchInput" class="form-control" placeholder="@lang('search...')" aria-controls="DataTables_Table_0"></label></div>
+                                </div>
+                                <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                    <div class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                        <div
+                                            class="dt-buttons btn-group flex-wrap d-flex">
+                                            <div class="btn-group">
+                                                <button onclick="exportToExcel()" class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false"><span>
+                                                    <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                </div>
+                                                {{-- <button class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                    <span class="d-none d-sm-inline-block">@lang('Add')</span></span></button> --}}
+
+
+                                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>@lang('property name')</th>
+                                    <th>@lang('Property type')</th>
+                                    <th>@lang('Type use')</th>
+                                    <th>@lang('owner name')</th>
+                                    <th>@lang('Action')</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($project->PropertiesProject as $index => $property)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $property->name ?? '' }}</td>
+
+                                        <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
+                                        <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
+                                        <td>{{ $property->OwnerData->name ?? '' }}</td>
+                                        {{-- <td>
+                                            {{ $property->is_divided == 1 ? __('property') : __('Unit') }}
+                                        </td> --}}
+                                        {{-- <td>{{ $property->instrument_number ?? '' }}</td> --}}
+
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ti ti-dots-vertical"></i>
+                                                </button>
+                                            <div class="dropdown-menu" style="">
+                                            @if ($property->is_divided == 1)
+                                            <a class="dropdown-item"
+                                            href="{{ route('Broker.Property.show', $property->id) }}">@lang('Add units')</a>
+                                            @endif
+
+                                            <a class="dropdown-item"
+                                            href="{{ route('Broker.Property.show', $property->id) }}">@lang('Show')</a>
+                                                @if (Auth::user()->hasPermission('update-building'))
+                                                <a class="dropdown-item"
+                                                href="{{ route('Broker.Property.edit', $property->id) }}">@lang('Edit')</a>
+                                                @endif
+                                                @if (Auth::user()->hasPermission('delete-building'))
+                                                <a class="dropdown-item"
+                                                href="javascript:void(0);"
+                                                onclick="handleDelete('{{ $property->id }}')">@lang('Delete')</a>
+                                            <form id="delete-form-{{ $property->id }}"
+                                                action="{{ route('Broker.Property.destroy', $property->id) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            @endif
+                                            </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+                  <!-- /property table -->
+
+
+
+
+                </div>
+                <!--/ User Content -->
+              </div>
+
+              <!-- Modal -->
+
+
+
+
+              <!-- /Modal -->
+            </div>
+            <!-- / Content -->
+            @push('scripts')
+            <script>
+                function exportToExcel() {
+                    var wb = XLSX.utils.table_to_book(document.getElementById('table'), {
+                        sheet: "Sheet1"
+                    });
+                    XLSX.writeFile(wb, @json(__('properties')) + '.xlsx');
+                }
+            </script>
+            @endpush
 
 @endsection

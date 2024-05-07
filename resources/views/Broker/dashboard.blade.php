@@ -89,6 +89,7 @@
                         </div>
                     </div>
                 </div>
+                
 
 
                 @include('Broker.settings.inc._upgradePackage')
