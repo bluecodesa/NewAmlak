@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Add New'))
+@section('title', __('Add New Project'))
 @section('content')
 
         <div class="content-wrapper">

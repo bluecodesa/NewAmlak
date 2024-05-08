@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Edit') . ' ' . $project->name)
+@section('title', __('Edit') . ' ' . __('Project'). ' ' . $project->name)
 @section('content')
 
         <div class="content-wrapper">
