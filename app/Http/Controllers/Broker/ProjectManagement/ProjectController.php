@@ -128,7 +128,26 @@ class ProjectController extends Controller
                 'max:25'
             ],
         ];
-        $request->validate($rules);
+        $messages = [
+            'name.required' => 'The name field is required.',
+            'name.string' => 'The name must be a string.',
+            'name.max' => 'The name may not be greater than :max characters.',
+            'location.required' => 'The location field is required.',
+            'location.string' => 'The location must be a string.',
+            'location.max' => 'The location may not be greater than :max characters.',
+            'city_id.required' => 'The city ID field is required.',
+            'city_id.exists' => 'The selected city ID is invalid.',
+            'property_type_id.required' => 'The property type ID field is required.',
+            'property_type_id.exists' => 'The selected property type ID is invalid.',
+            'property_usage_id.required' => 'The property usage ID field is required.',
+            'property_usage_id.exists' => 'The selected property usage ID is invalid.',
+            'owner_id.required' => 'The owner ID field is required.',
+            'owner_id.exists' => 'The selected owner ID is invalid.',
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+            'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
+        ];
+
+        $request->validate($rules,$messages);
 
         $images = $request->file('images');
         $this->projectService->storeProperty($request->except('images'), $id, $images);
