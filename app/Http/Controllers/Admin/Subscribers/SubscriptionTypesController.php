@@ -41,7 +41,7 @@ class SubscriptionTypesController extends Controller
 
         $types = $this->subscriptionTypeService->getAllFiltered($status_filter, $period_filter, $price_filter);
         $prices = $this->calculateRange($types->pluck('price')->toArray());
-        $subscriptionsDeleted = $this->subscriptionTypeService->getSubscriptionTypeAll()->where('is_deleted',1);
+        $subscriptionsDeleted = $this->subscriptionTypeService->getSubscriptionTypeAll()->where('is_deleted', 1);
         return view('Admin.admin.Subscriptions.SubscriptionType.index', [
             'subscriptions' => $types,
             'status_filter' => $status_filter,
