@@ -93,25 +93,22 @@
                                     </div>
 
                                     <div class="form-group col-md-6 mb-3">
-                                        <div class="row">
-                                            <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
-                                            </label>
-                                            <label class="text-right col-md-6">
-                                                <button type="button" data-toggle="modal"
-                                                    data-target=".bs-example-modal-center"
-                                                    class="btn btn-primary btn-sm waves-effect waves-light btn-sm">
-                                                    @lang('Add New Owner')
-                                                </button>
-                                            </label>
-                                        </div>
-
-                                        <select class="form-control" id="OwnersDiv" name="owner_id" required>
-                                            <option disabled selected value="">@lang('owner name')</option>
-                                            @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}">
-                                                    {{ $owner->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <select
+                                              class="form-select"
+                                              id="inputGroupSelect04"
+                                              aria-label="Example select with button addon">
+                                              <option disabled selected value="">@lang('owner name')</option>
+                                              @foreach ($owners as $owner)
+                                                  <option value="{{ $owner->id }}">
+                                                      {{ $owner->name }}</option>
+                                              @endforeach
+                                            </select>
+                                            <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
+                                          </div>
                                     </div>
 
                                     <div class="form-group col-md-6">
@@ -140,7 +137,7 @@
                                     </div>
 
 
-                                  
+
                                         <button class="btn
                                         btn-primary"
                                     type="submit">@lang('save')</button>
@@ -154,6 +151,9 @@
                 </div> <!-- end col -->
             </div> <!-- end row -->
             @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
+
+
+
 
         </div>
         <!-- container-fluid -->

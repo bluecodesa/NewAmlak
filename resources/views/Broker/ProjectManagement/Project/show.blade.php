@@ -246,7 +246,7 @@
 
                 <!-- User Sidebar -->
                 <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
-                  <!-- User Card -->
+                  <!-- project Card -->
                   <div class="card mb-4">
                     <div class="card-body">
                       <div class="user-avatar-section">
@@ -328,17 +328,13 @@
                       </div>
                     </div>
                   </div>
-                  <!-- /User Card -->
+                  <!-- /project Card -->
                   <!-- Plan Card -->
 
                 </div>
-                <!--/ User Sidebar -->
 
-                <!-- User Content -->
                 <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
-                  <!-- User Pills -->
 
-                  <!--/ User Pills -->
 
                   <!-- property table -->
                   <div class="card">
