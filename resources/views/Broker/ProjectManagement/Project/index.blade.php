@@ -24,49 +24,57 @@
                 </div> --}}
                 <div class="card-datatable table-responsive">
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                        <div class="card-header d-flex border-top rounded-0 flex-wrap py-2">
-                            <div class="me-5 ms-n2 pe-5">
-                                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
-                                        <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
-                                            aria-controls="DataTables_Table_0"></label></div>
-                            </div>
-                            <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
-                                <div
-                                    class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
-                                    <div class="dt-buttons btn-group flex-wrap d-flex">
-                                        <div class="btn-group">
-                                            <button onclick="exportToExcel()"
-                                                class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
-                                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                                aria-haspopup="dialog" aria-expanded="false"><span>
-                                                    <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
-                                        </div>
-                                        {{-- <button class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
-                                                <span class="d-none d-sm-inline-block">@lang('Add')</span></span></button> --}}
+                        <div class="card-header border-top rounded-0 py-2">
+                            <div class="row">
+                                <div class="col-6">
 
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                        class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                @if (Auth::user()->hasPermission('create-project'))
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('Broker.Project.create') }}">@lang('Add New Project')</a>
-                                                    </li>
-                                                @endif
-                                                @if (Auth::user()->hasPermission('create-building'))
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('Broker.Property.create') }}">@lang('Add new property')</a>
-                                                    </li>
-                                                @endif
-                                                @if (Auth::user()->hasPermission('create-unit'))
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('Broker.Unit.create') }}">@lang('Add unit')</a>
-                                                    </li>
-                                                @endif
-                                            </ul>
+                                    <div class="me-5 ms-n2 pe-5">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                                <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
+                                                    aria-controls="DataTables_Table_0"></label></div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+
+                                    <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                        <div
+                                            class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                            <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                <div class="btn-group">
+                                                    <button onclick="exportToExcel()"
+                                                        class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                        tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                        aria-haspopup="dialog" aria-expanded="false"><span>
+                                                            <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                </div>
+                                                {{-- <button class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                        <span class="d-none d-sm-inline-block">@lang('Add')</span></span></button> --}}
+
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        @if (Auth::user()->hasPermission('create-project'))
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('Broker.Project.create') }}">@lang('Add New Project')</a>
+                                                            </li>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission('create-building'))
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('Broker.Property.create') }}">@lang('Add new property')</a>
+                                                            </li>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission('create-unit'))
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('Broker.Unit.create') }}">@lang('Add unit')</a>
+                                                            </li>
+                                                        @endif
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

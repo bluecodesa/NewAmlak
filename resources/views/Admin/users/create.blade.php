@@ -22,7 +22,7 @@
                     <form action="{{ route('Admin.users.store') }}" method="post" class="row">
                         @csrf
 
-                        <div class="col-6">
+                        <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="form-label">
                                     {{ __('Name') }} <span class="required-color">*</span></label>
@@ -36,7 +36,7 @@
                         </div>
 
 
-                        <div class="col-6">
+                        <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="form-label">
                                     {{ __('Email') }} <span class="required-color">*</span></label>
@@ -50,7 +50,7 @@
                         </div>
 
 
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-12">
                             <div class="mb-3">
                                 <label class="form-label">
                                     {{ __('password') }} <span class="required-color">*</span></label>
@@ -64,7 +64,7 @@
                         </div>
 
 
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-12">
                             <div class="mb-3">
                                 <label class="form-label">
                                     {{ __('Confirm Password') }} <span class="required-color">*</span></label>
@@ -76,7 +76,7 @@
 
                         <div class="form-group col-md-4">
                             <label>@lang('role name')<span class="required-color">*</span> </label>
-                            <select class="form-control" name="roles" required>
+                            <select class="form-select" name="roles" required>
                                 <option disabled selected value="">@lang('role name')</option>
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">
@@ -87,9 +87,11 @@
                         </div>
 
 
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">@lang('Add New Admin')</button>
+                        <div class="col-md-6 col-12 mt-2">
+                            <button type="submit"
+                                class="btn btn-primary waves-effect waves-light">@lang('Add New Admin')</button>
                         </div>
+
 
 
 

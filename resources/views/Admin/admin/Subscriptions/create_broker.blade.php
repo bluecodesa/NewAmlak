@@ -127,9 +127,9 @@
                                 <input type="text" class="form-control" id="id_number" name="id_number">
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-8">
+                        <div class="row mb-3 mt-2">
+
+                            <div class="col-md-12">
                                 <button type="button" class="btn btn-secondary"
                                     data-dismiss="modal">@lang('Cancel')</button>
 

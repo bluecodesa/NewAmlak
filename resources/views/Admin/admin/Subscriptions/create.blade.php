@@ -124,12 +124,12 @@
 
 
                         <div class="col-12">
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">@lang('Cancel')</button>
-                                <button type="submit"
-                                    class="btn btn-primary waves-effect waves-light">@lang('save')</button>
-                            </div>
+
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('Cancel')</button>
+                            <button type="submit"
+                                class="btn btn-primary waves-effect waves-light">@lang('save')</button>
+
                         </div>
                     </form>
 
