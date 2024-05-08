@@ -2,7 +2,7 @@
 @section('title', __('Add unit'))
 @section('content')
 
-    <div class="content-page">
+    {{-- <div class="content-page">
         <!-- Start content -->
         <div class="content">
             <div class="container-fluid">
@@ -20,7 +20,22 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            <div class="col-6 py-3 mb-3">
+
+                                <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                                    <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
+                                    <a href="{{ route('Broker.Property.show', $Property->id) }}" class="text-muted fw-light">@lang('view') </a> /
+                                    @lang('Add unit')
+                                </h4>
+                            </div>
+
+                        </div>
+
 
                 <div class="row">
                     <div class="col-12">
@@ -169,15 +184,36 @@
                                     <div class="col-sm-12 col-md-3 mb-3">
                                         <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
                                         </label>
-                                        <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
-                                            data-toggle="toggle" data-onstyle="primary">
+                                        {{-- <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
+                                            data-toggle="toggle" data-onstyle="primary"> --}}
+
+                                            <label class="switch switch-lg">
+                                                <input type="checkbox" name="show_gallery" class="switch-input" checked />
+                                                <span class="switch-toggle-slider">
+                                                  <span class="switch-on">
+                                                    <i class="ti ti-check"></i>
+                                                  </span>
+                                                  <span class="switch-off">
+                                                    <i class="ti ti-x"></i>
+                                                  </span>
+                                                </span>
                                     </div>
 
                                     <div class="col-sm-12 col-md-2 mb-3">
                                         <label class="form-label" style="display: block !important;">@lang('Daily Rent')
                                         </label>
-                                        <input type="checkbox"  name="daily_rent" class="toggleHomePage"
-                                            data-toggle="toggle" data-onstyle="primary">
+                                        {{-- <input type="checkbox"  name="daily_rent" class="toggleHomePage"
+                                            data-toggle="toggle" data-onstyle="primary"> --}}
+                                            <label class="switch switch-lg">
+                                                <input type="checkbox" name="daily_rent" class="switch-input" />
+                                                <span class="switch-toggle-slider">
+                                                  <span class="switch-on">
+                                                    <i class="ti ti-check"></i>
+                                                  </span>
+                                                  <span class="switch-off">
+                                                    <i class="ti ti-x"></i>
+                                                  </span>
+                                                </span>
                                     </div>
 
                                     <div class="col-sm-12 col-md-2 mb-3">
@@ -210,7 +246,7 @@
 
                                     <div class="form-group col-md-3 mb-3">
                                         <label>@lang('services') </label>
-                                        <select class="select2 form-control" name="service_id[]" multiple="multiple">
+                                        <select class="select2 form-select" id="exampleFormControlSelect1" name="service_id[]" multiple="multiple">
                                             <option disabled value="">@lang('services')</option>
                                             @foreach ($services as $service)
                                                 <option value="{{ $service->id }}">
@@ -229,17 +265,17 @@
                                     <div class="form-group col-12 mb-3">
                                         <label class="form-label">@lang('Additional details')</label>
                                         <div id="features" class="row">
-                                            <div class="col">
+                                                <div class="mb-3 col-4">
                                                 <input type="text" name="name[]" class="form-control search"
                                                     placeholder="@lang('Field name')" value="{{ old('name*') }}" />
                                             </div>
-                                            <div class="col">
+                                            <div class="mb-3 col-4">
                                                 <input type="text" name="qty[]" class="form-control"
                                                     placeholder="@lang('value')" value="{{ old('qty*') }}" />
                                             </div>
                                             <div class="col">
                                                 <button type="button" class="btn btn-primary w-100"
-                                                    onclick="addFeature()">@lang('Add details')</button>
+                                                    onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span class="d-none d-sm-inline-block">@lang('Add details')</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -255,13 +291,13 @@
                                             accept="image/jpeg, image/png" />
                                     </div>
 
-                                    <div class="col-12">
+
                                         <button type="submit" class="btn btn-primary me-1">
 
                                             {{ __('save') }}
                                         </button>
 
-                                    </div>
+
                                 </form>
 
                             </div>
@@ -273,7 +309,7 @@
         </div>
         <!-- container-fluid -->
 
-    </div>
+
     @push('scripts')
         <script>
             $('#Region_id').on('change', function() {
