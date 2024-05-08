@@ -22,27 +22,24 @@
                         @csrf
                         @method('post')
                         @foreach (config('translatable.locales') as $locale)
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        {{ __('Name') }} {{ __($locale) }} <span
-                                            class="required-color">*</span></label>
-                                    <input type="text" required id="modalRoleName" name="{{ $locale }}[name]"
-                                        class="form-control" placeholder="{{ __('Name') }} {{ __($locale) }}">
-                                </div>
+                            <div class="col-md-6 col-12 mb-3">
+
+                                <label class="form-label">
+                                    {{ __('Name') }} {{ __($locale) }} <span class="required-color">*</span></label>
+                                <input type="text" required id="modalRoleName" name="{{ $locale }}[name]"
+                                    class="form-control" placeholder="{{ __('Name') }} {{ __($locale) }}">
                             </div>
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        {{ __('Description') }} {{ __($locale) }}</label>
-                                    <textarea rows="1" id="{{ $locale }}Description" name="{{ $locale }}[description]"
-                                        class="form-control" placeholder="{{ __('Description') }} {{ __($locale) }}"></textarea>
-                                </div>
+
+                            <div class="col-md-6 col-12 mb-3">
+
+                                <label class="form-label">
+                                    {{ __('Description') }} {{ __($locale) }}</label>
+                                <textarea rows="1" id="{{ $locale }}Description" name="{{ $locale }}[description]"
+                                    class="form-control" placeholder="{{ __('Description') }} {{ __($locale) }}"></textarea>
                             </div>
                         @endforeach
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary me-1">
-
                                 {{ __('save') }}
                             </button>
 

@@ -25,117 +25,116 @@
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
 
-                    <form action="{{ route('Admin.Subscribers.CreateBroker') }}" method="POST"
+                    <form action="{{ route('Admin.Subscribers.CreateBroker') }}" class="row" method="POST"
                         enctype="multipart/form-data">
                         @csrf
 
-                        <div class="mb-3 row">
-                            <div class="col-md-6">
-                                <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
 
-                                <input type="text" class="form-control" id="name" name="name" required>
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
 
-                            </div>
-                            <div class="col-md-6">
-                                <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required>
 
-                                <input type="text" class="form-control" id="license_number" name="license_number"
-                                    required>
-                            </div>
                         </div>
-                        <div class="mb-3 row">
-                            <div class="col-md-6">
-                                <label for="email">@lang('Email')<span class="text-danger">*</span></label>
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
 
-                                <input type="email" class="form-control" id="email" name="email">
-
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="mobile">@lang('Mobile Whats app')<span class="text-danger">*</span></label>
-                                <div style="position:relative">
-
-                                    <input type="tel" class="form-control" id="mobile" minlength="9" maxlength="9"
-                                        pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                        onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                        name="mobile" required="" value="">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-
-                            <div class="form-group col-md-4">
-                                <label>@lang('Region') <span class="text-danger">*</span></label>
-                                <select class="form-control" id="Region_id" name="region_id" required>
-                                    <option disabled selected value="">@lang('Region')</option>
-                                    @foreach ($Regions as $Region)
-                                        <option value="{{ $Region->id }}"
-                                            data-url="{{ route('Home.Region.show', $Region->id) }}">
-                                            {{ $Region->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                <label>@lang('city') <span class="text-danger">*</span> </label>
-                                <select class="form-control" name="city_id" id="CityDiv" required>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 mb-2">
-                                <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
-                                <select type="package" class="form-control" name="subscription_type_id" required="">
-                                    <option value="" selected disabled> @lang('Subscription Type') </option>
-                                    @foreach ($subscriptionTypes as $subscriptionType)
-                                        <option value="{{ $subscriptionType->id }}">
-                                            {{ $subscriptionType->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <input type="text" class="form-control" id="license_number" name="license_number" required>
                         </div>
 
-                        <div class="mb-3 row">
 
-                            <div class="col-md-6">
-                                <label for="password"> @lang('password') <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                                @error('password')
-                                @enderror
-                            </div>
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="email">@lang('Email')<span class="text-danger">*</span></label>
 
-                            <div class="col-md-6">
-                                <label for="password_confirmation"> @lang('Confirm Password') <span
-                                        class="text-danger">*</span></label> <input type="password" class="form-control"
-                                    id="password_confirmation" name="password_confirmation" required>
+                            <input type="email" class="form-control" id="email" name="email">
+
+                        </div>
+
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="mobile">@lang('Mobile Whats app')<span class="text-danger">*</span></label>
+                            <div style="position:relative">
+
+                                <input type="tel" class="form-control" id="mobile" minlength="9" maxlength="9"
+                                    pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
+                                    onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456" name="mobile"
+                                    required="" value="">
+
                             </div>
                         </div>
 
 
-                        <div class="mb-3 row">
-                            <div class="col-md-4 mb-6">
-                                <label for="broker_logo">@lang('Broker logo')</label>
-                                <span class="not_required">(@lang('optional'))</span>
-                                <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo"
-                                    accept="image/png, image/jpg, image/jpeg">
-                                <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
-                                    class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
 
-                            </div>
-                            <div class="col-md-6">
-                                <label for="id_number" class="col-form-label">@lang('id number')</label>
-                                <input type="text" class="form-control" id="id_number" name="id_number">
-                            </div>
+                        <div class="form-group col-md-4 col-12 mb-3">
+                            <label>@lang('Region') <span class="text-danger">*</span></label>
+                            <select class="form-select" id="Region_id" name="region_id" required>
+                                <option disabled selected value="">@lang('Region')</option>
+                                @foreach ($Regions as $Region)
+                                    <option value="{{ $Region->id }}"
+                                        data-url="{{ route('Home.Region.show', $Region->id) }}">
+                                        {{ $Region->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="row mb-3 mt-2">
 
-                            <div class="col-md-12">
-                                <button type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">@lang('Cancel')</button>
-
-                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
-                            </div>
+                        <div class="form-group col-md-4 col-12 mb-3">
+                            <label>@lang('city') <span class="text-danger">*</span> </label>
+                            <select class="form-select" name="city_id" id="CityDiv" required>
+                            </select>
                         </div>
+
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
+                            <select type="package" class="form-select" name="subscription_type_id" required="">
+                                <option value="" selected disabled> @lang('Subscription Type') </option>
+                                @foreach ($subscriptionTypes as $subscriptionType)
+                                    <option value="{{ $subscriptionType->id }}">
+                                        {{ $subscriptionType->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+
+
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="password"> @lang('password') <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            @error('password')
+                            @enderror
+                        </div>
+
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="password_confirmation"> @lang('Confirm Password') <span
+                                    class="text-danger">*</span></label> <input type="password" class="form-control"
+                                id="password_confirmation" name="password_confirmation" required>
+                        </div>
+
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="id_number">@lang('id number')</label>
+                            <input type="text" class="form-control" id="id_number" name="id_number">
+                        </div>
+
+                        <div class="col-md-4 mb-6 col-12 mb-3">
+                            <label for="broker_logo">@lang('Broker logo')</label>
+                            <span class="not_required">(@lang('optional'))</span>
+                            <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo"
+                                accept="image/png, image/jpg, image/jpeg">
+                            <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
+                                class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+
+                        </div>
+
+
+
+
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('Cancel')</button>
+
+                            <button type="submit"
+                                class="btn btn-primary waves-effect waves-light">@lang('Submit')</button>
+                        </div>
+
 
 
 

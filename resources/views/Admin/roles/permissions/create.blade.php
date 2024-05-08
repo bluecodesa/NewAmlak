@@ -20,19 +20,19 @@
                 <div class="card-body">
                     <form action="{{ route('Admin.Permissions.store') }}" method="POST" class="row">
                         @csrf
-                        <div class="form-group col-md-6">
+                        <div class="col-12 mb-3 col-md-6">
                             <label>@lang('Name') @lang('ar') <span class="required-color">*</span>
                             </label>
                             <input type="text" required name="name_ar" class="form-control">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="col-12  mb-3 col-md-6">
                             <label>@lang('Name') @lang('en') <span class="required-color">*</span></label>
                             <input type="text" required name="name" class="form-control">
                         </div>
 
-                        <div class="form-group col-md-6 mt-2">
+                        <div class="col-md-6  mb-3 col-12">
                             <label>@lang('Model') </label>
-                            <select class="form-control" name="section_id" required>
+                            <select class="form-select" name="section_id" required>
                                 <option disabled selected value="">@lang('Model')</option>
                                 @foreach ($sections as $section)
                                     <option value="{{ $section->id }}">{{ $section->name }}</option>
@@ -41,7 +41,7 @@
                         </div>
 
 
-                        <div class="col-4 mt-2">
+                        <div class="col-md-4 col-12  mb-3">
                             <label class="form-label" for="modalRoleNamear"> @lang('user type') <span
                                     class="required-color">*</span></label>
                             <div class="d-flex">
