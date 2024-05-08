@@ -2,32 +2,21 @@
 @section('title', __('Add new property'))
 @section('content')
 
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="card m-b-30">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('Add new property')</h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Property.create') }}">@lang('Add new property')</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
+
+
+    <div class="content-wrapper">
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="row">
+                    <div class="col-6 py-3 mb-3">
+
+                        <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                            <a href="{{ route('Broker.Property.index') }}" class="text-muted fw-light">@lang('properties') </a> /
+                            @lang('Add new property')
+                        </h4>
                     </div>
+
                 </div>
+
 
                 <div class="row">
                     <div class="col-12">
@@ -49,7 +38,7 @@
                                     </div>
 
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-12 col-md-3">
                                         <label>@lang('Region') <span class="required-color">*</span> </label>
                                         <select class="form-control" id="Region_id" required>
                                             <option disabled value="">@lang('Region') </option>
@@ -61,7 +50,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-12 col-md-3">
                                         <label>@lang('city') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
                                             @foreach ($cities as $city)
@@ -74,14 +63,14 @@
 
 
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-12 col-md-3">
                                         <label>@lang('district') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="district_id" id="DistrictDiv" required>
 
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-12 col-md-4 mb-3">
+                                    <div class="col-sm-12 col-md-4 col-12 mb-3">
                                         <label class="form-label">@lang('location') <span
                                                 class="required-color">*</span></label>
                                         <input type="text" required name="location" id="myAddressBar"
@@ -90,7 +79,7 @@
                                     </div>
 
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-12 col-md-4">
                                         <label>@lang('Property type') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="property_type_id" required>
                                             <option disabled selected value="">@lang('Property type')</option>
@@ -101,7 +90,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-12 col-md-4">
                                         <label>@lang('Type use') <span class="required-color">*</span> </label>
                                         <select class="form-control" name="property_usage_id" required>
                                             <option disabled selected value="">@lang('Type use')</option>
@@ -113,25 +102,24 @@
                                     </div>
 
                                     <div class="form-group col-md-4 mb-3">
-                                        <div class="row">
-                                            <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
-                                            </label>
-                                            <label class="text-right col-md-6">
-                                                <button type="button" data-toggle="modal"
-                                                    data-target=".bs-example-modal-center"
-                                                    class="btn btn-primary btn-sm waves-effect waves-light btn-sm">
-                                                    @lang('Add New Owner')
-                                                </button>
-                                            </label>
-                                        </div>
+                                        <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <select
+                                              class="form-select"
+                                              id="inputGroupSelect04"
+                                              aria-label="Example select with button addon">
+                                              <option disabled selected value="">@lang('owner name')</option>
+                                              @foreach ($owners as $owner)
+                                                  <option value="{{ $owner->id }}">
+                                                      {{ $owner->name }}</option>
+                                              @endforeach
+                                            </select>
+                                            <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
+                                          </div>
 
-                                        <select class="form-control" id="OwnersDiv" name="owner_id" required>
-                                            <option disabled selected value="">@lang('owner name')</option>
-                                            @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}">
-                                                    {{ $owner->name }}</option>
-                                            @endforeach
-                                        </select>
+
                                     </div>
 
 
@@ -172,11 +160,8 @@
 
 
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-primary me-1">
-
-                                            {{ __('save') }}
-                                        </button>
-
+                                        <button class="btn btn-primary waves-effect waves-light"
+                                    type="submit">@lang('save')</button>
                                     </div>
                                 </form>
 
@@ -185,11 +170,11 @@
                     </div> <!-- end col -->
                 </div> <!-- end col -->
             </div> <!-- end row -->
+            @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
 
         </div>
         <!-- container-fluid -->
-        @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
-    </div>
+
     @push('scripts')
         <script>
             $(document).ready(function() {

@@ -137,10 +137,11 @@
                                     </div>
 
 
-
-                                        <button class="btn
-                                        btn-primary"
+                                    <div class="col-12">
+                                        <button class="btn btn-primary waves-effect waves-light"
                                     type="submit">@lang('save')</button>
+                                    </div>
+
 
 
                                 </form>

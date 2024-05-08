@@ -1,34 +1,21 @@
+
 @extends('Admin.layouts.app')
 @section('title', __('Edit') . ' ' . $Property->name)
 @section('content')
 
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="card m-b-30">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('Edit') : {{ $Property->name }} </h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Property.edit', $Property->id) }}">@lang('Edit')</a>
-                                        </li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="col-6 py-3 mb-3">
+
+                <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <a href="{{ route('Broker.Property.index') }}" class="text-muted fw-light">@lang('properties') </a> /
+                    @lang('Edit') : {{ $Property->name }}
+                </h4>
+            </div>
+
+        </div>
+
 
                 <div class="row">
                     <div class="col-12">
@@ -123,27 +110,28 @@
 
 
                                     <div class="form-group col-md-4 mb-3">
-                                        <div class="row">
-                                            <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
-                                            </label>
-                                            <label class="text-right col-md-6">
-                                                <button type="button" data-toggle="modal"
-                                                    data-target=".bs-example-modal-center"
-                                                    class="btn btn-primary btn-sm waves-effect waves-light btn-sm">
-                                                    @lang('Add New Owner')
-                                                </button>
-                                            </label>
-                                        </div>
+                                        <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <select
+                                              class="form-select"
+                                              id="inputGroupSelect04"
+                                              aria-label="Example select with button addon">
+                                              <option disabled selected value="">@lang('owner name')</option>
+                                              @foreach ($owners as $owner)
+                                              <option value="{{ $owner->id }}"
+                                                {{ $owner->id == $Property->owner_id ? 'selected' : '' }}>
+                                                {{ $owner->name }}</option>
+                                              @endforeach
+                                            </select>
+                                            <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
+                                          </div>
 
-                                        <select class="form-control" id="OwnersDiv" name="owner_id" required>
-                                            <option disabled value="">@lang('owner name')</option>
-                                            @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}"
-                                                    {{ $owner->id == $Property->owner_id ? 'selected' : '' }}>
-                                                    {{ $owner->name }}</option>
-                                            @endforeach
-                                        </select>
+
                                     </div>
+
+                                     
                                     {{-- @php
                                         $typeunits = [1 => 'Divides', 0 => 'Not divided'];
                                     @endphp
@@ -196,11 +184,8 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-primary me-1">
-
-                                            {{ __('save') }}
-                                        </button>
-
+                                        <button class="btn btn-primary waves-effect waves-light"
+                                    type="submit">@lang('save')</button>
                                     </div>
                                 </form>
 
@@ -209,12 +194,11 @@
                     </div> <!-- end col -->
                 </div> <!-- end col -->
             </div> <!-- end row -->
+            @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
 
         </div>
         <!-- container-fluid -->
-        @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
 
-    </div>
     @push('scripts')
         <script>
             $('.dropify-clear').click(function() {

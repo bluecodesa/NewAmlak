@@ -156,12 +156,10 @@
                                             value="{{ old('location_tag') }}" />
                                     </div>
 
-
-                                        <button type="submit" class="btn btn-primary me-1">
-
-                                            {{ __('save') }}
-                                        </button>
-
+                                    <div class="col-12">
+                                        <button class="btn btn-primary waves-effect waves-light"
+                                    type="submit">@lang('save')</button>
+                                    </div>
                                 </form>
 
                             </div>
