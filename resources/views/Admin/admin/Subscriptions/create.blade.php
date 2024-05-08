@@ -29,20 +29,20 @@
                         @csrf
                         @method('post')
 
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="CR_number"> @lang('Commercial Registration No') </label>
                             <span class="not_required">(@lang('optional'))</span>
                             <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
                                 required="hhhh" name="CRN" value="">
                         </div>
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="Company_name">@lang('Company Name') <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control" placeholder="@lang('Company Name')" id="company_name"
                                 name="name" value="">
                         </div>
 
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="presenter_email">@lang('Company email') <span class="text-danger">*</span>
                             </label>
 
@@ -50,7 +50,7 @@
                                 required="" placeholder="@lang('Company email')">
                         </div>
 
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="company_logo">@lang('Company logo')</label>
                             <span class="not_required">(@lang('optional'))</span>
                             <input type="file" class="form-control d-none" id="company_logo" name="company_logo"
@@ -60,7 +60,7 @@
                                 class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
                         </div>
 
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="presenter_name">@lang('Name of company representative') <span class="text-danger">*</span>
                             </label>
 
@@ -68,7 +68,7 @@
                                 value="" required="" placeholder="@lang('Name of company representative')">
                         </div>
 
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="presenter_number">@lang('Company representative number')(@lang('WhatsApp'))<span
                                     class="text-danger">*</span></label>
                             <div style="position:relative">
@@ -80,9 +80,9 @@
 
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="col-md-4 col-12 mb-3">
                             <label>@lang('Region') <span class="text-danger">*</span> </label>
-                            <select class="form-control" id="Region_id" required>
+                            <select class="form-select" id="Region_id" required>
                                 <option disabled selected value="">@lang('Region')</option>
                                 @foreach ($Regions as $Region)
                                     <option value="{{ $Region->id }}"
@@ -92,16 +92,16 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="col-md-4 col-12 mb-3">
                             <label>@lang('city') <span class="text-danger">*</span> </label>
-                            <select class="form-control" name="city_id" id="CityDiv" required>
+                            <select class="form-select" name="city_id" id="CityDiv" required>
                             </select>
                         </div>
 
 
-                        <div class="col-md-4 mb-2">
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
-                            <select type="package" class="form-control" name="subscription_type_id" required="">
+                            <select type="package" class="form-select" name="subscription_type_id" required="">
                                 <option value="" selected disabled> @lang('Subscription Type') </option>
                                 @foreach ($subscriptionTypes as $subscriptionType)
                                     <option value="{{ $subscriptionType->id }}">
@@ -109,13 +109,13 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-6 mb-4">
+                        <div class="col-md-6 col-12 mb-3">
                             <label for="password"> @lang('password') <span class="text-danger">*</span></label>
 
                             <input type="password" class="form-control" id="password" name="password" required=""
                                 placeholder="@lang('password')">
                         </div>
-                        <div class="col-6 mb-4">
+                        <div class="col-md-6 col-12 mb-3">
                             <label for="password_confirmation"> @lang('Confirm Password') <span
                                     class="text-danger">*</span></label>
                             <input type="password" class="form-control" id="password_confirmation"
@@ -124,9 +124,7 @@
 
 
                         <div class="col-12">
-
-                            <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('Cancel')</button>
+                            <button type="button" class="btn btn-secondary">@lang('Cancel')</button>
                             <button type="submit"
                                 class="btn btn-primary waves-effect waves-light">@lang('save')</button>
 

@@ -21,20 +21,20 @@
                     <form action="{{ route('Admin.Permissions.update', $Permission->id) }}" method="POST" class="row">
                         @csrf
                         @method('PUT')
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6  mb-3 col-12">
                             <label>@lang('Name') @lang('ar')</label>
                             <input type="text" required value="{{ $Permission->name_ar }}" name="name_ar"
                                 class="form-control">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6  mb-3 col-12">
                             <label>@lang('Name') @lang('en')</label>
                             <input type="text" required value="{{ $Permission->name }}" readonly name="name"
                                 class="form-control">
                         </div>
 
-                        <div class="form-group col-md-6 mt-2">
+                        <div class="col-md-6  mb-3 col-12">
                             <label>@lang('Model') </label>
-                            <select class="form-control" name="section_id" required>
+                            <select class="form-select" name="section_id" required>
                                 <option disabled value="">@lang('Model')</option>
                                 @foreach ($sections as $section)
                                     <option value="{{ $section->id }}"
@@ -45,7 +45,7 @@
                         </div>
 
 
-                        <div class="col-4 mt-2">
+                        <div class="col-md-4 mb-3 col-12">
                             <label class="form-label" for="modalRoleNamear"> @lang('user type')</label>
                             <div class="d-flex">
                                 <div class="form-check mb-3">

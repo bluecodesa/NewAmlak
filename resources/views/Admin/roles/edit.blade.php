@@ -40,24 +40,23 @@
                                     @csrf
                                     @method('PUT')
 
-                                    <div class="col-6">
-                                        <div class="mb-3">
-                                            <label class="form-label"
-                                                for="modalRoleName">{{ __('Enter the name of the role in English') }}</label>
-                                            <input type="text" id="modalRoleName" value="{{ $role->name }}"
-                                                name="name" class="form-control"
-                                                placeholder="{{ __('Enter the name of the role in English') }}">
-                                        </div>
+                                    <div class="col-md-6 col-12 mb-3">
+
+                                        <label class="form-label"
+                                            for="modalRoleName">{{ __('Enter the name of the role in English') }}</label>
+                                        <input type="text" id="modalRoleName" value="{{ $role->name }}" name="name"
+                                            class="form-control"
+                                            placeholder="{{ __('Enter the name of the role in English') }}">
+
                                     </div>
-                                    <div class="col-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="modalRoleNamear">
-                                                {{ __('Enter the name of the role in Arabic') }}</label>
-                                            <input type="text" id="modalRoleName" value="{{ $role->name_ar }}"
-                                                name="name_ar" class="form-control"
-                                                placeholder="{{ __('Enter the name of the role in Arabic') }}">
-                                        </div>
+                                    <div class="col-md-6 col-12 mb-3">
+                                        <label class="form-label" for="modalRoleNamear">
+                                            {{ __('Enter the name of the role in Arabic') }}</label>
+                                        <input type="text" id="modalRoleName" value="{{ $role->name_ar }}" name="name_ar"
+                                            class="form-control"
+                                            placeholder="{{ __('Enter the name of the role in Arabic') }}">
                                     </div>
+
                                     <div class="col-4" hidden>
                                         <label class="form-label" for="modalRoleNamear"> @lang('Role type')</label>
                                         <div class="d-flex">

@@ -22,56 +22,54 @@
                     <form action="{{ route('Admin.users.store') }}" method="post" class="row">
                         @csrf
 
-                        <div class="col-md-6 col-12">
-                            <div class="mb-3">
-                                <label class="form-label">
-                                    {{ __('Name') }} <span class="required-color">*</span></label>
-                                <input name="name" required type="text" value="{{ old('name') }}"
-                                    class="form-control @error('name') is-invalid @enderror"
-                                    placeholder="{{ __('Name') }}">
-                                @if ($errors->has('name'))
-                                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                                @endif
-                            </div>
+                        <div class="col-md-6 col-12 mb-3">
+
+                            <label class="form-label">
+                                {{ __('Name') }} <span class="required-color">*</span></label>
+                            <input name="name" required type="text" value="{{ old('name') }}"
+                                class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}">
+                            @if ($errors->has('name'))
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @endif
+
                         </div>
 
 
-                        <div class="col-md-6 col-12">
-                            <div class="mb-3">
-                                <label class="form-label">
-                                    {{ __('Email') }} <span class="required-color">*</span></label>
-                                <input name="email" required type="email" value="{{ old('email') }}"
-                                    class="form-control @error('email') is-invalid @enderror"
-                                    placeholder="{{ __('Email') }}">
-                                @if ($errors->has('email'))
-                                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                                @endif
-                            </div>
+                        <div class="col-md-6 col-12 mb-3">
+
+                            <label class="form-label">
+                                {{ __('Email') }} <span class="required-color">*</span></label>
+                            <input name="email" required type="email" value="{{ old('email') }}"
+                                class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}">
+                            @if ($errors->has('email'))
+                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                            @endif
+
                         </div>
 
 
-                        <div class="col-md-4 col-12">
-                            <div class="mb-3">
-                                <label class="form-label">
-                                    {{ __('password') }} <span class="required-color">*</span></label>
-                                <input name="password" required type="password" value="{{ old('password') }}"
-                                    class="form-control @error('password') is-invalid @enderror"
-                                    placeholder="{{ __('password') }}">
-                                @if ($errors->has('password'))
-                                    <span class="text-danger">{{ $errors->first('password') }}</span>
-                                @endif
-                            </div>
+                        <div class="col-md-4 col-12 mb-3">
+
+                            <label class="form-label">
+                                {{ __('password') }} <span class="required-color">*</span></label>
+                            <input name="password" required type="password" value="{{ old('password') }}"
+                                class="form-control @error('password') is-invalid @enderror"
+                                placeholder="{{ __('password') }}">
+                            @if ($errors->has('password'))
+                                <span class="text-danger">{{ $errors->first('password') }}</span>
+                            @endif
+
                         </div>
 
 
-                        <div class="col-md-4 col-12">
-                            <div class="mb-3">
-                                <label class="form-label">
-                                    {{ __('Confirm Password') }} <span class="required-color">*</span></label>
-                                <input name="password_confirmation" required type="password" value="{{ old('password') }}"
-                                    class="form-control" placeholder="{{ __('Confirm Password') }}">
+                        <div class="col-md-4 col-12 mb-3">
 
-                            </div>
+                            <label class="form-label">
+                                {{ __('Confirm Password') }} <span class="required-color">*</span></label>
+                            <input name="password_confirmation" required type="password" value="{{ old('password') }}"
+                                class="form-control" placeholder="{{ __('Confirm Password') }}">
+
+
                         </div>
 
                         <div class="form-group col-md-4">
@@ -85,7 +83,6 @@
                                 @endforeach
                             </select>
                         </div>
-
 
                         <div class="col-md-6 col-12 mt-2">
                             <button type="submit"

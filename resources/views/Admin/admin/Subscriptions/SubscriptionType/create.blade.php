@@ -22,10 +22,10 @@
                     <form action="{{ route('Admin.SubscriptionTypes.store') }}" class="row" method="POST">
                         @csrf
 
-
+                        <input type="text" hidden required value="day" name="period_type" id="period_type">
 
                         @foreach (config('translatable.locales') as $locale)
-                            <div class="col-6">
+                            <div class="col-md-6 col-12 mb-3">
                                 <div class="mb-3">
                                     <label class="form-label">
                                         {{ __('Name') }} {{ __($locale) }} <span
@@ -35,28 +35,31 @@
                                 </div>
                             </div>
                         @endforeach
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="">@lang('Required subscription period') <span class="required-color">*</span></label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-primary btn-type-subscription dropdown-toggle waves-effect"
+                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @lang('day')
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" data-tarnslat="@lang('day')" data-value="day"
+                                            href="javascript:void(0);">@lang('day')</a></li>
 
-                        <div class="col-md-4 mb-3">
-                            <div class="row">
-                                <div class="col"> <label for="period"> @lang('Required subscription period') <span
-                                            class="required-color">*</span></label>
-                                    <input type="number" name="period" id="period" class="form-control" min="1"
-                                        required />
-                                </div>
-                                <div class="col">
-                                    <label for="period"></label>
-                                    <select name="period_type" required id="period_type" class="sub-input form-select">
-                                        <option value="day">@lang('day')</option>
-                                        <option value="week">@lang('week')</option>
-                                        <option value="month">@lang('month')</option>
-                                        <option value="year">@lang('year')</option>
+                                    <li><a class="dropdown-item" data-value="week" data-tarnslat="@lang('week')"
+                                            href="javascript:void(0);">@lang('week')</a></li>
 
-                                    </select>
-                                </div>
-
+                                    <li><a class="dropdown-item" data-value="month" data-tarnslat="@lang('month')"
+                                            href="javascript:void(0);">@lang('month')</a></li>
+                                    <li><a class="dropdown-item" data-value="year" data-tarnslat="@lang('year')"
+                                            href="javascript:void(0);">@lang('year')</a></li>
+                                </ul>
+                                <input type="text" name="period" required class="form-control"
+                                    placeholder="@lang('Required subscription period')" aria-label="@lang('Required subscription period')">
                             </div>
-
                         </div>
+
+
                         <div class="col-md-4 mb-3">
                             <label for="price">
                                 @lang('the amount') <span class="required-color">*</span></label><br />
@@ -76,7 +79,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 mb-1">
+                        <div class="col-md-3 mb-3">
                             <p>@lang('status')</p>
                             <div class="form-check form-check-primary">
                                 <input name="status" class="form-check-input" type="radio" value="{{ 1 }}"
@@ -84,7 +87,7 @@
                                 <label class="form-check-label" for="active"> @lang('active') </label>
                             </div>
 
-                            <div class="form-check form-check-primary mt-1">
+                            <div class="form-check form-check-primary mb-3">
                                 <input name="status" class="form-check-input" type="radio" value="{{ 0 }}"
                                     id="inactive" checked="">
                                 <label class="form-check-label" for="inactive"> @lang('inactive') </label>
@@ -95,14 +98,14 @@
                         <div class="col-md-3 mb-3">
                             <p>@lang('appear')</p>
                             <div class="form-check form-check-primary mt-1">
-                                <input name="is_show" class="form-check-input" type="radio" value="{{ 1 }}"
-                                    id="show" checked="">
+                                <input name="is_show" class="form-check-input" type="radio"
+                                    value="{{ 1 }}" id="show" checked="">
                                 <label class="form-check-label" for="show"> @lang('show') </label>
                             </div>
 
                             <div class="form-check form-check-primary mt-1">
-                                <input name="is_show" class="form-check-input" type="radio" value="{{ 0 }}"
-                                    id="hide" checked="">
+                                <input name="is_show" class="form-check-input" type="radio"
+                                    value="{{ 0 }}" id="hide" checked="">
                                 <label class="form-check-label" for="hide"> @lang('hide') </label>
                             </div>
 
@@ -142,10 +145,11 @@
                             @endforeach
                         </div>
 
-
-                        <button class="btn
-                            btn-primary"
-                            type="submit">@lang('save')</button>
+                        <div class="col-12">
+                            <button class="btn
+                                btn-primary"
+                                type="submit">@lang('save')</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -163,6 +167,18 @@
             window.onload = function() {
                 document.querySelector('h2#flush-headingFive button').click();
             }
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var value = $(this).data('value');
+                    var tarnslat = $(this).data('tarnslat');
+                    $('#period_type').val(value);
+
+                    $('.btn-type-subscription').text(tarnslat);
+                });
+            });
         </script>
     @endpush
 
