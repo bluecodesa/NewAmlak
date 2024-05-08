@@ -10,7 +10,6 @@
                         @lang('Permissions')</h4>
                 </div>
 
-
             </div>
             <!-- DataTable with Buttons -->
 
