@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 
-<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
-    data-theme="theme-default" data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}"
+    class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
+    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
+    data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
+
 
 <head>
     <meta charset="utf-8" />
@@ -18,52 +21,22 @@
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
         rel="stylesheet" />
     <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/flag-icons.css') }}" />
     @if (app()->getLocale() == 'ar')
-        <link rel="stylesheet" href="{{ url('assets/vendor/fonts/tabler-icons.css') }}" />
-        <link rel="stylesheet" href="{{ url('assets/vendor/fonts/fontawesome.css') }}" />
-        <link rel="stylesheet" href="{{ url('assets/vendor/fonts/flag-icons.css') }}" />
-
         <!-- Core CSS -->
         <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/core.css') }}" />
         <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/theme-default.css') }}" />
-        <link rel="stylesheet" href="{{ url('assets/css/demo.css') }}" />
-
-        <!-- Vendors CSS -->
-        <link rel="stylesheet" href="{{ url('assets/vendor/libs/node-waves/node-waves.css') }}" />
-        <link rel="stylesheet" href="{{ url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-
-        <!-- Page CSS -->
-
-        <!-- Helpers -->
-        <script src="{{ url('assets/vendor/js/helpers.js') }}"></script>
-        <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-        <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-        <script src="{{ url('assets/vendor/js/template-customizer.js') }}"></script>
-        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-        <script src="{{ url('assets/js/config.js') }}"></script>
     @else
-        <link rel="stylesheet" href="{{ url('assets/vendor/fonts/tabler-icons.css') }}" />
-        <!-- <link rel="stylesheet" href="assets/vendor/fonts/fontawesome.css" /> -->
-        <!-- <link rel="stylesheet" href="assets/vendor/fonts/flag-icons.css" /> -->
-        <!-- Core CSS -->
         <link rel="stylesheet" href="{{ url('assets/vendor/css/core.css') }}" />
         <link rel="stylesheet" href="{{ url('assets/vendor/css/theme-default.css') }}" />
-        <link rel="stylesheet" href="{{ url('assets/css/demo.css') }}" />
-
-        <!-- Vendors CSS -->
-        <link rel="stylesheet" href="{{ url('assets/vendor/libs/node-waves/node-waves.css') }}" />
-        <link rel="stylesheet" href="{{ url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-
-        <!-- Page CSS -->
-
-        <!-- Helpers -->
-        <script src="{{ url('assets/vendor/js/helpers.js') }}"></script>
-        <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-        <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-        <script src="{{ url('assets/vendor/js/template-customizer.js') }}"></script>
-        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-        <script src="{{ url('assets/js/config.js') }}"></script>
     @endif
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ url('assets/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
@@ -77,15 +50,15 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
-    <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ url('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ url('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}" />
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ url('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" /> --}}
     <!-- Row Group CSS -->
-    <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />
     <style>
         .required-color {
             color: red;
@@ -145,6 +118,14 @@
             border-radius: 8px;
             border: 1px solid silver;
         }
+
+        th.asc::after {
+            content: " ↑";
+        }
+
+        th.desc::after {
+            content: " ↓";
+        }
     </style>
 
 </head>
@@ -191,6 +172,8 @@
     <script src="{{ url('assets/vendor/libs/jquery/jquery.js') }}"></script>
     {{-- <script src="{{ url('dashboard_files/assets/pages/dashboard.init.js') }}"></script> --}}
     <!-- App js -->
+    <script src="{{ url('assets/vendor/js/helpers.js') }}"></script>
+    <script src="{{ url('assets/vendor/js/template-customizer.js') }}"></script>
     <script src="{{ url('dashboard_files/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places"
         defer></script>
@@ -206,9 +189,8 @@
     <script src="{{ url('dashboard_files/assets/js/printThis.js') }}"></script>
 
     <script src="{{ url('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
-    <script src="{{ url('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-    <script src="{{ url('assets/js/tables-datatables-basic.js') }}"></script>
-    <script src="{{ url('assets/vendor/js/helpers.js') }}"></script>
+    {{-- <script src="{{ url('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <script src="{{ url('assets/js/tables-datatables-basic.js') }}"></script> --}}
     <script src="{{ url('assets/vendor/js/template-customizer.js') }}"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 
@@ -221,11 +203,13 @@
     <script src="{{ url('assets/vendor/js/menu.js') }}"></script>
     <script src="{{ url('assets/js/main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
 
     @include('Admin.layouts.Inc.js')
+
+
+
     <script>
         $(document).ready(function() {
             $('.select2').select2();

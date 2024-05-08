@@ -32,6 +32,7 @@
                         </ul>
                     </li>
                 @endif
+
                 @if (Auth::user()->hasAnyOfPermissions(['read-users', 'read-role', 'read-permission', 'read-sections']))
                     <li>
                         <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-bank-minus "></i><span>
@@ -189,6 +190,50 @@
                 </ul>
             </li>
         @endif
+
+        @if (Auth::user()->hasAnyOfPermissions(['read-users', 'read-role', 'read-permission', 'read-sections']))
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-users"></i>
+                    <div data-i18n="@lang('User management')">@lang('User management')</div>
+                </a>
+                <ul class="menu-sub">
+                    @if (Auth::user()->hasPermission('read-users'))
+                        <li class="menu-item">
+                            <a href="{{ route('Admin.users.index') }}" class="menu-link">
+                                <div data-i18n="@lang('Users')">@lang('Users')</div>
+                            </a>
+                        </li>
+                        @if (Auth::user()->hasPermission('read-role'))
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.roles.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Roles')">@lang('Roles')</div>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->hasPermission('read-permission'))
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.Permissions.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Permissions')">@lang('Permissions')</div>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (Auth::user()->hasPermission('read-sections'))
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.Sections.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Sections')">@lang('sections')</div>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+                </ul>
+            </li>
+
+
+        @endif
+
+
         <li class="menu-item">
             <a href="page-2.html" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>

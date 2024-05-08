@@ -74,3 +74,51 @@
         });
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all table headers
+        const headers = document.querySelectorAll('th');
+
+        // Add click event listeners to each header
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const table = document.querySelector('tbody');
+                const rows = Array.from(table.querySelectorAll('tr'));
+                const index = Array.from(header.parentNode.children).indexOf(header);
+                const direction = header.dataset.sortDirection || 'asc';
+
+                // Remove sort indicators from other headers
+                headers.forEach(h => {
+                    h.classList.remove('asc', 'desc');
+                    delete h.dataset.sortDirection;
+                });
+
+                // Sort the rows based on the content of the clicked column
+                const sortedRows = rows.sort((a, b) => {
+                    const aValue = a.children[index].textContent.trim();
+                    const bValue = b.children[index].textContent.trim();
+
+                    if (direction === 'asc') {
+                        return aValue.localeCompare(bValue);
+                    } else {
+                        return bValue.localeCompare(aValue);
+                    }
+                });
+
+                // Update the sort direction indicator
+                header.classList.toggle('asc', direction === 'asc');
+                header.classList.toggle('desc', direction === 'desc');
+                header.dataset.sortDirection = direction === 'asc' ? 'desc' : 'asc';
+
+                // Reorder the rows in the table
+                table.innerHTML = '';
+                sortedRows.forEach(row => table.appendChild(row));
+            });
+        });
+
+        // Initially sort the table by the first column in ascending order
+        const initialHeader = headers[0];
+        initialHeader.click();
+    });
+</script>

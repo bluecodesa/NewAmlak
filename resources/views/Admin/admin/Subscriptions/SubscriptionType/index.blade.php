@@ -13,36 +13,139 @@
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         @lang('Types subscriptions')</h4>
                 </div>
-                @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
-                    <div class="col-6 py-3 mb-3 text-end">
-                        <a href="{{ route('Admin.SubscriptionTypes.create') }}"
-                            class="btn rounded-pill btn-primary  waves-effect waves-light">@lang('Add New Type subscription')</a>
 
-                    </div>
-                @endif
             </div>
 
 
             <!-- DataTable with Buttons -->
 
 
+            <div class="col-12">
+                <div class="card m-b-30">
+                    <div class="card-body">
+                        <form action="{{ route('Admin.SubscriptionTypes.index') }}" method="GET" id="subscriptionsForm">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span>@lang('Subscription Status')</span>
+                                    <select class="form-control form-control-sm" id="status_filter" name="status_filter">
+                                        <option value="all" {{ $status_filter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')</option>
+                                        <option value="1" {{ $status_filter == 1 ? 'selected' : '' }}>
+                                            @lang('active')
+                                        </option>
+                                        <option value="0" {{ $status_filter == 0 ? 'selected' : '' }}>
+                                            @lang('inactive')
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class=" col-md-3">
+                                    <span>@lang('Subscription Time')</span>
+                                    <select class="form-control form-control-sm" id="period_filter" name="period_filter">
+                                        <option value="all" {{ $period_filter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')
+                                        </option>
+                                        <option value="day" {{ $period_filter == 'day' ? 'selected' : '' }}>
+                                            @lang('day')
+                                        </option>
+                                        <option value="week" {{ $period_filter == 'week' ? 'selected' : '' }}>
+                                            @lang('week')</option>
+                                        <option value="month" {{ $period_filter == 'month' ? 'selected' : '' }}>
+                                            @lang('month')
+                                        </option>
+                                        <option value="year" {{ $period_filter == 'year' ? 'selected' : '' }}>
+                                            @lang('year')
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class=" col-md-3">
+                                    <span>@lang('price')</span>
+                                    <select class="form-control form-control-sm" id="price_filter" name="price_filter">
+                                        <option value="all" {{ $price_filter == 'all' ? 'selected' : '' }}>
+                                            @lang('All')
+                                        </option>
+                                        @foreach ($prices as $price)
+                                            <option value="{{ $price }}"
+                                                {{ $price_filter == $price ? 'selected' : '' }}>
+                                                {{ $price }} ريال فيما اقل
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="text-center col-md-3 mt-3">
+                                    <button type="submit"
+                                        class="w-auto btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
+                                    @php
+                                        $filter_counter =
+                                            ($period_filter != 'all') +
+                                            ($price_filter != 'all') +
+                                            ($status_filter != 'all');
+                                    @endphp
+                                    @if ($filter_counter > 0)
+                                        <a href="{{ route('Admin.SubscriptionTypes.index') }}"
+                                            class="clear-filter w-auto btn btn-danger mt-2 btn-sm"
+                                            style="margin-bottom: 0!important;">@lang('Cancel') @lang('Filter')
+                                            ({{ $filter_counter }})</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider divider-success">
+                <div class="divider-text">@lang('Types subscriptions')</div>
+            </div>
+
             <div class="card">
-                <div class="row">
-                    <div class="col-9">
-                        <h5 class="card-header">@lang('Types subscriptions')
-                            <button type="button" onclick="exportToExcel()"
-                                class="btn btn-sm btn-icon btn-success waves-effect waves-light">
-                                <span class="ti ti-table-export"></span>
-                            </button>
-                        </h5>
-
+                <div class="row p-1 mb-1">
+                    <div class="col-12">
+                        <h5 class="card-header">@lang('Types subscriptions') </h5>
                     </div>
-                    <div class="col-3 py-1">
-                        <input id="SearchInput" class="form-control  rounded-pill mt-3" type="text"
-                            placeholder="@lang('search...')">
+                    <hr>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                        <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
+                                            aria-controls="DataTables_Table_0"></label></div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                    <div
+                                        class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                        <div class="dt-buttons btn-group flex-wrap d-flex">
+                                            <div class="btn-group">
+                                                <button onclick="exportToExcel()"
+                                                    class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                    tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                    aria-haspopup="dialog" aria-expanded="false"><span>
+                                                        <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                            </div>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary dropdown-toggle"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
+                                                        <li><a class="dropdown-item"
+                                                                href="{{ route('Admin.SubscriptionTypes.create') }}">@lang('Add New Type subscription')</a>
+                                                        </li>
+                                                    @endif
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-
-
                 </div>
 
 
@@ -54,13 +157,13 @@
                                 <th>@lang('Name')</th>
                                 <th>@lang('Subscription Time')</th>
                                 <th>@lang('Subscription Type')</th>
-                                <th> @lang('role name') </th>
+                                <th>@lang('role name') </th>
                                 <th>@lang('price')</th>
                                 <th>@lang('status')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0">
+                        <tbody class="table-border-bottom-0 sortable">
                             @foreach ($subscriptions as $index => $sub)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
@@ -87,7 +190,7 @@
                                     </td>
                                     <td>
                                         @foreach ($sub->RolesData as $role)
-                                            {{ $role->RoleData->name ?? '' }}
+                                            {{ app()->getLocale() == 'ar' ? $role->RoleData->name_ar : $role->RoleData->name ?? '' }}
                                             @if (!$loop->last)
                                                 ,
                                             @endif
@@ -133,24 +236,58 @@
             <!-- Modal to add new record -->
             <div class="divider divider-danger">
                 <div class="divider-text">
-                    <i class="ti ti-trash"></i>
+                    @lang('Record Deleted subscriptionTypes')
                 </div>
             </div>
 
-            <div class="card">
-                <div class="row">
-                    <div class="col-9">
-                        <h5 class="card-header">@lang('Record Deleted subscriptionTypes')
-                            <button type="button" onclick="exportToExcel2()"
-                                class="btn btn-sm btn-icon btn-success waves-effect waves-light">
-                                <span class="ti ti-table-export"></span>
-                            </button>
-                        </h5>
 
+            <div class="card">
+
+                <div class="row p-1 mb-1">
+                    <div class="col-12">
+                        <h5 class="card-header">@lang('Record Deleted subscriptionTypes') </h5>
                     </div>
-                    <div class="col-3 py-1">
-                        <input id="SearchInput2" class="form-control rounded-pill mt-3" type="text"
-                            placeholder="@lang('search...')">
+                    <hr>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                        <input id="SearchInput2" class="form-control" placeholder="@lang('search...')"
+                                            aria-controls="DataTables_Table_0"></label></div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                    <div
+                                        class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                        <div class="dt-buttons btn-group flex-wrap d-flex">
+                                            <div class="btn-group">
+                                                <button onclick="exportToExcel2()"
+                                                    class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                    tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                    aria-haspopup="dialog" aria-expanded="false"><span>
+                                                        <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                            </div>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary dropdown-toggle"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
+                                                        <li><a class="dropdown-item"
+                                                                href="{{ route('Admin.SubscriptionTypes.create') }}">@lang('Add New Type subscription')</a>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
 
@@ -196,7 +333,7 @@
                                     </td>
                                     <td>
                                         @foreach ($sub_deleted->RolesData as $role)
-                                            {{ $role->RoleData->name_ar ?? '' }}
+                                            {{ app()->getLocale() == 'ar' ? $role->RoleData->name_ar : $role->RoleData->name ?? '' }}
                                             @if (!$loop->last)
                                                 ,
                                             @endif
@@ -250,20 +387,60 @@
     @push('scripts')
         <script>
             function exportToExcel() {
-                var wb = XLSX.utils.table_to_book(document.getElementById('table'), {
+                // Get the table by ID
+                var table = document.getElementById('table');
+
+                // Remove the last <td> from each row
+                var rows = table.rows;
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
+                }
+
+                // Convert the modified table to a workbook
+                var wb = XLSX.utils.table_to_book(table, {
                     sheet: "Sheet1"
                 });
+
+                // Save the workbook as an Excel file
                 XLSX.writeFile(wb, @json(__('Types subscriptions')) + '.xlsx');
             }
         </script>
 
         <script>
             function exportToExcel2() {
-                var wb = XLSX.utils.table_to_book(document.getElementById('table'), {
+                // Get the table by ID
+                var table = document.getElementById('table');
+
+                // Remove the last <td> from each row
+                var rows = table.rows;
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
+                }
+
+                // Convert the modified table to a workbook
+                var wb = XLSX.utils.table_to_book(table, {
                     sheet: "Sheet1"
                 });
+
+                // Save the workbook as an Excel file
                 XLSX.writeFile(wb, @json(__('Record Deleted subscriptionTypes')) + '.xlsx');
             }
+        </script>
+    @endpush
+
+    @push('scripts')
+        <script>
+            document.querySelector('#subscriptionsForm').addEventListener('submit', function(event) {
+                let flag = false;
+                if (document.querySelector('select#status_filter').value != 'all' ||
+                    document.querySelector('select#period_filter').value != 'all' ||
+                    document.querySelector('select#price_filter').value != 'all'
+                )
+                    flag = true;
+
+                if (!flag && !document.querySelector('#subscriptionsForm a.clear-filter')) event.preventDefault();
+
+            });
         </script>
     @endpush
 @endsection
