@@ -108,7 +108,7 @@
                                             <select
                                               class="form-select"
                                               id="inputGroupSelect04"
-                                              aria-label="Example select with button addon">
+                                              aria-label="Example select with button addon" name="owner_id" required>
                                               <option disabled selected value="">@lang('owner name')</option>
                                               @foreach ($owners as $owner)
                                                   <option value="{{ $owner->id }}">

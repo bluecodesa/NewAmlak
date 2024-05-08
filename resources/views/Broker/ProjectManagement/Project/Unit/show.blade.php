@@ -2,396 +2,277 @@
 @section('title', __('Unit'))
 @section('content')
 
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="row align-items-center">
-                        <div class="col-sm-6">
-                            <h4 class="page-title">
-                                @lang('Unit') / {{ $Unit->number_unit }} </h4>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item" style="margin-top: 2.1px;"><a href="#">
-                                        {{ $Unit->number_unit }} </a></li>
-                                <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Unit.show', $Unit->id) }}">@lang('Unit')</a></li>
 
-                                <li class="breadcrumb-item"><a href="{{ route('Broker.Unit.index') }}">@lang('Units')</a>
-                                </li>
+        <div class="content-wrapper">
+            <!-- Content -->
 
-                                <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
-                                <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
-                            </ol>
-                        </div>
-
-                    </div> <!-- end row -->
-                </div>
-                <!-- end page-title -->
-
+            <div class="container-xxl flex-grow-1 container-p-y">
                 <div class="row">
+                    <div class="col-6 py-3 mb-3">
 
-                    <div class="col-12">
-                        <div class="card m-b-30">
-                            <div class="card-body">
+                        <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                            <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
+                            <a href="{{ route('Broker.Property.index') }}" class="text-muted fw-light">@lang('properties') </a> /
+                            <a href="{{ route('Broker.Property.index') }}" class="text-muted fw-light">@lang('properties') </a> /
 
+                            @lang('property') : {{ $Property->name }}
+                        </h4>
+                    </div>
+
+                </div>
+              <div class="row">
+
+                <!-- User Sidebar -->
+                <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+                  <!-- project Card -->
+                  <div class="card mb-4">
+                    <div class="card-body">
+                      <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column">
+                            @forelse($Property->PropertyImages as $image)
+                            <div class="col-6 mb-1">
+                                <img  class="img-fluid rounded mb-3 pt-1 mt-4" src="{{ url($image->image) }}"
+                                    alt="{{ $Property->name }}" height="100"
+                                    width="100">
+                            </div>
+                        @empty
+                            <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                                src="{{ url('Offices/Projects/default.svg') }}"
+                                alt="{{ $Property->name }}"  height="100"
+                                width="100">
+                        @endforelse
+                          <div class="user-info text-center">
+                            <h4 class="mb-2">{{ $Property->name }}</h4>
+                            <span class="badge bg-label-secondary mt-1">@lang('property')</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
+                        <div class="d-flex align-items-start me-4 mt-3 gap-2">
+                          <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
+                          <div>
+                            <p class="mb-0 fw-medium">{{ $Property->PropertyUnits->count() }}</p>
+                            <small>@lang('Number units')</small>
+                          </div>
+                        </div>
+                        <div class="d-flex align-items-start mt-3 gap-2">
+                          <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-briefcase ti-sm"></i></span>
+                          <div>
+                            <p class="mb-0 fw-medium">568</p>
+                            <small>Projects Done</small>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="mt-4 small text-uppercase text-muted">@lang('Details')</p>
+                      <div class="info-container">
+                        <ul class="list-unstyled">
+                          <li class="mb-2">
+                            <span class="fw-medium me-1"> @lang('property name'):</span>
+                            <span>{{ $Property->name }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('owner name') :</span>
+                            <span>{{ $Property->OwnerData->name ?? __('nothing') }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('Property type') :</span>
+                            <span >{{ $Property->PropertyTypeData->name ?? __('nothing') }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('location name') :</span>
+                            <span>{!! Str::limit($Property->location, 10, ' ...') !!}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1"> @lang('city') :</span>
+                            <span>{{ $Property->CityData->name ?? __('nothing') }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('Instrument number') :</span>
+                            <span>{{ $Property->instrument_number ?? __('nothing') }}</span>
+                          </li>
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('Type use') :</span>
+                            <span>{{ $Property->PropertyUsageData->name ?? __('nothing') }}
+                                </span>
+                          </li>
+
+                          <li class="mb-2 pt-1">
+                            <span class="fw-medium me-1">@lang('service type') :</span>
+                            <span>{{ $Property->ServiceTypeData->name ?? __('nothing') }}
+                                </span>
+                          </li>
+
+                        </ul>
+                        <div class="d-flex justify-content-center">
+                          <a
+                            href="{{ route('Broker.Property.edit', $Property->id) }}"
+                            class="btn btn-warning me-3"
+                            >@lang('Edit')</a>
+                          <a href="{{ route('Broker.Property.CreateUnit', $Property->id) }}" class="btn btn-primary me-3">@lang('Add unit')</a>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /project Card -->
+                  <!-- Plan Card -->
+
+                </div>
+
+                <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+
+
+                  <!-- property table -->
+                  <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">@lang('Units')</h5>
+                    </div>
+                    {{-- <div class="col-3 py-1">
+                        <input id="SearchInput" class="form-control  rounded-pill mt-3" type="text"
+                            placeholder="@lang('search...')">
+                    </div> --}}
+                    <div class="card-datatable table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            <div class="card-header border-top rounded-0 py-2">
                                 <div class="row">
-                                    <div class="col-md-9">
-                                        <div class="card m-b-30 text-white"
-                                            style="background-color: #333; border-color: #333;border-radius: 14px;">
-                                            <div class="card-body">
-                                                <h3 class="card-title font-16 mt-0">
-                                                    <footer class="blockquote-footer font-12">
-                                                        {{ $Unit->number_unit }} <cite title="Source Title"></cite>
-                                                    </footer>
-                                                </h3>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Residential number') : <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->number_unit }}
-                                                            </span> </h6>
-                                                    </div>
+                                    <div class="col-6">
 
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('owner name') : <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->OwnerData->name ?? '' }}
-                                                            </span> </h6>
-                                                    </div>
+                                        <div class="me-5 ms-n2 pe-5">
+                                            <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                                    <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
+                                                        aria-controls="DataTables_Table_0"></label></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
 
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Region') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->CityData->RegionData->name ?? '' }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('city') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->CityData->name ?? '' }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
+                                        <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                            <div
+                                                class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                                <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                        <button onclick="exportToExcel()"
+                                                            class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                            tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                            aria-haspopup="dialog" aria-expanded="false"><span>
+                                                                <i class="ti ti-download me-1 ti-xs"></i><span class="d-none d-sm-inline-block">Export</span></span></button>
+                                                    {{-- <button class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                            <span class="d-none d-sm-inline-block">@lang('Add')</span></span></button> --}}
 
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Property type') : <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->PropertyTypeData->name ?? '' }}
-                                                            </span> </h6>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('location name') :
-                                                            <span class="badge font-13 badge-primary" data-toggle="modal"
-                                                                data-target=".bs-example-modal-lg">
-                                                                {!! Str::limit($Unit->location, 13, ' .') !!}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Type use') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->PropertyUsageData->name }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Instrument number') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->instrument_number }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('offered service') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->ServiceTypeData->name ?? '' }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Area (square metres)') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->space }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('number rooms') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->rooms }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Number bathrooms') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->bathrooms }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('selling price') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->price }} <sup>@lang('SAR')</sup>
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Rental price') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->getRentPriceByType() }}
-                                                                <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}
-                                                                </sup>
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Show in Gallery') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->show_gallery == 1 ? __('Show') : __('hide') }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
-
-
-
-                                                    <div class="col-md-3">
-                                                        <h6> @lang('Ad type') :
-                                                            <span class="badge font-13 badge-primary">
-                                                                {{ __($Unit->type) }}
-                                                            </span>
-                                                        </h6>
-                                                    </div>
 
                                                 </div>
-                                                <div class="col-12">
-                                                    <div class="row">
-                                                        <div class="col-1">
-                                                            <a href="{{ route('Broker.Unit.edit', $Unit->id) }}"
-                                                                class="btn btn-warning">@lang('Edit') </a>
-                                                        </div>
-                                                        @php($types = ['daily', 'monthly', 'quarterly', 'midterm', 'yearly'])
-
-
-                                                        <div class="form-group col-md-4 mb-3">
-                                                            <select class="form-control UpdateRentPriceByType">
-                                                                <option disabled value="" selected>@lang('Choose the rental price')
-                                                                </option>
-                                                                @foreach ($types as $type)
-                                                                    <option value="{{ $type }}"
-                                                                        data-url="{{ route('Broker.Unit.UpdateRentPriceByType', $Unit->id) }}"
-                                                                        data-type="{{ $type }}">
-                                                                        {{ __($type) }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="row">
-                                            @forelse($Unit->UnitImages as $image)
-                                                <div class="col-6 mb-1">
-                                                    <img class="rounded" src="{{ url($image->image) }}"
-                                                        alt="{{ $Unit->number_unit }}" style="width: 100%;">
-                                                </div>
-                                            @empty
-                                                <img class="d-flex align-self-end rounded mr-3 col"
-                                                    src="{{ url('Offices/Projects/default.svg') }}"
-                                                    alt="{{ $Unit->number_unit }}" height="200">
-                                            @endforelse
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <iframe width="100%" style="border-radius: 10px;" height="200" frameborder="0"
-                                            style="border:0"
-                                            src="https://www.google.com/maps/embed/v1/place?q={{ $Unit->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
-
-                                    </div>
-
-                                    <div class="col-md-3">
-
-                                        <div class="alert alert-primary" role="alert">
-                                            <strong>@lang('Additional details')</strong>
-                                        </div>
-                                        <ol class="list-group list-group-numbered">
-                                            @foreach ($Unit->UnitFeatureData as $feature)
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-start">
-                                                    <div class="ms-2 me-auto">
-                                                        <div class="fw-bold">{{ $feature->FeatureData->name ?? '' }}</div>
-                                                    </div>
-                                                    <span style="font-size: 12px;"
-                                                        class="badge bg-primary fw-bold text-white  rounded-pill">{{ $feature->qty }}</span>
-                                                </li>
-                                            @endforeach
-                                        </ol>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="alert alert-primary" role="alert">
-                                            <strong>@lang('services')</strong>
-                                        </div>
-                                        <ol class="list-group list-group-numbered">
-
-                                            @foreach ($Unit->UnitServicesData as $service)
-                                                <li
-                                                    class="list-group-item d-flex justify-content-between align-items-start">
-                                                    <div class="ms-2 me-auto">
-                                                        <div class="fw-bold">{{ $service->ServiceData->name ?? '' }}</div>
-                                                    </div>
-
-                                                </li>
-                                            @endforeach
-                                        </ol>
-                                    </div>
                                 </div>
-
                             </div>
-                        </div>
-                    </div>
-                    {{-- @if (!empty($unitInterests) && count($unitInterests) > 0) --}}
-                    @if (in_array(18, $sectionsIds))
-                    <div class="col-12">
-                        <div class="card m-b-30">
-                            <div class="card-body">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('Requests for interest')</h4>
-                                </div>
-                                <div class="table-responsive b-0" data-pattern="priority-columns">
-                                    <table id="datatable-buttons"
-                                        class="table table-striped table-bordered dt-responsive nowrap"
-                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>@lang('Residential number')</th>
+                                    <th>@lang('owner name')</th>
+                                    <th>@lang('number rooms')</th>
 
-                                                    <th>@lang('Client Name')</th>
-                                                    <th>@lang('phone')</th>
-                                                    <th>@lang('status')</th>
-                                                    <th>@lang('Action')</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($unitInterests as $index => $client)
-                                            <tr>
+                                    <th>@lang('price')</th>
+                                    <th>@lang('Ad type')</th>
+                                    <th>@lang('Action')</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($Property->PropertyUnits as $index => $unit)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $unit->number_unit ?? '' }}</td>
+                                    <td>{{ $unit->OwnerData->name ?? '' }}</td>
+                                    <td>{{ $unit->rooms ?? '' }}</td>
+                                    <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td>
+                                    <td>{{ __($unit->type) ?? '' }}</td>
 
-                                                <td>{{ $index + 1 }}</td>
-                                                <td> {{ $client->name }}</td>
-                                                <td>{{ $client->whatsapp }}</td>
-                                                <td>
-                                                    <form method="POST" action="{{ route('Broker.Interest.status.update', $client->id) }}">
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ti ti-dots-vertical"></i>
+                                                </button>
+                                            <div class="dropdown-menu" style="">
+                                                @if (Auth::user()->hasPermission('read-unit'))
+                                                <a class="dropdown-item" href="{{ route('Broker.Unit.show', $unit->id) }}"
+                                                    class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                    @endif
+                                                @if (Auth::user()->hasPermission('update-unit'))
+                                                    <a class="dropdown-item" href="{{ route('Broker.Unit.edit', $unit->id) }}"
+                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                @endif
+                                                @if (Auth::user()->hasPermission('delete-unit'))
+                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                        onclick="handleDelete('{{ $unit->id }}')"
+                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                    <form id="delete-form-{{ $unit->id }}"
+                                                        action="{{ route('Broker.Unit.destroy', $unit->id) }}"
+                                                        method="POST" style="display: none;">
                                                         @csrf
-                                                        <input type="hidden" name="id" value="{{ $client->id }}">
-                                                        <select class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
-                                                            @foreach ($interestsTypes as $interestsType)
-                                                                <option value="{{ $interestsType->id }}" {{ $client->status == $interestsType->id ? 'selected' : '' }}>
-                                                                    {{ __($interestsType->name) }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        <button type="submit" class="submit-from" hidden=""></button>
+                                                        @method('DELETE')
                                                     </form>
-
-
-                                                </td>
-
-                                                <td>
-                                                    <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" data-toggle="modal" data-target="#shareLinkUnit{{ $client->id }}"
-                                                        href="tel:{{ env('COUNTRY_CODE') . $client->whatsapp }}" onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
-                                                        @lang('Call')</a>
-                                                    <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $client->whatsapp }}"
-                                                        class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
-
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                        </div>
+                                                @endif
+                                            </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    @endif
 
-                </div> <!-- end col -->
-            </div> <!-- end row -->
-
+                </div>
+            </div>
         </div>
-        <!-- container-fluid -->
+                  <!-- /property table -->
 
-        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-            aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title mt-0" id="myLargeModalLabel">Large modal</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-12">
-                            <iframe width="100%" height="200" frameborder="0" style="border:0"
-                                src="https://www.google.com/maps/embed/v1/place?q={{ $Unit->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
-                        </div>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
+
+
+
+                </div>
+                <!--/ User Content -->
+              </div>
+
+              <!-- Modal -->
+
+<!-- container-fluid -->
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+aria-hidden="true" style="display: none;">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title mt-0" id="myLargeModalLabel">Large modal</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
+        <div class="modal-body">
+            <div class="col-12">
+                <iframe width="100%" height="200" frameborder="0" style="border:0"
+                    src="https://www.google.com/maps/embed/v1/place?q={{ $Property->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
+            </div>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div>
 
-    </div>
 
-    @push('scripts')
-        <script>
-            $('.UpdateRentPriceByType').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                var rent_type_show = selectedOption.data('type');
-                $.ajax({
-                    url: url,
-                    method: "get",
-                    data: {
-                        rent_type_show: rent_type_show
-                    },
-                    success: function(data) {
-                        alertify.success(@json(__('rental price has been updated')));
-                        // setTimeout(location.reload(), 5000);
-                        setTimeout(function() {
-                            location.reload()
-                        }, 1000);
-                    },
-                    error: function(data) {
-                        console.log(data);
-                    }
-                });
-            });
-        </script>
-    @endpush
+              <!-- /Modal -->
+            </div>
+        </div>
+            <!-- / Content -->
+            @push('scripts')
+            <script>
+                function exportToExcel() {
+                    var wb = XLSX.utils.table_to_book(document.getElementById('table'), {
+                        sheet: "Sheet1"
+                    });
+                    XLSX.writeFile(wb, @json(__('Units')) + '.xlsx');
+                }
+            </script>
+            @endpush
+
 @endsection

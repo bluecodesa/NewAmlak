@@ -26,15 +26,15 @@
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                         <div class="card-header border-top rounded-0 py-2">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4 col-md-6">
 
-                                    <div class="me-5 ms-n2 pe-5">
+                                    <div class="me-10 ms-n2 pe-10">
                                         <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
                                                 <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
                                                     aria-controls="DataTables_Table_0"></label></div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-8 col-md-6">
 
                                     <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                         <div
@@ -45,7 +45,7 @@
                                                         class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
                                                         tabindex="0" aria-controls="DataTables_Table_0" type="button"
                                                         aria-haspopup="dialog" aria-expanded="false"><span>
-                                                            <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                            <i class="ti ti-download me-1 ti-xs"></i><span class="d-none d-sm-inline-block">Export</span></span></button>
                                                 </div>
                                                 {{-- <button class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                         <span class="d-none d-sm-inline-block">@lang('Add')</span></span></button> --}}
