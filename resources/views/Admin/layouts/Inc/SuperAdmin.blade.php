@@ -256,11 +256,7 @@
                     </a>
                 </li>
 
-                <li class="menu-item">
-                    <a href="{{ route('Admin.NotificationsManagement') }}" class="menu-link">
-                        <div data-i18n="@lang('Notification Mange')">@lang('Notification Mange')</div>
-                    </a>
-                </li>
+
 
                 <li class="menu-item" style="">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">

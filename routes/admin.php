@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\General\PropertyUsageController;
 use App\Http\Controllers\Admin\General\RegionController;
 use App\Http\Controllers\Admin\General\ServiceController;
 use App\Http\Controllers\Admin\General\ServiceTypeController;
+use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
@@ -74,6 +75,11 @@ Route::group(
             Route::put('/interests-type/{id}', [SettingController::class, 'updateInterestType'])->name('update.interest-type');
             Route::delete('/interests-type/{id}', [SettingController::class, 'destroyInterestType'])->name('delete.interest-type');
             Route::get('/NotificationsManagement', [SettingController::class, 'NotificationsManagement'])->name('NotificationsManagement');
+            Route::get('/UpdateNotificationsManagement', [SettingController::class, 'UpdateNotificationsManagement'])->name('UpdateNotificationsManagement');
+            Route::get('/AddNotificationsManagement', [SettingController::class, 'AddNotificationsManagement'])->name('AddNotificationsManagement');
+
+
+
 
 
             //support tickets

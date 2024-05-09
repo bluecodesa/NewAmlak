@@ -9,18 +9,22 @@
                     @lang('Notifications Management')
                 </strong>
                 @if (Auth::user()->hasPermission('update-notify-settings'))
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
-                        data-target=".bs-example-modal-lg"> @lang('Settings') </button>
+                    <a href="{{ route('Admin.UpdateNotificationsManagement') }}"
+                        class="btn btn-primary btn-sm waves-effect waves-light">
+                        @lang('Settings')
+                    </a>
                 @endif
+                @if (Auth::user()->hasPermission('create-notify'))
+                    <a href="{{ route('Admin.AddNotificationsManagement') }}"
+                        class="btn btn-dark btn-sm waves-effect waves-light">
+                        @lang('Add')
+                    </a>
+                @endif
+
             </div>
 
-            @if (Auth::user()->hasPermission('create-notify'))
-                <div class="col-6 text-right">
-                    <button type="button" data-toggle="modal" data-target=".bs-example-modal-add"
-                        class="btn btn-primary btn-sm waves-effect waves-light"> @lang('Add')
-                    </button>
-                </div>
-            @endif
+
+
         </div>
 
     </div>
@@ -116,7 +120,7 @@
 
 </div> <!-- / .card-body -->
 
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+{{-- <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -235,7 +239,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div>
+</div> --}}
 
 @push('scripts')
     <script>

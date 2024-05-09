@@ -13,7 +13,7 @@
 
 
             <div class="nav-align-top nav-tabs-shadow mb-4">
-                <ul class="nav nav-tabs nav-fill" role="tablist">
+                <ul class="nav nav-tabs nav-fill p-1" role="tablist">
                     @if (Auth::user()->hasPermission('update-PlatformSettings'))
                         <li class="nav-item" role="presentation">
                             <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
