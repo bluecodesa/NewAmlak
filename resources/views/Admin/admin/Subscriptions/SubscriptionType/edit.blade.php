@@ -23,44 +23,47 @@
                         method="POST">
                         @csrf
                         @method('PUT')
+                        <input type="text" hidden required value="{{ $SubscriptionType->period_type }}"
+                            name="period_type" id="period_type">
                         @foreach (config('translatable.locales') as $locale)
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label class="form-label">
-                                        {{ __('Name') }} {{ __($locale) }} <span
-                                            class="required-color">*</span></label>
-                                    <input type="text" required id="modalRoleName" name="{{ $locale }}[name]"
-                                        value="{{ $SubscriptionType->translate($locale)->name }}" class="form-control"
-                                        placeholder="{{ __('Name') }} {{ __($locale) }}">
-                                </div>
+                            <div class="col-md-6 col-12 mb-3">
+
+                                <label class="form-label">
+                                    {{ __('Name') }} {{ __($locale) }} <span class="required-color">*</span></label>
+                                <input type="text" required id="modalRoleName" name="{{ $locale }}[name]"
+                                    value="{{ $SubscriptionType->translate($locale)->name }}" class="form-control"
+                                    placeholder="{{ __('Name') }} {{ __($locale) }}">
+
                             </div>
                         @endforeach
-                        @php
-                            $days = ['day', 'week', 'month', 'year'];
-                        @endphp
-                        <div class="col-md-4 mb-3">
-                            <div class="row">
-                                <div class="col"> <label for="period"> @lang('Required subscription period') <span
-                                            class="required-color">*</span></label>
-                                    <input type="number" name="period" value="{{ $SubscriptionType->period }}"
-                                        id="period" class="form-control" min="1" required />
-                                </div>
-                                <div class="col-6">
-                                    <label for="period"></label>
-                                    <select name="period_type" id="period_type" required class="sub-input form-select">
-                                        @foreach ($days as $type)
-                                            <option value="{{ $type }}"
-                                                {{ $SubscriptionType->period_type == $type ? 'selected' : '' }}>
-                                                @lang($type)</option>
-                                        @endforeach
 
-                                    </select>
-                                </div>
 
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="">@lang('Required subscription period') <span class="required-color">*</span></label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-primary btn-type-subscription dropdown-toggle waves-effect"
+                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @lang($SubscriptionType->period_type)
+
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" data-tarnslat="@lang('day')" data-value="day"
+                                            href="javascript:void(0);">@lang('day')</a></li>
+
+                                    <li><a class="dropdown-item" data-value="week" data-tarnslat="@lang('week')"
+                                            href="javascript:void(0);">@lang('week')</a></li>
+
+                                    <li><a class="dropdown-item" data-value="month" data-tarnslat="@lang('month')"
+                                            href="javascript:void(0);">@lang('month')</a></li>
+                                    <li><a class="dropdown-item" data-value="year" data-tarnslat="@lang('year')"
+                                            href="javascript:void(0);">@lang('year')</a></li>
+                                </ul>
+                                <input type="text" name="period" min="1" value="{{ $SubscriptionType->period }}"
+                                    required class="form-control" placeholder="@lang('Required subscription period')">
                             </div>
-
                         </div>
-                        <div class="col-md-4 mb-3">
+
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="price"> @lang('the amount')</label><br />
                             <div class="wrapper" style="position: relative; ">
 
@@ -72,7 +75,7 @@
 
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4 col-12 mb-3">
                             <label for="upgrade_rate">@lang('Discount applied')</label><br />
                             <div class="wrapper" style="position: relative; ">
                                 <input type="text" name="upgrade_rate" id="upgrade_rate"
@@ -81,7 +84,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 col-12 mb-3">
                             <p>@lang('status')</p>
 
                             <div class="form-check form-check-primary">
@@ -97,23 +100,25 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 col-12 mb-3">
                             <p>@lang('appear')</p>
                             <div class="form-check form-check-primary mt-1">
-                                <input name="is_show" class="form-check-input" type="radio" value="{{ 1 }}"
-                                    id="show" {{ $SubscriptionType->is_show == 1 ? 'checked' : '' }}>
+                                <input name="is_show" class="form-check-input" type="radio"
+                                    value="{{ 1 }}" id="show"
+                                    {{ $SubscriptionType->is_show == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label" for="show"> @lang('show') </label>
                             </div>
 
                             <div class="form-check form-check-primary mt-1">
-                                <input name="is_show" class="form-check-input" type="radio" value="{{ 0 }}"
-                                    id="hide" {{ $SubscriptionType->is_show == 0 ? 'checked' : '' }}>
+                                <input name="is_show" class="form-check-input" type="radio"
+                                    value="{{ 0 }}" id="hide"
+                                    {{ $SubscriptionType->is_show == 0 ? 'checked' : '' }}>
                                 <label class="form-check-label" for="hide"> @lang('hide') </label>
                             </div>
 
                         </div>
 
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 col-12 mb-3">
                             <p>@lang('role name')</p>
                             @foreach ($roles as $role)
                                 @php
@@ -130,7 +135,7 @@
                             @endforeach
                         </div>
 
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-3 col-12 mb-3">
                             <p>@lang('sections')</p>
                             @foreach ($sections as $section)
                                 @php
@@ -148,8 +153,7 @@
                         </div>
 
 
-                        <button class="btn
-                                btn-primary"
+                        <button class="btn btn-primary waves-effect waves-light"
                             type="submit">@lang('save')</button>
                     </form>
                 </div>
@@ -165,9 +169,15 @@
     </div>
     @push('scripts')
         <script>
-            window.onload = function() {
-                document.querySelector('h2#flush-headingFive button').click();
-            }
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var value = $(this).data('value');
+                    var tarnslat = $(this).data('tarnslat');
+                    $('#period_type').val(value);
+
+                    $('.btn-type-subscription').text(tarnslat);
+                });
+            });
         </script>
     @endpush
 

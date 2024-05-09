@@ -206,4 +206,11 @@ class SettingController extends Controller
         return redirect()->route('Admin.settings.index')
             ->withSuccess(__('Deleted successfully'));
     }
+
+    function NotificationsManagement()
+    {
+        $NotificationSetting = $this->settingRepo->getNotificationSetting();
+        $EmailSettingService = $this->EmailSettingService->getAll();
+        return view('Admin.settings.NotificationsPage', get_defined_vars());
+    }
 }

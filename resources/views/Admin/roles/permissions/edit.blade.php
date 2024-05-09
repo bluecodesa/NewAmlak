@@ -62,7 +62,8 @@
                         </div>
 
                         <div class="col-12 mt-3">
-                            <button class="btn btn-primary" type="submit">@lang('save')</button>
+                            <button class="btn btn-primary waves-effect waves-light"
+                                type="submit">@lang('save')</button>
                         </div>
                     </form>
                 </div>

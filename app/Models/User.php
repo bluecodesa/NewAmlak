@@ -113,14 +113,13 @@ class User extends Authenticatable
     // }
 
     public function getAvatar()
-{
-    $avatarPath = public_path($this->avatar);
+    {
+        $avatarPath = public_path($this->avatar);
 
-    if (!file_exists($avatarPath)) {
-        return 'https://www.svgrepo.com/show/29852/user.svg';
-    } else {
-        return asset($this->avatar);
+        if (!file_exists($avatarPath)) {
+            return 'https://www.svgrepo.com/show/29852/user.svg';
+        } else {
+            return asset($this->avatar);
+        }
     }
-}
-
 }

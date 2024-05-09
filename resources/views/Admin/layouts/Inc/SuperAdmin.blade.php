@@ -234,11 +234,122 @@
         @endif
 
 
-        <li class="menu-item">
-            <a href="page-2.html" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-app-window"></i>
-                <div data-i18n="Page 2">Page 2</div>
+        @if (Auth::user()->hasPermission('read-support-ticket-admin'))
+            <li class="menu-item">
+                <a href="{{ route('Admin.SupportTickets.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-app-window"></i>
+                    <div data-i18n="@lang('Tickets Support')">@lang('Tickets Support')</div>
+                </a>
+            </li>
+        @endif
+
+
+        <li class="menu-item" style="">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-users"></i>
+                <div data-i18n="@lang('Settings')">@lang('Settings')</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('Admin.settings.index') }}" class="menu-link">
+                        <div data-i18n="@lang('General Settings')">@lang('General Settings')</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="{{ route('Admin.NotificationsManagement') }}" class="menu-link">
+                        <div data-i18n="@lang('Notification Mange')">@lang('Notification Mange')</div>
+                    </a>
+                </li>
+
+                <li class="menu-item" style="">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <div data-i18n="@lang('technical support')">@lang('technical support')</div>
+                    </a>
+                    <ul class="menu-sub">
+                        @if (Auth::user()->hasPermission('update-support-contact'))
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.Support.showInfoSupport') }}" class="menu-link">
+                                    <div data-i18n="@lang('Support contact information')">@lang('Support contact information')</div>
+                                </a>
+                            </li>
+                        @endif
+
+                        <li class="menu-item">
+                            <a href="{{ route('Admin.SupportTickets.tickets-type') }}" class="menu-link">
+                                <div data-i18n="@lang('Ticket Type')">@lang('Ticket Type')</div>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                @if (Auth::user()->hasPermission('read-regions-cities-districts'))
+                    <li class="menu-item" style="">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <div data-i18n="@lang('districts')"> @lang('Cities') & @lang('districts')</div>
+                        </a>
+                        <ul class="menu-sub">
+
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.Region.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Regions')">@lang('Regions')</div>
+                                </a>
+                            </li>
+
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.City.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Cities')">@lang('Cities')</div>
+                                </a>
+                            </li>
+
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.District.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('districts')">@lang('districts')</div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                @endif
+
+                {{--  --}}
+
+                @if (Auth::user()->hasPermission('read-real-estate-settings'))
+                    <li class="menu-item" style="">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <div data-i18n="@lang('Real estate settings')"> @lang('Real estate settings')</div>
+                        </a>
+                        <ul class="menu-sub">
+
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.PropertyType.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Property Types')">@lang('Property Types')</div>
+                                </a>
+                            </li>
+
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.PropertyUsage.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('property usages')">@lang('property usages')</div>
+                                </a>
+                            </li>
+
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.ServiceType.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('services types')">@lang('services types')</div>
+                                </a>
+                            </li>
+
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.Service.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('services')">@lang('services')</div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                @endif
+            </ul>
         </li>
     </ul>
 </aside>
