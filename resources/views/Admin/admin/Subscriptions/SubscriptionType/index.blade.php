@@ -25,9 +25,9 @@
                     <div class="card-body">
                         <form action="{{ route('Admin.SubscriptionTypes.index') }}" method="GET" id="subscriptionsForm">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-12 col-md-3 mb-3">
                                     <span>@lang('Subscription Status')</span>
-                                    <select class="form-control form-control-sm" id="status_filter" name="status_filter">
+                                    <select class="form-select" id="status_filter" name="status_filter">
                                         <option value="all" {{ $status_filter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
                                         <option value="1" {{ $status_filter == 1 ? 'selected' : '' }}>
@@ -38,9 +38,9 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class=" col-md-3">
+                                <div class="col-12 col-md-3 mb-3">
                                     <span>@lang('Subscription Time')</span>
-                                    <select class="form-control form-control-sm" id="period_filter" name="period_filter">
+                                    <select class="form-select" id="period_filter" name="period_filter">
                                         <option value="all" {{ $period_filter == 'all' ? 'selected' : '' }}>
                                             @lang('All')
                                         </option>
@@ -57,9 +57,9 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class=" col-md-3">
+                                <div class="col-12 col-md-3 mb-3">
                                     <span>@lang('price')</span>
-                                    <select class="form-control form-control-sm" id="price_filter" name="price_filter">
+                                    <select class="form-select" id="price_filter" name="price_filter">
                                         <option value="all" {{ $price_filter == 'all' ? 'selected' : '' }}>
                                             @lang('All')
                                         </option>
@@ -106,13 +106,13 @@
                     <hr>
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
                                         <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
                                             aria-controls="DataTables_Table_0"></label></div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-8">
                                 <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                     <div
                                         class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
@@ -250,13 +250,13 @@
                     <hr>
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
                                         <input id="SearchInput2" class="form-control" placeholder="@lang('search...')"
                                             aria-controls="DataTables_Table_0"></label></div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-8">
                                 <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                     <div
                                         class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">

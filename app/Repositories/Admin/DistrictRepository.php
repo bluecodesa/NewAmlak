@@ -9,7 +9,7 @@ class DistrictRepository implements DistrictRepositoryInterface
 {
     public function getAllDistrict()
     {
-        return District::get();
+        return District::paginate(500);
     }
 
     public function createDistrict($data)

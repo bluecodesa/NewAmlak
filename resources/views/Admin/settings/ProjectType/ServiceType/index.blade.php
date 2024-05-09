@@ -1,92 +1,160 @@
 @extends('Admin.layouts.app')
+
 @section('title', __('services types'))
+
 @section('content')
-
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="card m-b-30">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('services types')</h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.ServiceType.index') }}">@lang('services types')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
-                                    </ol>
-                                </div>
-                                <div class="col-md-6" style="text-align: end">
-                                    <a href="{{ route('Admin.ServiceType.create') }}"
-                                        class="btn btn-primary col-3 p-1 m-1 waves-effect waves-light">
-                                        @lang('Add New Service Type')
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div> <!-- end row -->
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+                <div class="col-6 py-3">
+                    <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        @lang('services types')</h4>
                 </div>
-                <!-- end page-title -->
+            </div>
+            <!-- DataTable with Buttons -->
 
-                <div class="row">
+            <div class="card">
 
+                <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <div class="card m-b-30">
-                            <div class="card-body">
-                                <table id="datatable-buttons"
-                                    class="table table-striped table-bordered dt-responsive nowrap"
-                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>@lang('Name')</th>
-                                            <th>@lang('Number properties')</th>
-                                            <th>@lang('Number units')</th>
-                                            <th>@lang('Action')</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($types as $index => $type)
-                                            <tr>
-                                                <th>{{ $index + 1 }}</th>
-                                                <td>{{ $type->name }} </td>
-                                                <td>1 </td>
-                                                <td>1 </td>
-                                                <td>
-                                                    <a href="{{ route('Admin.ServiceType.edit', $type->id) }}"
-                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                        <h5 class="card-header">@lang('services types') </h5>
+                    </div>
+                    <hr>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                        <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
+                                            aria-controls="DataTables_Table_0"></label></div>
+                            </div>
+
+                            <div class="col-8">
+
+                                <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                    <div
+                                        class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                        <div class="dt-buttons btn-group flex-wrap d-flex">
+                                            <div class="btn-group">
+                                                <button onclick="exportToExcel()"
+                                                    class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                    tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                    aria-haspopup="dialog" aria-expanded="false"><span>
+                                                        <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                            </div>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary dropdown-toggle"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    @if (Auth::user()->hasPermission('create-real-estate-settings'))
+                                                        <li><a class="dropdown-item"
+                                                                href="{{ route('Admin.ServiceType.create') }}">@lang('Add New Service Type')</a>
+                                                        </li>
+                                                    @endif
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive text-nowrap">
+                    <table class="table" id="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>@lang('Name')</th>
+                                <th>@lang('Number properties')</th>
+                                <th>@lang('Number units')</th>
+                                <th>@lang('Action')</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            @foreach ($types as $index => $type)
+                                <tr>
+                                    <th>{{ $index + 1 }}</th>
+                                    <td>{{ $type->name }} </td>
+                                    <td> {{ $type->PropertyData->count() }} </td>
+                                    <td> {{ $type->UnitData->count() }} </td>
+                                    <td>
+
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+
+                                                @if (Auth::user()->hasPermission('update-real-estate-settings'))
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('Admin.ServiceType.edit', $type->id) }}">@lang('Edit')</a>
+                                                @endif
+                                                @if (Auth::user()->hasPermission('delete-real-estate-settings'))
                                                     <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $type->id }}')"
-                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">
-                                                        @lang('Delete')
-                                                    </a>
+                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
                                                     <form id="delete-form-{{ $type->id }}"
                                                         action="{{ route('Admin.ServiceType.destroy', $type->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
+                                                @endif
 
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                            </div>
+                                        </div>
 
-                            </div>
-                        </div>
-                    </div> <!-- end col -->
-                </div> <!-- end col -->
-            </div> <!-- end row -->
+
+
+
+
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Modal to add new record -->
+
+            <!--/ DataTable with Buttons -->
+
 
         </div>
-        <!-- container-fluid -->
 
+        <div class="content-backdrop fade"></div>
     </div>
 
+
+    @push('scripts')
+        <script>
+            function exportToExcel() {
+                // Get the table by ID
+                var table = document.getElementById('table');
+
+                // Remove the last <td> from each row
+                var rows = table.rows;
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
+                }
+
+                // Convert the modified table to a workbook
+                var wb = XLSX.utils.table_to_book(table, {
+                    sheet: "Sheet1"
+                });
+
+                // Save the workbook as an Excel file
+                XLSX.writeFile(wb, @json(__('Property Types')) + '.xlsx');
+            }
+        </script>
+    @endpush
 @endsection

@@ -11,74 +11,109 @@
                 </div>
 
             </div>
-            <!-- DataTable with Buttons -->
-            <div class="card">
 
-                <div class="row p-1 mb-1">
-                    <div class="col-12">
-                        <h5 class="card-header">@lang('Users') </h5>
+            <div class="row">
+                <!-- User Sidebar -->
+                <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+                    <!-- User Card -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="user-avatar-section">
+                                <div class="d-flex align-items-center flex-column">
+                                    <img class="img-fluid rounded mb-3 pt-1 mt-4" src="{{ $user->getAvatar() }}"
+                                        height="100" width="100" alt="{{ $user->name }}">
+                                    <div class="user-info text-center">
+                                        <h4 class="mb-2"> {{ $user->name }}</h4>
+                                        <span class="badge bg-label-secondary mt-1">
+                                            {{ app()->getLocale() == 'ar' ? $user->roles[0]->name_ar ?? '' : $user->roles[0]->name ?? '' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="mt-4 small text-uppercase text-muted">@lang('Details')</p>
+                            <div class="info-container">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <span class="fw-medium me-1">@lang('Name'): </span>
+                                        <span>{{ $user->name }}</span>
+                                    </li>
+                                    <li class="mb-2 pt-1">
+                                        <span class="fw-medium me-1">@lang('Email') :</span>
+                                        <span>{{ $user->email }}</span>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
                     </div>
-
+                    <!-- /User Card -->
                 </div>
+                <!--/ User Sidebar -->
 
-                <div class="card-body">
-                    <div class="mb-3 row">
-                        <label for="name"
-                            class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('Name'):</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            {{ $user->name }}
+                <!-- User Content -->
+                <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+                    <div class="nav-align-top nav-tabs-shadow mb-4">
+                        <ul class="nav nav-tabs nav-fill" role="tablist">
+
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
+                                    aria-selected="false" tabindex="-1">
+                                    @lang('sections')
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
+                                    aria-selected="true">
+                                    @lang('Permissions')
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade active show" id="navs-justified-profile" role="tabpanel">
+                                @foreach ($user->getAllPermissions()->unique('section_id') as $permission)
+                                    <span class="badge bg-info">{{ $permission->SectionDate->name ?? '' }}</span>
+                                    @if (!$loop->last)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </div>
+                            <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                                <table class="table" id="table">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>@lang('Name')</th>
+                                            <th>@lang('Model')</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @forelse ($user->getAllPermissions() as $index=> $permission)
+                                            <tr>
+                                                <td>{{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}
+                                                </td>
+                                                <td>{{ $permission->SectionDate->name ?? '' }}</td>
+                                            </tr>
+                                        @empty
+                                            <td colspan="3">
+                                                <span class="text-danger">
+                                                    <strong>No Role Found!</strong>
+                                                </span>
+                                            </td>
+                                        @endforelse
+
+                                    </tbody>
+                                </table>
+
+                            </div>
                         </div>
                     </div>
-
-                    <div class="mb-3 row">
-                        <label for="email" class="col-md-4 col-form-label text-md-end text-start"><strong>
-                                @lang('Email')</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            {{ $user->email }}
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="roles"
-                            class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('Roles')</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            <span
-                                class="badge bg-dark">{{ app()->getLocale() == 'ar' ? $user->roles[0]->name_ar : $user->roles[0]->name ?? '' }}</span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="roles"
-                            class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('sections')</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            @foreach ($user->getAllPermissions()->unique('section_id') as $permission)
-                                <span class="badge bg-info">{{ $permission->SectionDate->name ?? '' }}</span>
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div class="mb-3 row">
-                        <label for="roles"
-                            class="col-md-4 col-form-label text-md-end text-start"><strong>@lang('Permissions')</strong></label>
-                        <div class="col-md-6" style="line-height: 35px;">
-                            @foreach ($user->getAllPermissions() as $permission)
-                                <span
-                                    class="badge bg-primary">{{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}</span>
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
-
                 </div>
+                <!--/ User Content -->
             </div>
-            <!-- Modal to add new record -->
-
-            <!--/ DataTable with Buttons -->
 
 
         </div>

@@ -72,7 +72,7 @@
 
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="col-12 mb-3 col-md-4">
                             <label>@lang('role name')<span class="required-color">*</span> </label>
                             <select class="form-select" name="roles" required>
                                 <option disabled selected value="">@lang('role name')</option>
@@ -84,11 +84,13 @@
                             </select>
                         </div>
 
-                        <div class="col-md-6 col-12 mt-2">
-                            <button type="submit"
-                                class="btn btn-primary waves-effect waves-light">@lang('Add New Admin')</button>
-                        </div>
 
+
+
+                        <div class="col-12">
+                            <button class="btn btn-primary waves-effect waves-light"
+                                type="submit">@lang('Add New Admin')</button>
+                        </div>
 
 
 

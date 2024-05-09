@@ -22,13 +22,13 @@
                     <hr>
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
                                         <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
                                             aria-controls="DataTables_Table_0"></label></div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-8">
                                 @if (Auth::user()->hasPermission('create-role'))
                                     <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                         <div

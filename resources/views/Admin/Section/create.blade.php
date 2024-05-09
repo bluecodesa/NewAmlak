@@ -39,7 +39,7 @@
                             </div>
                         @endforeach
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary me-1">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">
                                 {{ __('save') }}
                             </button>
 

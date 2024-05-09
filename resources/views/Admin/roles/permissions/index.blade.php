@@ -22,13 +22,13 @@
                     <hr>
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
                                         <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
                                             aria-controls="DataTables_Table_0"></label></div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-8">
                                 <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                     <div
                                         class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">

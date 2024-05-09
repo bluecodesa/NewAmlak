@@ -1,203 +1,138 @@
 @extends('Admin.layouts.app')
 @section('title', __('Settings'))
+
 @section('content')
-    <style>
-        .nav-pills .nav-link {
-            background-color: transparent;
-            border: 2px solid silver;
-            margin-bottom: 4px;
-            border-radius: 10px;
-        }
-    </style>
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="row align-items-center">
-                        <div class="col-sm-6">
-                            <h4 class="page-title">@lang('Settings')</h4>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-right">
-                                <li class="breadcrumb-item">@lang('Settings')</li>
-                                <li class="breadcrumb-item"><a
-                                        href="{{ route('Admin.settings.index') }}">@lang('dashboard')</a></li>
-                            </ol>
-                        </div>
-                    </div> <!-- end row -->
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+                <div class="col-6 py-3">
+                    <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        @lang('Settings')</h4>
                 </div>
-                <!-- end page-title -->
+            </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card m-b-30">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
-                                            aria-orientation="vertical">
-                                            @if (Auth::user()->hasPermission('update-PlatformSettings'))
-                                                <button class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
-                                                    data-target="#v-pills-home" type="button" role="tab"
-                                                    aria-controls="v-pills-home" aria-selected="true">
-                                                    @lang('Website Setting')</button>
-                                            @endif
-                                            @if (Auth::user()->hasPermission('update-payment-gateway'))
-                                                <button class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
-                                                    data-target="#v-pills-profile" type="button" role="tab"
-                                                    aria-controls="v-pills-profile" aria-selected="false">
-                                                    @lang('PayTabs')</button>
-                                            @endif
-                                            @if (Auth::user()->hasPermission('update-Billing'))
-                                                <button class="nav-link" id="v-pills-tax-tab" data-toggle="pill"
-                                                    data-target="#v-pills-tax" type="button" role="tab"
-                                                    aria-controls="v-pills-tax" aria-selected="false">
-                                                    @lang('Mange of invoices')</button>
-                                            @endif
 
-                                            <button class="nav-link" id="v-pills-messages-tab" data-toggle="pill"
-                                                data-target="#v-pills-messages" type="button" role="tab"
-                                                aria-controls="v-pills-messages" aria-selected="false">
-                                                @lang('Notification Mange')</button>
+            <div class="nav-align-top nav-tabs-shadow mb-4">
+                <ul class="nav nav-tabs nav-fill p-1" role="tablist">
+                    @if (Auth::user()->hasPermission('update-PlatformSettings'))
+                        <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
+                                aria-selected="false" tabindex="-1">
+                                @lang('Website Setting')
+                            </button>
+                        </li>
+                    @endif
 
-                                            @if (Auth::user()->hasPermission('read-interest-request-status'))
-                                                <button class="nav-link" id="v-pills-interests-tab" data-toggle="pill"
-                                                    data-target="#v-pills-interests" type="button" role="tab"
-                                                    aria-controls="v-pills-interests"
-                                                    aria-selected="false">@lang('Gallary Mange')</button>
-                                            @endif
-                                            @if (Auth::user()->hasPermission('update-DomainSettings'))
-                                                <button class="nav-link" id="v-pills-HomePage-tab" data-toggle="pill"
-                                                    data-target="#v-pills-HomePage" type="button" role="tab"
-                                                    aria-controls="v-pills-HomePage"
-                                                    aria-selected="false">@lang('Domain settings')</button>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-9">
-                                        <!--  اعدادات المنصه -->
-                                        <div class="tab-content" id="v-pills-tabContent">
-                                            @if (Auth::user()->hasPermission('update-PlatformSettings'))
-                                                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                                                    aria-labelledby="v-pills-home-tab">
-                                                    @include('Admin.settings.inc._GeneralSetting')
-                                                </div>
-                                            @endif
-                                            @if (Auth::user()->hasPermission('update-PlatformSettings'))
-                                                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                                    aria-labelledby="v-pills-profile-tab">
-                                                    @include('Admin.settings.inc._paymentGateways')
-                                                </div>
-                                            @endif
-                                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                                aria-labelledby="v-pills-messages-tab">
-                                                @include('Admin.settings.inc._NotificationsManagement')
-                                                <!-- نهايه التنبيهات-->
-                                            </div>
-                                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
-                                                aria-labelledby="v-pills-settings-tab">
-                                            </div>
-                                            <!-- tax rate-->
+                    @if (Auth::user()->hasPermission('update-payment-gateway'))
+                        <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
+                                aria-selected="false" tabindex="-1">
+                                @lang('PayTabs')
+                            </button>
+                        </li>
+                    @endif
 
-                                            @if (Auth::user()->hasPermission('update-Billing'))
-                                                <div class="tab-pane fade" id="v-pills-tax" role="tabpanel"
-                                                    aria-labelledby="v-pills-tax-tab">
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
+                            aria-selected="true">
+                            @lang('Notification Mange')
+                        </button>
+                    </li>
+                    @if (Auth::user()->hasPermission('update-Billing'))
+                        <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-tax" aria-controls="navs-justified-tax"
+                                aria-selected="true">
+                                @lang('Mange of invoices')
+                            </button>
+                        </li>
+                    @endif
 
-                                                    <div class="col-md-12 ArFont">
-                                                        <div class="card timeline shadow">
-                                                            <div class="card-header">
-                                                                <strong class="card-title">
-                                                                    @lang('Value added tax')
-                                                                </strong>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <form action="{{ route('Admin.update-tax', $settings) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <div class="form-row">
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label for="tax_rate">
-                                                                                <span class="required-color">*</span>
-                                                                                @lang('Value added tax rate')
-                                                                            </label><br />
-                                                                            <div class="wrapper"
-                                                                                style="position: relative;">
-                                                                                <input type="number" name="tax_rate"
-                                                                                    id="tax_rate" class="form-control"
-                                                                                    required min="1" max="100"
-                                                                                    placeholder="1-100"
-                                                                                    value="{{ $settings->tax_rate * 100 }}" />
-                                                                                <span class="sub-input">%</span>
-                                                                            </div>
-                                                                        </div>
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-HomePage" aria-controls="navs-justified-HomePage"
+                            aria-selected="true">
+                            @lang('Domain settings')
+                        </button>
+                    </li>
 
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label for="trn">
-                                                                                @lang('trn')
-                                                                            </label><br />
-                                                                            <div class="wrapper"
-                                                                                style="position: relative;">
-                                                                                <input type="number" name="trn"
-                                                                                    id="trn" class="form-control"
-                                                                                    placeholder="@lang('trn')"
-                                                                                    value="{{ $settings->trn }}" />
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-12">
-                                                                            <button type="submit"
-                                                                                class="btn btn-primary waves-effect waves-light">@lang('Save')</button>
-                                                                            <button type="reset"
-                                                                                class="btn btn-secondary waves-effect m-l-5">@lang('Cancel')</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {{-- @include('Admin.settings.inc._UpdateTax') --}}
-
-                                                </div>
-                                            @endif
-
-                                            <!-- بوابات الدفع -->
-                                            {{-- update-DomainSettings --}}
-                                            @if (Auth::user()->hasPermission('update-DomainSettings'))
-                                                <div class="tab-pane fade" id="v-pills-HomePage" role="tabpanel"
-                                                    aria-labelledby="v-pills-HomePage-tab">
-                                                    @include('Admin.settings.inc._LandingPage')
-                                                </div>
-                                            @endif
-                                            <!-- بوابات الدفع -->
-                                            <!--interests types gallery mange-->
-                                            @if (Auth::user()->hasPermission('read-interest-request-status'))
-                                                <div class="tab-pane fade" id="v-pills-interests" role="tabpanel"
-                                                    aria-labelledby="v-pills-interests-tab">
-                                                    @include('Admin.settings.InterestType.index')
-                                                </div>
-                                            @endif
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-Gallary" aria-controls="navs-justified-Gallary"
+                            aria-selected="true">
+                            @lang('Gallary Mange')
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    @if (Auth::user()->hasPermission('update-PlatformSettings'))
+                        <div class="tab-pane fade active show" id="navs-justified-home" role="tabpanel">
+                            @include('Admin.settings.inc._GeneralSetting')
                         </div>
-                    </div> <!-- end col -->
-                </div> <!-- end row -->
+                    @endif
+                    @if (Auth::user()->hasPermission('update-payment-gateway'))
+                        <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                            @include('Admin.settings.inc._paymentGateways')
+                        </div>
+                    @endif
+                    <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                        @include('Admin.settings.inc._NotificationsManagement')
+                    </div>
+                    @if (Auth::user()->hasPermission('update-Billing'))
+                        <div class="tab-pane fade" id="navs-justified-tax" role="tabpanel">
+                            @include('Admin.settings.inc._texRate')
+                        </div>
+                    @endif
+
+                    @if (Auth::user()->hasPermission('update-DomainSettings'))
+                        <div class="tab-pane fade" id="navs-justified-HomePage" role="tabpanel">
+                            @include('Admin.settings.inc._LandingPage')
+                        </div>
+                    @endif
+
+                    @if (Auth::user()->hasPermission('update-DomainSettings'))
+                        <div class="tab-pane fade" id="navs-justified-Gallary" role="tabpanel">
+                            @include('Admin.settings.InterestType.index')
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="content-backdrop fade"></div>
+    </div>
 
 
-            </div> <!-- end col -->
-        </div> <!-- end row -->
-    </div> <!-- end container-fluid -->
+    @push('scripts')
+        <script>
+            function exportToExcel() {
+                // Get the table by ID
+                var table = document.getElementById('table');
 
-    <!-- container-fluid -->
+                // Remove the last <td> from each row
+                var rows = table.rows;
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
+                }
+
+                // Convert the modified table to a workbook
+                var wb = XLSX.utils.table_to_book(table, {
+                    sheet: "Sheet1"
+                });
+
+                // Save the workbook as an Excel file
+                XLSX.writeFile(wb, @json(__('Roles')) + '.xlsx');
+            }
+        </script>
+    @endpush
 
     <!-- Modal for Add New Payment -->
-    @include('Admin.settings.Payments.create-modal')
+    {{-- @include('Admin.settings.Payments.create-modal') --}}
 
 
     <!-- Modal structure update the payment  -->
@@ -258,8 +193,4 @@
             });
         });
     </script>
-
-
-
-
 @endsection
