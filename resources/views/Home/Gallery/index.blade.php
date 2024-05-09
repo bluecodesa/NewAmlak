@@ -163,9 +163,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12 p-0 ml-2">
-                                    <button type="submit" class="btn btn-primary">@lang('Filter')</button>
+                                    <button type="submit" class="btn btn-new ArFont">@lang('Filter')</button>
                                     <a href="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
-                                        class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
+                                        class="btn btn-cancle mt-2 btn-sm">@lang('Cancel')</a>
                                 </div>
                             </div>
                         </form>

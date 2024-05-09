@@ -1,879 +1,1149 @@
 @extends('Home.layouts.home.app')
 @section('content')
-    <!--end header-->
-    <!-- Navbar End -->
 
-    <!-- Start Hero -->
-    <a class="dropdown-item"hidden id="pay-btnn" data-toggle="modal" data-target="#payModal">دفع</a>
-    <section class="home container" id="home">
-        <div class="row align-items-center mt-5 mt-sm-0">
-            <div class="col-md-6">
-                <div class="title-heading text-center text-md-start">
-                    <div class="img-smm">
-                        <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}" class="img-fluid" />
-                    </div>
-                    <h6 class="heading mb-3 mt-2 ArFont">أملاك خيارك الأول لإدارة الأملاك العقارية</h6>
-                    <p class="">منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين</p>
-                    <p class="">* التسجيل لا يتطلب بطاقة ائتمانية</p>
-                    <div class="mt-4">
-                        @guest
-                        <a href="" class="btn btn-new ArFont" data-toggle="modal" data-target="#addSubscriberModal"
-                        style="margin-right: 9px;" onclick="tabsFunc()">سجل معنا الآن</a>
-                        @endguest
-                        @auth
-                            <a class="btn btn-new ArFont" href="{{ route('Home.Offices.CreateOffice') }}">سجل معنا الآن</a>
-                        @endauth
-                    </div>
-                </div>
+    <!-- Sections:Start -->
+
+    <div data-bs-spy="scroll" class="scrollspy-example">
+      <!-- Hero: Start -->
+      <section id="hero-animation">
+        <div id="landingHero" class="section-py landing-hero position-relative">
+          <img
+            src="{{ url('HOME_PAGE/img/front-pages/backgrounds/hero-bg.png')}}"
+            alt="hero background"
+            class="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100"
+            data-speed="1" />
+          <div class="container">
+            <div class="hero-text-box text-center">
+              <h1 class="text-primary hero-title display-6 fw-bold">One dashboard to manage all your businesses</h1>
+              <h2 class="hero-sub-title h6 mb-4 pb-1">
+                Production-ready & easy to use Admin Template<br class="d-none d-lg-block" />
+                for Reliability and Customizability.
+              </h2>
+              <div class="landing-hero-btn d-inline-block position-relative">
+                <span class="hero-btn-item position-absolute d-none d-md-flex text-heading"
+                  >Join community
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/icons/Join-community-arrow.png')}}"
+                    alt="Join community arrow"
+                    class="scaleX-n1-rtl"
+                /></span>
+                <a href="#landingPricing" class="btn btn-primary btn-lg">Get early access</a>
+              </div>
             </div>
-            <!--end col-->
-
-            <div class="col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
-                <div class="freelance-hero position-relative">
-                    <div class="position-relative">
-                        <img src="{{ asset('HOME_PAGE/images/new/Group104105.png') }}" class="mx-auto d-block img-fluid"
-                            alt=""
-                            style="height: auto;
-                            width: 100%;
-                            border-radius: 49px;
-                            object-fit: cover;">
-
-                    </div>
+            <div id="heroDashboardAnimation" class="hero-animation-img">
+              <a href="../vertical-menu-template/app-ecommerce-dashboard.html" target="_blank">
+                <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/hero-dashboard-light.png')}}"
+                    alt="hero dashboard"
+                    class="animation-img"
+                    data-app-light-img="front-pages/landing-page/hero-dashboard-light.png"
+                    data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png" />
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/hero-elements-light.png')}}"
+                    alt="hero elements"
+                    class="position-absolute hero-elements-img animation-img top-0 start-0"
+                    data-app-light-img="front-pages/landing-page/hero-elements-light.png"
+                    data-app-dark-img="front-pages/landing-page/hero-elements-dark.png" />
                 </div>
+              </a>
             </div>
-            <!--end col-->
+          </div>
         </div>
-        <!--end row-->
+        <div class="landing-hero-blank"></div>
+      </section>
+      <!-- Hero: End -->
 
-        <!--end container-->
-    </section>
-    <!--end section-->
-    <!-- End Hero -->
-
-
-    <!-- Start -->
-    <section class="system container">
-        <div class="row align-items-center">
-            <div class="sec-title">
-                <h4>أملاك نظام إدارة متطور</h4>
-                <p>حلول تقنية متطورة تلبي جميع أعمالك</p>
-            </div>
-            <div class="row-cols">
-                <div class="row">
-                    <div class="col-md-3 system-col">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/Group104104.png') }}" height="50"
-                                class="logo-light-mode  fixed-img" alt="">
-                            <img src="{{ asset('HOME_PAGE/images/new/seo-and-web.png') }}" height="50"
-                                class="logo-light-mode  hover-img" alt="">
-                        </div>
-                        <div class="content">
-                            <h5>علاقات العملاء</h5>
-                            <p>من خلال منصة مخصصة لعملائك تستطيع استقبال طلبات الصيانة والشكاوى</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 system-col">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/project-management-_2_.png') }}" height="50"
-                                class="logo-light-mode fixed-img" alt="">
-                            <img src="{{ asset('HOME_PAGE/images/new/pp.png') }}" height="50"
-                                class="logo-light-mode  hover-img" alt="">
-                        </div>
-                        <div class="content">
-                            <h5>التنبيهات للعقود</h5>
-                            <p>من خلال لوحة التحكم الخاصة بك يمكنك متابعة جميع عقود عملائك ومعرفة عدد الأيام
-                                المتبقية لانتهاء العقد</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 system-col">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/home-_2_.png') }}" height="50"
-                                class="logo-light-mode fixed-img" alt="">
-                            <img src="{{ asset('HOME_PAGE/images/new/444.png') }}" height="50"
-                                class="logo-light-mode  hover-img" alt="">
-                        </div>
-                        <div class="content">
-                            <h5>ملفات مشتركة</h5>
-                            <p>من خلال النظام يمكنكم مشاركة وتبادل الملفات وحفظها واسترجاعها عند الحاجة.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 system-col">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/house.png') }}" height="50"
-                                class="logo-light-mode fixed-img" alt="">
-                            <img src="{{ asset('HOME_PAGE/images/new/11111.png') }}" height="50"
-                                class="logo-light-mode hover-img" alt="">
-                        </div>
-                        <div class="content">
-                            <h5>دعم فني متقدم 24/7</h5>
-                            <p>تقدم أملاك دعم فني متقدم خلال 24/7 لجميع التحديات التقنية التي تواجه أعمالك.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!--end row-->
-        <!--end container-->
-    </section>
-
-    <section class="promotion container">
-        <div class="promo-details">
-            <div class="row">
-                <div class="col-md-8">
-                    <h4>ماذا تنتظر !؟</h4>
-                    <h4>انضم لنا الآن</h4>
-                    <p>واجهة سهلة الإستخدام بمميزات متعددة</p>
-                </div>
-                <div class="col-md-4">
-                    @guest
-                        <a href="" class="btn btn-new ArFont" data-toggle="modal" data-target="#addSubscriberModal"
-                        style="margin-right: 9px;" onclick="tabsFunc()">سجل معنا الآن</a>
-                        @endguest
-                    @auth
-                        <a class="btn btn-new-b ArFont" href="">سجل معنا الآن</a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="features container" id="features">
+      <!-- Useful features: Start -->
+      <section id="landingFeatures" class="section-py landing-features">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="sec-title">
-                    <h4>مميزات أملاك</h4>
-                    <p>تم تصميم نظام أملاك وفق خطوات مدروسة بعناية ليوفر أعلى درجات الاحترافية في إدارة متطلبات القطاع
-                        العقاري</p>
-                </div>
+          <div class="text-center mb-3 pb-1">
+            <span class="badge bg-label-primary">Useful Features</span>
+          </div>
+          <h3 class="text-center mb-1">
+            <span class="position-relative fw-bold z-1"
+              >Everything you need
+              <img
+                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
+                alt="laptop charging"
+                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+            </span>
+            to start your next project
+          </h3>
+          <p class="text-center mb-3 mb-md-5 pb-3">
+            Not just a set of tools, the package includes ready-to-deploy conceptual application.
+          </p>
+          <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
+            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+              <div class="text-center mb-3">
+                <img src="{{ url('HOME_PAGE/img/front-pages/icons/laptop.png')}}" alt="laptop charging" />
+              </div>
+              <h5 class="mb-3">Quality Code</h5>
+              <p class="features-icon-description">
+                Code structure that all developers will easily understand and fall in love with.
+              </p>
             </div>
-
-            <div class="features-container">
-                <div class="row text-first">
-                    <div class="col-md-6">
-                        <div class="content">
-                            <div class="img-smm">
-                                <img src="{{ asset('HOME_PAGE/images/new/dashboard-_3_.png') }}" class="img-fluid" />
-                            </div>
-                            <h4>لوحة تحكم سهلة الإستخدام</h4>
-                            <p>يقدم لك نظام أملاك أفضل الطرق الاحترافية لإدارة علاقات العملاء من خلال استقبال طلبات
-                                الصيانة والشكاوى من المنصة ومعرفة حالة الطلب لدي العميل من غير التواصل معه بشكل مباشر
-                                .</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/4.png') }}" class="img-fluid" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row img-first">
-                    <div class="col-md-6">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/Group103411.png') }}" class="img-fluid" />
-
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="content">
-                            <div class="img-smm-y">
-                                <img src="{{ asset('HOME_PAGE/images/new/contract-_1_.png') }}" class="img-fluid" />
-                            </div>
-                            <h4>إدارة عقود عملائك بشكل محكم</h4>
-                            <p>تستطيع إضافة عقد لكل عميل بطريقة سريعه جداًً مع إمكانية تعديل عمولة المكتب لكل عقد وإضافة
-                                مصاريف الخدمات الأخرى أيضاً حسب الحاجة.</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row text-first">
-                    <div class="col-md-6">
-                        <div class="content">
-                            <div class="img-smm">
-                                <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}" class="img-fluid" />
-                            </div>
-                            <h4>إدارة المشاريع بكل تفاصيلها</h4>
-                            <p>يتيح لك نظام أملاك إضافة كافة تفاصيل مشاريعك على جميع المستويات حتى العقارات و الوحدات
-                                أيضاً.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/3.png') }}" class="img-fluid" />
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row img-first">
-                    <div class="col-md-6">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/2.png') }}" class="img-fluid " />
-
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="content">
-                            <div class="img-smm-y">
-                                <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }}" class="img-fluid" />
-                            </div>
-                            <h4>إدارة مستخدمي للنظام</h4>
-                            <p>تستطيع إضافة مستخدم/موظف جديد ومنحه الصلاحيات المطلوبة حسب حاجة العمل.</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row text-first">
-
-                    <div class="col-md-6">
-                        <div class="content">
-                            <div class="img-smm">
-                                <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }}" class="img-fluid" />
-                            </div>
-                            <h4>إدارة علاقات العملاء</h4>
-                            <p>يقدم لك نظام أملاك أفضل الطرق الاحترافية لإدارة علاقات العملاء من خلال استقبال طلبات
-                                الصيانة والشكاوى من المنصة ومعرفة حالة الطلب دون الحاجة إلى التواصل مع العملاء بشكل
-                                مباشر.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/edara.png') }}" class="img-fluid" />
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row img-first">
-                    <div class="col-md-6">
-                        <div class="img soon">
-                            <img src="{{ asset('HOME_PAGE/images/new/5.png') }}" class="img-fluid " />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="content">
-                            <div class="img-smm">
-                                <img src="{{ asset('HOME_PAGE/images/new/dashboard-_3_.png') }}" class="img-fluid" />
-                            </div>
-                            <h4>إدارة التنبيهات</h4>
-                            <p>يقدم لك نظام أملاك خيارات مختلفة لإرسال الإشعارات ورسائل التذكير التلقائية لعملائك عبر
-                                خدمة الواتس اب أو البريد الإلكتروني أو ال SMS.</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row img-first">
-
-                    <div class="col-md-6">
-                        <div class="content">
-                            <div class="img-smm-y">
-                                <img src="{{ asset('HOME_PAGE/images/new/Group103560.png') }}" class="img-fluid" />
-                            </div>
-                            <h4>شارك عروض التأجير مع عملائك</h4>
-                            <p>من خلال منصة أملاك تستطيع إعداد عروض التأجير ومشاركتها مع عملائك المحتملين بطريقة
-                                احترافية و تفصيلية.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="img soon">
-                            <img src="{{ asset('HOME_PAGE/images/new/gghh.png') }}" class="img-fluid " />
-                        </div>
-                    </div>
-
-                </div>
+            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+              <div class="text-center mb-3">
+                <img src="{{ url('HOME_PAGE/img/front-pages/icons/rocket.png')}}" alt="transition up" />
+              </div>
+              <h5 class="mb-3">Continuous Updates</h5>
+              <p class="features-icon-description">
+                Free updates for the next 12 months, including new demos and features.
+              </p>
             </div>
+            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+              <div class="text-center mb-3">
+                <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper.png')}}" alt="edit" />
+              </div>
+              <h5 class="mb-3">Stater-Kit</h5>
+              <p class="features-icon-description">
+                Start your project quickly without having to remove unnecessary features.
+              </p>
+            </div>
+            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+              <div class="text-center mb-3">
+                <img src="{{ url('HOME_PAGE/img/front-pages/icons/check.png')}}" alt="3d select solid" />
+              </div>
+              <h5 class="mb-3">API Ready</h5>
+              <p class="features-icon-description">
+                Just change the endpoint and see your own data loaded within seconds.
+              </p>
+            </div>
+            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+              <div class="text-center mb-3">
+                <img src="{{ url('HOME_PAGE/img/front-pages/icons/user.png')}}" alt="lifebelt" />
+              </div>
+              <h5 class="mb-3">Excellent Support</h5>
+              <p class="features-icon-description">An easy-to-follow doc with lots of references and code examples.</p>
+            </div>
+            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+              <div class="text-center mb-3">
+                <img src="{{ url('HOME_PAGE/img/front-pages/icons/keyboard.png" alt="google docs')}}" />
+              </div>
+              <h5 class="mb-3">Well Documented</h5>
+              <p class="features-icon-description">An easy-to-follow doc with lots of references and code examples.</p>
+            </div>
+          </div>
         </div>
-    </section>
+      </section>
+      <!-- Useful features: End -->
 
-
-    @guest
-    <section class="pricing container" id="pricing">
-        <div class="row align-items-center">
-            <div class="sec-title">
-                <h4>باقات وأسعار أملاك</h4>
-                <p>توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
-            </div>
-        </div>
-
-        <div class="pricing-container desktop">
-            <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
-                <div class="row first-fix">
-                    <div class="col-3" style="padding-top: 50px;">
-                        <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
-                            ابدأ معنا الآن
-                            <br />واختر خطتك !
-                        </h5>
-                        <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
-                        <div class="row">
-                            <div class="col-3">
-                                <div class="form-check form-switch">
-                                    <div class="check">
-                                        <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
-                                        <div class="check2" onclick="changePeriod(2)">سنوي</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @foreach ($sections as $section)
-                            <div class="row" style="background-color:#F6F9FC ;">
-                                <div class="col-3">
-                                    <p>{{ $section->name }}</p>
-                                    <p>{{ $section->description}}</p>
-
-                                </div>
-                            </div>
-                            @endforeach
-                    </div>
-                    @foreach ($subscriptionTypes as $subscriptionType)
-                    <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
-                        <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
-                            <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
-                        </div>
-                        <h5>{{ $subscriptionType->name }}</h5>
-                        <p>
-                            @foreach ($subscriptionType->roles as $role)
-                                <span> اشتراك   {{ $role->name_ar }}</span>
-                            @endforeach
-                        </p>
-
-                        <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
-                        @if ($subscriptionType && $subscriptionType->roles->count() == 2)
-                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-                            <a class="btn btn-new2 ArFont" href="" data-toggle="modal" data-target="#addSubscriberModal"
-                                style="margin-right: 9px;" onclick="tabsFunc()">ابدأ الآن</a>
-                        </div>
-                        @elseif ($role->name == "RS-Broker" )
-                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-                            <a class="btn btn-new2 ArFont" data-toggle="modal"
-                             onclick="redirectToCreateBroker()">ابدأ الآن</a>
-
-                        </div>
-                        @elseif( $role->name == "Office-Admin" )
-                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-                            <a class="btn btn-new2 ArFont" data-toggle="modal"
-                             onclick="redirectToCreateOffice()">ابدأ الآن</a>
-
-                        </div>
-
-
-                       @endif
-
-                        <div class="col-12">
-                            @foreach ($sections as $section)
-                            <div class="row" style="background-color:#F6F9FC ;">
-                                {{-- <div class="col-3">
-                                    <p>{{ $section->name }}</p>
-                                </div> --}}
-                                <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                                    @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                            style="width: 20px; fill: #497aac;">
-                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                            <path
-                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                                        </svg>
-                                    </p>
-                                    @else
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; fill: #ff0000;">
-                                            <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm5 11h-10v-2h10v2z"/>
-                                        </svg>
-                                    </p>
-                                    @endif
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-                </div>
-            </div>
-    </section>
-    @endguest
-
-    @auth
-    <section class="pricing container" id="pricing">
-        <div class="row align-items-center">
-            <div class="sec-title">
-                <h4>باقات وأسعار أملاك</h4>
-                <p>توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
-            </div>
-        </div>
-
-        <div class="pricing-container desktop">
-            <div style="border: 1px solid #e3e1e1; padding: 0px 12px; border-radius: 41px; width: 100%;">
-                <div class="row first-fix">
-                    <div class="col-3" style="padding-top: 50px;">
-                        <h5 style="font-size: 28px!important; font-weight: 900!important; line-height: 1.50em;">
-                            ابدأ معنا الآن
-                            <br />واختر خطتك !
-                        </h5>
-                        <p>الدفع سنوياً <span style="color: #497AAC">(خصم يصل إلى 30%)</span></p>
-                        <div class="row">
-                            <div class="col-3">
-                                <div class="form-check form-switch">
-                                    <div class="check">
-                                        <div class="check1 active-check" onclick="changePeriod(1)">شهري</div>
-                                        <div class="check2" onclick="changePeriod(2)">سنوي</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @foreach ($sections as $section)
-                        <div class="row" style="background-color:#F6F9FC;">
-                            <div class="text-container">
-                                <p>{{ $section->name }}</p>
-                                <span style="font-size: smaller;">{{ $section->description }}</span>
-                            </div>
-                        </div>
-                    @endforeach
-
-                    </div>
-                    @foreach ($subscriptionTypesRoles as $subscriptionType)
-                    <div class="col-3 center-price" style="padding-top: 50px;border-right: 1px solid #e3e1e1;">
-                        <div class="img-smm-y" style="margin: auto;background-color: #497aac;">
-                            <img src="{{ asset('HOME_PAGE/images/new/free.png') }}" class="img-fluid" />
-                        </div>
-                        <h5>{{ $subscriptionType->name }}</h5>
-                        <p><span class="yel-price">{{ $subscriptionType->price }}</span> رس</p>
-                        <div class="col-3 center-price" style="padding-bottom: 30px;border-right: 1px solid #e3e1e1;">
-
-
-                            <a class="btn btn-new2 ArFont" href="{{ route('Admin.home') }}">ابدأ الآن</a>
-
-                        </div>
-
-
-                        <div class="col-12">
-                            @foreach ($sections as $section)
-                            <div class="row" style="background-color:#F6F9FC ;">
-                                {{-- <div class="col-3">
-                                    <p>{{ $section->name }}</p>
-                                </div> --}}
-                                <div class="col-3 center-price" style="border-right: 1px solid #e3e1e1;">
-                                    @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                            style="width: 20px; fill: #497aac;">
-                                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                            <path
-                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-                                        </svg>
-                                    </p>
-                                    @else
-                                    <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 20px; fill: #ff0000;">
-                                            <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm5 11h-10v-2h10v2z"/>
-                                        </svg>
-                                    </p>
-                                    @endif
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-                </div>
-            </div>
-    </section>
-    @endauth
-
-
-    <section class="services container">
+      <!-- Real customers reviews: Start -->
+      <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
+        <!-- What people say slider: Start -->
         <div class="container">
-            <div class="row align-items-center">
-                <div class="sec-title">
-                    <h4>خدمات أملاك</h4>
-                    <p>نحرص على تطوير خدمات تقنية متميزة واحترافية تساهم في تبسيط ادارة اعمالك العقارية، كما تضمن املاك سرية
-                        وتوافرية بياناتك بشكل دائم عبر استخدام احدث التقنيات المبتكرة.</p>
-                </div>
+          <div class="row align-items-center gx-0 gy-4 g-lg-5">
+            <div class="col-md-6 col-lg-5 col-xl-3">
+              <div class="mb-3 pb-1">
+                <span class="badge bg-label-primary">Real Customers Reviews</span>
+              </div>
+              <h3 class="mb-1">
+                <span class="position-relative fw-bold z-1"
+                  >What people say
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
+                    alt="laptop charging"
+                    class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                </span>
+              </h3>
+              <p class="mb-3 mb-md-5">
+                See what our customers have to<br class="d-none d-xl-block" />
+                say about their experience.
+              </p>
+              <div class="landing-reviews-btns">
+                <button
+                  id="reviews-previous-btn"
+                  class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
+                  type="button">
+                  <i class="ti ti-chevron-left ti-sm"></i>
+                </button>
+                <button id="reviews-next-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl" type="button">
+                  <i class="ti ti-chevron-right ti-sm"></i>
+                </button>
+              </div>
             </div>
-
-            <div class="services-container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="img">
-                            <img src="{{ asset('HOME_PAGE/images/new/mockup.png') }}" alt="" class="img-fluid">
-
-                        </div>
-                    </div>
-                    <div class="col-md-6" style="padding-top: 20px">
-
-
-
-
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                            </ol>
-                            <span class="yel-price">
-                                نظام أملاك
-                            </span>
-                            <div class="carousel-inner">
-
-                                <div class="carousel-item active">
-                                    <div class="service-content">
-
-                                        <h5>إدارة الملاك و المستأجرين</h5>
-                                        <p>إدارة كاملة للملاك، و دعم جميع تفاصيل المشروعات العقارية على مستوى العقارات
-                                            والوحدات </p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="service-content">
-
-                                        <h5>إدارة المستأجرين</h5>
-                                        <p>إدارة كاملة للمستأجرين، و دعم جميع تفاصيل المشروعات العقارية على مستوى
-                                            العقارات والوحدات </p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="service-content">
-                                        <h5>إضافة تفاصيل العقارات والوحدات</h5>
-                                        <p>يمكنك إضافة كافة التفاصيل المتعلقة بالعقار أو الوحدة </p>
-                                    </div>
-                                </div>
-
-                                <div class="carousel-item">
-                                    <div class="service-content">
-                                        <h5>طريقة مبتكرة لمتابعة تحصيل الإيجارات وأقساط البيع</h5>
-                                        <p>يمكنك متابعة حالة العقد و الدفعات المستحقة لكل عميل كما يوفر النظام طرق
-                                            مختلفة للسداد و استعراض الفواتير وإيصالات الدفع </p>
-                                    </div>
-                                </div>
+            <div class="col-md-6 col-lg-7 col-xl-9">
+              <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
+                <div class="swiper" id="swiper-reviews">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <div class="card h-100">
+                        <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                          <div class="mb-3">
+                            <img
+                              src="{{ url('HOME_PAGE/img/front-pages/branding/logo-1.png')}}"
+                              alt="client logo"
+                              class="client-logo img-fluid" />
+                          </div>
+                          <p>
+                            “Vuexy is hands down the most useful front end Bootstrap theme I've ever used. I can't wait
+                            to use it again for my next project.”
+                          </p>
+                          <div class="text-warning mb-3">
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <div class="avatar me-2 avatar-sm">
+                              <img src="{{ url('HOME_PAGE/img/avatars/1.png')}}" alt="Avatar" class="rounded-circle" />
                             </div>
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                                data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
+                            <div>
+                              <h6 class="mb-0">Cecilia Payne</h6>
+                              <p class="small text-muted mb-0">CEO of Airbnb</p>
+                            </div>
+                          </div>
                         </div>
-
+                      </div>
                     </div>
+                    <div class="swiper-slide">
+                      <div class="card h-100">
+                        <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                          <div class="mb-3">
+                            <img
+                              src="{{ url('HOME_PAGE/img/front-pages/branding/logo-2.png')}}"
+                              alt="client logo"
+                              class="client-logo img-fluid" />
+                          </div>
+                          <p>
+                            “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building
+                            dashboard sites on almost any project.”
+                          </p>
+                          <div class="text-warning mb-3">
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <div class="avatar me-2 avatar-sm">
+                              <img src="{{ url('HOME_PAGE/img/avatars/2.png')}}" alt="Avatar" class="rounded-circle" />
+                            </div>
+                            <div>
+                              <h6 class="mb-0">Eugenia Moore</h6>
+                              <p class="small text-muted mb-0">Founder of Hubspot</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div class="card h-100">
+                        <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                          <div class="mb-3">
+                            <img
+                              src="{{ url('HOME_PAGE/img/front-pages/branding/logo-3.png')}}"
+                              alt="client logo"
+                              class="client-logo img-fluid" />
+                          </div>
+                          <p>
+                            This template is really clean & well documented. The docs are really easy to understand and
+                            it's always easy to find a screenshot from their website.
+                          </p>
+                          <div class="text-warning mb-3">
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <div class="avatar me-2 avatar-sm">
+                              <img src="{{ url('HOME_PAGE/img/avatars/3.png')}}" alt="Avatar" class="rounded-circle" />
+                            </div>
+                            <div>
+                              <h6 class="mb-0">Curtis Fletcher</h6>
+                              <p class="small text-muted mb-0">Design Lead at Dribbble</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div class="card h-100">
+                        <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                          <div class="mb-3">
+                            <img
+                              src="{{ url('HOME_PAGE/img/front-pages/branding/logo-4.png')}}"
+                              alt="client logo"
+                              class="client-logo img-fluid" />
+                          </div>
+                          <p>
+                            All the requirements for developers have been taken into consideration, so I’m able to build
+                            any interface I want.
+                          </p>
+                          <div class="text-warning mb-3">
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star ti-sm"></i>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <div class="avatar me-2 avatar-sm">
+                              <img src="{{ url('HOME_PAGE/img/avatars/4.png')}}" alt="Avatar" class="rounded-circle" />
+                            </div>
+                            <div>
+                              <h6 class="mb-0">Sara Smith</h6>
+                              <p class="small text-muted mb-0">Founder of Continental</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div class="card h-100">
+                        <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                          <div class="mb-3">
+                            <img
+                              src="{{ url('HOME_PAGE/img/front-pages/branding/logo-5.png')}}"
+                              alt="client logo"
+                              class="client-logo img-fluid" />
+                          </div>
+                          <p>
+                            “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building
+                            dashboard sites on almost any project.”
+                          </p>
+                          <div class="text-warning mb-3">
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <div class="avatar me-2 avatar-sm">
+                              <img src="{{ url('HOME_PAGE/img/avatars/5.png')}}" alt="Avatar" class="rounded-circle" />
+                            </div>
+                            <div>
+                              <h6 class="mb-0">Eugenia Moore</h6>
+                              <p class="small text-muted mb-0">Founder of Hubspot</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="swiper-slide">
+                      <div class="card h-100">
+                        <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                          <div class="mb-3">
+                            <img
+                              src="{{ url('HOME_PAGE/img/front-pages/branding/logo-6.png')}}"
+                              alt="client logo"
+                              class="client-logo img-fluid" />
+                          </div>
+                          <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam nemo mollitia, ad eum
+                            officia numquam nostrum repellendus consequuntur!
+                          </p>
+                          <div class="text-warning mb-3">
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star-filled ti-sm"></i>
+                            <i class="ti ti-star ti-sm"></i>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <div class="avatar me-2 avatar-sm">
+                              <img src="{{ url('HOME_PAGE/img/avatars/1.png')}}" alt="Avatar" class="rounded-circle" />
+                            </div>
+                            <div>
+                              <h6 class="mb-0">Sara Smith</h6>
+                              <p class="small text-muted mb-0">Founder of Continental</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-    <section class="promotion container">
-        <div class="promo-details">
-            <div class="row">
-                <div class="col-md-8">
-                    <h4>ماذا تنتظر !؟</h4>
-                    <h4>انضم إلى أملاك الآن</h4>
-                    <p>واجهة سهلة الإستخدام بمميزات متعددة</p>
+        <!-- What people say slider: End -->
+        <hr class="m-0" />
+        <!-- Logo slider: Start -->
+        <div class="container">
+          <div class="swiper-logo-carousel py-4 my-lg-2">
+            <div class="swiper" id="swiper-clients-logos">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/branding/logo_1-light.png')}}"
+                    alt="client logo"
+                    class="client-logo"
+                    data-app-light-img="front-pages/branding/logo_1-light.png"
+                    data-app-dark-img="front-pages/branding/logo_1-dark.png" />
                 </div>
-                <div class="col-md-4">
-                    @guest
-                    <a href="" class="btn btn-new ArFont" data-toggle="modal" data-target="#addSubscriberModal"
-                    style="margin-right: 9px;" onclick="tabsFunc()">سجل معنا الآن</a>
-                    @endguest
-                    @auth
-                        <a class="btn btn-new-b ArFont" href="">سجل معنا الآن</a>
-                    @endauth
+                <div class="swiper-slide">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/branding/logo_2-light.png')}}"
+                    alt="client logo"
+                    class="client-logo"
+                    data-app-light-img="front-pages/branding/logo_2-light.png"
+                    data-app-dark-img="front-pages/branding/logo_2-dark.png" />
                 </div>
+                <div class="swiper-slide">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/branding/logo_3-light.png')}}"
+                    alt="client logo"
+                    class="client-logo"
+                    data-app-light-img="front-pages/branding/logo_3-light.png"
+                    data-app-dark-img="front-pages/branding/logo_3-dark.png" />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/branding/logo_4-light.png')}}"
+                    alt="client logo"
+                    class="client-logo"
+                    data-app-light-img="front-pages/branding/logo_4-light.png"
+                    data-app-dark-img="front-pages/branding/logo_4-dark.png" />
+                </div>
+                <div class="swiper-slide">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/branding/logo_5-light.png')}}"
+                    alt="client logo"
+                    class="client-logo"
+                    data-app-light-img="front-pages/branding/logo_5-light.png"
+                    data-app-dark-img="front-pages/branding/logo_5-dark.png" />
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
+        <!-- Logo slider: End -->
+      </section>
+      <!-- Real customers reviews: End -->
 
-    <section class="faq container">
-        <div class="row align-items-center">
-            <div class="sec-title">
-                <h4>الأسئلة الشائعة</h4>
-                <p>لديك سؤال!؟ تحقق من هذه الأجوبة</p>
+      <!-- Our great team: Start -->
+      <section id="landingTeam" class="section-py landing-team">
+        <div class="container">
+          <div class="text-center mb-3 pb-1">
+            <span class="badge bg-label-primary">Our Great Team</span>
+          </div>
+          <h3 class="text-center mb-1">
+            <span class="position-relative fw-bold z-1"
+              >Supported
+              <img
+                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
+                alt="laptop charging"
+                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+            </span>
+            by Real People
+          </h3>
+          <p class="text-center mb-md-5 pb-3">Who is behind these great-looking interfaces?</p>
+          <div class="row gy-5 mt-2">
+            <div class="col-lg-3 col-sm-6">
+              <div class="card mt-3 mt-lg-0 shadow-none">
+                <div class="bg-label-primary position-relative team-image-box">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-1.png')}}"
+                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                    alt="human image" />
+                </div>
+                <div class="card-body border border-top-0 border-label-primary text-center">
+                  <h5 class="card-title mb-0">Sophie Gilbert</h5>
+                  <p class="text-muted mb-0">Project Manager</p>
+                </div>
+              </div>
             </div>
-        </div>
-        <div class="faq-container">
-            <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                            ما هي منصة أملاك؟ </button>
-                    </h2>
-                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
-                        data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            هي منصة إلكترونية تم تصميمها بإتقان لتوفير حلول متكاملة لجميع الخدمات العقارية بطريقة سهلة
-                            وشاملة لكافة المهام والإجراءات الخاصة بالمكاتب العقارية و إدارة العقارات والوحدات السكنية
-                            والتجارية على السواء. تهدف أملاك إلى إدارة جميع مستويات المشروعات العقارية بدءا من الوحدات
-                            وصولا إلى المشروعات عبر نظام متطور وحلول تقنية مبتكرة تهدف إلى القيام بجميع الاعمال عن بعد
-                            بجودة وموثوقية عالية، عبر استقطاب العديد من الخبرات الإدارية و التسويقية والمحاسبية ذات
-                            الكفاءة العالية.
-                        </div>
-                    </div>
+            <div class="col-lg-3 col-sm-6">
+              <div class="card mt-3 mt-lg-0 shadow-none">
+                <div class="bg-label-info position-relative team-image-box">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-2.png')}}"
+                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                    alt="human image" />
                 </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                            ما هي خطط الأسعار المتاحة للاشتراك في منصة أملاك؟</button>
-                    </h2>
-                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
-                        data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            توفر منصة أملاك مجموعة متنوعة من خطط الأسعار لتناسب منشأتك بشكل متكامل وتلبي جميع الخدمات
-                            التي تحتاجها.
-                            <ul style="list-style:none">
-                                <li>- اشتراك مجاني (فترة تجريبية)</li>
-                                <li>- اشتراك شهري</li>
-                                <li>- اشتراك سنوي (قريبا)</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="card-body border border-top-0 border-label-info text-center">
+                  <h5 class="card-title mb-0">Paul Miles</h5>
+                  <p class="text-muted mb-0">UI Designer</p>
                 </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseThree" aria-expanded="false"
-                            aria-controls="flush-collapseThree">
-                            ما هي الاجراءات اللازمة للتسجيل على منصة أملاك؟
-                        </button>
-                    </h2>
-                    <div id="flush-collapseThree" class="accordion-collapse collapse"
-                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            للتسجيل و الانضمام إلى نظام أملاك يجب مليء فورم التسجيل عبر الضغط على زر "سجل معنا الآن" و
-                            ادخال بيانات شركتك:
-                            <ul style="list-style:none;">
-                                <li>-اسم الشركة</li>
-                                <li>-البريد الإلكتروني</li>
-                                <li>-شعار الشركة</li>
-                                <li>-اسم ورقم هاتف ممثل الشركة</li>
-                                <li>-اختيار نوع الاشتراك في النظام</li>
-                            </ul>
-                            بعد ذلك سوف يكون حسابك جاهزاً لتبدأ تجربة متميزة ومبتكرة لإدارة مشروعك العقاري.
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingFour">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseFour" aria-expanded="false"
-                            aria-controls="flush-collapseFour">
-                            ماذا أفعل عندما تواجهني مشكلة أثناء استخدامي لمنصة أملاك؟ </button>
-                    </h2>
-                    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
-                        data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            عندما تواجهك مشكلة أو إذا كان لديك شكوى أو اقتراحات يمكنك فتح تذكرة دعم فني بسهولة من خلال
-                            حسابك على المنصة و سوف يصلك الرد من فريق الدعم في اسرع وقت.
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </div>
-    </section>
-
-    <section class="clients container">
-        <div class="row align-items-center">
-            <div class="sec-title">
-                <h4>شركاء النجاح</h4>
-                <p>نتشرف بثقة و دعم العديد من المؤسسات حول المملكة</p>
-            </div>
-        </div>
-
-
-        <div class="clients-container">
-            <div class="container text-center my-3">
-                <div class="row mx-auto my-auto justify-content-center">
-                    <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active">
-                                <div class="col-md-2">
-                                    <div class="card">
-                                        <div class="card-img">
-                                            <img src="{{ asset('HOME_PAGE/images/new/partners/1.png') }}" alt=""
-                                                class="img-fluid kenan" style="width:100%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="col-md-2">
-                                    <div class="card">
-                                        <div class="card-img">
-                                            <img src="{{ asset('HOME_PAGE/images/new/partners/2.png') }}" alt=""
-                                                class="img-fluid kenan" style="width:100%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="col-md-2">
-                                    <div class="card">
-                                        <div class="card-img">
-                                            <img src="{{ asset('HOME_PAGE/images/new/partners/3.png') }}" alt=""
-                                                class="img-fluid kenan" style="width:100%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="col-md-2">
-                                    <div class="card">
-                                        <div class="card-img">
-                                            <img src="{{ asset('HOME_PAGE/images/new/partners/4.png') }}" alt=""
-                                                class="img-fluid kenan" style="width:100%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="col-md-2">
-                                    <div class="card">
-                                        <div class="card-img">
-                                            <img src="{{ asset('HOME_PAGE/images/new/partners/5.png') }}" alt=""
-                                                class="img-fluid kenan" style="width:100%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="col-md-2">
-                                    <div class="card">
-                                        <div class="card-img">
-                                            <img src="{{ asset('HOME_PAGE/images/new/partners/6.png') }}" alt=""
-                                                class="img-fluid kenan" style="width:100%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="col-md-2">
-                                    <div class="card">
-                                        <div class="card-img">
-                                            <img src="{{ asset('HOME_PAGE/images/new/partners/7.png') }}" alt=""
-                                                class="img-fluid kenan" style="width:100%">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </a>
-                        <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </a>
-                    </div>
+            <div class="col-lg-3 col-sm-6">
+              <div class="card mt-3 mt-lg-0 shadow-none">
+                <div class="bg-label-danger position-relative team-image-box">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-3.png')}}"
+                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                    alt="human image" />
                 </div>
+                <div class="card-body border border-top-0 border-label-danger text-center">
+                  <h5 class="card-title mb-0">Nannie Ford</h5>
+                  <p class="text-muted mb-0">Development Lead</p>
+                </div>
+              </div>
             </div>
-
+            <div class="col-lg-3 col-sm-6">
+              <div class="card mt-3 mt-lg-0 shadow-none">
+                <div class="bg-label-success position-relative team-image-box">
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-4.png')}}"
+                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                    alt="human image" />
+                </div>
+                <div class="card-body border border-top-0 border-label-success text-center">
+                  <h5 class="card-title mb-0">Chris Watkins</h5>
+                  <p class="text-muted mb-0">Marketing Manager</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+      </section>
+      <!-- Our great team: End -->
 
+      <!-- Pricing plans: Start -->
+      <section id="landingPricing" class="section-py bg-body landing-pricing">
+        <div class="container">
+          <div class="text-center mb-3 pb-1">
+            <span class="badge bg-label-primary">Pricing Plans</span>
+          </div>
+          <h3 class="text-center mb-1">
+            <span class="position-relative fw-bold z-1"
+              >Tailored pricing plans
+              <img
+                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
+                alt="laptop charging"
+                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+            </span>
+            designed for you
+          </h3>
+          <p class="text-center mb-4 pb-3">
+            All plans include 40+ advanced tools and features to boost your product.<br />Choose the best plan to fit
+            your needs.
+          </p>
+          <div class="text-center mb-5">
+            <div class="position-relative d-inline-block pt-3 pt-md-0">
+              <label class="switch switch-primary me-0">
+                <span class="switch-label">Pay Monthly</span>
+                <input type="checkbox" class="switch-input price-duration-toggler" checked />
+                <span class="switch-toggle-slider">
+                  <span class="switch-on"></span>
+                  <span class="switch-off"></span>
+                </span>
+                <span class="switch-label">Pay Annual</span>
+              </label>
+              <div class="pricing-plans-item position-absolute d-flex">
+                <img
+                  src="{{ url('HOME_PAGE/img/front-pages/icons/pricing-plans-arrow.png')}}"
+                  alt="pricing plans arrow"
+                  class="scaleX-n1-rtl" />
+                <span class="fw-medium mt-2 ms-1"> Save 25%</span>
+              </div>
+            </div>
+          </div>
+          <div class="row gy-4 pt-lg-3">
+            <!-- Basic Plan: Start -->
+            <div class="col-xl-4 col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="text-center">
+                    <img
+                      src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png')}}"
+                      alt="paper airplane icon"
+                      class="mb-4 pb-2" />
+                    <h4 class="mb-1">Basic</h4>
+                    <div class="d-flex align-items-center justify-content-center">
+                      <span class="price-monthly h1 text-primary fw-bold mb-0">$19</span>
+                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
+                      <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
+                    </div>
+                    <div class="position-relative pt-2">
+                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 168 / year</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Timeline
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Basic search
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Live chat widget
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Email marketing
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Custom Forms
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Traffic analytics
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Basic Support
+                      </h5>
+                    </li>
+                  </ul>
+                  <div class="d-grid mt-4 pt-3">
+                    <a href="payment-page.html" class="btn btn-label-primary">Get Started</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Basic Plan: End -->
 
-    <!-- Footer Start -->
+            <!-- Favourite Plan: Start -->
+            <div class="col-xl-4 col-lg-6">
+              <div class="card border border-primary shadow-lg">
+                <div class="card-header">
+                  <div class="text-center">
+                    <img src="{{ url('HOME_PAGE/img/front-pages/icons/plane.png')}}" alt="plane icon" class="mb-4 pb-2" />
+                    <h4 class="mb-1">Team</h4>
+                    <div class="d-flex align-items-center justify-content-center">
+                      <span class="price-monthly h1 text-primary fw-bold mb-0">$29</span>
+                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$22</span>
+                      <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
+                    </div>
+                    <div class="position-relative pt-2">
+                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 264 / year</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Everything in basic
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Timeline with database
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Advanced search
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Marketing automation
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Advanced chatbot
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Campaign management
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Collaboration tools
+                      </h5>
+                    </li>
+                  </ul>
+                  <div class="d-grid mt-4 pt-3">
+                    <a href="payment-page.html" class="btn btn-primary">Get Started</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Favourite Plan: End -->
 
+            <!-- Standard Plan: Start -->
+            <div class="col-xl-4 col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="text-center">
+                    <img
+                      src="{{ url('HOME_PAGE/img/front-pages/icons/shuttle-rocket.png')}}"
+                      alt="shuttle rocket icon"
+                      class="mb-4 pb-2" />
+                    <h4 class="mb-1">Enterprise</h4>
+                    <div class="d-flex align-items-center justify-content-center">
+                      <span class="price-monthly h1 text-primary fw-bold mb-0">$49</span>
+                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$37</span>
+                      <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
+                    </div>
+                    <div class="position-relative pt-2">
+                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 444 / year</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Everything in premium
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Timeline with database
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Fuzzy search
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        A/B testing sanbox
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Custom permissions
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Social media automation
+                      </h5>
+                    </li>
+                    <li>
+                      <h5>
+                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          ><i class="ti ti-check ti-xs"></i
+                        ></span>
+                        Sales automation tools
+                      </h5>
+                    </li>
+                  </ul>
+                  <div class="d-grid mt-4 pt-3">
+                    <a href="payment-page.html" class="btn btn-label-primary">Get Started</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Standard Plan: End -->
+          </div>
+        </div>
+      </section>
+      <!-- Pricing plans: End -->
 
-    <!-- Modal -->
+      <!-- Fun facts: Start -->
+      <section id="landingFunFacts" class="section-py landing-fun-facts">
+        <div class="container">
+          <div class="row gy-3">
+            <div class="col-sm-6 col-lg-3">
+              <div class="card border border-label-primary shadow-none">
+                <div class="card-body text-center">
+                  <img src="{{ url('HOME_PAGE/img/front-pages/icons/laptop.png')}}" alt="laptop" class="mb-2" />
+                  <h5 class="h2 mb-1">7.1k+</h5>
+                  <p class="fw-medium mb-0">
+                    Support Tickets<br />
+                    Resolved
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="card border border-label-success shadow-none">
+                <div class="card-body text-center">
+                  <img src="{{ url('HOME_PAGE/img/front-pages/icons/user-success.png')}}" alt="laptop" class="mb-2" />
+                  <h5 class="h2 mb-1">50k+</h5>
+                  <p class="fw-medium mb-0">
+                    Join creatives<br />
+                    community
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="card border border-label-info shadow-none">
+                <div class="card-body text-center">
+                  <img src="{{ url('HOME_PAGE/img/front-pages/icons/diamond-info.png')}}" alt="laptop" class="mb-2" />
+                  <h5 class="h2 mb-1">4.8/5</h5>
+                  <p class="fw-medium mb-0">
+                    Highly Rated<br />
+                    Products
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+              <div class="card border border-label-warning shadow-none">
+                <div class="card-body text-center">
+                  <img src="{{ url('HOME_PAGE/img/front-pages/icons/check-warning.png')}}" alt="laptop" class="mb-2" />
+                  <h5 class="h2 mb-1">100%</h5>
+                  <p class="fw-medium mb-0">
+                    Money Back<br />
+                    Guarantee
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Fun facts: End -->
 
+      <!-- FAQ: Start -->
+      <section id="landingFAQ" class="section-py bg-body landing-faq">
+        <div class="container">
+          <div class="text-center mb-3 pb-1">
+            <span class="badge bg-label-primary">FAQ</span>
+          </div>
+          <h3 class="text-center mb-1">
+            Frequently asked
+            <span class="position-relative fw-bold z-1"
+              >questions
+              <img
+                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
+                alt="laptop charging"
+                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+            </span>
+          </h3>
+          <p class="text-center mb-5 pb-3">Browse through these FAQs to find answers to commonly asked questions.</p>
+          <div class="row gy-5">
+            <div class="col-lg-5">
+              <div class="text-center">
+                <img
+                  src="{{ url('HOME_PAGE/img/front-pages/landing-page/faq-boy-with-logos.png')}}"
+                  alt="faq boy with logos"
+                  class="faq-image" />
+              </div>
+            </div>
+            <div class="col-lg-7">
+              <div class="accordion" id="accordionExample">
+                <div class="card accordion-item active">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button
+                      type="button"
+                      class="accordion-button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#accordionOne"
+                      aria-expanded="true"
+                      aria-controls="accordionOne">
+                      Do you charge for each upgrade?
+                    </button>
+                  </h2>
 
-        <script>
-            window.onload = function() {
-                document.querySelector('a#pay-btnn').click();
+                  <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      Lemon drops chocolate cake gummies carrot cake chupa chups muffin topping. Sesame snaps icing
+                      marzipan gummi bears macaroon dragée danish caramels powder. Bear claw dragée pastry topping
+                      soufflé. Wafer gummi bears marshmallow pastry pie.
+                    </div>
+                  </div>
+                </div>
+                <div class="card accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button
+                      type="button"
+                      class="accordion-button collapsed"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#accordionTwo"
+                      aria-expanded="false"
+                      aria-controls="accordionTwo">
+                      Do I need to purchase a license for each website?
+                    </button>
+                  </h2>
+                  <div
+                    id="accordionTwo"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      Dessert ice cream donut oat cake jelly-o pie sugar plum cheesecake. Bear claw dragée oat cake
+                      dragée ice cream halvah tootsie roll. Danish cake oat cake pie macaroon tart donut gummies. Jelly
+                      beans candy canes carrot cake. Fruitcake chocolate chupa chups.
+                    </div>
+                  </div>
+                </div>
+                <div class="card accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button
+                      type="button"
+                      class="accordion-button collapsed"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#accordionThree"
+                      aria-expanded="false"
+                      aria-controls="accordionThree">
+                      What is regular license?
+                    </button>
+                  </h2>
+                  <div
+                    id="accordionThree"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingThree"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      Regular license can be used for end products that do not charge users for access or service(access
+                      is free and there will be no monthly subscription fee). Single regular license can be used for
+                      single end product and end product can be used by you or your client. If you want to sell end
+                      product to multiple clients then you will need to purchase separate license for each client. The
+                      same rule applies if you want to use the same end product on multiple domains(unique setup). For
+                      more info on regular license you can check official description.
+                    </div>
+                  </div>
+                </div>
+                <div class="card accordion-item">
+                  <h2 class="accordion-header" id="headingFour">
+                    <button
+                      type="button"
+                      class="accordion-button collapsed"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#accordionFour"
+                      aria-expanded="false"
+                      aria-controls="accordionFour">
+                      What is extended license?
+                    </button>
+                  </h2>
+                  <div
+                    id="accordionFour"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingFour"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis et aliquid quaerat possimus maxime!
+                      Mollitia reprehenderit neque repellat deleniti delectus architecto dolorum maxime, blanditiis
+                      earum ea, incidunt quam possimus cumque.
+                    </div>
+                  </div>
+                </div>
+                <div class="card accordion-item">
+                  <h2 class="accordion-header" id="headingFive">
+                    <button
+                      type="button"
+                      class="accordion-button collapsed"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#accordionFive"
+                      aria-expanded="false"
+                      aria-controls="accordionFive">
+                      Which license is applicable for SASS application?
+                    </button>
+                  </h2>
+                  <div
+                    id="accordionFive"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingFive"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sequi molestias exercitationem ab cum
+                      nemo facere voluptates veritatis quia, eveniet veniam at et repudiandae mollitia ipsam quasi
+                      labore enim architecto non!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- FAQ: End -->
 
-            }
-        </script>
-        <style>
-            .modal.show .modal-dialog {
-                width: 58%;
-                transform: none;
-                top: 4%;
-                max-width: initial;
-                margin-bottom: 50px;
-            }
+      <!-- CTA: Start -->
+      <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
+        <img
+          src="{{ url('HOME_PAGE/img/front-pages/backgrounds/cta-bg-light.png')}}"
+          class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1"
+          alt="cta image"
+          data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
+          data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
+        <div class="container">
+          <div class="row align-items-center gy-5 gy-lg-0">
+            <div class="col-lg-6 text-center text-lg-start">
+              <h6 class="h2 text-primary fw-bold mb-1">Ready to Get Started?</h6>
+              <p class="fw-medium mb-4">Start your project with a 14-day free trial</p>
+              <a href="payment-page.html" class="btn btn-lg btn-primary">Get Started</a>
+            </div>
+            <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
+              <img
+                src="{{ url('HOME_PAGE/img/front-pages/landing-page/cta-dashboard.png')}}"
+                alt="cta dashboard"
+                class="img-fluid" />
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- CTA: End -->
 
-            .details.row {
-                border: 2px solid #F5D566C7;
-                border-radius: 17px;
-                padding: 10px;
-                margin: auto;
-            }
+      <!-- Contact Us: Start -->
+      <section id="landingContact" class="section-py bg-body landing-contact">
+        <div class="container">
+          <div class="text-center mb-3 pb-1">
+            <span class="badge bg-label-primary">Contact US</span>
+          </div>
+          <h3 class="text-center mb-1">
+            <span class="position-relative fw-bold z-1"
+              >Let's work
+              <img
+                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
+                alt="laptop charging"
+                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+            </span>
+            together
+          </h3>
+          <p class="text-center mb-4 mb-lg-5 pb-md-3">Any question or remark? just write us a message</p>
+          <div class="row gy-4">
+            <div class="col-lg-5">
+              <div class="contact-img-box position-relative border p-2 h-100">
+                <img
+                  src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png')}}"
+                  alt="contact border"
+                  class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl" />
+                <img
+                  src="{{ url('HOME_PAGE/img/front-pages/landing-page/contact-customer-service.png')}}"
+                  alt="contact customer service"
+                  class="contact-img w-100 scaleX-n1-rtl" />
+                <div class="pt-3 px-4 pb-1">
+                  <div class="row gy-3 gx-md-4">
+                    <div class="col-md-6 col-lg-12 col-xl-6">
+                      <div class="d-flex align-items-center">
+                        <div class="badge bg-label-primary rounded p-2 me-2"><i class="ti ti-mail ti-sm"></i></div>
+                        <div>
+                          <p class="mb-0">Email</p>
+                          <h5 class="mb-0">
+                            <a href="mailto:example@gmail.com" class="text-heading">example@gmail.com</a>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-lg-12 col-xl-6">
+                      <div class="d-flex align-items-center">
+                        <div class="badge bg-label-success rounded p-2 me-2">
+                          <i class="ti ti-phone-call ti-sm"></i>
+                        </div>
+                        <div>
+                          <p class="mb-0">Phone</p>
+                          <h5 class="mb-0"><a href="tel:+1234-568-963" class="text-heading">+1234 568 963</a></h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="mb-1">Send a message</h4>
+                  <p class="mb-4">
+                    If you would like to discuss anything related to payment, account, licensing,<br
+                      class="d-none d-lg-block" />
+                    partnerships, or have pre-sales questions, you’re at the right place.
+                  </p>
+                  <form>
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <label class="form-label" for="contact-form-fullname">Full Name</label>
+                        <input type="text" class="form-control" id="contact-form-fullname" placeholder="john" />
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label" for="contact-form-email">Email</label>
+                        <input
+                          type="text"
+                          id="contact-form-email"
+                          class="form-control"
+                          placeholder="johndoe@gmail.com" />
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label" for="contact-form-message">Message</label>
+                        <textarea
+                          id="contact-form-message"
+                          class="form-control"
+                          rows="8"
+                          placeholder="Write a message"></textarea>
+                      </div>
+                      <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Send inquiry</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Contact Us: End -->
+    </div>
 
-            button.btn.btn-primary.modal-submit {
-                background: #497AAC 0% 0% no-repeat padding-box;
-                box-shadow: 0px 8px 20px #91C0E973;
-                border-radius: 9px;
-                line-height: 1.8em;
-                width: 100%;
-            }
+    <!-- / Sections:End -->
 
-            .modal-dialog p,
-            .modal-dialog span,
-            .modal-dialog strong {
-                color: #2B3641
-            }
+    <!-- Footer: Start -->
 
-        </style>
-
-
-
-    <!--end footer-->
-    <!-- Footer End -->
-    <style>.zsiq_theme1.zsiq_floatmain {
-
-    display: none!important;
-}</style>
-
-    @push('home-scripts')
- <script type="text/javascript" id="zsiqchat">var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "siqf8adecbae539f10442e3263a1c7449fe02f8434ebbe72fa0f7a759edb7870245", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zohopublic.com/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);</script>
-
-    @endpush
-
-<!--add new subscribers-->
-@include('Home.layouts.inc.__addSubscriberModal')
-<script>
-    function redirectToCreateBroker() {
-        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
-    }
-    function redirectToCreateOffice() {
-        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
-
-    }
-</script>
-
-{{-- <script>
-    // Get all elements with the class 'center-price'
-    var subscriptionTypeDivs = document.querySelectorAll(".center-price");
-
-    // Add click event listener to each element
-    subscriptionTypeDivs.forEach(function(element) {
-        element.addEventListener("click", function() {
-            // Remove 'custom-grad' class from all elements
-            subscriptionTypeDivs.forEach(function(el) {
-                el.classList.remove("custom-grad");
-            });
-            // Toggle 'custom-grad' class on the clicked element
-            this.classList.toggle("custom-grad");
-        });
-    });
-</script> --}}
-
-
-
-
-@endsection

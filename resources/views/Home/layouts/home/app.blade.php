@@ -1,134 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
-@include('Home.layouts.home.head')
 
-<style>
-    .disabled {
-        pointer-events: none;
-        opacity: 0.5;
-        /* Adjust the opacity to your preference */
-    }
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}"
+    class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
+    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
+    data-assets-path="{{ url('HOME_PAGE') }}/" data-template="vertical-menu-template-starter">
 
-    .disabled .disabled-overlay {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: rgba(255, 255, 255, 0.5);
-        /* Semi-transparent white background */
-    }
+    @include('Home.layouts.home.head')
 
-    .disabled .disabled-overlay span {
-        font-size: 18px;
-        font-weight: bold;
-        color: rgb(137, 4, 4);
-        /* Adjust the color to your preference */
-    }
-</style>
+  <body>
+    <script src="{{ url('HOME_PAGE/vendor/js/dropdown-hover.js')}}"></script>
+    <script src="{{ url('HOME_PAGE/vendor/js/mega-dropdown.js')}}"></script>
+
+    <!-- Navbar: Start -->
+    <nav class="layout-navbar shadow-none py-0">
+      <div class="container">
+        <div class="navbar navbar-expand-lg landing-navbar px-3 px-md-4">
+          <!-- Menu logo wrapper: Start -->
+          <div class="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
+            <!-- Mobile menu toggle: Start-->
+            <button
+              class="navbar-toggler border-0 px-0 me-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+              <i class="ti ti-menu-2 ti-sm align-middle"></i>
+            </button>
+            <!-- Mobile menu toggle: End-->
+            <a href="landing-page.html" class="app-brand-link">
+              <span class="app-brand-logo demo">
+                <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                    fill="#7367F0" />
+                  <path
+                    opacity="0.06"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+                    fill="#161616" />
+                  <path
+                    opacity="0.06"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+                    fill="#161616" />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                    fill="#7367F0" />
+                </svg>
+              </span>
+              <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">أملاك</span>
+            </a>
+          </div>
+          <!-- Menu logo wrapper: End -->
+          <!-- Menu wrapper: Start -->
+          <div class="collapse navbar-collapse landing-nav-menu" id="navbarSupportedContent">
+            <button
+              class="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+              <i class="ti ti-x ti-sm"></i>
+            </button>
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link fw-medium" aria-current="page" href="landing-page.html#landingHero">عن أملاك</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fw-medium" href="landing-page.html#landingFeatures">المميزات</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fw-medium" href="landing-page.html#landingTeam">الباقات</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link fw-medium" href="landing-page.html#landingContact">تواصل معنا</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link fw-medium" href="../vertical-menu-template/index.html" target="_blank">لوحة التحكم</a>
+              </li>
+            </ul>
+          </div>
+          <div class="landing-menu-overlay d-lg-none"></div>
+          <!-- Menu wrapper: End -->
+          <!-- Toolbar: Start -->
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Style Switcher -->
+            <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+              <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <i class="ti ti-sm"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                    <span class="align-middle"><i class="ti ti-sun me-2"></i>Light</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                    <span class="align-middle"><i class="ti ti-moon me-2"></i>Dark</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                    <span class="align-middle"><i class="ti ti-device-desktop me-2"></i>System</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- / Style Switcher-->
+
+            <!-- navbar button: Start -->
+            <li>
+
+                @guest
+              <a href="{{ route('login') }}" class="btn btn-primary" target="_blank"
+                ><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span
+                ><span class="d-none d-md-block">تسجيل</span></a
+              >
+
+              <a href="../vertical-menu-template/auth-login-cover.html" class="btn btn-primary" target="_blank"
+              ><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span
+              ><span class="d-none d-md-block">سجل معنا الأن</span></a
+            >
+            @endguest
+            @auth
+
+            <a href="{{ route('Admin.home') }}" class="btn btn-primary" target="_blank"
+            ><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span
+            ><span class="d-none d-md-block">لوحة التحكم</span></a
+          >
+
+          <a href="{{ route('logout') }}"
+          onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-primary" target="_blank"
+          ><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span
+          ><span class="d-none d-md-block">تسجيل الخروج</span></a
+        >
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
 
 
-<body>
 
 
 
-    <!-- Navbar STart -->
-    <header id="topnav" class="defaultscroll sticky">
-        <div class="header-nav">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light container">
-                <div class="navbar-nav align-items-start ">
-
-                    <a class="navbar-brand" href="{{ route('welcome') }}">
-                        <img src="{{ asset('HOME_PAGE/images/amlak1.svg') }}" height="50" class="logo-light-mode"
-                            alt="">
-                    </a>
-                </div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('welcome') }}#home">عن أملاك <span
-                                    class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('welcome') }}#features">المميزات</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('welcome') }}#pricing">الباقات</a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
-
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                الوسطاء العقاريين
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{{ route('brokers') }}">المسوقين العقاريين </a>
-                                <a class="dropdown-item" href="#">المكاتب العقارية</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#footer">تواصل معنا</a>
-                        </li>
-                        @auth
-                            @if (Session::has('gallery_name') && Session::has('gallery'))
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('galleryOffice', Session::get('gallery_name')) }}">المعرض</a>
-                                </li>
-                            @endif
-
-                        @endauth
-                    </ul>
-
-                    <div class="buyh-button col-4" style="display: flex;
-                    justify-content: end;">
-                        @guest
-                            <a href="{{ route('login') }}">
-                                <div class="btn btn-new-b ArFont" style="margin-right: 9px;"> تسجيل الدخول</div>
-                            </a>
-                            <a href="" data-toggle="modal" data-target="#addSubscriberModal"
-                                style="margin-right: 9px;" onclick="tabsFunc()">
-                                <div class="btn btn-new ArFont"> سجل معنا الآن </div>
-                            </a>
-                        @endguest
-                        @auth
-                            <a href="{{ route('Admin.home') }}">
-                                <div class="btn btn-new-b ArFont" style="margin-right: 9px;">لوحة التحكم</div>
-                            </a>
-
-                            <a class="btn btn-new ArFont" style="margin-right: 9px;" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                <i class="fe-log-out"></i><span style="margin-left:10px">تسجيل
-                                    خروج</span>
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-
-
-                        @endauth
-                    </div>
-                </div>
+        @endauth
+            </li>
+            <!-- navbar button: End -->
+          </ul>
+          <!-- Toolbar: End -->
         </div>
-
-        </nav>
-
-        </div>
-        <!--end container-->
-    </header>
+      </div>
+    </nav>
+    <!-- Navbar: End -->
 
 
 
@@ -148,53 +185,6 @@
 
     @include('Home.layouts.home.footer-scripts')
 
-    @stack('home-scripts')
-
-    <script>
-        function tabsFunc() {
-            $('.nav-tabs > li a[title]').tooltip();
-
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-
-                var target = $(e.target);
-
-                if (target.parent().hasClass('disabled')) {
-                    return false;
-                }
-            });
-
-            $(".next-step").click(function(e) {
-
-                var active = $('.wizard .nav-tabs li.active');
-                active.next().removeClass('disabled');
-                nextTab(active);
-
-            });
-            $(".prev-step").click(function(e) {
-                if (document.querySelector('.alert.alert-danger'))
-                    document.querySelector('.alert.alert-danger').style.display = "none"
-
-                var active = $('.wizard .nav-tabs li.active');
-                prevTab(active);
-
-            });
-        }
-
-
-        function nextTab(elem) {
-            $(elem).next().find('a[data-toggle="tab"]').click();
-        }
-
-        function prevTab(elem) {
-            $(elem).prev().find('a[data-toggle="tab"]').click();
-        }
-
-
-        $('.nav-tabs').on('click', 'li', function() {
-            $('.nav-tabs li.active').removeClass('active');
-            $(this).addClass('active');
-        });
-    </script>
 
 </body>
 
