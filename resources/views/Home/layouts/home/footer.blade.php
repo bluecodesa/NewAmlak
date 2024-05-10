@@ -125,8 +125,9 @@
               document.write(new Date().getFullYear());
             </script>
           </span>
-          <a href="https://pixinvent.com" target="_blank" class="fw-medium text-white footer-link">Pixinvent,</a>
-          <span class="footer-text"> Made with ❤️ for a better web.</span>
+          جميع الحقوق محفوظه  ©
+          <a href="{{ env('COMPANY_URL','https://bluecode.sa') }}" target="_blank" class="text-reset"> لشركة بلوكود</a> -
+          أملاك {{ env('APP_VERSION','V1.0') }}</p>
         </div>
         <div>
           <a href="https://github.com/pixinvent" class="footer-link me-3" target="_blank">
@@ -136,21 +137,21 @@
               data-app-light-img="front-pages/icons/github-light.png"
               data-app-dark-img="front-pages/icons/github-dark.png" />
           </a>
-          <a href="https://www.facebook.com/pixinvents/" class="footer-link me-3" target="_blank">
+          <a href="{{ $sitting->facebook }}" class="footer-link me-3" target="_blank">
             <img
               src="{{ url('HOME_PAGE/img/front-pages/icons/facebook-light.png')}}"
               alt="facebook icon"
               data-app-light-img="front-pages/icons/facebook-light.png"
               data-app-dark-img="front-pages/icons/facebook-dark.png" />
           </a>
-          <a href="https://twitter.com/pixinvents" class="footer-link me-3" target="_blank">
+          <a href="{{ $sitting->twitter }}" class="footer-link me-3" target="_blank">
             <img
               src="{{ url('HOME_PAGE/img/front-pages/icons/twitter-light.png')}}"
               alt="twitter icon"
               data-app-light-img="front-pages/icons/twitter-light.png"
               data-app-dark-img="front-pages/icons/twitter-dark.png" />
           </a>
-          <a href="https://www.instagram.com/pixinvents/" class="footer-link" target="_blank">
+          <a href="{{ $sitting->instgram }}" class="footer-link" target="_blank">
             <img
               src="{{ url('HOME_PAGE/img/front-pages/icons/instagram-light.png')}}"
               alt="google icon"

@@ -124,12 +124,11 @@
           <h4 class="mb-1 card-title">{{ $unit->number_unit ?? '' }}</h4>
           <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
-          <span class="pb-1"><i class="ti ti-map-pin"></i> Vatican City</span>
+          <span class="pb-1"><i class="ti ti-map-pin"></i>{{ $unit->CityData->name ?? '' }}</span>
           </div>
           <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
             <a href="javascript:;"><span class="badge bg-label-primary"> {{ __($unit->PropertyTypeData->name) ?? '' }}</span></a>
-            <a href="javascript:;"><span class="badge bg-label-success">{{ $unit->CityData->name ?? '' }}</span></a>
             @if ($unit->type == 'rent')
             <a href="javascript:;"><span class="badge bg-label-warning">@lang('rent')</span></a>
             @endif
@@ -167,7 +166,7 @@
 
           <div class="d-flex align-items-center justify-content-center">
             <a href="tel:{{ env('COUNTRY_CODE') . $broker->moblie }}" class="btn btn-primary d-flex align-items-center me-3"
-              ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('connect')</a
+              ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a
             >
             <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}" class="btn btn-label-secondary btn-icon"
               ><i class="ti ti-message ti-sm"></i
@@ -176,6 +175,8 @@
         </div>
       </div>
     </div>
+
+@include('Home.Gallery.inc.share')
    @endforeach
 
   </div>
@@ -184,6 +185,5 @@
 </section>
 
 
-@include('Home.Gallery.inc.share')
 
 

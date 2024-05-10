@@ -7,7 +7,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       <div class="text-center mb-4">
                         <h3 class="mb-2">مشاركة المعرض</h3>
-                        
+
                       </div>
                       <div class="row">
                         <div class="col-12 mb-3">
@@ -70,22 +70,21 @@
                   </div>
                 </div>
               </div>
-
               <!-- Modal Authentication App -->
               <div class="modal fade" id="twoFactorAuthOne" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-simple">
                   <div class="modal-content p-3 p-md-5">
                     <div class="modal-body">
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     
+
                       <h5 class="mb-2 pt-1 text-break">قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا العقار عن طريق الجوال</h5>
-                    
+
                       <div class="text-center">
                             {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) !!}
-                            
+
                       </div>
 
-                      
+
                       <div class="text-end">
                         <button
                           type="button"

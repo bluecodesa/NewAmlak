@@ -90,7 +90,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link fw-medium" href="../vertical-menu-template/index.html" target="_blank">لوحة التحكم</a>
+                <a class="nav-link fw-medium" href="{{ route('brokers') }}" >المسوقين العقاريين</a>
               </li>
             </ul>
           </div>

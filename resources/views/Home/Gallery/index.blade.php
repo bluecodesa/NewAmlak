@@ -1,476 +1,205 @@
 @extends('Home.layouts.home.app')
-@section('title')
-    معرض العقارات
-@stop
 @section('content')
 
-    @include('Home.layouts.inc.__addSubscriberModal')
 
-    <link href="{{ asset('HOME_PAGE/css/public_gallery.css') }}" rel="stylesheet" type="text/css" id="theme-opt" />
-    <section id="gallery_public" class="container">
-        <div class="row gallery-public m-0 p-0 justify-content-center">
-            <input hidden name="gallery_name" value="" />
-            <div class="row p-0 mb-4">
-                <div class="gallery-cover"
-                    style="background-image: url({{ $gallery->gallery_cover ? asset($gallery->gallery_cover) : asset('dashboard/assets/new-icons/cover1.png') }}); height: 200px; width: 100%; background-size: cover;">
-                </div>
-            </div>
+    <section class="section-py first-section-pt">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span>معرض : {{ $broker->UserData->name }}</h4>
 
-            <div class="row filter sort">
-                <div class="view-select">
-                    <div class="col-menu grid selected" style="cursor: pointer" onclick="changeView('grid')">
-                        @lang('Card')</div>
-                    <div class="col-list list" style="cursor: pointer" onclick="changeView('list')">@lang('List')</div>
-                </div>
-                <select class="form-control select-input h-auto" id="city" required name="city">
-                    <option value="all">
-                        الاحدث </option>
+            <div class="row">
+                <div class="col-12">
+                  <div class="card mb-4">
+                    {{-- <div class="user-profile-header-banner">
+                      <img src="../../assets/img/pages/profile-banner.png" alt="Banner image" class="rounded-top" />
+                    </div> --}}
+                    <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                      <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                        <img
+                          src="../../assets/img/avatars/14.png"
+                          alt="user image"
+                          class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                      </div>
+                      <div class="flex-grow-1 mt-3 mt-sm-5">
+                        <div
+                          class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                          <div class="user-profile-info">
+                            <h4>{{ $broker->UserData->name }}</h4>
+                            <ul
+                              class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
-                </select>
-            </div>
+                              @if( $broker->UserData->is_broker)
+                              <li class="list-inline-item d-flex gap-1"><i class="ti ti-user-check"></i> @lang('Broker')</li>
+                              @else
+                              <li class="list-inline-item d-flex gap-1"><i class="ti ti-user-check"></i> @lang('Office')</li>
+                              @endif
+                              <li class="list-inline-item d-flex gap-1">
+                                <i class="ti ti-color-swatch"></i>رقم رخصة فال: {{ $broker->broker_license }}
+                              </li>
 
-            <div class="row p-0 gap-5 justify-content-center pe-2 ps-2">
-                <div class="filter-container-col">
-                    <div class="filter">
-                        <form action="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" method="GET">
-                            <div class="row gap-3" style="align-items: end;">
-                                <div class="col-12 p-0 ml-2">
-                                    <span>@lang('Ads with images')</span>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="hasImageFilter"
-                                            name="has_image_filter" {{ $hasImageFilter ? 'checked' : '' }}>
-                                    </div>
-                                </div>
-                                <div class="col-12 p-0 ml-2">
-                                    <span>@lang('Ads with price')</span>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="hasPriceFilter"
-                                            name="has_price_filter" {{ $hasPriceFilter ? 'checked' : '' }}>
-                                    </div>
-                                </div>
-                                <div class="col-12 p-0 ml-2">
-                                    <span>@lang('Available For Daily Rent')</span>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="daily_rent" name="daily_rent"
-                                            {{ $daily_rent ? 'checked' : '' }}>
-                                    </div>
-                                </div>
+                              <li class="list-inline-item d-flex gap-1">
+                                @php
+                                $createdAt = new DateTime($broker->UserData->created_at);
 
-                                <div class="col-12 p-0 ml-2">
-                                    <span>@lang('Property type')</span>
-                                    <select class="form-control form-control-sm" id="property_type_filter" name="property_type_filter">
-                                        <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>
-                                            @lang('All')</option>
-                                        @foreach ($units as $unit)
-                                            @if ($unit->PropertyTypeData)
-                                                <option value="{{ $unit->PropertyTypeData->id }}"
-                                                    {{ $propertyTypeFilter == $unit->PropertyTypeData->id ? 'selected' : '' }}>
-                                                    {{ $unit->PropertyTypeData->name }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
+                                // Get the month name
+                                $monthName = $createdAt->format('F');
+
+                                // Get the number of days in the month
+                                $numDay = $createdAt->format('d');
+                                $yearName = $createdAt->format('Y');
 
 
-                                <div class="col-12 p-0 ml-2">
-
-                                    <span>@lang('City')</span>
-                                    <select class="form-control form-control-sm" id="city_filter" name="city_filter">
-                                        <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>
-                                            @lang('All')</option>
-                                            @foreach ($uniqueIds as $index => $id)
-                                            <option value="{{ $id }}"
-                                                data-url="{{ route('Broker.Gallary.GetDistrictByCity', $id) }}"
-                                                {{ $cityFilter == $id ? 'selected' : '' }}>
-                                                {{ $uniqueNames[$index] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-12 p-0 ml-2">
-
-                                    <span>@lang('district')</span>
-                                    <select class="form-control form-control-sm" id="district_filter"
-                                        name="district_filter">
-                                        <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
-                                            @lang('All')</option>
-                                        @foreach ($districts as $index => $district)
-                                            <option value="{{ $district->district_id }}"
-                                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
-                                                {{ $district->DistrictData->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-12 p-0 ml-2">
-                                    <span>@lang('Project')</span>
-                                    <select class="form-control form-control-sm" id="project_filter" name="project_filter">
-                                        <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>
-                                            @lang('All')</option>
-                                        @foreach ($units as $unit)
-                                            @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
-                                                <option value="{{ $unit->PropertyData->ProjectData->id }}"
-                                                    {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
-                                                    {{ $unit->PropertyData->ProjectData->name }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-12 p-0 ml-2">
-                                    <span>@lang('Type use')</span>
-                                    <select class="form-control form-control-sm" id="type_use_filter"
-                                        name="type_use_filter">
-                                        <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>
-                                            @lang('All')</option>
-                                        @foreach ($usages as $usage)
-                                            <option value="{{ $usage->id }}"
-                                                {{ $typeUseFilter == $usage->id ? 'selected' : '' }}>
-                                                {{ $usage->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-12 p-0 ml-2">
-                                    <span>@lang('Ad type')</span>
-                                    <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
-                                        <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>
-                                            @lang('All')</option>
-                                        @foreach (['rent', 'sale', 'rent and sale'] as $type)
-                                            <option value="{{ $type }}"
-                                                {{ $adTypeFilter == $type ? 'selected' : '' }}>
-                                                {{ __($type) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-12 p-0 ml-2">
-                                    <span>السعر</span>
-                                    <div class="row m-0 p-0 gap-3">
-                                        <div class="col-5 p-0">
-                                            <input class="form-control" name="price_from" id="price_from" placeholder="من"
-                                                value="{{ request()->input('price_from', null) }}"
-                                                onchange="reloadUnits()" />
-                                        </div>
-                                        <div class="col-5 p-0">
-                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي"
-                                                value="{{ request()->input('price_to', null) }}"
-                                                onchange="reloadUnits()" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 p-0 ml-2">
-                                    <button type="submit" class="btn btn-new ArFont">@lang('Filter')</button>
-                                    <a href="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
-                                        class="btn btn-cancle mt-2 btn-sm">@lang('Cancel')</a>
-                                </div>
-                            </div>
-                        </form>
-
-
+                            @endphp
+                                <i class="ti ti-calendar"></i> عضو منذ {{ $monthName }} {{ $numDay }} {{ $yearName }}
+                              </li>
+                            </ul>
+                          </div>
+                          <a href="tel:{{ $broker->mobile }}" class="btn btn-primary">
+                            <i class="ti ti-phone me-1"></i>تواصل
+                          </a>
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
 
+  <!-- Navbar pills -->
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-pills flex-column flex-sm-row mb-4">
+        <li class="nav-item">
+          <a class="nav-link" href="pages-profile-user.html"
+            ><i class="ti ti-user-check ti-xs me-1"></i> Profile</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="pages-profile-teams.html"
+            ><i class="ti ti-users ti-xs me-1"></i> Teams</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="pages-profile-projects.html"
+            ><i class="ti ti-layout-grid ti-xs me-1"></i> Projects</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="javascript:void(0);"
+            ><i class="ti ti-link ti-xs me-1"></i> Connections</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--/ Navbar pills -->
 
-                <div class="cards-gallery-container">
+  <!-- Connection Cards -->
+  <div class="row g-4">
+    @foreach ($units as $unit)
 
-                    @include('Home.Gallery.inc.filtered')
-                </div>
+    <div class="col-xl-4 col-lg-6 col-md-6">
+            <div class="card">
+        <div class="card-body text-center">
+          <div class="dropdown btn-pinned">
+            {{-- <button
+              type="button"
+              class="btn dropdown-toggle hide-arrow p-0"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="ti ti-dots-vertical text-muted"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="javascript:void(0);">Share connection</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);">Block connection</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li><a class="dropdown-item text-danger" href="javascript:void(0);">Delete</a></li>
+            </ul> --}}
+            <span class="pb-1">@lang('SAR') / {{ __($unit->rent_type_show) }}</span>
 
+          </div>
+          <div class="d-flex align-items-center justify-content-start">
+            <a  class="share btn btn-secondary d-flex align-items-center me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#twoFactorAuth"><i class="ti-xs me-1 ti ti-share me-1"></i></a
+            >
+            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+              ><i class="ti ti-heart ti-sm"></i
+            ></a>
+          </div>
+          <div class="mx-auto my-3">
+            <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">
+            @if ($unit->UnitImages->isNotEmpty())
+            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image" class="rounded-circle w-px-100" />
+            @else
+            <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image" class="rounded-circle w-px-200" />
 
-
-            </div>
+            @endif
+            </a>
         </div>
+          <h4 class="mb-1 card-title">{{ $unit->number_unit ?? '' }}</h4>
+          <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
-            aria-labelledby="offcanvasExampleLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel">تعديل صورة الهيدر</h5>
+          <span class="pb-1"><i class="ti ti-map-pin"></i>{{ $unit->CityData->name ?? '' }}</span>
+          </div>
+          <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                    aria-label="Close"></button>
+            <a href="javascript:;"><span class="badge bg-label-primary"> {{ __($unit->PropertyTypeData->name) ?? '' }}</span></a>
+            @if ($unit->type == 'rent')
+            <a href="javascript:;"><span class="badge bg-label-warning">@lang('rent')</span></a>
+            @endif
+            @if ($unit->type == 'sale')
+            <a href="javascript:;"><span class="badge bg-label-success">@lang('sale')</span></a>
+            @endif
+
+            @if ($unit->type == 'rent and sale')
+            <a href="javascript:;"><span class="badge bg-label-info">@lang('rent and sale')</span></a>
+            @endif
+            <a href="javascript:;" class="me-1"
+            style="
+             @if (!$unit->daily_rent ) visibility:hidden @endif">
+             <span class="badge bg-label-secondary">متاح @lang('Daily Rent')</span></a>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-around my-3 py-1">
+            <div>
+              <h4 class="mb-0">{{ $unit->rooms }}</h4>
+              <span>@lang('number rooms')</span>
             </div>
-            <div class="offcanvas-body">
-
-                @include('Home.Gallery.inc.edit-cover')
-
-
+            <div>
+              <h4 class="mb-0">{{ $unit->bathrooms }}</h4>
+              <span>@lang('Number bathrooms')</span>
             </div>
+            <div>
+              <h4 class="mb-0">{{ $unit->space }}</h4>
+              <span>@lang('Area (square metres)')</span>
+            </div>
+            <div>
+                <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
+                <span>@lang('Views')</span>
+              </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-center">
+            <a href="tel:{{ $broker->mobile }}" class="btn btn-primary d-flex align-items-center me-3"
+              ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a
+            >
+            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}" class="btn btn-label-secondary btn-icon"
+              ><i class="ti ti-message ti-sm"></i
+            ></a>
+          </div>
         </div>
+      </div>
+    </div>
 
+@include('Home.Gallery.inc.share')
+   @endforeach
 
+  </div>
 
+</div>
+</section>
 
 
 
 
-        <!-- Modal -->
-        <div class="modal fade" id="interestUnit" tabindex="-1" role="dialog" aria-labelledby="interestUnitTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5>ابداء اهتمام للوحدة</h5>
-
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-
-                        </button>
-
-                    </div>
-
-                    <div class="modal-body pb-3">
-                        <p>برجاء ادخال بياناتك وسوف نتواصل مع حضرتك في أقرب وقت</p>
-
-                        <form action="{{ route('unit_interests.store') }}" method="POST">
-                            @csrf
-                            <div class="row">
-                                <input hidden name="unit_id" value="{{ $unit_id }}" />
-                                <input hidden name="user_id" value="{{ $user_id }}" /> <!-- Add this line -->
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="name">الاسم<span class="text-danger">*</span></label>
-
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-
-                                <div class="col-sm-12 col-md-6">
-
-                                    <label for="whatsapp">رقم (واتساب)<span class="text-danger">*</span></label>
-
-                                    <div style="position:relative">
-                                        <input type="tel" class="form-control" id="whatsapp" minlength="9"
-                                            maxlength="9" pattern="[0-9]*"
-                                            oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                            onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                            name="whatsapp" required="" value="">
-
-                                        <span
-                                            style="position: absolute;left: -1px;top: 0;background-color: #e9ecef;height: 100%;display: flex; align-items: center;  justify-content: center;border-top-left-radius: 5px;border-bottom-left-radius: 5px;padding: 0px 20px;border: 1px solid #ced4da; border-top-left-radius: 8px;border-bottom-left-radius: 8px;">966+</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row text-center justify-content-center">
-                                <button type="submit" class="mt-3 w-auto" style="padding:6px 20px">ارسال</button>
-                            </div>
-                        </form>
-
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-@endsection
-
-@push('home-scripts')
-    <script src="{{ URL::asset('dashboard/js/custom.js') }}"></script>
-
-    <script>
-        window.onload = function() {
-
-            $(document).on('click', '.pagination a', function(e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                let page = url.split("?page=");
-                reloadUnits(null, page[1]);
-            });
-        }
-
-        function setEditData(index, item) {
-            row = item.closest('div.card-single');
-
-            document.querySelector('#editUnit input[name="edit_unit_id"]').value = row.querySelector(
-                'input[name="unit_id"]').value;
-
-
-
-            document.querySelector('#editUnit input[name="number"]').value = row.querySelector(
-                'input[name="edit_unit_number"]').value;
-            document.querySelector('#editUnit input[name="area"]').value = row.querySelector('input[name="edit_unit_area"]')
-                .value;
-            document.querySelector('#editUnit input[name="rooms"]').value = row.querySelector(
-                'input[name="edit_unit_rooms"]').value;
-            document.querySelector('#editUnit input[name="bathrooms"]').value = row.querySelector(
-                'input[name="edit_unit_bathrooms"]').value;
-            //document.querySelector('#editUnit input[name="bathrooms"]').value =  row.querySelector('input[name="edit_unit_view_in_gallery"]').value;
-
-            document.querySelector('#editUnit .unit-images').innerHTML = row.querySelector('.unit-images-hidden').innerHTML;
-            document.querySelector('#editUnit .unit-services').innerHTML = row.querySelector('.unit-services-hidden')
-                .innerHTML;
-
-
-            let options = document.querySelector('select[name="owner_id"]').options;
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].value == row.querySelector('input[name="edit_unit_owner_id"]').value) {
-                    $('#editUnit select[name="owner_id"]').val(options[i].value);
-                    // $('#editUnit select[name="owner_id"]').select2().trigger('change');
-                    if ('createEvent' in document) {
-                        var event = document.createEvent('HTMLEvents');
-                        event.initEvent('change', false, true); // onchange event
-                        document.querySelector('#editUnit select[name="owner_id"]').dispatchEvent(event);
-                    } else {
-                        document.querySelector('#editUnit select[name="owner_id"]').fireEvent(
-                            'change'); // only for backward compatibility (older browsers)
-                    }
-                    break;
-                }
-            }
-
-
-            let options2 = document.querySelector('select[name="employee_id"]').options;
-            for (let i = 0; i < options2.length; i++) {
-                if (options2[i].value == row.querySelector('input[name="edit_unit_employee_id"]').value) {
-                    $('#editUnit select[name="employee_id"]').val(options2[i].value);
-                    // $('#editUnit select[name="employee_id"]').select2().trigger('change');
-
-                    if ('createEvent' in document) {
-                        var event = document.createEvent('HTMLEvents');
-                        event.initEvent('change', false, true); // onchange event
-                        document.querySelector('#editUnit select[name="employee_id"]').dispatchEvent(event);
-                    } else {
-                        document.querySelector('#editUnit select[name="employee_id"]').fireEvent(
-                            'change'); // only for backward compatibility (older browsers)
-                    }
-                    break;
-                }
-            }
-
-
-        }
-
-
-        function copy() {
-            let copyGfGText = document.getElementById("share-url");
-            copyGfGText.select();
-            document.execCommand("copy");
-            console.log(copyGfGText.value);
-        }
-
-        function share(classname) {
-
-            let actives = document.querySelectorAll('.share-tabs .active');
-            for (let i = 0; i < actives.length; i++)
-                actives[i].classList.remove('active');
-            document.querySelector(`.share-tabs .${classname}`).classList.add('active');
-
-            let views = document.querySelectorAll('.share-divs .first,.share-divs .second');
-
-            for (let i = 0; i < views.length; i++)
-                views[i].style.display = "none";
-
-            document.querySelector(`.share-divs #${classname}`).style.display = "block";
-
-
-        }
-
-
-
-
-
-        function changeView(type) {
-            document.querySelector('.view-select .selected').classList.remove('selected');
-            document.querySelector(`.view-select .${type}`).classList.add('selected');
-
-            let views = document.querySelectorAll('.row.change-view');
-
-            for (let i = 0; i < views.length; i++)
-                views[i].style.display = "none";
-
-            document.querySelector(`.row.change-view.${type}`).style.display = "flex";
-            localStorage.setItem("home-gallery-view", type);
-        }
-
-        function interestUnit(id) {
-            document.querySelector('#interestUnit input[name="unit_id"]').value = id;
-        }
-
-        function checkCurrentVie() {
-
-            if (localStorage.getItem("home-gallery-view") !== null && localStorage.getItem("home-gallery-view") == 'list')
-                changeView('list');
-            else
-                changeView('grid');
-        }
-
-
-        checkCurrentVie();
-
-
-
-
-        // Function to reload units based on selected filters
-        function reloadUnits() {
-            // Get selected filter values
-            var city = document.getElementById('city_filter').value;
-            var project = document.getElementById('prj_filter').value;
-            var type = document.getElementById('type_filter').value;
-            var price_from = document.getElementById('price_from').value;
-            var price_to = document.getElementById('price_to').value;
-
-            // Make AJAX request to fetch filtered units
-            $.ajax({
-                url: "{{ route('filtered.units') }}",
-                type: "GET",
-                data: {
-                    city_filter: city,
-                    prj_filter: project,
-                    type_filter: type,
-                    price_from: price_from,
-                    price_to: price_to
-                },
-                success: function(data) {
-                    // Handle the received data (update the view with filtered units)
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        }
-
-        // Attach event listeners to select elements
-        $(document).ready(function() {
-            $('#city_filter, #prj_filter, #type_filter, #price_from, #price_to').change(function() {
-                reloadUnits();
-            });
-        });
-
-        $('#city_filter').on('change', function() {
-            var selectedOption = $(this).find(':selected');
-            var url = selectedOption.data('url');
-            if (selectedOption.val() === 'all') {
-        $('#district_filter').val('all');
-    } else {
-            $.ajax({
-                type: "get",
-                url: url,
-                beforeSend: function() {
-                    $('#district_filter').fadeOut('fast');
-                },
-                success: function(data) {
-                    $('#district_filter').fadeOut('fast', function() {
-                        $(this).empty().append(data);
-                        $(this).fadeIn('fast');
-                    });
-                },
-            });
-        }
-        });
-    </script>
-
-    <script>
-        function redirectToCreateBroker() {
-            window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
-        }
-
-        function redirectToCreateOffice() {
-            window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
-
-        }
-    </script>
-@endpush

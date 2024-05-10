@@ -190,13 +190,18 @@ class GalleryService
         $unit_id = null;
         $unitDetails = null;
         $user_id = null;
-
         if ($units) {
         foreach($units as $unit){
             $broker = Broker::findOrFail($unit->broker_id);
             $unit_id = $unit->id;
             $user_id = $broker->user_id;
         }
+    }else{
+        $units[]=null;
+        $unit_id = null;
+        $unitDetails = null;
+        $user_id = null;
+        $unit= null;
     }
 
         $uniqueIds = $units->pluck('CityData.id')->unique();
