@@ -5,8 +5,8 @@
    <!-- Content wrapper -->
    <section class="section-py first-section-pt">
     <div class="container">
-      <h4 class="py-3 mb-4"><span class="text-muted fw-light">الرئيسية /
-    <span class="text-muted fw-light">المعرض /</span> وحدة : {{ $Unit->number_unit }}</h4>
+      <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
+    <span class="text-muted fw-light"> <a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>/</span> وحدة : {{ $Unit->number_unit }}</h4>
         <input hidden type="text" name="unit_idd" value="{{ $Unit->id }}" />
       <!-- Header -->
       <div class="row">
@@ -113,7 +113,7 @@
       <div class="row">
 
         <div class="col-xl-7 col-lg-7 col-md-7">
-            
+
           <!-- Activity Timeline -->
           {{-- <div class="card mb-4">
             <div class="card-body">
@@ -272,7 +272,7 @@
                   </ul>
                 </div>
               </div>
-        
+
           <!-- Projects table -->
           <div class="card mb-4">
             <div class="card-datatable table-responsive">

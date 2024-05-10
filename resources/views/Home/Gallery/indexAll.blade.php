@@ -103,9 +103,9 @@
 
           </div>
           <div class="d-flex align-items-center justify-content-start">
-            <a  class="share btn btn-secondary d-flex align-items-center me-3"
+            <a  class="share btn btn-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
-            data-bs-target="#twoFactorAuth"><i class="ti-xs me-1 ti ti-share me-1"></i></a
+            data-bs-target="#twoFactorAuth"><i class="ti ti-share ti-sm"></i></a
             >
             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
               ><i class="ti ti-heart ti-sm"></i
