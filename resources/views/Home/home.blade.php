@@ -27,7 +27,8 @@
                     alt="Join community arrow"
                     class="scaleX-n1-rtl"
                 /></span>
-                <a href="#landingPricing" class="btn btn-primary btn-lg">سجل معنا الأن</a>
+                <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                data-bs-target="#addSubscriberModal">سجل معنا الأن</a>
               </div>
             </div>
             <div id="heroDashboardAnimation" class="hero-animation-img">
@@ -505,39 +506,39 @@
       <section id="landingPricing" class="section-py bg-body landing-pricing">
         <div class="container">
           <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">Pricing Plans</span>
+            <span class="badge bg-label-primary">باقات وأسعار أملاك
+            </span>
           </div>
           <h3 class="text-center mb-1">
             <span class="position-relative fw-bold z-1"
-              >Tailored pricing plans
+              >توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة
+
               <img
                 src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
                 alt="laptop charging"
                 class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
             </span>
-            designed for you
           </h3>
           <p class="text-center mb-4 pb-3">
-            All plans include 40+ advanced tools and features to boost your product.<br />Choose the best plan to fit
-            your needs.
+
           </p>
           <div class="text-center mb-5">
             <div class="position-relative d-inline-block pt-3 pt-md-0">
               <label class="switch switch-primary me-0">
-                <span class="switch-label">Pay Monthly</span>
+                <span class="switch-label">ادفع شهري</span>
                 <input type="checkbox" class="switch-input price-duration-toggler" checked />
                 <span class="switch-toggle-slider">
                   <span class="switch-on"></span>
                   <span class="switch-off"></span>
                 </span>
-                <span class="switch-label">Pay Annual</span>
+                <span class="switch-label">ادفع سنوي</span>
               </label>
               <div class="pricing-plans-item position-absolute d-flex">
                 <img
                   src="{{ url('HOME_PAGE/img/front-pages/icons/pricing-plans-arrow.png')}}"
                   alt="pricing plans arrow"
                   class="scaleX-n1-rtl" />
-                <span class="fw-medium mt-2 ms-1"> Save 25%</span>
+                <span class="fw-medium mt-2 ms-1"> وفر 25%</span>
               </div>
             </div>
           </div>
@@ -545,7 +546,7 @@
             <!-- Basic Plan: Start -->
             @foreach ($subscriptionTypes as $subscriptionType)
 
-            <div class="col-xl-4 col-lg-6">
+            <div class="col-xl-3 col-lg-6">
               <div class="card">
                 <div class="card-header">
                   <div class="text-center">
@@ -553,11 +554,18 @@
                       src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png')}}"
                       alt="paper airplane icon"
                       class="mb-4 pb-2" />
-                    <h4 class="mb-1">Basic</h4>
+                    <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
                     <div class="d-flex align-items-center justify-content-center">
-                      <span class="price-monthly h1 text-primary fw-bold mb-0">$19</span>
+                        <p>
+                            @foreach ($subscriptionType->roles as $role)
+                                <span> اشتراك   {{ $role->name_ar }}</span>
+                            @endforeach
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                      <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
                       <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
-                      <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
+                      <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
                     </div>
                     <div class="position-relative pt-2">
                       <div class="price-yearly text-muted price-yearly-toggle d-none">$ 168 / year</div>
@@ -566,65 +574,39 @@
                 </div>
                 <div class="card-body">
                   <ul class="list-unstyled">
+                    @foreach ($sections as $section)
                     <li>
                       <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Timeline
+
+                          @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+                          <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          >
+                          <i class="ti ti-check ti-xs"></i>
+                        </span>
+                        @else
+                        <span class="badge badge-center rounded-pill bg-label-danger p-0 me-2"
+                        >
+                        <i class="ti ti-minus ti-xs"></i>
+                        @endif
+                        </span>
+                        {{ $section->name }}
                       </h5>
                     </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Basic search
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Live chat widget
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Email marketing
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Custom Forms
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Traffic analytics
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Basic Support
-                      </h5>
-                    </li>
+                    @endforeach
+
                   </ul>
                   <div class="d-grid mt-4 pt-3">
-                    <a href="payment-page.html" class="btn btn-label-primary">Get Started</a>
+                    @if ($subscriptionType && $subscriptionType->roles->count() == 2)
+
+                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
+                    @elseif ($role->name == "RS-Broker")
+                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
+                    @elseif ($role->name == "Office-Admin")
+                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
+                    @endif
                   </div>
                 </div>
               </div>
@@ -633,176 +615,6 @@
             @endforeach
             <!-- Basic Plan: End -->
 
-            <!-- Favourite Plan: Start -->
-            {{-- <div class="col-xl-4 col-lg-6">
-              <div class="card border border-primary shadow-lg">
-                <div class="card-header">
-                  <div class="text-center">
-                    <img src="{{ url('HOME_PAGE/img/front-pages/icons/plane.png')}}" alt="plane icon" class="mb-4 pb-2" />
-                    <h4 class="mb-1">Team</h4>
-                    <div class="d-flex align-items-center justify-content-center">
-                      <span class="price-monthly h1 text-primary fw-bold mb-0">$29</span>
-                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$22</span>
-                      <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
-                    </div>
-                    <div class="position-relative pt-2">
-                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 264 / year</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <ul class="list-unstyled">
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Everything in basic
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Timeline with database
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Advanced search
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Marketing automation
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Advanced chatbot
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Campaign management
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Collaboration tools
-                      </h5>
-                    </li>
-                  </ul>
-                  <div class="d-grid mt-4 pt-3">
-                    <a href="payment-page.html" class="btn btn-primary">Get Started</a>
-                  </div>
-                </div>
-              </div>
-            </div> --}}
-            <!-- Favourite Plan: End -->
-
-            <!-- Standard Plan: Start -->
-            {{-- <div class="col-xl-4 col-lg-6">
-              <div class="card">
-                <div class="card-header">
-                  <div class="text-center">
-                    <img
-                      src="{{ url('HOME_PAGE/img/front-pages/icons/shuttle-rocket.png')}}"
-                      alt="shuttle rocket icon"
-                      class="mb-4 pb-2" />
-                    <h4 class="mb-1">Enterprise</h4>
-                    <div class="d-flex align-items-center justify-content-center">
-                      <span class="price-monthly h1 text-primary fw-bold mb-0">$49</span>
-                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$37</span>
-                      <sub class="h6 text-muted mb-0 ms-1">/mo</sub>
-                    </div>
-                    <div class="position-relative pt-2">
-                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 444 / year</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <ul class="list-unstyled">
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Everything in premium
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Timeline with database
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Fuzzy search
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        A/B testing sanbox
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Custom permissions
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Social media automation
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          ><i class="ti ti-check ti-xs"></i
-                        ></span>
-                        Sales automation tools
-                      </h5>
-                    </li>
-                  </ul>
-                  <div class="d-grid mt-4 pt-3">
-                    <a href="payment-page.html" class="btn btn-label-primary">Get Started</a>
-                  </div>
-                </div>
-              </div>
-            </div> --}}
-            <!-- Standard Plan: End -->
           </div>
         </div>
       </section>
@@ -1050,19 +862,19 @@
       <section id="landingContact" class="section-py bg-body landing-contact">
         <div class="container">
           <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">Contact US</span>
+            <span class="badge bg-label-primary">توصل معنا</span>
           </div>
           <h3 class="text-center mb-1">
             <span class="position-relative fw-bold z-1"
-              >Let's work
+              >دعنا نعمل
               <img
                 src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
                 alt="laptop charging"
                 class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
             </span>
-            together
+            معا
           </h3>
-          <p class="text-center mb-4 mb-lg-5 pb-md-3">Any question or remark? just write us a message</p>
+          <p class="text-center mb-4 mb-lg-5 pb-md-3">أي سؤال أو ملاحظة؟ فقط اكتب لنا رسالة</p>
           <div class="row gy-4">
             <div class="col-lg-5">
               <div class="contact-img-box position-relative border p-2 h-100">
@@ -1080,9 +892,9 @@
                       <div class="d-flex align-items-center">
                         <div class="badge bg-label-primary rounded p-2 me-2"><i class="ti ti-mail ti-sm"></i></div>
                         <div>
-                          <p class="mb-0">Email</p>
+                          <p class="mb-0">@lang('Email')</p>
                           <h5 class="mb-0">
-                            <a href="mailto:example@gmail.com" class="text-heading">example@gmail.com</a>
+                            <a href="mailto:example@gmail.com" class="text-heading">{{ $sitting->email }}</a>
                           </h5>
                         </div>
                       </div>
@@ -1093,8 +905,8 @@
                           <i class="ti ti-phone-call ti-sm"></i>
                         </div>
                         <div>
-                          <p class="mb-0">Phone</p>
-                          <h5 class="mb-0"><a href="tel:+1234-568-963" class="text-heading">+1234 568 963</a></h5>
+                          <p class="mb-0">@lang('phone')</p>
+                          <h5 class="mb-0"><a href="tel:+966 54454545" class="text-heading">+966 {{ $sitting->phone }}</a></h5>
                         </div>
                       </div>
                     </div>
@@ -1150,4 +962,17 @@
     <!-- / Sections:End -->
 
     <!-- Footer: Start -->
+
+    @include('Home.layouts.inc.__addSubscriberModal')
+<script>
+    function redirectToCreateBroker() {
+        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+    }
+    function redirectToCreateOffice() {
+        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+
+    }
+</script>
+
+    @endsection
 
