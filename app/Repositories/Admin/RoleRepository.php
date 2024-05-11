@@ -17,7 +17,7 @@ class RoleRepository implements RoleRepositoryInterface
     public function create($data)
     {
         $permissions = Permission::whereIn('id', $data['permission'])->get();
-        $role = Role::create(['name' => $data['name'], 'name_ar' => $data['name_ar']]);
+        $role = Role::create(['name' => $data['name'], 'name_ar' => $data['name_ar'], 'type' => $data['type']]);
         $role->syncPermissions($permissions);
         return $role;
     }

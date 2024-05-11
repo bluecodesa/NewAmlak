@@ -46,6 +46,8 @@
     <link href="{{ url('dashboard_files/assets/css/select2.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+
     <!-- DataTables -->
 
     <!-- Vendors CSS -->
@@ -183,7 +185,9 @@
     <script src="{{ url('dashboard_files/assets/js/select2.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script>
+    {{-- <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script> --}}
+    <script src="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    {{-- <script src="{{ url('assets/js/extended-ui-sweetalert2.js') }}"></script> --}}
     <script src="{{ url('dashboard_files/assets/js/bootstrap4-toggle.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/jquery-ui.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/printThis.js') }}"></script>
@@ -256,16 +260,20 @@
             });
 
         });
+    </script>
 
+
+    @stack('scripts')
+
+    <script>
         function handleDelete(id) {
             Swal.fire({
                 title: '@lang('Are you sure')',
                 text: "@lang('You can not be able to revert this!')",
                 icon: 'warning',
-                showCancelButton: true,
+                showCancelButton: false,
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '@lang('Yes, delete it!')'
+                confirmButtonText: "@lang('Yes, delete it!')"
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('delete-form-' + id).submit();
@@ -273,11 +281,6 @@
             });
         }
     </script>
-
-
-    @stack('scripts')
-
-
 
 </body>
 

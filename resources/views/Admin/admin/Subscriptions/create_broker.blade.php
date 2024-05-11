@@ -128,8 +128,7 @@
 
 
                         <div class="col-md-12">
-                            <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('Cancel')</button>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary">@lang('Cancel')</a>
 
                             <button type="submit"
                                 class="btn btn-primary waves-effect waves-light">@lang('Submit')</button>

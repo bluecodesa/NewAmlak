@@ -73,7 +73,7 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
                                 <th>@lang('Role type')</th>
                                 <th>@lang('Action')</th>
@@ -82,7 +82,7 @@
                         <tbody class="table-border-bottom-0">
                             @forelse ($roles as $index=> $role)
                                 <tr>
-                                    <th>{{ $index + 1 }}</th>
+                                    {{-- <th>{{ $index + 1 }}</th> --}}
                                     <td>{{ app()->getLocale() == 'ar' ? $role->name_ar : $role->name }}
                                     </td>
                                     <td>{{ __($role->type) }}</td>
@@ -150,11 +150,6 @@
                 // Get the table by ID
                 var table = document.getElementById('table');
 
-                // Remove the last <td> from each row
-                var rows = table.rows;
-                for (var i = 0; i < rows.length; i++) {
-                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
-                }
 
                 // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {

@@ -103,12 +103,6 @@
                 // Get the table by ID
                 var table = document.getElementById('table');
 
-                // Remove the last <td> from each row
-                var rows = table.rows;
-                for (var i = 0; i < rows.length; i++) {
-                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
-                }
-
                 // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {
                     sheet: "Sheet1"

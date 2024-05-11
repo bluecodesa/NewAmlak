@@ -124,7 +124,7 @@
 
 
                         <div class="col-12">
-                            <button type="button" class="btn btn-secondary">@lang('Cancel')</button>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary">@lang('Cancel')</a>
                             <button type="submit"
                                 class="btn btn-primary waves-effect waves-light">@lang('save')</button>
 

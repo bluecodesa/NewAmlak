@@ -37,21 +37,19 @@
                                                     aria-haspopup="dialog" aria-expanded="false"><span>
                                                         <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    @if (Auth::user()->hasPermission('create-regions-cities-districts'))
-                                                        <li><a class="dropdown-item"
-                                                                href="{{ route('Admin.District.create') }}">@lang('Add New District')</a>
-                                                        </li>
-                                                    @endif
 
-                                                </ul>
-                                            </div>
+
+
+                                            @if (Auth::user()->hasPermission('create-regions-cities-districts'))
+                                                <div class="btn-group">
+                                                    <a href="{{ route('Admin.District.create') }}" class="btn btn-primary">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add New District')</span></span>
+                                                    </a>
+
+                                                </div>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +64,7 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
                                 <th>@lang('city')</th>
                                 <th>@lang('Action')</th>
@@ -75,7 +73,7 @@
                         <tbody class="table-border-bottom-0">
                             @foreach ($districts as $index => $district)
                                 <tr>
-                                    <th>{{ $index + 1 }}</th>
+                                    {{-- <th>{{ $index + 1 }}</th> --}}
                                     <td>{{ $district->name }} </td>
                                     <td>{{ $district->CityData->name ?? '' }} </td>
                                     <td>
@@ -128,12 +126,6 @@
             function exportToExcel() {
                 // Get the table by ID
                 var table = document.getElementById('table');
-
-                // Remove the last <td> from each row
-                var rows = table.rows;
-                for (var i = 0; i < rows.length; i++) {
-                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
-                }
 
                 // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {

@@ -49,6 +49,7 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+
         $this->RoleService->create($request->all());
         return redirect()->route('Admin.roles.index')
             ->withSuccess('New role is added successfully.');

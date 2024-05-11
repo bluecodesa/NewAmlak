@@ -39,21 +39,15 @@
                                                     aria-haspopup="dialog" aria-expanded="false"><span>
                                                         <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    @if (Auth::user()->hasPermission('create-sections'))
-                                                        <li><a class="dropdown-item"
-                                                                href="{{ route('Admin.Sections.create') }}">@lang('Add New Section')</a>
-                                                        </li>
-                                                    @endif
-
-                                                </ul>
-                                            </div>
+                                            @if (Auth::user()->hasPermission('create-sections'))
+                                                <div class="btn-group">
+                                                    <a href="{{ route('Admin.Sections.create') }}" type="button"
+                                                        class="btn btn-primary">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add New Section')</span></span>
+                                                    </a>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +62,7 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
                                 <th>@lang('Action')</th>
                             </tr>
@@ -76,7 +70,7 @@
                         <tbody class="table-border-bottom-0">
                             @forelse ($sections as $index=> $section)
                                 <tr>
-                                    <th>{{ $index + 1 }}</th>
+                                    {{-- <th>{{ $index + 1 }}</th> --}}
                                     <td>{{ $section->name }} </td>
                                     <td>
 
@@ -135,12 +129,6 @@
             function exportToExcel() {
                 // Get the table by ID
                 var table = document.getElementById('table');
-
-                // Remove the last <td> from each row
-                var rows = table.rows;
-                for (var i = 0; i < rows.length; i++) {
-                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
-                }
 
                 // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {

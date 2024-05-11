@@ -43,8 +43,14 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
-                                                        <li><a class="dropdown-item" data-bs-toggle="modal"
-                                                                data-bs-target="#largeModal">@lang('Add New Subscriber')</a>
+                                                        <li><a class="dropdown-item"
+                                                                href="{{ route('Admin.Subscribers.create') }}">@lang('Add')
+                                                                @lang('Office')</a>
+                                                        </li>
+
+                                                        <li><a class="dropdown-item"
+                                                                href="{{ route('Admin.Subscribers.CreateBroker') }}">@lang('Add')
+                                                                @lang('Broker')</a>
                                                         </li>
                                                     @endif
                                                 </ul>
@@ -65,7 +71,7 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>@lang('Subscriber Name')</th>
                                 <th>@lang('Account Type')</th>
                                 <th>@lang('Subscription Type')</th>
@@ -81,7 +87,7 @@
                         <tbody class="table-border-bottom-0 sortable">
                             @foreach ($subscribers as $index => $subscriber)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
+                                    {{-- <td>{{ $index + 1 }}</td> --}}
 
                                     <td>
                                         @if ($subscriber->office_id)
@@ -200,7 +206,7 @@
     </div>
 
 
-    <div class="modal animate__animated animate__zoomIn" id="largeModal" tabindex="-1" aria-hidden="true">
+    {{-- <div class="modal animate__animated animate__zoomIn" id="largeModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -222,7 +228,7 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
 
     @push('scripts')
         <script>

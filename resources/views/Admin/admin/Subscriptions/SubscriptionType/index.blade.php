@@ -124,21 +124,24 @@
                                                     aria-haspopup="dialog" aria-expanded="false"><span>
                                                         <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
+                                            @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
+                                                <div class="btn-group">
+
+                                                    <a href="{{ route('Admin.SubscriptionTypes.create') }}" type="button"
+                                                        class="btn btn-primary">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add New Type subscription')</span></span>
+                                                    </a>
+                                                    {{-- <ul class="dropdown-menu">
                                                     @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
                                                         <li><a class="dropdown-item"
                                                                 href="{{ route('Admin.SubscriptionTypes.create') }}">@lang('Add New Type subscription')</a>
                                                         </li>
                                                     @endif
 
-                                                </ul>
-                                            </div>
+                                                </ul> --}}
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +156,7 @@
                     <table class="table" id="table2">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
                                 <th>@lang('Subscription Time')</th>
                                 <th>@lang('Subscription Type')</th>
@@ -166,7 +169,7 @@
                         <tbody class="table-border-bottom-0 sortable">
                             @foreach ($subscriptions as $index => $sub)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
+                                    {{-- <td>{{ $index + 1 }}</td> --}}
                                     <td>{{ $sub->name }}</td>
                                     <td>
                                         @if ($sub->price > 0)
@@ -268,7 +271,7 @@
                                                     aria-haspopup="dialog" aria-expanded="false"><span>
                                                         <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
-                                            <div class="btn-group">
+                                            {{-- <div class="btn-group">
                                                 <button type="button" class="btn btn-primary dropdown-toggle"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                     <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
@@ -281,7 +284,7 @@
                                                         </li>
                                                     @endif
                                                 </ul>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -298,7 +301,7 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
                                 <th>@lang('Subscription Time')</th>
                                 <th>@lang('Subscription Type')</th>
@@ -310,7 +313,7 @@
                         <tbody class="table-border-bottom-0">
                             @foreach ($subscriptionsDeleted as $index => $sub_deleted)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
+                                    {{-- <td>{{ $index + 1 }}</td> --}}
                                     <td>{{ $sub_deleted->name }}</td>
                                     <td>
                                         @if ($sub_deleted->price > 0)
@@ -390,11 +393,7 @@
                 // Get the table by ID
                 var table = document.getElementById('table');
 
-                // Remove the last <td> from each row
-                var rows = table.rows;
-                for (var i = 0; i < rows.length; i++) {
-                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
-                }
+
 
                 // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {
@@ -412,10 +411,7 @@
                 var table = document.getElementById('table');
 
                 // Remove the last <td> from each row
-                var rows = table.rows;
-                for (var i = 0; i < rows.length; i++) {
-                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
-                }
+
 
                 // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {

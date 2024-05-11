@@ -44,21 +44,16 @@
                                                     aria-haspopup="dialog" aria-expanded="false"><span>
                                                         <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    @if (Auth::user()->hasPermission('create-users'))
-                                                        <li><a class="dropdown-item"
-                                                                href="{{ route('Admin.users.create') }}">@lang('Add New Admin')</a>
-                                                        </li>
-                                                    @endif
+                                            @if (Auth::user()->hasPermission('create-users'))
+                                                <div class="btn-group">
+                                                    <a href="{{ route('Admin.users.create') }}" type="button"
+                                                        class="btn btn-primary">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add New Admin')</span></span>
+                                                    </a>
 
-                                                </ul>
-                                            </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -162,11 +157,6 @@
                 // Get the table by ID
                 var table = document.getElementById('table');
 
-                // Remove the last <td> from each row
-                var rows = table.rows;
-                for (var i = 0; i < rows.length; i++) {
-                    rows[i].deleteCell(-1); // Deletes the last cell (-1) from each row
-                }
 
                 // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {
