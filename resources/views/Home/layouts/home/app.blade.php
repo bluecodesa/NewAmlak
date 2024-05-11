@@ -85,13 +85,14 @@
               <li class="nav-item">
                 <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link fw-medium" href="{{ route('brokers') }}" >المسوقين العقاريين</a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingContact">تواصل معنا</a>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link fw-medium" href="{{ route('brokers') }}" >المسوقين العقاريين</a>
-              </li>
+
             </ul>
           </div>
           <div class="landing-menu-overlay d-lg-none"></div>
@@ -127,14 +128,15 @@
             <li>
 
                 @guest
-              <a href="{{ route('login') }}" class="btn btn-primary" target="_blank"
+              <a href="{{ route('login') }}" class="btn btn-primary"
                 ><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span
                 ><span class="d-none d-md-block">تسجيل</span></a
               >
 
-              <a href="../vertical-menu-template/auth-login-cover.html" class="btn btn-primary" target="_blank"
-              ><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span
-              ><span class="d-none d-md-block">سجل معنا الأن</span></a
+              <a href="" class="btn btn-primary" target="_blank" data-bs-toggle="modal"
+              data-bs-target="#addSubscriberModal"
+              ><span class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span>
+              <span class="d-none d-md-block">سجل معنا الأن</span></a
             >
             @endguest
             @auth

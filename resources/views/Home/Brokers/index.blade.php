@@ -5,6 +5,7 @@
 
 <section class="section-py bg-body first-section-pt">
     <div class="container mt-2">
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span>المسوقين العقاريين</h4>
 
         <div class="row g-4">
             @foreach ($brokers as $broker)
@@ -34,7 +35,7 @@
                       <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 ">
                         <div class="d-flex justify-content-center">
                             <a href="{{ route('gallery.showByName', ['name' => $broker->UserBrokerData->GalleryData->gallery_name]) }}" class="btn btn-primary me-3 waves-effect waves-light" >زيارة المعرض</a>
-                         
+
                           </div>
                       </div>
 
@@ -45,3 +46,5 @@
           </div>
     </div>
   </section>
+
+  @endsection

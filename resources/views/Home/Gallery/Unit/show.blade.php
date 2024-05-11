@@ -375,3 +375,4 @@
   </div>
    </section>
   <!-- Content wrapper -->
+  @endsection

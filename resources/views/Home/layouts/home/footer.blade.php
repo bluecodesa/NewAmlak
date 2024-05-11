@@ -36,29 +36,30 @@
                     fill="#7367F0" />
                 </svg>
               </span>
-              <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">Vuexy</span>
+              <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">أملاك</span>
             </a>
             <p class="footer-text footer-logo-description mb-4">
-              Most developer friendly & highly customisable Admin Dashboard Template.
+                خيارك الأول لإدارة العقارات عبر منصة متكاملة تخدم مدراء العقارات، والملاك والمستأجرين
             </p>
             <form class="footer-form">
-              <label for="footer-email" class="small">Subscribe to newsletter</label>
+              <label for="footer-email" class="small">سجل معنا ليصلك كل جديد
+            </label>
               <div class="d-flex mt-1">
                 <input
                   type="email"
                   class="form-control rounded-0 rounded-start-bottom rounded-start-top"
                   id="footer-email"
-                  placeholder="Your email" />
+                  placeholder="بريدك الالكتروني" />
                 <button
                   type="submit"
                   class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top">
-                  Subscribe
+                  سجل
                 </button>
               </div>
             </form>
           </div>
           <div class="col-lg-2 col-md-4 col-sm-6">
-            <h6 class="footer-title mb-4">Demos</h6>
+            <h6 class="footer-title mb-4">عن بلوكود</h6>
             <ul class="list-unstyled">
               <li class="mb-3">
                 <a href="../vertical-menu-template/" target="_blank" class="footer-link">Vertical Layout</a>
@@ -80,7 +81,7 @@
             </ul>
           </div>
           <div class="col-lg-2 col-md-4 col-sm-6">
-            <h6 class="footer-title mb-4">Pages</h6>
+            <h6 class="footer-title mb-4">روابط مهمة</h6>
             <ul class="list-unstyled">
               <li class="mb-3">
                 <a href="pricing-page.html" class="footer-link">Pricing</a>
@@ -103,14 +104,29 @@
               </li>
             </ul>
           </div>
-          <div class="col-lg-3 col-md-4">
-            <h6 class="footer-title mb-4">Download our app</h6>
-            <a href="javascript:void(0);" class="d-block footer-link mb-3 pb-2"
-              ><img src="{{ url('HOME_PAGE/img/front-pages/landing-page/apple-icon.png')}}" alt="apple icon"
-            /></a>
-            <a href="javascript:void(0);" class="d-block footer-link"
-              ><img src="{{ url('HOME_PAGE/img/front-pages/landing-page/google-play-icon.png')}}" alt="google play icon"
-            /></a>
+          <div class="col-lg-2 col-md-4 col-sm-6">
+            <h6 class="footer-title mb-4">تواصل معنا</h6>
+            <ul class="list-unstyled">
+              <li class="mb-3">
+                <a href="pricing-page.html" class="footer-link">Pricing</a>
+              </li>
+              <li class="mb-3">
+                <a href="payment-page.html" class="footer-link"
+                  >Payment<span class="badge rounded bg-primary ms-2">New</span></a
+                >
+              </li>
+              <li class="mb-3">
+                <a href="checkout-page.html" class="footer-link">Checkout</a>
+              </li>
+              <li class="mb-3">
+                <a href="help-center-landing.html" class="footer-link">Help Center</a>
+              </li>
+              <li class="mb-3">
+                <a href="../vertical-menu-template/auth-login-cover.html" target="_blank" class="footer-link"
+                  >Login/Register</a
+                >
+              </li>
+            </ul>
           </div>
         </div>
       </div>

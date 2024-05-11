@@ -1,82 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-<html lang="{{ LaravelLocalization::getCurrentLocale() }}"
-    class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
-    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
-    data-assets-path="{{ url('HOME_PAGE') }}/" data-template="vertical-menu-template-starter">
-  <head>
+<head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>{{ $sitting->title }} @lang('register')</title>
+    <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
+    <meta content="Themesdesign" name="author" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-      <title>{{ $sitting->title }} @lang('register')</title>
+    <link href="{{ url('dashboard_files/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/icons.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/style.css') }}" rel="stylesheet" type="text/css">
 
-    <meta name="description" content="" />
+    <link href="http://fonts.cdnfonts.com/css/tajawal" rel="stylesheet">
+    <style>
+        body,
+        h4,
+        h5,
+        strong,
+        label span,
+        * {
+            font-family: 'Tajawal';
+        }
+    </style>
+</head>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('HOME_PAGE/img/favicon/favicon.ico')}}" />
+<body>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
-      rel="stylesheet" />
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/fontawesome.css')}}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/tabler-icons.css')}}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/flag-icons.css')}}" />
-
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/css/rtl/core.css" class="template-customizer-core-css')}}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css')}}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/css/demo.css')}}" />
-
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/node-waves/node-waves.css')}}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/typeahead-js/typeahead.css')}}" />
-    <!-- Vendor -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/@form-validation/form-validation.css')}}" />
-
-    <!-- Page CSS -->
-    <!-- Page -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/css/pages/page-auth.css')}}" />
-
-    <!-- Helpers -->
-    <script src="{{ asset('HOME_PAGE/vendor/js/helpers.js')}}"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <script src="{{ asset('HOME_PAGE/vendor/js/template-customizer.js')}}"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{ asset('HOME_PAGE/js/config.js')}}"></script>
-  </head>
-
-  <body>
-    <!-- Content -->
-
-    <div class="container-xxl">
-      <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner py-4">
-          <!-- Register Card -->
-          <div class="card">
-            <div class="card-body">
-              <!-- Logo -->
-              <div class="app-brand justify-content-center mb-4 mt-2">
-                <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-logo demo">
+    <!-- Begin page -->
+    <div class="accountbg"></div>
+    <div class="home-btn d-none d-sm-block">
+        <a href="{{ route('welcome') }}" class="text-white"><i class="fas fa-home h2"></i></a>
+    </div>
+    <div class="wrapper-page" style="width: 50%;">
+        <div class="card card-pages shadow-none">
+            <div class="card-body px-5"> <!-- Adjusted width -->
+                <div class="text-center m-t-0 m-b-15">
                     <a href="{{ route('welcome') }}" class="logo logo-admin"><img src="{{ url($sitting->icon) }}"
-                        alt="" height="50"></a>
-                  </span>
-                </a>
-              </div>
-              <!-- /Logo -->
-              <h4 class="mb-1 pt-2 text-center">سجل الأن</h4>
-
-              <form id="formAuthentication" class="mb-3" aaction="{{ route('Home.Brokers.CreateBroker') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+                            alt="" height="24"></a>
+                </div>
+                <h5 class="font-18 text-center">@lang('register') </h5>
+                <form action="{{ route('Home.Brokers.CreateBroker') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -178,7 +146,7 @@
                                 accept="image/png, image/jpg, image/jpeg">
                             <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
                                 class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
-
+                          
                         </div>
                         <div class="col-md-6">
                             <label for="id_number" class="col-form-label">@lang('id number')</label>
@@ -196,58 +164,96 @@
                     </div>
 
 
-
-
-              <div class="divider my-4">
-                <div class="divider-text"></div>
-              </div>
-
-              <div class="d-flex justify-content-center">
-                <div class="form-group mb-0 row">
-                    <div class="col-12 m-t-10 text-center">
-                        @lang('By registering') @lang('you accept our')
-                        <a href="{{ asset($termsAndConditionsUrl) }}" target="_blank" download>
-                            @lang('Conditions') &amp; @lang('Terms')
-                        </a>
-                        <a href="{{ asset($privacyPolicyUrl) }}" target="_blank" download>
-                            @lang('and') @lang('our privacy policy')
-                        </a>
+                    <div class="form-group mb-0 row">
+                        <div class="col-12 m-t-10 text-center">
+                            @lang('By registering') @lang('you accept our')
+                            <a href="{{ asset($termsAndConditionsUrl) }}" target="_blank" download>
+                                @lang('Conditions') &amp; @lang('Terms')
+                            </a>
+                            <a href="{{ asset($privacyPolicyUrl) }}" target="_blank" download>
+                                @lang('and') @lang('our privacy policy')
+                            </a>
+                        </div>
                     </div>
-                </div>
-              </div>
+                </form>
+
+
             </div>
-          </div>
-          <!-- Register Card -->
+
         </div>
-      </div>
     </div>
+    <!-- END wrapper -->
 
-    <!-- / Content -->
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
+    <!-- jQuery  -->
+    <script src="{{ url('dashboard_files/assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/metismenu.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/jquery.slimscroll.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/waves.min.js') }}"></script>
 
-    <script src="{{ asset('HOME_PAGE/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/node-waves/node-waves.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/hammer/hammer.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/i18n/i18n.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/typeahead-js/typeahead.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/js/menu.js')}}"></script>
+    <!-- App js -->
+    <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
 
-    <!-- endbuild -->
 
-    <!-- Vendors JS -->
-    <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/popular.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/bootstrap5.js')}}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/auto-focus.js')}}"></script>
+    <!-- Custom  js -->
 
-    <!-- Main JS -->
-    <script src="{{ asset('HOME_PAGE/js/main.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#Region_id').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#CityDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#CityDiv').fadeOut('fast', function() {
+                            // Empty the city select element
+                            $(this).empty();
+                            // Append the new options based on the received data
+                            $.each(data, function(key, city) {
+                                $('#CityDiv').append($('<option>', {
+                                    value: city.id,
+                                    text: city.name
+                                }));
+                            });
+                            // Fade in the city select element with new options
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
 
-    <!-- Page JS -->
-    <script src="{{ asset('HOME_PAGE/js/pages-auth.js')}}"></script>
-  </body>
+        $('#broker_logo_preview').click(function() {
+            $('#broker_logo').click(); // Trigger file input click on image click
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#broker_logo_preview').attr('src', e.target.result); // Update the preview image
+                };
+
+                reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+            }
+        }
+
+        $("#broker_logo").change(function() {
+            readURL(this); // Call readURL function when a file is selected
+        });
+    </script>
+
+
+</body>
+
 </html>
