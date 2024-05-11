@@ -85,6 +85,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0 sortable">
+
                             @foreach ($subscribers as $index => $subscriber)
                                 <tr>
                                     {{-- <td>{{ $index + 1 }}</td> --}}
@@ -199,6 +200,8 @@
                         </tbody>
                     </table>
                 </div>
+
+                {{ $subscribers->links() }}
             </div>
 
         </div>

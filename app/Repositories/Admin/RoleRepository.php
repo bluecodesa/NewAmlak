@@ -11,7 +11,7 @@ class RoleRepository implements RoleRepositoryInterface
 {
     public function getAll()
     {
-        return Role::orderBy('id', 'DESC')->paginate(50);
+        return Role::orderBy('id', 'DESC')->paginate(100);
     }
 
     public function create($data)

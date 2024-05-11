@@ -10,7 +10,7 @@ class ServiceTypeRepository implements ServiceTypeRepositoryInterface
 {
     public function getAll()
     {
-        return ServiceType::get();
+        return ServiceType::paginate(100);
     }
 
     public function create($data)

@@ -9,7 +9,7 @@ class ServiceRepository implements ServiceRepositoryInterface
 {
     public function getAll()
     {
-        return Service::get();
+        return Service::paginate(100);
     }
 
     public function create($data)

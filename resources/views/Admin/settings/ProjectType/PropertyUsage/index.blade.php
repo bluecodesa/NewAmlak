@@ -119,6 +119,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $types->links() }}
             </div>
             <!-- Modal to add new record -->
 

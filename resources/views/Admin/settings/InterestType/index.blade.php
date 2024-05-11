@@ -19,6 +19,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 @forelse ($interests as $index=> $interest)
                     <tr>
                         {{-- <th>{{ $index + 1 }}</th> --}}
@@ -59,6 +60,8 @@
                 @endforelse
             </tbody>
         </table>
+
+        {{ $interests->links() }}
 
 
     </div> <!-- end col -->

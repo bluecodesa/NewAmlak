@@ -10,7 +10,7 @@ class PropertyUsageRepository implements PropertyUsageRepositoryInterface
 {
     public function getAll()
     {
-        return PropertyUsage::get();
+        return PropertyUsage::paginate(100);
     }
 
     public function create($data)

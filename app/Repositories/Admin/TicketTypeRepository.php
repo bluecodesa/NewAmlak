@@ -9,7 +9,7 @@ class TicketTypeRepository implements TicketTypeRepositoryInterface
 {
     public function all()
     {
-        return TicketType::all();
+        return TicketType::paginate(100);
     }
 
     public function create(array $data)

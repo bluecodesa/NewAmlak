@@ -119,6 +119,7 @@
                     </table>
                 </div>
             </div>
+            {{ $types->links() }}
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->

@@ -107,6 +107,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $regions->links() }}
             </div>
             <!-- Modal to add new record -->
 

@@ -9,7 +9,7 @@ class SectionRepository implements SectionRepositoryInterface
 {
     public function getAll()
     {
-        return Section::get();
+        return Section::paginate(100);
     }
 
     public function create($data)

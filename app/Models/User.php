@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public static function getAdmins()
     {
-        return self::where('is_admin', 1)->get();
+        return self::where('is_admin', 1)->paginate(100);
     }
 
     public function Interests()

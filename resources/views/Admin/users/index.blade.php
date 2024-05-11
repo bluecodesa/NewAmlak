@@ -140,6 +140,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $users->links() }}
             </div>
             <!-- Modal to add new record -->
 
