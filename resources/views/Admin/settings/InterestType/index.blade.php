@@ -13,7 +13,7 @@
         <table class="table" id="table">
             <thead class="table-dark">
                 <tr>
-                    <th>#</th>
+                    {{-- <th>#</th> --}}
                     <th>@lang('Name')</th>
                     <th>@lang('Action')</th>
                 </tr>
@@ -21,7 +21,7 @@
             <tbody>
                 @forelse ($interests as $index=> $interest)
                     <tr>
-                        <th>{{ $index + 1 }}</th>
+                        {{-- <th>{{ $index + 1 }}</th> --}}
                         <td>{{ $interest->name }} </td>
                         <td>
                             <div class="dropdown">
