@@ -65,7 +65,7 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
                                 <th>@lang('Number properties')</th>
                                 <th>@lang('Number units')</th>
@@ -75,7 +75,7 @@
                         <tbody class="table-border-bottom-0">
                             @foreach ($types as $index => $type)
                                 <tr>
-                                    <th>{{ $index + 1 }}</th>
+                                    {{-- <th>{{ $index + 1 }}</th> --}}
                                     <td>{{ $type->name }} </td>
                                     <td> {{ $type->PropertyData->count() }} </td>
                                     <td> {{ $type->UnitData->count() }} </td>
