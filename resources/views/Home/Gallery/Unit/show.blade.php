@@ -12,9 +12,9 @@
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
-            {{-- <div class="user-profile-header-banner">
-              <img src="{{ asset('/img/pages/profile-banner.png')}}" alt="Banner image" class="rounded-top cover" />
-            </div> --}}
+            <div class="user-profile-header-banner">
+              {{-- <img src="{{ asset('/img/pages/profile-banner.png')}}" alt="Banner image" class="rounded-top cover" /> --}}
+            </div>
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
               <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
 
@@ -71,7 +71,7 @@
                   <a href="tel:{{ env('COUNTRY_CODE') . $broker->moblie }}" class="btn btn-primary d-flex align-items-center me-3">
                     <i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                   <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}" class="btn btn-secondary d-flex align-items-center me-3"
-                    ><i class="ti-xs me-1 ti ti-message me-1">@lang('دردشة')</i></a>
+                    ><i class="ti-xs me-1 ti ti-message me-1"> @lang('دردشة')</i></a>
                 </div>
               </div>
             </div>
@@ -171,110 +171,71 @@
           <!--/ Activity Timeline -->
             <div class="card card-action mb-4">
                 <div class="card-header align-items-center">
-                  <h5 class="card-action-title mb-0">Activity Timeline</h5>
-                  <div class="card-action-element">
-                    <div class="dropdown">
-                      <button
-                        type="button"
-                        class="btn dropdown-toggle hide-arrow p-0"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="ti ti-dots-vertical text-muted"></i>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="javascript:void(0);">Share timeline</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
-                        <li>
-                          <hr class="dropdown-divider" />
-                        </li>
-                        <li><a class="dropdown-item" href="javascript:void(0);">Report bug</a></li>
-                      </ul>
-                    </div>
-                  </div>
+                  <h5 class="card-action-title mb-0">تفاصيل الوحدة</h5>
+
                 </div>
                 <div class="card-body pb-0">
-                  <ul class="timeline ms-1 mb-0">
-                    <li class="timeline-item timeline-item-transparent">
-                      <span class="timeline-point timeline-point-primary"></span>
-                      <div class="timeline-event">
-                        <div class="timeline-header">
-                          <h6 class="mb-0">Client Meeting</h6>
-                          <small class="text-muted">Today</small>
-                        </div>
-                        <p class="mb-2">Project meeting with john @10:15am</p>
-                        <div class="d-flex flex-wrap">
-                          <div class="avatar me-2">
-                            <img src="../../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
-                          </div>
-                          <div class="ms-1">
-                            <h6 class="mb-0">Lester McCarthy (Client)</h6>
-                            <span>CEO of Infibeam</span>
-                          </div>
-                        </div>
+                    {{$Unit->note ?? ''  }}
+                  </div>
+                <div class="card-body pb-0">
+
+
+                    <div class="d-flex align-items-center justify-content-start my-3 gap-2">
+                        @if ($Unit->rooms)
+                        <a href="javascript:;"><span class="badge bg-label-primary">@lang('number rooms') : {{ $Unit->rooms }}</span></a>
+                        @endif
+                        @if ($Unit->bathrooms)
+                        <a href="javascript:;"><span class="badge bg-label-warning">@lang('Number bathrooms') : {{ $Unit->bathrooms }}</span></a>
+                        @endif
+                        @if ($Unit->space)
+                        <a href="javascript:;"><span class="badge bg-label-success">@lang('Area (square metres)') : {{ $Unit->space }}</span></a>
+                        @endif
+
+
+                        <a href="javascript:;"><span class="badge bg-label-info"><i class="ti ti-eye"></i> {{ $unitVisitorsCount[$Unit->id] ?? 0 }}</span></a>
+
+                        <a href="javascript:;" class="me-1"
+                        style="
+                         @if (!$Unit->daily_rent ) visibility:hidden @endif">
+                         <span class="badge bg-label-secondary">متاح @lang('Daily Rent')</span></a>
                       </div>
-                    </li>
-                    <li class="timeline-item timeline-item-transparent">
-                      <span class="timeline-point timeline-point-success"></span>
-                      <div class="timeline-event">
-                        <div class="timeline-header">
-                          <h6 class="mb-0">Create a new project for client</h6>
-                          <small class="text-muted">2 Day Ago</small>
+
+                    @if ($Unit->UnitFeatureData->isNotEmpty() && $Unit->UnitFeatureData->whereNotNull('qty')->isNotEmpty())
+                    <ul class="list-unstyled mb-4 mt-3">
+                        <h5 class="card-action-title mb-0">@lang('Additional details')</h5>
+                        <div class="d-flex align-items-center justify-content-start my-3 gap-2">
+                            <ol class="list-group list-group-numbered">
+                                @foreach ($Unit->UnitFeatureData as $feature)
+                                    @if ($feature->qty)
+                                        <span>{{ $feature->FeatureData->name ?? '' }} : {{ $feature->qty }}</span>
+                                    @endif
+                                @endforeach
+                            </ol>
                         </div>
-                        <p class="mb-0">Add files to new design folder</p>
-                      </div>
-                    </li>
-                    <li class="timeline-item timeline-item-transparent">
-                      <span class="timeline-point timeline-point-danger"></span>
-                      <div class="timeline-event">
-                        <div class="timeline-header">
-                          <h6 class="mb-0">Shared 2 New Project Files</h6>
-                          <small class="text-muted">6 Day Ago</small>
+
+                    </ul>
+                    @endif
+
+                    @if ($Unit->UnitServicesData->isNotEmpty())
+                    <ul class="list-unstyled mb-4 mt-3">
+                        <h5 class="card-action-title mb-0">@lang('Additional details')</h5>
+                        <div class="d-flex align-items-center justify-content-start my-3 gap-2">
+                            <ol class="list-group list-group-numbered">
+                                <span class="text-with-ellipsis">
+                                    @foreach ($Unit->UnitServicesData as $service)
+                                        <li><span class="badge bg-label-secondary">{{ $service->ServiceData->name ?? '' }}</span></li>
+                                    @endforeach
+                                </span>
+                            </ol>
                         </div>
-                        <p class="mb-2">
-                          Sent by Mollie Dixon
-                          <img
-                            src="../../assets/img/avatars/4.png"
-                            class="rounded-circle me-3"
-                            alt="avatar"
-                            height="24"
-                            width="24" />
-                        </p>
-                        <div class="d-flex flex-wrap gap-2 pt-1">
-                          <a href="javascript:void(0)" class="me-3">
-                            <img
-                              src="../../assets/img/icons/misc/doc.png"
-                              alt="Document image"
-                              width="15"
-                              class="me-2" />
-                            <span class="fw-medium text-heading">App Guidelines</span>
-                          </a>
-                          <a href="javascript:void(0)">
-                            <img
-                              src="../../assets/img/icons/misc/xls.png"
-                              alt="Excel image"
-                              width="15"
-                              class="me-2" />
-                            <span class="fw-medium text-heading">Testing Results</span>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="timeline-item timeline-item-transparent border-transparent">
-                      <span class="timeline-point timeline-point-info"></span>
-                      <div class="timeline-event">
-                        <div class="timeline-header">
-                          <h6 class="mb-0">Project status updated</h6>
-                          <small class="text-muted">10 Day Ago</small>
-                        </div>
-                        <p class="mb-0">Woocommerce iOS App Completed</p>
-                      </div>
-                    </li>
-                  </ul>
+
+                    </ul>
+                    @endif
                 </div>
               </div>
 
           <!-- Projects table -->
-          <div class="card mb-4">
+          {{-- <div class="card mb-4">
             <div class="card-datatable table-responsive">
               <table class="datatables-projects table border-top">
                 <thead>
@@ -290,7 +251,7 @@
                 </thead>
               </table>
             </div>
-          </div>
+          </div> --}}
           <!--/ Projects table -->
         </div>
 
@@ -325,44 +286,7 @@
                     <i class="ti ti-building text-heading"></i
                     ><span class="fw-medium mx-2 text-heading">@lang('Property type') : </span> <span>{{ $Unit->PropertyTypeData->name ?? ''  }}</span>
                   </li>
-                  {{-- <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-flag text-heading"></i
-                    ><span class="fw-medium mx-2 text-heading">Country:</span> <span>USA</span>
-                  </li>
-                  <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-file-description text-heading"></i
-                    ><span class="fw-medium mx-2 text-heading">Languages:</span> <span>English</span>
-                  </li>
-                </ul>
-                <small class="card-text text-uppercase">Contacts</small>
-                <ul class="list-unstyled mb-4 mt-3">
-                  <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading">Contact:</span>
-                    <span>(123) 456-7890</span>
-                  </li>
-                  <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-brand-skype"></i><span class="fw-medium mx-2 text-heading">Skype:</span>
-                    <span>john.doe</span>
-                  </li>
-                  <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">Email:</span>
-                    <span>john.doe@example.com</span>
-                  </li>
-                </ul>
-                <small class="card-text text-uppercase">Teams</small>
-                <ul class="list-unstyled mb-0 mt-3">
-                  <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-brand-angular text-danger me-2"></i>
-                    <div class="d-flex flex-wrap">
-                      <span class="fw-medium me-2 text-heading">Backend Developer</span><span>(126 Members)</span>
-                    </div>
-                  </li>
-                  <li class="d-flex align-items-center">
-                    <i class="ti ti-brand-react-native text-info me-2"></i>
-                    <div class="d-flex flex-wrap">
-                      <span class="fw-medium me-2 text-heading">React Developer</span><span>(98 Members)</span>
-                    </div>
-                  </li>--}}
+
                   <div class="d-flex justify-content-center">
                     <a
                       href="javascript:;"
@@ -373,71 +297,71 @@
                     >
 
 
-                     <!-- Button trigger modal -->
-                     <button
-                     type="button"
-                     class="btn btn-primary"
-                     data-bs-toggle="modal"
-                     data-bs-target="#basicModal">
-                     تسجيل اهتمام
-                   </button>
+                    {{-- intrest unit --}}
 
-                   <!-- Modal -->
-                   <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                     <div class="modal-dialog" role="document">
-                        <form action="{{ route('unit_interests.store') }}" method="POST">
-                            @csrf
-                       <div class="modal-content">
-                         <div class="modal-header">
-                           <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
-                           <button
-                             type="button"
-                             class="btn-close"
-                             data-bs-dismiss="modal"
-                             aria-label="Close"></button>
-                         </div>
-                         <div class="modal-body">
+                    <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#basicModal">
+                    تسجيل اهتمام
+                  </button>
 
-                                <input hidden name="unit_id" value="{{ $unit_id }}" />
-                                <input hidden name="user_id" value="{{ $user_id }}" />
-                           <div class="row">
-                             <div class="col mb-3">
-                               <label for="nameBasic" class="form-label">@lang('Name')<span class="text-danger">*</span></label>
-                               <input type="text" id="nameBasic" name="name" required class="form-control" placeholder="ادخل اسمك" />
-                             </div>
-                           </div>
-                           <div class="row g-2">
-                             <div class="col mb-0">
-                               <label for="emailBasic" class="form-label">@lang('mobile')<span class="text-danger">*</span></label>
-                               <input
-                                 type="tel"
-                                 id="emailBasic"
-                                 class="form-control"
-                                 minlength="9"
-                                            maxlength="9" pattern="[0-9]*"
-                                            oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                            onchange="try{setCustomValidity('')}catch(e){}"
-                                            name="whatsapp" required="" value=""
-                                 placeholder="987654356" />
-                             </div>
+                  <!-- Modal -->
+                  <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                       <form action="{{ route('unit_interests.store') }}" method="POST">
+                           @csrf
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
 
-                           </div>
+                               <input hidden name="unit_id" value="{{ $unit_id }}" />
+                               <input hidden name="user_id" value="{{ $user_id }}" />
+                          <div class="row">
+                            <div class="col mb-3">
+                              <label for="nameBasic" class="form-label">@lang('Name')<span class="text-danger">*</span></label>
+                              <input type="text" id="nameBasic" name="name" required class="form-control" placeholder="ادخل اسمك" />
+                            </div>
+                          </div>
+                          <div class="row g-2">
+                            <div class="col mb-0">
+                              <label for="emailBasic" class="form-label">@lang('mobile')<span class="text-danger">*</span></label>
+                              <input
+                                type="tel"
+                                id="emailBasic"
+                                class="form-control"
+                                minlength="9"
+                                           maxlength="9" pattern="[0-9]*"
+                                           oninvalid="setCustomValidity('Please enter 9 numbers.')"
+                                           onchange="try{setCustomValidity('')}catch(e){}"
+                                           name="whatsapp" required="" value=""
+                                placeholder="987654356" />
+                            </div>
 
-                         </div>
-                         <div class="modal-footer">
-                           <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                             @lang('close')
-                           </button>
-                           <button type="submit" class="btn btn-primary">@lang('save')</button>
-                         </div>
-                       </div>
-                    </form>
+                          </div>
 
-                     </div>
-                   </div>
-                 </div>
-               </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                            @lang('close')
+                          </button>
+                          <button type="submit" class="btn btn-primary">@lang('save')</button>
+                        </div>
+                      </div>
+                   </form>
 
+                    </div>
+                  </div>
+
+                    {{-- . --}}
 
                   </div>
                 </ul>

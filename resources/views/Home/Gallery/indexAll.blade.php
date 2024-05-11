@@ -72,23 +72,20 @@
                 </div>
                 <div class="col-4 col-md-1 mb-3">
                     <span>@lang('Available For Daily Rent')</span>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="daily_rent" name="daily_rent"
-                                            {{ $daily_rent ? 'checked' : '' }}>
-                                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="daily_rent" name="daily_rent"
+                            {{ $daily_rent ? 'checked' : '' }}>
+                    </div>
                 </div>
                 <div class="col-6 col-md-1 mb-3">
                     <span>@lang('Property type')</span>
                     <select class="form-select" id="property_type_filter" name="property_type_filter">
                     <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>
                         @lang('All')</option>
-                    @foreach ($units as $unit)
-                        @if ($unit->PropertyTypeData)
-                            <option value="{{ $unit->PropertyTypeData->id }}"
-                                {{ $propertyTypeFilter == $unit->PropertyTypeData->id ? 'selected' : '' }}>
-                                {{ $unit->PropertyTypeData->name }}
-                            </option>
-                        @endif
+                        @foreach ($propertyuniqueIds as $index => $id)
+                        <option value="{{ $id }}" {{ $propertyTypeFilter == $id ? 'selected' : '' }}>
+                            {{ $propertyUniqueNames[$index] }}
+                        </option>
                     @endforeach
                     </select>
                 </div>
@@ -113,7 +110,7 @@
                     <select class="form-select" id="district_filter" name="district_filter">
                         <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
                             @lang('All')</option>
-                        @foreach ($districts as $index => $district)
+                            @foreach ($districts->unique('district_id') as $index => $district)
                             <option value="{{ $district->district_id }}"
                                 {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
                                 {{ $district->DistrictData->name }}
@@ -127,13 +124,10 @@
                     <select class="form-select"  id="project_filter" name="project_filter">
                         <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>
                             @lang('All')</option>
-                        @foreach ($units as $unit)
-                            @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
-                                <option value="{{ $unit->PropertyData->ProjectData->id }}"
-                                    {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
-                                    {{ $unit->PropertyData->ProjectData->name }}
-                                </option>
-                            @endif
+                            @foreach ($projectuniqueIds as $index => $id)
+                            <option value="{{ $id }}" {{ $projectFilter == $id ? 'selected' : '' }}>
+                                {{ $projectUniqueNames[$index] }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -266,9 +260,10 @@
           <div class="d-flex align-items-center justify-content-start">
             <a  class="share btn btn-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
-            data-bs-target="#twoFactorAuth"><i class="ti ti-share ti-sm"></i></a
+            data-bs-target="#twoFactorAuth{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
             >
-            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"  data-bs-toggle="modal"
+            data-bs-target="#basicModal"
               ><i class="ti ti-heart ti-sm"></i
             ></a>
           </div>
@@ -337,7 +332,8 @@
       </div>
     </div>
 
-@include('Home.Gallery.inc.share')
+    @include('Home.Gallery.inc.share')
+@include('Home.Gallery.inc.unitInterest')
    @endforeach
 
   </div>

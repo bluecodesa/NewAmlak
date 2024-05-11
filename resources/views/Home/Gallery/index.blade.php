@@ -70,8 +70,8 @@
 
         <div class="card-body">
 
-        <form action="{{ route('gallery.showAllGalleries') }}" method="GET">
-            <div class="row">
+            <form action="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" method="GET">
+                <div class="row">
                 <div class="col-4 col-md-1 mb-3">
                     <span>@lang('Ads with images')</span>
                     <div class="form-check form-switch">
@@ -98,13 +98,10 @@
                     <select class="form-select" id="property_type_filter" name="property_type_filter">
                     <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>
                         @lang('All')</option>
-                    @foreach ($units as $unit)
-                        @if ($unit->PropertyTypeData)
-                            <option value="{{ $unit->PropertyTypeData->id }}"
-                                {{ $propertyTypeFilter == $unit->PropertyTypeData->id ? 'selected' : '' }}>
-                                {{ $unit->PropertyTypeData->name }}
-                            </option>
-                        @endif
+                        @foreach ($propertyuniqueIds as $index => $id)
+                        <option value="{{ $id }}" {{ $propertyTypeFilter == $id ? 'selected' : '' }}>
+                            {{ $propertyUniqueNames[$index] }}
+                        </option>
                     @endforeach
                     </select>
                 </div>
@@ -129,12 +126,12 @@
                     <select class="form-select" id="district_filter" name="district_filter">
                         <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
                             @lang('All')</option>
-                        @foreach ($districts as $index => $district)
-                            <option value="{{ $district->district_id }}"
-                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
-                                {{ $district->DistrictData->name }}
-                            </option>
-                        @endforeach
+                            @foreach ($districts->unique('district_id') as $index => $district)
+                                            <option value="{{ $district->district_id }}"
+                                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
+                                                {{ $district->DistrictData->name }}
+                                            </option>
+                                        @endforeach
                     </select>
                 </div>
 
@@ -143,13 +140,10 @@
                     <select class="form-select"  id="project_filter" name="project_filter">
                         <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>
                             @lang('All')</option>
-                        @foreach ($units as $unit)
-                            @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
-                                <option value="{{ $unit->PropertyData->ProjectData->id }}"
-                                    {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
-                                    {{ $unit->PropertyData->ProjectData->name }}
-                                </option>
-                            @endif
+                            @foreach ($projectuniqueIds as $index => $id)
+                            <option value="{{ $id }}" {{ $projectFilter == $id ? 'selected' : '' }}>
+                                {{ $projectUniqueNames[$index] }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -283,7 +277,8 @@
           <div class="d-flex align-items-center justify-content-start">
             <a  class="share btn btn-secondary d-flex align-items-center me-3"
             data-bs-toggle="modal"
-            data-bs-target="#twoFactorAuth"><i class="ti-xs me-1 ti ti-share me-1"></i></a
+            data-bs-target="#twoFactorAuth{{$unit->id}}">
+             <i class="ti-xs me-1 ti ti-share me-1"></i></a
             >
             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
               ><i class="ti ti-heart ti-sm"></i
