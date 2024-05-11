@@ -32,7 +32,7 @@
               </div>
             </div>
             <div id="heroDashboardAnimation" class="hero-animation-img">
-              <a href="../vertical-menu-template/app-ecommerce-dashboard.html" target="_blank">
+              
                 <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
                   <img
                     src="{{ url('HOME_PAGE/img/front-pages/landing-page/hero-dashboard-light.png')}}"
@@ -522,7 +522,7 @@
           <p class="text-center mb-4 pb-3">
 
           </p>
-          <div class="text-center mb-5">
+          {{-- <div class="text-center mb-5">
             <div class="position-relative d-inline-block pt-3 pt-md-0">
               <label class="switch switch-primary me-0">
                 <span class="switch-label">ادفع شهري</span>
@@ -541,7 +541,7 @@
                 <span class="fw-medium mt-2 ms-1"> وفر 25%</span>
               </div>
             </div>
-          </div>
+          </div> --}}
           <div class="row gy-4 pt-lg-3">
             <!-- Basic Plan: Start -->
             @foreach ($subscriptionTypes as $subscriptionType)
