@@ -14,20 +14,20 @@
             data-speed="1" />
           <div class="container">
             <div class="hero-text-box text-center">
-              <h1 class="text-primary hero-title display-6 fw-bold">One dashboard to manage all your businesses</h1>
+              <h1 class="text-primary hero-title display-6 fw-bold">أملاك خيارك الأول لإدارة الأملاك العقارية
+            </h1>
               <h2 class="hero-sub-title h6 mb-4 pb-1">
-                Production-ready & easy to use Admin Template<br class="d-none d-lg-block" />
-                for Reliability and Customizability.
+                منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين<br class="d-none d-lg-block" />
               </h2>
               <div class="landing-hero-btn d-inline-block position-relative">
                 <span class="hero-btn-item position-absolute d-none d-md-flex text-heading"
-                  >Join community
+                  >للتسجيل
                   <img
                     src="{{ url('HOME_PAGE/img/front-pages/icons/Join-community-arrow.png')}}"
                     alt="Join community arrow"
                     class="scaleX-n1-rtl"
                 /></span>
-                <a href="#landingPricing" class="btn btn-primary btn-lg">Get early access</a>
+                <a href="#landingPricing" class="btn btn-primary btn-lg">سجل معنا الأن</a>
               </div>
             </div>
             <div id="heroDashboardAnimation" class="hero-animation-img">
@@ -543,6 +543,8 @@
           </div>
           <div class="row gy-4 pt-lg-3">
             <!-- Basic Plan: Start -->
+            @foreach ($subscriptionTypes as $subscriptionType)
+
             <div class="col-xl-4 col-lg-6">
               <div class="card">
                 <div class="card-header">
@@ -627,10 +629,12 @@
                 </div>
               </div>
             </div>
+
+            @endforeach
             <!-- Basic Plan: End -->
 
             <!-- Favourite Plan: Start -->
-            <div class="col-xl-4 col-lg-6">
+            {{-- <div class="col-xl-4 col-lg-6">
               <div class="card border border-primary shadow-lg">
                 <div class="card-header">
                   <div class="text-center">
@@ -710,11 +714,11 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <!-- Favourite Plan: End -->
 
             <!-- Standard Plan: Start -->
-            <div class="col-xl-4 col-lg-6">
+            {{-- <div class="col-xl-4 col-lg-6">
               <div class="card">
                 <div class="card-header">
                   <div class="text-center">
@@ -797,7 +801,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <!-- Standard Plan: End -->
           </div>
         </div>

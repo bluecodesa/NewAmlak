@@ -29,7 +29,7 @@
               <i class="ti ti-menu-2 ti-sm align-middle"></i>
             </button>
             <!-- Mobile menu toggle: End-->
-            <a href="landing-page.html" class="app-brand-link">
+            <a href="{{ route('welcome') }}" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -74,19 +74,19 @@
             </button>
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
-                <a class="nav-link fw-medium" aria-current="page" href="landing-page.html#landingHero">عن أملاك</a>
+                <a class="nav-link fw-medium" aria-current="page" href="{{ route('welcome') }}#landingHero">عن أملاك</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-medium" href="landing-page.html#landingFeatures">المميزات</a>
+                <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingFeatures">المميزات</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-medium" href="landing-page.html#landingTeam">الباقات</a>
+                <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingPricing">الباقات</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
             </li>
               <li class="nav-item">
-                <a class="nav-link fw-medium" href="landing-page.html#landingContact">تواصل معنا</a>
+                <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingContact">تواصل معنا</a>
               </li>
 
               <li class="nav-item">
