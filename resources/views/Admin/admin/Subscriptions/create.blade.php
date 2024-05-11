@@ -109,18 +109,41 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6 col-12 mb-3">
-                            <label for="password"> @lang('password') <span class="text-danger">*</span></label>
 
-                            <input type="password" class="form-control" id="password" name="password" required=""
-                                placeholder="@lang('password')">
+
+
+                        <div class="form-password-toggle col-md-6 col-12 mb-3">
+                            <label class="form-label" for="basic-default-password33">@lang('password') <span
+                                    class="text-danger">*</span> </label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" name="password"
+                                    id="basic-default-password33" placeholder="············" required
+                                    aria-describedby="basic-default-password">
+                                <span class="input-group-text cursor-pointer" id="basic-default-password"><i
+                                        class="ti ti-eye-off"></i></span>
+                            </div>
                         </div>
-                        <div class="col-md-6 col-12 mb-3">
+
+
+                        <div class="form-password-toggle col-md-6 col-12 mb-3">
+                            <label class="form-label" for="basic-default-password32">@lang('Confirm Password') <span
+                                    class="text-danger">*</span> </label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" name="password_confirmation"
+                                    id="basic-default-password32" placeholder="············" required
+                                    aria-describedby="basic-default-password">
+                                <span class="input-group-text cursor-pointer" id="basic-default-password"><i
+                                        class="ti ti-eye-off"></i></span>
+                            </div>
+                        </div>
+
+                        {{-- <div class="col-md-6 col-12 mb-3 form-password-toggle">
                             <label for="password_confirmation"> @lang('Confirm Password') <span
                                     class="text-danger">*</span></label>
                             <input type="password" class="form-control" id="password_confirmation"
-                                name="password_confirmation" required="" placeholder="@lang('Confirm Password') ">
-                        </div>
+                                aria-describedby="basic-default-password" name="password_confirmation" required=""
+                                placeholder="@lang('Confirm Password') ">
+                        </div> --}}
 
 
                         <div class="col-12">

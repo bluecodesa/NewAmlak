@@ -46,28 +46,34 @@
                             @endif
 
                         </div>
-                        <div class="col-md-4 col-12 mb-3">
-                            <label class="form-label">
-                                {{ __('password') }}
-                            </label>
-                            <input name="password" type="password"
-                                class="form-control @error('password') is-invalid @enderror"
-                                placeholder="{{ __('password') }}">
+
+
+                        <div class="form-password-toggle col-md-4 col-12 mb-3">
+                            <label class="form-label" for="basic-default-password33">@lang('password') </label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" name="password" id="basic-default-password33"
+                                    placeholder="············" aria-describedby="basic-default-password">
+                                <span class="input-group-text cursor-pointer" id="basic-default-password"><i
+                                        class="ti ti-eye-off"></i></span>
+                            </div>
+
                             @if ($errors->has('password'))
                                 <span class="text-danger">{{ $errors->first('password') }}</span>
                             @endif
-
                         </div>
 
-                        <div class="col-md-4 col-12 mb-3">
-                            <div class="mb-3">
-                                <label class="form-label">
-                                    {{ __('Confirm Password') }}
-                                </label>
-                                <input name="password_confirmation" type="password" class="form-control"
-                                    placeholder="{{ __('Confirm Password') }}">
+
+                        <div class="form-password-toggle col-md-4 col-12 mb-3">
+                            <label class="form-label" for="basic-default-password32">@lang('Confirm Password') </label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" name="password_confirmation"
+                                    id="basic-default-password32" placeholder="············"
+                                    aria-describedby="basic-default-password">
+                                <span class="input-group-text cursor-pointer" id="basic-default-password"><i
+                                        class="ti ti-eye-off"></i></span>
                             </div>
                         </div>
+
 
                         <div class="col-md-4 col-12 mb-3">
                             <label>@lang('role name')<span class="required-color">*</span> </label>
