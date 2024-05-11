@@ -47,10 +47,165 @@
   </div>
   <!--/ Header -->
 
-  <!-- Navbar pills -->
+  <!-- filter  -->
   <div class="row">
     <div class="col-md-12">
-      <ul class="nav nav-pills flex-column flex-sm-row mb-4">
+        <div class="card m-b-30">
+
+        <div class="card-body">
+
+        <form action="{{ route('gallery.showAllGalleries') }}" method="GET">
+            <div class="row">
+                <div class="col-4 col-md-1 mb-3">
+                    <span>@lang('Ads with images')</span>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="hasImageFilter"
+                            name="has_image_filter" {{ $hasImageFilter ? 'checked' : '' }}>
+                    </div>
+                </div>
+                <div class="col-4 col-md-1 mb-3">
+                    <span>@lang('Ads with price')</span>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="hasPriceFilter"
+                            name="has_price_filter" {{ $hasPriceFilter ? 'checked' : '' }}>
+                    </div>
+                </div>
+                <div class="col-4 col-md-1 mb-3">
+                    <span>@lang('Available For Daily Rent')</span>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="daily_rent" name="daily_rent"
+                                            {{ $daily_rent ? 'checked' : '' }}>
+                                    </div>
+                </div>
+                <div class="col-6 col-md-1 mb-3">
+                    <span>@lang('Property type')</span>
+                    <select class="form-select" id="property_type_filter" name="property_type_filter">
+                    <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>
+                        @lang('All')</option>
+                    @foreach ($units as $unit)
+                        @if ($unit->PropertyTypeData)
+                            <option value="{{ $unit->PropertyTypeData->id }}"
+                                {{ $propertyTypeFilter == $unit->PropertyTypeData->id ? 'selected' : '' }}>
+                                {{ $unit->PropertyTypeData->name }}
+                            </option>
+                        @endif
+                    @endforeach
+                    </select>
+                </div>
+                <div class="col-6 col-md-1 mb-3">
+                    <span>@lang('City')</span>
+                    <select class="form-select" id="city_filter" name="city_filter">
+
+                        <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>
+                            @lang('All')</option>
+                            @foreach ($uniqueIds as $index => $id)
+                            <option value="{{ $id }}"
+                                data-url="{{ route('Broker.Gallary.GetDistrictByCity', $id) }}"
+                                {{ $cityFilter == $id ? 'selected' : '' }}>
+                                {{ $uniqueNames[$index] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-6 col-md-1 mb-3">
+                    <span>@lang('district')</span>
+                    <select class="form-select" id="district_filter" name="district_filter">
+                        <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
+                            @lang('All')</option>
+                        @foreach ($districts as $index => $district)
+                            <option value="{{ $district->district_id }}"
+                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
+                                {{ $district->DistrictData->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-6 col-md-1 mb-3">
+                    <span>@lang('Project')</span>
+                    <select class="form-select"  id="project_filter" name="project_filter">
+                        <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>
+                            @lang('All')</option>
+                        @foreach ($units as $unit)
+                            @if ($unit->PropertyData && $unit->PropertyData->ProjectData)
+                                <option value="{{ $unit->PropertyData->ProjectData->id }}"
+                                    {{ $projectFilter == $unit->PropertyData->ProjectData->id ? 'selected' : '' }}>
+                                    {{ $unit->PropertyData->ProjectData->name }}
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-6 col-md-1 mb-3">
+                    <span>@lang('Type use')</span>
+                    <select class="form-select"  id="type_use_filter" name="type_use_filter">
+                        <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>
+                        @lang('All')</option>
+                    @foreach ($usages as $usage)
+                        <option value="{{ $usage->id }}"
+                            {{ $typeUseFilter == $usage->id ? 'selected' : '' }}>
+                            {{ $usage->name }}
+                        </option>
+                    @endforeach
+                    </select>
+                </div>
+                <div class="col-6 col-md-1 mb-3">
+                    <span>@lang('Ad type')</span>
+                    <select class="form-select"  id="ad_type_filter" name="ad_type_filter">
+                        <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>
+                            @lang('All')</option>
+                        @foreach (['rent', 'sale', 'rent and sale'] as $type)
+                            <option value="{{ $type }}"
+                                {{ $adTypeFilter == $type ? 'selected' : '' }}>
+                                {{ __($type) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-6 col-md-3 mb-3">
+                    <span>السعر</span>
+                                    <div class="row m-0 p-0 gap-3">
+                                        <div class="col-5 p-0">
+                                            <input class="form-control" name="price_from" id="price_from" placeholder="من"
+                                                value="{{ request()->input('price_from', null) }}"
+                                                onchange="reloadUnits()" />
+                                        </div>
+                                        <div class="col-5 p-0">
+                                            <input class="form-control" name="price_to" id="price_to" placeholder="الي"
+                                                value="{{ request()->input('price_to', null) }}"
+                                                onchange="reloadUnits()" />
+                                        </div>
+                                    </div>
+                </div>
+                <div class="text-center col-md-3 mt-3">
+                    <button type="submit"
+                        class="w-auto btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
+                        <a href="{{ route('gallery.showAllGalleries') }}"
+                        class="clear-filter w-auto btn btn-danger mt-2 btn-sm"
+                        style="margin-bottom: 0!important;">@lang('Cancel') @lang('Filter')</a>
+                    {{-- @php
+                        $filter_counter =
+                            ($propertyTypeFilter != 'all') +
+                            ($cityFilter != 'all') +
+                            ($districtFilter != 'all') +
+                            ($projectFilter != 'all') +
+                            ($typeUseFilter != 'all') +
+                            ($typeUseFilter != 'all') +
+
+                            ($adTypeFilter != 'all');
+                    @endphp
+                    @if ($filter_counter > 0)
+                        <a href="{{ route('gallery.showAllGalleries') }}"
+                            class="clear-filter w-auto btn btn-danger mt-2 btn-sm"
+                            style="margin-bottom: 0!important;">@lang('Cancel') @lang('Filter')
+                            ({{ $filter_counter }})</a>
+                    @endif --}}
+                </div>
+            </div>
+        </form>
+      {{-- <ul class="nav nav-pills flex-column flex-sm-row mb-4">
         <li class="nav-item">
           <a class="nav-link" href="pages-profile-user.html"
             ><i class="ti ti-user-check ti-xs me-1"></i> Profile</a
@@ -71,10 +226,15 @@
             ><i class="ti ti-link ti-xs me-1"></i> Connections</a
           >
         </li>
-      </ul>
+      </ul> --}}
+        </div>
+        </div>
     </div>
   </div>
-  <!--/ Navbar pills -->
+  <!--/ filter pills -->
+  <div class="divider divider-success">
+    <div class="divider-text">@lang('Units')</div>
+</div>
 
   <!-- Connection Cards -->
   <div class="row g-4">
@@ -99,7 +259,8 @@
               </li>
               <li><a class="dropdown-item text-danger" href="javascript:void(0);">Delete</a></li>
             </ul> --}}
-            <span class="pb-1">@lang('SAR') / {{ __($unit->rent_type_show) }}</span>
+            <span class="pb-1">{{ $unit->getRentPriceByType() }}
+                @lang('SAR') / {{ __($unit->rent_type_show) }}</span>
 
           </div>
           <div class="d-flex align-items-center justify-content-start">
@@ -184,6 +345,77 @@
 </div>
 </section>
 
+<script>
 
+function reloadUnits() {
+            // Get selected filter values
+            var city = document.getElementById('city_filter').value;
+            var project = document.getElementById('prj_filter').value;
+            var type = document.getElementById('type_filter').value;
+            var price_from = document.getElementById('price_from').value;
+            var price_to = document.getElementById('price_to').value;
+
+            // Make AJAX request to fetch filtered units
+            $.ajax({
+                url: "{{ route('filtered.units') }}",
+                type: "GET",
+                data: {
+                    city_filter: city,
+                    prj_filter: project,
+                    type_filter: type,
+                    price_from: price_from,
+                    price_to: price_to
+                },
+                success: function(data) {
+                    // Handle the received data (update the view with filtered units)
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        // Attach event listeners to select elements
+        $(document).ready(function() {
+            $('#city_filter, #prj_filter, #type_filter, #price_from, #price_to').change(function() {
+                reloadUnits();
+            });
+        });
+
+
+
+$('#city_filter').on('change', function() {
+    var selectedOption = $(this).find(':selected');
+    var url = selectedOption.data('url');
+    if (selectedOption.val() === 'all') {
+$('#district_filter').val('all');
+} else {
+    $.ajax({
+        type: "get",
+        url: url,
+        beforeSend: function() {
+            $('#district_filter').fadeOut('fast');
+        },
+        success: function(data) {
+            $('#district_filter').fadeOut('fast', function() {
+                $(this).empty().append(data);
+                $(this).fadeIn('fast');
+            });
+        },
+    });
+}
+});
+</script>
+
+<script>
+function redirectToCreateBroker() {
+    window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+}
+
+function redirectToCreateOffice() {
+    window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+
+}
+</script>
 
 @endsection

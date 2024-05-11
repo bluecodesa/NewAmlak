@@ -61,71 +61,49 @@
           <div class="col-lg-2 col-md-4 col-sm-6">
             <h6 class="footer-title mb-4">عن بلوكود</h6>
             <ul class="list-unstyled">
-              <li class="mb-3">
-                <a href="../vertical-menu-template/" target="_blank" class="footer-link">Vertical Layout</a>
-              </li>
-              <li class="mb-3">
-                <a href="../horizontal-menu-template/" target="_blank" class="footer-link">Horizontal Layout</a>
-              </li>
-              <li class="mb-3">
-                <a href="../vertical-menu-template-bordered/" target="_blank" class="footer-link">Bordered Layout</a>
-              </li>
-              <li class="mb-3">
-                <a href="../vertical-menu-template-semi-dark/" target="_blank" class="footer-link"
-                  >Semi Dark Layout</a
-                >
-              </li>
-              <li class="mb-3">
-                <a href="../vertical-menu-template-dark/" target="_blank" class="footer-link">Dark Layout</a>
-              </li>
+
+                <li class="mb-3"><a href="https://bluecode.sa/about" target="_blank" class="footer-link">من نحن</a></li>
+                <li class="mb-3"><a href="https://bluecode.sa/services" target="_blank" class="footer-link">خدماتنا</a></li>
+                <li class="mb-3"><a href="https://bluecode.sa/products" target="_blank" class="footer-link">منتجاتنا</a></li>
+                <li class="mb-3"><a href="https://bluecode.sa/projects" target="_blank" class="footer-link">مشاريعنا</a></li>
+
             </ul>
           </div>
           <div class="col-lg-2 col-md-4 col-sm-6">
             <h6 class="footer-title mb-4">روابط مهمة</h6>
             <ul class="list-unstyled">
-              <li class="mb-3">
-                <a href="pricing-page.html" class="footer-link">Pricing</a>
-              </li>
-              <li class="mb-3">
-                <a href="payment-page.html" class="footer-link"
-                  >Payment<span class="badge rounded bg-primary ms-2">New</span></a
-                >
-              </li>
-              <li class="mb-3">
-                <a href="checkout-page.html" class="footer-link">Checkout</a>
-              </li>
-              <li class="mb-3">
-                <a href="help-center-landing.html" class="footer-link">Help Center</a>
-              </li>
-              <li class="mb-3">
-                <a href="../vertical-menu-template/auth-login-cover.html" target="_blank" class="footer-link"
-                  >Login/Register</a
-                >
-              </li>
+
+                <li class="mb-3"><a href="#" class="footer-link">الشروط
+                    والاحكام
+                </a></li>
+            <li class="mb-3"><a href="#" class="footer-link">
+                    سياسة الخصوصية</a></li>
+            <li class="mb-3"><a href="#" class="footer-link">
+                    ملفات التوثيق</a></li>
+
+
+
             </ul>
           </div>
           <div class="col-lg-2 col-md-4 col-sm-6">
             <h6 class="footer-title mb-4">تواصل معنا</h6>
             <ul class="list-unstyled">
               <li class="mb-3">
-                <a href="pricing-page.html" class="footer-link">Pricing</a>
-              </li>
-              <li class="mb-3">
                 <a href="payment-page.html" class="footer-link"
-                  >Payment<span class="badge rounded bg-primary ms-2">New</span></a
+                ><span class="ti ti-location"></span>   المملكة العربية السعودية
+                <br />
+                (الرياض - جدة - الدمام)</a
+              >              </li>
+              <li class="mb-3">
+                <a href="mailto:{{ $sitting->email }}" class="footer-link"
+                  ><span class="ti ti-mail"></span>  {{ $sitting->email }}</a
                 >
               </li>
               <li class="mb-3">
-                <a href="checkout-page.html" class="footer-link">Checkout</a>
-              </li>
-              <li class="mb-3">
-                <a href="help-center-landing.html" class="footer-link">Help Center</a>
-              </li>
-              <li class="mb-3">
-                <a href="../vertical-menu-template/auth-login-cover.html" target="_blank" class="footer-link"
-                  >Login/Register</a
-                >
-              </li>
+                <a href="+966{{ $sitting->phone }}" class="footer-link"
+                ><span class="ti ti-phone"></span> +966 {{ $sitting->phone }}</a
+              >              </li>
+             
             </ul>
           </div>
         </div>

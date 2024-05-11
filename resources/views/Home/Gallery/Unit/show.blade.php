@@ -12,9 +12,9 @@
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
-            <div class="user-profile-header-banner">
+            {{-- <div class="user-profile-header-banner">
               <img src="{{ asset('/img/pages/profile-banner.png')}}" alt="Banner image" class="rounded-top cover" />
-            </div>
+            </div> --}}
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
               <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
 
@@ -82,7 +82,7 @@
 
       <!-- Navbar pills -->
       <div class="row">
-        <div class="col-md-12">
+        {{-- <div class="col-md-12">
           <ul class="nav nav-pills flex-column flex-sm-row mb-4">
             <li class="nav-item">
               <a class="nav-link active" href="javascript:void(0);"
@@ -105,7 +105,7 @@
               >
             </li>
           </ul>
-        </div>
+        </div> --}}
       </div>
       <!--/ Navbar pills -->
 
@@ -298,21 +298,34 @@
             <!-- About User -->
             <div class="card mb-4">
               <div class="card-body">
-                <small class="card-text text-uppercase">About</small>
+                <small class="card-text text-uppercase">@lang('عن الوحدة')</small>
                 <ul class="list-unstyled mb-4 mt-3">
+                    <li class="d-flex align-items-center mb-3">
+                        <i class="ti ti-check text-heading"></i
+                        ><span class="fw-medium mx-2 text-heading">@lang('Residential number') :
+                           </span> <span>{{ $Unit->number_unit }}</span>
+                      </li>
                   <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-user text-heading"></i
-                    ><span class="fw-medium mx-2 text-heading">Full Name:</span> <span>John Doe</span>
+                    <i class="ti ti-droplet-dollar text-heading"></i>
+                    @if ($Unit->type == 'rent')
+                    <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->getRentPriceByType() }}
+                        <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
+                    @endif
+                    @if ($Unit->type == 'sale')
+                    <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->price }}
+                        <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
+                    @endif
+                    @if ($Unit->type == 'rent and sale')
+                    <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->getRentPriceByType() }}
+                        <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
+                            @endif
                   </li>
+
                   <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-check text-heading"></i
-                    ><span class="fw-medium mx-2 text-heading">Status:</span> <span>Active</span>
+                    <i class="ti ti-building text-heading"></i
+                    ><span class="fw-medium mx-2 text-heading">@lang('Property type') : </span> <span>{{ $Unit->PropertyTypeData->name ?? ''  }}</span>
                   </li>
-                  <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-crown text-heading"></i
-                    ><span class="fw-medium mx-2 text-heading">Role:</span> <span>Developer</span>
-                  </li>
-                  <li class="d-flex align-items-center mb-3">
+                  {{-- <li class="d-flex align-items-center mb-3">
                     <i class="ti ti-flag text-heading"></i
                     ><span class="fw-medium mx-2 text-heading">Country:</span> <span>USA</span>
                   </li>
@@ -349,7 +362,84 @@
                     <div class="d-flex flex-wrap">
                       <span class="fw-medium me-2 text-heading">React Developer</span><span>(98 Members)</span>
                     </div>
-                  </li>
+                  </li>--}}
+                  <div class="d-flex justify-content-center">
+                    <a
+                      href="javascript:;"
+                      class="btn btn-secondary me-3"
+                      data-bs-toggle="modal"
+            data-bs-target="#twoFactorAuth"
+                      >@lang('Share')</a
+                    >
+
+
+                     <!-- Button trigger modal -->
+                     <button
+                     type="button"
+                     class="btn btn-primary"
+                     data-bs-toggle="modal"
+                     data-bs-target="#basicModal">
+                     تسجيل اهتمام
+                   </button>
+
+                   <!-- Modal -->
+                   <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                     <div class="modal-dialog" role="document">
+                        <form action="{{ route('unit_interests.store') }}" method="POST">
+                            @csrf
+                       <div class="modal-content">
+                         <div class="modal-header">
+                           <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
+                           <button
+                             type="button"
+                             class="btn-close"
+                             data-bs-dismiss="modal"
+                             aria-label="Close"></button>
+                         </div>
+                         <div class="modal-body">
+
+                                <input hidden name="unit_id" value="{{ $unit_id }}" />
+                                <input hidden name="user_id" value="{{ $user_id }}" />
+                           <div class="row">
+                             <div class="col mb-3">
+                               <label for="nameBasic" class="form-label">@lang('Name')<span class="text-danger">*</span></label>
+                               <input type="text" id="nameBasic" name="name" required class="form-control" placeholder="ادخل اسمك" />
+                             </div>
+                           </div>
+                           <div class="row g-2">
+                             <div class="col mb-0">
+                               <label for="emailBasic" class="form-label">@lang('mobile')<span class="text-danger">*</span></label>
+                               <input
+                                 type="tel"
+                                 id="emailBasic"
+                                 class="form-control"
+                                 minlength="9"
+                                            maxlength="9" pattern="[0-9]*"
+                                            oninvalid="setCustomValidity('Please enter 9 numbers.')"
+                                            onchange="try{setCustomValidity('')}catch(e){}"
+                                            name="whatsapp" required="" value=""
+                                 placeholder="987654356" />
+                             </div>
+
+                           </div>
+
+                         </div>
+                         <div class="modal-footer">
+                           <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                             @lang('close')
+                           </button>
+                           <button type="submit" class="btn btn-primary">@lang('save')</button>
+                         </div>
+                       </div>
+                    </form>
+
+                     </div>
+                   </div>
+                 </div>
+               </div>
+
+
+                  </div>
                 </ul>
               </div>
             </div>
@@ -374,5 +464,7 @@
 
   </div>
    </section>
+
+   @include('Home.Gallery.Unit.share')
   <!-- Content wrapper -->
   @endsection

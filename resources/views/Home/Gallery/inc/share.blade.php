@@ -79,7 +79,7 @@
 
                       <h5 class="mb-2 pt-1 text-break">قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا العقار عن طريق الجوال</h5>
 
-                      <div class="text-center">
+                      <div class="mb-4 text-center">
                             {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) !!}
 
                       </div>
@@ -92,7 +92,7 @@
                           data-bs-toggle="modal"
                           data-bs-target="#twoFactorAuth">
                           <i class="ti ti-arrow-left ti-xs me-1 scaleX-n1-rtl"></i
-                          ><span class="align-middle d-none d-sm-inline-block">Back</span>
+                          ><span class="align-middle d-none d-sm-inline-block">@lang('back')</span>
                         </button>
                         @php
                         $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
