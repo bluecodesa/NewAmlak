@@ -68,6 +68,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
+
                             @foreach ($invoices->unique('created_at') as $index => $invoice)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
@@ -98,6 +99,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $invoices->links() }}
             </div>
             <!-- Modal to add new record -->
 
@@ -120,7 +122,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-6 text-center">
-                            <a href="{{ route('Admin.Subscribers.create') }}" class="btn btn-primary">@lang('Office')</a>
+                            <a href="{{ route('Admin.Subscribers.create') }}"
+                                class="btn btn-primary">@lang('Office')</a>
                         </div>
                         <div class="col-6 text-center">
                             <a href="{{ route('Admin.Subscribers.CreateBroker') }}"

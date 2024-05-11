@@ -31,7 +31,6 @@ class UserController extends Controller
      */
     public function index()
     {
-
         $users =  User::getAdmins();
         return view('Admin.users.index', get_defined_vars());
     }

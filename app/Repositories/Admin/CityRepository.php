@@ -9,7 +9,7 @@ class CityRepository implements CityRepositoryInterface
 {
     public function getAllCities()
     {
-        return City::paginate(500);
+        return City::paginate(100);
     }
 
     public function createCity($data)

@@ -73,6 +73,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
+
                             @foreach ($services as $index => $service)
                                 <tr>
                                     {{-- <th>{{ $index + 1 }}</th> --}}
@@ -116,6 +117,7 @@
                     </table>
                 </div>
             </div>
+            {{ $services->links() }}
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->

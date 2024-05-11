@@ -12,7 +12,7 @@ class SupportRepository implements SupportRepositoryInterface
 {
     public function getAllTicketTypes()
     {
-        return TicketType::get();
+        return TicketType::paginate(100);
     }
 
     public function createTicketType($data)
@@ -57,6 +57,4 @@ class SupportRepository implements SupportRepositoryInterface
         $ticket->status = 'Closed';
         $ticket->save();
     }
-
-
 }

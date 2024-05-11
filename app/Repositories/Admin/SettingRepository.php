@@ -89,7 +89,8 @@ class SettingRepository implements SettingRepositoryInterface
 
     public function getAllInterestTypes()
     {
-        return InterestType::get();
+
+        return InterestType::paginate(100);
     }
 
     public function createInterestType($data)

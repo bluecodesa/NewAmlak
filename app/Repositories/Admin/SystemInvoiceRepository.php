@@ -10,7 +10,7 @@ class SystemInvoiceRepository implements SystemInvoiceRepositoryInterface
 {
     public function all()
     {
-        return SystemInvoice::all();
+        return SystemInvoice::paginate(100);
     }
 
     public function findByBrokerId($brokerId)

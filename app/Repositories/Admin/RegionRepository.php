@@ -10,7 +10,7 @@ class RegionRepository implements RegionRepositoryInterface
 {
     public function getAllRegions()
     {
-        return Region::get();
+        return Region::paginate(100);
     }
 
     public function createRegion($data)

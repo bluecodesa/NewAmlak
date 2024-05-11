@@ -9,7 +9,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
 {
     public function getAllSubscribers()
     {
-        return Subscription::with(['OfficeData.UserData', 'BrokerData.UserData', 'SubscriptionTypeData'])->orderBy('updated_at', 'desc')->get();
+        return Subscription::with(['OfficeData.UserData', 'BrokerData.UserData', 'SubscriptionTypeData'])->orderBy('updated_at', 'desc')->paginate(100);
     }
 
     public function findSubscriberById(int $id)

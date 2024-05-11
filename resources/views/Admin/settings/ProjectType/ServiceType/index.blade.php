@@ -77,6 +77,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
+
                             @foreach ($types as $index => $type)
                                 <tr>
                                     {{-- <th>{{ $index + 1 }}</th> --}}
@@ -122,6 +123,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $types->links() }}
             </div>
             <!-- Modal to add new record -->
 

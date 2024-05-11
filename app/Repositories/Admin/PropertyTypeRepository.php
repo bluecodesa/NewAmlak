@@ -9,7 +9,7 @@ class PropertyTypeRepository implements PropertyTypeRepositoryInterface
 {
     public function getAll()
     {
-        return PropertyType::get();
+        return PropertyType::paginate(100);
     }
 
     public function create($data)
