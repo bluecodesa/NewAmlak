@@ -206,7 +206,7 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ file_exists(url(Auth::user()->avatar)) != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                        <img src="{{ file_exists(url(Auth::user()->avatar ?? 'assets/sdjd')) != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
                             alt class="h-auto rounded-circle" />
                     </div>
                 </a>
@@ -216,7 +216,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ file_exists(url(Auth::user()->avatar)) != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                        <img src="{{ file_exists(url(Auth::user()->avatar ?? 'assets/sdjd')) != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
                                             alt class="h-auto rounded-circle" />
                                     </div>
                                 </div>
