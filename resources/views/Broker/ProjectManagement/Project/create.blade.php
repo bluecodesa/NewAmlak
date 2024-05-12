@@ -17,7 +17,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div class="card m-b-30">
+                    <div class="card">
                         @include('Admin.layouts.Inc._errors')
                         <div class="card-body">
                             <form action="{{ route('Broker.Project.store') }}" method="POST" class="row"
@@ -95,7 +95,7 @@
                                     <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <select class="form-select" id="inputGroupSelect04"
+                                        <select class="form-select" id="OwnersDiv"
                                             aria-label="Example select with button addon" name="owner_id" required>
                                             <option disabled selected value="">@lang('owner name')</option>
                                             @foreach ($owners as $owner)

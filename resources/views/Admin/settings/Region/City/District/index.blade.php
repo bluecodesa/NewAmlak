@@ -71,7 +71,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @foreach ($districts as $index => $district)
+                            @forelse($districts as $index => $district)
                                 <tr>
                                     {{-- <th>{{ $index + 1 }}</th> --}}
                                     <td>{{ $district->name }} </td>
@@ -105,7 +105,16 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <td colspan="4">
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <span class="alert-icon text-danger me-2">
+                                            <i class="ti ti-ban ti-xs"></i>
+                                        </span>
+                                        @lang('No Data Found!')
+                                    </div>
+                                </td>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

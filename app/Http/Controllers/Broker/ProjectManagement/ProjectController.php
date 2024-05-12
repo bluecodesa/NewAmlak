@@ -71,6 +71,7 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = $this->projectService->ShowProject($id);
+
         return view('Broker.ProjectManagement.Project.show',  get_defined_vars());
     }
 

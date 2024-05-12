@@ -6,7 +6,7 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 py-3 mb-3">
+                <div class="col-6">
                     <h4 class="">
                         <a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         @lang('Units')
@@ -49,34 +49,15 @@
                                                             <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                 </div>
                                                 @if (Auth::user()->hasPermission('create-unit'))
-                                                <a href="{{ route('Broker.Unit.create') }}" class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
-                                                <span class="d-none d-sm-inline-block">@lang('Add unit')</span></span></a>
+                                                    <a href="{{ route('Broker.Unit.create') }}"
+                                                        class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light"
+                                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                                        type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                            <span
+                                                                class="d-none d-sm-inline-block">@lang('Add unit')</span></span></a>
                                                 @endif
 
-                                                {{-- <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        @if (Auth::user()->hasPermission('create-project'))
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('Broker.Project.create') }}">@lang('Add New Project')</a>
-                                                            </li>
-                                                        @endif
-                                                        @if (Auth::user()->hasPermission('create-building'))
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('Broker.Property.create') }}">@lang('Add new property')</a>
-                                                            </li>
-                                                        @endif
-                                                        @if (Auth::user()->hasPermission('create-unit'))
-                                                            <li><a class="dropdown-item"
-                                                                    href="{{ route('Broker.Unit.create') }}">@lang('Add unit')</a>
-                                                            </li>
-                                                        @endif
-                                                    </ul>
-                                                </div> --}}
+
                                             </div>
                                         </div>
                                     </div>
@@ -97,21 +78,21 @@
                             </thead>
                             <tbody class="table-border-bottom-0">
                                 @foreach ($units as $index => $unit)
-                                                <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $unit->number_unit ?? '' }}</td>
-                                                    <td>{{ $unit->OwnerData->name ?? '' }}</td>
-                                                    <td>
-                                                        <span
-                                                            class="badge badge-pill badge-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
-                                                            style="font-size: 13px;">
-                                                            {{ $unit->PropertyData->name ?? __('nothing') }}
-                                                        </span>
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $unit->number_unit ?? '' }}</td>
+                                        <td>{{ $unit->OwnerData->name ?? '' }}</td>
+                                        <td>
+                                            <span
+                                                class="badge badge-pill badge-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
+                                                style="font-size: 13px;">
+                                                {{ $unit->PropertyData->name ?? __('nothing') }}
+                                            </span>
 
-                                                    </td>
-                                                    <td>{{ $unit->PropertyTypeData->name ?? '' }}</td>
-                                                    <td>{{ __($unit->type) ?? '' }}</td>
-                                                    <td>
+                                        </td>
+                                        <td>{{ $unit->PropertyTypeData->name ?? '' }}</td>
+                                        <td>{{ __($unit->type) ?? '' }}</td>
+                                        <td>
 
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -120,25 +101,27 @@
                                                 </button>
                                                 <div class="dropdown-menu" style="">
                                                     @if (Auth::user()->hasPermission('read-unit'))
-                                                    <a class="dropdown-item" href="{{ route('Broker.Unit.show', $unit->id) }}"
-                                                    class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
-                                                @endif
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Broker.Unit.show', $unit->id) }}"
+                                                            class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                    @endif
 
-                                                @if (Auth::user()->hasPermission('update-unit'))
-                                                    <a class="dropdown-item" href="{{ route('Broker.Unit.edit', $unit->id) }}"
-                                                    class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                @endif
-                                                @if (Auth::user()->hasPermission('delete-unit'))
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $unit->id }}')"
-                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $unit->id }}"
-                                                        action="{{ route('Broker.Unit.destroy', $unit->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                @endif
+                                                    @if (Auth::user()->hasPermission('update-unit'))
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Broker.Unit.edit', $unit->id) }}"
+                                                            class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                    @endif
+                                                    @if (Auth::user()->hasPermission('delete-unit'))
+                                                        <a class="dropdown-item" href="javascript:void(0);"
+                                                            onclick="handleDelete('{{ $unit->id }}')"
+                                                            class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                        <form id="delete-form-{{ $unit->id }}"
+                                                            action="{{ route('Broker.Unit.destroy', $unit->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    @endif
 
                                                 </div>
                                             </div>
