@@ -1,91 +1,70 @@
+
+
 @foreach ($units as $index => $unit)
-    <div class="modal fade" id="shareLinkUnit{{ $unit->id }}" tabindex="-1" role="dialog"
-        aria-labelledby="shareLinkTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6>مشاركة الوحدة</h6>
+<div class="modal fade" id="addNewCCModal_{{$unit->id}}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="text-center">
+                    <h3 class="mb-2">@lang('Share the unit')</h3>
                 </div>
-                <div class="modal-body share-divs">
-                    <ul class="nav nav-pills nav-justified" role="tablist">
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" data-toggle="tab" href="#home_{{ $unit->id }}" role="tab"
-                                aria-selected="false">
-                                <span class="d-none d-md-block">Qr code</span><span class="d-block d-md-none"><i
-                                        class="mdi mdi-home-variant h5"></i></span>
-                            </a>
+
+
+                <div class="card text-center mb-3 shadow-none bg-transparent">
+                    <div class="card-header pt-0">
+                      <ul class="nav nav-tabs card-header-tabs row" role="tablist">
+                        <li class="nav-item col" role="presentation">
+                          <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-within-card-active_{{ $unit->id }}" aria-controls="navs-within-card-active_{{ $unit->id }}" aria-selected="true">
+                            @lang('Qr Code')
+                          </button>
                         </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link active" data-toggle="tab" href="#profile_{{ $unit->id }}"
-                                role="tab" aria-selected="true">
-                                <span class="d-none d-md-block">مشاركة</span><span class="d-block d-md-none"><i
-                                        class="mdi mdi-account h5"></i></span>
-                            </a>
+                        <li class="nav-item col" role="presentation">
+                          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-within-card-link_{{ $unit->id }}" aria-controls="navs-within-card-link_{{ $unit->id }}" aria-selected="false" tabindex="-1">
+                            @lang('Share')
+                          </button>
                         </li>
 
-                    </ul>
-
-                    <div class="tab-content">
-                        <div class="tab-pane p-3" id="home_{{ $unit->id }}" role="tabpanel">
-                            <div class="row pb-5 pt-4 flex-nowrap align-items-center">
-                                <div class="w-auto col-3">
-                                    {{ \QrCode::size(150)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) }}
-                                </div>
-                                <div class="col-9 gap-4" style="flex: auto;flex-direction:column">
-                                    <p>قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا
-                                        العقار
-                                        عن طريق الجوال
-                                    </p>
-                                    @php
-                                        $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
-                                    @endphp
-                                    <br>
-                                    <a href="{{ route('download.qrcode', ['link' => $url]) }}"
-                                        class="d-block btn btn-new-b btn-dark btn-sm mt-3"
-                                        style="width: fit-content">Download
-                                        QR
-                                        Code</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane p-3 active" id="profile_{{ $unit->id }}" role="tabpanel">
-                            <h6>مشاركة الرابط</h6>
-                            <p>مشاركة لينك العقار او انسخه في موقعك</p>
-                            <div class="row link justify-content-between">
-                                <div class="w-auto" onclick="copy()" style="cursor: pointer"><svg
-                                        xmlns="http://www.w3.org/2000/svg" width="20.782" height="30.633"
-                                        viewBox="1039.055 450.797 19.891 24.817">
-                                        <!-- SVG content for copying link -->
-                                    </svg></div>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="galleryName" disabled
-                                        value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" style="cursor: pointer;" onclick="selectText()">
-                                            <i class="fas fa-copy"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            {{--  --}}
-
-                        </div>
-
+                      </ul>
                     </div>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+                    <div class="card-body p-0">
+                      <div class="tab-content p-0 pt-4">
+                        <div class="tab-pane fade active show" id="navs-within-card-active_{{ $unit->id }}" role="tabpanel">
+                            <div class="alert alert-primary" role="alert">
+                                @lang('Download the code so that you can share it with your friends so that they can access this property’s data via mobile phone')
+                            </div>
+                            <div class="col-12">
+                                {{ \QrCode::size(150)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) }}
+                            </div>
+                            <div class="col-12" style="">
+
+
+                                @php
+                                    $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
+                                @endphp
+                                <br>
+                                <a href="{{ route('download.qrcode', ['link' => $url]) }}"class="btn-sm btn btn-success">@lang('Download')
+                                    @lang('Qr Code')</a>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="navs-within-card-link_{{ $unit->id }}" role="tabpanel">
+                            <h6>@lang('Share the link')</h6>
+                            <p>@lang('Share the property link or copy it on your site')</p>
+                            <div class="input-group">
+                                <span onclick="copyUrl()" data-url="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="input-group-text" id="basic-addon11"><i class="tf-icons ti ti-copy"></i></span>
+                                <input type="text" class="form-control" readonly value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" placeholder="Username" aria-label="Username" aria-describedby="basic-addon11">
+                              </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endforeach
 
-<script>
-    function toggleShare(type) {
-        if (type === 'share-link') {
-            document.getElementById('share-link').style.display = 'block';
-            document.getElementById('qr-code').style.display = 'none';
-        } else if (type === 'qr-code') {
-            document.getElementById('share-link').style.display = 'none';
-            document.getElementById('qr-code').style.display = 'block';
-        }
-    }
-</script>
+

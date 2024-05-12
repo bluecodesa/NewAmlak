@@ -1,9 +1,9 @@
 <div class="col-xl-12">
-    <div class="card m-b-30">
+    <div class="card m-b-30 shadow-none bg-transparent">
         <div class="card-body">
             <form action="{{ route('Broker.Gallery.index') }}" method="GET" id="subscriptionsForm">
                 <div class="row">
-                    <div class="w-auto col-4">
+                    <div class="col-md-4 col-12 mb-3">
                         <span>@lang('Ad type')</span>
                         <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
                             <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')
@@ -17,7 +17,7 @@
                     </div>
 
 
-                    <div class="w-auto col-4">
+                    <div class="col-md-4 col-12 mb-3">
                         <span>@lang('Property type')</span>
                         <select class="form-control form-control-sm" id="property_type_filter" name="property_type_filter">
                             <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')
@@ -30,7 +30,7 @@
                         </select>
                     </div>
 
-                    <div class="w-auto col-4">
+                    <div class="col-md-4 col-12 mb-3">
                         <span>@lang('Type use')</span>
                         <select class="form-control form-control-sm" id="type_use_filter" name="type_use_filter">
                             <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>@lang('All')
@@ -43,7 +43,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="w-auto col-4">
+                    <div class="col-md-3 col-12 mb-3">
                         <span>@lang('City')</span>
                         <select class="form-control form-control-sm" id="city_filter" name="city_filter">
                             <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>@lang('All')
@@ -57,7 +57,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="w-auto col-4">
+                    <div class="col-md-3 col-12 mb-3">
                         <span>@lang('districts')</span>
                         <select class="form-control form-control-sm" id="district_filter" name="district_filter">
                             <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>@lang('All')
@@ -70,7 +70,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="w-auto col-4">
+                    <div class="col-md-3 col-12 mb-3">
                         <span>@lang('Project')</span>
                         <select class="form-control form-control-sm" id="project_filter" name="project_filter">
                             <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>@lang('All')
@@ -82,7 +82,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="w-auto col-4">
+                    <div class="col-md-3 col-12 mb-3">
                         <span>@lang('Daily Rent')</span>
                         <select class="form-control form-control-sm" id="daily_filter" name="daily_filter">
                             <option value="all" {{ $dailyFilter == 'all' ? 'selected' : '' }}>@lang('All')
@@ -94,7 +94,7 @@
                         @endforeach
                         </select>
                     </div>
-                    <div class="w-auto text-center col-12">
+                    <div class="col-12">
                         <button type="submit" class="btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
                         <a href="{{ route('Broker.Gallery.index') }}"
                             class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>

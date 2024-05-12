@@ -251,7 +251,8 @@
     "Project photo": "صورة المشروع",
     "service type": "نوع الخدمة",
     "properties": "العقارات",
-    "services": "الخدمات",
+    "views": "مشاهدات",
+    "services": "مميزات العقار",
     "Add New Service": "انشاء خدمة جديدة",
     "Created By": "انشاء بوسطة",
     "offered service": "الخدمة المقدمة",
@@ -441,6 +442,12 @@
     "Record Deleted subscriptionTypes": "سجل انظمه الاشتراك المحذوفه",
     "statistics": "احصائيات",
     "Share": "مشاركة",
+    "Share the link": "مشاركة الرابط",
+    "Download": "تحميل",
+    "copy done": "تم النسخ بنجاح",
+    "Share the unit": "مشاركة الوحدة",
+    "Download the code so that you can share it with your friends so that they can access this property’s data via mobile phone": "قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا                             العقار عن طريق الجوال",
+    "Share the property link or copy it on your site": "مشاركة لينك العقار او انسخه في موقعك",
     "Available": "متاح",
     "Not_Available": "غير متاح"
 }
