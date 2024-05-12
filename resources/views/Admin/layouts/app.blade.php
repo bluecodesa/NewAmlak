@@ -28,7 +28,7 @@
         <!-- Core CSS -->
         <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/core.css') }}" />
         <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/theme-default.css') }}" />
-    @else
+        @else
         <link rel="stylesheet" href="{{ url('assets/vendor/css/core.css') }}" />
         <link rel="stylesheet" href="{{ url('assets/vendor/css/theme-default.css') }}" />
     @endif

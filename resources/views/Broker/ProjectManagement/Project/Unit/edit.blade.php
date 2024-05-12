@@ -1,341 +1,340 @@
 @extends('Admin.layouts.app')
-@section('title', __('Edit'))
+@section('title', __('Edit') . ' ' . __('Edit') . ' ' . $Unit->number_unit)
 @section('content')
 
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="card m-b-30">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('Edit') : {{ $Unit->number_unit }} </h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item active" style="margin-top: 3px;"><a href="#">
-                                                {{ $Unit->number_unit }} </a></li>
-                                        <li class="breadcrumb-item active"><a href="#">@lang('Edit') </a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Unit.index') }}">@lang('Units')</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Property.index') }}">@lang('properties')</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Project.index') }}">@lang('Projects')</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+                <div class="col-6">
+
+                    <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        <a href="{{ route('Broker.Unit.index') }}" class="text-muted fw-light">@lang('Units') </a> /
+                        @lang('Edit') : {{ $Unit->number_unit }}
+                    </h4>
                 </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card m-b-30">
-                            @include('Admin.layouts.Inc._errors')
-                            <div class="card-body">
-                                <form action="{{ route('Broker.Unit.update', $Unit->id) }}" method="POST" class="row"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="col-md-3">
+            </div>
 
-                                        <label class="form-label">
-                                            {{ __('Residential number') }} <span class="required-color">*</span></label>
-                                        <input type="text" value="{{ $Unit->number_unit }}" required id="modalRoleName"
-                                            name="number_unit" class="form-control"
-                                            placeholder="{{ __('Residential number') }}">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card m-b-30">
+                        @include('Admin.layouts.Inc._errors')
+                        <div class="card-body">
+                            <form action="{{ route('Broker.Unit.update', $Unit->id) }}" method="POST" class="row"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label class="form-label">
+                                        {{ __('Residential number') }} <span class="required-color">*</span></label>
+                                    <input type="text" value="{{ $Unit->number_unit }}" required id="modalRoleName"
+                                        name="number_unit" class="form-control"
+                                        placeholder="{{ __('Residential number') }}">
 
-                                    </div>
+                                </div>
 
-                                    <div class="form-group col-md-3">
-                                        <label>@lang('Region') <span class="required-color">*</span> </label>
-                                        <select class="form-control" id="Region_id" required>
-                                            <option disabled value="">@lang('Region') </option>
-                                            @foreach ($Regions as $Region)
-                                                <option value="{{ $Region->id }}"
-                                                    {{ $Region->id == $Unit->CityData->RegionData->id ? 'selected' : '' }}
-                                                    data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
-                                                    {{ $Region->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-3">
-                                        <label>@lang('city') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="city_id" id="CityDiv" required>
-                                            @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}"
-                                                    data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}"
-                                                    {{ $city->id == $Unit->city_id ? 'selected' : '' }}>
-                                                    {{ $city->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
-                                    <div class="form-group col-md-3">
-                                        <label>@lang('district') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="district_id" id="DistrictDiv" required>
-                                            @foreach ($Unit->CityData->DistrictsCity as $district)
-                                                <option value="{{ $district->id }}"
-                                                    {{ $district->id == $Unit->district_id ? 'selected' : '' }}>
-                                                    {{ $district->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('location') <span
-                                                class="required-color">*</span></label>
-                                        <input type="text" required name="location" id="myAddressBar"
-                                            class="form-control" placeholder="@lang('location name')"
-                                            value="{{ $Unit->location }}" />
-                                    </div>
-
-
-                                    <div class="form-group col-md-4">
-                                        <label>@lang('Property type') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="property_type_id" required>
-                                            <option disabled value="">@lang('Property type')</option>
-                                            @foreach ($types as $type)
-                                                <option value="{{ $type->id }}"
-                                                    {{ $type->id == $Unit->property_type_id ? 'selected' : '' }}>
-                                                    {{ $type->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label>@lang('Type use') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="property_usage_id" required>
-                                            <option disabled value="">@lang('Type use')</option>
-                                            @foreach ($usages as $usage)
-                                                <option value="{{ $usage->id }}"
-                                                    {{ $usage->id == $Unit->property_usage_id ? 'selected' : '' }}>
-                                                    {{ $usage->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label>@lang('owner name') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="owner_id" required>
-                                            <option disabled value="">@lang('owner name')</option>
-                                            @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}"
-                                                    {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
-                                                    {{ $owner->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Instrument number')</label>
-                                        <input type="number" name="instrument_number" class="form-control"
-                                            placeholder="@lang('Instrument number')" value="{{ $Unit->instrument_number }}" />
-                                    </div>
-
-
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label>@lang('offered service') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="service_type_id" required>
-                                            <option disabled selected value="">@lang('offered service')</option>
-                                            @foreach ($servicesTypes as $service)
-                                                <option value="{{ $service->id }}"
-                                                    {{ $service->id == $Unit->service_type_id ? 'selected' : '' }}>
-                                                    {{ $service->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Area (square metres)') </label>
-                                        <input type="number" name="space" class="form-control"
-                                            placeholder="@lang('Area (square metres)')" value="{{ $Unit->space }}" />
-                                    </div>
-
-
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('number rooms') </label>
-                                        <input type="number" name="rooms" class="form-control"
-                                            placeholder="@lang('number rooms')" value="{{ $Unit->rooms }}" />
-                                    </div>
-
-
-
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Number bathrooms') </label>
-                                        <input type="number" name="bathrooms" class="form-control"
-                                            placeholder="@lang('Number bathrooms')" value="{{ $Unit->bathrooms }}" />
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
-                                        </label>
-                                        <input type="checkbox" name="show_gallery"
-                                            {{ $Unit->show_gallery == 1 ? 'checked' : '' }} class="toggleHomePage"
-                                            data-toggle="toggle" data-onstyle="primary">
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-2 mb-3">
-                                        <label class="form-label" style="display: block !important;">@lang('Daily Rent')
-                                        </label>
-                                        <input type="checkbox"  name="daily_rent" {{ $Unit->daily_rent == 1 ? 'checked' : '' }}
-                                        class="toggleHomePage" data-toggle="toggle" data-onstyle="primary">
-                                    </div>
-
-                                    <div class="form-group mb-3 col-md-4">
-                                        <label>@lang('Ad type') <span class="required-color">*</span> </label>
-                                        <select class="form-control" name="type" id="type" required>
-                                            <option disabled value="">@lang('Ad type') </option>
-                                            @foreach (['rent', 'sale', 'rent and sale'] as $type)
-                                                <option value="{{ $type }}"
-                                                    {{ $Unit->type == $type ? 'selected' : '' }}>
-                                                    {{ __($type) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
-
-                                    <div class="form-group col-md-4 mb-3">
-                                        <label>@lang('services')</label>
-                                        <select class="select2 form-control" name="service_id[]" multiple="multiple">
-                                            <option disabled value="">@lang('services')</option>
-                                            @foreach ($services as $service)
-                                                <option value="{{ $service->id }}"
-                                                    {{ in_array($service->id, $Unit->UnitServicesData->pluck('service_id')->toArray()) == true ? 'selected' : '' }}>
-                                                    {{ $service->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
-                                    {{--  --}}
-                                    <div class="col-sm-12 col-md-2 mb-3">
-                                        <label class="form-label">@lang('selling price')</label>
-                                        <input type="number" name="price" class="form-control"
-                                            placeholder="@lang('selling price')" value="{{ $Unit->price }}" />
-                                    </div>
-
-
-                                    <div class="col-sm-12 col-md-2 mb-3">
-                                        <label class="form-label">@lang('daily rental price')</label>
-                                        <input type="number" name="daily" class="form-control"
-                                            placeholder="@lang('daily rental price')"
-                                            value="{{ $Unit->UnitRentPrice->daily ?? '' }}" />
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-2 mb-3">
-                                        <label class="form-label">@lang('Monthly rental price')</label>
-                                        <input type="number" name="monthly" class="form-control"
-                                            placeholder="@lang('Monthly rental price')"
-                                            value="{{ $Unit->UnitRentPrice->monthly ?? '' }}" />
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-2 mb-3">
-                                        <label class="form-label">@lang('quarterly rental price')</label>
-                                        <input type="number" name="quarterly" class="form-control"
-                                            placeholder="@lang('quarterly rental price')"
-                                            value="{{ $Unit->UnitRentPrice->quarterly ?? '' }}" />
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-2 mb-3">
-                                        <label class="form-label">@lang('midterm rental price')</label>
-                                        <input type="number" name="midterm" class="form-control"
-                                            placeholder="@lang('midterm rental price')"
-                                            value="{{ $Unit->UnitRentPrice->midterm ?? '' }}" />
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-2 mb-3">
-                                        <label class="form-label">@lang('yearly rental price')</label>
-                                        <input type="number" name="yearly" class="form-control"
-                                            placeholder="@lang('yearly rental price')"
-                                            value="{{ $Unit->UnitRentPrice->yearly ?? '' }}" />
-                                    </div>
-
-                                    {{--  --}}
-
-                                    <div class="col-sm-12 col-md-6 mb-3" hidden>
-                                        <label class="form-label">@lang('lat&long')</label>
-                                        <input type="text" required readonly name="lat_long" id="location_tag"
-                                            class="form-control" placeholder="@lang('lat&long')"
-                                            value="{{ $Unit->lat_long }}" />
-                                    </div>
-
-
-
-                                    <div class="form-group col-12 mb-3">
-                                        <label class="form-label">@lang('Additional details')</label>
-                                        <button type="button" class="btn btn-outline-primary btn-sm"
-                                            onclick="addFeature()">@lang('Add details')</button>
-                                        @foreach ($Unit->UnitFeatureData as $feature)
-                                            <div class="row p-1">
-                                                <div class="col">
-                                                    <input type="text" name="name[]" class="form-control search"
-                                                        placeholder="@lang('Field name')"
-                                                        value="{{ $feature->FeatureData->name }}" />
-                                                </div>
-                                                <div class="col">
-                                                    <input type="text" name="qty[]" value="{{ $feature->qty }}"
-                                                        class="form-control" placeholder="@lang('value')"
-                                                        value="" />
-                                                </div>
-                                                <div class="col">
-                                                    <button type="button"
-                                                        class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
-                                                </div>
-                                            </div>
+                                <div class="col-12 mb-3 col-md-3">
+                                    <label>@lang('Region') <span class="required-color">*</span> </label>
+                                    <select class="form-select" id="Region_id" required>
+                                        <option disabled value="">@lang('Region') </option>
+                                        @foreach ($Regions as $Region)
+                                            <option value="{{ $Region->id }}"
+                                                {{ $Region->id == $Unit->CityData->RegionData->id ? 'selected' : '' }}
+                                                data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
+                                                {{ $Region->name }}</option>
                                         @endforeach
+                                    </select>
+                                </div>
 
-                                        <div id="features" class="row p-2">
+                                <div class="col-12 mb-3 col-md-3">
+                                    <label>@lang('city') <span class="required-color">*</span> </label>
+                                    <select class="form-select" name="city_id" id="CityDiv" required>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}"
+                                                data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}"
+                                                {{ $city->id == $Unit->city_id ? 'selected' : '' }}>
+                                                {{ $city->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
+
+                                <div class="col-12 mb-3 col-md-3">
+                                    <label>@lang('district') <span class="required-color">*</span> </label>
+                                    <select class="form-select" name="district_id" id="DistrictDiv" required>
+                                        @foreach ($Unit->CityData->DistrictsCity as $district)
+                                            <option value="{{ $district->id }}"
+                                                {{ $district->id == $Unit->district_id ? 'selected' : '' }}>
+                                                {{ $district->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('location') <span
+                                            class="required-color">*</span></label>
+                                    <input type="text" required name="location" id="myAddressBar" class="form-control"
+                                        placeholder="@lang('location name')" value="{{ $Unit->location }}" />
+                                </div>
+
+
+                                <div class="col-12 mb-3 col-md-4">
+                                    <label>@lang('Property type') <span class="required-color">*</span> </label>
+                                    <select class="form-select" name="property_type_id" required>
+                                        <option disabled value="">@lang('Property type')</option>
+                                        @foreach ($types as $type)
+                                            <option value="{{ $type->id }}"
+                                                {{ $type->id == $Unit->property_type_id ? 'selected' : '' }}>
+                                                {{ $type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-12 mb-3 col-md-4">
+                                    <label>@lang('Type use') <span class="required-color">*</span> </label>
+                                    <select class="form-select" name="property_usage_id" required>
+                                        <option disabled value="">@lang('Type use')</option>
+                                        @foreach ($usages as $usage)
+                                            <option value="{{ $usage->id }}"
+                                                {{ $usage->id == $Unit->property_usage_id ? 'selected' : '' }}>
+                                                {{ $usage->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label>@lang('owner name') <span class="required-color">*</span> </label>
+                                    <select class="form-select" name="owner_id" required>
+                                        <option disabled value="">@lang('owner name')</option>
+                                        @foreach ($owners as $owner)
+                                            <option value="{{ $owner->id }}"
+                                                {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
+                                                {{ $owner->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Instrument number')</label>
+                                    <input type="number" name="instrument_number" class="form-control"
+                                        placeholder="@lang('Instrument number')" value="{{ $Unit->instrument_number }}" />
+                                </div>
+
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label>@lang('offered service') <span class="required-color">*</span> </label>
+                                    <select class="form-select" name="service_type_id" required>
+                                        <option disabled selected value="">@lang('offered service')</option>
+                                        @foreach ($servicesTypes as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ $service->id == $Unit->service_type_id ? 'selected' : '' }}>
+                                                {{ $service->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Area (square metres)') </label>
+                                    <input type="number" name="space" class="form-control"
+                                        placeholder="@lang('Area (square metres)')" value="{{ $Unit->space }}" />
+                                </div>
+
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('number rooms') </label>
+                                    <input type="number" name="rooms" class="form-control"
+                                        placeholder="@lang('number rooms')" value="{{ $Unit->rooms }}" />
+                                </div>
+
+
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Number bathrooms') </label>
+                                    <input type="number" name="bathrooms" class="form-control"
+                                        placeholder="@lang('Number bathrooms')" value="{{ $Unit->bathrooms }}" />
+                                </div>
+
+                                <div class="col-sm-12 col-md-2 mb-3">
+                                    <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
+                                    <label class="switch switch-primary">
+                                        <input type="checkbox" name="show_gallery" class="switch-input toggleHomePage"
+                                            {{ $Unit->show_gallery == 1 ? 'checked' : '' }}>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on">
+                                                <i class="ti ti-check"></i>
+                                            </span>
+                                            <span class="switch-off">
+                                                <i class="ti ti-x"></i>
+                                            </span>
+                                        </span>
+
+                                    </label>
+                                </div>
+
+                                <div class="col-sm-12 col-md-2 mb-3">
+                                    <div class="small fw-medium mb-3">@lang('Daily Rent')</div>
+                                    <label class="switch switch-primary">
+                                        <input type="checkbox" name="daily_rent" class="switch-input toggleHomePage"
+                                            {{ $Unit->daily_rent == 1 ? 'checked' : '' }}>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on">
+                                                <i class="ti ti-check"></i>
+                                            </span>
+                                            <span class="switch-off">
+                                                <i class="ti ti-x"></i>
+                                            </span>
+                                        </span>
+
+                                    </label>
+                                </div>
+
+
+
+                                <div class="col-12 mb-3 col-md-4">
+                                    <label>@lang('Ad type') <span class="required-color">*</span> </label>
+                                    <select class="form-select" name="type" id="type" required>
+                                        <option disabled value="">@lang('Ad type') </option>
+                                        @foreach (['rent', 'sale', 'rent and sale'] as $type)
+                                            <option value="{{ $type }}"
+                                                {{ $Unit->type == $type ? 'selected' : '' }}>
+                                                {{ __($type) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label>@lang('services')</label>
+                                    <select class="select2 form-select" name="service_id[]" multiple="multiple">
+                                        <option disabled value="">@lang('services')</option>
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ in_array($service->id, $Unit->UnitServicesData->pluck('service_id')->toArray()) == true ? 'selected' : '' }}>
+                                                {{ $service->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                {{--  --}}
+                                <div class="col-sm-12 col-md-2 mb-3">
+                                    <label class="form-label">@lang('selling price')</label>
+                                    <input type="number" name="price" class="form-control"
+                                        placeholder="@lang('selling price')" value="{{ $Unit->price }}" />
+                                </div>
+
+
+                                <div class="col-sm-12 col-md-2 mb-3">
+                                    <label class="form-label">@lang('daily rental price')</label>
+                                    <input type="number" name="daily" class="form-control"
+                                        placeholder="@lang('daily rental price')"
+                                        value="{{ $Unit->UnitRentPrice->daily ?? '' }}" />
+                                </div>
+
+                                <div class="col-sm-12 col-md-2 mb-3">
+                                    <label class="form-label">@lang('Monthly rental price')</label>
+                                    <input type="number" name="monthly" class="form-control"
+                                        placeholder="@lang('Monthly rental price')"
+                                        value="{{ $Unit->UnitRentPrice->monthly ?? '' }}" />
+                                </div>
+
+                                <div class="col-sm-12 col-md-2 mb-3">
+                                    <label class="form-label">@lang('quarterly rental price')</label>
+                                    <input type="number" name="quarterly" class="form-control"
+                                        placeholder="@lang('quarterly rental price')"
+                                        value="{{ $Unit->UnitRentPrice->quarterly ?? '' }}" />
+                                </div>
+
+                                <div class="col-sm-12 col-md-2 mb-3">
+                                    <label class="form-label">@lang('midterm rental price')</label>
+                                    <input type="number" name="midterm" class="form-control"
+                                        placeholder="@lang('midterm rental price')"
+                                        value="{{ $Unit->UnitRentPrice->midterm ?? '' }}" />
+                                </div>
+
+                                <div class="col-sm-12 col-md-2 mb-3">
+                                    <label class="form-label">@lang('yearly rental price')</label>
+                                    <input type="number" name="yearly" class="form-control"
+                                        placeholder="@lang('yearly rental price')"
+                                        value="{{ $Unit->UnitRentPrice->yearly ?? '' }}" />
+                                </div>
+
+                                {{--  --}}
+
+                                <div class="col-sm-12 col-md-6 mb-3" hidden>
+                                    <label class="form-label">@lang('lat&long')</label>
+                                    <input type="text" required readonly name="lat_long" id="location_tag"
+                                        class="form-control" placeholder="@lang('lat&long')"
+                                        value="{{ $Unit->lat_long }}" />
+                                </div>
+
+
+
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">@lang('Additional details')</label>
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="addFeature()">@lang('Add details')</button>
+                                    @foreach ($Unit->UnitFeatureData as $feature)
+                                        <div class="row p-1">
+                                            <div class="col">
+                                                <input type="text" name="name[]" class="form-control search"
+                                                    placeholder="@lang('Field name')"
+                                                    value="{{ $feature->FeatureData->name }}" />
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" name="qty[]" value="{{ $feature->qty }}"
+                                                    class="form-control" placeholder="@lang('value')"
+                                                    value="" />
+                                            </div>
+                                            <div class="col">
+                                                <button type="button"
+                                                    class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endforeach
 
-                                    <div class="form-group col-12">
-                                        <label>@lang('Description')</label>
-                                        <div>
-                                            <textarea name="note" class="form-control" rows="5">{{ $Unit->note }}</textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-12 mb-3">
-                                        <label class="form-label">@lang('Pictures property') </label>
-                                        <input type="file" name="images[]"
-                                            data-url="{{ route('Broker.Unit.deleteImage', $Unit->id) }}"
-                                            @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif
-                                            multiple class="dropify" accept="image/jpeg, image/png" />
-                                    </div>
-
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary me-1">
-
-                                            {{ __('save') }}
-                                        </button>
+                                    <div id="features" class="row p-2">
 
                                     </div>
-                                </form>
+                                </div>
 
-                            </div>
+                                <div class="mb-3 col-12">
+                                    <label>@lang('Description')</label>
+                                    <div>
+                                        <textarea name="note" class="form-control" rows="5">{{ $Unit->note }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-12 mb-3">
+                                    <label class="form-label">@lang('Pictures property') </label>
+                                    <input type="file" name="images[]"
+                                        data-url="{{ route('Broker.Unit.deleteImage', $Unit->id) }}"
+                                        @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif
+                                        multiple class="dropify" accept="image/jpeg, image/png" />
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary me-1">
+
+                                        {{ __('save') }}
+                                    </button>
+
+                                </div>
+                            </form>
+
                         </div>
-                    </div> <!-- end col -->
+                    </div>
                 </div> <!-- end col -->
-            </div> <!-- end row -->
-
-        </div>
-        <!-- container-fluid -->
+            </div> <!-- end col -->
+        </div> <!-- end row -->
 
     </div>
+    <!-- container-fluid -->
+
     @push('scripts')
         <script>
             $(document).ready(function() {
@@ -445,15 +444,15 @@
 
                 // Use the exact same class names and structure as your existing rows
                 newRow.innerHTML = `
-    <div class="col">
-        <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-    </div>
-    <div class="col">
-        <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
-    </div>
-    <div class="col mr-2">
-        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-    </div>
+<div class="col">
+    <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+</div>
+<div class="col">
+    <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+</div>
+<div class="col mr-2">
+    <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+</div>
 `;
 
                 featuresContainer.appendChild(newRow);

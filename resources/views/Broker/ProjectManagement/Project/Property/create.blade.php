@@ -100,7 +100,7 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-4 mb-3">
+                                <div class="col-12 col-md-4 mb-3">
                                     <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
                                     </label>
                                     <div class="input-group">
@@ -115,8 +115,6 @@
                                         <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                             data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
                                     </div>
-
-
                                 </div>
 
 

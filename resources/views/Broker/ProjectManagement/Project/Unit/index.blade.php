@@ -67,7 +67,7 @@
                         <table class="table" id="table">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>#</th>
+
                                     <th>@lang('Residential number')</th>
                                     <th>@lang('owner name')</th>
                                     <th>@lang('property')</th>
@@ -77,14 +77,14 @@
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                                @foreach ($units as $index => $unit)
+                                @forelse ($units as $index => $unit)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
+
                                         <td>{{ $unit->number_unit ?? '' }}</td>
                                         <td>{{ $unit->OwnerData->name ?? '' }}</td>
                                         <td>
                                             <span
-                                                class="badge badge-pill badge-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
+                                                class="badge badge-pill bg-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
                                                 style="font-size: 13px;">
                                                 {{ $unit->PropertyData->name ?? __('nothing') }}
                                             </span>
@@ -127,7 +127,17 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <td colspan="6">
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <span class="alert-icon text-danger me-2">
+                                                <i class="ti ti-ban ti-xs"></i>
+                                            </span>
+                                            @lang('No Data Found!')
+                                        </div>
+                                    </td>
+                                @endforelse
+
 
                             </tbody>
                         </table>
@@ -148,15 +158,6 @@
                     sheet: "Sheet1"
                 });
                 XLSX.writeFile(wb, @json(__('Units')) + '.xlsx');
-            }
-        </script>
-
-        <script>
-            function exportToExcel2() {
-                var wb = XLSX.utils.table_to_book(document.getElementById('DataTables_Table_0'), {
-                    sheet: "Sheet1"
-                });
-                XLSX.writeFile(wb, @json(__('Record Deleted subscriptionTypes')) + '.xlsx');
             }
         </script>
     @endpush

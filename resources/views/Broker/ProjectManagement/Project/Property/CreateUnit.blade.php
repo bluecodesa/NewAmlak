@@ -29,8 +29,8 @@
 
                     <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
-                        <a href="{{ route('Broker.Property.show', $Property->id) }}"
-                            class="text-muted fw-light">@lang('view') </a> /
+                        <a href="{{ route('Broker.Property.show', $Property->id) }}" class="text-muted fw-light">
+                            {{ $Property->name }} </a> /
                         @lang('Add unit')
                     </h4>
                 </div>
@@ -181,7 +181,7 @@
                                         placeholder="@lang('Number bathrooms')" value="{{ old('Number bathrooms') }}" />
                                 </div>
 
-                                <div class="col-sm-12 col-md-3 mb-3">
+                                <div class="col-sm-12 col-md-2 mb-3">
                                     <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
                                     </label>
                                     {{-- <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
@@ -197,6 +197,7 @@
                                                 <i class="ti ti-x"></i>
                                             </span>
                                         </span>
+                                    </label>
                                 </div>
 
                                 <div class="col-sm-12 col-md-2 mb-3">
@@ -216,14 +217,14 @@
                                         </span>
                                 </div>
 
-                                <div class="col-sm-12 col-md-2 mb-3">
+                                <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('selling price')</label>
                                     <input type="number" name="price" class="form-control"
                                         placeholder="@lang('selling price')" value="{{ old('price') }}" />
                                 </div>
 
 
-                                <div class="col-sm-12 col-md-2 mb-3">
+                                <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Monthly rental price')</label>
                                     <input type="number" name="monthly" class="form-control"
                                         placeholder="@lang('Monthly rental price')" value="{{ old('price') }}" />
@@ -232,7 +233,7 @@
 
 
 
-                                <div class="form-group mb-2 col-md-3">
+                                <div class="col-12 mb-2 col-md-6">
                                     <label>@lang('Ad type') <span class="required-color">*</span> </label>
                                     <select class="form-select" name="type" id="type" required>
                                         <option disabled value="">@lang('Ad type') </option>
@@ -244,7 +245,7 @@
                                 </div>
 
 
-                                <div class="form-group col-md-3 mb-3">
+                                <div class="col-12 col-md-6 mb-3">
                                     <label>@lang('services') </label>
                                     <select class="select2 form-select" id="exampleFormControlSelect1"
                                         name="service_id[]" multiple="multiple">
