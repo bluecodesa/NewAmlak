@@ -1,6 +1,6 @@
 @extends('Admin.layouts.app')
 
-@section('title', __('Roles'))
+@section('title', __('Gallary'))
 
 @section('content')
 <div class="content-wrapper">
@@ -8,7 +8,8 @@
         <div class="row">
             <div class="col-6 py-3">
                 <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                    @lang('Roles')</h4>
+                    @lang('Gallary')</h4>
+
             </div>
         </div>
         <!-- DataTable with Buttons -->
