@@ -60,12 +60,10 @@
             <h4 class="mt-0 header-title">
                 @lang('Record subscription history')
             </h4>
-            <div class="table-responsive b-0" data-pattern="priority-columns">
-                <table id="datatable-buttons" class="table  table-striped">
-                    <thead>
+            <div class="table-responsive text-nowrap">
+                <table class="table" id="table">
+                    <thead class="table-dark">
                         <tr>
-                            <th>#</th>
-
                             <th>@lang('Subscription Name')</th>
                             <th>@lang('Subscription Time')</th>
                             <th>@lang('Subscription Status')</th>
@@ -75,7 +73,7 @@
                     <tbody>
                         @foreach ($invoices->unique('created_at') as $index => $invoice)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
+
                                 <td> {{ $invoice->subscription_name }} </td>
                                 <td>{{ __($invoice->period) }} {{  __($invoice->period_type) }} </td>
                                 <td>
