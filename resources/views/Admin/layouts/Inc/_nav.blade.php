@@ -154,48 +154,54 @@
                     {{-- <i class="ti ti-bell ti-md"></i> --}}
                     <i class="ti ti-bell ti-md"></i>
                     {{-- <i class="fa-solid fa-bell"></i> --}}
-                    <span class="badge bg-danger rounded-pill badge-notifications">5</span>
+                    <span
+                        class="badge bg-danger rounded-pill badge-notifications">{{ Auth::user()->unreadNotifications->count() }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end py-0">
                     <li class="dropdown-menu-header border-bottom">
                         <div class="dropdown-header d-flex align-items-center py-3">
                             <h5 class="text-body mb-0 me-auto">@lang('Notifications')</h5>
-                            <a href="javascript:void(0)" class="dropdown-notifications-all text-body"
+                            {{-- <a href="javascript:void(0)" class="dropdown-notifications-all text-body"
                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read"><i
-                                    class="ti ti-mail-opened fs-4"></i></a>
+                                    class="ti ti-mail-opened fs-4"></i></a> --}}
                         </div>
                     </li>
                     <li class="dropdown-notifications-list scrollable-container">
                         <ul class="list-group list-group-flush">
-
-                            <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0 me-3">
-                                        <div class="avatar">
-                                            <span class="avatar-initial rounded-circle bg-label-danger">CF</span>
+                            @foreach (Auth::user()->notifications as $noty)
+                                <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0 me-3">
+                                            <div class="avatar">
+                                                <span class="avatar-initial rounded-circle bg-label-primary"><i
+                                                        class="ti ti-mail{{ $noty->read_at ? '-opened' : '' }} fs-4"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">{{ __($noty->data['type_noty']) }}</h6>
+                                            <p class="mb-0">
+                                                {{ \Illuminate\Support\Str::limit($noty->data['msg'], 50, $end = '...') }}
+                                            </p>
+                                        </div>
+                                        <div class="flex-shrink-0 dropdown-notifications-actions">
+                                            <a href="{{ $noty->data['url'] }}" class="dropdown-notifications-read">
+                                                @if ($noty->read_at == null)
+                                                    <span class="badge badge-dot"></span>
+                                                @endif
+                                            </a>
+                                            <a href="{{ $noty->data['url'] }}"
+                                                class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                                         </div>
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1">Charles Franklin</h6>
-                                        <p class="mb-0">Accepted your connection</p>
-                                        <small class="text-muted">12hr ago</small>
-                                    </div>
-                                    <div class="flex-shrink-0 dropdown-notifications-actions">
-                                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span
-                                                class="badge badge-dot"></span></a>
-                                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
-                                                class="ti ti-x"></span></a>
-                                    </div>
-                                </div>
-                            </li>
-
+                                </li>
+                            @endforeach
 
                         </ul>
                     </li>
                     <li class="dropdown-menu-footer border-top">
-                        <a href="javascript:void(0);"
+                        <a href="{{ route('Notification.index') }}"
                             class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
-                            View all notifications
+                            @lang('View all')
                         </a>
                     </li>
                 </ul>
@@ -263,7 +269,8 @@
                             <i class="ti ti-logout me-2 ti-sm"></i>
                             <span class="align-middle">Log Out</span>
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                            style="display: none;">
                             @csrf
                         </form>
                     </li>

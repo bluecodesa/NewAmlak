@@ -1,6 +1,6 @@
 @extends('Admin.layouts.app')
 
-@section('title', __('Roles'))
+@section('title', __('Notifications Management'))
 
 @section('content')
     <div class="content-wrapper">
@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-6 py-3">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Roles')</h4>
+                        @lang('Notifications Management')</h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
@@ -17,7 +17,7 @@
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('Roles') </h5>
+                        <h5 class="card-header">@lang('Notifications Management') </h5>
                     </div>
                     <hr>
                     <div class="col-md-12 ArFont">
