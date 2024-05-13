@@ -2,39 +2,24 @@
 @section('title', __('View Ticket'))
 @section('content')
 
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="card m-b-30">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('View Ticket')</h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Tickets.show', $ticket->id) }}">@lang('View Ticket')</a>
-                                        </li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.Tickets.index') }}">@lang('Tickets List')</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+                <div class="col-6 ">
 
+                    <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        <a href="{{ route('Broker.Tickets.index') }}" class="text-muted fw-light">@lang('Tickets')
+                        </a> /
+                        @lang('View Ticket')
+                    </h4>
+                </div>
+            </div>
+            <!-- DataTable with Buttons -->
+            <div class="card">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card m-b-30">
+                        <div class="card m-b-30 p-2">
                             @include('Admin.layouts.Inc._errors')
-
                             <div class="card-body">
                                 <h5 class="card-title">@lang('Ticket Details')</h5>
 
@@ -67,7 +52,7 @@
                             <div class="row mt-3">
                                 <div class="col-sm-6">
                                     <h3 class="mt-0 header-title">@lang('Ticket Status') : <label
-                                            class="badge badge-primary">{{ __($ticket->status) }}</label></h3>
+                                            class="badge bg-primary">{{ __($ticket->status) }}</label></h3>
                                 </div>
 
                             </div>
@@ -131,7 +116,8 @@
                                             <div class="mb-3">
                                                 <label for="attachment" class="form-label">@lang('file')</label>
                                                 <input type="file" class="form-control" id="attachment"
-                                                    name="response_attachment" accept="image/jpeg, image/png, image/jpg, image/gif, application/pdf"
+                                                    name="response_attachment"
+                                                    accept="image/jpeg, image/png, image/jpg, image/gif, application/pdf"
                                                     @if ($ticket->status === 'closed') disabled @endif>
                                             </div>
                                             <button type="submit" class="btn btn-primary"
@@ -145,7 +131,40 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
         </div>
+
+        <div class="content-backdrop fade"></div>
     </div>
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                $('.model-checkbox').on('click', function() {
+                    var model = $(this).val();
+                    var checkboxes = $('input[name="permission[]"][data-model="' + model + '"]');
+                    checkboxes.prop('checked', $(this).prop('checked'));
+                });
+
+                $('.all-checkbox').on('click', function() {
+                    var model = $(this).val();
+                    var checkboxes = $('input[name="permission[]"]');
+                    checkboxes.prop('checked', $(this).prop('checked'));
+                });
+
+                $('.TypeUser').on('click', function() {
+
+                    var show = $(this).val();
+                    var hide = $(this).data('hide');
+                    $('.' + show).css('display', 'block')
+                    $('.' + hide).css('display', 'none');
+                });
+
+            });
+        </script>
+    @endpush
 
 @endsection
