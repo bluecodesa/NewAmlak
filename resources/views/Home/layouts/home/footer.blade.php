@@ -100,10 +100,10 @@
                 >
               </li>
               <li class="mb-3">
-                <a href="+966{{ $sitting->phone }}" class="footer-link"
+                <a href="tel:+966{{ $sitting->phone }}" class="footer-link"
                 ><span class="ti ti-phone"></span> +966 {{ $sitting->phone }}</a
               >              </li>
-             
+
             </ul>
           </div>
         </div>

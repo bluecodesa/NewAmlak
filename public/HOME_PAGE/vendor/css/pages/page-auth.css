@@ -57,7 +57,7 @@
 }
 
 .authentication-wrapper.authentication-basic .authentication-inner {
-    max-width: 50%;
+    max-width: 800px;
     position: relative;
 }
 

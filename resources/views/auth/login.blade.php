@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Login Basic - Pages | Vuexy - Bootstrap Admin Template</title>
+    <title>{{ $sitting->title }} @lang('login')</title>
 
     <meta name="description" content="" />
 
@@ -75,7 +75,7 @@
 
                                 <label for="email" class="form-label">@lang('Email')</label>
                                 <input type="text" class="form-control" id="email" name="user_name" required placeholder="@lang('Email')" autofocus />
-                       
+
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
@@ -104,7 +104,7 @@
                             <span></span>
                             <a href="#" data-bs-toggle="modal"
                             data-bs-target="#addNewAddress">
-                             
+
                                 <span>@lang('Create an account')؟</span>
                             </a>
                         </p>
@@ -241,7 +241,7 @@
                 </div>
               </div>
             </div>
-           
+
         </div>
       </div>
     </div>

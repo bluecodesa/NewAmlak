@@ -32,7 +32,7 @@
               </div>
             </div>
             <div id="heroDashboardAnimation" class="hero-animation-img">
-              
+
                 <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
                   <img
                     src="{{ url('HOME_PAGE/img/front-pages/landing-page/hero-dashboard-light.png')}}"
@@ -542,6 +542,8 @@
               </div>
             </div>
           </div> --}}
+          @guest
+
           <div class="row gy-4 pt-lg-3">
             <!-- Basic Plan: Start -->
             @foreach ($subscriptionTypes as $subscriptionType)
@@ -616,6 +618,86 @@
             <!-- Basic Plan: End -->
 
           </div>
+          @endguest
+
+          @auth
+
+          <div class="row gy-4 pt-lg-3">
+            <!-- Basic Plan: Start -->
+            @foreach ($subscriptionTypesRoles as $subscriptionType)
+
+            <div class="col-xl-3 col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="text-center">
+                    <img
+                      src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png')}}"
+                      alt="paper airplane icon"
+                      class="mb-4 pb-2" />
+                    <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <p>
+                            @foreach ($subscriptionType->roles as $role)
+                                <span> اشتراك   {{ $role->name_ar }}</span>
+                            @endforeach
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                      <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
+                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
+                      <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
+                    </div>
+                    <div class="position-relative pt-2">
+                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 168 / year</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    @foreach ($sections as $section)
+                    <li>
+                      <h5>
+
+                          @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+                          <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
+                          >
+                          <i class="ti ti-check ti-xs"></i>
+                        </span>
+                        @else
+                        <span class="badge badge-center rounded-pill bg-label-danger p-0 me-2"
+                        >
+                        <i class="ti ti-minus ti-xs"></i>
+                        @endif
+                        </span>
+                        {{ $section->name }}
+                      </h5>
+                    </li>
+                    @endforeach
+
+                  </ul>
+                  <div class="d-grid mt-4 pt-3">
+                    @if ($subscriptionType && $subscriptionType->roles->count() == 2)
+
+                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
+                    @elseif ($role->name == "RS-Broker")
+                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
+                    @elseif ($role->name == "Office-Admin")
+                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
+                    @endif
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            @endforeach
+            <!-- Basic Plan: End -->
+
+          </div>
+          @endauth
+
         </div>
       </section>
       <!-- Pricing plans: End -->

@@ -4,7 +4,7 @@
 
     <section class="section-py first-section-pt">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span>معرض : {{ $broker->UserData->name }}</h4>
+            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span><span class="text-muted fw-light"><a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>/ </span> {{ $broker->UserData->name }}</h4>
 
             <div class="row">
                 <div class="col-12">

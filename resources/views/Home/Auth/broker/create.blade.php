@@ -75,7 +75,7 @@
               <!-- /Logo -->
               <h4 class="mb-1 pt-2 text-center">سجل الأن</h4>
 
-              <form id="formAuthentication" class="mb-3" aaction="{{ route('Home.Brokers.CreateBroker') }}" method="POST" enctype="multipart/form-data">
+              <form id="formAuthentication" class="mb-3" action="index.html" method="GET">
                 @csrf
 
                     @if ($errors->any())
@@ -90,13 +90,13 @@
 
                     <div class="mb-3 row">
                         <div class="col-md-6">
-                            <label for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
+                            <label class="form-label" for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
 
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="name" name="name" required autofocus>
 
                         </div>
                         <div class="col-md-6">
-                            <label for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
+                            <label class="form-label" for="license_number"> @lang('license number')<span class="text-danger">*</span></label>
 
                             <input type="text" class="form-control" id="license_number" name="license_number"
                                 required>
@@ -104,14 +104,14 @@
                     </div>
                     <div class="mb-3 row">
                         <div class="col-md-6">
-                            <label for="email">@lang('Email')<span class="text-danger">*</span></label>
+                            <label class="form-label" for="email">@lang('Email')<span class="text-danger">*</span></label>
 
                             <input type="email" class="form-control" id="email" name="email">
 
                         </div>
 
                         <div class="col-md-6">
-                            <label for="mobile">@lang('Mobile Whats app')<span class="text-danger">*</span></label>
+                            <label class="form-label" for="mobile">@lang('Mobile Whats app')<span class="text-danger">*</span></label>
                             <div style="position:relative">
 
                                 <input type="tel" class="form-control" id="mobile" minlength="9" maxlength="9"
@@ -125,7 +125,7 @@
                     <div class="mb-3 row">
 
                         <div class="form-group col-md-4">
-                            <label>@lang('Region') <span class="text-danger">*</span></label>
+                            <label class="form-label" >@lang('Region') <span class="text-danger">*</span></label>
                             <select class="form-control" id="Region_id" name="region_id" required>
                                 <option disabled selected value="">@lang('Region')</option>
                                 @foreach ($Regions as $Region)
@@ -137,14 +137,14 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label>@lang('city') <span class="text-danger">*</span> </label>
+                            <label class="form-label" >@lang('city') <span class="text-danger">*</span> </label>
                             <select class="form-control" name="city_id" id="CityDiv" required>
                             </select>
                         </div>
 
-                        <div class="col-md-4 mb-2">
-                            <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
-                            <select type="package" class="form-control" name="subscription_type_id" required="">
+                        <div class="col-md-4 col-12 mb-3">
+                            <label class="form-label" for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
+                            <select type="package" class="form-select" name="subscription_type_id" required="">
                                 <option value="" selected disabled> @lang('Subscription Type') </option>
                                 @foreach ($subscriptionTypes as $subscriptionType)
                                     <option value="{{ $subscriptionType->id }}">
@@ -157,22 +157,49 @@
                     <div class="mb-3 row">
 
                         <div class="col-md-6">
-                            <label for="password"> @lang('password') <span class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            {{-- <label for="password"> @lang('password') <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="password" name="password" required> --}}
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="password">@lang('password') <span class="text-danger">*</span></label>
+                                <div class="input-group input-group-merge">
+                                  <input
+                                    type="password"
+                                    id="password"
+                                    class="form-control"
+                                    name="password"
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password" required />
+                                  <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                </div>
+                              </div>
 
                         </div>
 
                         <div class="col-md-6">
-                            <label for="password_confirmation"> @lang('Confirm Password') <span
+                            {{-- <label for="password_confirmation"> @lang('Confirm Password') <span
                                     class="text-danger">*</span></label> <input type="password" class="form-control"
-                                id="password_confirmation" name="password_confirmation" required>
+                                id="password_confirmation" name="password_confirmation" required> --}}
+
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password">@lang('Confirm Password') <span class="text-danger">*</span></label>
+                                    <div class="input-group input-group-merge">
+                                      <input
+                                        type="password"
+                                        id="password_confirmation"
+                                        class="form-control"
+                                        name="password_confirmation"
+                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                        aria-describedby="password" required />
+                                      <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                    </div>
+                                  </div>
                         </div>
                     </div>
 
 
                     <div class="mb-3 row">
                         <div class="col-md-4 mb-6">
-                            <label for="broker_logo">@lang('Broker logo')</label>
+                            <label class="form-label" for="broker_logo">@lang('Broker logo')</label>
                             <span class="not_required">(@lang('optional'))</span>
                             <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo"
                                 accept="image/png, image/jpg, image/jpeg">
@@ -181,7 +208,7 @@
 
                         </div>
                         <div class="col-md-6">
-                            <label for="id_number" class="col-form-label">@lang('id number')</label>
+                            <label class="form-label" for="id_number" class="col-form-label">@lang('id number')</label>
                             <input type="text" class="form-control" id="id_number" name="id_number">
                         </div>
                     </div>
@@ -195,7 +222,7 @@
                         </div>
                     </div>
 
-
+              </form>
 
 
               <div class="divider my-4">
