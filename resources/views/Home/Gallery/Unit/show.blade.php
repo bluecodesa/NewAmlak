@@ -117,8 +117,7 @@
           </div> --}}
 
           <div class="card mb-4">
-
-             {{-- <div id="carouselExampleIndicators" class="carousel slide shadow-sm" data-ride="carousel">
+             <div id="carouselExampleIndicators" class="carousel slide shadow-sm" data-ride="carousel">
 
                     <div class="carousel-inner">
                     @php
@@ -140,38 +139,9 @@
                     @endif
                 </div>
 
-            </div> --}}
-            <h6 class="text-muted mt-3">With arrows</h6>
-            <div class="swiper" id="swiper-with-arrows">
-                @if ($Unit->UnitImages->isEmpty())
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
-                        </div>
-                        @else
-                        @foreach ($Unit->UnitImages as $img)
-
-              <div class="swiper-wrapper">
-                <div class="swiper-slide" style="background-image: url({{ asset('HOME_PAGE/img/elements/8.jpg') }})">
-                  Slide 1
-                </div>
-                <div class="swiper-slide" style="background-image: url(../../assets/img/elements/1.jpg)">
-                  Slide 2
-                </div>
-                <div class="swiper-slide" style="background-image: url(../../assets/img/elements/5.jpg)">
-                  Slide 3
-                </div>
-                <div class="swiper-slide" style="background-image: url(../../assets/img/elements/9.jpg)">
-                  Slide 4
-                </div>
-                <div class="swiper-slide" style="background-image: url(../../assets/img/elements/7.jpg)">
-                  Slide 5
-                </div>
-              </div>
-              <div class="swiper-button-next swiper-button-white custom-icon"></div>
-              <div class="swiper-button-prev swiper-button-white custom-icon"></div>
             </div>
+          </div>
 
-        </div>
           <!--/ Activity Timeline -->
             <div class="card card-action mb-4">
                 <div class="card-header align-items-center">
