@@ -199,7 +199,7 @@
           <div class="d-flex align-items-center justify-content-start">
             <a  class="share btn btn-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
-            data-bs-target="#twoFactorAuth{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
+            data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
             >
             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"  data-bs-toggle="modal"
             data-bs-target="#basicModal"

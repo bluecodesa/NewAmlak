@@ -1,4 +1,4 @@
-  <!-- Two Factor Auth Modal -->
+  {{-- <!-- Two Factor Auth Modal -->
 
   <div class="modal fade" id="twoFactorAuth{{$unit->id}}" tabindex="-1" aria-hidden="true" data-unit-id="{{ $unit->id }}">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-simple">
@@ -144,4 +144,88 @@
       </div>
     </div>
   </div>
-  <!--/ Two Factor Auth Modal -->
+  <!--/ Two Factor Auth Modal --> --}}
+
+
+   <!-- Form with Image horizontal Modal -->
+   <div
+   class="modal-onboarding modal fade animate__animated"
+   id="onboardHorizontalImageModal{{$unit->id}}"
+   tabindex="-1"
+   aria-hidden="true">
+   <div class="modal-dialog modal-xl" role="document">
+     <div class="modal-content text-center">
+       <div class="modal-header border-0">
+
+         <button
+           type="button"
+           class="btn-close"
+           data-bs-dismiss="modal"
+           aria-label="Close"></button>
+       </div>
+       <div class="modal-body onboarding-horizontal p-0">
+         <div class="onboarding-media">
+            <div class="mb-4 text-center">
+                {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) !!}
+
+          </div>
+           {{-- <img
+             src="../../assets/img/illustrations/boy-verify-email-light.png"
+             alt="boy-verify-email-light"
+             width="273"
+             class="img-fluid"
+             data-app-light-img="illustrations/boy-verify-email-light.png"
+             data-app-dark-img="illustrations/boy-verify-email-dark.png" /> --}}
+             @php
+             $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
+         @endphp
+
+             <a href="{{ route('download.qrcode', $url) }}" class="btn btn-primary">
+                <span class="align-middle d-none d-sm-inline-block">تحميل الباركود</span
+                ><i class="ti ti-download ti-xs ms-1 scaleX-n1-rtl"></i>
+              </a>
+         </div>
+         <div class="onboarding-content mb-0">
+           <h4 class="onboarding-title text-body">مشاركة المعرض</h4>
+           <div class="onboarding-info">
+        قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا العقار عن طريق الجوال
+
+           </div>
+           <form>
+             <div class="row">
+               <div class="col-sm-9">
+                 <div class="mb-3">
+                   <label for="nameEx7" class="form-label">رابط الوحدة</label>
+                   <input
+                     class="form-control"
+                     type="text"
+                     value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])}} "                     tabindex="0"
+                     id="nameEx7" readonly />
+                 </div>
+               </div>
+                 <div class="col-sm-3">
+                    <div class="mb-3">
+                      <label for="nameEx7" class="form-label">مشاركة الرابط عبر</label>
+                      @php
+                      $url = route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) ;
+                      @endphp
+
+                     <a href='https://web.whatsapp.com/send?text=Check%20out%20this%20link:%20{{ urlencode("$url") }}' class="btn btn-success">
+                         <i class="ti ti-brand-whatsapp"></i>
+                     </a>
+                    </div>
+
+               </div>
+
+             </div>
+           </form>
+         </div>
+       </div>
+       <div class="modal-footer border-0">
+         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+           @lang('close')
+         </button>
+       </div>
+     </div>
+   </div>
+ </div>

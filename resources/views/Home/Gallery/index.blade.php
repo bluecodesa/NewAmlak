@@ -244,7 +244,7 @@
           <div class="d-flex align-items-center justify-content-start">
             <a  class="share btn btn-secondary d-flex align-items-center me-3"
             data-bs-toggle="modal"
-            data-bs-target="#twoFactorAuth{{$unit->id}}">
+            data-bs-target="#onboardHorizontalImageModal{{$unit->id}}">
              <i class="ti-xs me-1 ti ti-share me-1"></i></a
             >
             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
@@ -315,14 +315,17 @@
         </div>
       </div>
     </div>
+  </div>
 
-@include('Home.Gallery.inc.share')
+
    @endforeach
 
   </div>
 
 </div>
 </section>
+@include('Home.Gallery.inc.share')
+
 @include('Home.layouts.inc.__addSubscriberModal')
 
 @endsection
