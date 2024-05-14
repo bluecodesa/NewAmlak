@@ -72,6 +72,10 @@ Route::group(
         Route::post('forget-password/send-new-code', [ForgotPasswordController::class, 'sendNewCode'])->name('forget.password.newcode');
 
         Route::get('/brokers',  [HomeController::class, 'showAllBrokers'])->name('brokers');
+        Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity');
+
+        // Route::get('/filter/brokers',  [HomeController::class, 'filterBrokers'])->name('filter.brokers');
+
 
     }
 

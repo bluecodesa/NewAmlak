@@ -344,6 +344,7 @@ class GallaryController extends Controller
 
     function GetDistrictByCity($id)
     {
+        dd($id);
         $districts = $this->districtService->getDistrictsByCity($id);
         $districtsIds = $this->UnitService->getAll(auth()->user()->UserBrokerData->id)->pluck('district_id')->toArray();
         return view('Broker.Gallary.inc._district', get_defined_vars());

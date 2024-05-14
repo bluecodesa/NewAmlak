@@ -75,7 +75,7 @@
               <!-- /Logo -->
               <h4 class="mb-1 pt-2 text-center">سجل الأن</h4>
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="GET">
+              <form id="formAuthentication" class="mb-3" action="{{ route('Home.Brokers.CreateBroker') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                     @if ($errors->any())
@@ -89,6 +89,36 @@
                     @endif
 
                     <div class="mb-3 row">
+                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                            <img
+                              src="{{ asset('HOME_PAGE/img/avatars/14.png') }}"
+                              alt="user-avatar"
+                              class="d-block w-px-100 h-px-100 rounded"
+                              id="uploadedAvatar" />
+                            <div class="button-wrapper">
+                              <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
+                                <span class="d-none d-sm-block">اختر صورة شخصيه</span>
+                                <i class="ti ti-upload d-block d-sm-none"></i>
+                                <input
+                                  type="file"
+                                  id="upload"
+                                  class="account-file-input"
+                                  name="broker_logo"
+                                  hidden
+                                  accept="image/png, image/jpeg" />
+                              </label>
+                              <button type="button" id="account-image-reset" class="btn btn-label-secondary account-image-reset mb-3">
+                                <i class="ti ti-refresh-dot d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
+                              </button>
+
+                              <div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                            </div>
+                          </div>
+
+                    </div>
+                          <div class="mb-3 row">
+
                         <div class="col-md-6">
                             <label class="form-label" for="name"> @lang('Broker name')<span class="text-danger">*</span></label>
 
@@ -198,7 +228,7 @@
 
 
                     <div class="mb-3 row">
-                        <div class="col-md-4 mb-6">
+                        {{-- <div class="col-md-4 mb-6">
                             <label class="form-label" for="broker_logo">@lang('Broker logo')</label>
                             <span class="not_required">(@lang('optional'))</span>
                             <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo"
@@ -206,9 +236,9 @@
                             <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
                                 class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
 
-                        </div>
+                        </div> --}}
                         <div class="col-md-6">
-                            <label class="form-label" for="id_number" class="col-form-label">@lang('id number')</label>
+                            <label class="form-label" >@lang('id number')</label>
                             <input type="text" class="form-control" id="id_number" name="id_number">
                         </div>
                     </div>
@@ -276,5 +306,73 @@
 
     <!-- Page JS -->
     <script src="{{ asset('HOME_PAGE/js/pages-auth.js')}}"></script>
+    <script src="{{ asset('HOME_PAGE/js/pages-account-settings-account.js')}}"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#Region_id').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#CityDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#CityDiv').fadeOut('fast', function() {
+                            // Empty the city select element
+                            $(this).empty();
+                            // Append the new options based on the received data
+                            $.each(data, function(key, city) {
+                                $('#CityDiv').append($('<option>', {
+                                    value: city.id,
+                                    text: city.name
+                                }));
+                            });
+                            // Fade in the city select element with new options
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        // $('#broker_logo_preview').click(function() {
+        //     $('#broker_logo').click(); // Trigger file input click on image click
+        // });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#uploadedAvatar').attr('src', e.target.result); // Update the preview image
+                };
+
+                reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+            }
+        }
+
+        $("#upload").change(function() {
+            readURL(this); // Call readURL function when a file is selected
+        });
+    </script>
+<script>
+    // JavaScript to handle the reset button functionality
+    $('#account-image-reset').click(function() {
+        // Reset the file input by clearing its value
+        $('#upload').val('');
+
+        // Reset the preview image to the default avatar
+        $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
+    });
+</script>
   </body>
 </html>

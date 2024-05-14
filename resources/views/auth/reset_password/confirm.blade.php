@@ -59,7 +59,9 @@
 
   <body>
     <!-- Content -->
-
+    <div class="home-btn d-none d-sm-block">
+        <a href="{{ route('welcome') }}" class="text-white"><i class="fas fa-home h2"></i></a>
+    </div>
     <div class="authentication-wrapper authentication-basic px-4">
       <div class="authentication-inner py-4">
         <!--  Two Steps Verification -->
@@ -94,17 +96,22 @@
                       fill="#7367F0" />
                   </svg>
                 </span>
-                <span class="app-brand-text demo text-body fw-bold ms-1">Vuexy</span>
+                <span class="app-brand-text demo text-body fw-bold ms-1">أملاك</span>
               </a>
             </div>
             <!-- /Logo -->
-            <h4 class="mb-1 pt-2">Two Step Verification 💬</h4>
+            {{-- <h4 class="mb-1 pt-2">Two Step Verification 💬</h4> --}}
             <p class="text-start mb-4">
-              We sent a verification code to your mobile. Enter the code from the mobile in the field below.
-              <span class="fw-medium d-block mt-2">******1234</span>
+                @lang('تم ارسال رمز التحقق الي هذا البريد الالكتروني') {{ $email }}
             </p>
+            <p class="font-16 text-center">@lang('هذا الرمز ساري لمده ساعه')</p>
+            <p id="countdown" class="font-16 text-center">@lang('Send New Code:') <span id="countdown-value">59</span></p>
+
             <p class="mb-0 fw-medium">Type your 6 digit security code</p>
-            <form id="twoStepsForm" action="index.html" method="GET">
+            <form id="twoStepsForm" method="POST" action="{{ route('forget.password.newcode') }}">
+                @csrf
+                <input type="hidden" name="email" value="{{ $email }}">
+                <input type="hidden" name="token" value="{{ $token }}">
               <div class="mb-3">
                 <div
                   class="auth-input-wrapper d-flex align-items-center justify-content-sm-between numeral-mask-wrapper">
@@ -134,10 +141,11 @@
                     class="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
                     maxlength="1" />
                 </div>
+
                 <!-- Create a hidden field which is combined by 3 fields above -->
-                <input type="hidden" name="otp" />
+                <input type="hidden" name="code" @error('code') is-invalid @enderror />
               </div>
-              <button class="btn btn-primary d-grid w-100 mb-3">Verify my account</button>
+              <button type="submit" class="btn btn-primary d-grid w-100 mb-3" onclick="submitForm()">Verify my account</button>
               <div class="text-center">
                 Didn't get the code?
                 <a href="javascript:void(0);"> Resend </a>
@@ -178,5 +186,61 @@
     <!-- Page JS -->
     <script src="../../assets/js/pages-auth.js"></script>
     <script src="../../assets/js/pages-auth-two-steps.js"></script>
+
+    <script>
+        var countdownValue = 59;
+        var countdownElement = document.getElementById("countdown-value");
+        var countdownInterval;
+
+        function updateCountdown() {
+            if (countdownValue <= 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("new-code-button").style.display = "block";
+                document.getElementById("countdown").style.display = "none";
+            } else {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+            }
+        }
+
+        function startCountdown() {
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        function sendNewCode() {
+            // alert("New code sent!"); // Placeholder alert, replace with actual code
+            countdownValue = 59;
+            document.getElementById("new-code-button").style.display = "none";
+            document.getElementById("countdown").style.display = "block";
+            startCountdown();
+        }
+
+        // Call the startCountdown function when the page is loaded
+        $(document).ready(function() {
+            startCountdown();
+        });
+    </script>
+
+
+<script>
+    function submitForm() {
+        // Get all input fields with class 'numeral-mask'
+        var inputs = document.querySelectorAll('.numeral-mask');
+
+        // Concatenate the values of these input fields
+        var code = '';
+        inputs.forEach(function(input) {
+            code += input.value;
+        });
+
+        // Assign the concatenated code to the hidden input field
+        document.querySelector('input[name="code"]').value = code;
+
+        // Submit the form
+        document.getElementById('twoStepsForm').submit();
+    }
+</script>
+
   </body>
 </html>

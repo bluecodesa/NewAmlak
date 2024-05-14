@@ -359,6 +359,7 @@ class HomeController extends Controller
 
         $users = User::where('is_broker', 1)->get();
         $brokers = [];
+        $cities = City::all();
 
         foreach ($users as $broker) {
             if ($broker->UserBrokerData->GalleryData) {
@@ -368,5 +369,6 @@ class HomeController extends Controller
         }
         return view('Home.Brokers.index',get_defined_vars());
     }
+    
 
 }

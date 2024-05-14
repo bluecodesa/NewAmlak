@@ -46,5 +46,17 @@
           </div>
     </div>
   </section>
+  @include('Home.layouts.inc.__addSubscriberModal')
 
   @endsection
+
+  <script>
+    function redirectToCreateBroker() {
+        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+    }
+
+    function redirectToCreateOffice() {
+        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+
+    }
+</script>
