@@ -81,32 +81,7 @@
       <!--/ Header -->
 
       <!-- Navbar pills -->
-      <div class="row">
-        {{-- <div class="col-md-12">
-          <ul class="nav nav-pills flex-column flex-sm-row mb-4">
-            <li class="nav-item">
-              <a class="nav-link active" href="javascript:void(0);"
-                ><i class="ti-xs ti ti-user-check me-1"></i> Profile</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pages-profile-teams.html"
-                ><i class="ti-xs ti ti-users me-1"></i> Teams</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pages-profile-projects.html"
-                ><i class="ti-xs ti ti-layout-grid me-1"></i> Projects</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pages-profile-connections.html"
-                ><i class="ti-xs ti ti-link me-1"></i> Connections</a
-              >
-            </li>
-          </ul>
-        </div> --}}
-      </div>
+
       <!--/ Navbar pills -->
 
       <!-- User Profile Content -->
@@ -141,9 +116,9 @@
             </div>
           </div> --}}
 
-          <div class="card card-action mb-4">
+          <div class="card mb-4">
 
-             <div id="carouselExampleIndicators" class="carousel slide shadow-sm" data-ride="carousel">
+             {{-- <div id="carouselExampleIndicators" class="carousel slide shadow-sm" data-ride="carousel">
 
                     <div class="carousel-inner">
                     @php
@@ -165,6 +140,35 @@
                     @endif
                 </div>
 
+            </div> --}}
+            <h6 class="text-muted mt-3">With arrows</h6>
+            <div class="swiper" id="swiper-with-arrows">
+                @if ($Unit->UnitImages->isEmpty())
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
+                        </div>
+                        @else
+                        @foreach ($Unit->UnitImages as $img)
+
+              <div class="swiper-wrapper">
+                <div class="swiper-slide" style="background-image: url({{ asset('HOME_PAGE/img/elements/8.jpg') }})">
+                  Slide 1
+                </div>
+                <div class="swiper-slide" style="background-image: url(../../assets/img/elements/1.jpg)">
+                  Slide 2
+                </div>
+                <div class="swiper-slide" style="background-image: url(../../assets/img/elements/5.jpg)">
+                  Slide 3
+                </div>
+                <div class="swiper-slide" style="background-image: url(../../assets/img/elements/9.jpg)">
+                  Slide 4
+                </div>
+                <div class="swiper-slide" style="background-image: url(../../assets/img/elements/7.jpg)">
+                  Slide 5
+                </div>
+              </div>
+              <div class="swiper-button-next swiper-button-white custom-icon"></div>
+              <div class="swiper-button-prev swiper-button-white custom-icon"></div>
             </div>
 
         </div>
@@ -392,3 +396,8 @@
    @include('Home.Gallery.Unit.share')
   <!-- Content wrapper -->
   @endsection
+
+  <script>
+
+<script src="../../assets/js/ui-carousel.js"></script>
+  </script>

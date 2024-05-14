@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Cities'))
+@section('title', __('dashboard'))
 
 @section('content')
     <div class="content-wrapper">
@@ -64,516 +64,392 @@
                 </div>
             </div>
             <hr>
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="col-12">
-
-
-                        <div class="row">
-
-                            <div class="col-sm-6 col-xl-3">
-                                <div class="card">
-                                    <div class="card-heading p-4">
-                                        <div class="mini-stat-icon float-right">
-                                            <i class="fas fa-users bg-primary  text-white"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-16">@lang('Number Of Owners')</h5>
-
-                                        </div>
-                                        <h3 class="mt-4">{{ $numberOfowners }}</h3>
-
-                                    </div>
-                                </div>
+            <div class="row">
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header pb-3">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                              <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-users ti-md"></i></span>
                             </div>
-
-                            <div class="col-sm-6 col-xl-3">
-                                <div class="card">
-                                    <div class="card-heading p-4">
-                                        <div class="mini-stat-icon float-right">
-                                            <i class="mdi mdi-briefcase-check bg-success text-white"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-16"> @lang('vacant')</h5>
-                                        </div>
-                                        <h3 class="mt-4">{{ $numberOfVacantUnits }}</h3>
-
-                                        @if ($numberOfUnits > 0)
-                                            @php
-                                                $occupiedPercentage = number_format(
-                                                    ($numberOfVacantUnits / $numberOfUnits) * 100,
-                                                    1,
-                                                );
-                                            @endphp
-                                            <div class="progress mt-4" style="height: 4px;">
-                                                <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'success' : 'danger' }}"
-                                                    role="progressbar" style="width: {{ $occupiedPercentage }}%"
-                                                    aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-
-                                            <p class="text-muted mt-2 mb-0"><span
-                                                    class="float-right">{{ $occupiedPercentage }}%</span></p>
-                                        @else
-                                            <p class="text-muted mt-2 mb-0"><span class="float-right">0%</span></p>
-                                        @endif
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-xl-3">
-                                <div class="card">
-                                    <div class="card-heading p-4">
-                                        <div class="mini-stat-icon float-right">
-                                            <i class="mdi mdi-briefcase-check bg-success text-white"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-16">@lang('rented')</h5>
-                                        </div>
-                                        <h3 class="mt-4">{{ $numberOfRentedUnits }}</h3>
-                                        @if ($numberOfUnits > 0)
-                                            @php
-                                                $occupiedPercentage = number_format(
-                                                    ($numberOfRentedUnits / $numberOfUnits) * 100,
-                                                    1,
-                                                );
-                                            @endphp
-                                            <div class="progress mt-4" style="height: 4px;">
-                                                <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'success' : 'danger' }}"
-                                                    role="progressbar" style="width: {{ $occupiedPercentage }}%"
-                                                    aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-
-                                            <p class="text-muted mt-2 mb-0"><span
-                                                    class="float-right">{{ $occupiedPercentage }}%</span></p>
-                                        @else
-                                            <p class="text-muted mt-2 mb-0"><span class="float-right">0%</span></p>
-                                        @endif
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-6 col-xl-3">
-                                <div class="card">
-                                    <div class="card-heading p-4">
-                                        <div class="mini-stat-icon float-right">
-                                            <i class="mdi mdi-tag-text-outline bg-warning text-white"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-16"> @lang('Number units') @lang('NonResidential')</h5>
-                                        </div>
-                                        <h3 class="mt-4">{{ $nonResidentialCount }}</h3>
-                                        @if ($numberOfUnits > 0)
-                                            @php
-
-                                                $occupiedPercentage = number_format(
-                                                    ($nonResidentialCount / $numberOfUnits) * 100,
-                                                    1,
-                                                );
-                                            @endphp
-                                            <div class="progress mt-4" style="height: 4px;">
-                                                <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'warning' : 'danger' }}"
-                                                    role="progressbar" style="width: {{ $occupiedPercentage }}%"
-                                                    aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-
-                                            <p class="text-muted mt-2 mb-0"><span
-                                                    class="float-right">{{ $occupiedPercentage }}%</span></p>
-                                        @else
-                                            <p class="text-muted mt-2 mb-0"><span class="float-right">0%</span></p>
-                                        @endif
-
-
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-xl-3">
-                                <div class="card">
-                                    <div class="card-heading p-4">
-                                        <div class="mini-stat-icon float-right">
-                                            <i class="mdi mdi-tag-text-outline bg-warning text-white"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-16"> @lang('Number units') @lang('Residential')</h5>
-                                        </div>
-                                        <h3 class="mt-4">{{ $residentialCount }}</h3>
-                                        @if ($numberOfUnits > 0)
-                                            @php
-                                                $occupiedPercentage = number_format(
-                                                    ($residentialCount / $numberOfUnits) * 100,
-                                                    1,
-                                                );
-                                            @endphp
-                                            <div class="progress mt-4" style="height: 4px;">
-                                                <div class="progress-bar bg-{{ $occupiedPercentage > 50 ? 'warning' : 'danger' }}"
-                                                    role="progressbar" style="width: {{ $occupiedPercentage }}%"
-                                                    aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-
-                                            <p class="text-muted mt-2 mb-0"><span
-                                                    class="float-right">{{ $occupiedPercentage }}%</span></p>
-                                        @else
-                                            <p class="text-muted mt-2 mb-0"><span class="float-right">0%</span></p>
-                                        @endif
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-xl-3">
-                                <div class="card">
-                                    <div class="card-heading p-4">
-                                        <div class="mini-stat-icon float-right">
-                                            <i class="mdi mdi-buffer bg-danger text-white"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-16">@lang('Requests for interest')</h5>
-                                        </div>
-                                        <h3 class="mt-4">{{ $numberOfInterests }}</h3>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-xl-3">
-                                <div class="card">
-                                    <div class="card-heading p-4">
-                                        <div class="mini-stat-icon float-right">
-                                            <i class="fas fa-users bg-primary  text-white"></i>
-                                        </div>
-                                        <div>
-                                            <h5 class="font-16">@lang('Gallery visitors')</h5>
-                                        </div>
-                                        <h3 class="mt-4">{{ $visitorCount }}</h3>
-                                        {{-- <div class="progress mt-4" style="height: 4px;">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div> --}}
-                                        {{-- <p class="text-muted mt-2 mb-0"><span class="float-right">75%</span> --}}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <h4 class="ms-1 mb-0">@lang('Number Of Owners')</h4>
+                          </div>
+                        <small class="text-muted"></small>
+                      </div>
+                      <div class="card-body">
+                        <div id="ordersLastWeek"></div>
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                          <h4 class="mb-0">{{ $numberOfowners }}</h4>
+                          <span class="text-success"></span>
                         </div>
-
-
-                        <!-- Striped rows -->
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card m-b-30">
-                                    <div class="card-body">
-
-                                        <h4 class="mt-0 header-title mb-4">@lang('Real estate indicators')</h4>
-
-                                        <div id="overlapping-bars" class="ct-chart ct-golden-section"><svg
-                                                xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%"
-                                                height="100%" class="ct-chart-bar" style="width: 100%; height: 100%;">
-                                                <g class="ct-grids">
-                                                    <line x1="50" x2="50" y1="15" y2="265"
-                                                        class="ct-grid ct-horizontal"></line>
-                                                    <line x1="79.83333333333333" x2="79.83333333333333" y1="15"
-                                                        y2="265" class="ct-grid ct-horizontal"></line>
-                                                    <line x1="109.66666666666666" x2="109.66666666666666" y1="15"
-                                                        y2="265" class="ct-grid ct-horizontal"></line>
-                                                    <line x1="139.5" x2="139.5" y1="15" y2="265"
-                                                        class="ct-grid ct-horizontal"></line>
-                                                    <line x1="169.33333333333331" x2="169.33333333333331" y1="15"
-                                                        y2="265" class="ct-grid ct-horizontal"></line>
-                                                    <line x1="199.16666666666666" x2="199.16666666666666" y1="15"
-                                                        y2="265" class="ct-grid ct-horizontal"></line>
-                                                    <line x1="229" x2="229" y1="15" y2="265"
-                                                        class="ct-grid ct-horizontal"></line>
-                                                    <line x1="258.8333333333333" x2="258.8333333333333" y1="15"
-                                                        y2="265" class="ct-grid ct-horizontal"></line>
-                                                    <line x1="288.66666666666663" x2="288.66666666666663" y1="15"
-                                                        y2="265" class="ct-grid ct-horizontal"></line>
-                                                    <line x1="318.5" x2="318.5" y1="15" y2="265"
-                                                        class="ct-grid ct-horizontal"></line>
-                                                    <line x1="348.3333333333333" x2="348.3333333333333" y1="15"
-                                                        y2="265" class="ct-grid ct-horizontal"></line>
-                                                    <line x1="378.16666666666663" x2="378.16666666666663" y1="15"
-                                                        y2="265" class="ct-grid ct-horizontal"></line>
-                                                    <line y1="265" y2="265" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                    <line y1="233.75" y2="233.75" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                    <line y1="202.5" y2="202.5" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                    <line y1="171.25" y2="171.25" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                    <line y1="140" y2="140" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                    <line y1="108.75" y2="108.75" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                    <line y1="77.5" y2="77.5" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                    <line y1="46.25" y2="46.25" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                    <line y1="15" y2="15" x1="50" x2="408"
-                                                        class="ct-grid ct-vertical"></line>
-                                                </g>
-                                                <g>
-                                                    <g class="ct-series ct-series-a">
-                                                        <line x1="59.91666666666667" x2="59.91666666666667"
-                                                            y1="265" y2="...">
-                                                            <!-- Use ct-bar class for styling -->
-                                                            <line class="ct-bar" ct:value="{{ $numberOfVacantUnits }}">
-                                                            </line>
-                                                        </line>
-                                                        <line x1="89.75" x2="89.75" y1="265"
-                                                            y2="...">
-                                                            <!-- Use ct-bar class for styling -->
-                                                            <line class="ct-bar" ct:value="{{ $numberOfRentedUnits }}">
-                                                            </line>
-                                                        </line>
-                                                        <line x1="119.58333333333333" x2="119.58333333333333"
-                                                            y1="265" y2="40" class="ct-bar" ct:value="9">
-                                                        </line>
-                                                        <line x1="149.41666666666666" x2="149.41666666666666"
-                                                            y1="265" y2="190" class="ct-bar" ct:value="3">
-                                                        </line>
-                                                        <line x1="179.24999999999997" x2="179.24999999999997"
-                                                            y1="265" y2="115" class="ct-bar" ct:value="6">
-                                                        </line>
-                                                        <line x1="209.08333333333331" x2="209.08333333333331"
-                                                            y1="265" y2="115" class="ct-bar" ct:value="6">
-                                                        </line>
-                                                        <line x1="238.91666666666666" x2="238.91666666666666"
-                                                            y1="265" y2="190" class="ct-bar" ct:value="3">
-                                                        </line>
-                                                        <line x1="268.75" x2="268.75" y1="265"
-                                                            y2="165" class="ct-bar" ct:value="4"></line>
-                                                        <line x1="298.5833333333333" x2="298.5833333333333"
-                                                            y1="265" y2="140" class="ct-bar" ct:value="5">
-                                                        </line>
-                                                        <line x1="328.4166666666667" x2="328.4166666666667"
-                                                            y1="265" y2="15" class="ct-bar" ct:value="10">
-                                                        </line>
-                                                        <line x1="358.25" x2="358.25" y1="265"
-                                                            y2="40" class="ct-bar" ct:value="9"></line>
-                                                        <line x1="388.0833333333333" x2="388.0833333333333"
-                                                            y1="265" y2="90" class="ct-bar" ct:value="7">
-                                                        </line>
-                                                    </g>
-                                                    <g class="ct-series ct-series-b">
-                                                        <line x1="69.91666666666667" x2="69.91666666666667"
-                                                            y1="265" y2="115" class="ct-bar" ct:value="6">
-                                                        </line>
-                                                        <line x1="99.75" x2="99.75" y1="265"
-                                                            y2="140" class="ct-bar" ct:value="5"></line>
-                                                        <line x1="129.58333333333331" x2="129.58333333333331"
-                                                            y1="265" y2="140" class="ct-bar" ct:value="5">
-                                                        </line>
-                                                        <line x1="159.41666666666666" x2="159.41666666666666"
-                                                            y1="265" y2="115" class="ct-bar" ct:value="6">
-                                                        </line>
-                                                        <line x1="189.24999999999997" x2="189.24999999999997"
-                                                            y1="265" y2="165" class="ct-bar" ct:value="4">
-                                                        </line>
-                                                        <line x1="219.08333333333331" x2="219.08333333333331"
-                                                            y1="265" y2="190" class="ct-bar" ct:value="3">
-                                                        </line>
-                                                        <line x1="248.91666666666666" x2="248.91666666666666"
-                                                            y1="265" y2="165" class="ct-bar" ct:value="4">
-                                                        </line>
-                                                        <line x1="278.75" x2="278.75" y1="265"
-                                                            y2="115" class="ct-bar" ct:value="6"></line>
-                                                        <line x1="308.5833333333333" x2="308.5833333333333"
-                                                            y1="265" y2="165" class="ct-bar" ct:value="4">
-                                                        </line>
-                                                        <line x1="338.4166666666667" x2="338.4166666666667"
-                                                            y1="265" y2="115" class="ct-bar" ct:value="6">
-                                                        </line>
-                                                        <line x1="368.25" x2="368.25" y1="265"
-                                                            y2="65" class="ct-bar" ct:value="8"></line>
-                                                        <line x1="398.0833333333333" x2="398.0833333333333"
-                                                            y1="265" y2="140" class="ct-bar" ct:value="5">
-                                                        </line>
-                                                    </g>
-                                                </g>
-                                                <g class="ct-labels">
-                                                    <foreignObject style="overflow: visible;" x="50" y="270"
-                                                        width="29.833333333333332" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Jan</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="79.83333333333333" y="270"
-                                                        width="29.833333333333332" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Feb</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="109.66666666666666"
-                                                        y="270" width="29.833333333333336" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Mar</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="139.5" y="270"
-                                                        width="29.83333333333333" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Apr</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="169.33333333333331"
-                                                        y="270" width="29.83333333333333" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Mai</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="199.16666666666666"
-                                                        y="270" width="29.833333333333343" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Jun</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="229" y="270"
-                                                        width="29.833333333333314" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Jul</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="258.8333333333333" y="270"
-                                                        width="29.833333333333343" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Aug</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="288.66666666666663"
-                                                        y="270" width="29.833333333333343" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Sep</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="318.5" y="270"
-                                                        width="29.833333333333314" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Oct</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="348.3333333333333" y="270"
-                                                        width="29.833333333333314" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Nov</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" x="378.16666666666663"
-                                                        y="270" width="30" height="20"><span
-                                                            class="ct-label ct-horizontal ct-end"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="width: 30px; height: 20px;">Dec</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="233.75" x="10"
-                                                        height="31.25" width="30"><span
-                                                            class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 31px; width: 30px;">0</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="202.5" x="10"
-                                                        height="31.25" width="30"><span
-                                                            class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 31px; width: 30px;">1.25</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="171.25" x="10"
-                                                        height="31.25" width="30"><span
-                                                            class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 31px; width: 30px;">2.5</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="140" x="10"
-                                                        height="31.25" width="30"><span
-                                                            class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 31px; width: 30px;">3.75</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="108.75" x="10"
-                                                        height="31.25" width="30"><span
-                                                            class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 31px; width: 30px;">5</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="77.5" x="10"
-                                                        height="31.25" width="30"><span
-                                                            class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 31px; width: 30px;">6.25</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="46.25" x="10"
-                                                        height="31.25" width="30"><span
-                                                            class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 31px; width: 30px;">7.5</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="15" x="10" height="31.25"
-                                                        width="30"><span class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 31px; width: 30px;">8.75</span></foreignObject>
-                                                    <foreignObject style="overflow: visible;" y="-15" x="10"
-                                                        height="30" width="30"><span
-                                                            class="ct-label ct-vertical ct-start"
-                                                            xmlns="http://www.w3.org/2000/xmlns/"
-                                                            style="height: 30px; width: 30px;">10</span></foreignObject>
-                                                </g>
-                                            </svg></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end col -->
-
-                            <div class="col-xl-6">
-                                <div class="card m-b-30">
-                                    <div class="card-body">
-                                        <h4 class="mt-0 header-title mb-4">@lang('Unit indicators')</h4>
-                                        <div class="row mb-4">
-
-                                            @if ($numberOfUnits > 0)
-                                                <div class="col-6">
-                                                    <p style="margin-bottom: 0">
-                                                        {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%<span
-                                                            class="span-akkar"></span></p>
-                                                    <span> @lang('vacant')</span>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p style="margin-bottom: 0">
-                                                        {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%<span
-                                                            class="span-akkar"></span></p>
-                                                    <span>@lang('rented') </span>
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        @if ($numberOfUnits > 0)
-                                            <div id="simple-pie"
-                                                class="ct-chart ct-golden-section simple-pie-chart-chartist">
-                                                <svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%"
-                                                    height="100%" class="ct-chart-pie"
-                                                    style="width: 100%; height: 100%;">
-                                                    <g class="ct-series ct-series-a">
-                                                        <path d="M266.989,283.963A145,145,0,0,0,211.5,5L211.5,150Z"
-                                                            class="ct-slice-pie" ct:value="7"></path>
-                                                        <text dx="282.6069328292342" dy="135.85595165383072"
-                                                            text-anchor="middle" class="ct-label">
-                                                            {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%
-                                                        </text>
-                                                    </g>
-                                                    <g class="ct-series ct-series-b">
-                                                        <path d="M66.5,150A145,145,0,0,0,267.456,283.768L211.5,150Z"
-                                                            class="ct-slice-pie" ct:value="5"></path>
-                                                        <text dx="171.22115810607883" dy="210.2815468919345"
-                                                            text-anchor="middle" class="ct-label">
-                                                            {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%
-                                                        </text>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                        @endif
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- end col -->
-                        </div> <!-- Striped rows -->
+                        <div class="d-flex align-items-center mt-1">
+                            {{-- <div class="progress w-100" style="height: 8px">
+                              <div
+                                class="progress-bar bg-primary"
+                                style="width: 85%"
+                                role="progressbar"
+                                aria-valuenow="85"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div> --}}
+                      </div>
                     </div>
-
-
                 </div>
+                </div>
+
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header pb-3">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                              <span class="avatar-initial rounded bg-label-success"><i class="ti ti-users ti-md"></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">@lang('vacant')</h4>
+                          </div>
+                        <small class="text-muted"></small>
+                      </div>
+                      <div class="card-body">
+                        <div id="ordersLastWeek"></div>
+                        @if ($numberOfUnits > 0)
+                        @php
+                            $occupiedPercentage = number_format(
+                                ($numberOfVacantUnits / $numberOfUnits) * 100,
+                                1,
+                            );
+                        @endphp
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                          <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
+                          <span class="text-success">{{ $occupiedPercentage }}%</span>
+                        </div>
+                        <div class="d-flex align-items-center mt-1">
+                            <div class="progress w-100" style="height: 8px">
+                              <div
+                                class="progress-bar bg-primary"
+                                style="width: {{ $occupiedPercentage }}%"
+                                role="progressbar"
+                                aria-valuenow="{{ $occupiedPercentage }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div>
+                      </div>
+                      @else
+                      <div class="d-flex justify-content-between align-items-center gap-3">
+                        <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
+                        <span class="text-danger">0%</span>
+                      </div>
+                      <div class="d-flex align-items-center mt-1">
+                          <div class="progress w-100" style="height: 8px">
+                            <div
+                              class="progress-bar bg-primary"
+                              style="width: 0%"
+                              role="progressbar"
+                              aria-valuenow="0"
+                              aria-valuemin="0"
+                              aria-valuemax="100"></div>
+                          </div>
+                    </div>
+                      @endif
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header pb-3">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                              <span class="avatar-initial rounded bg-label-success"><i class="ti ti-users ti-md"></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">@lang('rented')</h4>
+                          </div>
+                        <small class="text-muted"></small>
+                      </div>
+                      <div class="card-body">
+                        <div id="ordersLastWeek"></div>
+                        @if ($numberOfUnits > 0)
+                        @php
+                            $occupiedPercentage = number_format(
+                                ($numberOfRentedUnits / $numberOfUnits) * 100,
+                                1,
+                            );
+                        @endphp
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                          <h4 class="mb-0">{{ $numberOfRentedUnits }}</h4>
+                          <span class="text-success">{{ $occupiedPercentage }}%</span>
+                        </div>
+                        <div class="d-flex align-items-center mt-1">
+                            <div class="progress w-100" style="height: 8px">
+                              <div
+                                class="progress-bar bg-primary"
+                                style="width: {{ $occupiedPercentage }}%"
+                                role="progressbar"
+                                aria-valuenow="{{ $occupiedPercentage }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div>
+                      </div>
+                      @else
+                      <div class="d-flex justify-content-between align-items-center gap-3">
+                        <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
+                        <span class="text-danger">0%</span>
+                      </div>
+                      <div class="d-flex align-items-center mt-1">
+                          <div class="progress w-100" style="height: 8px">
+                            <div
+                              class="progress-bar bg-primary"
+                              style="width: 0%"
+                              role="progressbar"
+                              aria-valuenow="0"
+                              aria-valuemin="0"
+                              aria-valuemax="100"></div>
+                          </div>
+                    </div>
+                      @endif
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header pb-3">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                              <span class="avatar-initial rounded bg-label-info"><i class="ti ti-users ti-md"></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">@lang('Number units') @lang('NonResidential')</h4>
+                          </div>
+                        <small class="text-muted"></small>
+                      </div>
+                      <div class="card-body">
+                        <div id="ordersLastWeek"></div>
+                        @if ($numberOfUnits > 0)
+                        @php
+
+                            $occupiedPercentage = number_format(
+                                ($nonResidentialCount / $numberOfUnits) * 100,
+                                1,
+                            );
+                        @endphp
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                          <h4 class="mb-0">{{ $nonResidentialCount }}</h4>
+                          <span class="text-success">{{ $occupiedPercentage }}%</span>
+                        </div>
+                        <div class="d-flex align-items-center mt-1">
+                            <div class="progress w-100" style="height: 8px">
+                              <div
+                                class="progress-bar bg-primary"
+                                style="width: {{ $occupiedPercentage }}%"
+                                role="progressbar"
+                                aria-valuenow="{{ $occupiedPercentage }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div>
+                      </div>
+                      @else
+                      <div class="d-flex justify-content-between align-items-center gap-3">
+                        <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
+                        <span class="text-danger">0%</span>
+                      </div>
+                      <div class="d-flex align-items-center mt-1">
+                          <div class="progress w-100" style="height: 8px">
+                            <div
+                              class="progress-bar bg-primary"
+                              style="width: 0%"
+                              role="progressbar"
+                              aria-valuenow="0"
+                              aria-valuemin="0"
+                              aria-valuemax="100"></div>
+                          </div>
+                    </div>
+                      @endif
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header pb-3">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                              <span class="avatar-initial rounded bg-label-info"><i class="ti ti-users ti-md"></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">@lang('Number units') @lang('Residential')</h4>
+                          </div>
+                        <small class="text-muted"></small>
+                      </div>
+                      <div class="card-body">
+                        <div id="ordersLastWeek"></div>
+                        @if ($numberOfUnits > 0)
+                        @php
+
+                            $occupiedPercentage = number_format(
+                                ($residentialCount / $numberOfUnits) * 100,
+                                1,
+                            );
+                        @endphp
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                          <h4 class="mb-0">{{ $residentialCount }}</h4>
+                          <span class="text-success">{{ $occupiedPercentage }}%</span>
+                        </div>
+                        <div class="d-flex align-items-center mt-1">
+                            <div class="progress w-100" style="height: 8px">
+                              <div
+                                class="progress-bar bg-primary"
+                                style="width: {{ $occupiedPercentage }}%"
+                                role="progressbar"
+                                aria-valuenow="{{ $occupiedPercentage }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div>
+                      </div>
+                      @else
+                      <div class="d-flex justify-content-between align-items-center gap-3">
+                        <h4 class="mb-0">{{ $numberOfVacantUnits }}</h4>
+                        <span class="text-danger">0%</span>
+                      </div>
+                      <div class="d-flex align-items-center mt-1">
+                          <div class="progress w-100" style="height: 8px">
+                            <div
+                              class="progress-bar bg-primary"
+                              style="width: 0%"
+                              role="progressbar"
+                              aria-valuenow="0"
+                              aria-valuemin="0"
+                              aria-valuemax="100"></div>
+                          </div>
+                    </div>
+                      @endif
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header pb-3">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                              <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-users ti-md"></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">@lang('Requests for interest')</h4>
+                          </div>
+                        <small class="text-muted"></small>
+                      </div>
+                      <div class="card-body">
+                        <div id="ordersLastWeek"></div>
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                          <h4 class="mb-0">{{ $numberOfInterests }}</h4>
+                          <span class="text-success"></span>
+                        </div>
+                        <div class="d-flex align-items-center mt-1">
+                            {{-- <div class="progress w-100" style="height: 8px">
+                              <div
+                                class="progress-bar bg-primary"
+                                style="width: 85%"
+                                role="progressbar"
+                                aria-valuenow="85"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div> --}}
+                      </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header pb-3">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                              <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-users ti-md"></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">@lang('Gallery visitors')</h4>
+                          </div>
+                        <small class="text-muted"></small>
+                      </div>
+                      <div class="card-body">
+                        <div id="ordersLastWeek"></div>
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                          <h4 class="mb-0">{{ $visitorCount }}</h4>
+                          <span class="text-success"></span>
+                        </div>
+                        <div class="d-flex align-items-center mt-1">
+                            {{-- <div class="progress w-100" style="height: 8px">
+                              <div
+                                class="progress-bar bg-primary"
+                                style="width: 85%"
+                                role="progressbar"
+                                aria-valuenow="85"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div> --}}
+                      </div>
+                    </div>
+                </div>
+                </div>
+
             </div>
+           {{-- analytics --}}
+
+
+           <div class="col-md-6 mb-4">
+            <div class="card h-100">
+              <div class="card-header d-flex justify-content-between pb-0">
+                <div class="card-title mb-0">
+                  <h5 class="mb-0">Support Tracker</h5>
+                  <small class="text-muted">Last 7 Days</small>
+                </div>
+                <div class="dropdown">
+                  <button class="btn p-0" type="button" id="supportTrackerMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="ti ti-dots-vertical ti-sm text-muted"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="supportTrackerMenu">
+                    <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-sm-4 col-md-12 col-lg-4">
+                    <div class="mt-lg-4 mt-lg-2 mb-lg-4 mb-2 pt-1">
+                      <h1 class="mb-0">164</h1>
+                      <p class="mb-0">Total Tickets</p>
+                    </div>
+                    <ul class="p-0 m-0">
+                      <li class="d-flex gap-3 align-items-center mb-lg-3 pt-2 pb-1">
+                        <div class="badge rounded bg-label-primary p-1"><i class="ti ti-ticket ti-sm"></i></div>
+                        <div>
+                          <h6 class="mb-0 text-nowrap">New Tickets</h6>
+                          <small class="text-muted">142</small>
+                        </div>
+                      </li>
+                      <li class="d-flex gap-3 align-items-center mb-lg-3 pb-1">
+                        <div class="badge rounded bg-label-info p-1">
+                          <i class="ti ti-circle-check ti-sm"></i>
+                        </div>
+                        <div>
+                          <h6 class="mb-0 text-nowrap">Open Tickets</h6>
+                          <small class="text-muted">28</small>
+                        </div>
+                      </li>
+                      <li class="d-flex gap-3 align-items-center pb-1">
+                        <div class="badge rounded bg-label-warning p-1"><i class="ti ti-clock ti-sm"></i></div>
+                        <div>
+                          <h6 class="mb-0 text-nowrap">Response Time</h6>
+                          <small class="text-muted">1 Day</small>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-12 col-sm-8 col-md-12 col-lg-8" style="position: relative;">
+                    <div id="supportTracker" style="min-height: 257.9px;"><div id="apexcharts1dvprzpx" class="apexcharts-canvas apexcharts1dvprzpx apexcharts-theme-light" style="width: 338px; height: 257.9px;"><svg id="SvgjsSvg1942" width="338" height="257.9" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG1944" class="apexcharts-inner apexcharts-graphical" transform="translate(2, -10)"><defs id="SvgjsDefs1943"><clipPath id="gridRectMask1dvprzpx"><rect id="SvgjsRect1946" width="342" height="375" x="-3" y="-1" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="forecastMask1dvprzpx"></clipPath><clipPath id="nonForecastMask1dvprzpx"></clipPath><clipPath id="gridRectMarkerMask1dvprzpx"><rect id="SvgjsRect1947" width="340" height="377" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><linearGradient id="SvgjsLinearGradient1952" x1="1" y1="0" x2="0" y2="1"><stop id="SvgjsStop1953" stop-opacity="1" stop-color="rgba(115,103,240,1)" offset="0.3"></stop><stop id="SvgjsStop1954" stop-opacity="0.6" stop-color="rgba(255,255,255,0.6)" offset="0.7"></stop><stop id="SvgjsStop1955" stop-opacity="0.6" stop-color="rgba(255,255,255,0.6)" offset="1"></stop></linearGradient><linearGradient id="SvgjsLinearGradient1963" x1="1" y1="0" x2="0" y2="1"><stop id="SvgjsStop1964" stop-opacity="1" stop-color="rgba(115,103,240,1)" offset="0.3"></stop><stop id="SvgjsStop1965" stop-opacity="0.6" stop-color="rgba(115,103,240,0.6)" offset="0.7"></stop><stop id="SvgjsStop1966" stop-opacity="0.6" stop-color="rgba(115,103,240,0.6)" offset="1"></stop></linearGradient></defs><g id="SvgjsG1948" class="apexcharts-radialbar"><g id="SvgjsG1949"><g id="SvgjsG1950" class="apexcharts-tracks"><g id="SvgjsG1951" class="apexcharts-radialbar-track apexcharts-track" rel="1"><path id="apexcharts-radialbarTrack-0" d="M 91.53845410946391 259.1233220103534 A 118.9530487804878 118.9530487804878 0 1 1 259.1233220103534 244.46154589053606" fill="none" fill-opacity="1" stroke="rgba(255,255,255,0.85)" stroke-opacity="1" stroke-linecap="butt" stroke-width="22.632926829268296" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 91.53845410946391 259.1233220103534 A 118.9530487804878 118.9530487804878 0 1 1 259.1233220103534 244.46154589053606"></path></g></g><g id="SvgjsG1957"><g id="SvgjsG1962" class="apexcharts-series apexcharts-radial-series" seriesName="CompletedxTask" rel="1" data:realIndex="0"><path id="SvgjsPath1967" d="M 91.53845410946391 259.1233220103534 A 118.9530487804878 118.9530487804878 0 1 1 286.9530487804878 168" fill="none" fill-opacity="0.85" stroke="url(#SvgjsLinearGradient1963)" stroke-opacity="1" stroke-linecap="butt" stroke-width="22.632926829268296" stroke-dasharray="10" class="apexcharts-radialbar-area apexcharts-radialbar-slice-0" data:angle="230" data:value="85" index="0" j="0" data:pathOrig="M 91.53845410946391 259.1233220103534 A 118.9530487804878 118.9530487804878 0 1 1 286.9530487804878 168"></path></g><circle id="SvgjsCircle1958" r="102.63658536585366" cx="168" cy="168" class="apexcharts-radialbar-hollow" fill="transparent"></circle><g id="SvgjsG1959" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)" style="opacity: 1;"><text id="SvgjsText1960" font-family="Public Sans" x="168" y="148" text-anchor="middle" dominant-baseline="auto" font-size="13px" font-weight="500" fill="#a5a3ae" class="apexcharts-text apexcharts-datalabel-label" style="font-family: &quot;Public Sans&quot;;">Completed Task</text><text id="SvgjsText1961" font-family="Public Sans" x="168" y="194" text-anchor="middle" dominant-baseline="auto" font-size="38px" font-weight="500" fill="#5d596c" class="apexcharts-text apexcharts-datalabel-value" style="font-family: &quot;Public Sans&quot;;">85%</text></g></g></g></g><line id="SvgjsLine1968" x1="0" y1="0" x2="336" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" stroke-linecap="butt" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine1969" x1="0" y1="0" x2="336" y2="0" stroke-dasharray="0" stroke-width="0" stroke-linecap="butt" class="apexcharts-ycrosshairs-hidden"></line></g><g id="SvgjsG1945" class="apexcharts-annotations"></g></svg><div class="apexcharts-legend"></div></div></div>
+                  <div class="resize-triggers"><div class="expand-trigger"><div style="width: 363px; height: 307px;"></div></div><div class="contract-trigger"></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
