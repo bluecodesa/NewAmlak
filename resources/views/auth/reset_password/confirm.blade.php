@@ -1,24 +1,21 @@
 <!doctype html>
 
-<html
-  lang="en"
-  class="light-style layout-wide customizer-hide"
-  dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="../../assets/"
-  data-template="vertical-menu-template">
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}"
+    class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
+    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
+    data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Two Steps Verifications Basic - Pages | Vuexy - Bootstrap Admin Template</title>
+      <title>{{ $sitting->title }} @lang('Forgot your password?')</title>
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico')}}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,33 +25,33 @@
       rel="stylesheet" />
 
     <!-- Icons -->
-    <link rel="stylesheet" href="../../assets/vendor/fonts/fontawesome.css" />
-    <link rel="stylesheet" href="../../assets/vendor/fonts/tabler-icons.css" />
-    <link rel="stylesheet" href="../../assets/vendor/fonts/flag-icons.css" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/fontawesome.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/tabler-icons.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/flag-icons.css')}}" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="../../assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="../../assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="../../assets/css/demo.css" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/core.css" class="template-customizer-core-css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/demo.css')}}" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="../../assets/vendor/libs/node-waves/node-waves.css" />
-    <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css')}}" />
     <!-- Vendor -->
-    <link rel="stylesheet" href="../../assets/vendor/libs/@form-validation/form-validation.css" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/form-validation.css')}}" />
 
     <!-- Page CSS -->
     <!-- Page -->
-    <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css')}}" />
 
     <!-- Helpers -->
-    <script src="../../assets/vendor/js/helpers.js"></script>
+    <script src="{{ asset('assets/vendor/js/helpers.js')}}"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <script src="../../assets/vendor/js/template-customizer.js"></script>
+    <script src="{{ asset('assets/vendor/js/template-customizer.js')}}"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="../../assets/js/config.js"></script>
+    <script src="{{ asset('assets/js/config.js')}}"></script>
   </head>
 
   <body>
@@ -100,20 +97,27 @@
               </a>
             </div>
             <!-- /Logo -->
-            {{-- <h4 class="mb-1 pt-2">Two Step Verification 💬</h4> --}}
             <p class="text-start mb-4">
                 @lang('تم ارسال رمز التحقق الي هذا البريد الالكتروني') {{ $email }}
             </p>
             <p class="font-16 text-center">@lang('هذا الرمز ساري لمده ساعه')</p>
             <p id="countdown" class="font-16 text-center">@lang('Send New Code:') <span id="countdown-value">59</span></p>
-
-            <p class="mb-0 fw-medium">Type your 6 digit security code</p>
-            <form id="twoStepsForm" method="POST" action="{{ route('forget.password.newcode') }}">
+            <div class="form-group text-center m-t-10">
+                <div class="col-12">
+                    <form id="new-code-form" method="POST" action="{{ route('forget.password.newcode') }}" style="display: none;">
+                        @csrf
+                        <input type="hidden" name="email" value="{{ $email }}">
+                        <button type="submit" class="btn btn-link">@lang('Send New Code?')</button>
+                    </form>
+                </div>
+            </div>
+            <p class="mb-0 fw-medium">@lang('Type your 6 digit security code')</p>
+            <form id="twoStepsForm" method="POST" action="{{ route('reset.password.code') }}">
                 @csrf
                 <input type="hidden" name="email" value="{{ $email }}">
                 <input type="hidden" name="token" value="{{ $token }}">
-              <div class="mb-3">
-                <div
+                <div class="mb-3">
+                {{-- <div
                   class="auth-input-wrapper d-flex align-items-center justify-content-sm-between numeral-mask-wrapper">
                   <input
                     type="tel"
@@ -140,21 +144,24 @@
                     type="tel"
                     class="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
                     maxlength="1" />
-                </div>
+                </div> --}}
 
                 <!-- Create a hidden field which is combined by 3 fields above -->
-                <input type="hidden" name="code" @error('code') is-invalid @enderror />
-              </div>
-              <button type="submit" class="btn btn-primary d-grid w-100 mb-3" onclick="submitForm()">Verify my account</button>
-              <div class="text-center">
-                Didn't get the code?
-                <a href="javascript:void(0);"> Resend </a>
-              </div>
-            </form>
-          </div>
+
+                <input type="text"
+                class="form-control" name="code"  required autocomplete="current-code" maxlength="6" autofocus @error('code') is-invalid @enderror />
+                            @if (isset($code))
+                            <div class="alert alert-danger" role="alert">
+                                {{ $code }}
+                            </div>
+                            @endif
+                        </div>
+                        <button class="btn btn-primary d-grid w-100 mb-3" type="submit">@lang('Verify')</button>
+                    </form>
+                </div>
+            </div>
+            <!-- /Two Steps Verification -->
         </div>
-        <!-- / Two Steps Verification -->
-      </div>
     </div>
 
     <!-- / Content -->
@@ -162,30 +169,35 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
 
-    <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../../assets/vendor/js/bootstrap.js"></script>
-    <script src="../../assets/vendor/libs/node-waves/node-waves.js"></script>
-    <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="../../assets/vendor/libs/hammer/hammer.js"></script>
-    <script src="../../assets/vendor/libs/i18n/i18n.js"></script>
-    <script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
-    <script src="../../assets/vendor/js/menu.js"></script>
+
+    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/popper/popper.js')}}"></script>
+    <script src="{{ asset('assets/vendor/js/bootstrap.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/node-waves/node-waves.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/hammer/hammer.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/i18n/i18n.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js')}}"></script>
+    <script src="{{ asset('assets/vendor/js/menu.js')}}"></script>
 
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="../../assets/vendor/libs/cleavejs/cleave.js"></script>
-    <script src="../../assets/vendor/libs/@form-validation/popular.js"></script>
-    <script src="../../assets/vendor/libs/@form-validation/bootstrap5.js"></script>
-    <script src="../../assets/vendor/libs/@form-validation/auto-focus.js"></script>
+    <script src="{{ asset('assets/vendor/libs/@form-validation/popular.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/@form-validation/auto-focus.js')}}"></script>
 
     <!-- Main JS -->
-    <script src="../../assets/js/main.js"></script>
+    <script src="{{ asset('assets/js/main.js')}}"></script>
 
     <!-- Page JS -->
-    <script src="../../assets/js/pages-auth.js"></script>
-    <script src="../../assets/js/pages-auth-two-steps.js"></script>
+    <script src="{{ asset('assets/js/pages-auth.js')}}"></script>
+    <script src="{{ asset('assets/js/pages-auth-two-steps.js')}}"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <script>
         var countdownValue = 59;
@@ -195,7 +207,7 @@
         function updateCountdown() {
             if (countdownValue <= 0) {
                 clearInterval(countdownInterval);
-                document.getElementById("new-code-button").style.display = "block";
+                document.getElementById("new-code-form").style.display = "block";
                 document.getElementById("countdown").style.display = "none";
             } else {
                 countdownValue--;
@@ -208,39 +220,32 @@
             countdownInterval = setInterval(updateCountdown, 1000);
         }
 
-        function sendNewCode() {
-            // alert("New code sent!"); // Placeholder alert, replace with actual code
-            countdownValue = 59;
-            document.getElementById("new-code-button").style.display = "none";
-            document.getElementById("countdown").style.display = "block";
-            startCountdown();
-        }
-
         // Call the startCountdown function when the page is loaded
         $(document).ready(function() {
             startCountdown();
         });
     </script>
 
+    <script>
+        // Function to submit form with concatenated code
+        function submitForm() {
+            // Get all input fields with class 'numeral-mask'
+            var inputs = document.querySelectorAll('.numeral-mask');
 
-<script>
-    function submitForm() {
-        // Get all input fields with class 'numeral-mask'
-        var inputs = document.querySelectorAll('.numeral-mask');
+            // Concatenate the values of these input fields
+            var code = '';
+            inputs.forEach(function(input) {
+                code += input.value;
+            });
 
-        // Concatenate the values of these input fields
-        var code = '';
-        inputs.forEach(function(input) {
-            code += input.value;
-        });
+            // Assign the concatenated code to the hidden input field
+            document.querySelector('input[name="code"]').value = code;
 
-        // Assign the concatenated code to the hidden input field
-        document.querySelector('input[name="code"]').value = code;
+            // Submit the form
+            document.getElementById('twoStepsForm').submit();
+        }
+    </script>
 
-        // Submit the form
-        document.getElementById('twoStepsForm').submit();
-    }
-</script>
+</body>
 
-  </body>
 </html>

@@ -449,5 +449,10 @@
     "Download the code so that you can share it with your friends so that they can access this property’s data via mobile phone": "قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا                             العقار عن طريق الجوال",
     "Share the property link or copy it on your site": "مشاركة لينك العقار او انسخه في موقعك",
     "Available": "متاح",
-    "Not_Available": "غير متاح"
+    "Not_Available": "غير متاح",
+    "Type your 6 digit security code": "اكتب رمز الحماية المكون من 6 أرقام",
+    "Amlak": "أملاك",
+    "Reset Password": "إعادة تعيين كلمة المرور",
+    "Back to login": "الرجوع الي صفحة تسجيل الدخول",
+    "Set new password": "تعيين كلمة مرور جديدة"
 }
