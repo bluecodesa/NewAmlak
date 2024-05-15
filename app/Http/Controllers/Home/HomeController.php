@@ -369,6 +369,6 @@ class HomeController extends Controller
         }
         return view('Home.Brokers.index',get_defined_vars());
     }
-    
+
 
 }

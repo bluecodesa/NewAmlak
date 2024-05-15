@@ -12,7 +12,7 @@
 
             <div class="col-xl-4 col-lg-6 col-md-6">
 
-              <div class="card">
+              <div class="card h-100">
                 <div class="card-body text-center">
 
                     <div class="user-avatar-section">
@@ -43,6 +43,7 @@
               </div>
             </div>
             @endforeach
+            
           </div>
     </div>
   </section>

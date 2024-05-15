@@ -544,7 +544,7 @@
           </div> --}}
           @guest
 
-          <div class="row gy-4 pt-lg-3">
+          <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
             <!-- Basic Plan: Start -->
             @foreach ($subscriptionTypes as $subscriptionType)
 
@@ -622,7 +622,7 @@
 
           @auth
 
-          <div class="row gy-4 pt-lg-3">
+          <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
             <!-- Basic Plan: Start -->
             @foreach ($subscriptionTypesRoles as $subscriptionType)
 

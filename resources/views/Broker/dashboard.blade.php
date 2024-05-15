@@ -45,18 +45,21 @@
                     <p class="sub-title" class="highlighter-rouge">@lang('Subscription End') {{ $subscriber->end_date }}</p>
 
                     @if ($pendingPayment)
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                            class="btn btn-primary">@lang('Subscription upgrade')</button>
+                        <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
                         <a href="{{ route('welcome') }}#landingPricing" class="btn btn-secondary modal-btn2 w-auto"
                             target="_blank">@lang('Compare Plans')</a>
                     @elseif ($daysUntilEnd <= 7)
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                            class="btn btn-primary">@lang('Subscription upgrade')</button>
+                        <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
                         <a href="{{ route('welcome') }}#landingPricing" class="btn btn-secondary modal-btn2 w-auto"
                             target="_blank">@lang('Compare Plans')</a>
                     @elseif ($daysUntilEnd <= 0)
-                        <button type="button" data-toggle="modal" data-target="#exampleModal"
-                            class="btn btn-primary">@lang('Subscription upgrade')</button>
+                        <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
                         <p class="text-danger">{{ __($subscriber->status) }}</p>
                     @else
                         @include('Broker.inc._SubscriptionSuspend')
