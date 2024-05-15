@@ -113,7 +113,7 @@
                     <select class="form-select" id="district_filter" name="district_filter">
                         <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
                             @lang('All')</option>
-                        @foreach ($districts as $index => $district)
+                            @foreach ($districts->unique('district_id') as $index => $district)
                             <option value="{{ $district->district_id }}"
                                 {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
                                 {{ $district->DistrictData->name }}
@@ -208,6 +208,7 @@
             </div>
     </div>
   </div>
+  </div>
   <!--/ filter pills -->
   <div class="divider divider-success">
     <div class="divider-text">@lang('Units')</div>
@@ -222,33 +223,20 @@
             <div class="card">
         <div class="card-body text-center">
           <div class="dropdown btn-pinned">
-            {{-- <button
-              type="button"
-              class="btn dropdown-toggle hide-arrow p-0"
-              data-bs-toggle="dropdown"
-              aria-expanded="false">
-              <i class="ti ti-dots-vertical text-muted"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="javascript:void(0);">Share connection</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0);">Block connection</a></li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li><a class="dropdown-item text-danger" href="javascript:void(0);">Delete</a></li>
-            </ul> --}}
+
             <span class="pb-1">{{ $unit->getRentPriceByType() }}
                 @lang('SAR') / {{ __($unit->rent_type_show) }}</span>
 
           </div>
           <div class="d-flex align-items-center justify-content-start">
-            <a  class="share btn btn-secondary d-flex align-items-center me-3"
+            <a  class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
             data-bs-target="#onboardHorizontalImageModal{{$unit->id}}">
              <i class="ti-xs me-1 ti ti-share me-1"></i></a
             >
             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-              ><i class="ti ti-heart ti-sm"></i
+            data-bs-toggle="modal"
+            data-bs-target="#basicModal"><i class="ti ti-heart ti-sm"></i
             ></a>
           </div>
           <div class="mx-auto my-3">
@@ -316,15 +304,15 @@
       </div>
     </div>
 
+    @include('Home.Gallery.inc.share')
+    @include('Home.Gallery.inc.unitInterest')
 
    @endforeach
   </div>
 
   </div>
 
-</div>
 </section>
-@include('Home.Gallery.inc.share')
 
 @include('Home.layouts.inc.__addSubscriberModal')
 

@@ -210,28 +210,6 @@ class GallaryController extends Controller
 
             return view('Broker.Gallary.inc._GalleryComingsoon',$data);
         }
-
-
-        $visitor = Visitor::where('unit_id', $id)
-            ->where('ip_address', request()->ip())
-            ->where('visited_at', '>=', now()->subHour())
-            ->first();
-
-        if (!$visitor) {
-
-            $newVisitor = new Visitor();
-            $newVisitor->unit_id = $id;
-            $newVisitor->gallery_id = $data['gallery']->id;
-            $newVisitor->ip_address = request()->ip();
-            $newVisitor->visited_at = now();
-            $newVisitor->save();
-        }
-        $unitVisitorsCount = [];
-        foreach ($data['units'] as $unit) {
-            $unitVisitorsCount[$id] = Visitor::where('unit_id', $unit->id)->count();
-        }
-
-        $data['unitVisitorsCount'] = $unitVisitorsCount;
         return view('Home.Gallery.Unit.show', $data);
     }
 
@@ -271,10 +249,10 @@ class GallaryController extends Controller
 
         $unitVisitorsCount = [];
         foreach ($data['units'] as $unit) {
-            $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->count();
+            $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->distinct('ip_address')->count('ip_address');
         }
-
         $data['unitVisitorsCount'] = $unitVisitorsCount;
+
         return view('Home.Gallery.index', $data);
     }
 
@@ -344,7 +322,6 @@ class GallaryController extends Controller
 
     function GetDistrictByCity($id)
     {
-        dd($id);
         $districts = $this->districtService->getDistrictsByCity($id);
         $districtsIds = $this->UnitService->getAll(auth()->user()->UserBrokerData->id)->pluck('district_id')->toArray();
         return view('Broker.Gallary.inc._district', get_defined_vars());
@@ -366,6 +343,26 @@ class GallaryController extends Controller
 
 
         $data = $this->galleryService->showAllGalleries($cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent);
+        $visitor = Visitor::where('gallery_id', $data['gallery']->id)
+            ->where('ip_address', $request->ip())
+            ->where('visited_at', '>=', now()->subHour())
+            ->first();
+
+        if (!$visitor) {
+            $newVisitor = new Visitor();
+            $newVisitor->gallery_id = $data['gallery']->id;
+            $newVisitor->unit_id = null;
+            $newVisitor->ip_address = $request->ip();
+            $newVisitor->visited_at = now();
+            $newVisitor->save();
+        }
+
+        $unitVisitorsCount = [];
+        foreach ($data['units'] as $unit) {
+            $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->distinct('ip_address')->count('ip_address');
+        }
+
+        $data['unitVisitorsCount'] = $unitVisitorsCount;
         return view('Home.Gallery.indexAll',  $data);
     }
 

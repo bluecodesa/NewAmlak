@@ -23,7 +23,7 @@
                             <img
                             src="{{ $brokers->avatar }}"
                             alt="user image"
-                            class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                            class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img w-px-200 h-px-200" />
                             @else
                         <img
                         src="{{ asset('HOME_PAGE/img/avatars/14.png') }}"
@@ -166,7 +166,7 @@
                         @endif
 
 
-                        <a href="javascript:;"><span class="badge bg-label-info"><i class="ti ti-eye"></i> {{ $unitVisitorsCount[$Unit->id] ?? 0 }}</span></a>
+                        <a href="javascript:;"><span class="badge bg-label-info"><i class="ti ti-eye"></i> {{ $unitVisitorsCount ?? 0 }}</span></a>
 
                         <a href="javascript:;" class="me-1"
                         style="

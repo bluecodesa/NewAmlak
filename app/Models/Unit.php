@@ -97,4 +97,9 @@ class Unit extends Model
                 return null;
         }
     }
+
+    public function gallery()
+    {
+        return $this->belongsTo(Gallery::class, 'broker_id', 'broker_id');
+    }
 }

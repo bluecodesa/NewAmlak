@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\Unit;
 use App\Models\UnitImage;
 use App\Models\User;
+use App\Models\Visitor;
 use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 
@@ -133,6 +134,24 @@ class GalleryService
         $unit_id=$Unit->id;
         $user_id=$broker->user_id;
 
+
+
+        $visitor = Visitor::where('unit_id', $id)
+            ->where('ip_address', request()->ip())
+            ->where('visited_at', '>=', now()->subHour())
+            ->first();
+
+        if (!$visitor) {
+
+            $newVisitor = new Visitor();
+            $newVisitor->unit_id = $id;
+            $newVisitor->gallery_id = $gallery->id;
+            $newVisitor->ip_address = request()->ip();
+            $newVisitor->visited_at = now();
+            $newVisitor->save();
+        }
+            $unitVisitorsCount= Visitor::where('unit_id', $Unit->id)->distinct('ip_address')->count('ip_address');
+
         return get_defined_vars();
     }
     }
@@ -143,6 +162,7 @@ class GalleryService
 
         $usages =  $this->propertyUsageService->getAll();
         $gallery = $this->galleryRepository->findByGalleryName($name);
+        $brokerId = $gallery->broker_id;
         if ($gallery->gallery_status == 0) {
             $brokerId = $gallery->broker_id;
             $broker = Broker::findOrFail($brokerId);
@@ -164,6 +184,8 @@ class GalleryService
             $unit_id = null;
             $unitDetails = null;
             $user_id = null;
+            $broker = Broker::findOrFail($brokerId);
+
         }
         $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
         $districtsIds = $districts->pluck('district_id')->toArray();
@@ -172,7 +194,8 @@ class GalleryService
         $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
         $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
         return get_defined_vars();
-    }
+
+        }
 
 
     }
@@ -185,10 +208,11 @@ class GalleryService
         $galleries = $this->galleryRepository->allPublic();
         $units = collect();
         $districts = collect(); // Initialize an empty collection before the loop
-
         foreach ($galleries as $gallery) {
             $galleryUnits = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
             $units = $units->merge($galleryUnits);
+            $brokerId = $gallery->broker_id;
+            $broker = Broker::findOrFail($brokerId);
             $galleryDistricts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
             $districts = $districts->merge($galleryDistricts);
         }

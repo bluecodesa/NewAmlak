@@ -166,7 +166,7 @@
        <div class="modal-body onboarding-horizontal p-0">
          <div class="onboarding-media">
             <div class="mb-4 text-center">
-                {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) !!}
+                {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id])) !!}
 
           </div>
            {{-- <img
@@ -177,7 +177,7 @@
              data-app-light-img="illustrations/boy-verify-email-light.png"
              data-app-dark-img="illustrations/boy-verify-email-dark.png" /> --}}
              @php
-             $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
+    $url = route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]);
          @endphp
 
              <a href="{{ route('download.qrcode', $url) }}" class="btn btn-primary">
@@ -199,7 +199,7 @@
                    <input
                      class="form-control"
                      type="text"
-                     value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])}} "                     tabindex="0"
+                     value="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id])}} "                     tabindex="0"
                      id="nameEx7" readonly />
                  </div>
                </div>
@@ -207,7 +207,7 @@
                     <div class="mb-3">
                       <label for="nameEx7" class="form-label">مشاركة الرابط عبر</label>
                       @php
-                      $url = route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) ;
+    $url = route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]);
                       @endphp
 
                      <a href='https://web.whatsapp.com/send?text=Check%20out%20this%20link:%20{{ urlencode("$url") }}' class="btn btn-success">

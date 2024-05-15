@@ -181,7 +181,6 @@ class PaymentController extends Controller
             }
         }
         $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
-
         SystemInvoice::create([
             'broker_id' => $subscription->broker_id,
             'office_id' => $subscription->office_id,
