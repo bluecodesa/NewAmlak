@@ -7,7 +7,7 @@
 }
 .dropzone:not(.dz-clickable) {
   opacity: 0.5;
-  cursor: not-allowed;
+  /* cursor: not-allowed; */
 }
 .dropzone.dz-drag-hover {
   border-style: solid;

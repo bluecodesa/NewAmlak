@@ -4,12 +4,12 @@
             @lang('PayTabs')</h4>
     </div>
     <div class="col-md-6" style="text-align: end">
-        {{-- @if (Auth::user()->hasPermission('create-payment-gateway'))
+        @if (Auth::user()->hasPermission('create-payment-gateway'))
             <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
                 data-bs-target="#addNewPaymentModal">
                 @lang('Add New Payment')
             </button>
-        @endif --}}
+        @endif
     </div>
 </div>
 <div class="row">
@@ -47,8 +47,8 @@
                                     id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }} disabled>
                                 <label class="form-check-label" for="customradio2">@lang('Disable')</label>
                             </div>
-                            <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
-                                data-target="#editModal{{ $paymentGateway->id }}">
+                            <button type="button" class="btn btn-primary waves-effect waves-light"
+                                data-bs-toggle="modal" data-bs-target="#addNewPaymentModal_{{ $paymentGateway->id }}">
                                 @lang('Edit')
                             </button>
                         </div>
@@ -58,5 +58,3 @@
         </div>
     @endforeach
 </div>
-
-{{-- @include('Admin.settings.Payments.create-modal') --}}

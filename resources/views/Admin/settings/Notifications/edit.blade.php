@@ -6,21 +6,18 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 py-3">
+                <div class="col-12">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Admin.settings.index') }}" class="text-muted fw-light">@lang('Notifications Management') /</a>
+                        <span class="text-muted fw-light"> @lang('Settings') / <a class="text-muted fw-light"
+                                href="{{ route('Admin.settings.index') }}">@lang('General Settings')</a> / @lang('Notifications Management') /
+                        </span>
                         @lang('Settings')
                     </h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
 
-            <div class="card">
-                <div class="col-12">
-                    <h5 class="card-header">@lang('Settings') </h5>
-                </div>
-                <hr>
-            </div>
+
             <!-- Modal to add new record -->
             <div class="col-md-12">
                 <div class="nav-align-top nav-tabs-shadow mb-4">
@@ -50,7 +47,7 @@
                         <div class="tab-pane fade active show" id="navs-top-home" role="tabpanel">
                             <form action="{{ route('Admin.update.UpdateEmailSetting') }}" method="POST" class="row">
                                 @csrf
-                                <div class=" col-12 mb-3">
+                                <div class="col-12 mb-3">
                                     <label>@lang('host')</label>
                                     <input type="text" name="host" value="{{ $EmailSettingService->host }}" required
                                         class="form-control" required="" placeholder="smtp.titan.email">

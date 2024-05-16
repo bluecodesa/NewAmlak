@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Edit Ticket'))
+@section('title', __('Edit Ticket Type'))
 @section('content')
 
     <div class="content-wrapper">
@@ -7,10 +7,11 @@
             <div class="row">
                 <div class="col-6 ">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        <span class="text-muted fw-light"> @lang('Settings') / @lang('technical support') /</span>
                         <a href="{{ route('Admin.SupportTickets.tickets-type') }}"
-                            class="text-muted fw-light">@lang('Tickets')
+                            class="text-muted fw-light">@lang('Ticket Type')
                         </a> /
-                        @lang('Edit Ticket')
+                        @lang('Edit Ticket Type')
                     </h4>
                 </div>
 

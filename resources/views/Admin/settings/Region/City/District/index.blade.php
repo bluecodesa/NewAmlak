@@ -5,9 +5,12 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 py-3">
+                <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('districts')</h4>
+                        <span class="text-muted fw-light">@lang('Settings') /</span> <span
+                            class="text-muted fw-light">@lang('Cities') & @lang('districts') /</span>
+                        @lang('districts')
+                    </h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->

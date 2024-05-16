@@ -42,9 +42,10 @@ class SettingService
             'crn' => 'nullable',
             'privacy_pdf' => 'nullable|file',
             'color' => 'nullable|string',
+            'key_phone' => 'required',
         ]);
 
-        
+
 
         foreach (config('translatable.locales') as $locale) {
             $data[$locale]['title'] = $request->input("$locale.title");

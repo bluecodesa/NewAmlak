@@ -5,9 +5,11 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 py-3">
+                <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Settings')</h4>
+                        <span class="text-muted fw-light"> @lang('Settings') / </span>
+                        @lang('General Settings')
+                    </h4>
                 </div>
             </div>
 
@@ -129,10 +131,11 @@
     <!-- Modal for Add New Payment -->
     {{-- @include('Admin.settings.Payments.create-modal') --}}
 
+    @include('Admin.settings.Payments.create-modal')
 
     <!-- Modal structure update the payment  -->
     @foreach ($paymentGateways as $paymentGateway)
-        @include('Admin.settings.Payments.edit-modal', ['paymentGateway' => $paymentGateway])
+        @include('Admin.settings.Payments.edit-modal')
     @endforeach
 
     <script>

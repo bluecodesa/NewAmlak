@@ -58,7 +58,7 @@
                                     <li><a class="dropdown-item" data-value="year" data-tarnslat="@lang('year')"
                                             href="javascript:void(0);">@lang('year')</a></li>
                                 </ul>
-                                <input type="text" name="period" min="1" value="{{ $SubscriptionType->period }}"
+                                <input type="number" name="period" min="1" value="{{ $SubscriptionType->period }}"
                                     required class="form-control" placeholder="@lang('Required subscription period')">
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                         <div class="col-md-4 mb-3">
                             <label for="price">@lang('the amount') <span class="required-color">*</span></label>
                             <div class="input-group">
-                                <input type="text" value="{{ $SubscriptionType->price }}" name="price"
+                                <input type="number" value="{{ $SubscriptionType->price }}" name="price"
                                     class="form-control" placeholder="@lang('the amount')" aria-label="@lang('the amount')"
                                     aria-describedby="button-addon2">
                                 <button class="btn btn-outline-primary waves-effect" type="button"
@@ -80,7 +80,7 @@
                         <div class="col-md-4 col-12 mb-3">
                             <label for="upgrade_rate">@lang('Discount applied')</label><br />
                             <div class="wrapper" style="position: relative; ">
-                                <input type="text" name="upgrade_rate" id="upgrade_rate"
+                                <input type="number" name="upgrade_rate" id="upgrade_rate"
                                     value="{{ $SubscriptionType->upgrade_rate * 100 }}" placeholder="20%"
                                     class="form-control" min="0" max="100" />
                             </div>

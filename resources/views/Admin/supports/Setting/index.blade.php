@@ -6,9 +6,11 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 py-3">
+                <div class="col-12">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Support contact information')</h4>
+                        <span class="text-muted fw-light"> @lang('Settings') / @lang('technical support') /</span>
+                        @lang('Support contact information')
+                    </h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->

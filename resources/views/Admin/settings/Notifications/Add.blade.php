@@ -1,49 +1,45 @@
 @extends('Admin.layouts.app')
 
-@section('title', __('Roles'))
+@section('title', __('Add'))
 
 @section('content')
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 py-3">
+                <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Notifications Management')</h4>
+                        <span class="text-muted fw-light"> @lang('Settings') / <a class="text-muted fw-light"
+                                href="{{ route('Admin.settings.index') }}">@lang('General Settings')</a> / @lang('Notifications Management') /
+                        </span>
+                        @lang('Add')
+                    </h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
 
             <div class="card">
 
-                <div class="row p-1 mb-1">
-                    <div class="col-12">
-                        <h5 class="card-header">@lang('Add') </h5>
-                    </div>
-                    <hr>
-
+                <div class="card-body">
                     <form action="{{ route('Admin.StoreNewNotification') }}" method="post" class="row">
                         @csrf
                         <div class="col-md-6 col-12 mb-3">
-                            <label>@lang('notification_name')</label>
+                            <label>@lang('notification_name') {{ __('ar') }} </label>
+                            <input type="text" required name="notification_name_ar" class="form-control" value=""
+                                placeholder="@lang('notification_name')">
+                        </div>
+
+                        <div class="col-md-6 col-12 mb-3">
+                            <label>@lang('notification_name') {{ __('en') }}</label>
                             <input type="text" required name="notification_name" class="form-control" value=""
                                 placeholder="@lang('notification_name')">
                         </div>
 
-                        <div class="col-md-6 col-12 mb-3">
-                            <label>@lang('notification_name') {{ __('ar ') }} </label>
-                            <input type="text" required name="notification_name_ar" class="form-control" value=""
-                                placeholder="@lang('notification_name')">
-                        </div>
                         <div class="col-12">
 
                             <button type="submit"
                                 class="btn btn-primary waves-effect waves-light m-t-20">@lang('save')</button>
                         </div>
                     </form>
-
-
-
-
                 </div>
 
 

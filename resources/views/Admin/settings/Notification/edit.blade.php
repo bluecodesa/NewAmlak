@@ -5,10 +5,11 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 ">
+                <div class="col-12 ">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Admin.settings.index') }}" class="text-muted fw-light">@lang('Notifications')
-                        </a> /
+                        <span class="text-muted fw-light"> @lang('Settings') / <a class="text-muted fw-light"
+                                href="{{ route('Admin.settings.index') }}">@lang('General Settings')</a> / @lang('Notifications Management') /
+                        </span>
 
                         {{ $notification->EmailTemplateData->subject ?? __($notification->notification_name) }}
                     </h4>
@@ -67,10 +68,11 @@
                             data-original-title="@lang('Click to add it') : @lang('variable_subscription_invoice_download_link')"
                             data-variable="$data[variable_subscription_invoice_download_link]">@lang('variable_subscription_invoice_download_link')</span>
                     </div>
+
                     <form action="{{ route('Admin.update.StoreEmailTemplate', $notification->id) }}" method="post"
                         class="row">
                         @csrf
-                        <div class="col-12 mb-3">
+                        <div class="col-12 mb-3 mt-2">
                             <label>@lang('topic')</label>
                             <input type="text" name="subject" class="form-control" value="{{ $template->subject ?? '' }}"
                                 placeholder="@lang('topic')">

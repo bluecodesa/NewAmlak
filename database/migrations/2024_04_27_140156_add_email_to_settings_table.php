@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('settings', function (Blueprint $table) {
             //
             $table->string('email')->nullable();
+            $table->integer('key_phone')->nullable();
         });
     }
 

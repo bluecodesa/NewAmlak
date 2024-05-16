@@ -7,7 +7,10 @@
             <div class="row">
                 <div class="col-6 ">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Admin.Region.index') }}" class="text-muted fw-light">@lang('Regions')
+                        <a href="{{ route('Admin.Region.index') }}" class="text-muted fw-light">
+                            <span class="text-muted fw-light">@lang('Settings') /</span> <span
+                                class="text-muted fw-light">@lang('Cities') & @lang('districts') /</span>
+                            @lang('Regions')
                         </a> /
                         @lang('Add New')
                     </h4>
