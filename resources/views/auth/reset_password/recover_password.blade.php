@@ -116,7 +116,7 @@
               <div class="text-center">
                 <a href="{{ route('login') }}" class="d-flex align-items-center justify-content-center">
                   <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
-                  @lang('Back to Login')
+                  @lang('Back to login')
                 </a>
               </div>
             </div>
