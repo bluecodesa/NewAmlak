@@ -59,72 +59,65 @@
       <section id="landingFeatures" class="section-py landing-features">
         <div class="container">
           <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">Useful Features</span>
+            <span class="badge bg-label-primary">أملاك نظام إدارة متطور
+            </span>
           </div>
           <h3 class="text-center mb-1">
             <span class="position-relative fw-bold z-1"
-              >Everything you need
+              >أملاك نظام إدارة متطور
+
               <img
                 src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
                 alt="laptop charging"
                 class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
             </span>
-            to start your next project
           </h3>
           <p class="text-center mb-3 mb-md-5 pb-3">
-            Not just a set of tools, the package includes ready-to-deploy conceptual application.
-          </p>
+            حلول تقنية متطورة تلبي جميع أعمالك
+
+        </p>
           <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+            <div class="col-lg-3 col-sm-6 text-center features-icon-box">
               <div class="text-center mb-3">
                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/laptop.png')}}" alt="laptop charging" />
               </div>
-              <h5 class="mb-3">Quality Code</h5>
+              <h5 class="mb-3">علاقات العملاء
+            </h5>
               <p class="features-icon-description">
-                Code structure that all developers will easily understand and fall in love with.
-              </p>
+                من خلال منصة مخصصة لعملائك تستطيع استقبال طلبات الصيانة والشكاوى              </p>
             </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+            <div class="col-lg-3 col-sm-6 text-center features-icon-box">
               <div class="text-center mb-3">
                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/rocket.png')}}" alt="transition up" />
               </div>
-              <h5 class="mb-3">Continuous Updates</h5>
+              <h5 class="mb-3">التنبيهات للعقود
+            </h5>
               <p class="features-icon-description">
-                Free updates for the next 12 months, including new demos and features.
-              </p>
+                من خلال لوحة التحكم الخاصة بك يمكنك متابعة جميع عقود عملائك ومعرفة عدد الأيام المتبقية لانتهاء العقد              </p>
             </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+            <div class="col-lg-3 col-sm-6 text-center features-icon-box">
               <div class="text-center mb-3">
                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper.png')}}" alt="edit" />
               </div>
-              <h5 class="mb-3">Stater-Kit</h5>
+              <h5 class="mb-3">ملفات مشتركة
+            </h5>
               <p class="features-icon-description">
-                Start your project quickly without having to remove unnecessary features.
-              </p>
+                من خلال النظام يمكنكم مشاركة وتبادل الملفات وحفظها واسترجاعها عند الحاجة.
+
+            </p>
             </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+            <div class="col-lg-3 col-sm-6 text-center features-icon-box">
               <div class="text-center mb-3">
                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/check.png')}}" alt="3d select solid" />
               </div>
-              <h5 class="mb-3">API Ready</h5>
+              <h5 class="mb-3">دعم فني متقدم 24/7
+            </h5>
               <p class="features-icon-description">
-                Just change the endpoint and see your own data loaded within seconds.
-              </p>
+                تقدم أملاك دعم فني متقدم خلال 24/7 لجميع التحديات التقنية التي تواجه أعمالك.
+
+            </p>
             </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-              <div class="text-center mb-3">
-                <img src="{{ url('HOME_PAGE/img/front-pages/icons/user.png')}}" alt="lifebelt" />
-              </div>
-              <h5 class="mb-3">Excellent Support</h5>
-              <p class="features-icon-description">An easy-to-follow doc with lots of references and code examples.</p>
-            </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-              <div class="text-center mb-3">
-                <img src="{{ url('HOME_PAGE/img/front-pages/icons/keyboard.png" alt="google docs')}}" />
-              </div>
-              <h5 class="mb-3">Well Documented</h5>
-              <p class="features-icon-description">An easy-to-follow doc with lots of references and code examples.</p>
-            </div>
+
           </div>
         </div>
       </section>
@@ -132,6 +125,131 @@
 
       <!-- Real customers reviews: Start -->
       <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
+        <!-- What people say slider: Start -->
+        <div class="container">
+          <div class="row align-items-center gx-0 gy-4 g-lg-5">
+            <div class="col-md-6 col-lg-5 col-xl-3">
+              <div class="mb-3 pb-1">
+                <span class="badge bg-label-primary">شركاء النجاح
+                </span>
+              </div>
+              <h3 class="mb-1">
+                <span class="position-relative fw-bold z-1"
+                  >شركاء النجاح
+
+                  <img
+                    src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
+                    alt="laptop charging"
+                    class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                </span>
+              </h3>
+              <p class="mb-3 mb-md-5">
+                نتشرف بثقة و دعم العديد من المؤسسات حول المملكة
+
+<br class="d-none d-xl-block" />
+
+              </p>
+              <div class="landing-reviews-btns">
+                <button
+                  id="reviews-previous-btn"
+                  class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
+                  type="button">
+                  <i class="ti ti-chevron-left ti-sm"></i>
+                </button>
+                <button id="reviews-next-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl" type="button">
+                  <i class="ti ti-chevron-right ti-sm"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-7 col-xl-9">
+              <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
+                <div class="swiper" id="swiper-reviews">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <div class="card h-100">
+                        <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                            <img
+                            src="{{ url('HOME_PAGE/images/new/partners/1.png')}}"
+                            alt="client logo"
+                             />
+                        </div>
+                      </div>
+                    </div>
+                      <div class="swiper-slide">
+                        <div class="card h-100">
+                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                              <img
+                              src="{{ url('HOME_PAGE/images/new/partners/2.png')}}"
+                              alt="client logo"
+                               />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="card h-100">
+                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                              <img
+                              src="{{ url('HOME_PAGE/images/new/partners/3.png')}}"
+                              alt="client logo"
+                               />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="card h-100">
+                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                              <img
+                              src="{{ url('HOME_PAGE/images/new/partners/4.png')}}"
+                              alt="client logo"
+                               />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="card h-100">
+                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                              <img
+                              src="{{ url('HOME_PAGE/images/new/partners/5.png')}}"
+                              alt="client logo"
+                               />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="card h-100">
+                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                              <img
+                              src="{{ url('HOME_PAGE/images/new/partners/6.png')}}"
+                              alt="client logo"
+                               />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="swiper-slide">
+                        <div class="card h-100">
+                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                              <img
+                              src="{{ url('HOME_PAGE/images/new/partners/7.png')}}"
+                              alt="client logo"
+                               />
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- What people say slider: End -->
+       
+        <!-- Logo slider: End -->
+      </section>
+
+
+      {{-- <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
         <!-- What people say slider: Start -->
         <div class="container">
           <div class="row align-items-center gx-0 gy-4 g-lg-5">
@@ -420,10 +538,9 @@
           </div>
         </div>
         <!-- Logo slider: End -->
-      </section>
+      </section> --}}
       <!-- Real customers reviews: End -->
 
-      <!-- Our great team: Start -->
       <section id="landingTeam" class="section-py landing-team">
         <div class="container">
           <div class="text-center mb-3 pb-1">
@@ -500,6 +617,9 @@
           </div>
         </div>
       </section>
+
+      <!-- Our great team: Start -->
+
       <!-- Our great team: End -->
 
       <!-- Pricing plans: Start -->
@@ -703,7 +823,7 @@
       <!-- Pricing plans: End -->
 
       <!-- Fun facts: Start -->
-      <section id="landingFunFacts" class="section-py landing-fun-facts">
+      {{-- <section id="landingFunFacts" class="section-py landing-fun-facts">
         <div class="container">
           <div class="row gy-3">
             <div class="col-sm-6 col-lg-3">
@@ -756,26 +876,27 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> --}}
       <!-- Fun facts: End -->
 
       <!-- FAQ: Start -->
       <section id="landingFAQ" class="section-py bg-body landing-faq">
         <div class="container">
           <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">FAQ</span>
+            <span class="badge bg-label-primary">            الأسئلة الشائعة
+            </span>
           </div>
           <h3 class="text-center mb-1">
-            Frequently asked
             <span class="position-relative fw-bold z-1"
-              >questions
+              >            الأسئلة الشائعة
+
               <img
                 src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
                 alt="laptop charging"
                 class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
             </span>
           </h3>
-          <p class="text-center mb-5 pb-3">Browse through these FAQs to find answers to commonly asked questions.</p>
+          <p class="text-center mb-5 pb-3"></p>
           <div class="row gy-5">
             <div class="col-lg-5">
               <div class="text-center">
@@ -796,15 +917,13 @@
                       data-bs-target="#accordionOne"
                       aria-expanded="true"
                       aria-controls="accordionOne">
-                      Do you charge for each upgrade?
+                      ماهي منصة أملاك؟
                     </button>
                   </h2>
 
                   <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                      Lemon drops chocolate cake gummies carrot cake chupa chups muffin topping. Sesame snaps icing
-                      marzipan gummi bears macaroon dragée danish caramels powder. Bear claw dragée pastry topping
-                      soufflé. Wafer gummi bears marshmallow pastry pie.
+                        هي منصة إلكترونية تم تصميمها بإتقان لتوفير حلول متكاملة لجميع الخدمات العقارية بطريقة سهلة وشاملة لكافة المهام والإجراءات الخاصة بالمكاتب العقارية و إدارة العقارات والوحدات السكنية والتجارية على السواء. تهدف أملاك إلى إدارة جميع مستويات المشروعات العقارية بدءا من الوحدات وصولا إلى المشروعات عبر نظام متطور وحلول تقنية مبتكرة تهدف إلى القيام بجميع الاعمال عن بعد بجودة وموثوقية عالية، عبر استقطاب العديد من الخبرات الإدارية و التسويقية والمحاسبية ذات الكفاءة العالية.
                     </div>
                   </div>
                 </div>
@@ -817,7 +936,8 @@
                       data-bs-target="#accordionTwo"
                       aria-expanded="false"
                       aria-controls="accordionTwo">
-                      Do I need to purchase a license for each website?
+                      ما هي خطط الأسعار المتاحة للاشتراك في منصة أملاك؟
+
                     </button>
                   </h2>
                   <div
@@ -826,10 +946,14 @@
                     aria-labelledby="headingTwo"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                      Dessert ice cream donut oat cake jelly-o pie sugar plum cheesecake. Bear claw dragée oat cake
-                      dragée ice cream halvah tootsie roll. Danish cake oat cake pie macaroon tart donut gummies. Jelly
-                      beans candy canes carrot cake. Fruitcake chocolate chupa chups.
-                    </div>
+                        توفر منصة أملاك مجموعة متنوعة من خطط الأسعار لتناسب منشأتك بشكل متكامل وتلبي جميع الخدمات
+                        التي تحتاجها.
+                        <ul style="list-style:none">
+                            <li>- اشتراك مجاني (فترة تجريبية)</li>
+                            <li>- اشتراك شهري</li>
+                            <li>- اشتراك سنوي (قريبا)</li>
+                        </ul>
+                      </div>
                   </div>
                 </div>
                 <div class="card accordion-item">
@@ -841,7 +965,7 @@
                       data-bs-target="#accordionThree"
                       aria-expanded="false"
                       aria-controls="accordionThree">
-                      What is regular license?
+                      ما هي الاجراءات اللازمة للتسجيل على منصة أملاك؟
                     </button>
                   </h2>
                   <div
@@ -850,12 +974,16 @@
                     aria-labelledby="headingThree"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                      Regular license can be used for end products that do not charge users for access or service(access
-                      is free and there will be no monthly subscription fee). Single regular license can be used for
-                      single end product and end product can be used by you or your client. If you want to sell end
-                      product to multiple clients then you will need to purchase separate license for each client. The
-                      same rule applies if you want to use the same end product on multiple domains(unique setup). For
-                      more info on regular license you can check official description.
+                        للتسجيل و الانضمام إلى نظام أملاك يجب مليء فورم التسجيل عبر الضغط على زر "سجل معنا الآن" و
+                        ادخال بيانات شركتك:
+                        <ul style="list-style:none;">
+                            <li>-اسم الشركة</li>
+                            <li>-البريد الإلكتروني</li>
+                            <li>-شعار الشركة</li>
+                            <li>-اسم ورقم هاتف ممثل الشركة</li>
+                            <li>-اختيار نوع الاشتراك في النظام</li>
+                        </ul>
+                        بعد ذلك سوف يكون حسابك جاهزاً لتبدأ تجربة متميزة ومبتكرة لإدارة مشروعك العقاري.
                     </div>
                   </div>
                 </div>
@@ -868,7 +996,7 @@
                       data-bs-target="#accordionFour"
                       aria-expanded="false"
                       aria-controls="accordionFour">
-                      What is extended license?
+                      ماذا أفعل عندما تواجهني مشكلة أثناء استخدامي لمنصة أملاك؟
                     </button>
                   </h2>
                   <div
@@ -877,36 +1005,12 @@
                     aria-labelledby="headingFour"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis et aliquid quaerat possimus maxime!
-                      Mollitia reprehenderit neque repellat deleniti delectus architecto dolorum maxime, blanditiis
-                      earum ea, incidunt quam possimus cumque.
-                    </div>
+                        عندما تواجهك مشكلة أو إذا كان لديك شكوى أو اقتراحات يمكنك فتح تذكرة دعم فني بسهولة من خلال
+                        حسابك على المنصة و سوف يصلك الرد من فريق الدعم في اسرع وقت.
+                     </div>
                   </div>
                 </div>
-                <div class="card accordion-item">
-                  <h2 class="accordion-header" id="headingFive">
-                    <button
-                      type="button"
-                      class="accordion-button collapsed"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionFive"
-                      aria-expanded="false"
-                      aria-controls="accordionFive">
-                      Which license is applicable for SASS application?
-                    </button>
-                  </h2>
-                  <div
-                    id="accordionFive"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingFive"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sequi molestias exercitationem ab cum
-                      nemo facere voluptates veritatis quia, eveniet veniam at et repudiandae mollitia ipsam quasi
-                      labore enim architecto non!
-                    </div>
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>
@@ -925,15 +1029,21 @@
         <div class="container">
           <div class="row align-items-center gy-5 gy-lg-0">
             <div class="col-lg-6 text-center text-lg-start">
-              <h6 class="h2 text-primary fw-bold mb-1">Ready to Get Started?</h6>
-              <p class="fw-medium mb-4">Start your project with a 14-day free trial</p>
-              <a href="payment-page.html" class="btn btn-lg btn-primary">Get Started</a>
+              <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
+            </h6>
+            <h6 class="h2 text-primary fw-bold mb-1">انضم لنا الآن
+            </h6>
+              <p class="fw-medium mb-4">واجهة سهلة الإستخدام بمميزات متعددة
+
+              </p>
+              <a href="#" data-bs-toggle="modal"
+              data-bs-target="#addSubscriberModal"  class="btn btn-lg btn-primary">سجل معنا الأن</a>
             </div>
             <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
-              <img
+              {{-- <img
                 src="{{ url('HOME_PAGE/img/front-pages/landing-page/cta-dashboard.png')}}"
                 alt="cta dashboard"
-                class="img-fluid" />
+                class="img-fluid" /> --}}
             </div>
           </div>
         </div>
@@ -999,36 +1109,35 @@
             <div class="col-lg-7">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="mb-1">Send a message</h4>
+                  <h4 class="mb-1">ارسال رسالة</h4>
                   <p class="mb-4">
-                    If you would like to discuss anything related to payment, account, licensing,<br
+                    إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
                       class="d-none d-lg-block" />
-                    partnerships, or have pre-sales questions, you’re at the right place.
-                  </p>
+                      الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح.                  </p>
                   <form>
                     <div class="row g-3">
                       <div class="col-md-6">
-                        <label class="form-label" for="contact-form-fullname">Full Name</label>
-                        <input type="text" class="form-control" id="contact-form-fullname" placeholder="john" />
+                        <label class="form-label" for="contact-form-fullname">الاسم الرباعي</label>
+                        <input type="text" class="form-control" id="contact-form-fullname" placeholder="الاسم الرباعي" />
                       </div>
                       <div class="col-md-6">
-                        <label class="form-label" for="contact-form-email">Email</label>
+                        <label class="form-label" for="contact-form-email">البريد الالكتروني</label>
                         <input
                           type="text"
                           id="contact-form-email"
                           class="form-control"
-                          placeholder="johndoe@gmail.com" />
+                          placeholder="البريد الاكتروني" />
                       </div>
                       <div class="col-12">
-                        <label class="form-label" for="contact-form-message">Message</label>
+                        <label class="form-label" for="contact-form-message">الرسالة</label>
                         <textarea
                           id="contact-form-message"
                           class="form-control"
                           rows="8"
-                          placeholder="Write a message"></textarea>
+                          placeholder="محتوي الرسالة"></textarea>
                       </div>
                       <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Send inquiry</button>
+                        <button type="submit" class="btn btn-primary">ارسال</button>
                       </div>
                     </div>
                   </form>

@@ -78,7 +78,7 @@
     <div id="collapseExample" class="collapse col-md-12">
         <div class="card m-b-30">
 
-        <form action="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" method="GET">
+        <form id="subscriptionsForm" action="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" method="GET">
             <div class="row">
 
                 <div class="col-6 col-md-2 mb-3">
@@ -100,7 +100,7 @@
                             @lang('All')</option>
                             @foreach ($uniqueIds as $index => $id)
                             <option value="{{ $id }}"
-                                data-url="{{ route('Broker.Gallary.GetDistrictByCity', $id) }}"
+                                data-url="{{ route('Gallary.GetDistrictByCity', $id) }}"
                                 {{ $cityFilter == $id ? 'selected' : '' }}>
                                 {{ $uniqueNames[$index] }}
                             </option>
@@ -206,6 +206,7 @@
 
                 </div>
             </div>
+        </form>
     </div>
   </div>
   </div>
@@ -316,67 +317,29 @@
 
 @include('Home.layouts.inc.__addSubscriberModal')
 
-@endsection
-
 <script>
-      function reloadUnits() {
-            // Get selected filter values
-            var city = document.getElementById('city_filter').value;
-            var project = document.getElementById('prj_filter').value;
-            var type = document.getElementById('type_filter').value;
-            var price_from = document.getElementById('price_from').value;
-            var price_to = document.getElementById('price_to').value;
-
-            // Make AJAX request to fetch filtered units
-            $.ajax({
-                url: "{{ route('filtered.units') }}",
-                type: "GET",
-                data: {
-                    city_filter: city,
-                    prj_filter: project,
-                    type_filter: type,
-                    price_from: price_from,
-                    price_to: price_to
-                },
-                success: function(data) {
-                    // Handle the received data (update the view with filtered units)
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        }
-
-        // Attach event listeners to select elements
-        $(document).ready(function() {
-            $('#city_filter, #prj_filter, #type_filter, #price_from, #price_to').change(function() {
-                reloadUnits();
-            });
-        });
-
-        $('#city_filter').on('change', function() {
-            var selectedOption = $(this).find(':selected');
-            var url = selectedOption.data('url');
-            if (selectedOption.val() === 'all') {
-        $('#district_filter').val('all');
-    } else {
-            $.ajax({
-                type: "get",
-                url: url,
-                beforeSend: function() {
-                    $('#district_filter').fadeOut('fast');
-                },
-                success: function(data) {
-                    $('#district_filter').fadeOut('fast', function() {
-                        $(this).empty().append(data);
-                        $(this).fadeIn('fast');
-                    });
-                },
-            });
-        }
-        });
-    </script>
-<script>
+    // Add an event listener to the submit button
+         $('#city_filter').on('change', function() {
+          var selectedOption = $(this).find(':selected');
+          var url = selectedOption.data('url');
+          if (selectedOption.val() === 'all') {
+      $('#district_filter').val('all');
+  } else {
+          $.ajax({
+              type: "get",
+              url: url,
+              beforeSend: function() {
+                  $('#district_filter').fadeOut('fast');
+              },
+              success: function(data) {
+                  $('#district_filter').fadeOut('fast', function() {
+                      $(this).empty().append(data);
+                      $(this).fadeIn('fast');
+                  });
+              },
+          });
+      }
+      });
     function redirectToCreateBroker() {
         window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
     }
@@ -385,4 +348,75 @@
         window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 
     }
+
+    function copyUrl() {
+      var id = $(this).data("url");
+      var input = $("<input>").val(id).appendTo("body").select();
+      document.execCommand("copy");
+      input.remove();
+      Swal.fire({
+          icon: "success",
+          text: @json(__('copy done')),
+          timer: 1000,
+      });
+      }
 </script>
+
+
+
+<script src="{{ URL::asset('dashboard/js/custom.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all table headers
+        const headers = document.querySelectorAll('th');
+
+        // Add click event listeners to each header
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const table = document.querySelector('tbody');
+                const rows = Array.from(table.querySelectorAll('tr'));
+                const index = Array.from(header.parentNode.children).indexOf(header);
+                const direction = header.dataset.sortDirection || 'asc';
+
+                // Remove sort indicators from other headers
+                headers.forEach(h => {
+                    h.classList.remove('asc', 'desc');
+                    delete h.dataset.sortDirection;
+                });
+
+                // Sort the rows based on the content of the clicked column
+                const sortedRows = rows.sort((a, b) => {
+                    const aValue = a.children[index].textContent.trim();
+                    const bValue = b.children[index].textContent.trim();
+
+                    if (direction === 'asc') {
+                        return aValue.localeCompare(bValue);
+                    } else {
+                        return bValue.localeCompare(aValue);
+                    }
+                });
+
+                // Update the sort direction indicator
+                header.classList.toggle('asc', direction === 'asc');
+                header.classList.toggle('desc', direction === 'desc');
+                header.dataset.sortDirection = direction === 'asc' ? 'desc' : 'asc';
+
+                // Reorder the rows in the table
+                table.innerHTML = '';
+                sortedRows.forEach(row => table.appendChild(row));
+            });
+        });
+
+        // Initially sort the table by the first column in ascending order
+        const initialHeader = headers[0];
+        initialHeader.click();
+    });
+</script>
+
+
+@endsection
+

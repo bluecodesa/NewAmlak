@@ -110,7 +110,6 @@ class GallaryController extends Controller
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
-
         $propertyTypeIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
         $propertyTypeNames = $units->pluck('PropertyTypeData.name')->unique();
         // Filter units based on request parameters
@@ -340,6 +339,7 @@ class GallaryController extends Controller
         $hasPriceFilter = $request->input('has_price_filter', false);
         $daily_rent = $request->input('daily_rent', false);
         $districtFilter = request()->input('district_filter', 'all');
+
 
 
         $data = $this->galleryService->showAllGalleries($cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent);

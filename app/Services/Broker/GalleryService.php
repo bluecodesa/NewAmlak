@@ -173,6 +173,12 @@ class GalleryService
         $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
+        $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+        $districtsIds = $districts->pluck('district_id')->toArray();
+        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
+        $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
+        $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
+        $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
         $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
         $unit = $units->first();
         if ($unit) {
@@ -187,12 +193,8 @@ class GalleryService
             $broker = Broker::findOrFail($brokerId);
 
         }
-        $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
-        $districtsIds = $districts->pluck('district_id')->toArray();
-        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
-        $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
-        $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
-        $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
+
+
         return get_defined_vars();
 
         }

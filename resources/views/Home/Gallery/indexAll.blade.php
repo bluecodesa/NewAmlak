@@ -6,15 +6,15 @@
         <div class="container">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span>المعرض</h4>
 
-<div class="row">
-    <div class="col-12">
-      <div class="card mb-4">
+<div class="row rounded-5">
+    <div class="col-12 rounded-5">
+      <div class="card mb-4 rounded-5">
 
-        <div class="user-profile-header-banner">
+        <div class="user-profile-header-banner rounded-5">
+            <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid" style="height: 200px; width: 100%;">
+
         </div>
-        <div  class="card m-b-30"
-            style="background-image: url({{ $gallery->gallery_cover ? asset($gallery->gallery_cover) : asset('dashboard/assets/new-icons/cover1.png') }}); height: 200px; width: 100%; background-size: cover;">
-        </div>
+
       </div>
     </div>
   </div>
@@ -283,19 +283,12 @@
 
 @include('Home.layouts.inc.__addSubscriberModal')
 
-@endsection
-
-
-<script src="{{ URL::asset('dashboard/js/custom.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
 <script>
     function reloadUnits() {
           // Get selected filter values
           var city = document.getElementById('city_filter').value;
-          var project = document.getElementById('prj_filter').value;
-          var type = document.getElementById('type_filter').value;
+          var project = document.getElementById('project_filter').value;
+          var type = document.getElementById('ad_type_filter').value;
           var price_from = document.getElementById('price_from').value;
           var price_to = document.getElementById('price_to').value;
 
@@ -319,9 +312,9 @@
           });
       }
 
-      // Attach event listeners to select elements
+      Attach event listeners to select elements
       $(document).ready(function() {
-          $('#city_filter, #prj_filter, #type_filter, #price_from, #price_to').change(function() {
+          $('#city_filter, #project_filter, #ad_type_filter, #price_from, #price_to').change(function() {
               reloadUnits();
           });
       });
@@ -347,8 +340,8 @@
           });
       }
       });
-  </script>
-<script>
+
+
     function redirectToCreateBroker() {
         window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
     }
@@ -357,4 +350,73 @@
         window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 
     }
+
+    function copyUrl() {
+      var id = $(this).data("url");
+      var input = $("<input>").val(id).appendTo("body").select();
+      document.execCommand("copy");
+      input.remove();
+      Swal.fire({
+          icon: "success",
+          text: @json(__('copy done')),
+          timer: 1000,
+      });
+      }
 </script>
+
+
+@endsection
+
+<script src="{{ URL::asset('dashboard/js/custom.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all table headers
+        const headers = document.querySelectorAll('th');
+
+        // Add click event listeners to each header
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const table = document.querySelector('tbody');
+                const rows = Array.from(table.querySelectorAll('tr'));
+                const index = Array.from(header.parentNode.children).indexOf(header);
+                const direction = header.dataset.sortDirection || 'asc';
+
+                // Remove sort indicators from other headers
+                headers.forEach(h => {
+                    h.classList.remove('asc', 'desc');
+                    delete h.dataset.sortDirection;
+                });
+
+                // Sort the rows based on the content of the clicked column
+                const sortedRows = rows.sort((a, b) => {
+                    const aValue = a.children[index].textContent.trim();
+                    const bValue = b.children[index].textContent.trim();
+
+                    if (direction === 'asc') {
+                        return aValue.localeCompare(bValue);
+                    } else {
+                        return bValue.localeCompare(aValue);
+                    }
+                });
+
+                // Update the sort direction indicator
+                header.classList.toggle('asc', direction === 'asc');
+                header.classList.toggle('desc', direction === 'desc');
+                header.dataset.sortDirection = direction === 'asc' ? 'desc' : 'asc';
+
+                // Reorder the rows in the table
+                table.innerHTML = '';
+                sortedRows.forEach(row => table.appendChild(row));
+            });
+        });
+
+        // Initially sort the table by the first column in ascending order
+        const initialHeader = headers[0];
+        initialHeader.click();
+    });
+</script>
+

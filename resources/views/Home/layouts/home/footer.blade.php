@@ -50,11 +50,12 @@
                   class="form-control rounded-0 rounded-start-bottom rounded-start-top"
                   id="footer-email"
                   placeholder="بريدك الالكتروني" />
-                <button
+                <a href="#" data-bs-toggle="modal"
+                data-bs-target="#addSubscriberModal"
                   type="submit"
                   class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top">
                   سجل
-                </button>
+                </a>
               </div>
             </form>
           </div>

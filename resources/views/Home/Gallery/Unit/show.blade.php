@@ -366,10 +366,22 @@
    </section>
 
    @include('Home.Gallery.Unit.share')
+
+   <script>
+    function copyUrl() {
+      var id = $(this).data("url");
+      var input = $("<input>").val(id).appendTo("body").select();
+      document.execCommand("copy");
+      input.remove();
+      Swal.fire({
+          icon: "success",
+          text: @json(__('copy done')),
+          timer: 1000,
+      });
+      }
+      </script>
   <!-- Content wrapper -->
   @endsection
 
-  <script>
 
-<script src="../../assets/js/ui-carousel.js"></script>
-  </script>
+

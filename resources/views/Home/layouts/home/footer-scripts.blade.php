@@ -16,3 +16,5 @@
 
     <!-- Page JS -->
     <script src="{{ url('HOME_PAGE/js/front-page-landing.js')}}"></script>
+
+
