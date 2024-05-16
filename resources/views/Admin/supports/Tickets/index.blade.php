@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Technical Support Orders')</h4>
+                        @lang('Tickets Support')</h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
@@ -17,7 +17,7 @@
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('Technical Support Orders') </h5>
+                        <h5 class="card-header">@lang('Tickets Support') </h5>
                     </div>
                     <hr>
                     <div class="col-12">

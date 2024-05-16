@@ -5,9 +5,11 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 py-3">
+                <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Users') / {{ $user->name }} </h4>
+                        <a href="{{ route('Admin.users.index') }}" class="text-muted fw-light">@lang('Users') /</a>
+                        {{ $user->name }}
+                    </h4>
                 </div>
 
             </div>

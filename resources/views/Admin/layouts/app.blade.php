@@ -28,7 +28,7 @@
         <!-- Core CSS -->
         <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/core.css') }}" />
         <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/theme-default.css') }}" />
-        @else
+    @else
         <link rel="stylesheet" href="{{ url('assets/vendor/css/core.css') }}" />
         <link rel="stylesheet" href="{{ url('assets/vendor/css/theme-default.css') }}" />
     @endif
@@ -268,17 +268,34 @@
     <script>
         function handleDelete(id) {
             Swal.fire({
-                title: '@lang('Are you sure')',
+                title: "@lang('Are you sure')",
                 text: "@lang('You can not be able to revert this!')",
                 icon: 'warning',
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: "@lang('Yes, delete it!')"
-            }).then((result) => {
+                showCancelButton: true,
+                confirmButtonText: "@lang('Yes, delete it!')",
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                    cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
                 if (result.isConfirmed) {
                     document.getElementById('delete-form-' + id).submit();
                 }
             });
+
+            // Swal.fire({
+            //     title: '@lang('Are you sure')',
+            //     text: "@lang('You can not be able to revert this!')",
+            //     icon: 'warning',
+            //     showCancelButton: false,
+            //     confirmButtonColor: '#3085d6',
+            //     confirmButtonText: "@lang('Yes, delete it!')"
+            // }).then((result) => {
+            //     if (result.isConfirmed) {
+            //         document.getElementById('delete-form-' + id).submit();
+            //     }
+            // });
         }
     </script>
 
