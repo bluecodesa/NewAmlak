@@ -53,6 +53,7 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/dropzone/dropzone.css') }}" />
     {{-- <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
     <link rel="stylesheet"
         href="{{ url('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
@@ -97,14 +98,23 @@
         h6,
         h3,
         span,
+        .dropify-clear,
         small,
         b,
         strong,
         label,
 
         * {
-            font-family: 'Tajawal';
+            font-family: 'Tajawal' !important;
             /* text-transform: capitalize !important; */
+        }
+
+        .dropify-message p {
+            font-size: 18px !important;
+        }
+
+        .dropify-wrapper {
+            background-color: transparent !important;
         }
 
 
@@ -211,8 +221,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
     <script src="{{ url('assets/js/form-input-group.js') }}"></script>
     @include('Admin.layouts.Inc.js')
-
-
+    <script src="{{ url('assets/vendor/libs/dropzone/dropzone.js') }}"></script>
+    <script src="{{ url('assets/js/forms-file-upload.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -229,8 +239,19 @@
             });
         });
     </script>
+
     <script>
-        $('.dropify').dropify();
+        // $('.dropify').dropify();
+
+        $('.dropify').dropify({
+            messages: {
+                'default': @json(__('Drop files here or click to upload')),
+                'replace': @json(__('Drop files here or click to upload')),
+                'remove': @json(__('Delete')),
+                'error': 'Ooops, something wrong happended.'
+            }
+        });
+
         var success = '{{ Session::has('success') }}';
         var sorry = '{{ Session::has('sorry') }}';
 

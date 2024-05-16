@@ -100,7 +100,7 @@
     </div> --}}
 
     <div class="col-12 mb-3 col-md-4">
-        <label for="color" class="form-label">Phone</label>
+        <label for="color" class="form-label">@lang('phone')</label>
         <div class="input-group">
             <input type="text" placeholder="123456789" value="{{ $settings->phone }}" class="form-control"
                 maxlength="9" pattern="\d{1,9}" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
