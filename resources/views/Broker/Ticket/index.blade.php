@@ -61,7 +61,7 @@
     <div class="card h-100">
       <div class="card-body">
 
-        <div class="row mt-5">
+        {{-- <div class="row mt-5">
             <div class="col-12 text-center mb-4">
               <div class="badge bg-label-primary">@lang('Support contact information')</div>
               <h4 class="my-2">@lang('Support contact information')</h4>
@@ -88,9 +88,9 @@
                 <p>@lang('Technical support center')</p>
               </div>
             </div>
-          </div>
+          </div> --}}
 
-        {{-- <h4 class="mb-2 pb-1">@lang('Support contact information')</h4>
+        <h4 class="mb-2 pb-1">@lang('Support contact information')</h4>
         <p class="small">
             @lang('If you cannot find a solution to the problem you are facing in the help content. You can send a technical support ticket and select the relevant department from below.')
         </p>
@@ -128,13 +128,9 @@
             </div>
           </div>
         </div>
-      </div> --}}
+      </div>
     </div>
   </div>
-   <hr>
-
-
-
    <hr>
 
 
