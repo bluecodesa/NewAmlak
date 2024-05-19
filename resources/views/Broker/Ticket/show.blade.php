@@ -21,45 +21,39 @@
             <div class="col-xl-8 col-lg-6 col-md-5 order-1 order-md-0">
                 <!-- User Card -->
                 <div class="card mb-4">
+                    @include('Admin.layouts.Inc._errors')
                   <div class="card-body">
 
-                    <h5 class="mt-4 small text-uppercase text-muted">Details</h5>
+                    <h5 class="mt-4 small text-uppercase text-muted">@lang('Ticket Details')</h5>
                     <div class="info-container">
                       <ul class="list-unstyled">
                         <li class="mb-2">
-                          <span class="fw-medium me-1">Username:</span>
-                          <span>violet.dev</span>
+                          <span class="fw-medium me-1">@lang('Ticket Number'):</span>
+                          <span>{{ $formatted_id }}</span>
                         </li>
                         <li class="mb-2 pt-1">
-                          <span class="fw-medium me-1">Email:</span>
-                          <span>vafgot@vultukir.org</span>
+                          <span class="fw-medium me-1">@lang('Ticket Type'):</span>
+                          <span>{{ $ticket->ticketType->name }}</span>
                         </li>
                         <li class="mb-2 pt-1">
-                          <span class="fw-medium me-1">Status:</span>
-                          <span class="badge bg-label-success">Active</span>
+                          <span class="fw-medium me-1">@lang('Ticket Status'):</span>
+                          <span class="badge bg-label-primary">{{ __($ticket->status) }}</span>
                         </li>
                         <li class="mb-2 pt-1">
-                          <span class="fw-medium me-1">Role:</span>
-                          <span>Author</span>
+                          <span class="fw-medium me-1">@lang('Ticket Address'):</span>
+                          <p>{{ $ticket->subject }}</p>
                         </li>
                         <li class="mb-2 pt-1">
-                          <span class="fw-medium me-1">Tax id:</span>
-                          <span>Tax-8965</span>
+                          <span class="fw-medium me-1">@lang('Description'):</span>
+                          <span>{{ $ticket->content }}</span>
                         </li>
                         <li class="mb-2 pt-1">
-                          <span class="fw-medium me-1">Contact:</span>
-                          <span>(123) 456-7890</span>
+                          <span class="fw-medium me-1">@lang('Create Date'):</span>
+                          <span>{{ $ticket->created_at }}</span>
                         </li>
-                        <li class="mb-2 pt-1">
-                          <span class="fw-medium me-1">Languages:</span>
-                          <span>French</span>
-                        </li>
-                        <li class="pt-1">
-                          <span class="fw-medium me-1">Country:</span>
-                          <span>England</span>
-                        </li>
+
                       </ul>
-                      <div class="d-flex justify-content-center">
+                      {{-- <div class="d-flex justify-content-center">
                         <a
                           href="javascript:;"
                           class="btn btn-primary me-3"
@@ -68,7 +62,7 @@
                           >Edit</a
                         >
                         <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspended</a>
-                      </div>
+                      </div> --}}
                     </div>
                   </div>
                 </div>
@@ -76,10 +70,19 @@
             <div class="col-xl-4 col-lg-6 col-md-5 order-1 order-md-0">
                 <div class="card mb-4">
                     <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-start">
-                        <span class="badge bg-label-primary">@lang('Ticket Image')</span>
+                        <span class="card-title badge bg-label-primary">@lang('Ticket Image')</span>
+
                         @if ($ticket->image)
+                        <div class="d-flex justify-content-between align-items-start">
+
                         <img src="{{ asset($ticket->image) }}" alt="Ticket Image" class="img-fluid">
+                        @else
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <span class="alert-icon text-danger me-2">
+                                <i class="ti ti-ban ti-xs"></i>
+                            </span>
+                            @lang('No Data Found!')
+                        </div>
                     @endif
                     </div>
                   </div>
