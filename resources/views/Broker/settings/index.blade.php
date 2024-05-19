@@ -80,7 +80,74 @@
 
         <div class="content-backdrop fade"></div>
     </div>
+    @push('scripts')
 
+    <script>
+        $(document).ready(function() {
+            $('#Region_id').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#CityDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#CityDiv').fadeOut('fast', function() {
+                            // Empty the city select element
+                            $(this).empty();
+                            // Append the new options based on the received data
+                            $.each(data, function(key, city) {
+                                $('#CityDiv').append($('<option>', {
+                                    value: city.id,
+                                    text: city.name
+                                }));
+                            });
+                            // Fade in the city select element with new options
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
 
+        // $('#broker_logo_preview').click(function() {
+        //     $('#broker_logo').click(); // Trigger file input click on image click
+        // });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#uploadedAvatar').attr('src', e.target.result); // Update the preview image
+                };
+
+                reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+            }
+        }
+
+        $("#upload").change(function() {
+            readURL(this); // Call readURL function when a file is selected
+        });
+            
+    // JavaScript to handle the reset button functionality
+    $('#account-image-reset').click(function() {
+        // Reset the file input by clearing its value
+        $('#upload').val('');
+
+        // Reset the preview image to the default avatar
+        $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
+    });
+</script>
+
+    @endpush
 
 @endsection
+
+
+

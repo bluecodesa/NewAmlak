@@ -156,7 +156,7 @@
 
                         <div class="form-group col-md-4">
                             <label class="form-label" >@lang('Region') <span class="text-danger">*</span></label>
-                            <select class="form-control" id="Region_id" name="region_id" required>
+                            <select type="package" class="form-select" id="Region_id" name="region_id" required>
                                 <option disabled selected value="">@lang('Region')</option>
                                 @foreach ($Regions as $Region)
                                     <option value="{{ $Region->id }}"
@@ -168,7 +168,7 @@
 
                         <div class="form-group col-md-4">
                             <label class="form-label" >@lang('city') <span class="text-danger">*</span> </label>
-                            <select class="form-control" name="city_id" id="CityDiv" required>
+                            <select type="package" class="form-select" name="city_id" id="CityDiv" required>
                             </select>
                         </div>
 
