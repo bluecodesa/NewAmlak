@@ -14,22 +14,15 @@
                 <div class="col-12 col-md-6 mb-3">
                     <label for="galleryName">@lang('Gallery URL')</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="galleryName" disabled
-                            value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" />
+                        <span onclick="copyUrl()" data-url="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" class="input-group-text" id="basic-addon11"><i class="tf-icons ti ti-copy"></i></span>
+                        <input type="text" class="form-control" readonly value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" placeholder="Username" aria-label="Username" aria-describedby="basic-addon11">
 
-                        {{-- value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/{{ $gallery->gallery_name }}"> --}}
-                        <div class="input-group-append">
-                            <span class="input-group-text" style="cursor: pointer;" onclick="selectText()">
-                                <i class="fas fa-copy"></i>
-                            </span>
-                        </div>
                     </div>
                 </div>
                 @if (Auth::user()->hasPermission('update-gallery-url'))
                     <div class="col-12 col-md-6 mb-3">
                         <input hidden name="broker_id_for_gallery" value="{{ $gallery->id }}" />
                         <label for="editGalleryName">@lang('Edit Gallery Name')</label>
-                        <div class="d-flex" style="margin-top: 10px">
                             <div class="input-group">
                                 <input type="text" name="gallery_name" class="form-control edit-gallery-name"
                                     id="editGalleryName" placeholder="@lang('Gallery Name')"
@@ -39,7 +32,6 @@
 
                                 {{-- value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/"> --}}
                             </div>
-                        </div>
                         <div class="row validate-result" style="display: none">
                             <span class="alert alert-success"></span>
                             <span class="alert alert-error"></span>
@@ -61,7 +53,12 @@
                     </div>
                 @endif
 
+
+
+            <div class="col-12">
                 <button type="submit" class="btn btn-primary">@lang('Edit')</button>
+
+            </div>
             </form>
 
 

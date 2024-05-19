@@ -22,7 +22,7 @@
             <div class="col-12">
 
                 <div class="nav-align-top nav-tabs-shadow mb-4">
-                    <ul class="nav nav-tabs" role="tablist">
+                    {{-- <ul class="nav nav-tabs" role="tablist">
                         @if (Auth::user()->hasPermission('update-user-profile'))
                             <li class="nav-item" role="presentation">
                                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
@@ -39,15 +39,47 @@
                             </button>
                         </li>
 
-                    </ul>
+                    </ul> --}}
+
+                    <div class="nav-align-top nav-tabs-shadow mb-4">
+                        <ul class="nav nav-tabs nav-fill" role="tablist">
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link active"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#navs-justified-home"
+                              aria-controls="navs-justified-home"
+                              aria-selected="true">
+                              <i class="tf-icons ti ti-user ti-xs me-1"></i> Profile
+                              {{-- <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span> --}}
+                            </button>
+                          </li>
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#navs-justified-profile"
+                              aria-controls="navs-justified-profile"
+                              aria-selected="false">
+                              <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i> Gallary
+                            </button>
+                          </li>
+
+                        </ul>
+
+
                     <div class="tab-content">
                         {{-- @if (Auth::user()->hasPermission('update-user-profile')) --}}
-                        <div class="tab-pane fade active show" id="navs-top-home" role="tabpanel">
+                        <div class="tab-pane fade active show" id="navs-justified-home" role="tabpanel">
                             @include('Broker.settings.inc._GeneralSetting')
                         </div>
                         {{-- @endif --}}
                         @if ($gallery)
-                            <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
+                            <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                                 @include('Broker.settings.inc._GalleryMange')
                             </div>
                         @else
@@ -134,7 +166,7 @@
         $("#upload").change(function() {
             readURL(this); // Call readURL function when a file is selected
         });
-            
+
     // JavaScript to handle the reset button functionality
     $('#account-image-reset').click(function() {
         // Reset the file input by clearing its value
@@ -143,6 +175,18 @@
         // Reset the preview image to the default avatar
         $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
     });
+
+    function copyUrl() {
+      var id = $(this).data("url");
+      var input = $("<input>").val(id).appendTo("body").select();
+      document.execCommand("copy");
+      input.remove();
+      Swal.fire({
+          icon: "success",
+          text: @json(__('copy done')),
+          timer: 1000,
+      });
+      }
 </script>
 
     @endpush

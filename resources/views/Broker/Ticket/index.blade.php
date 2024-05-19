@@ -13,7 +13,7 @@
             </div>
             <!-- DataTable with Buttons -->
 
-   <div class="card ">
+   {{-- <div class="card ">
     <div class="card-body shadow-none bg-transparent">
         <div class="col-xl-12 ">
             <div class="card m-b-30 shadow-none bg-transparent">
@@ -55,9 +55,87 @@
 
 
     </div>
-   </div>
+   </div> --}}
+
+   <div class="col-md-12 col-xl-12 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+
+        <div class="row mt-5">
+            <div class="col-12 text-center mb-4">
+              <div class="badge bg-label-primary">@lang('Support contact information')</div>
+              <h4 class="my-2">@lang('Support contact information')</h4>
+              <p>@lang('If you cannot find a solution to the problem you are facing in the help content. You can send a technical support ticket and select the relevant department from below.')
+            </p>
+            </div>
+          </div>
+          <div class="row text-center justify-content-center gap-sm-0 gap-3">
+            <div class="col-sm-6">
+              <div class="py-3 rounded bg-faq-section text-center">
+                <span class="badge bg-label-primary my-3 rounded-2 p-2">
+                  <i class="ti ti-phone ti-md"></i>
+                </span>
+                <h4 class="mb-2"><a class="text-body" href="tel:+(966){{ $settings->support_phone }}">+ (966) {{ $settings->support_phone }}</a></h4>
+                <p>@lang('Technical support center')</p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="py-3 rounded bg-faq-section text-center">
+                <span class="badge bg-label-primary my-3 rounded-2 p-2">
+                  <i class="ti ti-mail ti-md"></i>
+                </span>
+                <h4 class="mb-2"><a class="text-body" href="mailto:{{ $settings->support_email }}">{{ $settings->support_email }}</a></h4>
+                <p>@lang('Technical support center')</p>
+              </div>
+            </div>
+          </div>
+
+        {{-- <h4 class="mb-2 pb-1">@lang('Support contact information')</h4>
+        <p class="small">
+            @lang('If you cannot find a solution to the problem you are facing in the help content. You can send a technical support ticket and select the relevant department from below.')
+        </p>
+        <div class="row mb-3 g-3">
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-2">
+
+
+                    <a href="mailto:{{ $settings->support_email }}">
+                <span class="avatar-initial rounded bg-label-primary"
+                  ><i class="ti ti-mail ti-md"></i
+                ></span></a>
+              </div>
+              <div>
+
+                <h6 class="mb-0 text-nowrap">@lang('Technical support center')</h6>
+                <small>{{ $settings->support_email }}</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-2">
+                <a href="tel:{{ $settings->support_phone }}">
+
+                <span class="avatar-initial rounded bg-label-primary"
+                  ><i class="ti ti-phone ti-md"></i
+                ></span> </a>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">@lang('Technical support center')</h6>
+                <small>{{ $settings->support_phone }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> --}}
+    </div>
+  </div>
    <hr>
 
+
+
+   <hr>
 
 
    {{--  --}}

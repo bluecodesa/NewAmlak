@@ -14,7 +14,7 @@
             <!-- DataTable with Buttons -->
 
 
-            <div class="card m-b-30 ">
+            {{-- <div class="card m-b-30 ">
                 <div class="card-body ">
                     <div class="col-xl-12">
 
@@ -52,8 +52,48 @@
 
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
+            <div class="card mb-12">
+                <!-- Current Plan -->
+                <h5 class="card-header">@lang('current subscription') </h5>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12 mb-1">
+                      <div class="mb-3">
+                        <h6 class="mb-1"> {{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->subscription_name }}</h6>
+                        <h1>{{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period }}
+                            <small class="font-16">
+                                {{ __(Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period_type) }}</small>
+                        </h1>
+                        </div>
+
+                      <div class="mb-12">
+                        <h6 class="mb-1">
+                          <span class="me-2">@lang('Subscription Start')</span>
+                          <span class="badge bg-label-primary"> {{ $subscription->start_date }}</span>
+                        </h6>
+                      </div>
+                      <div class="mb-12">
+                        <h6 class="mb-1">
+                          <span class="me-2">@lang('Subscription End')</span>
+                          <span class="badge bg-label-primary"> {{ $subscription->end_date }}</span>
+                        </h6>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                        @if (Auth::user()->hasPermission('upgrade-subscription'))
+                        <button type="button"  class="btn btn-primary  me-2 mt-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
+                    @endif
+                      <a href="{{ route('welcome') }}#landingPricing" class="btn btn-secondary me-2 mt-2">@lang('Compare Plans')</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Current Plan -->
+              </div>
             <hr>
             <div class="card m-b-30 ">
                 <div class="card-body ">

@@ -15,125 +15,77 @@
                 </div>
             </div>
             <!-- DataTable with Buttons -->
-            <div class="card">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card m-b-30 p-2">
-                            @include('Admin.layouts.Inc._errors')
-                            <div class="card-body">
-                                <h5 class="card-title">@lang('Ticket Details')</h5>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><strong>@lang('Ticket Number'):</strong> {{ $formatted_id }}</p>
-                                        <p><strong>@lang('Ticket Type'):</strong> {{ $ticket->ticketType->name }}</p>
-                                        <p><strong>@lang('Ticket Address'):</strong> {{ $ticket->subject }}</p>
-                                        <p><strong>@lang('Description'):</strong> {{ $ticket->content }}</p>
-                                        <p><strong>@lang('Ticket Status'):</strong> {{ __($ticket->status) }}</p>
-                                        <p><strong>@lang('Create Date'):</strong> {{ $ticket->created_at }}</p>
+            <div class="row">
 
-                                    </div>
-                                    <div class="col-md-6">
-                                        @if ($ticket->image)
-                                            <p><strong>@lang('Ticket Image'):</strong></p>
-                                            <img src="{{ asset($ticket->image) }}" alt="Ticket Image" class="img-fluid">
-                                        @endif
-                                        <!-- Add other ticket details here -->
-                                    </div>
-                                </div>
+            <div class="col-xl-8 col-lg-6 col-md-5 order-1 order-md-0">
+                <!-- User Card -->
+                <div class="card mb-4">
+                  <div class="card-body">
 
-
-                                <div class="mt-3">
-                                    <a href="{{ route('Broker.Tickets.index') }}"
-                                        class="btn btn-secondary">@lang('Back')</a>
-                                </div>
-                            </div>
-                            <!-- Status and Close Button -->
-                            <div class="row mt-3">
-                                <div class="col-sm-6">
-                                    <h3 class="mt-0 header-title">@lang('Ticket Status') : <label
-                                            class="badge bg-primary">{{ __($ticket->status) }}</label></h3>
-                                </div>
-
-                            </div>
-                            <div class="mt-4">
-                                <h5>@lang('Comments')</h5>
-                                @foreach ($ticketResponses as $response)
-                                    <div class="col-lg-9 mb-9">
-                                        <div class="card shadow-sm">
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center mb-3">
-                                                    <img src="{{ optional($response->UserData)->avatar ?: 'https://www.svgrepo.com/show/29852/user.svg' }}"
-                                                        class="mr-3 rounded-circle"
-                                                        alt="{{ optional($response->UserData)->name ?? 'Default Name' }}"
-                                                        style="width: 64px; height: 64px;">
-                                                    <div>
-                                                        <h6 class="mb-0">
-                                                            {{ optional($response->UserData)->name ?? 'Anonymous' }}</h6>
-                                                        <small
-                                                            class="text-muted">{{ $response->created_at->format('Y-m-d H:i:s') }}</small>
-                                                    </div>
-                                                </div>
-                                                <p class="card-text">{{ $response->response }}</p>
-
-                                                <div class="bg-light text-black rounded p-3 shadow-sm">
-                                                    @if ($response->response_attachment)
-                                                        <label for="response" class="form-label">@lang('Attachment')</label>
-                                                        <div class="d-flex align-items-center">
-                                                            <span>{{ basename($response->response_attachment) }}</span>
-                                                            <a href="{{ asset($response->response_attachment) }}" download
-                                                                class="ms-2 text-black">
-                                                                <i class="fas fa-download"></i>
-                                                            </a>
-                                                        </div>
-                                                    @endif
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-
-                            {{-- @endif --}}
-                            @if ($ticket->status != 'Closed')
-                                <!-- Form to add response -->
-
-                                @if (Auth::user()->hasPermission('update-support-ticket-user'))
-                                    <div class="mt-4">
-                                        <h5>@lang('Add your comment')</h5>
-                                        <form id="commentForm"
-                                            action="{{ route('Broker.tickets.addResponse', $ticket->id) }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="mb-3">
-                                                <label for="response" class="form-label">@lang('comment')</label>
-                                                <textarea class="form-control" id="response" name="response" rows="5"
-                                                    @if ($ticket->status === 'closed') disabled @endif required></textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="attachment" class="form-label">@lang('file')</label>
-                                                <input type="file" class="form-control" id="attachment"
-                                                    name="response_attachment"
-                                                    accept="image/jpeg, image/png, image/jpg, image/gif, application/pdf"
-                                                    @if ($ticket->status === 'closed') disabled @endif>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary"
-                                                @if ($ticket->status === 'closed') disabled @endif>@lang('Submit Comment')</button>
-                                        </form>
-                                    </div>
-                                @endif
-
-                            @endif
-                        </div>
+                    <h5 class="mt-4 small text-uppercase text-muted">Details</h5>
+                    <div class="info-container">
+                      <ul class="list-unstyled">
+                        <li class="mb-2">
+                          <span class="fw-medium me-1">Username:</span>
+                          <span>violet.dev</span>
+                        </li>
+                        <li class="mb-2 pt-1">
+                          <span class="fw-medium me-1">Email:</span>
+                          <span>vafgot@vultukir.org</span>
+                        </li>
+                        <li class="mb-2 pt-1">
+                          <span class="fw-medium me-1">Status:</span>
+                          <span class="badge bg-label-success">Active</span>
+                        </li>
+                        <li class="mb-2 pt-1">
+                          <span class="fw-medium me-1">Role:</span>
+                          <span>Author</span>
+                        </li>
+                        <li class="mb-2 pt-1">
+                          <span class="fw-medium me-1">Tax id:</span>
+                          <span>Tax-8965</span>
+                        </li>
+                        <li class="mb-2 pt-1">
+                          <span class="fw-medium me-1">Contact:</span>
+                          <span>(123) 456-7890</span>
+                        </li>
+                        <li class="mb-2 pt-1">
+                          <span class="fw-medium me-1">Languages:</span>
+                          <span>French</span>
+                        </li>
+                        <li class="pt-1">
+                          <span class="fw-medium me-1">Country:</span>
+                          <span>England</span>
+                        </li>
+                      </ul>
+                      <div class="d-flex justify-content-center">
+                        <a
+                          href="javascript:;"
+                          class="btn btn-primary me-3"
+                          data-bs-target="#editUser"
+                          data-bs-toggle="modal"
+                          >Edit</a
+                        >
+                        <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspended</a>
+                      </div>
                     </div>
+                  </div>
                 </div>
             </div>
+            <div class="col-xl-4 col-lg-6 col-md-5 order-1 order-md-0">
+                <div class="card mb-4">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-start">
+                        <span class="badge bg-label-primary">@lang('Ticket Image')</span>
+                        @if ($ticket->image)
+                        <img src="{{ asset($ticket->image) }}" alt="Ticket Image" class="img-fluid">
+                    @endif
+                    </div>
+                  </div>
+            </div>
 
-
-
+            </div>
 
 
         </div>
