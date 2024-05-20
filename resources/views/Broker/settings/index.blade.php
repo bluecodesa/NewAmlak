@@ -43,6 +43,8 @@
 
                     <div class="nav-align-top nav-tabs-shadow mb-4">
                         <ul class="nav nav-tabs nav-fill" role="tablist">
+                            @if (Auth::user()->hasPermission('update-user-profile'))
+
                           <li class="nav-item">
                             <button
                               type="button"
@@ -52,10 +54,11 @@
                               data-bs-target="#navs-justified-home"
                               aria-controls="navs-justified-home"
                               aria-selected="true">
-                              <i class="tf-icons ti ti-user ti-xs me-1"></i> Profile
+                              <i class="tf-icons ti ti-user ti-xs me-1"></i>@lang('profile')
                               {{-- <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span> --}}
                             </button>
                           </li>
+                          @endif
                           <li class="nav-item">
                             <button
                               type="button"
@@ -65,7 +68,8 @@
                               data-bs-target="#navs-justified-profile"
                               aria-controls="navs-justified-profile"
                               aria-selected="false">
-                              <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i> Gallary
+                              <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
+                              @lang('Gallary Mange')
                             </button>
                           </li>
 

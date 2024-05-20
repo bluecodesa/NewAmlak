@@ -14,46 +14,6 @@
             <!-- DataTable with Buttons -->
 
 
-            {{-- <div class="card m-b-30 ">
-                <div class="card-body ">
-                    <div class="col-xl-12">
-
-                            <div class="card-body">
-                                <h5 class="text-uppercase mt-5">
-                                    {{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->subscription_name }}
-                                </h5>
-                                <div class="pricing-plan mt-4 pt-2">
-                                    <h1>{{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period }}
-                                        <small class="font-16">
-                                            {{ __(Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period_type) }}</small>
-                                    </h1>
-                                </div>
-
-                                <div class=" row pricing-features mt-4">
-                                    <div class="col-6">
-                                        <p class="font-14 mb-2">@lang('Subscription Start')
-                                            {{ $subscription->start_date }}</p>
-                                        <p class="font-14 mb-2">@lang('Subscription End') {{ $subscription->end_date }}
-                                        </p>
-                                    </div>
-                                    <div class="col-6">
-                                        @if (Auth::user()->hasPermission('upgrade-subscription'))
-                                            <button type="button"  class="btn btn-primary"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
-                                        @endif
-                                        <a href="{{ route('welcome') }}#landingPricing"
-                                            class="btn btn-secondary modal-btn2 w-auto"
-                                            target="_blank">@lang('Compare Plans')</a>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                    </div>
-                </div>
-            </div> --}}
-
             <div class="card mb-12">
                 <!-- Current Plan -->
                 <h5 class="card-header">@lang('current subscription') </h5>
@@ -166,3 +126,44 @@
         </script>
     @endpush
 @endsection
+
+
+    {{-- <div class="card m-b-30 ">
+                <div class="card-body ">
+                    <div class="col-xl-12">
+
+                            <div class="card-body">
+                                <h5 class="text-uppercase mt-5">
+                                    {{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->subscription_name }}
+                                </h5>
+                                <div class="pricing-plan mt-4 pt-2">
+                                    <h1>{{ Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period }}
+                                        <small class="font-16">
+                                            {{ __(Auth::user()->UserBrokerData->UserSystemInvoiceLatest->period_type) }}</small>
+                                    </h1>
+                                </div>
+
+                                <div class=" row pricing-features mt-4">
+                                    <div class="col-6">
+                                        <p class="font-14 mb-2">@lang('Subscription Start')
+                                            {{ $subscription->start_date }}</p>
+                                        <p class="font-14 mb-2">@lang('Subscription End') {{ $subscription->end_date }}
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        @if (Auth::user()->hasPermission('upgrade-subscription'))
+                                            <button type="button"  class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
+                                        @endif
+                                        <a href="{{ route('welcome') }}#landingPricing"
+                                            class="btn btn-secondary modal-btn2 w-auto"
+                                            target="_blank">@lang('Compare Plans')</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                    </div>
+                </div>
+            </div> --}}

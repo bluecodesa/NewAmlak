@@ -27,6 +27,8 @@ use App\Services\Broker\UnitService;
 use App\Services\Broker\GalleryService;
 use App\Services\Broker\UnitInterestService;
 use App\Services\PropertyUsageService;
+use App\Services\Admin\SectionService;
+
 
 
 
@@ -46,6 +48,8 @@ class HomeController extends Controller
     protected $galleryService;
     protected $systemInvoiceRepository;
     protected $unitInterestService;
+    protected $SectionService;
+
 
 
 
@@ -62,7 +66,8 @@ class HomeController extends Controller
         SubscriptionTypeService $SubscriptionTypeService,
         GalleryService $galleryService,
         PropertyUsageService $propertyUsageService,
-        UnitInterestService $unitInterestService
+        UnitInterestService $unitInterestService,
+        SectionService $SectionService
     ) {
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
@@ -76,6 +81,7 @@ class HomeController extends Controller
         $this->propertyUsageService = $propertyUsageService;
         $this->systemInvoiceRepository = $systemInvoiceRepository;
         $this->unitInterestService = $unitInterestService;
+        $this->SectionService = $SectionService;
 
         $this->middleware('auth');
     }
@@ -210,7 +216,7 @@ class HomeController extends Controller
         if ($brokerId)
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
-
+        $sections = $this->SectionService->getAll();
         return view('Broker.Subscription.show', get_defined_vars());
     }
 

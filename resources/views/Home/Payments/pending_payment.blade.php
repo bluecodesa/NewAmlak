@@ -1,5 +1,5 @@
-<button id="modalButton" type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
-    data-target=".bs-example-modal-center"></button>
+<button id="modalButton" type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
+    data-bs-target=".bs-example-modal-center"></button>
 
 <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     style="display: none;" aria-hidden="true">
