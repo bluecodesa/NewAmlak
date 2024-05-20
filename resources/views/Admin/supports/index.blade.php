@@ -32,7 +32,7 @@
 
 
 
-    
+
                                 <div class="table-responsive b-0" data-pattern="priority-columns">
                                     <table id="datatable-buttons" class="table  table-striped">
                                         <thead>
