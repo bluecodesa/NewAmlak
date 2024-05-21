@@ -60,8 +60,7 @@
                 <hr>
                 <div class="row justify-content-around">
                     <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-toggle="modal"
-                        data-target=".bs-example-modal-lg" data-url="{{ route('Broker.ViewInvoice') }}">اكمال
-                        الدفع</button>
+                        data-target=".bs-example-modal-lg" data-url="{{ route('Broker.ViewInvoice') }}">اكمال الدفع</button>
                     {{-- <a href="{{ route('Broker.ViewInvoice') }}" class="btn btn-primary">@lang('technical support')</a> --}}
 
                     <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>

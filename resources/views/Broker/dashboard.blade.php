@@ -7,7 +7,6 @@
 
             <!-- DataTable with Buttons -->
             <div class="card">
-
                 <div class="card-body">
                     <h4 class="mt-0 header-title">
                         <h4 class="mt-0 header-title">
@@ -32,7 +31,6 @@
                     @endif
 
 
-                    <div class="">
                         <div class="progress">
                             <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar"
                                 style="width: {{ $prec }}%;" aria-valuenow="{{ $prec }}" aria-valuemin="0"
@@ -41,10 +39,10 @@
                             </div>
                         </div>
 
-                    </div>
-                    <p class="sub-title" class="highlighter-rouge">@lang('Subscription End') {{ $subscriber->end_date }}</p>
+                        <p class="mt-1 mb-0"> @lang('Subscription End') {{ $subscriber->end_date }}</p>
+                    <div class="col-12 text-center">
 
-                    @if ($pendingPayment)
+                       @if ($pendingPayment)
                         <button type="button" class="btn btn-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
@@ -64,6 +62,7 @@
                     @else
                         @include('Broker.inc._SubscriptionSuspend')
                     @endif
+</div>
                 </div>
             </div>
             <hr>
@@ -465,8 +464,8 @@
 
     @if (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null)
         @include('Home.Payments.pending_payment')
-        @include('Home.Payments._view_inv')
     @endif
+    @include('Home.Payments._view_inv')
 
     @include('Broker.inc._SubscriptionSuspend')
 
@@ -478,6 +477,15 @@
                 });
             </script>
         @endif
+
+        @if (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null)
+        <script>
+            $(document).ready(function() {
+                $('.bs-example-modal-center2').modal('show');
+            });
+
+        </script>
+    @endif
         <script>
             $('.view_inv').on('click', function() {
                 var url = $(this).data('url');
