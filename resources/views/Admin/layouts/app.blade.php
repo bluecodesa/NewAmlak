@@ -103,7 +103,6 @@
         b,
         strong,
         label,
-
         * {
             font-family: 'Tajawal' !important;
             /* text-transform: capitalize !important; */
@@ -294,6 +293,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: "@lang('Yes, delete it!')",
+                cancelButtonText: "@lang('No, keep it')",
                 customClass: {
                     confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
                     cancelButton: 'btn btn-label-secondary waves-effect waves-light'
