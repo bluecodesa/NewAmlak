@@ -78,9 +78,9 @@ class UnitService
             'price' => 'digits_between:0,10',
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
-            'type' => ['required', Rule::in(['sale', 'rent','rent and sale'])],
-            'name' => 'required|array',
-            'qty' => 'required|array',
+            'type' => ['required', Rule::in(['sale', 'rent', 'rent and sale'])],
+            // 'name' => 'required|array',
+            // 'qty' => 'required|array',
 
             'monthly' => 'digits_between:0,8',
             'daily' => 'digits_between:0,8',
@@ -94,8 +94,8 @@ class UnitService
             'service_type_id.required' => 'The service type field is required.',
             'type.required' => 'The type field is required.',
             'type.in' => 'The selected type is invalid.',
-            'name.required' => 'The name field is required.',
-            'qty.required' => 'The quantity field is required.',
+            // 'name.required' => 'The name field is required.',
+            // 'qty.required' => 'The quantity field is required.',
             'price' => 'price must be smaller than or equal to 10 numbers.',
             'monthly' => 'Monthly price must be smaller than or equal to 8.',
             'daily' => 'daily price must be smaller than or equal to 8.',
@@ -106,7 +106,7 @@ class UnitService
         ];
 
         // Validate data
-        validator($data, $rules,$messages)->validate();
+        validator($data, $rules, $messages)->validate();
 
         $unit = $this->UnitRepository->update($id, $data);
 

@@ -286,7 +286,7 @@
 
     </div>
     <!-- container-fluid -->
-
+    @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
     @push('scripts')
         <script>
             $(document).ready(function() {
@@ -301,7 +301,7 @@
                         success: function(data) {
                             $('#OwnersDiv').empty();
                             $('#OwnersDiv').append(data);
-                            $('.bs-example-modal-center').modal('hide');
+                            $('#addNewCCModal').modal('hide');
                         },
                         error: function(xhr, status, error) {
                             // Handle error response here

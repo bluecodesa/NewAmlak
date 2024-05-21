@@ -21,7 +21,7 @@
                     <form action="{{ route('Broker.Developer.store') }}" method="POST" class="row">
                         @csrf
                         @method('post')
-
+                        <input type="text" name="key_phone" hidden value="996" id="key_phone">
                         <div class="col-md-6 col-12 mb-3">
 
                             <label class="form-label">
@@ -38,17 +38,22 @@
 
                         </div>
 
-                        <div class="col-md-4 col-12 mb-3">
-
-                            <label for="phone">@lang('phone')<span class="text-danger">*</span></label>
-                            <div style="position:relative">
-
-                                <input type="tel" class="form-control" id="phone" minlength="9" maxlength="9"
-                                    pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                    onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456" name="phone"
-                                    required="" value="">
-
-
+                        <div class="col-12 mb-3 col-md-4">
+                            <label for="color" class="form-label">@lang('phone') <span
+                                    class="required-color">*</span></label>
+                            <div class="input-group">
+                                <input type="text" placeholder="123456789" name="phone" value=""
+                                    class="form-control" maxlength="9" pattern="\d{1,9}"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                                    aria-label="Text input with dropdown button">
+                                <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    996
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" style="">
+                                    <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                                    <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                                </ul>
                             </div>
                         </div>
 
@@ -92,6 +97,14 @@
     </div>
     @push('scripts')
         <script>
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    $('#key_phone').val(key);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
+            });
+            //
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
