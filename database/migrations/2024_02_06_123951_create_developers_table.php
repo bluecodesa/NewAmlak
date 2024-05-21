@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('key_phone')->default('996')->nullable();
-
-
             $table->string('phone')->unique();
             $table->integer('city_id')->unsigned()->nullable();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
