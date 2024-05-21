@@ -11,8 +11,8 @@
 
                     <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
-                        <a href="{{ route('Broker.Project.show', $project->id) }}"
-                            class="text-muted fw-light">@lang('view') </a> /
+                        <a href="{{ route('Broker.Project.show', $project->id) }}" class="text-muted fw-light">
+                            {{ $project->name }} </a> /
                         @lang('Add new property')
                     </h4>
                 </div>
@@ -200,7 +200,7 @@
                         success: function(data) {
                             $('#OwnersDiv').empty();
                             $('#OwnersDiv').append(data);
-                            $('.bs-example-modal-center').modal('hide');
+                            $('#addNewCCModal').modal('hide');
                         },
                         error: function(xhr, status, error) {
                             // Handle error response here
