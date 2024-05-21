@@ -207,15 +207,15 @@
             ></a>
           </div>
           <div class="mx-auto my-3">
-            <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">
+            <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">
             @if ($unit->UnitImages->isNotEmpty())
-            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image" class="rounded-square w-px-300" />
+            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image" class="rounded-square"  width="140"  height="140" />
             @else
-            <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image" class="rounded-square w-px-300" />
+            <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image" class="rounded-square"  width="140"  height="140" />
 
             @endif
             </a>
-            </div>
+        </div>
           <h4 class="mb-1 card-title">{{ $unit->number_unit ?? '' }}</h4>
           <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 

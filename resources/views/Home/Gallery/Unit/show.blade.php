@@ -9,75 +9,7 @@
     <span class="text-muted fw-light"> <a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>/</span> وحدة : {{ $Unit->number_unit }}</h4>
         <input hidden type="text" name="unit_idd" value="{{ $Unit->id }}" />
       <!-- Header -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
-            <div class="user-profile-header-banner">
-              {{-- <img src="{{ asset('/img/pages/profile-banner.png')}}" alt="Banner image" class="rounded-top cover" /> --}}
-            </div>
-            <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
-              <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
 
-
-                  @if (!empty($brokers->avatar))
-                            <img
-                            src="{{ $brokers->avatar }}"
-                            alt="user image"
-                            class="d-block  rounded user-profile-img w-px-100 h-px-100" />
-                            @else
-                        <img
-                        src="{{ asset('HOME_PAGE/img/avatars/14.png') }}"
-                        alt="user image"
-                        class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
-                        @endif
-
-                </div>
-              <div class="flex-grow-1 mt-3 mt-sm-5">
-                <div
-                  class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
-                  <div class="user-profile-info">
-                    <h4>{{ $brokers->name}}</h4>
-                    <ul
-                      class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                      @if( $brokers->is_broker)
-                      <li class="list-inline-item d-flex gap-1"><i class="ti ti-user-check"></i> @lang('Broker')</li>
-                      @else
-                      <li class="list-inline-item d-flex gap-1"><i class="ti ti-user-check"></i> @lang('Office')</li>
-                      @endif
-                      <li class="list-inline-item d-flex gap-1">
-                        <i class="ti ti-color-swatch"></i>رقم رخصة فال : {{ $broker->broker_license}}
-                      </li>
-
-                      <li class="list-inline-item d-flex gap-1">
-                        @php
-                        $createdAt = new DateTime($brokers->created_at);
-
-                        // Get the month name
-                        $monthName = $createdAt->format('F');
-
-                        // Get the number of days in the month
-                        $numDay = $createdAt->format('d');
-                        $yearName = $createdAt->format('Y');
-
-
-                    @endphp
-                        <i class="ti ti-calendar"></i> عضو منذ {{ $monthName }} {{ $numDay }} {{ $yearName }}
-                      </li>
-                    </ul>
-                  </div>
-                  {{-- <a href="javascript:void(0)" class="btn btn-primary">
-                    <i class="ti ti-check me-1"></i>Connected
-                  </a> --}}
-                  <a href="tel:{{ env('COUNTRY_CODE') . $broker->moblie }}" class="btn btn-primary d-flex align-items-center me-3">
-                    <i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
-                  <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}" class="btn btn-secondary d-flex align-items-center me-3"
-                    ><i class="ti-xs me-1 ti ti-message me-1"> @lang('دردشة')</i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <!--/ Header -->
 
       <!-- Navbar pills -->
@@ -89,34 +21,6 @@
 
         <div class="col-xl-7 col-lg-7 col-md-7">
 
-          <!-- Activity Timeline -->
-          {{-- <div class="card mb-4">
-
-            <div class="col-md-6 mb-4">
-                <h6 class="text-muted mt-3">With arrows</h6>
-                <div class="swiper" id="swiper-with-arrows">
-                    <div class="swiper-wrapper">
-                        @php $i = 0; @endphp
-                        @if ($Unit->UnitImages->isEmpty())
-                            <div class="swiper-slide" style="background-image: url('{{ asset('Offices/Projects/default.svg') }}')">
-                                Default Slide
-                            </div>
-                        @else
-                            @foreach ($Unit->UnitImages as $img)
-                                <div class="swiper-slide" style="background-image: url('{{ asset($img['image']) }}')">
-                                    Slide {{ $i + 1 }}
-                                </div>
-                                @php $i++; @endphp
-                            @endforeach
-                        @endif
-                    </div>
-                    <div class="swiper-button-next swiper-button-white custom-icon"></div>
-                    <div class="swiper-button-prev swiper-button-white custom-icon"></div>
-                </div>
-            </div>
-
-
-          </div> --}}
 
           <!-- Image Slider -->
         <div class="card mb-4">
@@ -244,116 +148,153 @@
             <!-- About User -->
             <div class="card mb-4">
               <div class="card-body">
-                <small class="card-text text-uppercase">@lang('عن الوحدة')</small>
+                <small class="card-text text-uppercase">@lang('عن المسوق العقاري')</small>
                 <ul class="list-unstyled mb-4 mt-3">
                     <li class="d-flex align-items-center mb-3">
                         <i class="ti ti-check text-heading"></i
-                        ><span class="fw-medium mx-2 text-heading">@lang('Residential number') :
-                           </span> <span>{{ $Unit->number_unit }}</span>
+                        ><span class="fw-medium mx-2 text-heading">@lang('Broker name') :
+                           </span> <span>{{ $brokers->name}}</span>
                       </li>
-                  <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-droplet-dollar text-heading"></i>
-                    @if ($Unit->type == 'rent')
-                    <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->getRentPriceByType() }}
-                        <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
-                    @endif
-                    @if ($Unit->type == 'sale')
-                    <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->price }}
-                        <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
-                    @endif
-                    @if ($Unit->type == 'rent and sale')
-                    <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->getRentPriceByType() }}
-                        <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
-                            @endif
-                  </li>
+                     @if( $brokers->is_broker)
+                      <li class="list-inline-item d-flex gap-1"><i class="ti ti-user-check"></i> @lang('Broker')</li>
+                      @else
+                      <li class="list-inline-item d-flex gap-1"><i class="ti ti-user-check"></i> @lang('Office')</li>
+                      @endif
+                      <li class="list-inline-item d-flex gap-1">
+                        <i class="ti ti-color-swatch"></i>رقم رخصة فال : {{ $broker->broker_license}}
+                      </li>
 
-                  <li class="d-flex align-items-center mb-3">
-                    <i class="ti ti-building text-heading"></i
-                    ><span class="fw-medium mx-2 text-heading">@lang('Property type') : </span> <span>{{ $Unit->PropertyTypeData->name ?? ''  }}</span>
-                  </li>
+                      <li class="list-inline-item d-flex gap-1">
+                        @php
+                        $createdAt = new DateTime($brokers->created_at);
 
-                  <div class="d-flex justify-content-center">
-                    <a
-                      href="javascript:;"
-                      class="btn btn-secondary me-3"
-                      data-bs-toggle="modal"
-            data-bs-target="#twoFactorAuth"
-                      >@lang('Share')</a
-                    >
+                        // Get the month name
+                        $monthName = $createdAt->format('F');
+
+                        // Get the number of days in the month
+                        $numDay = $createdAt->format('d');
+                        $yearName = $createdAt->format('Y');
 
 
-                    {{-- intrest unit --}}
-
-                    <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#basicModal">
-                    تسجيل اهتمام
-                  </button>
-
-                  <!-- Modal -->
-                  <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                       <form action="{{ route('unit_interests.store') }}" method="POST">
-                           @csrf
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-
-                               <input hidden name="unit_id" value="{{ $unit_id }}" />
-                               <input hidden name="user_id" value="{{ $user_id }}" />
-                          <div class="row">
-                            <div class="col mb-3">
-                              <label for="nameBasic" class="form-label">@lang('Name')<span class="text-danger">*</span></label>
-                              <input type="text" id="nameBasic" name="name" required class="form-control" placeholder="ادخل اسمك" />
-                            </div>
-                          </div>
-                          <div class="row g-2">
-                            <div class="col mb-0">
-                              <label for="emailBasic" class="form-label">@lang('mobile')<span class="text-danger">*</span></label>
-                              <input
-                                type="tel"
-                                id="emailBasic"
-                                class="form-control"
-                                minlength="9"
-                                           maxlength="9" pattern="[0-9]*"
-                                           oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                           onchange="try{setCustomValidity('')}catch(e){}"
-                                           name="whatsapp" required="" value=""
-                                placeholder="987654356" />
-                            </div>
-
-                          </div>
-
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                            @lang('close')
-                          </button>
-                          <button type="submit" class="btn btn-primary">@lang('save')</button>
-                        </div>
-                      </div>
-                   </form>
-
-                    </div>
-                  </div>
-
-                    {{-- . --}}
-
-                  </div>
+                    @endphp
+                        <i class="ti ti-calendar"></i> عضو منذ {{ $monthName }} {{ $numDay }} {{ $yearName }}
+                      </li>
+                
                 </ul>
               </div>
             </div>
             <!--/ About User -->
             <!-- Profile Overview -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <small class="card-text text-uppercase">@lang('عن الوحدة')</small>
+                    <ul class="list-unstyled mb-4 mt-3">
+                        <li class="d-flex align-items-center mb-3">
+                            <i class="ti ti-check text-heading"></i
+                            ><span class="fw-medium mx-2 text-heading">@lang('Residential number') :
+                               </span> <span>{{ $Unit->number_unit }}</span>
+                          </li>
+                      <li class="d-flex align-items-center mb-3">
+                        <i class="ti ti-droplet-dollar text-heading"></i>
+                        @if ($Unit->type == 'rent')
+                        <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->getRentPriceByType() }}
+                            <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
+                        @endif
+                        @if ($Unit->type == 'sale')
+                        <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->price }}
+                            <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
+                        @endif
+                        @if ($Unit->type == 'rent and sale')
+                        <span class="fw-medium mx-2 text-heading">@lang('price') : </span> <span>{{ $Unit->getRentPriceByType() }}
+                            <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
+                                @endif
+                      </li>
+
+                      <li class="d-flex align-items-center mb-3">
+                        <i class="ti ti-building text-heading"></i
+                        ><span class="fw-medium mx-2 text-heading">@lang('Property type') : </span> <span>{{ $Unit->PropertyTypeData->name ?? ''  }}</span>
+                      </li>
+
+                      <div class="d-flex justify-content-center">
+                        <a
+                          href="javascript:;"
+                          class="btn btn-secondary me-3"
+                          data-bs-toggle="modal"
+                data-bs-target="#twoFactorAuth"
+                          >@lang('Share')</a
+                        >
+
+
+                        {{-- intrest unit --}}
+
+                        <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#basicModal">
+                        تسجيل اهتمام
+                      </button>
+
+                      <!-- Modal -->
+                      <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                           <form action="{{ route('unit_interests.store') }}" method="POST">
+                               @csrf
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                   <input hidden name="unit_id" value="{{ $unit_id }}" />
+                                   <input hidden name="user_id" value="{{ $user_id }}" />
+                              <div class="row">
+                                <div class="col mb-3">
+                                  <label for="nameBasic" class="form-label">@lang('Name')<span class="text-danger">*</span></label>
+                                  <input type="text" id="nameBasic" name="name" required class="form-control" placeholder="ادخل اسمك" />
+                                </div>
+                              </div>
+                              <div class="row g-2">
+                                <div class="col mb-0">
+                                  <label for="emailBasic" class="form-label">@lang('mobile')<span class="text-danger">*</span></label>
+                                  <input
+                                    type="tel"
+                                    id="emailBasic"
+                                    class="form-control"
+                                    minlength="9"
+                                               maxlength="9" pattern="[0-9]*"
+                                               oninvalid="setCustomValidity('Please enter 9 numbers.')"
+                                               onchange="try{setCustomValidity('')}catch(e){}"
+                                               name="whatsapp" required="" value=""
+                                    placeholder="987654356" />
+                                </div>
+
+                              </div>
+
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                @lang('close')
+                              </button>
+                              <button type="submit" class="btn btn-primary">@lang('save')</button>
+                            </div>
+                          </div>
+                       </form>
+
+                        </div>
+                      </div>
+
+                        {{-- . --}}
+
+                      </div>
+                    </ul>
+                  </div>
+            </div>
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="leaflet-map" id="userLocation"></div>
