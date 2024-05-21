@@ -54,14 +54,10 @@
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/dropzone/dropzone.css') }}" />
-    {{-- <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
-    <link rel="stylesheet"
-        href="{{ url('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
-    <link rel="stylesheet"
-        href="{{ url('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}" />
-    <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ url('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" /> --}}
-    <!-- Row Group CSS -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
     <style>
         .required-color {
             color: red;
@@ -104,7 +100,10 @@
         strong,
         label,
         * {
-            font-family: 'Tajawal' !important;
+            font-family: "Noto Kufi Arabic", sans-serif !important;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
             /* text-transform: capitalize !important; */
         }
 

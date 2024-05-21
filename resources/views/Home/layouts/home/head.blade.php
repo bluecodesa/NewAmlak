@@ -48,7 +48,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
+    {{-- <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet"> --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
+
     <style>
         body,
         h4,
@@ -65,7 +69,10 @@
         label,
 
         * {
-            font-family: 'Tajawal' !important;
+            font-family: "Noto Kufi Arabic", sans-serif !important;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
             /* text-transform: capitalize !important; */
         }
     </style>
