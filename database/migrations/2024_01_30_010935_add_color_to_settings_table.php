@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('settings', function (Blueprint $table) {
             //
+            $table->integer('key_phone')->default('996')->nullable();
             $table->string('color')->default('#30419b')->after('inst')->nullable();
-
         });
     }
 

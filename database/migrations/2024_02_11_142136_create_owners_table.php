@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->integer('key_phone')->default('996')->nullable();
             $table->string('phone')->unique();
             $table->unsignedBigInteger('office_id')->nullable();
             $table->unsignedBigInteger('Broker_id')->nullable();

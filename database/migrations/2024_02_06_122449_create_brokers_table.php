@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedBigInteger('user_id');
             $table->string('broker_license')->unique();
+            $table->integer('key_phone')->default('996')->nullable();
             $table->string('mobile')->unique();
             $table->integer('city_id')->unsigned()->nullable();
             $table->string('id_number')->unique()->nullable();
