@@ -234,10 +234,7 @@ class HomeController extends Controller
             'broker_logo.image' => __('The broker logo must be an image.'),
             'id_number.unique' => __('The ID number has already been taken.'),
             'password.confirmed' => __('The password confirmation does not match.'),
-
-
         ];
-
 
         $request->validate($rules, $messages);
 

@@ -56,9 +56,14 @@
 
                                 @if (Auth::user()->hasPermission('close-support-ticket-admin'))
                                     @if ($ticket->status !== 'Closed')
-                                        <form action="{{ route('Admin.closeTicket', $ticket->id) }}" method="POST">
+                                    <a href="javascript:void(0);"
+                                                        onclick="handleClose('{{ $ticket->id }}')"
+                                                        class="btn btn-sm btn-danger">@lang('Close Ticket')</a>
+                                        <form id="close-form-{{ $ticket->id }}"
+                                             action="{{ route('Admin.closeTicket', $ticket->id) }}"
+                                             style="display: none;" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger">@lang('Close Ticket')</button>
+                                            {{-- <button type="submit" class="btn btn-sm btn-danger">@lang('Close Ticket')</button> --}}
                                         </form>
                                     @endif
                                 @endif

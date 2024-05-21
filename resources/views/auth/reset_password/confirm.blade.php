@@ -56,9 +56,7 @@
 
   <body>
     <!-- Content -->
-    <div class="home-btn d-none d-sm-block">
-        <a href="{{ route('welcome') }}" class="text-white"><i class="fas fa-home h2"></i></a>
-    </div>
+
     <div class="authentication-wrapper authentication-basic px-4">
       <div class="authentication-inner py-4">
         <!--  Two Steps Verification -->

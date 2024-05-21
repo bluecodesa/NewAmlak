@@ -23,7 +23,7 @@
                             <img
                             src="{{ $brokers->avatar }}"
                             alt="user image"
-                            class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img w-px-200 h-px-200" />
+                            class="d-block  rounded user-profile-img w-px-100 h-px-100" />
                             @else
                         <img
                         src="{{ asset('HOME_PAGE/img/avatars/14.png') }}"
@@ -118,10 +118,10 @@
 
           </div> --}}
 
-          <div class="card mb-4">
-             <div id="carouselExampleIndicators" class="carousel slide shadow-sm" data-ride="carousel">
-
-                    <div class="carousel-inner">
+          <!-- Image Slider -->
+        <div class="card mb-4">
+            <div id="carouselExampleIndicators" class="carousel slide shadow-sm" data-ride="carousel">
+                <div class="carousel-inner">
                     @php
                         $i = 0;
                     @endphp
@@ -131,7 +131,7 @@
                         </div>
                     @else
                         @foreach ($Unit->UnitImages as $img)
-                            <div class="carousel-item @if ($i == 0) active @endif ">
+                            <div class="carousel-item @if ($i == 0) active @endif">
                                 <img class="d-block w-100" src="{{ asset($img['image']) }}" alt="Slide {{ $i + 1 }}" style="height: 350px; object-fit: contain">
                             </div>
                             @php
@@ -140,9 +140,18 @@
                         @endforeach
                     @endif
                 </div>
-
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only"></span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only"></span>
+                </a>
             </div>
-          </div>
+        </div>
+        <!-- /Image Slider -->
+
 
           <!--/ Activity Timeline -->
             <div class="card card-action mb-4">
@@ -194,7 +203,7 @@
 
                     @if ($Unit->UnitServicesData->isNotEmpty())
                     <ul class="list-unstyled mb-4 mt-3">
-                        <h5 class="card-action-title mb-0">@lang('Additional details')</h5>
+                        <h5 class="card-action-title mb-0">@lang('services')</h5>
                         <div class="d-flex align-items-center justify-content-start my-3 gap-2">
                             <ol class="list-group list-group-numbered">
                                 <span class="text-with-ellipsis">
@@ -364,6 +373,8 @@
 
   </div>
    </section>
+   @include('Home.layouts.inc.__addSubscriberModal')
+
 
    @include('Home.Gallery.Unit.share')
 

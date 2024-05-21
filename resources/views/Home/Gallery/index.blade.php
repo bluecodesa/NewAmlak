@@ -15,9 +15,10 @@
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                       <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                         <img
-                          src="../../assets/img/avatars/14.png"
-                          alt="user image"
-                          class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                        src="{{ $broker->UserData->avatar ? $broker->UserData->avatar : asset('HOME_PAGE/img/avatars/14.png') }}"
+                        alt="user image"
+                        height="100" width="100" />
+
                       </div>
                       <div class="flex-grow-1 mt-3 mt-sm-5">
                         <div
@@ -221,7 +222,7 @@
     @foreach ($units as $unit)
 
     <div class="col-xl-4 col-lg-6 col-md-6">
-            <div class="card">
+            <div class="card h-200">
         <div class="card-body text-center">
           <div class="dropdown btn-pinned">
 
@@ -243,9 +244,9 @@
           <div class="mx-auto my-3">
             <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">
             @if ($unit->UnitImages->isNotEmpty())
-            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image" class="rounded-square w-px-200" />
+            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image" class="rounded-square"  width="140"  height="140" />
             @else
-            <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image" class="rounded-square w-px-200" />
+            <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image" class="rounded-square"  width="140"  height="140" />
 
             @endif
             </a>

@@ -136,7 +136,7 @@
                         <div class="col-md-6">
                             <label class="form-label" for="email">@lang('Email')<span class="text-danger">*</span></label>
 
-                            <input type="email" class="form-control" id="email" name="email">
+                            <input type="email" class="form-control" id="email" name="email" required>
 
                         </div>
 
@@ -147,7 +147,7 @@
                                 <input type="tel" class="form-control" id="mobile" minlength="9" maxlength="9"
                                     pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
                                     onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                    name="mobile" required="" value="">
+                                    name="mobile" required value="">
 
                             </div>
                         </div>
@@ -174,7 +174,7 @@
 
                         <div class="col-md-4 col-12 mb-3">
                             <label class="form-label" for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
-                            <select type="package" class="form-select" name="subscription_type_id" required="">
+                            <select type="package" class="form-select" name="subscription_type_id" required>
                                 <option value="" selected disabled> @lang('Subscription Type') </option>
                                 @foreach ($subscriptionTypes as $subscriptionType)
                                     <option value="{{ $subscriptionType->id }}">
@@ -245,8 +245,8 @@
                     <div class="row mb-3">
                         <div class="col-md-4"></div>
                         <div class="col-md-8">
-                            <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">@lang('Cancel')</button>
+                            <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary"
+                                data-dismiss="modal">@lang('Cancel')</a>
 
                             <button type="submit" class="btn btn-primary">@lang('Submit')</button>
                         </div>
