@@ -134,5 +134,6 @@
         $temp.val($(element).val()).select();
         document.execCommand("copy");
         $temp.remove();
+        alertify.success(@json(__('copy done')));
     }
 </script>
