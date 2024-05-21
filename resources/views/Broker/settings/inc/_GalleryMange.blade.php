@@ -14,8 +14,12 @@
                 <div class="col-12 col-md-6 mb-3">
                     <label for="galleryName">@lang('Gallery URL')</label>
                     <div class="input-group">
-                        <span onclick="copyUrl()" data-url="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" class="input-group-text" id="basic-addon11"><i class="tf-icons ti ti-copy"></i></span>
-                        <input type="text" class="form-control" readonly value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" placeholder="Username" aria-label="Username" aria-describedby="basic-addon11">
+                        <span onclick="copyUrl()"
+                            data-url="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
+                            class="input-group-text" id="basic-addon11"><i class="tf-icons ti ti-copy"></i></span>
+                        <input type="text" class="form-control" readonly
+                            value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
+                            placeholder="Username" aria-label="Username" aria-describedby="basic-addon11">
 
                     </div>
                 </div>
@@ -23,15 +27,15 @@
                     <div class="col-12 col-md-6 mb-3">
                         <input hidden name="broker_id_for_gallery" value="{{ $gallery->id }}" />
                         <label for="editGalleryName">@lang('Edit Gallery Name')</label>
-                            <div class="input-group">
-                                <input type="text" name="gallery_name" class="form-control edit-gallery-name"
-                                    id="editGalleryName" placeholder="@lang('Gallery Name')"
-                                    value="{{ explode('@', $gallery->gallery_name)[0] }}" oninput="trimInput(this)">
-                                <input type="text" class="form-control" id="galleryName" disabled
-                                    value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" />
+                        <div class="input-group">
+                            <input type="text" name="gallery_name" class="form-control edit-gallery-name"
+                                id="editGalleryName" placeholder="@lang('Gallery Name')"
+                                value="{{ explode('@', $gallery->gallery_name)[0] }}" oninput="trimInput(this)">
+                            <input type="text" class="form-control" id="galleryName" disabled
+                                value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" />
 
-                                {{-- value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/"> --}}
-                            </div>
+                            {{-- value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/"> --}}
+                        </div>
                         <div class="row validate-result" style="display: none">
                             <span class="alert alert-success"></span>
                             <span class="alert alert-error"></span>
@@ -55,10 +59,10 @@
 
 
 
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">@lang('Edit')</button>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">@lang('Edit')</button>
 
-            </div>
+                </div>
             </form>
 
 
@@ -76,13 +80,12 @@
                 <div class="col-12 col-md-6 mb-3">
                     <label for="galleryName">@lang('Gallery URL')</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="galleryName" disabled
+                        <input type="text" class="form-control" id="galleryNameCopy" disabled
                             value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
-                        <div class="input-group-append">
-                            <span class="input-group-text" style="cursor: not-allowed;">
-                                <i class="fas fa-copy"></i>
-                            </span>
-                        </div>
+                        <button onclick="copyToClipboard('#galleryNameCopy')"
+                            class="btn btn-outline-primary waves-effect" type="button" id="button-copy">
+                            <i class="ti ti-copy"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
@@ -123,5 +126,13 @@
 <script>
     function trimInput(input) {
         input.value = input.value.trim();
+    }
+
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).val()).select();
+        document.execCommand("copy");
+        $temp.remove();
     }
 </script>
