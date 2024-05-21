@@ -177,12 +177,12 @@
                                                         class="ti ti-mail{{ $noty->read_at ? '-opened' : '' }} fs-4"></i></span>
                                             </div>
                                         </div>
-                                        <div class="flex-grow-1">
+                                        <a href="{{ $noty->data['url'] }}" class="flex-grow-1">
                                             <h6 class="mb-1">{{ __($noty->data['type_noty']) }}</h6>
                                             <p class="mb-0">
                                                 {{ \Illuminate\Support\Str::limit($noty->data['msg'], 50, $end = '...') }}
                                             </p>
-                                        </div>
+                                        </a>
                                         <div class="flex-shrink-0 dropdown-notifications-actions">
                                             <a href="{{ $noty->data['url'] }}" class="dropdown-notifications-read">
                                                 @if ($noty->read_at == null)
