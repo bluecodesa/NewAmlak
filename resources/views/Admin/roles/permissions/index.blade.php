@@ -173,6 +173,7 @@
 
                 // Save the workbook as an Excel file
                 XLSX.writeFile(wb, @json(__('Permissions')) + '.xlsx');
+                alertify.success(@json(__('Download done')));
             }
         </script>
     @endpush

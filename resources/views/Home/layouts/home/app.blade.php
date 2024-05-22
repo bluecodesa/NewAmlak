@@ -108,39 +108,41 @@
                     <!-- / Style Switcher-->
 
                     <!-- navbar button: Start -->
-                    <li>
-
+                    <li class="me-1">
                         @guest
-                            <a href="{{ route('login') }}" class="btn btn-primary"><span
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-sm"><span
                                     class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span><span
                                     class="d-none d-md-block">تسجيل</span></a>
 
-              <a href="" class="btn btn-primary" target="_blank" data-bs-toggle="modal"
-              data-bs-target="#addSubscriberModal"
-              ><span class="tf-icons ti ti-registered scaleX-n1-rtl me-md-1"></span>
-              <span class="d-none d-md-block">سجل معنا الأن</span></a
-            >
-            @endguest
-            @auth
 
-            <a href="{{ route('Admin.home') }}" class="btn btn-primary" target="_blank"
-            ><span class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span
-            ><span class="d-none d-md-block">لوحة التحكم</span></a
-          >
+                        @endguest
 
-          <a href="{{ route('logout') }}"
-          onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-primary" target="_blank"
-          ><span class="tf-icons ti ti-logout scaleX-n1-rtl me-md-1"></span
-          ><span class="d-none d-md-block">تسجيل خروج</span></a
-        >
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
+                        @auth
 
 
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+                                class="btn btn-primary btn-sm" target="_blank"><span
+                                    class="tf-icons ti ti-logout scaleX-n1-rtl me-md-1"></span><span
+                                    class="d-none d-md-block">تسجيل خروج</span></a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+                        @endauth
 
-
-
+                    </li>
+                    <li>
+                        @guest
+                            <a href="" class="btn btn-primary btn-sm" target="_blank" data-bs-toggle="modal"
+                                data-bs-target="#addSubscriberModal"><span
+                                    class="tf-icons ti ti-registered scaleX-n1-rtl me-md-1"></span>
+                                <span class="d-none d-md-block">سجل معنا الأن</span></a>
+                        @endguest
+                        @auth
+                            <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm" target="_blank"><span
+                                    class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span><span
+                                    class="d-none d-md-block">لوحة التحكم</span></a>
 
                         @endauth
                     </li>

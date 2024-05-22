@@ -494,6 +494,7 @@
                     sheet: "Sheet1"
                 });
                 XLSX.writeFile(wb, @json(__('properties')) + '.xlsx');
+                alertify.success(@json(__('Download done')));
             }
         </script>
     @endpush

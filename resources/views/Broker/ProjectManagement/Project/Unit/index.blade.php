@@ -158,6 +158,7 @@
                     sheet: "Sheet1"
                 });
                 XLSX.writeFile(wb, @json(__('Units')) + '.xlsx');
+                alertify.success(@json(__('Download done')));
             }
         </script>
     @endpush

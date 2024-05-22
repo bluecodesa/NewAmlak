@@ -70,10 +70,6 @@
 
         * {
             font-family: "Noto Kufi Arabic", sans-serif !important;
-            font-optical-sizing: auto;
-            font-weight: <weight>;
-            font-style: normal;
-            /* text-transform: capitalize !important; */
         }
     </style>
 
