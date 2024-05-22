@@ -48,7 +48,7 @@
                         data-bs-toggle="modal"
                         data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
                     @endif
-                      <a href="{{ route('welcome') }}#landingPricing" class="btn btn-secondary me-2 mt-2">@lang('Compare Plans')</a>
+                      <a href="{{ route('welcome') }}#landingPricing" class="btn btn-secondary me-2 mt-2" target="_blank">@lang('Compare Plans')</a>
                     </div>
                   </div>
                 </div>
