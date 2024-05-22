@@ -151,6 +151,7 @@
 
                 // Save the workbook as an Excel file
                 XLSX.writeFile(wb, @json(__('Technical Support Orders')) + '.xlsx');
+                alertify.success(@json(__('Download done')));
             }
         </script>
     @endpush

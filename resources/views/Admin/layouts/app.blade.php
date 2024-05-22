@@ -101,9 +101,9 @@
         label,
         * {
             font-family: "Noto Kufi Arabic", sans-serif !important;
-            font-optical-sizing: auto;
+            /* font-optical-sizing: auto;
             font-weight: <weight>;
-            font-style: normal;
+            font-style: normal; */
             /* text-transform: capitalize !important; */
         }
 

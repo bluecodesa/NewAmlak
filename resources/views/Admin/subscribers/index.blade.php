@@ -74,13 +74,13 @@
                                 {{-- <th>#</th> --}}
                                 <th>@lang('Subscriber Name')</th>
                                 <th>@lang('Account Type')</th>
-                                <th>@lang('Subscription Type')</th>
+                                {{-- <th>@lang('Subscription Type')</th> --}}
                                 <th>@lang('Subscription Time')</th>
                                 <th>@lang('Subscription Status')</th>
-                                <th>@lang('Number of Clients')</th>
+                                {{-- <th>@lang('Number of Clients')</th> --}}
                                 <th>@lang('Subscriber City')</th>
                                 <th>@lang('Subscription Start')</th>
-                                <th>@lang('Subscription End')</th>
+                                {{-- <th>@lang('Subscription End')</th> --}}
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -104,13 +104,13 @@
                                             @lang('Broker')
                                         @endif
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         @if ($subscriber->SubscriptionTypeData->price > 0)
                                             <span class="badge rounded-pill bg-success">@lang('paid')</span>
                                         @else
                                             <span class="badge rounded-pill bg-secondary">@lang('free')</span>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                     <td> {{ $subscriber->SubscriptionTypeData->period }}
                                         {{ __($subscriber->SubscriptionTypeData->period_type) }}
                                     </td>
@@ -122,7 +122,7 @@
                                         </span>
 
                                     </td>
-                                    <td>{{ $subscriber->number_of_clients }}</td>
+                                    {{-- <td>{{ $subscriber->number_of_clients }}</td> --}}
                                     <td>
                                         @if ($subscriber->office_id)
                                             {{ $subscriber->OfficeData->CityData->name ?? '' }}
@@ -133,7 +133,7 @@
                                     </td>
 
                                     <td>{{ $subscriber->start_date }}</td>
-                                    <td>{{ $subscriber->end_date }}</td>
+                                    {{-- <td>{{ $subscriber->end_date }}</td> --}}
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -240,6 +240,7 @@
                     sheet: "Sheet1"
                 });
                 XLSX.writeFile(wb, @json(__('Subscribers')) + '.xlsx');
+                alertify.success(@json(__('Download done')));
             }
         </script>
     @endpush

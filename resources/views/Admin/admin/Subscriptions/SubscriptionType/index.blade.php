@@ -402,6 +402,8 @@
 
                 // Save the workbook as an Excel file
                 XLSX.writeFile(wb, @json(__('Types subscriptions')) + '.xlsx');
+
+                alertify.success(@json(__('Download done')));
             }
         </script>
 
@@ -420,6 +422,8 @@
 
                 // Save the workbook as an Excel file
                 XLSX.writeFile(wb, @json(__('Record Deleted subscriptionTypes')) + '.xlsx');
+
+                alertify.success(@json(__('Download done')));
             }
         </script>
     @endpush
