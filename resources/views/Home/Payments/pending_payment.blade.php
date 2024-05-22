@@ -73,15 +73,13 @@
 
                               <h3 class="card-title text-center text-capitalize mb-1"> {{ $type->name }}
                               </h3>
-                              <p class="text-center">{{ $type->period }} {{ __($type->period_type) }}</p>
                               <div class="text-center h-px-100 mb-2">
                                 <div class="d-flex justify-content-center">
                                   <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
-                                  <h1 class="price-toggle price-yearly display-4 text-primary mb-0">{{ $type->price - $type->price * $type->upgrade_rate }}</h1>
-                                  <h1 class="price-toggle price-monthly display-4 text-primary mb-0 d-none"></h1>
-                                  {{-- <sub class="h6 text-muted pricing-duration mt-auto mb-2 fw-normal">/month</sub> --}}
+                                  <h1 class="display-4 mb-0 text-primary">{{ $type->price - $type->price * $type->upgrade_rate }}</h1>
+                                  <sub class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">/{{ $type->period }} {{ __($type->period_type) }}</sub>
                                 </div>
-                                <del><span class="price-yearly price-yearly-toggle text-muted">{{ $type->price }}</span></del>
+                                <del><small class="price-yearly price-yearly-toggle text-muted">@lang('SAR') {{ $type->price }}</small></del>
                               </div>
 
                               <ul class="list-group ps-3 my-4">

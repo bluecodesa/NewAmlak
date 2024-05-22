@@ -45,7 +45,7 @@
     "Are you sure?": "هل أنت متأكد ؟",
     "You can not be able to revert this!": "لن تتمكن من التراجع عن هذا !",
     "Yes, delete it!": "نعم، احذفه !",
-    "Yes, close it!": "نعم، اغلقها !",
+    "Yes, Close it!": "نعم، اغلقها !",
     "Add New Permission": "إضافة صلاحية جديد",
     "Model": "القسم",
     "type permission": "نوع الصلاحية",
@@ -461,5 +461,6 @@
     "Amlak": "أملاك",
     "Reset Password": "إعادة تعيين كلمة المرور",
     "Back to login": "الرجوع الي صفحة تسجيل الدخول",
-    "Set new password": "تعيين كلمة مرور جديدة"
+    "Set new password": "تعيين كلمة مرور جديدة",
+    "Website Themes": "سمات الموقع"
 }

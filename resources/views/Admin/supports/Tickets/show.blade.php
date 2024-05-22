@@ -30,6 +30,10 @@
                                         <span class="fw-medium me-1">@lang('Ticket Number'):</span>
                                         <span>{{ $formatted_id }}</span>
                                     </li>
+                                    <li class="mb-2">
+                                        <span class="fw-medium me-1">@lang('Client Name'):</span>
+                                        <span>{{ $ticket->UserData->name }}</span>
+                                    </li>
                                     <li class="mb-2 pt-1">
                                         <span class="fw-medium me-1">@lang('Ticket Type'):</span>
                                         <span>{{ $ticket->ticketType->name }}</span>
@@ -104,42 +108,51 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="mt-4 small text-uppercase text-muted">@lang('Comments')</h5>
-                    <div class="demo-inline-spacing mt-3">
-                        <div class="list-group">
-                            @foreach ($ticketResponses as $response)
-                            <div class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer">
-                                <img src="{{ optional($response->UserData)->avatar ?: 'https://www.svgrepo.com/show/29852/user.svg' }}"
-                                 alt="{{ optional($response->UserData)->name ?? 'Default Name' }}" class="rounded-circle me-3 w-px-50" />
-                                <div class="w-100">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="user-info">
-                                            <h6 class="mb-1">{{ $response->response }}</h6>
-                                            <small>{{ optional($response->UserData)->name ?? 'Anonymous' }}</small>
-                                            <div class="user-status">
-                                                <span class="badge"></span>
-                                                <small>{{ $response->created_at->format('Y-m-d H:i:s') }}</small>
+                            <div class="demo-inline-spacing mt-3">
+                                <div class="list-group">
+                                    @if($ticketResponses && $ticketResponses->isNotEmpty())
+                                        @foreach ($ticketResponses as $response)
+                                        <div class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer">
+                                            <img src="{{ optional($response->UserData)->avatar ?: 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                                 alt="{{ optional($response->UserData)->name ?? 'Default Name' }}" class="rounded-circle me-3 w-px-50" />
+                                            <div class="w-100">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="user-info">
+                                                        <h6 class="mb-1">{{ $response->response }}</h6>
+                                                        <small>{{ optional($response->UserData)->name ?? 'Anonymous' }}</small>
+                                                        <div class="user-status">
+                                                            <span class="badge"></span>
+                                                            <small>{{ $response->created_at->format('Y-m-d H:i:s') }}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-btn">
+                                                        @if ($response->response_attachment)
+                                                        <span class="badge bg-label-secondary">{{ basename($response->response_attachment) }}</span>
+                                                        <a class="btn btn-primary ti ti-download btn-sm" href="{{ asset($response->response_attachment) }}" download></a>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="add-btn">
-                                            @if ($response->response_attachment)
-                                            <span class="badge bg-label-secondary">{{ basename($response->response_attachment) }}</span>
-
-                                            <a class="btn btn-primary ti ti-download btn-sm" href="{{ asset($response->response_attachment) }}" download></a>
-                                            @endif
-                                        </div>
+                                        @endforeach
+                                    @else
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <span class="alert-icon text-danger me-2">
+                                            <i class="ti ti-ban ti-xs"></i>
+                                        </span>
+                                        @lang('No Comments Found!')
                                     </div>
+                                    @endif
                                 </div>
                             </div>
-                            @endforeach
-
-                        </div>
-                    </div>
                         </div>
                     </div>
                 </div>
+
             </div>
                 <!--/ User List Style -->
                 <!-- Progress Style -->
+                @if ($ticket->status != 'Closed')
                 <div class="row">
                 <div class="col-12 col-lg-8">
                     <div class="card mb-4">
@@ -148,7 +161,6 @@
                     <div class="demo-inline-spacing mt-3">
                         <div class="list-group">
 
-                    @if ($ticket->status != 'Closed')
                     <!-- Form to add response -->
                     @if (Auth::user()->hasPermission('update-support-ticket-admin'))
                         <div class="mt-4">
@@ -173,7 +185,6 @@
                             </form>
                         </div>
                     @endif
-                @endif
                         </div>
                     </div>
                         </div>
@@ -181,6 +192,8 @@
                 </div>
                 <!--/ Progress Style -->
             </div>
+            @endif
+
         </div>
 
     </div>

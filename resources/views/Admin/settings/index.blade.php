@@ -25,6 +25,13 @@
                             </button>
                         </li>
                     @endif
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-themes" aria-controls="navs-justified-themes"
+                            aria-selected="false" tabindex="-1">
+                            @lang('Website Themes')
+                        </button>
+                    </li>
 
                     @if (Auth::user()->hasPermission('update-payment-gateway'))
                         <li class="nav-item" role="presentation">
@@ -75,6 +82,9 @@
                             @include('Admin.settings.inc._GeneralSetting')
                         </div>
                     @endif
+                    <div class="tab-pane fade" id="navs-justified-themes" role="tabpanel">
+                        @include('Admin.settings.inc._Themes')
+                    </div>
                     @if (Auth::user()->hasPermission('update-payment-gateway'))
                         <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                             @include('Admin.settings.inc._paymentGateways')

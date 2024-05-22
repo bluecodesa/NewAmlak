@@ -222,6 +222,7 @@
     <script src="{{ url('assets/vendor/libs/dropzone/dropzone.js') }}"></script>
     <script src="{{ url('assets/js/forms-file-upload.js') }}"></script>
 
+
     <script>
         $(document).ready(function() {
             $('.select2').select2();
@@ -327,6 +328,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: "@lang('Yes, Close it!')",
+                cancelButtonText: "@lang('Cancel')",
                 customClass: {
                     confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
                     cancelButton: 'btn btn-label-secondary waves-effect waves-light'

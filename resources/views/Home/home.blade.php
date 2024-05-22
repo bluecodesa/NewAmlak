@@ -244,7 +244,7 @@
           </div>
         </div>
         <!-- What people say slider: End -->
-       
+
         <!-- Logo slider: End -->
       </section>
 
@@ -684,13 +684,18 @@
                             @endforeach
                         </p>
                     </div>
-                    <div class="d-flex align-items-center justify-content-center">
+                    {{-- <div class="d-flex align-items-center justify-content-center">
                       <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
                       <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
                       <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
                     </div>
                     <div class="position-relative pt-2">
                       <div class="price-yearly text-muted price-yearly-toggle d-none">$ 168 / year</div>
+                    </div> --}}
+
+                    <div class="d-flex align-items-center justify-content-center">
+                        <span class="price-monthly h1 text-primary fw-bold mb-0">@lang('SAR') {{ $subscriptionType->price }} </span>
+                        <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }} {{ __($subscriptionType->period_type) }}</sub>
                     </div>
                   </div>
                 </div>
@@ -762,14 +767,17 @@
                             @endforeach
                         </p>
                     </div>
-                    <div class="d-flex align-items-center justify-content-center">
+                    {{-- <div class="d-flex align-items-center justify-content-center">
                       <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
                       <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
                       <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
+                    </div> --}}
+                    <div class="d-flex align-items-center justify-content-center">
+                        <span class="price-monthly h1 text-primary fw-bold mb-0">@lang('SAR') {{ $subscriptionType->price }} </span>
+                        <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }} {{ __($subscriptionType->period_type) }}</sub>
                     </div>
-                    <div class="position-relative pt-2">
-                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 168 / year</div>
-                    </div>
+
+
                   </div>
                 </div>
                 <div class="card-body">
