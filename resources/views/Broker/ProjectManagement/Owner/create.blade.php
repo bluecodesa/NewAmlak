@@ -36,7 +36,6 @@
                             <label class="form-label"> @lang('Email') <span class="required-color">*</span></label>
                             <input type="email" required name="email" class="form-control"
                                 placeholder="@lang('Email')">
-
                         </div>
 
                         <div class="col-12 mb-3 col-md-4">

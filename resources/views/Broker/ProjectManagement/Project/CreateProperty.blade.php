@@ -90,7 +90,8 @@
 
 
                                     <div class="col-md-4 col-12 mb-3">
-                                        <label>@lang('Property type') <span class="required-color">*</span> </label>
+                                        <label class="form-label">@lang('Property type') <span class="required-color">*</span>
+                                        </label>
                                         <select class="form-select" name="property_type_id" required>
                                             <option disabled selected value="">@lang('Property type')</option>
                                             @foreach ($types as $type)
@@ -101,7 +102,8 @@
                                     </div>
 
                                     <div class="col-md-4 col-12 mb-3">
-                                        <label>@lang('Type use') <span class="required-color">*</span> </label>
+                                        <label class="form-label">@lang('Type use') <span class="required-color">*</span>
+                                        </label>
                                         <select class="form-select" name="property_usage_id" required>
                                             <option disabled value="">@lang('Type use')</option>
                                             @foreach ($usages as $usage)
@@ -151,7 +153,8 @@
 
 
                                     <div class="col-md-4 col-12 mb-3">
-                                        <label>@lang('service type') <span class="required-color">*</span> </label>
+                                        <label class="form-label">@lang('service type') <span class="required-color">*</span>
+                                        </label>
                                         <select class="form-select" name="service_type_id" required>
                                             <option disabled value="">@lang('service type')</option>
                                             @foreach ($services as $service)

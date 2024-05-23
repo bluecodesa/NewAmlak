@@ -83,7 +83,7 @@
                                 </div>
 
                                 <div class="col-md-4 col-12 mb-3">
-                                    <label>@lang('Developer name') </label>
+                                    <label class="form-label">@lang('Developer name') </label>
                                     <select class="form-select" name="developer_id">
                                         <option value="">@lang('Developer name')</option>
                                         @foreach ($developers as $developer)
@@ -96,7 +96,7 @@
 
 
                                 <div class="col-md-4 col-12 mb-3">
-                                    <label>@lang('Advisor name') </label>
+                                    <label class="form-label">@lang('Advisor name') </label>
                                     <select class="form-select" name="advisor_id">
                                         <option selected value="">@lang('Advisor name')</option>
                                         @foreach ($advisors as $advisor)
@@ -109,21 +109,29 @@
 
 
 
-
                                 <div class="col-md-6 col-12 mb-3">
-                                    <label>@lang('owner name') </label>
-                                    <select class="form-select" name="owner_id">
-                                        <option disabled selected value="">@lang('owner name')</option>
-                                        @foreach ($owners as $owner)
-                                            <option value="{{ $owner->id }}"
-                                                {{ $owner->id == $project->owner_id ? 'selected' : '' }}>
-                                                {{ $owner->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label class="col-md-6 form-label">@lang('owner name') <span
+                                            class="required-color">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <select class="form-select" id="OwnersDiv"
+                                            aria-label="Example select with button addon" name="owner_id" required>
+                                            <option disabled selected value="">@lang('owner name')</option>
+                                            @foreach ($owners as $owner)
+                                                <option value="{{ $owner->id }}"
+                                                    {{ $owner->id == $project->owner_id ? 'selected' : '' }}>
+                                                    {{ $owner->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
+                                    </div>
                                 </div>
 
+
                                 <div class="col-md-6 col-12 mb-3">
-                                    <label>@lang('service type') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('service type') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="service_type_id" required>
                                         <option disabled value="">@lang('service type')</option>
                                         @foreach ($services as $service)
@@ -171,9 +179,31 @@
 
     </div>
     <!-- container-fluid -->
-
+    @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
     @push('scripts')
         <script>
+            $(document).ready(function() {
+                // Intercept form submission
+                $('#OwnerForm').submit(function(event) {
+                    event.preventDefault();
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: $(this).attr('action'), // Form action URL
+                        data: formData, // Form data
+                        success: function(data) {
+                            $('#OwnersDiv').empty();
+                            $('#OwnersDiv').append(data);
+                            $('#addNewCCModal').modal('hide');
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error response here
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+            });
+
             $('.dropify-clear').click(function() {
                 var url = $('.dropify').data('url');
                 $.ajax({

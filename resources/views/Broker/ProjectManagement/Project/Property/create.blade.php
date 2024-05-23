@@ -82,7 +82,8 @@
 
 
                                 <div class="form-group col-12 col-md-4">
-                                    <label>@lang('Property type') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('Property type') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="property_type_id" required>
                                         <option disabled selected value="">@lang('Property type')</option>
                                         @foreach ($types as $type)
@@ -93,7 +94,8 @@
                                 </div>
 
                                 <div class="form-group col-12 col-md-4">
-                                    <label>@lang('Type use') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('Type use') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="property_usage_id" required>
                                         <option disabled selected value="">@lang('Type use')</option>
                                         @foreach ($usages as $usage)

@@ -113,7 +113,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-12 mb-3">
-                                    <label>@lang('service type') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('service type') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="service_type_id" required>
                                         <option disabled selected value="">@lang('service type')</option>
                                         @foreach ($services as $service)

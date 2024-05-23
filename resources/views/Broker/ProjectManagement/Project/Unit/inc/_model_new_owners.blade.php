@@ -93,6 +93,7 @@
                 <form action="{{ route('Broker.Unit.SaveNewOwners') }}" method="POST" id="OwnerForm" class="row">
                     @csrf
                     @method('post')
+                    <input type="text" name="key_phone" hidden value="996" id="key_phone">
                     <div class="col-md-6 col-12 mb-3">
 
                         <label class="form-label">
@@ -112,22 +113,8 @@
                     </div>
 
 
-                    <div class="col-md-4 col-12 mb-3">
 
-
-                        <label for="phone">@lang('phone')<span class="text-danger">*</span></label>
-                        <div style="position:relative">
-
-                            <input type="tel" class="form-control" id="phone" minlength="9" maxlength="9"
-                                pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456" name="phone"
-                                required="" value="">
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-4 col-12 mb-3">
+                    <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Region') <span class="required-color">*</span> </label>
                         <select class="form-select Region_id" required>
                             <option disabled selected value="">@lang('Region')</option>
@@ -139,11 +126,30 @@
                         </select>
                     </div>
 
-                    <div class="col-md-4 col-12 mb-3">
+                    <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('city') <span class="required-color">*</span> </label>
                         <select class="form-select CityDiv" name="city_id" required>
 
                         </select>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label for="color" class="form-label">@lang('phone') <span
+                                class="required-color">*</span></label>
+                        <div class="input-group">
+                            <input type="text" placeholder="123456789" name="phone" value=""
+                                class="form-control" maxlength="9" pattern="\d{1,9}"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                                aria-label="Text input with dropdown button">
+                            <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                996
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" style="">
+                                <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                                <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="col-12 text-center">
@@ -156,4 +162,15 @@
 
     </div>
 </div>
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-item').on('click', function() {
+                var key = $(this).data('key');
+                $('#key_phone').val(key);
+                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+            });
+        });
+    </script>
+@endpush
 <!--/ Add New owner Modal -->
