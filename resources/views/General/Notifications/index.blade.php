@@ -42,8 +42,8 @@
 
                 <div class="col-12">
                     <div class="demo-inline-spacing mt-3">
-                        <div class="list-group">
-                            @foreach (Auth::user()->notifications as $noty)
+                        <div class="list-group" style="padding-left: 6px;">
+                            @forelse (Auth::user()->notifications as $noty)
                                 <a href="{{ $noty->data['url'] }}"
                                     class="list-group-item mb-1 list-group-item-action flex-column align-items-start {{ $noty['read_at'] == null ? 'active' : '' }} ">
                                     <div class="d-flex justify-content-between w-100">
@@ -57,7 +57,15 @@
                                         {{ $noty->created_at->format('g:i A') }}
                                     </small>
                                 </a>
-                            @endforeach
+                            @empty
+                                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <span class="alert-icon text-danger me-2">
+                                        <i class="ti ti-ban ti-xs"></i>
+                                    </span>
+                                    @lang('No Data Found!')
+                                </div>
+                            @endforelse
+
                         </div>
                     </div>
                 </div>
