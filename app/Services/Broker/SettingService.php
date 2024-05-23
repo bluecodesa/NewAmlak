@@ -38,7 +38,7 @@ class SettingService
             ],
             'mobile' => 'required|digits:9|unique:brokers,mobile,'.$id,
             'city_id' => 'required|exists:cities,id',
-            'broker_license' => 'required|string|max:255|unique:brokers,broker_license,'.$id,
+            'broker_license' => 'required|numeric|unique:brokers,broker_license,'.$id,
             'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'id_number' => [
@@ -57,6 +57,7 @@ class SettingService
             'mobile.unique' => __('The mobile has already been taken.'),
             'mobile.digits' => __('The mobile must be 9 digits.'),
             'broker_license.required' => __('The broker_license field is required.'),
+            'broker_license.numeric' => __('The broker_license field must be number.'),
             'broker_license.unique' => __('The broker_license has already been taken.'),
             'password.required' => __('The password field is required.'),
             'broker_logo.image' => __('The broker logo must be an image.'),

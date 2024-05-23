@@ -82,7 +82,7 @@ class ForgotPasswordController extends Controller
             }
 
             $code = str_pad(mt_rand(0, 9999), 6, '0', STR_PAD_LEFT);
-            $expiry = Carbon::now()->addMinutes(1);
+            $expiry = Carbon::now()->addMinutes(30);
 
             $currentTime = Carbon::now();
             $expiryTime = Carbon::parse($expiry);
@@ -213,7 +213,7 @@ class ForgotPasswordController extends Controller
         $code = str_pad(mt_rand(0, 9999), 6, '0', STR_PAD_LEFT);
 
         // Calculate expiry time
-        $expiry = Carbon::now()->addMinutes(1);
+        $expiry = Carbon::now()->addMinutes(30);
 
         // Calculate remaining time
         $currentTime = Carbon::now();

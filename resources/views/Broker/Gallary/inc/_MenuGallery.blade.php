@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($units as $index => $unit)
+            @forelse ($units as $index => $unit)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $unit->number_unit ?? '' }}</td>
@@ -66,9 +66,18 @@
                             </div>
                         </div>
                     </td>
-            @endforeach
 
             </tr>
+            @empty
+            <td colspan="5">
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <span class="alert-icon text-danger me-2">
+                        <i class="ti ti-ban ti-xs"></i>
+                    </span>
+                    @lang('No Data Found!')
+                </div>
+            </td>
+        @endforelse
         </tbody>
     </table>
 </div>

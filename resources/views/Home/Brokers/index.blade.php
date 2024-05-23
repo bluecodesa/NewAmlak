@@ -45,8 +45,28 @@
             @endforeach
             
           </div>
+
     </div>
+    <!-- Pagination -->
+
+    <!-- End Pagination -->
   </section>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="demo-inline-spacing">
+        <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {{ $users->links() }}
+        </ul>
+         </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
   @include('Home.layouts.inc.__addSubscriberModal')
 
   @endsection
@@ -61,3 +81,4 @@
 
     }
 </script>
+

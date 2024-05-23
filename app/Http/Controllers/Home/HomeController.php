@@ -354,7 +354,7 @@ class HomeController extends Controller
 
     public function showAllBrokers(Request $request){
 
-        $users = User::where('is_broker', 1)->get();
+        $users = User::where('is_broker', 1)->paginate(9);
         $brokers = [];
         $cities = City::all();
 
@@ -366,6 +366,13 @@ class HomeController extends Controller
         }
         return view('Home.Brokers.index',get_defined_vars());
     }
+
+    public function loadMoreBrokers(Request $request)
+    {
+        $brokers = User::where('is_broker', 1)->paginate(3);
+        return view('Home.Brokers.inc._brokers', compact('brokers'));
+    }
+    
 
 
 }

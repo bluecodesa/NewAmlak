@@ -1,5 +1,5 @@
 <div class="first-div">
-    <a type="button" class="btn  waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg">
+    <a type="button" class="btn  waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
 @lang('Edit') @lang('Image')
 <svg xmlns="http://www.w3.org/2000/svg" width="20.049" height="16.053" viewBox="71.975 141.947 20.049 16.053">
             <g data-name="photo-camera">
@@ -22,16 +22,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title mt-0" id="myLargeModalLabel">@lang('Edit')</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('Broker.Gallery.update-cover') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="gallery_id" value="{{ $gallery->id }}">
-                    <input type="file" id="images" name="gallery_cover" required accept="image/jpeg, image/png, image/jpg">
+                    <input type="hidden" class="form-control" name="gallery_id" value="{{ $gallery->id }}">
+                    <input type="file" class="form-control" id="images" name="gallery_cover" required accept="image/jpeg, image/png, image/jpg">
+                    <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">@lang('save')</button>
+                    </div>
                 </form>
             </div>
         </div>

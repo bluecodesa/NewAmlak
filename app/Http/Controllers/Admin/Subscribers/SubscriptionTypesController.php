@@ -74,12 +74,18 @@ class SubscriptionTypesController extends Controller
             'roles' => 'required|array|min:1', // At least one role must be selected
             'sections' => 'required|array',
             'upgrade_rate' => 'numeric|min:0|max:100',
+            'price' => 'required|numeric|min:0', // Add this line for price validation
+
         ];
         $messages = [
             'required' => __('The :attribute field is required.'),
             'unique' => __('The :attribute has already been taken.'),
             'roles.min' => __('Please select at least one role.'),
             'upgrade_rate.numeric' => 'Discount applied Must be Number ',
+            'price.required' => __('The price field is required.'), // Add this line for price error message
+            'price.numeric' => __('The price must be a number.'), // Add this line for numeric validation message
+            'price.min' => __('The price must be at least 0.'), // Add this line for minimum value validation
+        
 
         ];
         $request->validate($rules, $messages);
@@ -160,7 +166,6 @@ class SubscriptionTypesController extends Controller
         sort($uniqueCounts);
         $min = 0;
         $max = end($uniqueCounts);
-
         $diff = $max - $min;
         $period = ceil($diff / 3);
 

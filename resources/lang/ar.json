@@ -458,10 +458,11 @@
     "Share the property link or copy it on your site": "مشاركة لينك العقار او انسخه في موقعك",
     "Available": "متاح",
     "Not_Available": "غير متاح",
-    "Type your 6 digit security code": "اكتب رمز الحماية المكون من 6 أرقام",
+    "Type your 6 digit security code": "ادخل رمز الحماية المكون من 6 أرقام",
     "Amlak": "أملاك",
     "Reset Password": "إعادة تعيين كلمة المرور",
     "Back to login": "الرجوع الي صفحة تسجيل الدخول",
     "Set new password": "تعيين كلمة مرور جديدة",
-    "Website Themes": "سمات الموقع"
+    "Website Themes": "سمات الموقع",
+    "No Comments Found!": "لاتوجد تعليقات!"
 }

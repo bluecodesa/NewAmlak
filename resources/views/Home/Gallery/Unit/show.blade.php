@@ -152,7 +152,7 @@
                 <ul class="list-unstyled mb-4 mt-3">
                     <li class="d-flex align-items-center mb-3">
                         <i class="ti ti-check text-heading"></i
-                        ><span class="fw-medium mx-2 text-heading">@lang('Broker name') :
+                        ><span class="fw-medium mx-2 text-heading">
                            </span> <span>{{ $brokers->name}}</span>
                       </li>
                      @if( $brokers->is_broker)

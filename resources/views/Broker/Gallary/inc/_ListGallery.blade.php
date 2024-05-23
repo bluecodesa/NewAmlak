@@ -1,4 +1,4 @@
-@foreach ($units as $index => $unit)
+@forelse ($units as $index => $unit)
     {{-- <div class="col-md-6 col-xl-6 col-12">
     <div class="card shadow-none bg-transparent border border-primary mb-3">
       <div class="card-body">
@@ -118,6 +118,12 @@
         </div>
     </div>
     <!--/ Upcoming Webinar -->
-@endforeach
-
+                         @empty
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <span class="alert-icon text-danger me-2">
+                                                <i class="ti ti-ban ti-xs"></i>
+                                            </span>
+                                            @lang('No Data Found!')
+                                        </div>
+                                @endforelse
 {{-- @include('Broker.Gallary.inc._shareGallery') --}}

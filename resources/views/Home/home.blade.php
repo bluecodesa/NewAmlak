@@ -694,7 +694,8 @@
                     </div> --}}
 
                     <div class="d-flex align-items-center justify-content-center">
-                        <span class="price-monthly h1 text-primary fw-bold mb-0">@lang('SAR') {{ $subscriptionType->price }} </span>
+                        <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                        <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }} </span>
                         <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }} {{ __($subscriptionType->period_type) }}</sub>
                     </div>
                   </div>
@@ -773,7 +774,8 @@
                       <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
                     </div> --}}
                     <div class="d-flex align-items-center justify-content-center">
-                        <span class="price-monthly h1 text-primary fw-bold mb-0">@lang('SAR') {{ $subscriptionType->price }} </span>
+                        <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                        <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }} </span>
                         <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }} {{ __($subscriptionType->period_type) }}</sub>
                     </div>
 

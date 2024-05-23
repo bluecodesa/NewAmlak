@@ -61,7 +61,7 @@
       <div class="authentication-inner py-4">
         <!--  Two Steps Verification -->
         <div class="card">
-          <div class="card-body">
+          <div class="card-body justify-content-center">
             <!-- Logo -->
             <div class="app-brand justify-content-center mb-4 mt-2">
               <a href="index.html" class="app-brand-link gap-2">
@@ -109,45 +109,15 @@
                     </form>
                 </div>
             </div>
-            <p class="mb-0 fw-medium">@lang('Type your 6 digit security code')</p>
+            {{-- <p class="mb-0 fw-medium">@lang('Type your 6 digit security code')</p> --}}
             <form id="twoStepsForm" method="POST" action="{{ route('reset.password.code') }}">
                 @csrf
                 <input type="hidden" name="email" value="{{ $email }}">
                 <input type="hidden" name="token" value="{{ $token }}">
                 <div class="mb-3">
-                {{-- <div
-                  class="auth-input-wrapper d-flex align-items-center justify-content-sm-between numeral-mask-wrapper">
-                  <input
-                    type="tel"
-                    class="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
-                    maxlength="1"
-                    autofocus />
-                  <input
-                    type="tel"
-                    class="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
-                    maxlength="1" />
-                  <input
-                    type="tel"
-                    class="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
-                    maxlength="1" />
-                  <input
-                    type="tel"
-                    class="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
-                    maxlength="1" />
-                  <input
-                    type="tel"
-                    class="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
-                    maxlength="1" />
-                  <input
-                    type="tel"
-                    class="form-control auth-input h-px-50 text-center numeral-mask mx-1 my-2"
-                    maxlength="1" />
-                </div> --}}
 
-                <!-- Create a hidden field which is combined by 3 fields above -->
-
-                <input type="text"
-                class="form-control" name="code"  required autocomplete="current-code" maxlength="6" autofocus @error('code') is-invalid @enderror />
+                <input type="text"class="form-control" name="code"  required autocomplete="current-code" maxlength="6" 
+                autofocus @error('code') is-invalid @enderror placeholder="@lang('Type your 6 digit security code')" />
                             @if (isset($code))
                             <div class="alert alert-danger" role="alert">
                                 {{ $code }}

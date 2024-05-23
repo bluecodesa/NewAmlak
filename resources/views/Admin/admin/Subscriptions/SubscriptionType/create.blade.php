@@ -63,8 +63,8 @@
                         <div class="col-md-4 mb-3">
                             <label for="price">@lang('the amount') <span class="required-color">*</span></label>
                             <div class="input-group">
-                                <input type="text" name="price" class="form-control" placeholder="@lang('the amount')"
-                                    aria-label="@lang('the amount')" aria-describedby="button-addon2">
+                                <input type="number" name="price" class="form-control" placeholder="@lang('the amount')"
+                                    aria-label="@lang('the amount')" aria-describedby="button-addon2" required>
                                 <button class="btn btn-outline-primary waves-effect" type="button"
                                     id="button-addon2">@lang('SAR')</button>
                             </div>

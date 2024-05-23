@@ -52,19 +52,7 @@
                                 class="btn btn-secondary me-2 mt-2">@lang('Compare Plans')</a>
                         </div>
                     </div>
-<<<<<<< Updated upstream
 
-                    <div class="col-12">
-                        @if (Auth::user()->hasPermission('upgrade-subscription'))
-                        <button type="button"  class="btn btn-primary  me-2 mt-2"
-                        data-bs-toggle="modal"
-                        data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
-                    @endif
-                      <a href="{{ route('welcome') }}#landingPricing" class="btn btn-secondary me-2 mt-2" target="_blank">@lang('Compare Plans')</a>
-                    </div>
-                  </div>
-=======
->>>>>>> Stashed changes
                 </div>
                 <!-- /Current Plan -->
             </div>

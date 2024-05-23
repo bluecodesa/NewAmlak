@@ -87,11 +87,11 @@
     </div>
 
 
-    <div class="col-12 mb-3 col-md-4">
+    {{-- <div class="col-12 mb-3 col-md-4">
         <label for="color" class="form-label">@lang('Color')</label>
         <input name="color" class="form-control" type="color" value="{{ $settings->color ?? '#30419b' }}"
             id="color">
-    </div>
+    </div> --}}
 
     {{-- <div class="col-12 mb-3 col-md-4">
         <label for="color">@lang('phone')</label>
@@ -129,7 +129,7 @@
 
     <div class="col-12 mb-3 col-md-4">
         <label for="crn" class="form-label">@lang('crn')</label>
-        <input name="crn" class="form-control" type="number" placeholder="@lang('crn')"
+        <input name="crn" class="form-control" type="text" placeholder="@lang('crn')"
             value="{{ $settings->crn }}" id="crn">
     </div>
 

@@ -73,6 +73,7 @@ Route::group(
 
         Route::get('/brokers',  [HomeController::class, 'showAllBrokers'])->name('brokers');
         Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity');
+        // Route::get('/loadMoreBrokers', 'HomeController@loadMoreBrokers')->name('loadMoreBrokers');
 
         // Route::get('/filter/brokers',  [HomeController::class, 'filterBrokers'])->name('filter.brokers');
 
