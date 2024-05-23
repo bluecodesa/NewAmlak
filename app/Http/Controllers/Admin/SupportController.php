@@ -186,6 +186,7 @@ class SupportController extends Controller
         $validatedData = $request->validate([
             'support_email' => ['nullable', 'email', 'max:255'],
             'support_phone' => ['nullable', 'string', 'max:255'],
+            'key_support_phone' => ['nullable', 'string', 'max:255'],
         ]);
 
         // Retrieve the settings record
@@ -195,6 +196,7 @@ class SupportController extends Controller
         $settings->update([
             'support_email' => $validatedData['support_email'],
             'support_phone' => $validatedData['support_phone'],
+            'key_support_phone' => $validatedData['key_support_phone'],
         ]);
 
         return redirect()->back()->with('success', 'Support contact information updated successfully.');

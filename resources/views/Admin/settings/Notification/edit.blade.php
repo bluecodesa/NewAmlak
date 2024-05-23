@@ -21,54 +21,53 @@
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
 
-
                     <div class="font-18">
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_owner_name')"
-                            data-variable="$data[variable_owner_name]">@lang('variable_owner_name')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_owner_name]">@lang('variable_owner_name')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_tenant_name')"
-                            data-variable="$data[variable_tenant_name]">@lang('variable_tenant_name')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_tenant_name]">@lang('variable_tenant_name')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_building_name')"
-                            data-variable="$data[variable_building_name]">@lang('variable_building_name')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_building_name]">@lang('variable_building_name')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_flat_no')"
-                            data-variable="$data[variable_flat_no]">@lang('variable_flat_no')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_flat_no]">@lang('variable_flat_no')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_agreement_id')"
-                            data-variable="$data[variable_agreement_id]">@lang('variable_agreement_id')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_agreement_id]">@lang('variable_agreement_id')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') :  @lang('variable_agreement_expire_date')"
-                            data-variable="$data[variable_agreement_expire_date]">@lang('variable_agreement_expire_date')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_agreement_expire_date]">@lang('variable_agreement_expire_date')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_settel_date')"
-                            data-variable="$data[variable_settel_date]">@lang('variable_settel_date')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_settel_date]">@lang('variable_settel_date')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_date_of_payment')"
-                            data-variable="$data[variable_date_of_payment]">@lang('variable_date_of_payment')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_date_of_payment]">@lang('variable_date_of_payment')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_payment_amount')"
-                            data-variable="$data[variable_payment_amount]">@lang('variable_payment_amount')</button>
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                            data-variable="$data[variable_payment_amount]">@lang('variable_payment_amount')</span>
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_broker_name')"
-                            data-variable="$data[variable_broker_name]">@lang('variable_broker_name')</button>
+                            data-variable="$data[variable_broker_name]">@lang('variable_broker_name')</span>
 
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_subscriber_name')"
-                            data-variable="$data[variable_subscriber_name]">@lang('variable_subscriber_name')</button>
+                            data-variable="$data[variable_subscriber_name]">@lang('variable_subscriber_name')</span>
 
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_current_subscription')"
-                            data-variable="$data[variable_current_subscription]">@lang('variable_current_subscription')</button>
+                            data-variable="$data[variable_current_subscription]">@lang('variable_current_subscription')</span>
 
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_subscription_invoice_number')"
-                            data-variable="$data[variable_subscription_invoice_number]">@lang('variable_subscription_invoice_number')</button>
+                            data-variable="$data[variable_subscription_invoice_number]">@lang('variable_subscription_invoice_number')</span>
 
-                        <button class="btn btn-outline-success waves-effect" data-toggle="tooltip" data-placement="top"
+                        <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_subscription_invoice_download_link')"
-                            data-variable="$data[variable_subscription_invoice_download_link]">@lang('variable_subscription_invoice_download_link')</button>
+                            data-variable="$data[variable_subscription_invoice_download_link]">@lang('variable_subscription_invoice_download_link')</span>
                     </div>
 
                     <form action="{{ route('Admin.update.StoreEmailTemplate', $notification->id) }}" method="post"
@@ -112,7 +111,20 @@
 
         <div class="content-backdrop fade"></div>
     </div>
+    <style>
+        .badge {
+            cursor: pointer;
+        }
 
+        .dark-style .note-editor.note-frame .note-editing-area .note-editable {
+            background-color: transparent;
+            color: white;
+        }
+
+        .dark-style .note-editor.note-frame .note-statusbar {
+            background-color: rgb(96, 96, 96);
+        }
+    </style>
 
     @push('scripts')
         <script>

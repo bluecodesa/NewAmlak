@@ -16,30 +16,43 @@
             <!-- DataTable with Buttons -->
 
             <div class="card">
-
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
                     <form action="{{ route('Admin.InfoSupport.update') }}" method="POST" class="row">
                         @csrf
                         @method('put')
+                        <input type="text" name="key_support_phone" hidden
+                            value="{{ $settings->key_support_phone ?? '996' }}" id="key_phone">
                         <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">
                                 @lang('Email content')<span class="required-color">*</span></label>
                             <input type="text" required id="modalRoleName" name="support_email" class="form-control"
                                 placeholder="email" value="{{ old('support_email', $settings->support_email) }}">
                         </div>
-                        <div class="col-md-6 col-12 mb-3">
-                            <label for="mobile">@lang('phone')<span class="text-danger">*</span></label>
-                            <div style="position:relative">
 
-                                <input type="tel" class="form-control" id="mobile" minlength="9" maxlength="9"
-                                    pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                    onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                    name="support_phone" required=""
-                                    value="{{ old('support_phone', $settings->support_phone) }}">
 
+
+                        <div class="col-12 mb-3 col-md-6">
+                            <label for="color" class="form-label">@lang('phone') <span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="text" name="support_phone" placeholder="123456789"
+                                    value="{{ old('support_phone', $settings->support_phone) }}" class="form-control"
+                                    maxlength="9" pattern="\d{1,9}"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                                    aria-label="Text input with dropdown button">
+                                <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ $settings->key_support_phone ?? '996' }}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" style="">
+                                    <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                                    <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                                </ul>
                             </div>
                         </div>
+
+                        {{--  --}}
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary waves-effect waves-light">
                                 {{ __('save') }}
@@ -69,6 +82,16 @@
                     modal.style.display = 'block';
                     modal.removeAttribute('aria-hidden');
                 }
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    $('#key_phone').val(key);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
             });
         </script>
     @endpush
