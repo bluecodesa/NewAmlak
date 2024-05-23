@@ -41,7 +41,8 @@
                                     </div>
 
                                     <div class="col-md-3 col-12 mb-3">
-                                        <label>@lang('Region') <span class="required-color">*</span> </label>
+                                        <label class="form-label">@lang('Region') <span class="required-color">*</span>
+                                        </label>
                                         <select class="form-select" id="Region_id" required>
                                             <option disabled value="">@lang('Region') </option>
                                             @foreach ($Regions as $Region)
@@ -54,7 +55,8 @@
                                     </div>
 
                                     <div class="col-md-3 col-12 mb-3">
-                                        <label>@lang('city') <span class="required-color">*</span> </label>
+                                        <label class="form-label">@lang('city') <span class="required-color">*</span>
+                                        </label>
                                         <select class="form-select" name="city_id" id="CityDiv" required>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}"
@@ -67,7 +69,8 @@
 
 
                                     <div class="col-md-3 col-12 mb-3">
-                                        <label>@lang('district') <span class="required-color">*</span> </label>
+                                        <label class="form-label">@lang('district') <span class="required-color">*</span>
+                                        </label>
                                         <select class="form-select" name="district_id" id="DistrictDiv" required>
                                             @foreach ($project->CityData->DistrictsCity as $district)
                                                 <option value="{{ $district->id }}"

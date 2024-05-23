@@ -39,7 +39,7 @@
                                     </div>
 
                                     <div class="form-group col-md-3">
-                                        <label>@lang('Region') </label>
+                                        <label class="form-label">@lang('Region') </label>
                                         <select class="form-control" id="Region_id" required>
                                             <option disabled selected value="">@lang('Region') <span
                                                     class="required-color">*</span></option>
@@ -52,7 +52,8 @@
                                     </div>
 
                                     <div class="form-group col-md-3">
-                                        <label>@lang('city') <span class="required-color">*</span> </label>
+                                        <label class="form-label">@lang('city') <span class="required-color">*</span>
+                                        </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
 
                                         </select>

@@ -35,7 +35,8 @@
                                 </div>
 
                                 <div class="col-md-3 col-12 mb-3">
-                                    <label>@lang('Region') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('Region') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" id="Region_id" required>
                                         <option disabled selected value="">@lang('Region') </option>
                                         @foreach ($Regions as $Region)
@@ -47,7 +48,8 @@
                                 </div>
 
                                 <div class="col-md-3 col-12 mb-3">
-                                    <label>@lang('city') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('city') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="city_id" id="CityDiv" required>
 
                                     </select>
@@ -55,7 +57,8 @@
 
 
                                 <div class="col-md-3 col-12 mb-3">
-                                    <label>@lang('district') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('district') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="district_id" id="DistrictDiv" required>
 
                                     </select>
@@ -69,7 +72,7 @@
                                 </div>
 
                                 <div class="col-md-4 col-12 mb-3">
-                                    <label>@lang('Developer name')</label>
+                                    <label class="form-label">@lang('Developer name')</label>
                                     <select class="form-select" name="developer_id">
                                         <option disabled selected value="">@lang('Developer name')</option>
                                         @foreach ($developers as $developer)
@@ -81,7 +84,7 @@
 
 
                                 <div class="col-md-4 col-12 mb-3">
-                                    <label>@lang('Advisor name') </label>
+                                    <label class="form-label">@lang('Advisor name') </label>
                                     <select class="form-select" name="advisor_id">
                                         <option disabled selected value="">@lang('Advisor name')</option>
                                         @foreach ($advisors as $advisor)
@@ -92,7 +95,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-12 mb-3">
-                                    <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                    <label class="col-md-6 form-label">@lang('owner name') <span
+                                            class="required-color">*</span>
                                     </label>
                                     <div class="input-group">
                                         <select class="form-select" id="OwnersDiv"

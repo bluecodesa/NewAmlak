@@ -16,11 +16,14 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Advisor.create') }}">@lang('Add new Advisor')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.Advisor.index') }}">@lang('advisors')</a></li>
-                                        <li class="breadcrumb-item"><a href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.Advisor.create') }}">@lang('Add new Advisor')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.Advisor.index') }}">@lang('advisors')</a></li>
+                                        <li class="breadcrumb-item"><a
+                                                href="{{ route('Admin.home') }}">@lang('dashboard')</a></li>
                                     </ol>
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +68,7 @@
                                     </div>
 
                                     <div class="form-group col-md-4">
-                                        <label>@lang('Region') </label>
+                                        <label class="form-label">@lang('Region') </label>
                                         <select class="form-control" id="Region_id" required>
                                             <option disabled selected value="">@lang('Region')</option>
                                             @foreach ($Regions as $Region)
@@ -77,7 +80,7 @@
                                     </div>
 
                                     <div class="form-group col-md-4">
-                                        <label>@lang('city') </label>
+                                        <label class="form-label">@lang('city') </label>
                                         <select class="form-control" name="city_id" id="CityDiv" required>
 
                                         </select>
