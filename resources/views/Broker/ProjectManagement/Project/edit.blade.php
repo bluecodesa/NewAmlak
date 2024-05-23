@@ -42,7 +42,7 @@
                                         @foreach ($Regions as $Region)
                                             <option value="{{ $Region->id }}"
                                                 {{ $Region->id == $project->Region_id ? 'selected' : '' }}
-                                                data-url="{{ route('Admin.Region.show', $Region->id) }}">
+                                                data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
                                                 {{ $Region->name }}</option>
                                         @endforeach
                                     </select>
@@ -195,6 +195,7 @@
                             $('#OwnersDiv').empty();
                             $('#OwnersDiv').append(data);
                             $('#addNewCCModal').modal('hide');
+                            alertify.success(@json(__('added successfully')));
                         },
                         error: function(xhr, status, error) {
                             // Handle error response here

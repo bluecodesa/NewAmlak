@@ -106,7 +106,8 @@
                                 </div>
 
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                    <label class="col-md-6 form-label">@lang('owner name') <span
+                                            class="required-color">*</span>
                                     </label>
                                     <div class="input-group">
                                         <select class="form-select" id="OwnersDiv"
@@ -131,7 +132,8 @@
 
 
                                 <div class="form-group col-md-4 mb-3">
-                                    <label>@lang('offered service') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('offered service') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="service_type_id" required>
                                         <option disabled selected value="">@lang('offered service')</option>
                                         @foreach ($services as $service)

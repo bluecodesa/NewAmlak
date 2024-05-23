@@ -35,7 +35,8 @@
                                 </div>
 
                                 <div class="col-md-3 col-12 mb-3">
-                                    <label>@lang('Region') <span class="required-color">*</span></label>
+                                    <label class="form-label">@lang('Region') <span
+                                            class="required-color">*</span></label>
                                     <select class="form-select" id="Region_id" required>
                                         <option disabled value="">@lang('Region') <span
                                                 class="required-color">*</span></option>
@@ -111,7 +112,8 @@
 
 
                                 <div class="col-md-4 col-12 mb-3">
-                                    <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                    <label class="col-md-6 form-label">@lang('owner name') <span
+                                            class="required-color">*</span>
                                     </label>
                                     <div class="input-group">
                                         <select class="form-select" id="OwnersDiv"

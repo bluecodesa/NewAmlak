@@ -115,7 +115,8 @@
                                     </div>
 
                                     <div class="col-md-4 col-12 mb-3">
-                                        <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                        <label class="col-md-6 form-label">@lang('owner name') <span
+                                                class="required-color">*</span>
                                         </label>
                                         <div class="input-group">
                                             <select class="form-select" id="inputGroupSelect04"

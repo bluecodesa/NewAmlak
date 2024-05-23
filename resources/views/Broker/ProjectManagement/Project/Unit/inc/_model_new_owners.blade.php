@@ -95,7 +95,6 @@
                     @method('post')
                     <input type="text" name="key_phone" hidden value="996" id="key_phone">
                     <div class="col-md-6 col-12 mb-3">
-
                         <label class="form-label">
                             {{ __('Name') }} <span class="required-color">*</span></label>
                         <input type="text" required id="modalRoleName" name="name" class="form-control"
@@ -105,7 +104,6 @@
 
 
                     <div class="col-md-6 col-12 mb-3">
-
                         <label class="form-label"> @lang('Email') <span class="required-color">*</span></label>
                         <input type="email" required name="email" class="form-control"
                             placeholder="@lang('Email')">
@@ -116,7 +114,7 @@
 
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Region') <span class="required-color">*</span> </label>
-                        <select class="form-select Region_id" required>
+                        <select class="form-select RegionOwner" required>
                             <option disabled selected value="">@lang('Region')</option>
                             @foreach ($Regions as $Region)
                                 <option value="{{ $Region->id }}"
@@ -128,7 +126,7 @@
 
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('city') <span class="required-color">*</span> </label>
-                        <select class="form-select CityDiv" name="city_id" required>
+                        <select class="form-select CityOwner" name="city_id" required>
 
                         </select>
                     </div>
@@ -169,6 +167,26 @@
                 var key = $(this).data('key');
                 $('#key_phone').val(key);
                 $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+            });
+        });
+        //
+
+
+        $('.RegionOwner').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function() {
+                    $('.CityOwner').fadeOut('fast');
+                },
+                success: function(data) {
+                    $('.CityOwner').fadeOut('fast', function() {
+                        $(this).empty().append(data);
+                        $(this).fadeIn('fast');
+                    });
+                },
             });
         });
     </script>
