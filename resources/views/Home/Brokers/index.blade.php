@@ -8,7 +8,7 @@
         <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span>المسوقين العقاريين</h4>
 
         <div class="row g-4">
-            @foreach ($brokers as $broker)
+            @foreach ($users as $broker)
 
             <div class="col-xl-4 col-lg-6 col-md-6">
 
@@ -43,7 +43,7 @@
               </div>
             </div>
             @endforeach
-            
+
           </div>
 
     </div>
@@ -66,7 +66,7 @@
       </div>
     </div>
   </div>
-    
+
   @include('Home.layouts.inc.__addSubscriberModal')
 
   @endsection

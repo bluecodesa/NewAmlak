@@ -354,16 +354,17 @@ class HomeController extends Controller
 
     public function showAllBrokers(Request $request){
 
-        $users = User::where('is_broker', 1)->paginate(9);
-        $brokers = [];
-        $cities = City::all();
+        // $users = User::where('is_broker', 1)->get();
+        // $brokers = [];
+        // $cities = City::all();
 
-        foreach ($users as $broker) {
-            if ($broker->UserBrokerData->GalleryData) {
-                $brokers[] = $broker;
+        // foreach ($users as $broker) {
+        //     if ($broker->UserBrokerData->GalleryData) {
+        //         $brokers[] = $broker;
+        //     }
+        // }
+        $users = User::whereHas('UserBrokerData.GalleryData')->paginate(9);
 
-            }
-        }
         return view('Home.Brokers.index',get_defined_vars());
     }
 
@@ -372,7 +373,7 @@ class HomeController extends Controller
         $brokers = User::where('is_broker', 1)->paginate(3);
         return view('Home.Brokers.inc._brokers', compact('brokers'));
     }
-    
+
 
 
 }
