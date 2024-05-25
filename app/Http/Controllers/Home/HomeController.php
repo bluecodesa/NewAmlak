@@ -214,7 +214,7 @@ class HomeController extends Controller
             'mobile' => 'required|unique:brokers,mobile|digits:9',
             'city_id' => 'required|exists:cities,id',
             'subscription_type_id' => 'required|exists:subscription_types,id',
-            'license_number' => 'required|string|max:255|unique:brokers,broker_license',
+            'license_number' => 'required|numeric|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'id_number' => 'nullable|unique:brokers,id_number'
@@ -228,13 +228,19 @@ class HomeController extends Controller
             'mobile.required' => __('The mobile field is required.'),
             'mobile.unique' => __('The mobile has already been taken.'),
             'mobile.digits' => __('The mobile must be 9 digits.'),
+            'city_id.required' => __('The city field is required.'),
+            'city_id.exists' => __('The selected city is invalid.'),
+            'subscription_type_id.required' => __('The subscription type field is required.'),
+            'subscription_type_id.exists' => __('The selected subscription type is invalid.'),
             'license_number.required' => __('The license number field is required.'),
             'license_number.unique' => __('The license number has already been taken.'),
+            'license_number.numeric' => __('The license number must be a number.'),
             'password.required' => __('The password field is required.'),
-            'broker_logo.image' => __('The broker logo must be an image.'),
-            'id_number.unique' => __('The ID number has already been taken.'),
             'password.confirmed' => __('The password confirmation does not match.'),
+            'broker_logo.image' => __('The broker logo must be an image.'),
+            'id_number.unique' => __('The ID number has already been taken.')
         ];
+
 
         $request->validate($rules, $messages);
 
@@ -354,15 +360,7 @@ class HomeController extends Controller
 
     public function showAllBrokers(Request $request){
 
-        // $users = User::where('is_broker', 1)->get();
-        // $brokers = [];
-        // $cities = City::all();
 
-        // foreach ($users as $broker) {
-        //     if ($broker->UserBrokerData->GalleryData) {
-        //         $brokers[] = $broker;
-        //     }
-        // }
         $users = User::whereHas('UserBrokerData.GalleryData')->paginate(9);
 
         return view('Home.Brokers.index',get_defined_vars());

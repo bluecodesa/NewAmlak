@@ -141,10 +141,7 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="name"> @lang('Broker name')<span
                                             class="text-danger">*</span></label>
-
-                                    <input type="text" class="form-control" id="name" name="name" required
-                                        autofocus>
-
+                                        <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="@lang('Broker name')" required="">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="license_number"> @lang('license number')<span
@@ -167,15 +164,30 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
                                             class="text-danger">*</span></label>
-                                    <div style="position:relative">
+                                            {{-- <div class="input-group">
 
-                                        <input type="tel" class="form-control" id="mobile" minlength="9"
+                                        {{-- <input type="tel" class="form-control" id="mobile" minlength="9"
                                             maxlength="9" pattern="[0-9]*"
                                             oninvalid="setCustomValidity('Please enter 9 numbers.')"
                                             onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                            name="mobile" required value="">
+                                            name="mobile" required value=""> --}}
 
-                                    </div>
+                                            <div class="input-group">
+                                                <input type="text" placeholder="123456789" name="mobile" value=""
+                                                    class="form-control" maxlength="9" pattern="\d{1,9}"
+                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                                                    aria-label="Text input with dropdown button">
+                                                <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    996
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end" style="">
+                                                    <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                                                    <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                                                </ul>
+
+                                        </div>
+
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -403,6 +415,15 @@
             $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
         });
     </script>
+        <script>
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    $('#key_phone').val(key);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
+            });
+        </script>
 </body>
 
 </html>

@@ -77,50 +77,44 @@
               <h4 class="mb-1 pt-2">@lang('Reset Password')  🔒</h4>
               @include('Admin.layouts.Inc._errors')
               {{-- <p class="mb-4">for <span class="fw-medium">{{ $email }}</span></p> --}}
-              <form class="form-horizontal m-t-30" id="formAuthentication" action="{{ route('reset.password.post') }}" method="POST"> <!-- Ensure method is set to POST -->
+              <form class="form-horizontal m-t-30" id="formAuthentication" action="{{ route('reset.password.post') }}" method="POST">
                 @csrf <!-- Include CSRF token -->
+
                 <input type="hidden" name="token" value="{{ $token }}"> <!-- Include the token here -->
+                {{-- <input type="hidden" name="email" value="{{ $email }}"> <!-- Include the email here --> --}}
 
                 <div class="row mb-3">
-
-                <div class="col-md-9">
-                    <input id="email" hidden type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-
+                    <div class="col-md-9">
+                        <input id="email" hidden type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                    </div>
                 </div>
-               </div>
 
-               <div class="mb-3 form-password-toggle">
-                <label for="password" >{{ __('New Password') }}</label>
-                <div class="input-group input-group-merge">
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                     name="password" required autocomplete="new-password"
-                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                     aria-describedby="password">
-                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-             </div>
-               </div>
-               <div class="mb-3 form-password-toggle">
-                <label for="password-confirm" >{{ __('Confirm Password') }}</label>
-
-                <div class="input-group input-group-merge">
-                    <input id="password-confirm" type="password" class="form-control"
-                    name="password_confirmation" required autocomplete="new-password"
-                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                    aria-describedby="password">
-                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                <div class="mb-3 form-password-toggle">
+                    <label for="password">{{ __('New Password') }}</label>
+                    <div class="input-group input-group-merge">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password">
+                        <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                    </div>
                 </div>
-               </div>
 
+                <div class="mb-3 form-password-toggle">
+                    <label for="password-confirm">{{ __('Confirm Password') }}</label>
+                    <div class="input-group input-group-merge">
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password">
+                        <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                    </div>
+                </div>
 
-            <button type="submit" class="btn btn-primary d-grid w-100 mb-3">@lang('Set new password')</button>
-            <div class="text-center">
-              <a href="{{ route('login') }}">
-                <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
-                @lang('Back to login')
-              </a>
-            </div>
-        </form>
+                <button type="submit" class="btn btn-primary d-grid w-100 mb-3">@lang('Set new password')</button>
+
+                <div class="text-center">
+                    <a href="{{ route('login') }}">
+                        <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
+                        @lang('Back to login')
+                    </a>
+                </div>
+            </form>
+
             </div>
           </div>
           <!-- /Reset Password -->

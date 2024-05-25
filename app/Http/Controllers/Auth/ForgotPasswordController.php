@@ -91,11 +91,6 @@ class ForgotPasswordController extends Controller
             // Store the code in the cache with the email as the key, set to expire in 30 minutes
             Cache::put('password_reset_code_' . $request->email, $code, $expiry);
 
-            // Mail::send('auth.reset_password.password_code', ['code' => $code], function ($message) use ($request) {
-            //     $message->to($request->email);
-            //     $message->subject('Reset Password Code');
-            // });
-
 
             $this->MailForgotPassword($request->email, $code);
 
@@ -172,7 +167,6 @@ class ForgotPasswordController extends Controller
                                 'token' => $request->token
                             ])
                             ->first();
-
 
         if(!$updatePassword){
             return back()->withInput()->with('error', 'Invalid token!');
