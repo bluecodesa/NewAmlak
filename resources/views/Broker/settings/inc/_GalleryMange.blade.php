@@ -89,7 +89,7 @@
                     <label for="galleryName">@lang('Gallery URL')</label>
                     <div class="input-group">
                         <input type="text" class="form-control galleryNameCopy" readonly
-                            value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
+                            value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}">
                         <button onclick="copyToClipboard('.galleryNameCopy')"
                             class="btn btn-outline-primary waves-effect" type="button">
                             <i class="ti ti-copy"></i>
