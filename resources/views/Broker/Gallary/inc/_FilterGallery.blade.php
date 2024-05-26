@@ -4,8 +4,8 @@
             <form action="{{ route('Broker.Gallery.index') }}" method="GET" id="subscriptionsForm">
                 <div class="row">
                     <div class="col-md-4 col-12 mb-3">
-                        <span>@lang('Ad type')</span>
-                        <select class="form-control form-control-sm" id="ad_type_filter" name="ad_type_filter">
+                        <label class="form-label">@lang('Ad type')</label>
+                        <select class="form-select form-control-sm" id="ad_type_filter" name="ad_type_filter">
                             <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
                             @foreach (['rent', 'sale', 'rent and sale'] as $type)
@@ -18,9 +18,11 @@
 
 
                     <div class="col-md-4 col-12 mb-3">
-                        <span>@lang('Property type')</span>
-                        <select class="form-control form-control-sm" id="property_type_filter" name="property_type_filter">
-                            <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')
+                        <label class="form-label">@lang('Property type')</label>
+                        <select class="form-select form-control-sm" id="property_type_filter"
+                            name="property_type_filter">
+                            <option value="all" {{ $propertyTypeFilter == 'all' ? 'selected' : '' }}>
+                                @lang('All')
                             </option>
                             @foreach ($propertyTypeIds as $index => $id)
                                 <option value="{{ $id }}" {{ $propertyTypeFilter == $id ? 'selected' : '' }}>
@@ -31,8 +33,8 @@
                     </div>
 
                     <div class="col-md-4 col-12 mb-3">
-                        <span>@lang('Type use')</span>
-                        <select class="form-control form-control-sm" id="type_use_filter" name="type_use_filter">
+                        <label class="form-label">@lang('Type use')</label>
+                        <select class="form-select form-control-sm" id="type_use_filter" name="type_use_filter">
                             <option value="all" {{ $typeUseFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
                             @foreach ($usages as $usage)
@@ -44,8 +46,8 @@
                         </select>
                     </div>
                     <div class="col-md-3 col-12 mb-3">
-                        <span>@lang('City')</span>
-                        <select class="form-control form-control-sm" id="city_filter" name="city_filter">
+                        <label class="form-label">@lang('City')</label>
+                        <select class="form-select form-control-sm" id="city_filter" name="city_filter">
                             <option value="all" {{ $cityFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
                             @foreach ($uniqueIds as $index => $id)
@@ -58,21 +60,21 @@
                         </select>
                     </div>
                     <div class="col-md-3 col-12 mb-3">
-                        <span>@lang('districts')</span>
-                        <select class="form-control form-control-sm" id="district_filter" name="district_filter">
+                        <label class="form-label">@lang('districts')</label>
+                        <select class="form-select form-control-sm" id="district_filter" name="district_filter">
                             <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
                             @foreach ($districts as $index => $district)
-                                            <option value="{{ $district->district_id }}"
-                                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
-                                                {{ $district->DistrictData->name }}
-                                            </option>
+                                <option value="{{ $district->district_id }}"
+                                    {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
+                                    {{ $district->DistrictData->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-md-3 col-12 mb-3">
-                        <span>@lang('Project')</span>
-                        <select class="form-control form-control-sm" id="project_filter" name="project_filter">
+                        <label class="form-label">@lang('Project')</label>
+                        <select class="form-select form-control-sm" id="project_filter" name="project_filter">
                             <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
                             @foreach ($projectuniqueIds as $index => $id)
@@ -83,15 +85,15 @@
                         </select>
                     </div>
                     <div class="col-md-3 col-12 mb-3">
-                        <span>@lang('Daily Rent')</span>
-                        <select class="form-control form-control-sm" id="daily_filter" name="daily_filter">
+                        <label class="form-label">@lang('Daily Rent')</label>
+                        <select class="form-select form-control-sm" id="daily_filter" name="daily_filter">
                             <option value="all" {{ $dailyFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
                             @foreach (['Available', 'Not_Available'] as $type)
-                            <option value="{{ $type }}" {{ $dailyFilter == $type ? 'selected' : '' }}>
-                                {{ __($type) }}
-                            </option>
-                        @endforeach
+                                <option value="{{ $type }}" {{ $dailyFilter == $type ? 'selected' : '' }}>
+                                    {{ __($type) }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-12">

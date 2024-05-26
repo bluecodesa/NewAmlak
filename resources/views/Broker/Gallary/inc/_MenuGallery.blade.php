@@ -2,7 +2,7 @@
     <table class="table" id="table">
         <thead class="table-dark">
             <tr>
-                <th>#</th>
+
                 <th>@lang('Residential number')</th>
                 <th>@lang('Occupancy')</th>
                 <th>@lang('Ad type')</th>
@@ -16,7 +16,7 @@
         <tbody>
             @forelse ($units as $index => $unit)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+
                     <td>{{ $unit->number_unit ?? '' }}</td>
                     <td>{{ __($unit->status) }}</td>
                     <td>{{ __($unit->type) ?? '' }} </td>
@@ -28,8 +28,8 @@
                     <td> {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}</td>
 
                     <td>
-                        <button type="button" data-bs-toggle="modal"
-                        data-bs-target="#addNewCCModal_{{ $unit->id }}" class="btn btn-primary waves-effect waves-light btn-sm">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#addNewCCModal_{{ $unit->id }}"
+                            class="btn btn-primary waves-effect waves-light btn-sm">
                             @lang('Share')
                         </button>
                     </td>
@@ -67,17 +67,17 @@
                         </div>
                     </td>
 
-            </tr>
+                </tr>
             @empty
-            <td colspan="5">
-                <div class="alert alert-danger d-flex align-items-center" role="alert">
-                    <span class="alert-icon text-danger me-2">
-                        <i class="ti ti-ban ti-xs"></i>
-                    </span>
-                    @lang('No Data Found!')
-                </div>
-            </td>
-        @endforelse
+                <td colspan="5">
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <span class="alert-icon text-danger me-2">
+                            <i class="ti ti-ban ti-xs"></i>
+                        </span>
+                        @lang('No Data Found!')
+                    </div>
+                </td>
+            @endforelse
         </tbody>
     </table>
 </div>
