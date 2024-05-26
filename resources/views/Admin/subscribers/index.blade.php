@@ -75,7 +75,7 @@
                                 <th>@lang('Subscriber Name')</th>
                                 <th>@lang('Account Type')</th>
                                 {{-- <th>@lang('Subscription Type')</th> --}}
-                                <th>@lang('Subscription Time')</th>
+                                {{-- <th>@lang('Subscription Time')</th> --}}
                                 <th>@lang('Subscription Status')</th>
                                 {{-- <th>@lang('Number of Clients')</th> --}}
                                 <th>@lang('Subscriber City')</th>
@@ -111,9 +111,9 @@
                                             <span class="badge rounded-pill bg-secondary">@lang('free')</span>
                                         @endif
                                     </td> --}}
-                                    <td> {{ $subscriber->SubscriptionTypeData->period }}
+                                    {{-- <td> {{ $subscriber->SubscriptionTypeData->period }}
                                         {{ __($subscriber->SubscriptionTypeData->period_type) }}
-                                    </td>
+                                    </td> --}}
                                     <td>
 
                                         <span
