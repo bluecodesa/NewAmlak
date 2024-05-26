@@ -12,7 +12,7 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
                 <div class="row">
-                    <div class="col-12 col-md-9 mb-3">
+                    <div class="col-12 col-md-12 mb-3">
                         <label for="galleryName">@lang('Gallery URL')</label>
                         <div class="input-group">
                             <span onclick="copyUrl()"
@@ -21,35 +21,35 @@
                             <input type="text" class="form-control" readonly
                                 value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
                                 placeholder="Username" aria-label="Username" aria-describedby="basic-addon11">
-    
+
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="row">
 
-                @if (Auth::user()->hasPermission('update-gallery-url'))
-                    <div class="col-12 col-md-9 mb-3">
-                        <input hidden name="broker_id_for_gallery" value="{{ $gallery->id }}" />
-                        <label for="editGalleryName">@lang('Edit Gallery Name')</label>
-                        <div class="input-group">
-                            <div class="col-4">
-                            <input type="text" name="gallery_name" class="form-control edit-gallery-name"
-                                id="editGalleryName" placeholder="@lang('Gallery Name')"
-                                value="{{ explode('@', $gallery->gallery_name)[0] }}" oninput="trimInput(this)">
+                    @if (Auth::user()->hasPermission('update-gallery-url'))
+                        <div class="col-12 col-md-12 mb-3">
+                            <input hidden name="broker_id_for_gallery" value="{{ $gallery->id }}" />
+                            <label for="editGalleryName">@lang('Edit Gallery Name')</label>
+                            <div class="input-group">
+                                <div class="col-4">
+                                    <input type="text" name="gallery_name" class="form-control edit-gallery-name"
+                                        id="editGalleryName" placeholder="@lang('Gallery Name')"
+                                        value="{{ explode('@', $gallery->gallery_name)[0] }}" oninput="trimInput(this)">
+                                </div>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="galleryName" disabled
+                                        value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" />
+
+                                </div>
                             </div>
-                            <div class="col-8">
-                                <input type="text" class="form-control" id="galleryName" disabled
-                                value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}" />
-                          
-                            </div>      {{-- value="{{ env('APP_URL', 'https://newamlak.tryamlak.com','https://stage-newamlak.tryamlak.com') }}/ar/gallery/"> --}}
+                            <div class="row validate-result" style="display: none">
+                                <span class="alert alert-success"></span>
+                                <span class="alert alert-error"></span>
+                            </div>
                         </div>
-                        <div class="row validate-result" style="display: none">
-                            <span class="alert alert-success"></span>
-                            <span class="alert alert-error"></span>
-                        </div>
-                    </div>
-                @endif
+                    @endif
                 </div>
                 @if (Auth::user()->hasPermission('activate-gallery'))
                     <div class="col-12 col-md-6 mb-3">
@@ -86,7 +86,7 @@
             <form id="galleryForm" method="post" disabled class="row">
                 @csrf
                 @method('PUT')
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-md-12 mb-3">
                     <label for="galleryName">@lang('Gallery URL')</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="galleryNameCopy" disabled
@@ -97,7 +97,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-md-12 mb-3">
                     <input hidden name="broker_id_for_gallery" value="{{ $gallery->id }}" />
                     <label for="editGalleryName">@lang('Edit Gallery Name')</label>
                     <div class="d-flex">

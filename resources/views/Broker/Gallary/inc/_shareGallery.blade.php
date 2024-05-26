@@ -42,14 +42,12 @@
                                         {{ \QrCode::size(150)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) }}
                                     </div>
                                     <div class="col-12" style="">
-
-
                                         @php
                                             $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
                                         @endphp
                                         <br>
-                                        <a
-                                            href="{{ route('download.qrcode', ['link' => $url]) }}"class="btn-sm btn btn-success">@lang('Download')
+                                        <a class="btn-sm btn btn-success"
+                                            href="{{ route('download.qrcode', ['link' => $url]) }}">@lang('Download')
                                             @lang('Qr Code')</a>
                                     </div>
                                 </div>
@@ -59,6 +57,15 @@
                                     <h6>@lang('Share the link')</h6>
                                     <p>@lang('Share the property link or copy it on your site')</p>
                                     <div class="input-group">
+                                        <input type="text" class="form-control galleryNameCopy" readonly
+                                            value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
+                                        <button onclick="copyToClipboard('.galleryNameCopy')"
+                                            class="btn btn-outline-primary waves-effect" type="button">
+                                            <i class="ti ti-copy"></i>
+                                        </button>
+                                    </div>
+
+                                    {{-- <div class="input-group">
 
                                         <span onclick="copyToClipboard(this)"
                                             data-url="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}"
@@ -70,7 +77,7 @@
                                             value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}"
                                             placeholder="Username" aria-label="Username"
                                             aria-describedby="basic-addon11">
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                             </div>
@@ -80,19 +87,22 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script>
+            function copyToClipboard(selector) {
+                // Get the input element
+                var copyText = document.querySelector(selector);
 
-    <script>
-        function trimInput(input) {
-            input.value = input.value.trim();
-        }
+                // Select the text field
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); // For mobile devices
 
-        function copyToClipboard(element) {
-            var $temp = $("<input>");
-            $("body").append($temp);
-            $temp.val($(element).data('url')).select();
-            document.execCommand("copy");
-            $temp.remove();
-            alertify.success(@json(__('copy done')));
-        }
-    </script>
+                // Copy the text inside the text field
+                document.execCommand("copy");
+
+                // Optionally, you can provide feedback to the user
+                alertify.success(@json(__('copy done')));
+            }
+        </script>
+    @endpush
 @endforeach
