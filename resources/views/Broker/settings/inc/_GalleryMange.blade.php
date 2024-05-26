@@ -102,12 +102,12 @@
                     <label for="editGalleryName">@lang('Edit Gallery Name')</label>
                     <div class="d-flex">
                         <div class="input-group">
-                            <input type="text" name="gallery_name" class="form-control edit-gallery-name"
-                                id="editGalleryName" placeholder="@lang('Gallery Name')"
-                                value="{{ explode('@', $gallery->gallery_name)[0] }}" oninput="validateName(this)"
-                                disabled>
-                            <input type="text" class="form-control" id="galleryName" disabled
-                                value="{{ env('APP_URL') }}/ar/gallery/">
+                            <input type="text" class="form-control" id="galleryNameCopy" disabled
+                                value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
+                            <button onclick="copyToClipboard('#galleryNameCopy')"
+                                class="btn btn-outline-primary waves-effect" type="button" id="button-copy">
+                                <i class="ti ti-copy"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="row validate-result" style="display: none">
