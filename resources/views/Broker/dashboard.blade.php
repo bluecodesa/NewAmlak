@@ -462,14 +462,18 @@
                       <span
                         class="badge badge-dot my-2 cursor-pointer rounded-pill"
                         style="background-color: rgb(40, 208, 148); width: 35px; height: 6px"></span>
+                        @if($numberOfUnits)
                       <div class="text-muted"> {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%</div>
+                      @endif
                     </li>
                     <li class="ct-series-2 d-flex flex-column">
                       <h5 class="mb-0">@lang('rented')</h5>
                       <span
                         class="badge badge-dot my-2 cursor-pointer rounded-pill"
                         style="background-color: rgb(253, 172, 52); width: 35px; height: 6px"></span>
+                        @if($numberOfUnits)
                       <div class="text-muted"> {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%</div>
+                      @endif
                     </li>
                   </ul>
                 </div>
