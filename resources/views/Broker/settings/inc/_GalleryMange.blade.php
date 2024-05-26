@@ -89,25 +89,26 @@
                 <div class="col-12 col-md-12 mb-3">
                     <label for="galleryName">@lang('Gallery URL')</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="galleryNameCopy" disabled
+                        <input type="text" class="form-control galleryNameCopy" readonly
                             value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
-                        <button onclick="copyToClipboard('#galleryNameCopy')"
-                            class="btn btn-outline-primary waves-effect" type="button" id="button-copy">
+                        <button onclick="copyToClipboard('.galleryNameCopy')"
+                            class="btn btn-outline-primary waves-effect" type="button">
                             <i class="ti ti-copy"></i>
                         </button>
                     </div>
+
                 </div>
                 <div class="col-12 col-md-12 mb-3">
                     <input hidden name="broker_id_for_gallery" value="{{ $gallery->id }}" />
                     <label for="editGalleryName">@lang('Edit Gallery Name')</label>
                     <div class="d-flex">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="galleryNameCopy" disabled
-                                value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
-                            <button onclick="copyToClipboard('#galleryNameCopy')"
-                                class="btn btn-outline-primary waves-effect" type="button" id="button-copy">
-                                <i class="ti ti-copy"></i>
-                            </button>
+                            <input type="text" name="gallery_name" class="form-control edit-gallery-name"
+                                id="editGalleryName" placeholder="@lang('Gallery Name')"
+                                value="{{ explode('@', $gallery->gallery_name)[0] }}" oninput="validateName(this)"
+                                disabled>
+                            <input type="text" class="form-control" id="galleryName" disabled
+                                value="{{ env('APP_URL') }}/ar/gallery/">
                         </div>
                     </div>
                     <div class="row validate-result" style="display: none">
@@ -132,17 +133,21 @@
 
 @endif
 
-<script>
-    function trimInput(input) {
-        input.value = input.value.trim();
-    }
+@push('scripts')
+    <script>
+        function copyToClipboard(selector) {
+            // Get the input element
+            var copyText = document.querySelector(selector);
 
-    function copyToClipboard(element) {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val($(element).val()).select();
-        document.execCommand("copy");
-        $temp.remove();
-        alertify.success(@json(__('copy done')));
-    }
-</script>
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text inside the text field
+            document.execCommand("copy");
+
+            // Optionally, you can provide feedback to the user
+            alertify.success(@json(__('copy done')));
+        }
+    </script>
+@endpush
