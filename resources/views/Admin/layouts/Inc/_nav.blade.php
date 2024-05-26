@@ -219,53 +219,50 @@
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
                         @if (Auth::user()->is_broker)
-                        <a class="dropdown-item" href="{{ route('Broker.Setting.index') }}">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <div class="avatar avatar-online">
-                                        <img src="{{ Auth::user()->avatar  != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
-                                            alt class="h-auto rounded-circle" />
+                            <a class="dropdown-item" href="{{ route('Broker.Setting.index') }}">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar avatar-online">
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                                alt class="h-auto rounded-circle" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
+                                        <small class="text-muted">{{ Auth::user()->roles[0]->name_ar ?? '' }}</small>
                                     </div>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
-                                    <small class="text-muted">{{ Auth::user()->roles[0]->name_ar ?? '' }}</small>
-                                </div>
-                            </div>
-                        </a>
-
+                            </a>
                         @elseif(Auth::user()->is_admin)
-
-                        <a class="dropdown-item" href="{{ route('Admin.settings.index') }}">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <div class="avatar avatar-online">
-                                        <img src="{{ Auth::user()->avatar  != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
-                                            alt class="h-auto rounded-circle" />
+                            <a class="dropdown-item" href="{{ route('Admin.settings.index') }}">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar avatar-online">
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                                alt class="h-auto rounded-circle" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
+                                        <small class="text-muted">{{ Auth::user()->roles[0]->name_ar ?? '' }}</small>
                                     </div>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
-                                    <small class="text-muted">{{ Auth::user()->roles[0]->name_ar ?? '' }}</small>
-                                </div>
-                            </div>
-                        </a>
+                            </a>
                         @elseif(Auth::user()->is_office)
-
-                        <a class="dropdown-item" href="{{ route('Office.settings.index') }}">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <div class="avatar avatar-online">
-                                        <img src="{{ Auth::user()->avatar  != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
-                                            alt class="h-auto rounded-circle" />
+                            <a class="dropdown-item" href="{{ route('Office.settings.index') }}">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar avatar-online">
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                                alt class="h-auto rounded-circle" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
+                                        <small class="text-muted">{{ Auth::user()->roles[0]->name_ar ?? '' }}</small>
                                     </div>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
-                                    <small class="text-muted">{{ Auth::user()->roles[0]->name_ar ?? '' }}</small>
-                                </div>
-                            </div>
-                        </a>
+                            </a>
                         @endif
 
                     </li>
@@ -303,7 +300,7 @@
                             onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
                             <i class="ti ti-logout me-2 ti-sm"></i>
-                            <span class="align-middle">Log Out</span>
+                            <span class="align-middle">@lang('Log Out')</span>
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
                             style="display: none;">
