@@ -69,7 +69,7 @@
 
                 </tr>
             @empty
-                <td colspan="5">
+                <td colspan="8">
                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                         <span class="alert-icon text-danger me-2">
                             <i class="ti ti-ban ti-xs"></i>

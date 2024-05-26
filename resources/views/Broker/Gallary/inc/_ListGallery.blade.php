@@ -118,12 +118,12 @@
         </div>
     </div>
     <!--/ Upcoming Webinar -->
-                         @empty
-                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                            <span class="alert-icon text-danger me-2">
-                                                <i class="ti ti-ban ti-xs"></i>
-                                            </span>
-                                            @lang('No Data Found!')
-                                        </div>
-                                @endforelse
+@empty
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <span class="alert-icon text-danger me-2">
+            <i class="ti ti-ban ti-xs"></i>
+        </span>
+        @lang('No Data Found!')
+    </div>
+@endforelse
 {{-- @include('Broker.Gallary.inc._shareGallery') --}}
