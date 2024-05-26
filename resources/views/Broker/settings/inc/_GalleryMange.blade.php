@@ -15,13 +15,12 @@
                     <div class="col-12 col-md-12 mb-3">
                         <label for="galleryName">@lang('Gallery URL')</label>
                         <div class="input-group">
-                            <span onclick="copyUrl()"
-                                data-url="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
-                                class="input-group-text" id="basic-addon11"><i class="tf-icons ti ti-copy"></i></span>
-                            <input type="text" class="form-control" readonly
-                                value="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
-                                placeholder="Username" aria-label="Username" aria-describedby="basic-addon11">
-
+                            <input type="text" class="form-control galleryNameCopy" readonly
+                                value="{{ env('APP_URL') }}/ar/gallery/{{ $gallery->gallery_name }}">
+                            <button onclick="copyToClipboard('.galleryNameCopy')"
+                                class="btn btn-outline-primary waves-effect" type="button">
+                                <i class="ti ti-copy"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
