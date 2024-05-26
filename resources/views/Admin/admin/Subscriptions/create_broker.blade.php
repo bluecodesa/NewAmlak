@@ -52,7 +52,7 @@
 
                         <div class="col-md-6 col-12 mb-3">
                             <label for="mobile">@lang('Mobile Whats app')<span class="text-danger">*</span></label>
-                            <div style="position:relative">
+                            {{-- <div style="position:relative">
 
                                 <input type="tel" class="form-control" id="mobile" minlength="9" maxlength="9"
                                     pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
@@ -60,9 +60,23 @@
                                     required="" value="">
 
                             </div>
-                        </div>
+                        </div> --}}
+                        <div class="input-group">
+                            <input type="text" placeholder="123456789" name="mobile" value=""
+                                class="form-control" maxlength="9" pattern="\d{1,9}"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                                aria-label="Text input with dropdown button">
+                            <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                996
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" style="">
+                                <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                                <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                            </ul>
 
-
+                    </div>
+                </div>
 
                         <div class="form-group col-md-4 col-12 mb-3">
                             <label>@lang('Region') <span class="text-danger">*</span></label>
@@ -218,6 +232,15 @@
                 readURL(this); // Call readURL function when a file is selected
             });
         </script>
+             <script>
+                $(document).ready(function() {
+                    $('.dropdown-item').on('click', function() {
+                        var key = $(this).data('key');
+                        $('#key_phone').val(key);
+                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                    });
+                });
+            </script>
     @endpush
 
 @endsection
