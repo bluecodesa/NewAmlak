@@ -108,7 +108,8 @@
 
 
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label class="col-md-6">@lang('owner name') <span class="required-color">*</span>
+                                    <label class="col-md-6 form-label">@lang('owner name') <span
+                                            class="required-color">*</span>
                                     </label>
                                     <div class="input-group">
                                         <select class="form-select" id="OwnersDiv"
@@ -133,7 +134,8 @@
 
 
                                 <div class="col-md-4 mb-3 col-12">
-                                    <label>@lang('offered service') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('offered service') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="service_type_id" required>
                                         <option disabled selected value="">@lang('offered service')</option>
                                         @foreach ($servicesTypes as $service)
@@ -212,7 +214,8 @@
 
 
                                 <div class="col-md-6 mb-3 col-12">
-                                    <label>@lang('Ad type') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('Ad type') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="type" id="type" required>
                                         <option disabled value="">@lang('Ad type') </option>
                                         @foreach (['rent', 'sale', 'rent and sale'] as $type)
@@ -224,14 +227,17 @@
 
 
                                 <div class="col-md-6 mb-3 col-12">
-                                    <label>@lang('services') </label>
-                                    <select class="select2 form-select" name="service_id[]" multiple="multiple">
-                                        <option disabled value="">@lang('services')</option>
-                                        @foreach ($services as $service)
-                                            <option value="{{ $service->id }}">
-                                                {{ $service->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label class="form-label">@lang('services') </label>
+                                    <div class="select2-primary">
+                                        <select id="select2Primary" class="select2 form-select select2 form-select"
+                                            name="service_id[]" multiple="multiple">
+                                            <option disabled value="">@lang('services')</option>
+                                            @foreach ($services as $service)
+                                                <option value="{{ $service->id }}">
+                                                    {{ $service->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6 mb-3" hidden>
@@ -262,14 +268,14 @@
 
 
                                 <div class="mb-3 col-12">
-                                    <label>@lang('Description')</label>
+                                    <label class="form-label mb-2">@lang('Description')</label>
                                     <div>
                                         <textarea name="note" class="form-control" rows="5"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-12 mb-3">
-                                    <label class="form-label">@lang('Pictures property') </label>
+                                    <label class="form-label mb-2">@lang('Pictures property') </label>
                                     <input type="file" name="images[]" multiple class="dropify"
                                         accept="image/jpeg, image/png" />
                                 </div>

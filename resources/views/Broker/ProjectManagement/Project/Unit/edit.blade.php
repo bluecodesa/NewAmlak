@@ -110,7 +110,8 @@
 
 
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label>@lang('owner name') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('owner name') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="owner_id" required>
                                         <option disabled value="">@lang('owner name')</option>
                                         @foreach ($owners as $owner)
@@ -129,7 +130,8 @@
 
 
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label>@lang('offered service') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('offered service') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="service_type_id" required>
                                         <option disabled selected value="">@lang('offered service')</option>
                                         @foreach ($servicesTypes as $service)
@@ -199,7 +201,8 @@
 
 
                                 <div class="col-12 mb-3 col-md-4">
-                                    <label>@lang('Ad type') <span class="required-color">*</span> </label>
+                                    <label class="form-label">@lang('Ad type') <span class="required-color">*</span>
+                                    </label>
                                     <select class="form-select" name="type" id="type" required>
                                         <option disabled value="">@lang('Ad type') </option>
                                         @foreach (['rent', 'sale', 'rent and sale'] as $type)
@@ -213,7 +216,7 @@
 
 
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label>@lang('services')</label>
+                                    <label class="form-label">@lang('services')</label>
                                     <select class="select2 form-select" name="service_id[]" multiple="multiple">
                                         <option disabled value="">@lang('services')</option>
                                         @foreach ($services as $service)
@@ -308,14 +311,14 @@
                                 </div>
 
                                 <div class="mb-3 col-12">
-                                    <label>@lang('Description')</label>
+                                    <label class="form-label mb-2">@lang('Description')</label>
                                     <div>
                                         <textarea name="note" class="form-control" rows="5">{{ $Unit->note }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-12 mb-3">
-                                    <label class="form-label">@lang('Pictures property') </label>
+                                    <label class="form-label mb-2">@lang('Pictures property') </label>
                                     <input type="file" name="images[]"
                                         data-url="{{ route('Broker.Unit.deleteImage', $Unit->id) }}"
                                         @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif

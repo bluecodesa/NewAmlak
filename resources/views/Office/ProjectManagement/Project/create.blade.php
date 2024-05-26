@@ -103,7 +103,8 @@
 
 
                                     <div class="form-group col-md-3">
-                                        <label>@lang('owner name') <span class="required-color">*</span> </label>
+                                        <label class="form-label">@lang('owner name') <span class="required-color">*</span>
+                                        </label>
                                         <select class="form-control" name="owner_id" required>
                                             <option disabled selected value="">@lang('owner name')</option>
                                             @foreach ($owners as $owner)

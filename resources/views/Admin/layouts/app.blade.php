@@ -43,11 +43,11 @@
     <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
     <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
-    <link href="{{ url('dashboard_files/assets/css/select2.min.css') }}" rel="stylesheet" type="text/css">
+    {{-- <link href="{{ url('dashboard_files/assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ url('dashboard_files/assets/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
-
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/select2/select2.css') }}" />
     <!-- DataTables -->
 
     <!-- Vendors CSS -->
@@ -190,7 +190,7 @@
     {{-- select2.min.js --}}
 
     <script src="{{ url('dashboard_files/assets/js/dropify.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/select2.min.js') }}"></script>
+    {{-- <script src="{{ url('dashboard_files/assets/js/select2.min.js') }}"></script> --}}
     <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     {{-- <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script> --}}
@@ -221,8 +221,9 @@
     @include('Admin.layouts.Inc.js')
     <script src="{{ url('assets/vendor/libs/dropzone/dropzone.js') }}"></script>
     <script src="{{ url('assets/js/forms-file-upload.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/select2/select2.js') }}"></script>
 
-
+    {{-- <script src="{{ url('assets/js/forms-selects.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
             $('.select2').select2();
