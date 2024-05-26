@@ -6,7 +6,7 @@
         <div class="container-xxl flex-grow-1 container-p-y">
 
             <div class="row">
-                <div class="col-12" id="myDiv">
+                <div class="col-12" id="myDiv" dir="rtl">
                     <div class="card m-b-30">
                         <div class="card-body">
                             <div class="row">
@@ -36,7 +36,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-4 text-right">
+                                        <div class="col-4 text-end">
                                             {{ \QrCode::size(200)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route('Admin.SystemInvoice.show', $invoice->id)) }}
 
 
@@ -270,7 +270,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 border-info p-1">
+                            <div class="col-12 shadow-none bg-transparent border border-info p-1 mt-3">
                                 <div class="row">
                                     <div class="col-6">
                                         <span class="bolder">
@@ -286,7 +286,7 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="col-12 border-success p-1">
+                            <div class="col-12 shadow-none bg-transparent border border-success p-1">
                                 <div class="row">
                                     <div class="col-6">
                                         <span class="bolder">
@@ -303,7 +303,7 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="col-12 border-info p-1">
+                            <div class="col-12 shadow-none bg-transparent border border-info p-1">
                                 <div class="row">
                                     <div class="col-6">
                                         <span class="bolder">
@@ -321,7 +321,7 @@
                             <br>
                             <br>
 
-                            <div class="col-12 border-info p-1">
+                            <div class="col-12 shadow-none bg-transparent border border-info p-1">
                                 <div class="row">
                                     <div class="col-6">
                                         <span class="bolder">
@@ -352,6 +352,11 @@
 
         <div class="content-backdrop fade"></div>
     </div>
+    <style>
+        .table> :not(caption)>*>* {
+            padding: 4px 0px !important;
+        }
+    </style>
 
     @push('scripts')
         <script>
@@ -363,7 +368,7 @@
                     printContainer: true, // print outer container/$.selector
                     loadCSS: "", // path to additional css file - use an array [] for multiple
                     pageTitle: "", // add title to print page
-                    removeInline: false, // remove inline styles from print elements
+                    removeInline: true, // remove inline styles from print elements
                     removeInlineSelector: "*", // custom selectors to filter inline styles. removeInline must be true
                     printDelay: 500, // variable print delay
                     header: null, // prefix to html

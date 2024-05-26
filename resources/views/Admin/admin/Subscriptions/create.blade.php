@@ -9,7 +9,7 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 py-3 mb-3">
+                <div class="col-6">
 
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Admin.Subscribers.index') }}" class="text-muted fw-light">@lang('Subscribers') </a> /
@@ -93,7 +93,7 @@
                                     <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
                                 </ul>
 
-                        </div>
+                            </div>
                         </div>
                         <div class="col-md-4 col-12 mb-3">
                             <label>@lang('Region') <span class="text-danger">*</span> </label>

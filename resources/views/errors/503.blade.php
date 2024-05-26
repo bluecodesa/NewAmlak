@@ -1,73 +1,112 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}"
+    class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
+    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
+    data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>{{ $sitting->title }} @lang('register')</title>
-    <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
-    <meta content="Themesdesign" name="author" />
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <link href="{{ url('dashboard_files/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/icons.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <title> {{ $sitting->title }} - 503</title>
 
-    <link href="http://fonts.cdnfonts.com/css/tajawal" rel="stylesheet">
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/flag-icons.css') }}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/core.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/theme-default.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/css/demo.css') }}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/css/pages/page-misc.css') }}" />
+
+    <!-- Helpers -->
+    <script src="{{ url('assets/vendor/js/helpers.js') }}"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{ url('assets/js/config.js') }}"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
     <style>
-        body,
-        h4,
-        h5,
-        strong,
-        h3,
-        label span,
         * {
-            font-family: 'Tajawal';
+            font-family: "Noto Kufi Arabic", sans-serif !important;
+            /* font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal; */
+            /* text-transform: capitalize !important; */
         }
     </style>
 </head>
 
 <body>
+    <!-- Content -->
 
-
-    <div class="home-btn d-none d-sm-block">
-        <a href="{{ route('Admin.home') }}" class="text-dark"><i class="fas fa-home h2"></i></a>
-    </div>
-
-    <div class="mt-5 pt-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <div class="text-center mb-5">
-                        <div class="mb-5">
-                            <img src="{{ url($sitting->icon) }}" height="100" style="border-radius: 50%;"
-                                alt="logo">
-                        </div>
-                        <div class="maintenance-img mb-5">
-                            <img src="{{ url('dashboard_files/assets/images/maintenance-img.png') }}" alt=""
-                                class="img-fluid mx-auto d-block">
-                        </div>
-                        <h1>402</h1>
-                        <a class="btn btn-primary mb-4 waves-effect waves-light" href="{{ route('Admin.home') }}"><i
-                                class="mdi mdi-home"></i> @lang('Back to Dashboard')</a>
-                    </div>
-                </div>
+    <!--Under Maintenance -->
+    <div class="container-xxl container-p-y">
+        <div class="misc-wrapper">
+            <h2 class="mb-1 mx-2">503!</h2>
+            <a href="{{ route('Admin.home') }}" class="btn btn-primary mb-4">@lang('Back to Dashboard')</a>
+            <div class="mt-4">
+                <img src="{{ url('assets/img/illustrations/page-misc-under-maintenance.png') }}"
+                    alt="page-misc-under-maintenance" width="550" class="img-fluid" />
             </div>
-            <!-- end row -->
         </div>
     </div>
-    <!-- jQuery  -->
-    <script src="{{ url('dashboard_files/assets/js/jquery.min.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/metismenu.min.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/jquery.slimscroll.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/waves.min.js') }}"></script>
+    <div class="container-fluid misc-bg-wrapper misc-under-maintenance-bg-wrapper">
+        <img src="{{ url('assets/img/illustrations/bg-shape-image-light.png') }}" alt="page-misc-under-maintenance"
+            data-app-light-img="illustrations/bg-shape-image-light.png"
+            data-app-dark-img="illustrations/bg-shape-image-dark.png" />
+    </div>
+    <!-- /Under Maintenance -->
 
-    <!-- App js -->
-    <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
+    <!-- / Content -->
 
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+
+    <script src="{{ url('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ url('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/node-waves/node-waves.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/hammer/hammer.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <script src="{{ url('assets/vendor/js/menu.js') }}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="{{ url('assets/js/main.js') }}"></script>
+
+    <!-- Page JS -->
 </body>
 
 </html>
