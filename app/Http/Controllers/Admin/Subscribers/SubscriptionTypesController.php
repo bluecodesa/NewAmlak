@@ -69,7 +69,7 @@ class SubscriptionTypesController extends Controller
             $rules += [$locale . '.name' => ['required', Rule::unique('subscription_type_translations', 'name')]];
         }
         $rules += [
-            'period' => 'required',
+            'period' => 'required|numeric',
             'period_type' => 'required',
             'roles' => 'required|array|min:1', // At least one role must be selected
             'sections' => 'required|array',
@@ -79,13 +79,14 @@ class SubscriptionTypesController extends Controller
         ];
         $messages = [
             'required' => __('The :attribute field is required.'),
+            'numeric' => __('The :attribute field must be number.'),
             'unique' => __('The :attribute has already been taken.'),
             'roles.min' => __('Please select at least one role.'),
             'upgrade_rate.numeric' => 'Discount applied Must be Number ',
             'price.required' => __('The price field is required.'), // Add this line for price error message
             'price.numeric' => __('The price must be a number.'), // Add this line for numeric validation message
             'price.min' => __('The price must be at least 0.'), // Add this line for minimum value validation
-        
+
 
         ];
         $request->validate($rules, $messages);
@@ -115,18 +116,25 @@ class SubscriptionTypesController extends Controller
             $rules += [$locale . '.name' => ['required', Rule::unique('subscription_type_translations', 'name')->ignore($id, 'subscription_type_id')]];
         }
         $rules += [
-            'period' => 'required',
+            'period' => 'required|numeric',
             'period_type' => 'required',
             'roles*' => 'required',
             'sections*' => 'required',
             'upgrade_rate' => 'numeric|min:0|max:100',
+            'price' => 'required|numeric|min:0', // Add this line for price validation
+
 
         ];
         $messages = [
             'required' => __('The :attribute field is required.'),
+            'numeric' => __('The :attribute field must be number.'),
             'unique' => __('The :attribute has already been taken.'),
             'roles.min' => __('Please select at least one role.'),
             'upgrade_rate.numeric' => 'Discount applied Must be Number ',
+            'price.required' => __('The price field is required.'), // Add this line for price error message
+            'price.numeric' => __('The price must be a number.'), // Add this line for numeric validation message
+            'price.min' => __('The price must be at least 0.'), // Add this line for minimum value validation
+
 
         ];
         $request->validate($rules, $messages);
