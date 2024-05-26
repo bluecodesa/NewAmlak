@@ -585,7 +585,7 @@
 <script src="../../assets/js/charts-chartjs.js"></script>
 
 <!-- Add this script within your dashboard page template -->
-<script>
+{{-- <script>
 const doughnutChart = document.getElementById('doughnutChart');
 if (doughnutChart) {
   const doughnutChartVar = new Chart(doughnutChart, {
@@ -642,7 +642,7 @@ if (doughnutChart) {
 }
 
 
-</script>
+</script> --}}
 
 
     @endpush
