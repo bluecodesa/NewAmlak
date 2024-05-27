@@ -54,7 +54,7 @@
                               </li>
                             </ul>
                           </div>
-                          <a href="tel:{{ $broker->mobile }}" class="btn btn-primary">
+                          <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" class="btn btn-primary">
                             <i class="ti ti-phone me-1"></i>تواصل
                           </a>
                         </div>

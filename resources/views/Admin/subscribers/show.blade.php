@@ -134,7 +134,7 @@
                                                 {{ $subscriber->OfficeData->presenter_number ?? '' }}
                                             @endif
                                             @if ($subscriber->broker_id)
-                                                {{ $subscriber->BrokerData->mobile ?? '' }}
+                                               +{{ $subscriber->BrokerData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }}
                                             @endif
                                         </span>
                                     </li>

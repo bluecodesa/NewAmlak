@@ -267,7 +267,7 @@
                                             @forelse ($unitInterests as $index => $client)
                                                 <tr>
                                                     <td> {{ $client->name }}</td>
-                                                    <td>+{{ $client->key_phone }}{{ $client->whatsapp }}</td>
+                                                    <td>+{{ $client->key_phone }} {{ $client->whatsapp }}</td>
                                                     <td>
                                                         <form method="POST"
                                                             action="{{ route('Broker.Interest.status.update', $client->id) }}">
