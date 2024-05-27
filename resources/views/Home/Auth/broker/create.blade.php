@@ -175,8 +175,7 @@
                                             onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
                                             name="mobile" required value=""> --}}
 
-<<<<<<< Updated upstream
-                                                {{-- <input type="text" placeholder="123456789" name="mobile" value=""
+                                    {{-- <input type="text" placeholder="123456789" name="mobile" value=""
                                                     class="form-control" maxlength="9" pattern="\d{1,9}"
                                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
                                                     aria-label="Text input with dropdown button">
@@ -188,21 +187,7 @@
                                                     <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                                                     <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
                                                 </ul> --}}
-                                                <div class="input-group">
-                                                    <input type="text" name="mobile" placeholder="123456789" value=""
-                                                        class="form-control" maxlength="9" pattern="\d{1,9}"
-                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                                                        aria-label="Text input with dropdown button">
-                                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        {{'996' }}
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" style="">
-                                                        <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                                        <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
-                                                    </ul>
-                                                </div>
-=======
+
                                     <div class="input-group">
                                         <input type="text" placeholder="123456789" id="phone" name="mobile"
                                             value="" class="form-control" maxlength="9" pattern="\d{1,9}"
@@ -220,7 +205,6 @@
                                         </ul>
 
                                     </div>
->>>>>>> Stashed changes
 
                                 </div>
                             </div>
@@ -431,9 +415,6 @@
         $("#upload").change(function() {
             readURL(this); // Call readURL function when a file is selected
         });
-
-
-
     </script>
     <script>
         // JavaScript to handle the reset button functionality
@@ -445,19 +426,7 @@
             $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
         });
     </script>
-<<<<<<< Updated upstream
-<script>
 
-$(document).ready(function() {
-                    $('.dropdown-item').on('click', function() {
-                        var key = $(this).data('key');
-                        $('#key_phone').val(key);
-                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                    });
-                });
-
-</script>
-=======
     <script>
         function updateFullPhone(input) {
             input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
@@ -475,7 +444,7 @@ $(document).ready(function() {
             });
         });
     </script>
->>>>>>> Stashed changes
+
 </body>
 
 </html>
