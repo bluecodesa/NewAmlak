@@ -54,6 +54,7 @@ class OwnerController extends Controller
 
     public function edit($id)
     {
+
         $Owner =  $this->ownerService->getOwnerById($id);
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();

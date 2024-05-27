@@ -9,6 +9,9 @@ class Owner extends Model
 {
     protected $guarded = [];
 
+    protected $appends = ['full_phone'];
+
+
     public function CityData()
     {
         return $this->belongsTo(City::class, 'city_id');
@@ -22,5 +25,10 @@ class Owner extends Model
     public function BrokerData()
     {
         return $this->belongsTo(Broker::class, 'broker_id');
+    }
+
+    public function getFullPhoneAttribute()
+    {
+        return $this->key_phone . $this->phone;
     }
 }

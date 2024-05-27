@@ -79,7 +79,7 @@
                                     <tr>
                                         <td>{{ $developer->name }}</td>
                                         <td>{{ $developer->email }}</td>
-                                        <td>{{ $developer->phone }}</td>
+                                        <td>{{ $developer->full_phone }}</td>
                                         <td>{{ $developer->CityData->name }}</td>
                                         <td>
 

@@ -8,10 +8,8 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-6">
-
                     <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Broker.Unit.index') }}" class="text-muted fw-light">@lang('Units') </a> /
-
                         @lang('Add unit')
                     </h4>
                 </div>
@@ -200,16 +198,32 @@
                                 </div>
 
                                 <div class="col-sm-12 col-md-4 mb-3">
-                                    <label class="form-label">@lang('selling price')</label>
-                                    <input type="number" name="price" class="form-control"
-                                        placeholder="@lang('selling price')" value="{{ old('price') }}" />
+
+                                    <label for="price" class="form-label">@lang('selling price')</label>
+                                    <div class="input-group">
+                                        <input type="text" name="price" value="{{ old('price') }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                            class="form-control" placeholder="@lang('selling price')"
+                                            aria-label="@lang('selling price')" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
+
                                 </div>
 
 
                                 <div class="col-sm-12 col-md-4 mb-3">
-                                    <label class="form-label">@lang('Monthly rental price')</label>
-                                    <input type="number" name="monthly" class="form-control"
-                                        placeholder="@lang('Monthly rental price')" value="{{ old('price') }}" />
+
+                                    <label for="price" class="form-label">@lang('Monthly rental price')</label>
+                                    <div class="input-group">
+                                        <input type="text" name="monthly" value="{{ old('monthly') }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                            class="form-control" placeholder="@lang('Monthly rental price')"
+                                            aria-label="@lang('Monthly rental price')" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
+
                                 </div>
 
 
@@ -427,7 +441,7 @@
             function addFeature() {
                 const featuresContainer = document.getElementById('features');
                 const newRow = document.createElement('div');
-                newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
+                newRow.classList.add('row', 'mt-2'); // Add any additional classes that your grid system requires
 
                 // Use the exact same class names and structure as your existing rows
                 newRow.innerHTML = `

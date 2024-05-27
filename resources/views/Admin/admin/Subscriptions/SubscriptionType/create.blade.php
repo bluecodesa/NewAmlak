@@ -36,7 +36,8 @@
                             </div>
                         @endforeach
                         <div class="col-md-4 col-12 mb-3">
-                            <label for="">@lang('Required subscription period') <span class="required-color">*</span></label>
+                            <label for="" class="form-label">@lang('Required subscription period') <span
+                                    class="required-color">*</span></label>
                             <div class="input-group">
                                 <button class="btn btn-outline-primary btn-type-subscription dropdown-toggle waves-effect"
                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,7 +62,8 @@
 
 
                         <div class="col-md-4 mb-3">
-                            <label for="price">@lang('the amount') <span class="required-color">*</span></label>
+                            <label for="price" class="form-label">@lang('the amount') <span
+                                    class="required-color">*</span></label>
                             <div class="input-group">
                                 <input type="number" name="price" class="form-control" placeholder="@lang('the amount')"
                                     aria-label="@lang('the amount')" aria-describedby="button-addon2" required>
@@ -71,7 +73,7 @@
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label for="upgrade_rate">@lang('Discount applied')</label><br />
+                            <label for="upgrade_rate" class="form-label">@lang('Discount applied')</label><br />
                             <div class="wrapper" style="position: relative; ">
                                 <input type="text" name="upgrade_rate" id="upgrade_rate" placeholder="20%"
                                     class="form-control" min="0" max="100" />

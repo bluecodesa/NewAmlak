@@ -32,13 +32,12 @@ class SubscriptionService
     protected $brokerCreationService;
 
 
-    public function __construct(SubscriptionRepositoryInterface $subscriptionRepository,UserCreationService $userCreationService,OfficeCreationService $officeCreationService,BrokerCreationService $brokerCreationService)
+    public function __construct(SubscriptionRepositoryInterface $subscriptionRepository, UserCreationService $userCreationService, OfficeCreationService $officeCreationService, BrokerCreationService $brokerCreationService)
     {
         $this->subscriptionRepository = $subscriptionRepository;
         $this->userCreationService = $userCreationService;
         $this->officeCreationService = $officeCreationService;
         $this->brokerCreationService = $brokerCreationService;
-
     }
 
     public function getAllSubscribers()
@@ -89,28 +88,28 @@ class SubscriptionService
             $data['company_logo'] = '/Offices/Logos/' . $fileName;
         }
 
-              // User creation
+        // User creation
         $user = $this->userCreationService->createOffice($data);
 
-              // Office creation
+        // Office creation
         $office = $this->officeCreationService->createOffice($data, $user);
 
         $subscriptionType = SubscriptionType::find($request['subscription_type_id']);
 
         // $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
         // Calculate the end date
-$endDate = $subscriptionType->calculateEndDate(Carbon::now());
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now());
 
-// Set the desired time (e.g., 23:59:59)
-$endDate->setHour(23)->setMinute(59)->setSecond(59);
+        // Set the desired time (e.g., 23:59:59)
+        $endDate->setHour(23)->setMinute(59)->setSecond(59);
 
-// Format the end date
-$endDate = $endDate->format('Y-m-d H:i:s');
+        // Format the end date
+        $endDate = $endDate->format('Y-m-d H:i:s');
 
 
         $status = ($subscriptionType->price > 0) ? 'pending' : 'active';
 
-        $subscription=$this->subscriptionRepository->createOfficeSubscriber([
+        $subscription = $this->subscriptionRepository->createOfficeSubscriber([
             'office_id' => $office->id,
             'subscription_type_id' => $request['subscription_type_id'],
             'status' => $status,
@@ -125,7 +124,6 @@ $endDate = $endDate->format('Y-m-d H:i:s');
         $this->createSystemInvoice($office, $subscriptionType, $status);
 
         return $subscription;
-
     }
 
 
@@ -136,22 +134,22 @@ $endDate = $endDate->format('Y-m-d H:i:s');
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
-            'mobile' => 'required|unique:brokers,mobile|digits:9',
+            'full_phone' => 'required|unique:brokers,full_phone',
             'city_id' => 'required|exists:cities,id',
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'license_number' => 'required|string|max:255|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'file',
-            'id_number'=>'nullable|unique:brokers,id_number'
+            'id_number' => 'nullable|unique:brokers,id_number'
 
         ];
         $messages = [
             'name.required' => __('The name field is required.'),
             'email.required' => __('The email field is required.'),
             'email.unique' => __('The email has already been taken.'),
-            'mobile.required' => __('The mobile field is required.'),
-            'mobile.unique' => __('The mobile has already been taken.'),
-            'mobile.digits' => __('The mobile must be 9 digits.'),
+            'full_phone.required' => __('The mobile field is required.'),
+            'full_phone.unique' => __('The mobile has already been taken.'),
+            'full_phone.digits' => __('The mobile must be 9 digits.'),
             'license_number.required' => __('The license number field is required.'),
             'license_number.unique' => __('The license number has already been taken.'),
             'password.required' => __('The password field is required.'),
@@ -162,7 +160,7 @@ $endDate = $endDate->format('Y-m-d H:i:s');
 
         ];
 
-        validator($data, $rules,$messages)->validate();
+        validator($data, $rules, $messages)->validate();
 
         if ($request->hasFile('broker_logo')) {
             $file = $request->file('broker_logo');
@@ -179,7 +177,7 @@ $endDate = $endDate->format('Y-m-d H:i:s');
 
         $subscriptionType = SubscriptionType::find($data['subscription_type_id']);
 
-         //
+        //
         $hasRealEstateGallerySection = $subscriptionType->sections()->get();
 
         $sectionNames = [];
@@ -202,7 +200,7 @@ $endDate = $endDate->format('Y-m-d H:i:s');
             $gallery = null;
         }
 
- ///
+        ///
         $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
 
         $status = ($subscriptionType->price > 0) ? 'pending' : 'active';
@@ -224,7 +222,7 @@ $endDate = $endDate->format('Y-m-d H:i:s');
             ]);
         }
 
-        $Invoice= SystemInvoice::create([
+        $Invoice = SystemInvoice::create([
             'broker_id' => $broker->id,
             'subscription_name' => $subscriptionType->name,
             'amount' => $subscriptionType->price,
@@ -345,5 +343,4 @@ $endDate = $endDate->format('Y-m-d H:i:s');
             })
             ->get();
     }
-
 }

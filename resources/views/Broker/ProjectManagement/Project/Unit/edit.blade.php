@@ -230,46 +230,89 @@
 
                                 {{--  --}}
                                 <div class="col-sm-12 col-md-2 mb-3">
-                                    <label class="form-label">@lang('selling price')</label>
-                                    <input type="number" name="price" class="form-control"
-                                        placeholder="@lang('selling price')" value="{{ $Unit->price }}" />
+
+                                    <label for="price" class="form-label">@lang('selling price')</label>
+                                    <div class="input-group">
+                                        <input type="text" name="price" value="{{ $Unit->price }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                            class="form-control" placeholder="@lang('selling price')"
+                                            aria-label="@lang('selling price')" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
+
+
                                 </div>
 
 
                                 <div class="col-sm-12 col-md-2 mb-3">
-                                    <label class="form-label">@lang('daily rental price')</label>
-                                    <input type="number" name="daily" class="form-control"
-                                        placeholder="@lang('daily rental price')"
-                                        value="{{ $Unit->UnitRentPrice->daily ?? '' }}" />
+                                    <label for="daily" class="form-label">@lang('daily rental price')</label>
+                                    <div class="input-group">
+                                        <input type="text" name="daily" value="{{ $Unit->UnitRentPrice->daily }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                            class="form-control" placeholder="@lang('daily rental price')"
+                                            aria-label="@lang('daily rental price')" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-2 mb-3">
-                                    <label class="form-label">@lang('Monthly rental price')</label>
-                                    <input type="number" name="monthly" class="form-control"
-                                        placeholder="@lang('Monthly rental price')"
-                                        value="{{ $Unit->UnitRentPrice->monthly ?? '' }}" />
+                                    <label for="monthly" class="form-label">@lang('Monthly rental price')</label>
+                                    <div class="input-group">
+                                        <input type="text" name="monthly" value="{{ $Unit->UnitRentPrice->monthly }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                            class="form-control" placeholder="@lang('Monthly rental price')"
+                                            aria-label="@lang('Monthly rental price')" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-2 mb-3">
-                                    <label class="form-label">@lang('quarterly rental price')</label>
-                                    <input type="number" name="quarterly" class="form-control"
-                                        placeholder="@lang('quarterly rental price')"
-                                        value="{{ $Unit->UnitRentPrice->quarterly ?? '' }}" />
+
+                                    <label for="quarterly" class="form-label">@lang('quarterly rental price')</label>
+                                    <div class="input-group">
+                                        <input type="text" name="quarterly"
+                                            value="{{ $Unit->UnitRentPrice->quarterly }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                            class="form-control" placeholder="@lang('quarterly rental price')"
+                                            aria-label="@lang('quarterly rental price')" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
+
                                 </div>
 
                                 <div class="col-sm-12 col-md-2 mb-3">
-                                    <label class="form-label">@lang('midterm rental price')</label>
-                                    <input type="number" name="midterm" class="form-control"
-                                        placeholder="@lang('midterm rental price')"
-                                        value="{{ $Unit->UnitRentPrice->midterm ?? '' }}" />
+
+                                    <label for="midterm" class="form-label">@lang('midterm rental price')</label>
+                                    <div class="input-group">
+                                        <input type="text" name="midterm" value="{{ $Unit->UnitRentPrice->midterm }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                            class="form-control" placeholder="@lang('midterm rental price')"
+                                            aria-label="@lang('midterm rental price')" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
+
                                 </div>
 
                                 <div class="col-sm-12 col-md-2 mb-3">
-                                    <label class="form-label">@lang('yearly rental price')</label>
-                                    <input type="number" name="yearly" class="form-control"
-                                        placeholder="@lang('yearly rental price')"
-                                        value="{{ $Unit->UnitRentPrice->yearly ?? '' }}" />
+
+                                    <label for="yearly" class="form-label">@lang('yearly rental price')</label>
+                                    <div class="input-group">
+                                        <input type="text" name="yearly" value="{{ $Unit->UnitRentPrice->yearly }}"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                            class="form-control" placeholder="@lang('yearly rental price')"
+                                            aria-label="@lang('yearly rental price')" aria-describedby="button-addon2">
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
                                 </div>
+
+
+
 
                                 {{--  --}}
 

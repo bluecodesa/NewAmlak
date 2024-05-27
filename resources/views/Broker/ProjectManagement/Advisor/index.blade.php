@@ -75,7 +75,7 @@
                                     <tr>
                                         <td>{{ $Advisor->name }}</td>
                                         <td>{{ $Advisor->email }}</td>
-                                        <td>{{ $Advisor->phone }}</td>
+                                        <td>{{ $Advisor->full_phone }}</td>
                                         <td>{{ $Advisor->CityData->name }}</td>
                                         <td>
                                             <div class="dropdown">

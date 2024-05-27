@@ -13,5 +13,11 @@ class Setting extends Model
 
     public $translatedAttributes = ['title'];
     protected $guarded = [];
+    protected $appends = ['full_phone'];
 
+
+    public function getFullPhoneAttribute()
+    {
+        return $this->key_support_phone . $this->support_phone;
+    }
 }
