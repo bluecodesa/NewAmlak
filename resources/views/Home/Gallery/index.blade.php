@@ -54,7 +54,7 @@
                               </li>
                             </ul>
                           </div>
-                          <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" class="btn btn-primary">
+                          <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank" class="btn btn-primary">
                             <i class="ti ti-phone me-1"></i>تواصل
                           </a>
                         </div>
@@ -295,10 +295,10 @@
           </div>
 
           <div class="d-flex align-items-center justify-content-center">
-            <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" class="btn btn-primary d-flex align-items-center me-3"
+            <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
               ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a
             >
-            <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{$broker->mobile}}" class="btn btn-label-secondary btn-icon"
+            <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{$broker->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
               ><i class="ti ti-message ti-sm"></i
             ></a>
           </div>

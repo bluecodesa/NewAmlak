@@ -191,7 +191,7 @@
                                                         aria-label="Text input with dropdown button">
                                                     <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                                        {{ $sitting->key_phone ?? '996' }}
+                                                        {{'996' }}
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" style="">
                                                         <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
@@ -417,13 +417,7 @@
         });
 
 
-                $(document).ready(function() {
-                    $('.dropdown-item').on('click', function() {
-                        var key = $(this).data('key');
-                        $('#key_phone').val(key);
-                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                    });
-                });
+
     </script>
     <script>
         // JavaScript to handle the reset button functionality
@@ -435,7 +429,17 @@
             $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
         });
     </script>
+<script>
 
+$(document).ready(function() {
+                    $('.dropdown-item').on('click', function() {
+                        var key = $(this).data('key');
+                        $('#key_phone').val(key);
+                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                    });
+                });
+
+</script>
 </body>
 
 </html>
