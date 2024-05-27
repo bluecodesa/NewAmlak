@@ -495,23 +495,20 @@
         <div class="content-backdrop fade"></div>
     </div>
 
-    @if (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null)
-        @include('Home.Payments.pending_payment')
-    @endif
+     @include('Home.Payments.pending_payment')
     @include('Home.Payments._view_inv')
 
     @include('Broker.inc._SubscriptionSuspend')
 
     @push('scripts')
-        @if (Auth::user()->UserBrokerData->UserSubscriptionSuspend ?? null)
+        @if ((Auth::user()->UserBrokerData->UserSubscriptionSuspend ?? null) && (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null))
             <script>
                 $(document).ready(function() {
                     $('.bs-example-modal-center').modal('show');
                 });
             </script>
-        @endif
 
-        @if (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null)
+        @elseif (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null)
         <script>
             $(document).ready(function() {
                 $('.bs-example-modal-center2').modal('show');

@@ -104,12 +104,12 @@
             <div class="row">
 
                 <!-- User List Style -->
-                <div class="col-12 col-lg-9 mb-4 mb-xl-0">
+                <div class="col-12 col-lg-10 mb-4 mb-xl-0">
                     <div class="card overflow-hidden mb-4">
                         <div class="card-body"  id="vertical-example">
                             <h5 class="mt-4 small text-uppercase text-muted">@lang('Comments')</h5>
                             <div class="demo-inline-spacing mt-3">
-                                <div class="list-group" style="max-height: 400px; overflow-y: auto;">
+                                <div class="list-group" style="max-height: 400px; overflow-y: auto; overflow-x: hidden;">
                                     @if($ticketResponses && $ticketResponses->isNotEmpty())
                                         @foreach ($ticketResponses as $response)
                                         <div class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer">
@@ -117,7 +117,9 @@
                                                  alt="{{ optional($response->UserData)->name ?? 'Default Name' }}" class="rounded-circle me-3 w-px-50" />
                                             <div class="w-100">
                                                 <div class="d-flex justify-content-between">
-                                                    <div class="user-info">
+                                                    <div class="row">
+
+                                                    <div class="col-8 user-info">
                                                         <h6 class="mb-1">{{ $response->response }}</h6>
                                                         <small>{{ optional($response->UserData)->name ?? 'Anonymous' }}</small>
                                                         <div class="user-status">
@@ -125,12 +127,13 @@
                                                             <small>{{ $response->created_at->format('Y-m-d H:i:s') }}</small>
                                                         </div>
                                                     </div>
-                                                    <div class="add-btn">
+                                                    <div class="add-btn col-4">
                                                         @if ($response->response_attachment)
                                                         <span class="badge bg-label-secondary">{{ basename($response->response_attachment) }}</span>
                                                         <a class="btn btn-primary ti ti-download btn-sm" href="{{ asset($response->response_attachment) }}" download></a>
                                                         @endif
                                                     </div>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -154,8 +157,8 @@
                 <!-- Progress Style -->
                 @if ($ticket->status != 'Closed')
                 <div class="row">
-                <div class="col-12 col-lg-8">
-                    <div class="card mb-4">
+                    <div class="col-12 col-lg-10 mb-4 mb-xl-0">
+                        <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="mt-4 small text-uppercase text-muted">@lang('Add your comment')</h5>
                     <div class="demo-inline-spacing mt-3">

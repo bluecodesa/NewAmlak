@@ -48,7 +48,7 @@
                 <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                 <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
             </ul> --}}
-            <input type="text" placeholder="123456789" name="whatsapp" value="{{ $broker->mobile }}"
+            <input type="text" placeholder="123456789" name="whatsapp" value=""
             class="form-control" maxlength="9" pattern="\d{1,9}"
             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
             aria-label="Text input with dropdown button" required>

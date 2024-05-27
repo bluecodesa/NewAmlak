@@ -172,8 +172,7 @@
                                             onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
                                             name="mobile" required value=""> --}}
 
-                                            <div class="input-group">
-                                                <input type="text" placeholder="123456789" name="mobile" value=""
+                                                {{-- <input type="text" placeholder="123456789" name="mobile" value=""
                                                     class="form-control" maxlength="9" pattern="\d{1,9}"
                                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
                                                     aria-label="Text input with dropdown button">
@@ -184,9 +183,21 @@
                                                 <ul class="dropdown-menu dropdown-menu-end" style="">
                                                     <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                                                     <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
-                                                </ul>
-
-                                        </div>
+                                                </ul> --}}
+                                                <div class="input-group">
+                                                    <input type="text" name="mobile" placeholder="123456789" value=""
+                                                        class="form-control" maxlength="9" pattern="\d{1,9}"
+                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                                                        aria-label="Text input with dropdown button">
+                                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        {{ $sitting->key_phone ?? '996' }}
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end" style="">
+                                                        <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                                                        <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                                                    </ul>
+                                                </div>
 
                                 </div>
                             </div>
@@ -404,6 +415,15 @@
         $("#upload").change(function() {
             readURL(this); // Call readURL function when a file is selected
         });
+
+
+                $(document).ready(function() {
+                    $('.dropdown-item').on('click', function() {
+                        var key = $(this).data('key');
+                        $('#key_phone').val(key);
+                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                    });
+                });
     </script>
     <script>
         // JavaScript to handle the reset button functionality
@@ -415,15 +435,7 @@
             $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
         });
     </script>
-        <script>
-            $(document).ready(function() {
-                $('.dropdown-item').on('click', function() {
-                    var key = $(this).data('key');
-                    $('#key_phone').val(key);
-                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                });
-            });
-        </script>
+
 </body>
 
 </html>
