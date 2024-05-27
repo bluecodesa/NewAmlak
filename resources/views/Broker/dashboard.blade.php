@@ -67,37 +67,7 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
-                      <div class="card-header pb-3">
-                        <div class="d-flex align-items-center mb-2 pb-1">
-                            <div class="avatar me-2">
-                              <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-users ti-md"></i></span>
-                            </div>
-                            <h4 class="ms-1 mb-0">@lang('Number Of Owners')</h4>
-                          </div>
-                        <small class="text-muted"></small>
-                      </div>
-                      <div class="card-body">
-                        <div id="ordersLastWeek"></div>
-                        <div class="d-flex justify-content-between align-items-center gap-3">
-                          <h4 class="mb-0">{{ $numberOfowners }}</h4>
-                          <span class="text-success"></span>
-                        </div>
-                        <div class="d-flex align-items-center mt-1">
-                            {{-- <div class="progress w-100" style="height: 8px">
-                              <div
-                                class="progress-bar bg-primary"
-                                style="width: 85%"
-                                role="progressbar"
-                                aria-valuenow="85"
-                                aria-valuemin="0"
-                                aria-valuemax="100"></div>
-                            </div> --}}
-                      </div>
-                    </div>
-                </div>
-                </div>
+
 
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
@@ -325,7 +295,37 @@
                     </div>
                 </div>
                 </div>
-
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header pb-3">
+                        <div class="d-flex align-items-center mb-2 pb-1">
+                            <div class="avatar me-2">
+                              <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-users ti-md"></i></span>
+                            </div>
+                            <h4 class="ms-1 mb-0">@lang('Number Of Owners')</h4>
+                          </div>
+                        <small class="text-muted"></small>
+                      </div>
+                      <div class="card-body">
+                        <div id="ordersLastWeek"></div>
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                          <h4 class="mb-0">{{ $numberOfowners }}</h4>
+                          <span class="text-success"></span>
+                        </div>
+                        <div class="d-flex align-items-center mt-1">
+                            {{-- <div class="progress w-100" style="height: 8px">
+                              <div
+                                class="progress-bar bg-primary"
+                                style="width: 85%"
+                                role="progressbar"
+                                aria-valuenow="85"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            </div> --}}
+                      </div>
+                    </div>
+                </div>
+                </div>
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
                     <div class="card h-100">
                       <div class="card-header pb-3">
@@ -448,7 +448,9 @@
             <div class="card">
                 <h5 class="card-header">@lang('Unit indicators')</h5>
                 <div class="card-body">
-                  <canvas id="doughnutChart" class="chartjs mb-4" data-height="350"></canvas>
+                    <canvas id="doughnutChart"></canvas>
+
+                  {{-- <canvas id="doughnutChart" class="chartjs mb-4" data-height="350"></canvas> --}}
                   <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
                     <li class="ct-series-0 d-flex flex-column">
                       <h5 class="mb-0">@lang('Number units')</h5>
@@ -572,74 +574,46 @@
 
 
 
-<script src="../../assets/vendor/libs/chartjs/chartjs.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var numberOfUnits = {{ $numberOfUnits }};
+      var numberOfVacantUnits = {{ $numberOfVacantUnits }};
+      var numberOfRentedUnits = {{ $numberOfRentedUnits }};
 
-<!-- Main JS -->
-<script src="../../assets/js/main.js"></script>
+      var vacantPercentage = 0;
+      var rentedPercentage = 0;
 
-<!-- Page JS -->
-
-<script src="../../assets/js/charts-chartjs.js"></script>
-
-<!-- Add this script within your dashboard page template -->
-{{-- <script>
-const doughnutChart = document.getElementById('doughnutChart');
-if (doughnutChart) {
-  const doughnutChartVar = new Chart(doughnutChart, {
-    type: 'doughnut',
-    data: {
-      labels: ['@lang('vacant')', '@lang('rented')', '@lang('Number units')'],
-      datasets: [
-        {
-          data: [
-            {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}, // Vacant units percentage
-            {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}, // Rented units percentage
-            100 - {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }} - {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }} // Remaining units percentage
-          ],
-          backgroundColor: [
-            'rgb(40, 208, 148)', // Vacant units color
-            'rgb(253, 172, 52)', // Rented units color
-            'rgb(102, 110, 232)' // Remaining units color
-          ],
-          borderWidth: 0,
-          pointStyle: 'rectRounded'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      animation: {
-        duration: 500
-      },
-      cutout: '68%',
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.labels || '',
-                value = context.parsed;
-              const output = ' ' + label + ' : ' + value + ' %';
-              return output;
-            }
-          },
-          // Updated default tooltip UI
-          rtl: isRtl,
-          backgroundColor: cardColor,
-          titleColor: headingColor,
-          bodyColor: legendColor,
-          borderWidth: 1,
-          borderColor: borderColor
-        }
+      if (numberOfUnits > 0) {
+        vacantPercentage = (numberOfVacantUnits / numberOfUnits) * 100;
+        rentedPercentage = (numberOfRentedUnits / numberOfUnits) * 100;
       }
-    }
-  });
-}
 
-
-</script> --}}
+      var ctx = document.getElementById('doughnutChart').getContext('2d');
+      var doughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Vacant', 'Rented'],
+          datasets: [{
+            data: [vacantPercentage, rentedPercentage],
+            backgroundColor: [
+              'rgb(40, 208, 148)',
+              'rgb(253, 172, 52)'
+            ],
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    });
+  </script>
 
 
     @endpush
