@@ -44,7 +44,7 @@
                                             </ul>
                                         </div>
                                         <div class="modal-footer justify-content-center">
-                                            <input type="radio" class="subscription_type form-check-input" data-url="{{ route('Broker.UpdateSubscription', $type->id) }}" name="subscription_type" value="{{ $type->id }}" id="subscription{{ $type->id }}" @if ($type->id == optional($subscription)->subscription_type_id) checked @endif>
+                                            <input type="radio" class="subscription_type form-check-input" required data-url="{{ route('Broker.UpdateSubscription', $type->id) }}" name="subscription_type" value="{{ $type->id }}" id="subscription{{ $type->id }}" @if ($type->id == optional($subscription)->subscription_type_id) checked @endif>
                                         </div>
                                     </div>
                                 </label>

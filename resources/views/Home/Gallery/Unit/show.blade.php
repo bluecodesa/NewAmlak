@@ -69,7 +69,7 @@
                 <div class="card-body pb-0">
 
 
-                    <div class="d-flex align-items-center justify-content-start my-3 gap-2">
+                    <div class="align-items-center justify-content-start my-3 gap-2">
                         @if ($Unit->rooms)
                         <a href="javascript:;"><span class="badge bg-label-primary">@lang('number rooms') : {{ $Unit->rooms }}</span></a>
                         @endif
@@ -179,7 +179,7 @@
                     @endphp
                         <i class="ti ti-calendar"></i> عضو منذ {{ $monthName }} {{ $numDay }} {{ $yearName }}
                       </li>
-                
+
                 </ul>
               </div>
             </div>

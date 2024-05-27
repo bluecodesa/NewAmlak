@@ -38,7 +38,7 @@
 
                     <div class="col-12 mb-3">
                         <label for="status">@lang('Status')</label>
-                        <select name="status" class="form-control">
+                        <select name="status" type="package" class="form-select">
                             <option value="1" {{ $paymentGateway->status == 1 ? 'selected' : '' }}>
                                 @lang('Enable')</option>
                             <option value="0" {{ $paymentGateway->status == 0 ? 'selected' : '' }}>
@@ -62,7 +62,7 @@
                         <button type="submit"
                             class="btn btn-primary waves-effect waves-light">@lang('save')</button>
 
-                        <button type="button" class="btn btn-secondary"
+                        <button  type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-secondary"
                             data-dismiss="modal">@lang('Cancel')</button>
 
                     </div>

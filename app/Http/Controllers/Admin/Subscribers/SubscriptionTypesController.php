@@ -69,17 +69,18 @@ class SubscriptionTypesController extends Controller
             $rules += [$locale . '.name' => ['required', Rule::unique('subscription_type_translations', 'name')]];
         }
         $rules += [
-            'period' => 'required|numeric',
+            'period' => 'required|numeric|min:1',
             'period_type' => 'required',
             'roles' => 'required|array|min:1', // At least one role must be selected
             'sections' => 'required|array',
-            'upgrade_rate' => 'numeric|min:0|max:100',
+            'upgrade_rate' => 'nullable|numeric|min:0|max:100',
             'price' => 'required|numeric|min:0', // Add this line for price validation
 
         ];
         $messages = [
             'required' => __('The :attribute field is required.'),
             'numeric' => __('The :attribute field must be number.'),
+            'period.min' => __('The period must be at least 1 day.'),
             'unique' => __('The :attribute has already been taken.'),
             'roles.min' => __('Please select at least one role.'),
             'upgrade_rate.numeric' => 'Discount applied Must be Number ',
@@ -116,11 +117,11 @@ class SubscriptionTypesController extends Controller
             $rules += [$locale . '.name' => ['required', Rule::unique('subscription_type_translations', 'name')->ignore($id, 'subscription_type_id')]];
         }
         $rules += [
-            'period' => 'required|numeric',
+            'period' => 'required|numeric|min:1',
             'period_type' => 'required',
             'roles*' => 'required',
             'sections*' => 'required',
-            'upgrade_rate' => 'numeric|min:0|max:100',
+            'upgrade_rate' => 'nullable|numeric|min:0|max:100',
             'price' => 'required|numeric|min:0', // Add this line for price validation
 
 
@@ -128,6 +129,7 @@ class SubscriptionTypesController extends Controller
         $messages = [
             'required' => __('The :attribute field is required.'),
             'numeric' => __('The :attribute field must be number.'),
+            'period.min' => __('The period must be at least 1 day.'),
             'unique' => __('The :attribute has already been taken.'),
             'roles.min' => __('Please select at least one role.'),
             'upgrade_rate.numeric' => 'Discount applied Must be Number ',

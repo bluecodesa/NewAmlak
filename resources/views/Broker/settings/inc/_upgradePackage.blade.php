@@ -110,7 +110,7 @@
                                                 </ul>
                                             </div>
                                             <div class="modal-footer justify-content-center">
-                                                <input type="radio" class="subscription_type form-check-input" name="subscription_type" value="{{ $type->id }}" id="subscription{{ $type->id }}">
+                                                <input type="radio" class="subscription_type form-check-input" name="subscription_type" value="{{ $type->id }}" id="subscription{{ $type->id }}" required>
                                             </div>
                                         </div>
                                     </label>

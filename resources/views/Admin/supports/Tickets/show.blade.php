@@ -104,12 +104,12 @@
             <div class="row">
 
                 <!-- User List Style -->
-                <div class="col-12 col-lg-8 mb-4 mb-xl-0">
-                    <div class="card mb-4">
-                        <div class="card-body">
+                <div class="col-12 col-lg-9 mb-4 mb-xl-0">
+                    <div class="card overflow-hidden mb-4">
+                        <div class="card-body"  id="vertical-example">
                             <h5 class="mt-4 small text-uppercase text-muted">@lang('Comments')</h5>
                             <div class="demo-inline-spacing mt-3">
-                                <div class="list-group">
+                                <div class="list-group" style="max-height: 400px; overflow-y: auto;">
                                     @if($ticketResponses && $ticketResponses->isNotEmpty())
                                         @foreach ($ticketResponses as $response)
                                         <div class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer">
@@ -221,6 +221,7 @@
         });
     });
 </script>
+<script src="../../assets/js/extended-ui-perfect-scrollbar.js"></script>
 @endpush
 
 

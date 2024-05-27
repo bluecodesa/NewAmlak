@@ -16,8 +16,9 @@
     @foreach ($paymentGateways as $paymentGateway)
         <div class="col-md-6 col-xl-4">
             <div class="card mb-3">
-                <img class="card-img-top" height="150" width="150" src="{{ asset($paymentGateway->image) }}"
-                    alt="Card image cap">
+                <img class="card-img-top" height="150" width="150"
+                src="{{ optional($paymentGateway)->image ? asset($paymentGateway->image) : asset('PaymentGateway/payment_default.png') }}"
+                alt="Payment Gateway Image">
                 <div class="card-body">
                     <form action="{{ route('Admin.payment-gateways.edit', ['id' => $paymentGateway->id]) }}"
                         method="GET" enctype="multipart/form-data">
