@@ -176,6 +176,7 @@
                                     <textarea class="form-control" id="response" name="response" rows="5"
                                         @if ($ticket->status === 'closed') disabled @endif required></textarea>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="attachment" class="form-label">@lang('file')</label>
                                     <input type="file" class="form-control" id="attachment"
@@ -224,7 +225,7 @@
         });
     });
 </script>
-<script src="../../assets/js/extended-ui-perfect-scrollbar.js"></script>
+<script src="{{ asset('assets/js/extended-ui-perfect-scrollbar.js') }}"></script>
 @endpush
 
 
