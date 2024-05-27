@@ -273,6 +273,8 @@
 
     @include('Home.Gallery.inc.share')
     @include('Home.Gallery.inc.unitInterest')
+
+
    @endforeach
 
   </div>
@@ -419,4 +421,21 @@
         initialHeader.click();
     });
 </script>
+@push('scripts')
+<script>
+    function copyToClipboard(selector) {
+        // Get the input element
+        var copyText = document.querySelector(selector);
 
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        document.execCommand("copy");
+
+        // Optionally, you can provide feedback to the user
+        alertify.success(@json(__('copy done')));
+    }
+</script>
+@endpush

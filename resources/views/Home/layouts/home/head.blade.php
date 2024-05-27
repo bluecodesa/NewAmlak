@@ -25,6 +25,14 @@
         href="{{ url('HOME_PAGE/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css') }}" />
     <link rel="stylesheet" href="{{ url('HOME_PAGE/css/demo.css') }}" />
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/css/pages/front-page.css') }}" />
+    <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
+    <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
+    <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
+    {{-- <link href="{{ url('dashboard_files/assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    <link href="{{ url('dashboard_files/assets/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/node-waves/node-waves.css') }}" />
 

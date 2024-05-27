@@ -1,236 +1,3 @@
-  {{-- <!-- Two Factor Auth Modal -->
-
-  <div class="modal fade" id="twoFactorAuth{{$unit->id}}" tabindex="-1" aria-hidden="true" data-unit-id="{{ $unit->id }}">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-simple">
-      <div class="modal-content p-3 p-md-5">
-        <div class="modal-body">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <div class="text-center mb-4">
-            <h3 class="mb-2">مشاركة المعرض</h3>
-
-          </div>
-          <div class="row">
-            <div class="col-12 mb-3">
-              <div class="form-check custom-option custom-option-basic">
-                <label
-                  class="form-check-label custom-option-content ps-3"
-                  for="customRadioTemp1"
-                  data-bs-target="#twoFactorAuthOne{{$unit->id}}"
-                  data-bs-toggle="modal">
-                  <input
-                    name="customRadioTemp"
-                    class="form-check-input d-none"
-                    type="radio"
-                    value=""
-                    id="customRadioTemp1" />
-                  <span class="d-flex align-items-start">
-                    <i class="ti ti-settings ti-xl me-3"></i>
-                    <span>
-                      <span class="custom-option-header">
-                        <span class="h4 mb-2">الباركود</span>
-                      </span>
-                      <span class="custom-option-body">
-                        <span class="mb-0"
-                          >مشاركة المعرض عن طريق الباركود</span
-                        >
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="form-check custom-option custom-option-basic">
-                <label
-                  class="form-check-label custom-option-content ps-3"
-                  for="customRadioTemp2"
-                  data-bs-target="#twoFactorAuthTwo{{$unit->id}}"
-                  data-bs-toggle="modal">
-                  <input
-                    name="customRadioTemp"
-                    class="form-check-input d-none"
-                    type="radio"
-                    value=""
-                    id="customRadioTemp2" />
-                  <span class="d-flex align-items-start">
-                    <i class="ti ti-message ti-xl me-3"></i>
-                    <span>
-                      <span class="custom-option-header">
-                        <span class="h4 mb-2">مشاركة رابط المعرض</span>
-                      </span>
-                      <span class="custom-option-body">
-                      </span>
-                    </span>
-                  </span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal Authentication App -->
-  <div class="modal fade" id="twoFactorAuthOne{{$unit->id}}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-simple">
-      <div class="modal-content p-3 p-md-5">
-        <div class="modal-body">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-          <h5 class="mb-2 pt-1 text-break">قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا العقار عن طريق الجوال</h5>
-
-          <div class="mb-4 text-center">
-                {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])) !!}
-
-          </div>
-
-          <div class="text-end">
-            <button
-              type="button"
-              class="btn btn-label-secondary me-sm-3 me-1"
-              data-bs-toggle="modal"
-              data-bs-target="#twoFactorAuth">
-              <i class="ti ti-arrow-left ti-xs me-1 scaleX-n1-rtl"></i
-              ><span class="align-middle d-none d-sm-inline-block">Back</span>
-            </button>
-            @php
-            $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])";
-        @endphp
-
-            <a href="{{ route('download.qrcode', $url) }}" class="btn btn-primary">
-              <span class="align-middle d-none d-sm-inline-block">تحميل الباركود</span
-              ><i class="ti ti-download ti-xs ms-1 scaleX-n1-rtl"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Authentication via SMS -->
-  <div class="modal fade" id="twoFactorAuthTwo{{$unit->id}}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-simple">
-      <div class="modal-content p-3 p-md-5">
-        <div class="modal-body">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <h5 class="mb-2 pt-1">   مشاركة الرابط
-        </h5>
-          <p class="mb-4">
-            مشاركة لينك العقار او انسخه في موقعك
-          </p>
-          <div class="mb-4">
-            <input readonly type="text" class="form-control" id="twoFactorAuthInputSms"
-            value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id])}} " />
-          </div>
-          <div class="text-end">
-            <button
-              type="button"
-              class="btn btn-label-secondary me-sm-3 me-1"
-              data-bs-toggle="modal"
-              data-bs-target="#twoFactorAuth">
-              <i class="ti ti-arrow-left ti-xs me-1 scaleX-n1-rtl"></i
-              >
-              <span class="align-middle d-none d-sm-inline-block">Back</span>
-            </button>
-            @php
-             $url = route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) ;
-             @endphp
-
-            <a href='https://web.whatsapp.com/send?text=Check%20out%20this%20link:%20{{ urlencode("$url") }}' class="btn btn-success">
-                <i class="ti ti-brand-whatsapp"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--/ Two Factor Auth Modal --> --}}
-
-
-   <!-- Form with Image horizontal Modal -->
-   {{-- <div
-   class="modal-onboarding modal fade animate__animated"
-   id="onboardHorizontalImageModal{{$unit->id}}"
-   tabindex="-1"
-   aria-hidden="true">
-   <div class="modal-dialog modal-xl" role="document">
-     <div class="modal-content text-center">
-       <div class="modal-header border-0">
-
-         <button
-           type="button"
-           class="btn-close"
-           data-bs-dismiss="modal"
-           aria-label="Close"></button>
-       </div>
-       <div class="modal-body onboarding-horizontal p-0">
-         <div class="onboarding-media">
-            <div class="mb-4 text-center">
-                {!! QrCode::size(150)->generate(route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id])) !!}
-
-          </div> --}}
-           {{-- <img
-             src="../../assets/img/illustrations/boy-verify-email-light.png"
-             alt="boy-verify-email-light"
-             width="273"
-             class="img-fluid"
-             data-app-light-img="illustrations/boy-verify-email-light.png"
-             data-app-dark-img="illustrations/boy-verify-email-dark.png" /> --}}
-             {{-- @php
-    $url = route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]);
-         @endphp
-
-             <a href="{{ route('download.qrcode', $url) }}" class="btn btn-primary">
-                <span class="align-middle d-none d-sm-inline-block">تحميل الباركود</span
-                ><i class="ti ti-download ti-xs ms-1 scaleX-n1-rtl"></i>
-              </a>
-         </div>
-         <div class="onboarding-content mb-0">
-           <h4 class="onboarding-title text-body">مشاركة المعرض</h4>
-           <div class="onboarding-info">
-        قم بتحميل الكود لكي تستطيع مشاركته مع اصدقائك لكي يمكنهم الوصول الي بيانات هذا العقار عن طريق الجوال
-
-           </div>
-           <form>
-             <div class="row">
-               <div class="col-sm-9">
-                 <div class="mb-3">
-                   <label for="nameEx7" class="form-label">رابط الوحدة</label>
-                   <input
-                     class="form-control"
-                     type="text"
-                     value="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id])}} "                     tabindex="0"
-                     id="nameEx7" readonly />
-                 </div>
-               </div>
-                 <div class="col-sm-3">
-                    <div class="mb-3">
-                      <label for="nameEx7" class="form-label">مشاركة الرابط عبر</label>
-                      @php
-    $url = route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]);
-                      @endphp
-
-                     <a href='https://web.whatsapp.com/send?text=Check%20out%20this%20link:%20{{ urlencode("$url") }}' class="btn btn-success">
-                         <i class="ti ti-brand-whatsapp"></i>
-                     </a>
-                    </div>
-
-               </div>
-
-             </div>
-           </form>
-         </div>
-       </div>
-       <div class="modal-footer border-0">
-         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-           @lang('close')
-         </button>
-       </div>
-     </div>
-   </div>
- </div> --}}
-
-
 
 <div class="modal fade" id="onboardHorizontalImageModal{{$unit->id}}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
@@ -272,7 +39,7 @@
 
                                 @php
                                 $gallery_name= $unit->gallery->gallery_name;
-    $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id])";
+                                $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id])";
                                 @endphp
                                 <br>
                                 <a href="{{ route('download.qrcode', ['link' => $url]) }}"class="btn-sm btn btn-success">@lang('Download')
@@ -283,11 +50,18 @@
                         <div class="tab-pane fade" id="navs-within-card-link_{{ $unit->id }}" role="tabpanel">
                             <h6>@lang('Share the link')</h6>
                             <p>@lang('Share the property link or copy it on your site')</p>
-                            <div class="input-group">
+                            {{-- <div class="input-group">
                                 <span onclick="copyUrl()" data-url="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}" class="input-group-text" id="basic-addon11"><i class="tf-icons ti ti-copy"></i></span>
                                 <input type="text" class="form-control" readonly value="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}" placeholder="Username" aria-label="Username" aria-describedby="basic-addon11">
-                              </div>
-
+                              </div> --}}
+                              <div class="input-group">
+                                <input type="text" class="form-control galleryNameCopy" readonly
+                                    value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id]) }}">
+                                <button onclick="copyToClipboard('.galleryNameCopy')"
+                                    class="btn btn-outline-primary waves-effect" type="button">
+                                    <i class="ti ti-copy"></i>
+                                </button>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -296,6 +70,3 @@
         </div>
     </div>
 </div>
-
-
-
