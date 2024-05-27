@@ -1,7 +1,6 @@
 <div class="first-div">
-    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
+    <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
         @lang('Edit') @lang('Image') <i class="ti ti-camera"></i>
-
     </button>
     <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid"
         style="height: 200px; width: 100%;">

@@ -78,7 +78,7 @@
 
                                     <td>{{ $owner->name }}</td>
                                     <td>{{ $owner->email }}</td>
-                                    <td>{{ $owner->phone }}</td>
+                                    <td>{{ $owner->full_phone }}</td>
                                     <td>{{ $owner->CityData->name }}</td>
                                     <td>{{ $owner->BrokerData->UserData->name }}</td>
                                     <td>

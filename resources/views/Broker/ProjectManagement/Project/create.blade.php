@@ -21,7 +21,7 @@
                         @include('Admin.layouts.Inc._errors')
                         <div class="card-body">
                             <form action="{{ route('Broker.Project.store') }}" method="POST" class="row"
-                                id="dropzone-basic" enctype="multipart/form-data">
+                                enctype="multipart/form-data">
                                 @csrf
                                 @method('post')
 
@@ -129,14 +129,7 @@
                                 <div class="col-sm-12 col-md-12 mb-3">
                                     <label class="form-label mb-2">@lang('Project photo') </label>
                                     <input type="file" name="image" class="dropify" data-default-file="" />
-                                    {{-- <div class="dropzone">
-                                        <div class="dz-message needsclick">
-                                            @lang('Drop files here or click to upload')
-                                        </div>
-                                        <div class="fallback">
-                                            <input name="image" type="file" />
-                                        </div>
-                                    </div> --}}
+
                                 </div>
 
                                 <div class="col-md-6 col-12 mb-3" hidden>

@@ -21,7 +21,9 @@
                     <form action="{{ route('Broker.Advisor.update', $advisor->id) }}" method="POST" class="row">
                         @csrf
                         @method('PUT')
-                        <input type="text" name="key_phone" hidden value="{{ $advisor->key_phone ?? '996' }}">
+                        <input type="text" name="key_phone" hidden value="{{ $advisor->key_phone ?? '996' }}"
+                            id="key_phone">
+                        <input type="text" name="full_phone" hidden id="full_phone" value="{{ $advisor->full_phone }}">
                         <div class="col-md-6 mb-3 col-12">
 
                             <label class="form-label">
@@ -45,10 +47,9 @@
                             <label for="color" class="form-label">@lang('phone') <span
                                     class="required-color">*</span></label>
                             <div class="input-group">
-                                <input type="text" placeholder="123456789" name="phone" value="{{ $advisor->phone }}"
-                                    class="form-control" maxlength="9" pattern="\d{1,9}"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                                    aria-label="Text input with dropdown button">
+                                <input type="text" placeholder="123456789" name="phone" id="phone"
+                                    value="{{ $advisor->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
+                                    oninput="updateFullPhone(this)" aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ $advisor->key_phone ?? '996' }}
@@ -108,10 +109,18 @@
 
     @push('scripts')
         <script>
+            function updateFullPhone(input) {
+                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+                var key_phone = $('#key_phone').val();
+                var fullPhone = key_phone + input.value;
+                document.getElementById('full_phone').value = fullPhone;
+            }
             $(document).ready(function() {
                 $('.dropdown-item').on('click', function() {
                     var key = $(this).data('key');
+                    var phone = $('#phone').val();
                     $('#key_phone').val(key);
+                    $('#full_phone').val(key + phone);
                     $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
                 });
             });

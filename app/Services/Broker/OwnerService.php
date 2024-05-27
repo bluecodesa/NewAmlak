@@ -37,7 +37,7 @@ class OwnerService
                 Rule::unique('owners'),
                 'max:255'
             ],
-            'phone' => [
+            'full_phone' => [
                 'required',
                 Rule::unique('owners'),
                 'max:25'
@@ -53,9 +53,9 @@ class OwnerService
             'email.email' => 'The email must be a valid email address.',
             'email.unique' => 'The email has already been taken.',
             'email.max' => 'The email may not be greater than :max characters.',
-            'phone.required' => 'The phone field is required.',
-            'phone.unique' => 'The phone has already been taken.',
-            'phone.max' => 'The phone may not be greater than :max characters.',
+            'full_phone.required' => 'The phone field is required.',
+            'full_phone.unique' => 'The phone has already been taken.',
+            'full_phone.max' => 'The phone may not be greater than :max characters.',
         ];
 
         validator($data, $rules, $messages)->validate();
@@ -76,7 +76,7 @@ class OwnerService
                 Rule::unique('owners')->ignore($id),
                 'max:255'
             ],
-            'phone' => [
+            'full_phone' => [
                 'required',
                 Rule::unique('owners')->ignore($id),
                 'max:25'

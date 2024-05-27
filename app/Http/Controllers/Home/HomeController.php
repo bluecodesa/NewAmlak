@@ -49,15 +49,15 @@ class HomeController extends Controller
     {
         //subscrptions
         $subscriptionTypes = $this->subscriptionTypeService->getAll()
-        ->where('is_deleted', 0)
-        ->where('is_show', 1)
-        ->where('status', 1);
+            ->where('is_deleted', 0)
+            ->where('is_show', 1)
+            ->where('status', 1);
         $sections = $this->SectionService->getAll();
         ////
         $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
         $subscriptionTypesRoles = $this->subscriptionTypeService->getAll()
-        ->where('is_deleted', 0)->where('is_show', 1)->where('status',1)
+            ->where('is_deleted', 0)->where('is_show', 1)->where('status', 1)
             ->whereIn('id', $RolesSubscriptionTypeIds);
 
         ///
@@ -90,7 +90,7 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status',1)
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
             ->whereIn('id', $RolesSubscriptionTypeIds)
             ->get();
         return view('Home.Auth.broker.create', get_defined_vars());
@@ -107,7 +107,7 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status',1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status', 1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
 
         $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
             $query->where('name', 'Office-Admin');
@@ -211,7 +211,7 @@ class HomeController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
-            'mobile' => 'required|unique:brokers,mobile|digits:9',
+            'full_phone' => 'required|unique:brokers,full_phone',
             'city_id' => 'required|exists:cities,id',
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'license_number' => 'required|numeric|unique:brokers,broker_license',
@@ -225,9 +225,9 @@ class HomeController extends Controller
             'name.required' => __('The name field is required.'),
             'email.required' => __('The email field is required.'),
             'email.unique' => __('The email has already been taken.'),
-            'mobile.required' => __('The mobile field is required.'),
-            'mobile.unique' => __('The mobile has already been taken.'),
-            'mobile.digits' => __('The mobile must be 9 digits.'),
+            'full_phone.required' => __('The mobile field is required.'),
+            'full_phone.unique' => __('The mobile has already been taken.'),
+            'full_phone.digits' => __('The mobile must be 9 digits.'),
             'city_id.required' => __('The city field is required.'),
             'city_id.exists' => __('The selected city is invalid.'),
             'subscription_type_id.required' => __('The subscription type field is required.'),
@@ -359,12 +359,13 @@ class HomeController extends Controller
         $user->update(['fcm_token' => $request->token]);
     }
 
-    public function showAllBrokers(Request $request){
+    public function showAllBrokers(Request $request)
+    {
 
 
         $users = User::whereHas('UserBrokerData.GalleryData')->paginate(9);
 
-        return view('Home.Brokers.index',get_defined_vars());
+        return view('Home.Brokers.index', get_defined_vars());
     }
 
     public function loadMoreBrokers(Request $request)
@@ -372,7 +373,4 @@ class HomeController extends Controller
         $brokers = User::where('is_broker', 1)->paginate(3);
         return view('Home.Brokers.inc._brokers', compact('brokers'));
     }
-
-
-
 }

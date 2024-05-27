@@ -121,7 +121,7 @@
                                     </div>
                                     <div>
                                         <h6 class="mb-0 text-nowrap">@lang('Technical support center')</h6>
-                                        <small>{{ $settings->support_phone }}</small>
+                                        <small>{{ $settings->full_phone }}</small>
                                     </div>
                                 </div>
                             </div>

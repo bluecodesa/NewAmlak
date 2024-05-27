@@ -104,6 +104,8 @@
                             method="POST" enctype="multipart/form-data">
                             @csrf
 
+                            <input type="text" name="key_phone" hidden value="996" id="key_phone">
+                            <input type="text" name="full_phone" hidden id="full_phone" value="996">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -141,7 +143,8 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="name"> @lang('Broker name')<span
                                             class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="@lang('Broker name')" required="">
+                                    <input type="text" class="form-control" id="basic-default-name"
+                                        name="name" placeholder="@lang('Broker name')" required="">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="license_number"> @lang('license number')<span
@@ -164,7 +167,7 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
                                             class="text-danger">*</span></label>
-                                            {{-- <div class="input-group">
+                                    {{-- <div class="input-group">
 
                                         {{-- <input type="tel" class="form-control" id="mobile" minlength="9"
                                             maxlength="9" pattern="[0-9]*"
@@ -172,7 +175,7 @@
                                             onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
                                             name="mobile" required value=""> --}}
 
-                                                {{-- <input type="text" placeholder="123456789" name="mobile" value=""
+                                    {{-- <input type="text" placeholder="123456789" name="mobile" value=""
                                                     class="form-control" maxlength="9" pattern="\d{1,9}"
                                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
                                                     aria-label="Text input with dropdown button">
@@ -184,20 +187,24 @@
                                                     <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                                                     <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
                                                 </ul> --}}
-                                                <div class="input-group">
-                                                    <input type="text" name="mobile" placeholder="123456789" value=""
-                                                        class="form-control" maxlength="9" pattern="\d{1,9}"
-                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                                                        aria-label="Text input with dropdown button">
-                                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        {{'996' }}
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end" style="">
-                                                        <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                                        <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
-                                                    </ul>
-                                                </div>
+
+                                    <div class="input-group">
+                                        <input type="text" placeholder="123456789" id="phone" name="mobile"
+                                            value="" class="form-control" maxlength="9" pattern="\d{1,9}"
+                                            oninput="updateFullPhone(this)"
+                                            aria-label="Text input with dropdown button">
+                                        <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            996
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" style="">
+                                            <li><a class="dropdown-item" data-key="971"
+                                                    href="javascript:void(0);">971</a></li>
+                                            <li><a class="dropdown-item" data-key="996"
+                                                    href="javascript:void(0);">996</a></li>
+                                        </ul>
+
+                                    </div>
 
                                 </div>
                             </div>
@@ -280,18 +287,11 @@
 
 
                             <div class="mb-3 row">
-                                {{-- <div class="col-md-4 mb-6">
-                            <label class="form-label" for="broker_logo">@lang('Broker logo')</label>
-                            <span class="not_required">(@lang('optional'))</span>
-                            <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo"
-                                accept="image/png, image/jpg, image/jpeg">
-                            <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
-                                class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
-
-                        </div> --}}
                                 <div class="col-md-6">
                                     <label class="form-label">@lang('id number')</label>
-                                    <input type="text" class="form-control" id="id_number" name="id_number">
+                                    <input type="text" class="form-control" id="id_number"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                        name="id_number">
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -415,9 +415,6 @@
         $("#upload").change(function() {
             readURL(this); // Call readURL function when a file is selected
         });
-
-
-
     </script>
     <script>
         // JavaScript to handle the reset button functionality
@@ -429,17 +426,25 @@
             $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
         });
     </script>
-<script>
 
-$(document).ready(function() {
-                    $('.dropdown-item').on('click', function() {
-                        var key = $(this).data('key');
-                        $('#key_phone').val(key);
-                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                    });
-                });
+    <script>
+        function updateFullPhone(input) {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+            var key_phone = $('#key_phone').val();
+            var fullPhone = key_phone + input.value;
+            document.getElementById('full_phone').value = fullPhone;
+        }
+        $(document).ready(function() {
+            $('.dropdown-item').on('click', function() {
+                var key = $(this).data('key');
+                var phone = $('#phone').val();
+                $('#key_phone').val(key);
+                $('#full_phone').val(key + phone);
+                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+            });
+        });
+    </script>
 
-</script>
 </body>
 
 </html>
