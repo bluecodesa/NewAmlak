@@ -131,18 +131,30 @@ class HomeController extends Controller
 
         //statistics calc
 
-        $startDate = \Carbon\Carbon::parse($subscriber->start_date);
-        $endDate = \Carbon\Carbon::parse($subscriber->end_date);
-        $now = \Carbon\Carbon::now();
-        $daysUntilEnd = $now->diffInDays($endDate, false); // Calculate remaining days
-        $hoursUntilEnd = $now->diffInHours($endDate->copy()->subDays($daysUntilEnd), false); // Get remaining hours
-        $minutesUntilEnd = $now->diffInMinutes($endDate, false); // Get remaining minutes
-        $numOfDays = $endDate->diffInDays($startDate);
+        $start_date = \Carbon\Carbon::parse($subscriber->start_date);
+        $end_date = \Carbon\Carbon::parse($subscriber->end_date);
+        $now = now();
+
+        $numOfDays = $end_date->diffInDays($start_date);
+        $elapsed_days = $now->diffInDays($start_date);
+        $daysUntilEnd = $numOfDays - $elapsed_days;
+
+        $hoursUntilEnd = $now->diffInHours($end_date->copy()->subDays($daysUntilEnd), false);
+        $minutesUntilEnd = $now->diffInMinutes($end_date, false);
+
+        // $startDate = \Carbon\Carbon::parse($subscriber->start_date);
+        // $endDate = \Carbon\Carbon::parse($subscriber->end_date);
+        // $now = \Carbon\Carbon::now();
+        // $daysUntilEnd = $now->diffInDays($endDate, false); // Calculate remaining days
+        // $hoursUntilEnd = $now->diffInHours($endDate->copy()->subDays($daysUntilEnd), false); // Get remaining hours
+        // $minutesUntilEnd = $now->diffInMinutes($endDate, false); // Get remaining minutes
+        // $numOfDays = $endDate->diffInDays($startDate);
         if ($numOfDays == 0) {
             $prec = 100;
         } else {
 
             $prec = ($daysUntilEnd / $numOfDays) * 100;
+            $prec = round($prec, 1);
         }
 
 

@@ -266,39 +266,24 @@
                       <div class="row g-2">
                         <div class="col mb-0">
                           <label for="emailBasic" class="form-label">@lang('mobile')<span class="text-danger">*</span></label>
-                          <div class="input-group">
+                       
+            <div class="input-group">
+                <input type="text" placeholder="123456789" id="phone" name="whatsapp"
+                    value="" class="form-control" maxlength="9" pattern="\d{1,9}"
+                    oninput="updateFullPhone(this)"
+                    aria-label="Text input with dropdown button">
+                <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    996
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" style="">
+                    <li><a class="dropdown-item" data-key="971"
+                            href="javascript:void(0);">971</a></li>
+                    <li><a class="dropdown-item" data-key="996"
+                            href="javascript:void(0);">996</a></li>
+                </ul>
 
-                          {{-- <input
-                            type="tel"
-                            id="emailBasic"
-                            class="form-control"
-                            minlength="9"
-                                       maxlength="9" pattern="[0-9]*"
-                                       oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                       onchange="try{setCustomValidity('')}catch(e){}"
-                                       name="whatsapp" required="" value=""
-                            placeholder="987654356"   aria-label="Text input with dropdown button" />
-                            <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                {{ $broker->key_phone ?? '996' }}
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" style="">
-                <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
-            </ul> --}}
-            <input type="text" placeholder="123456789" name="whatsapp" value=""
-            class="form-control" maxlength="9" pattern="\d{1,9}"
-            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-            aria-label="Text input with dropdown button" required>
-        <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            {{ $broker->key_phone ?? '996' }}
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end" style="">
-            <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-            <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
-        </ul>
-                          </div>
+            </div>
                         </div>
 
                       </div>

@@ -80,7 +80,7 @@
                                 style="width:95%!important" onchange="reloadInterests()">
                                 <option value="all" {{ $unitFilter == 'all' ? 'selected' : '' }}>
                                     @lang('All')</option>
-                                @foreach ($unitInterests as $unitInterest)
+                                @foreach ($unitInterests->unique('number_unit') as $unitInterest)
                                     @if ($unitInterest->unit)
                                         <option value="{{ $unitInterest->unit->id }}"
                                             {{ $unitFilter == $unitInterest->unit->id ? 'selected' : '' }}>

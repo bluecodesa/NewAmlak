@@ -511,27 +511,7 @@
                 });
             });
         </script>
-        <script>
-            // Function to calculate percentage completion
-            function calculatePercentage(start_date, end_date) {
-                var startDate = new Date(start_date);
-                var endDate = new Date(end_date);
-                var currentDate = new Date();
-                var totalDuration = endDate - startDate;
-                var remainingDuration = endDate - currentDate;
-                var percentageCompletion = (remainingDuration / totalDuration) * 100;
-
-                return Math.min(Math.max(percentageCompletion, 0), 100); // Ensure percentage is between 0 and 100
-            }
-
-            // Call the function to update the progress bar
-            var startDate = '{{ $subscriber->start_date }}';
-            var endDate = '{{ $subscriber->end_date }}';
-            var percentage = calculatePercentage(startDate, endDate);
-            document.getElementById('progress-bar-{{ $subscriber->id }}').style.width = percentage + '%';
-            document.getElementById('progress-bar-{{ $subscriber->id }}').innerText = percentage.toFixed(2) +
-                '%'; // Round to 2 decimal places
-        </script>
+     
 
 
 

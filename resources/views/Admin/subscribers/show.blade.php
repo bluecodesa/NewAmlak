@@ -134,11 +134,8 @@
                                                 {{ $subscriber->OfficeData->presenter_number ?? '' }}
                                             @endif
                                             @if ($subscriber->broker_id)
-<<<<<<< Updated upstream
-                                               +{{ $subscriber->BrokerData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }}
-=======
-                                                {{ $subscriber->BrokerData->full_phone ?? '' }}
->>>>>>> Stashed changes
+                                                +{{ $subscriber->BrokerData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }}
+                                                {{-- {{ $subscriber->BrokerData->full_phone ?? '' }} --}}
                                             @endif
                                         </span>
                                     </li>
@@ -198,7 +195,9 @@
                                 $total_days = $end_date->diffInDays($start_date);
                                 $elapsed_days = $current_date->diffInDays($start_date);
                                 $remaining_days = $total_days - $elapsed_days;
-                                $progress_percentage = ($elapsed_days / $total_days) * 100;
+                                $progress_percentage = ($remaining_days / $total_days) * 100;
+                                $progress_percentage = round($progress_percentage, 1);
+
                             @endphp
 
                             <ul class="ps-3 g-2 my-3">
@@ -206,9 +205,16 @@
                                 <li class="mb-2">@lang('Subscription End') : {{ $subscriber->end_date }}</li>
                             </ul>
 
-                            <div class="progress mb-1" style="height: 8px">
+                            {{-- <div class="progress mb-1" style="height: 8px">
                                 <div class="progress-bar" role="progressbar" style="width: {{ $progress_percentage }}%"
-                                    aria-valuenow="{{ $progress_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    aria-valuenow="{{ $progress_percentage }}" aria-valuemin="0" aria-valuemax="100"> {{ $progress_percentage }}%</div>
+                            </div> --}}
+                            <div class="progress" style="height: 10px">
+                                <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar"
+                                    style="width: {{ $progress_percentage }}%;" aria-valuenow="{{ $progress_percentage }}" aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    {{ $progress_percentage }}%
+                                </div>
                             </div>
 
                             <span>{{ $remaining_days }} @lang('days remaining')</span>
@@ -400,6 +406,7 @@
 
         <div class="content-backdrop fade"></div>
     </div>
+
 
 
 @endsection
