@@ -134,8 +134,8 @@
                                                 {{ $subscriber->OfficeData->presenter_number ?? '' }}
                                             @endif
                                             @if ($subscriber->broker_id)
-                                                +{{ $subscriber->BrokerData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }}
-                                                {{-- {{ $subscriber->BrokerData->full_phone ?? '' }} --}}
+                                                {{-- +{{ $subscriber->BrokerData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }} --}}
+                                                {{ $subscriber->BrokerData->full_phone ?? '' }}
                                             @endif
                                         </span>
                                     </li>
@@ -211,8 +211,8 @@
                             </div> --}}
                             <div class="progress" style="height: 10px">
                                 <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar"
-                                    style="width: {{ $progress_percentage }}%;" aria-valuenow="{{ $progress_percentage }}" aria-valuemin="0"
-                                    aria-valuemax="100">
+                                    style="width: {{ $progress_percentage }}%;" aria-valuenow="{{ $progress_percentage }}"
+                                    aria-valuemin="0" aria-valuemax="100">
                                     {{ $progress_percentage }}%
                                 </div>
                             </div>
