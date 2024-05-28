@@ -285,8 +285,7 @@
                                     <label class="form-label mb-2">@lang('Description')</label>
                                     <div>
                                         {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
-                                        <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""
-                                        ></textarea>
+                                        <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""></textarea>
                                     </div>
                                 </div>
 
@@ -329,6 +328,7 @@
                             $('#OwnersDiv').empty();
                             $('#OwnersDiv').append(data);
                             $('#addNewCCModal').modal('hide');
+                            alertify.success(@json(__('added successfully')));
                         },
                         error: function(xhr, status, error) {
                             // Handle error response here
@@ -506,8 +506,6 @@
                     }
                 });
             });
-
-
         </script>
     @endpush
 @endsection
