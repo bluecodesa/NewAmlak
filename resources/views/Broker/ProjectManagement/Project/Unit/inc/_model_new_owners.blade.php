@@ -94,6 +94,7 @@
                     @csrf
                     @method('post')
                     <input type="text" name="key_phone" hidden value="996" id="key_phone">
+                    <input type="text" name="full_phone" hidden id="full_phone" value="996">
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">
                             {{ __('Name') }} <span class="required-color">*</span></label>
@@ -136,8 +137,7 @@
                                 class="required-color">*</span></label>
                         <div class="input-group">
                             <input type="text" placeholder="123456789" name="phone" value=""
-                                class="form-control" maxlength="9" pattern="\d{1,9}"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                                class="form-control" maxlength="9" pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                 aria-label="Text input with dropdown button">
                             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -162,10 +162,18 @@
 </div>
 @push('scripts')
     <script>
+        function updateFullPhone(input) {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+            var key_phone = $('#key_phone').val();
+            var fullPhone = key_phone + input.value;
+            document.getElementById('full_phone').value = fullPhone;
+        }
         $(document).ready(function() {
             $('.dropdown-item').on('click', function() {
                 var key = $(this).data('key');
+                var phone = $('#phone').val();
                 $('#key_phone').val(key);
+                $('#full_phone').val(key + phone);
                 $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
             });
         });
