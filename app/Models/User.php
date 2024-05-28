@@ -122,4 +122,9 @@ class User extends Authenticatable
             return asset($this->avatar);
         }
     }
+
+    public function unitInterests()
+{
+    return $this->hasMany(UnitInterest::class);
+}
 }

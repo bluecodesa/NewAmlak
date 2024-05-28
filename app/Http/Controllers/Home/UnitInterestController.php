@@ -129,18 +129,25 @@ class UnitInterestController extends Controller
 
         $intrestOrder = UnitInterest::create($requestData);
 
-        $this->notifyAdmins($intrestOrder);
+        $this->notifyUsers($intrestOrder);
 
 
         return redirect()->back()->with('success', 'Unit Interest created successfully.');
     }
 
 
-    protected function notifyAdmins(UnitInterest $intrestOrder)
+    protected function notifyUsers(UnitInterest $intrestOrder)
     {
-        $borkers = User::where('is_broker', true)->get();
-        foreach ($borkers as $borker) {
-            Notification::send($borker, new NewIntrestOrderNotification($intrestOrder));
+        $unitId = $intrestOrder->unit_id;
+
+        // Find all brokers who have shown interest in this unit
+        $brokers = User::whereHas('unitInterests', function ($query) use ($unitId) {
+            $query->where('unit_id', $unitId);
+        })->where('is_broker', true)->get();
+
+        // Send notification to these brokers
+        foreach ($brokers as $broker) {
+            Notification::send($broker, new NewIntrestOrderNotification($intrestOrder));
         }
     }
     /**
