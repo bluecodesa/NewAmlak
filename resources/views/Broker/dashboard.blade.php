@@ -355,106 +355,67 @@
             </div>
             {{-- analytics --}}
 
-            <div class="row">
-                {{-- <div class="col-md-6 mb-4">
-            <div class="card h-100">
-              <div class="card-header d-flex justify-content-between pb-0">
-                <div class="card-title mb-0">
-                  <h5 class="mb-0">@lang('Unit indicators')</h5>
-                </div>
-                <div class="dropdown">
-                  <button class="btn p-0" type="button" id="supportTrackerMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="ti ti-dots-vertical ti-sm text-muted"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="supportTrackerMenu">
-                    <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                    <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 col-sm-4 col-md-12 col-lg-4">
-                    <div class="mt-lg-4 mt-lg-2 mb-lg-4 mb-2 pt-1">
-                      <h1 class="mb-0">{{ $numberOfUnits }}</h1>
-                      <p class="mb-0">@lang('Number units')</p>
-                    </div>
-                    <ul class="p-0 m-0">
-                      <li class="d-flex gap-3 align-items-center mb-lg-3 pt-2 pb-1">
-                        <div class="badge rounded bg-label-primary p-1"><i class="ti ti-ticket ti-sm"></i></div>
-                        <div>
-                          <h6 class="mb-0 text-nowrap"> @lang('vacant')</h6>
-                          <small class="text-muted">{{$numberOfVacantUnits}}</small>
-                        </div>
-                      </li>
-                      <li class="d-flex gap-3 align-items-center mb-lg-3 pb-1">
-                        <div class="badge rounded bg-label-info p-1">
-                          <i class="ti ti-circle-check ti-sm"></i>
-                        </div>
-                        <div>
-                          <h6 class="mb-0 text-nowrap">@lang('rented')</h6>
-                          <small class="text-muted">{{ $numberOfRentedUnits }}</small>
-                        </div>
-                      </li>
+        <div class="row">
 
+            <div class="col-lg-6 mb-4 order-md-0 order-lg-0">
+                <div class="card">
+                    <h5 class="card-header">@lang('Unit indicators')</h5>
+                    <div class="card-body">
+                        @if($numberOfUnits)
+                        <canvas id="doughnutChart"></canvas>
+                        @else
+                        <canvas id="doughnutChart"></canvas>
+                        @endif
+                    {{-- <canvas id="doughnutChart" class="chartjs mb-4" data-height="350"></canvas> --}}
+                    <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
+                        {{-- <li class="ct-series-0 d-flex flex-column">
+                        <h5 class="mb-0">@lang('Number units')</h5>
+                        <span
+                            class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(102, 110, 232); width: 35px; height: 6px"></span>
+                        <div class="text-muted">{{ $numberOfUnits }}</div>
+                        </li> --}}
+                        <li class="ct-series-1 d-flex flex-column">
+                        <h5 class="mb-0">@lang('vacant')</h5>
+                        <span
+                            class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(40, 208, 148); width: 35px; height: 6px"></span>
+                            @if($numberOfUnits)
+                        <div class="text-muted"> {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%</div>
+                        @else
+                        <div class="text-muted"> 0%</div>
+                        @endif
+                        </li>
+                        <li class="ct-series-2 d-flex flex-column">
+                        <h5 class="mb-0">@lang('rented')</h5>
+                        <span
+                            class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                            style="background-color: rgb(253, 172, 52); width: 35px; height: 6px"></span>
+                            @if($numberOfUnits)
+                        <div class="text-muted"> {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%</div>
+                        @else
+                        <div class="text-muted"> 0%</div>
+
+                        @endif
+                        </li>
                     </ul>
-                  </div>
-                  <div class="col-12 col-sm-8 col-md-12 col-lg-8" style="position: relative;">
-                   </div>
-              </div>
-            </div>
-          </div>
-           </div> --}}
-                <div class="col-lg-6 mb-4 order-md-0 order-lg-0">
-            <div class="card">
-                <h5 class="card-header">@lang('Unit indicators')</h5>
-                <div class="card-body">
-                    <canvas id="doughnutChart"></canvas>
 
-                  {{-- <canvas id="doughnutChart" class="chartjs mb-4" data-height="350"></canvas> --}}
-                  <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
-                    <li class="ct-series-0 d-flex flex-column">
-                      <h5 class="mb-0">@lang('Number units')</h5>
-                      <span
-                        class="badge badge-dot my-2 cursor-pointer rounded-pill"
-                        style="background-color: rgb(102, 110, 232); width: 35px; height: 6px"></span>
-                      <div class="text-muted">{{ $numberOfUnits }}</div>
-                    </li>
-                    <li class="ct-series-1 d-flex flex-column">
-                      <h5 class="mb-0">@lang('vacant')</h5>
-                      <span
-                        class="badge badge-dot my-2 cursor-pointer rounded-pill"
-                        style="background-color: rgb(40, 208, 148); width: 35px; height: 6px"></span>
-                        @if($numberOfUnits)
-                      <div class="text-muted"> {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%</div>
-                      @endif
-                    </li>
-                    <li class="ct-series-2 d-flex flex-column">
-                      <h5 class="mb-0">@lang('rented')</h5>
-                      <span
-                        class="badge badge-dot my-2 cursor-pointer rounded-pill"
-                        style="background-color: rgb(253, 172, 52); width: 35px; height: 6px"></span>
-                        @if($numberOfUnits)
-                      <div class="text-muted"> {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%</div>
-                      @endif
-                    </li>
-                  </ul>
-
+                    </div>
                 </div>
+
+
+
             </div>
-
-
-
-
+        </div>
 
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
             @include('Broker.settings.inc._upgradePackage')
 
-        </div>
 
         <div class="content-backdrop fade"></div>
+        </div>
     </div>
 
      @include('Home.Payments.pending_payment')
@@ -511,50 +472,53 @@
                 });
             });
         </script>
-     
+
 
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var numberOfUnits = {{ $numberOfUnits }};
-      var numberOfVacantUnits = {{ $numberOfVacantUnits }};
-      var numberOfRentedUnits = {{ $numberOfRentedUnits }};
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var numberOfUnits = {{ $numberOfUnits }};
+            var numberOfVacantUnits = {{ $numberOfVacantUnits }};
+            var numberOfRentedUnits = {{ $numberOfRentedUnits }};
 
-      var vacantPercentage = 0;
-      var rentedPercentage = 0;
+            var vacantPercentage = 0;
+            var rentedPercentage = 0;
 
-      if (numberOfUnits > 0) {
-        vacantPercentage = (numberOfVacantUnits / numberOfUnits) * 100;
-        rentedPercentage = (numberOfRentedUnits / numberOfUnits) * 100;
-      }
-
-      var ctx = document.getElementById('doughnutChart').getContext('2d');
-      var doughnutChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Vacant', 'Rented'],
-          datasets: [{
-            data: [vacantPercentage, rentedPercentage],
-            backgroundColor: [
-              'rgb(40, 208, 148)',
-              'rgb(253, 172, 52)'
-            ],
-            hoverOffset: 4
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false
+            if (numberOfUnits > 0) {
+                vacantPercentage = (numberOfVacantUnits / numberOfUnits) * 100;
+                rentedPercentage = (numberOfRentedUnits / numberOfUnits) * 100;
+            }else{
+                vacantPercentage = 50;
+                rentedPercentage = 50;;
             }
-          }
-        }
-      });
-    });
-  </script>
+
+            var ctx = document.getElementById('doughnutChart').getContext('2d');
+            var doughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                labels: ['Vacant', 'Rented'],
+                datasets: [{
+                    data: [vacantPercentage, rentedPercentage],
+                    backgroundColor: [
+                    'rgb(40, 208, 148)',
+                    'rgb(253, 172, 52)'
+                    ],
+                    hoverOffset: 4
+                }]
+                },
+                options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                    display: false
+                    }
+                }
+                }
+            });
+            });
+        </script>
 
     @endpush
 @endsection

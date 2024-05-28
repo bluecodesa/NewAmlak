@@ -98,7 +98,7 @@
                                 name="client_filter" style="width:95%!important" onchange="reloadInterests()">
                                 <option value="all" {{ $clientFilter == 'all' ? 'selected' : '' }}>
                                     @lang('All')</option>
-                                @foreach ($unitInterests as $unitInterest)
+                                @foreach ($unitInterests->unique('name') as $unitInterest)
                                     @if ($unitInterest->name)
                                         <option value="{{ $unitInterest->id }}"
                                             {{ $clientFilter == $unitInterest->id ? 'selected' : '' }}>
@@ -224,13 +224,13 @@
                                     </td>
 
                                     <td>
-                                        <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light"
+                                        <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" target="_blank"
                                             data-toggle="modal" data-target="#shareLinkUnit{{ $client->id }}"
                                             href="tel:+{{ $client->key_phone }}{{ $client->whatsapp }}"
                                             onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
                                             @lang('مكالمة')</a>
                                         <a href="https://web.whatsapp.com/send?phone=+{{ $client->key_phone }}{{ $client->whatsapp }}"
-                                            class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
+                                            class="btn btn-outline-warning btn-sm waves-effect waves-light" target="_blank">@lang('محادثة(شات)')</a>
 
 
                                     </td>

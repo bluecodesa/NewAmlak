@@ -293,7 +293,10 @@
                                 <div class="col-12 mb-3">
                                     <label class="form-label mb-2">@lang('Description')</label>
                                     <div>
-                                        <textarea name="note" class="form-control" rows="5"></textarea>
+                                        {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
+                                        <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
+
+                                        </textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-12 mb-3">
@@ -431,6 +434,50 @@
                 const rowToRemove = button.parentNode.parentNode;
                 rowToRemove.remove();
             }
+
+
+            $(document).ready(function() {
+                $('#textarea').summernote({
+                    height: 100, // set editor height
+                    minHeight: null, // set minimum height of editor
+                    maxHeight: null, // set maximum height of editor
+                    focus: true, // set focus to editable area after initializing summernote
+                    toolbar: [
+                        // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                        ['style', ['bold', 'underline']],
+                        ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                        ['para', ['ul', 'ol']],
+                        ['misc', ['fullscreen', 'undo', 'redo']],
+                        // Any other toolbar groups and options you want to include...
+                    ],
+                    // Explicitly remove table and font name options by not including them in the toolbar
+                });
+                $('.card-body .badge').click(function() {
+                    var variableValue = $(this).attr('data-variable');
+                    var $textarea = $('#textarea');
+                    var summernoteEditor = $textarea.summernote('code');
+
+                    // Check if Summernote editor is focused
+                    if ($('.note-editable').is(':focus')) {
+                        var node = document.createElement("span");
+                        node.innerHTML = variableValue;
+                        $('.note-editable').append(
+                            node); // This line appends the variable as a new node to the editor
+                        var range = document.createRange();
+                        var sel = window.getSelection();
+                        range.setStartAfter(node);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    } else {
+                        var currentContent = $textarea.summernote('code');
+                        $textarea.summernote('code', currentContent + variableValue);
+                    }
+                });
+            });
+
+
+
         </script>
     @endpush
 @endsection

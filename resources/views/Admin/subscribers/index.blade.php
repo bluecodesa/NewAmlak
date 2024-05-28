@@ -86,7 +86,7 @@
                         </thead>
                         <tbody class="table-border-bottom-0 sortable">
 
-                            @foreach ($subscribers as $index => $subscriber)
+                            @forelse ($subscribers as $index => $subscriber)
                                 <tr>
                                     {{-- <td>{{ $index + 1 }}</td> --}}
 
@@ -195,8 +195,16 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
-
+                                @empty
+                                <td colspan="6">
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <span class="alert-icon text-danger me-2">
+                                            <i class="ti ti-ban ti-xs"></i>
+                                        </span>
+                                        @lang('No Data Found!')
+                                    </div>
+                                </td>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

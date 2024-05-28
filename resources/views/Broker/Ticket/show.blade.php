@@ -46,7 +46,9 @@
                                     </li>
                                     <li class="mb-2 pt-1">
                                         <span class="fw-medium me-1">@lang('Description'):</span>
-                                        <span>{{ $ticket->content }}</span>
+                                        {{-- <span>{{ $ticket->content }}</span> --}}
+                                        <span class="mb-1">{!!  $ticket->content !!}</span>
+
                                     </li>
                                     <li class="mb-2 pt-1">
                                         <span class="fw-medium me-1">@lang('Create Date'):</span>

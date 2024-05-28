@@ -268,6 +268,7 @@ class HomeController extends Controller
             'broker_license' => $request->license_number,
             'mobile' => $request->mobile,
             'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
             'city_id' => $request->city_id,
             'id_number' => $request->id_number ?? null,
             'broker_logo' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
