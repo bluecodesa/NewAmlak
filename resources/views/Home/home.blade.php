@@ -1096,7 +1096,7 @@
                         <div>
                           <p class="mb-0">@lang('Email')</p>
                           <h5 class="mb-0">
-                            <a href="mailto:example@gmail.com" class="text-heading">{{ $sitting->email }}</a>
+                            <a href="mailto:{{ $sitting->email }}" class="text-heading">{{ $sitting->email }}</a>
                           </h5>
                         </div>
                       </div>
@@ -1108,7 +1108,7 @@
                         </div>
                         <div>
                           <p class="mb-0">@lang('phone')</p>
-                          <h5 class="mb-0"><a href="tel:+966 54454545" class="text-heading">+966 {{ $sitting->phone }}</a></h5>
+                          <h6 class="mb-0"><a href="tel:+{{ $sitting->full_phone }}" class="text-heading">{{ $sitting->full_phone }}</a></h6>
                         </div>
                       </div>
                     </div>

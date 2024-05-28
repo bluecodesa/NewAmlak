@@ -200,7 +200,7 @@
                                     <td>{{ $client->unit->number_unit ?? '' }}</td>
                                     <td>{{ $client->unit->PropertyData->name ?? __('nothing') }}</td>
                                     <td> {{ $client->name }}</td>
-                                    <td>+{{ $client->key_phone }} {{ $client->whatsapp }}</td>
+                                    <td>{{ $client->full_phone }}</td>
                                     <td>
                                         @if (Auth::user()->hasPermission('update-requests-interest'))
                                             <form method="POST"
