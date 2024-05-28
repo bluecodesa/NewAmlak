@@ -242,8 +242,8 @@
                 <div class="modal-dialog" role="document">
                    <form action="{{ route('unit_interests.store') }}" method="POST">
                        @csrf
-                       <input type="text" name="key_phone" hidden id="key_phone" value="{{ $broker->key_phone ?? '996' }}">
-
+                       <input type="text" name="key_phone" hidden value="996" id="key_phone">
+                       <input type="text" name="full_phone" hidden id="full_phone" value="996">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
@@ -266,7 +266,7 @@
                       <div class="row g-2">
                         <div class="col mb-0">
                           <label for="emailBasic" class="form-label">@lang('mobile')<span class="text-danger">*</span></label>
-                       
+
             <div class="input-group">
                 <input type="text" placeholder="123456789" id="phone" name="whatsapp"
                     value="" class="form-control" maxlength="9" pattern="\d{1,9}"
@@ -346,11 +346,21 @@
 
       </script>
 
+
+
 <script>
+    function updateFullPhone(input) {
+        input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+        var key_phone = $('#key_phone').val();
+        var fullPhone = key_phone + input.value;
+        document.getElementById('full_phone').value = fullPhone;
+    }
     $(document).ready(function() {
         $('.dropdown-item').on('click', function() {
             var key = $(this).data('key');
+            var phone = $('#phone').val();
             $('#key_phone').val(key);
+            $('#full_phone').val(key + phone);
             $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
         });
     });
