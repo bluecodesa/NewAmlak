@@ -114,7 +114,7 @@
                             <div class="col-6">
                                 <div class="d-flex">
                                     <div class="avatar flex-shrink-0 me-2">
-                                        <a href="tel:{{ $settings->support_phone }}">
+                                        <a href="tel:+{{ $settings->full_phone }}">
 
                                             <span class="avatar-initial rounded bg-label-primary"><i
                                                     class="ti ti-phone ti-md"></i></span> </a>

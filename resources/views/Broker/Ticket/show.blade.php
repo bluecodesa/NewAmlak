@@ -84,7 +84,7 @@
             <div class="row">
 
                 <!-- User List Style -->
-                <div class="col-12 col-lg-9 mb-4 mb-xl-0">
+                <div class="col-12 col-lg-10 mb-4 mb-xl-0">
                     <div class="card overflow-hidden mb-4">
                         <div class="card-body"  id="vertical-example">
                             <h5 class="mt-4 small text-uppercase text-muted">@lang('Comments')</h5>
@@ -98,7 +98,7 @@
                                             <div class="w-100">
                                                 <div class="d-flex justify-content-between">
                                                     <div class="user-info">
-                                                        <h6 class="mb-1">{{ $response->response }}</h6>
+                                                        <h6 class="mb-1">{!! $response->response !!}</h6>
                                                         <small>{{ optional($response->UserData)->name ?? 'Anonymous' }}</small>
                                                         <div class="user-status">
                                                             <span class="badge"></span>
@@ -134,8 +134,8 @@
                 <!-- Progress Style -->
                 @if ($ticket->status != 'Closed')
                 <div class="row">
-                <div class="col-12 col-lg-8">
-                    <div class="card mb-4">
+                    <div class="col-12 col-lg-10 mb-4 mb-xl-0">
+                        <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="mt-4 small text-uppercase text-muted">@lang('Add your comment')</h5>
                     <div class="demo-inline-spacing mt-3">
@@ -151,8 +151,11 @@
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="response" class="form-label">@lang('comment')</label>
-                                                <textarea class="form-control" id="response" name="response" rows="5"
+                                                {{-- <textarea class="form-control" id="response" name="response" rows="5"
+                                                    @if ($ticket->status === 'closed') disabled @endif required></textarea> --}}
+                                                    <textarea id="textarea" class="form-control" name="response" cols="30" rows="30" placeholder=""
                                                     @if ($ticket->status === 'closed') disabled @endif required></textarea>
+
                                             </div>
                                             <div class="mb-3">
                                                 <label for="attachment" class="form-label">@lang('file')</label>
@@ -201,6 +204,46 @@
             $('.' + hide).css('display', 'none');
         });
     });
+
+    $(document).ready(function() {
+                $('#textarea').summernote({
+                    height: 100, // set editor height
+                    minHeight: null, // set minimum height of editor
+                    maxHeight: null, // set maximum height of editor
+                    focus: true, // set focus to editable area after initializing summernote
+                    toolbar: [
+                        // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                        ['style', ['bold', 'underline']],
+                        ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                        ['para', ['ul', 'ol']],
+                        ['misc', ['fullscreen', 'undo', 'redo']],
+                        // Any other toolbar groups and options you want to include...
+                    ],
+                    // Explicitly remove table and font name options by not including them in the toolbar
+                });
+                $('.card-body .badge').click(function() {
+                    var variableValue = $(this).attr('data-variable');
+                    var $textarea = $('#textarea');
+                    var summernoteEditor = $textarea.summernote('code');
+
+                    // Check if Summernote editor is focused
+                    if ($('.note-editable').is(':focus')) {
+                        var node = document.createElement("span");
+                        node.innerHTML = variableValue;
+                        $('.note-editable').append(
+                            node); // This line appends the variable as a new node to the editor
+                        var range = document.createRange();
+                        var sel = window.getSelection();
+                        range.setStartAfter(node);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    } else {
+                        var currentContent = $textarea.summernote('code');
+                        $textarea.summernote('code', currentContent + variableValue);
+                    }
+                });
+            });
 </script>
 @endpush
 

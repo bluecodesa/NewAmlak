@@ -102,7 +102,7 @@
               </li>
               <li class="mb-3">
                 <a href="tel:+{{  $sitting->key_phone }}{{ $sitting->phone }}" class="footer-link"
-                ><span class="ti ti-phone"></span> +{{  $sitting->key_phone }} {{ $sitting->phone }}</a
+                ><span class="ti ti-phone"></span> {{ $sitting->full_phone }}</a
               >              </li>
 
             </ul>
