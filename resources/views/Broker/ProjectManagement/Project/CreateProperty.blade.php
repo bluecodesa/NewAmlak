@@ -208,6 +208,7 @@
                             $('#OwnersDiv').empty();
                             $('#OwnersDiv').append(data);
                             $('#addNewCCModal').modal('hide');
+                            alertify.success(@json(__('added successfully')));
                         },
                         error: function(xhr, status, error) {
                             // Handle error response here

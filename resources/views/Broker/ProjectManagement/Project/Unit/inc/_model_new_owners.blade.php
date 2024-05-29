@@ -93,8 +93,8 @@
                 <form action="{{ route('Broker.Unit.SaveNewOwners') }}" method="POST" id="OwnerForm" class="row">
                     @csrf
                     @method('post')
-                    <input type="text" name="key_phone" hidden value="996" id="key_phone">
-                    <input type="text" name="full_phone" hidden id="full_phone" value="996">
+                    <input type="text" name="key_phone" value="996" id="key_phone">
+                    <input type="text" name="full_phone" id="full_phone" value="996">
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">
                             {{ __('Name') }} <span class="required-color">*</span></label>
@@ -136,7 +136,7 @@
                         <label for="color" class="form-label">@lang('phone') <span
                                 class="required-color">*</span></label>
                         <div class="input-group">
-                            <input type="text" placeholder="123456789" name="phone" value=""
+                            <input type="text" placeholder="123456789" name="phone" id="phone" value=""
                                 class="form-control" maxlength="9" pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                 aria-label="Text input with dropdown button">
                             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
