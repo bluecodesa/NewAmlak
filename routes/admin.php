@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
 use App\Http\Controllers\Admin\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Admin\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Admin\ProjectManagement\OwnerController;
+use App\Http\Controllers\Admin\ProjectManagement\ProjectController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SettingController;
@@ -96,6 +97,14 @@ Route::group(
             Route::post('SupportTickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
             Route::get('/InfoSupport', [SupportController::class, 'showInfoSupport'])->name('Support.showInfoSupport');
             Route::put('InfoSupport/update', [SupportController::class, 'updateInfoSupport'])->name('InfoSupport.update');
+        // delviry cases
+
+        Route::get('/project-DelviryCases', [ProjectController::class, 'getAllDeliveryCases'])->name('ProjectSettings.delivery-cases');
+        Route::get('/project-DelviryCases/create', [ProjectController::class, 'createDeliveryCase'])->name('ProjectSettings.createDelivery-case');
+        Route::post('/project-DelviryCases/store', [ProjectController::class, 'storeDeliveryCase'])->name('ProjectSettings.storeDelivery-case');
+        Route::get('/project-DelviryCases/{id}/edit', [ProjectController::class, 'editDeliveryCase'])->name('ProjectSettings.editDelivery-case');
+        Route::put('/project-DelviryCases/{id}/update', [ProjectController::class, 'updateDeliveryCase'])->name('ProjectSettings.updateDelivery-case');
+        Route::delete('/project-DelviryCases/{id}/destroy', [ProjectController::class, 'deleteDeliveryCase'])->name('ProjectSettings.destroyDelivery-case');
 
 
 
@@ -122,6 +131,8 @@ Route::group(
                 'ServiceType' => ServiceTypeController::class,
                 'Service' => ServiceController::class,
                 'SupportTickets' => SupportController::class,
+                'ProjectSettings' => ProjectController::class,
+
 
 
             ]);

@@ -335,7 +335,37 @@
 
                                 <iframe width="100%" height="200" frameborder="0" style="border:0"
                                     src="https://www.google.com/maps/embed/v1/place?q={{ $project->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
-                            </div>
+                                    <h6>المخطط الرئيسي</h6>
+                                    @if($project->project_masterplan)
+                                        @if(in_array(pathinfo($project->project_masterplan, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                                            <img src="{{ $project->project_masterplan }}" height="100" width="100" alt="Project Masterplan" />
+                                        @elseif(pathinfo($project->project_masterplan, PATHINFO_EXTENSION) == 'pdf')
+                                            <a href="{{ $project->project_masterplan }}" target="_blank">
+                                                <img src="{{ asset('path/to/pdf-icon.png') }}" height="100" width="100" alt="Project Masterplan PDF" />
+                                            </a>
+                                        @else
+                                            <p>File type not supported</p>
+                                        @endif
+                                    @else
+                                        <p>No file uploaded</p>
+                                    @endif
+
+                                    <h6>البروشور</h6>
+                                    @if($project->project_brochure)
+                                        @if(in_array(pathinfo($project->project_brochure, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                                            <img src="{{ $project->project_brochure }}" height="100" width="100" alt="Project Brochure" />
+                                        @elseif(pathinfo($project->project_brochure, PATHINFO_EXTENSION) == 'pdf')
+                                            <a href="{{ $project->project_brochure }}" target="_blank">
+                                                <img src="{{ asset('path/to/pdf-icon.png') }}" height="100" width="100" alt="Project Brochure PDF" />
+                                            </a>
+                                        @else
+                                            <p>File type not supported</p>
+                                        @endif
+                                    @else
+                                        <p>No file uploaded</p>
+                                    @endif
+
+                                </div>
                         </div>
                     </div>
                     <hr>

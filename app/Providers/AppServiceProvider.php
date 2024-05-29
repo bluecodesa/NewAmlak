@@ -36,7 +36,7 @@ use App\Interfaces\Office\AdvisorRepositoryInterface;
 use App\Interfaces\Office\DeveloperRepositoryInterface;
 use App\Interfaces\Office\EmployeeRepositoryInterface;
 use App\Interfaces\Office\OwnerRepositoryInterface;
-use App\Interfaces\Office\ProjectRepositoryInterface;
+use App\Interfaces\Office\ProjectRepositoryInterface as OfficeProjectRepositoryInterface;
 use App\Interfaces\Broker\GalleryRepositoryInterface;
 use App\Models\Setting;
 use App\Repositories\Admin\CityRepository;
@@ -72,9 +72,11 @@ use App\Repositories\Office\AdvisorRepository;
 use App\Repositories\Office\DeveloperRepository;
 use App\Repositories\Office\EmployeeRepository;
 use App\Repositories\Office\OwnerRepository;
-use App\Repositories\Office\ProjectRepository;
+use App\Repositories\Office\ProjectRepository as OfficeProjectRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
+use App\Interfaces\Admin\ProjectRepositoryInterface;
+use App\Repositories\Admin\ProjectRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -173,8 +175,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            ProjectRepositoryInterface::class,
-            ProjectRepository::class
+            OfficeProjectRepositoryInterface::class,
+            OfficeProjectRepository::class
         );
         $this->app->bind(
             BrokerProjectRepositoryInterface::class,
@@ -217,6 +219,10 @@ class AppServiceProvider extends ServiceProvider
             SupportRepository::class
         );
 
+        $this->app->bind(
+            ProjectRepositoryInterface::class,
+            ProjectRepository::class
+        );
 
 
         $this->app->bind(

@@ -465,5 +465,12 @@
     "Back to login": "الرجوع الي صفحة تسجيل الدخول",
     "Set new password": "تعيين كلمة مرور جديدة",
     "Website Themes": "سمات الموقع",
-    "No Comments Found!": "لاتوجد تعليقات!"
+    "No Comments Found!": "لاتوجد تعليقات!",
+    "Project status": "حالات المشروع",
+    "Delivery Cases": "حالات التسليم",
+    "Time Line": "الجدول الزمني",
+    "Attachments": "المرفقات",
+    "Project Settings": "ادارة المشاريع",
+    "Add New Project Status": "اضافة حالة مشروع  جديدة",
+    "Add New Delivery Case": "اضافة حالة تسليم جديدة"
 }

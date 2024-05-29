@@ -8,6 +8,7 @@ use App\Models\Subscription;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
 use App\Services\Broker\ProjectService;
+use App\Services\Admin\ProjectService as AdminProjectService;
 use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
 use App\Services\RegionService;
@@ -24,9 +25,13 @@ class ProjectController extends Controller
     protected $propertyTypeService;
     protected $propertyUsageService;
     protected $ServiceTypeService;
+    protected $AdminProjectService;
 
 
-    public function __construct(ProjectService $projectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+
+
+
+    public function __construct(ProjectService $projectService,AdminProjectService $AdminProjectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -36,6 +41,7 @@ class ProjectController extends Controller
         $this->propertyTypeService = $propertyTypeService;
         $this->propertyUsageService = $propertyUsageService;
         $this->ServiceTypeService = $ServiceTypeService;
+        $this->AdminProjectService = $AdminProjectService;
         //
         $this->middleware(['role_or_permission:read-project'])->only(['index']);
         $this->middleware(['role_or_permission:create-project'])->only(['create', 'store']);
@@ -58,13 +64,20 @@ class ProjectController extends Controller
         $advisors = $this->brokerDataService->getAdvisors();
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
+        $projectStatuses = $this->AdminProjectService->getAllProjectStatus();
+        $deliveryCases = $this->AdminProjectService->getAllDeliveryCases();
         return view('Broker.ProjectManagement.Project.create', get_defined_vars());
     }
 
     public function store(Request $request)
     {
-        $images = $request->image;
-        $this->projectService->createProject($request->except('image'), $images);
+        $files = [
+            'image' => $request->file('image'),
+            'project_masterplan' => $request->file('project_masterplan'),
+            'project_brochure' => $request->file('project_brochure')
+        ];
+
+        $this->projectService->createProject($request->except(['image', 'project_masterplan', 'project_brochure']), $files);
         return redirect()->route('Broker.Project.index')->with('success', __('added successfully'));
     }
 

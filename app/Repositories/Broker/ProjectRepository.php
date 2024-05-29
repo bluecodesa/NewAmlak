@@ -15,16 +15,37 @@ class ProjectRepository implements ProjectRepositoryInterface
         return Project::where('broker_id', $brokerId)->get();
     }
 
-    public function create($data, $images)
+    public function create($data, $files)
     {
-        if ($images) {
-            $ext = $images->getClientOriginalExtension();
+        // Handle image upload
+        if (isset($files['image'])) {
+            $image = $files['image'];
+            $ext = $image->getClientOriginalExtension();
             $imageName = uniqid() . '.' . $ext;
-            $images->move(public_path('/Brokers/Projects/'), $imageName);
+            $image->move(public_path('/Brokers/Projects/'), $imageName);
             $data['image'] = '/Brokers/Projects/' . $imageName;
         } else {
             $data['image'] = '/Brokers/Projects/default.svg';
         }
+
+        // Handle project_masterplan upload
+        if (isset($files['project_masterplan'])) {
+            $projectMasterplan = $files['project_masterplan'];
+            $ext = $projectMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $projectMasterplan->move(public_path('/Brokers/Projects/pdfs'), $masterplanName);
+            $data['project_masterplan'] = '/Brokers/Projects/pdfs/' . $masterplanName;
+        }
+
+        // Handle project_brochure upload
+        if (isset($files['project_brochure'])) {
+            $projectBrochure = $files['project_brochure'];
+            $ext = $projectBrochure->getClientOriginalExtension();
+            $brochureName = uniqid() . '.' . $ext;
+            $projectBrochure->move(public_path('/Brokers/Projects/pdfs'), $brochureName);
+            $data['project_brochure'] = '/Brokers/Projects/pdfs/' . $brochureName;
+        }
+
         return Project::create($data);
     }
 

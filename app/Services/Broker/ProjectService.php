@@ -24,29 +24,50 @@ class ProjectService
         return $this->projectRepository->getAllByBrokerId($brokerId);
     }
 
-    public function createProject($data, $images)
+    public function createProject($data, $files)
     {
         // Validation rules
         $rules = [
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'city_id' => 'required|exists:cities,id',
-            // 'developer_id' => 'required|exists:developers,id',
-            // 'advisor_id' => 'required|exists:advisors,id',
-            // 'owner_id' => 'required|exists:owners,id',
+            'project_masterplan' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+            'project_brochure' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048'
+        ];
+        $messages = [
+            'name.required' => __('The project name is required.'),
+            'name.string' => __('The project name must be a string.'),
+            'name.max' => __('The project name may not be greater than :max characters.', ['max' => 255]),
+
+            'location.required' => __('The location is required.'),
+            'location.string' => __('The location must be a string.'),
+            'location.max' => __('The location may not be greater than :max characters.', ['max' => 255]),
+
+            'city_id.required' => __('The city is required.'),
+            'city_id.exists' => __('The selected city is invalid.'),
+
+            'project_masterplan.file' => __('The project masterplan must be a file.'),
+            'project_masterplan.mimes' => __('The project masterplan must be a file of type: jpeg, png, jpg, gif, pdf.'),
+            'project_masterplan.max' => __('The project masterplan may not be greater than :max kilobytes.', ['max' => 2048]),
+
+            'project_brochure.file' => __('The project brochure must be a file.'),
+            'project_brochure.mimes' => __('The project brochure must be a file of type: jpeg, png, jpg, gif, pdf.'),
+            'project_brochure.max' => __('The project brochure may not be greater than :max kilobytes.', ['max' => 2048]),
+
+            'image.file' => __('The project image must be a file.'),
+            'image.mimes' => __('The project image must be a file of type: jpeg, png, jpg, gif.'),
+            'image.max' => __('The project image may not be greater than :max kilobytes.', ['max' => 2048]),
         ];
 
         // Validate data
-        validator($data, $rules)->validate();
+        validator($data, $rules ,$messages)->validate();
 
         $data['broker_id'] = Auth::user()->UserBrokerData->id;
 
         // Create project
-        $project = $this->projectRepository->create($data, $images);
-
-        return $project;
+        return $this->projectRepository->create($data, $files);
     }
-
     public function findProjectById($id)
     {
         return $this->projectRepository->ShowProject($id);
@@ -75,9 +96,9 @@ class ProjectService
             'city_id.required' => __('The :attribute field is required.', ['attribute' => __('city')]),
             'city_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('city')]),
        ];
-        
+
         validator($data, $rules, $messages)->validate();
-        
+
         // Update project
         $project = $this->projectRepository->update($id, $data, $images);
 

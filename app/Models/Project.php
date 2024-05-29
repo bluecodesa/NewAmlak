@@ -52,4 +52,15 @@ class Project extends Model
         }
         return $imageUrl;
     }
+
+    public function projectStatus()
+    {
+        return $this->belongsTo(ProjectStatus::class, 'project_status_id');
+    }
+
+    // Define the relationship with DeliveryCase
+    public function deliveryCase()
+    {
+        return $this->belongsTo(DeliveryCase::class, 'delivery_case_id');
+    }
 }
