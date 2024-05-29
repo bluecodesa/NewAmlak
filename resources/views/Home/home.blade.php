@@ -1096,7 +1096,7 @@
                         <div>
                           <p class="mb-0">@lang('Email')</p>
                           <h5 class="mb-0">
-                            <a href="mailto:{{ $sitting->email }}" class="text-heading">{{ $sitting->email }}</a>
+                            <a href="mailto:{{ $sitting->support_email }}" class="text-heading">{{ $sitting->support_email }}</a>
                           </h5>
                         </div>
                       </div>
