@@ -403,6 +403,7 @@
 
 </div>
 </div>
+@include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
 
 {{-- نهايه الوصف --}}
     @push('scripts')

@@ -1,3 +1,4 @@
+
 @extends('Admin.layouts.app')
 @section('title', __('Edit') . ' ' . __('Project') . ' ' . $project->name)
 @section('content')

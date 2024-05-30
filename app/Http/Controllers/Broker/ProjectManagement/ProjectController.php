@@ -103,6 +103,8 @@ class ProjectController extends Controller
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
         $services = $this->ServiceTypeService->getAllServiceTypes();
+        $projectStatuses = $this->AdminProjectService->getAllProjectStatus();
+        $deliveryCases = $this->AdminProjectService->getAllDeliveryCases();
         return view('Broker.ProjectManagement.Project.edit', get_defined_vars());
     }
 

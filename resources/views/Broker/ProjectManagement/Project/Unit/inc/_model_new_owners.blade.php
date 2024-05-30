@@ -93,8 +93,8 @@
                 <form action="{{ route('Broker.Unit.SaveNewOwners') }}" method="POST" id="OwnerForm" class="row">
                     @csrf
                     @method('post')
-                    <input type="text" name="key_phone" value="996" id="key_phone">
-                    <input type="text" name="full_phone" id="full_phone" value="996">
+                    <input type="text" hidden name="key_phone" value="996" id="key_phone">
+                    <input type="text" hidden name="full_phone" id="full_phone" value="996">
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">
                             {{ __('Name') }} <span class="required-color">*</span></label>

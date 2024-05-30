@@ -65,6 +65,15 @@ class UnitRepository implements UnitRepositoryInterface
             $unit_data['daily_rent'] = 0;
         }
 
+        if (isset($unit_data['unit_masterplan'])) {
+            $unitMasterplan = $unit_data['unit_masterplan'];
+            $ext = $unitMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $unitMasterplan->move(public_path('/Brokers/Projects/Units/'), $masterplanName);
+            $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
+        }
+
+
         $unit = Unit::create($unit_data);
         if (isset($data['service_id'])) {
             foreach ($data['service_id'] as  $service) {
