@@ -15,6 +15,9 @@ use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Services\AllServiceService;
+use App\Services\FeatureService;
+
 
 class ProjectController extends Controller
 {
@@ -26,12 +29,13 @@ class ProjectController extends Controller
     protected $propertyUsageService;
     protected $ServiceTypeService;
     protected $AdminProjectService;
+    protected $AllServiceService;
+    protected $FeatureService;
 
 
 
 
-
-    public function __construct(ProjectService $projectService,AdminProjectService $AdminProjectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    public function __construct(AllServiceService $AllServiceService, FeatureService $FeatureService ,ProjectService $projectService,AdminProjectService $AdminProjectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -42,6 +46,8 @@ class ProjectController extends Controller
         $this->propertyUsageService = $propertyUsageService;
         $this->ServiceTypeService = $ServiceTypeService;
         $this->AdminProjectService = $AdminProjectService;
+        $this->AllServiceService = $AllServiceService;
+        $this->FeatureService = $FeatureService;
         //
         $this->middleware(['role_or_permission:read-project'])->only(['index']);
         $this->middleware(['role_or_permission:create-project'])->only(['create', 'store']);
@@ -154,4 +160,36 @@ class ProjectController extends Controller
         $project = $this->projectService->findProjectById($id);
         $project->update(['image' => '/Brokers/Projects/default.jpg']);
     }
+
+
+
+
+    function CreateUnitFromProject($id)
+    {
+        $Project = $this->projectService->findProjectById($id);
+        $types = $this->propertyTypeService->getAllPropertyTypes();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $advisors = $this->brokerDataService->getAdvisors();
+        $developers = $this->brokerDataService->getDevelopers();
+        $owners = $this->brokerDataService->getOwners();
+        $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        $services = $this->AllServiceService->getAllServices();
+        $features = $this->FeatureService->getAllFeature();
+        return view('Broker.ProjectManagement.Project.CreateUnit', get_defined_vars());
+    }
+
+    function StoreUnit(Request $request, $id)
+    {
+        $this->projectService->StoreUnit($id, $request->all());
+        return redirect()->route('Broker.Project.show', $id)->with('success', __('added successfully'));
+    }
+
+    public function autocomplete(Request $request)
+    {
+        $data = $this->projectService->autocomplete($request->all());
+        return response()->json($data);
+    }
+
 }

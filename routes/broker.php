@@ -52,7 +52,12 @@ Route::group(
             Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty')->middleware('CheckSubscription');
             Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty')->middleware('CheckSubscription');
             Route::get('/deleteImage/{id}', 'ProjectManagement\ProjectController@deleteImage')->name('Project.deleteImage')->middleware('CheckSubscription');
+            Route::get('/CreateUnitProject/{id}', 'ProjectManagement\ProjectController@CreateUnitFromProject')->name('Project.CreateUnitProject')->middleware('CheckSubscription');
+            Route::post('StoreUnitProject/{id}', 'ProjectManagement\ProjectController@StoreUnit')->name('Project.StoreUnitProject')->middleware('CheckSubscription');
+            Route::get('autocompleteProject', 'ProjectManagement\ProjectController@autocomplete')->name('Project.autocompleteProject')->middleware('CheckSubscription');
+
             route::resource('Payment', PaymentController::class);
+
             //
             route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
             route::put('updateBroker/{id}', [SettingController::class, 'updateBroker'])->name('Setting.updateBroker')->middleware('CheckSubscription');
@@ -63,6 +68,8 @@ Route::group(
             Route::post('StoreUnit/{id}', 'ProjectManagement\PropertyController@StoreUnit')->name('Property.StoreUnit')->middleware('CheckSubscription');
             Route::get('/PropertydeleteImage/{id}', 'ProjectManagement\PropertyController@deleteImage')->name('Property.deleteImage')->middleware('CheckSubscription');
             //
+
+
             route::resource('Unit', UnitController::class)->middleware('CheckSubscription');
             Route::post('SaveNewOwners', [UnitController::class, 'SaveNewOwners'])->name('Unit.SaveNewOwners');
             Route::get('/UnitdeleteImage/{id}', 'ProjectManagement\UnitController@deleteImage')->name('Unit.deleteImage')->middleware('CheckSubscription');

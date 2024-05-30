@@ -16,4 +16,8 @@ interface ProjectRepositoryInterface
     public function delete($id);
 
     public function storeProperty($data, $id, $images);
+    public function StoreUnit($id, $data);
+    public function autocomplete($data);
+
+
 }

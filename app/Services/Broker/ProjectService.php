@@ -124,4 +124,52 @@ class ProjectService
         $property = $this->projectRepository->storeProperty($data, $projectId, $images);
         return $property;
     }
+
+    function StoreUnit($id, $data)
+    {
+        $rules = [
+            'number_unit' => 'required|string',
+            'city_id' => 'required',
+            'location' => 'required',
+            'property_type_id' => 'required',
+            'property_usage_id' => 'required',
+            'owner_id' => 'required',
+            'price' => 'digits_between:0,10',
+            'monthly' => 'digits_between:0,8',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('properties')->ignore($id),
+                'max:25'
+            ],
+            'service_type_id' => 'required',
+            "show_gallery" => 'sometimes',
+            'type' => ['required', Rule::in(['sale', 'rent','rent and sale'])],
+
+        ];
+        $messages = [
+            'number_unit.required' => 'The number unit field is required.',
+            'city_id.required' => 'The city field is required.',
+            'location.required' => 'The location field is required.',
+            'property_type_id.required' => 'The property type field is required.',
+            'property_usage_id.required' => 'The property usage field is required.',
+            'owner_id.required' => 'The owner field is required.',
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+            'service_type_id.required' => 'The service type field is required.',
+            'type.required' => 'The type field is required.',
+            'type.in' => 'The selected type is invalid.',
+            'price' => 'price must be smaller than or equal to 10 numbers.',
+            'monthly' => 'Monthly price must be smaller than or equal to 8.',
+        ];
+
+        // Validate data
+        validator($data, $rules,$messages)->validate();
+
+        $unit = $this->projectRepository->StoreUnit($id, $data);
+
+        return $unit;
+    }
+    function autocomplete($data)
+    {
+        return $this->projectRepository->autocomplete($data);
+    }
 }

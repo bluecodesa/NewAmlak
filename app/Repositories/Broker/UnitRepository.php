@@ -46,7 +46,6 @@ class UnitRepository implements UnitRepositoryInterface
 
         ];
 
-
         $unit_data = $data;
         unset($unit_data['name']);
         unset($unit_data['qty']);

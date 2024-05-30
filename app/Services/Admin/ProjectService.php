@@ -53,7 +53,7 @@ class ProjectService
     {
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('project_status_translations', 'name')->ignore($id, 'ticket_type_id')]];
+            $rules += [$locale . '.name' => ['required', Rule::unique('project_status_translations', 'name')->ignore($id, 'project_status_id')]];
         }
         $messages = [];
         foreach (config('translatable.locales') as $locale) {
@@ -103,7 +103,7 @@ class ProjectService
     {
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('delivery_case_translations', 'name')->ignore($id, 'ticket_type_id')]];
+            $rules += [$locale . '.name' => ['required', Rule::unique('delivery_case_translations', 'name')->ignore($id, 'delivery_case_id')]];
         }
         $messages = [];
         foreach (config('translatable.locales') as $locale) {

@@ -69,19 +69,17 @@
                                         <div class="dropdown-menu" style="">
                                             @if (Auth::user()->hasPermission('update-support-ticket-type'))
                                                 <a class="dropdown-item"
-                                                    href="{{ route('Admin.ProjectSettings.edit', $deliveryCase->id) }}">@lang('Edit')</a>
+                                                    href="{{ route('Admin.ProjectSettings.editDelivery-case', $deliveryCase->id) }}">@lang('Edit')</a>
                                             @endif
-                                            @if (Auth::user()->hasPermission('delete-support-ticket-type'))
-                                                <a href="javascript:void(0);"
-                                                    onclick="handleDelete('{{ $deliveryCase->id }}"
-                                                    class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                <form id="delete-form-{{ $deliveryCase->id }}"
-                                                    action="{{ route('Admin.ProjectSettings.destroy', $deliveryCase->id) }}"
-                                                    method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            @endif
+                                            <a href="javascript:void(0);"
+                                                onclick="handleDelete('{{ $deliveryCase->id }}')"
+                                                class="dropdown-item delete-btn">@lang('Delete')</a>
+                                            <form id="delete-form-{{ $deliveryCase->id }}"
+                                                action="{{ route('Admin.ProjectSettings.destroyDelivery-case', $deliveryCase->id) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
 
                                         </div>
                                     </div>

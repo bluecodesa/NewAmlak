@@ -71,18 +71,16 @@
                                                 <a class="dropdown-item"
                                                     href="{{ route('Admin.ProjectSettings.edit', $projectStatu->id) }}">@lang('Edit')</a>
                                             @endif
-                                            @if (Auth::user()->hasPermission('delete-support-ticket-type'))
+                    
                                                 <a href="javascript:void(0);"
-                                                    onclick="handleDelete('{{ $projectStatu->id }}"
-                                                    class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                <form id="delete-form-{{ $projectStatu->id }}"
-                                                    action="{{ route('Admin.ProjectSettings.destroy', $projectStatu->id) }}"
-                                                    method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            @endif
-
+                                                onclick="handleDelete('{{ $projectStatu->id }}')"
+                                                class="dropdown-item delete-btn">@lang('Delete')</a>
+                                            <form id="delete-form-{{ $projectStatu->id }}"
+                                                action="{{ route('Admin.ProjectSettings.destroy', $projectStatu->id) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
                                         </div>
                                     </div>
                                 </td>

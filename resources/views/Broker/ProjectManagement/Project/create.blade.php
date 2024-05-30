@@ -19,6 +19,10 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            <form action="{{ route('Broker.Project.store') }}" method="POST" class="row"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('post')
 
                             <div class="nav-align-top mb-4">
                               <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
@@ -64,11 +68,7 @@
                                 <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
 
                                     @include('Admin.layouts.Inc._errors')
-                                        <form action="{{ route('Broker.Project.store') }}" method="POST" class="row"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('post')
-
+                                <div class="row">
                                             <div class="col-md-3 col-12 mb-3">
 
                                                 <label class="form-label">
@@ -169,8 +169,8 @@
                                             </div>
 
                                             <div class="col-md-6 col-12 mb-3">
-                                                <label class="form-label">@lang('Project status') <span class="required-color">*</span></label>
-                                                <select class="form-select" name="project_status_id" required>
+                                                <label class="form-label">@lang('Project status') <span class="required-color"></span></label>
+                                                <select class="form-select" name="project_status_id">
                                                     <option disabled selected value="">@lang('Project status')</option>
                                                     @foreach ($projectStatuses as $status)
                                                         <option value="{{ $status->id }}">{{ $status->name }}</option>
@@ -179,8 +179,8 @@
                                             </div>
 
                                             <div class="col-md-6 col-12 mb-3">
-                                                <label class="form-label">@lang('Delivery Cases') <span class="required-color">*</span></label>
-                                                <select class="form-select" name="delivery_case_id" required>
+                                                <label class="form-label">@lang('Delivery Cases') <span class="required-color"></span></label>
+                                                <select class="form-select" name="delivery_case_id">
                                                     <option disabled selected value="">@lang('Delivery Cases')</option>
                                                     @foreach ($deliveryCases as $case)
                                                         <option value="{{ $case->id }}">{{ $case->name }}</option>
@@ -221,27 +221,38 @@
 
 
                                         </form> --}}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+                        <div class="form-group col-12 mb-3">
+                            <label class="form-label">@lang('Time Line') </label>
+                            <div id="features" class="row">
+                                <div class="col">
+                                    <select id="selectpickerGroups" name="time_line[][status_id]" class="form-select selectpicker w-100" data-style="btn-default">
+                                        <option value="">@lang('Select Status')</option>
+                                        @foreach ($projectStatuses as $status)
+                                        <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select id="selectpickerGroups" name="time_line[][delivery_id]" class="form-select selectpicker w-100" data-style="btn-default">
+                                        <option value="">@lang('Select Delivery Case')</option>
+                                        @foreach ($deliveryCases as $case)
+                                        <option value="{{ $case->id }}">{{ $case->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" name="date[]" type="date" id="html5-date-input">
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary w-100" onclick="addFeature()">@lang('Add details')</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                </div>
-                                <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
-                                    <div class="form-group col-12 mb-3">
-                                        <label class="form-label">@lang('Additional details') </label>
-                                        <div id="features" class="row">
-                                            <div class="col">
-                                                <input type="text" name="time_line[]" class="form-control search"
-                                                    placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-                                            </div>
-                                            <div class="col">
-                                                <input type="date" name="date[]" class="form-control"
-                                                    placeholder="@lang('value')" value="{{ old('date*') }}" />
-                                            </div>
-                                            <div class="col">
-                                                <button type="button" class="btn btn-primary w-100"
-                                                    onclick="addFeature()">@lang('Add details')</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
                                     <div class="row">
                                     <div class=" col-6 mb-3">
@@ -384,27 +395,6 @@
 
 
 
-            function addFeature() {
-                const featuresContainer = document.getElementById('features');
-                const newRow = document.createElement('div');
-                newRow.classList.add('row', 'mt-2'); // Add any additional classes that your grid system requires
-
-                // Use the exact same class names and structure as your existing rows
-                newRow.innerHTML = `
-<div class="col">
-    <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-</div>
-<div class="col">
-    <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
-</div>
-<div class="col">
-    <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-</div>
-`;
-
-                featuresContainer.appendChild(newRow);
-            }
-
 
 
             $(document).ready(function() {
@@ -446,6 +436,45 @@
                     }
                 });
             });
+
+
+
+            function addFeature() {
+        const featuresContainer = document.getElementById('features');
+        const newRow = document.createElement('div');
+        newRow.classList.add('row', 'mt-2'); // Add any additional classes that your grid system requires
+
+        newRow.innerHTML = `
+        <div class="col">
+                                    <select id="selectpickerGroups" name="time_line[][status_id]" class="form-select selectpicker w-100" data-style="btn-default">
+                                        <option value="">@lang('Select Status')</option>
+                                        @foreach ($projectStatuses as $status)
+                                        <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select id="selectpickerGroups" name="time_line[][delivery_id]" class="form-select selectpicker w-100" data-style="btn-default">
+                                        <option value="">@lang('Select Delivery Case')</option>
+                                        @foreach ($deliveryCases as $case)
+                                        <option value="{{ $case->id }}">{{ $case->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" name="date[]" type="date" id="html5-date-input">
+                                </div>
+            <div class="col">
+                <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">Remove</button>
+            </div>
+        `;
+
+        featuresContainer.appendChild(newRow);
+    }
+
+    function removeFeature(button) {
+        button.parentElement.parentElement.remove();
+    }
 
 
         </script>

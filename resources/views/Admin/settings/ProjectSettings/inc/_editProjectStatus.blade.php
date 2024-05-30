@@ -5,13 +5,13 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6 ">
+                <div class="col-12 ">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <span class="text-muted fw-light"> @lang('Settings') / @lang('technical support') /</span>
-                        <a href="{{ route('Admin.SupportTickets.tickets-type') }}"
-                            class="text-muted fw-light">@lang('Ticket Type')
-                        </a> /
-                        @lang('Edit Ticket Type')
+                        <span class="text-muted fw-light"> @lang('Settings')  /</span>
+                        <a href="{{ route('Admin.ProjectSettings.index') }}"
+                            class="text-muted fw-light">@lang('Project Settings')
+                        </a> /@lang('Edit Project Status')
+
                     </h4>
                 </div>
 
@@ -20,7 +20,7 @@
             <div class="card">
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
-                    <form action="{{ route('Admin.SupportTickets.updateTicketType', $Ticket->id) }}" method="POST"
+                    <form action="{{ route('Admin.ProjectSettings.update', $ProjectStatu->id) }}" method="POST"
                         class="row">
                         @csrf
                         @method('PUT')
@@ -28,7 +28,7 @@
                             <div class="col-md-6 col-12 mb-3">
                                 <label class="form-label">
                                     {{ __('Name') }} {{ __($locale) }} <span class="required-color">*</span></label>
-                                <input type="text" required value="{{ $Ticket->translate($locale)->name }}"
+                                <input type="text" required value="{{ $ProjectStatu->translate($locale)->name }}"
                                     name="{{ $locale }}[name]" class="form-control"
                                     placeholder="{{ __('Name') }} {{ __($locale) }}">
 

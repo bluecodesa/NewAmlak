@@ -78,7 +78,7 @@ class ProjectController extends Controller
     {
         //
         $ProjectStatu  =   $this->ProjectService->getProjectStatuById($id);
-        return view('Admin.supports.TicketsType.edit', get_defined_vars());
+        return view('Admin.settings.ProjectSettings.inc._editProjectStatus', get_defined_vars());
     }
 
     /**
@@ -88,7 +88,7 @@ class ProjectController extends Controller
     {
         //
         $this->ProjectService->updateProjectStatu($id, $request->all());
-        return redirect()->route('Admin.Admin.ProjectSettings.index')
+        return redirect()->route('Admin.ProjectSettings.index')
             ->withSuccess(__('Update successfully'));
     }
 
@@ -108,7 +108,7 @@ class ProjectController extends Controller
     public function getAllDeliveryCases()
     {
         $deliveryCases = $this->ProjectService->getAllDeliveryCases();
-        return view('Admin.supports.TicketsType.index', get_defined_vars());
+        return view('Admin.ProjectSettings.index', get_defined_vars());
     }
     public function createDeliveryCase()
     {
@@ -117,25 +117,25 @@ class ProjectController extends Controller
     public function storeDeliveryCase(Request $request)
     {
         $this->ProjectService->createDeliveryCase($request->all());
-        return redirect()->route('Admin.SupportTickets.tickets-type')
+        return redirect()->route('Admin.ProjectSettings.index')
             ->withSuccess(__('added successfully'));
     }
 
     public function editDeliveryCase($id)
     {
-        $Ticket  =   $this->ProjectService->getDeliveryCaseById($id);
+        $deliveryCase  =   $this->ProjectService->getDeliveryCaseById($id);
         return view('Admin.settings.ProjectSettings.inc._editDeliveryCase',get_defined_vars());
     }
     public function updateDeliveryCase(Request $request, $id)
     {
         $this->ProjectService->updateDeliveryCase($id, $request->all());
-        return redirect()->route('Admin.SupportTickets.tickets-type')
+        return redirect()->route('Admin.ProjectSettings.index')
             ->withSuccess(__('Update successfully'));
     }
     public function deleteDeliveryCase($id)
     {
         $this->ProjectService->deleteDeliveryCase($id);
-        return redirect()->route('Admin.SupportTickets.tickets-type')
+        return redirect()->route('Admin.ProjectSettings.index')
             ->withSuccess(__('Deleted successfully'));
     }
 

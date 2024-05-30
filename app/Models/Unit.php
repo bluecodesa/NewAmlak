@@ -64,6 +64,12 @@ class Unit extends Model
         return $this->belongsTo(Property::class, 'property_id');
     }
 
+    public function ProjectData()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+
+
     public function UnitInterests()
     {
         return $this->hasMany(UnitInterest::class);
