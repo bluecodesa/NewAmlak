@@ -171,6 +171,7 @@
 
   <!-- Connection Cards -->
   <div class="row g-4">
+
     @foreach ($units as $unit)
 
     <div class="col-xl-4 col-lg-6 col-md-6">
@@ -201,10 +202,15 @@
             data-bs-toggle="modal"
             data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
             >
-            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"  data-bs-toggle="modal"
-            data-bs-target="#basicModal"
-              ><i class="ti ti-heart ti-sm"></i
-            ></a>
+            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+                data-bs-toggle="modal"
+                data-bs-target="#basicModal"
+                data-unit-id="{{ $unit->id }}"
+                data-user-id="{{ $unit->BrokerData->user_id }}"
+                >
+                <i class="ti ti-heart ti-sm"></i>
+            </a>
+
           </div>
           <div class="mx-auto my-3">
             <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">

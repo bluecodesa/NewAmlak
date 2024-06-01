@@ -218,7 +218,6 @@ class GalleryService
             $galleryDistricts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
             $districts = $districts->merge($galleryDistricts);
         }
-
         $unit_id = null;
         $unitDetails = null;
         $user_id = null;
@@ -247,7 +246,6 @@ class GalleryService
         $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
         $districtsuniqueIds = $units->pluck('DistrictData.id')->filter()->unique();
         $districtsUniqueNames = $units->pluck('DistrictData.name')->unique();
-
         return get_defined_vars();
 
     }

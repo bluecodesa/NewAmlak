@@ -6,6 +6,7 @@ namespace App\Repositories\Broker;
 use App\Interfaces\Broker\ProjectRepositoryInterface;
 use App\Models\Feature;
 use App\Models\Project;
+use App\Models\ProjectImage;
 use App\Models\ProjectTimeLine;
 use App\Models\Property;
 use App\Models\PropertyImage;
@@ -24,76 +25,90 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     public function create($data, $files)
-{
-    $project_data = $data;
+    {
+        $project_data = $data;
 
-    if (isset($files['image'])) {
-        $image = $files['image'];
-        $ext = $image->getClientOriginalExtension();
-        $imageName = uniqid() . '.' . $ext;
-        $image->move(public_path('/Brokers/Projects/'), $imageName);
-        $project_data['image'] = '/Brokers/Projects/' . $imageName;
-    } else {
-        $project_data['image'] = '/Brokers/Projects/default.svg';
-    }
-
-    // Handle project_masterplan upload
-    if (isset($files['project_masterplan'])) {
-        $projectMasterplan = $files['project_masterplan'];
-        $ext = $projectMasterplan->getClientOriginalExtension();
-        $masterplanName = uniqid() . '.' . $ext;
-        $projectMasterplan->move(public_path('/Brokers/Projects/pdfs'), $masterplanName);
-        $project_data['project_masterplan'] = '/Brokers/Projects/pdfs/' . $masterplanName;
-    }
-
-    // Handle project_brochure upload
-    if (isset($files['project_brochure'])) {
-        $projectBrochure = $files['project_brochure'];
-        $ext = $projectBrochure->getClientOriginalExtension();
-        $brochureName = uniqid() . '.' . $ext;
-        $projectBrochure->move(public_path('/Brokers/Projects/pdfs'), $brochureName);
-        $project_data['project_brochure'] = '/Brokers/Projects/pdfs/' . $brochureName;
-    }
-
-    $project_data['broker_id'] = Auth::user()->UserBrokerData->id;
-
-
-    unset($project_data['time_line']);
-    unset($project_data['date']);
-
-    $project = Project::create($project_data);
-    if (isset($data['time_line'])) {
-        foreach ($data['time_line'] as $index => $timeLine) {
-            // Access the 'status_id' and 'delivery_id' values from the $timeLine array
-            $statusId = isset($timeLine['status_id']) ? $timeLine['status_id'] : null;
-            $deliveryId = isset($timeLine['delivery_id']) ? $timeLine['delivery_id'] : null;
-            $date = isset($data['date'][$index]) ? $data['date'][$index] : null;
-
-            // Create the timeline entry with the correct status and delivery IDs
-            ProjectTimeLine::create([
-                'status_id' => $statusId,
-                'delivery_id' => $deliveryId,
-                'project_id' => $project->id,
-                'date' => $date
-            ]);
+        // Handle project_masterplan upload
+        if (isset($files['project_masterplan'])) {
+            $projectMasterplan = $files['project_masterplan'];
+            $ext = $projectMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $projectMasterplan->move(public_path('/Brokers/Projects/pdfs'), $masterplanName);
+            $project_data['project_masterplan'] = '/Brokers/Projects/pdfs/' . $masterplanName;
         }
+
+        // Handle project_brochure upload
+        if (isset($files['project_brochure'])) {
+            $projectBrochure = $files['project_brochure'];
+            $ext = $projectBrochure->getClientOriginalExtension();
+            $brochureName = uniqid() . '.' . $ext;
+            $projectBrochure->move(public_path('/Brokers/Projects/pdfs'), $brochureName);
+            $project_data['project_brochure'] = '/Brokers/Projects/pdfs/' . $brochureName;
+        }
+
+        $project_data['broker_id'] = Auth::user()->UserBrokerData->id;
+
+        unset($project_data['time_line']);
+        unset($project_data['date']);
+        unset($project_data['images']);
+
+
+        $project = Project::create($project_data);
+
+
+        if (isset($data['time_line'])) {
+            foreach ($data['time_line'] as $index => $timeLine) {
+                // Access the 'status_id' and 'delivery_id' values from the $timeLine array
+                $statusId = isset($timeLine['status_id']) ? $timeLine['status_id'] : null;
+                $deliveryId = isset($timeLine['delivery_id']) ? $timeLine['delivery_id'] : null;
+                $date = isset($data['date'][$index]) ? $data['date'][$index] : null;
+
+                // Create the timeline entry with the correct status and delivery IDs
+                ProjectTimeLine::create([
+                    'status_id' => $statusId,
+                    'delivery_id' => $deliveryId,
+                    'project_id' => $project->id,
+                    'date' => $date
+                ]);
+            }
+        }
+
+        if (isset($files['images'])) {
+            foreach ($files['images'] as $image) {
+                $ext = $image->getClientOriginalExtension();
+                $imageName = uniqid() . '.' . $ext;
+                $image->move(public_path('/Brokers/Projects/'), $imageName);
+                ProjectImage::create([
+                    'image' => '/Brokers/Projects/' . $imageName,
+                    'project_id' => $project->id,
+                ]);
+            }
+        }
+
+        return $project;
     }
-
-    return $project;
-}
-
 
     public function update($id, $data, $images)
     {
         $project = Project::findOrFail($id);
+        // if ($images) {
+        //     $ext = $images->getClientOriginalExtension();
+        //     $imageName = uniqid() . '.' . $ext;
+        //     $images->move(public_path('/Brokers/Projects/'), $imageName);
+        //     $data['image'] = '/Brokers/Projects/' . $imageName;
+        //     // } else {
+        //     // $data['image'] = '/Brokers/Projects/default.svg';
+        // }
         if ($images) {
-            $ext = $images->getClientOriginalExtension();
-            $imageName = uniqid() . '.' . $ext;
-            $images->move(public_path('/Brokers/Projects/'), $imageName);
-            $data['image'] = '/Brokers/Projects/' . $imageName;
-            // } else {
-            // $data['image'] = '/Brokers/Projects/default.svg';
-        }
+            foreach ($images as $image) {
+                $ext = uniqid() . '.' . $image->clientExtension();
+                $image->move(public_path() . '/Brokers/Projects/', $ext);
+                ProjectImage::create([
+                    'image' => '/Brokers/Projects/' . $ext,
+                    'project_id' => $project->id,
+                ]);
+            }
+        };
         $project->update($data);
         return $project;
     }

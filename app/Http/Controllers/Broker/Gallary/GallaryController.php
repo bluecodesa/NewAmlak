@@ -343,6 +343,7 @@ class GallaryController extends Controller
 
 
         $data = $this->galleryService->showAllGalleries($cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent);
+
         $visitor = Visitor::where('gallery_id', $data['gallery']->id)
             ->where('ip_address', $request->ip())
             ->where('visited_at', '>=', now()->subHour())

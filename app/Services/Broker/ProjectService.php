@@ -33,7 +33,6 @@ class ProjectService
             'city_id' => 'required|exists:cities,id',
             'project_masterplan' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
             'project_brochure' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048'
         ];
         $messages = [
             'name.required' => __('The project name is required.'),
@@ -55,9 +54,6 @@ class ProjectService
             'project_brochure.mimes' => __('The project brochure must be a file of type: jpeg, png, jpg, gif, pdf.'),
             'project_brochure.max' => __('The project brochure may not be greater than :max kilobytes.', ['max' => 2048]),
 
-            'image.file' => __('The project image must be a file.'),
-            'image.mimes' => __('The project image must be a file of type: jpeg, png, jpg, gif.'),
-            'image.max' => __('The project image may not be greater than :max kilobytes.', ['max' => 2048]),
         ];
 
         // Validate data

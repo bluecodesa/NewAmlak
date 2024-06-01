@@ -144,12 +144,22 @@
                                 </div>
 
 
-                                <div class="col-12 mb-3">
+                                {{-- <div class="col-12 mb-3">
                                     <label class="form-label">@lang('Project photo') </label>
-                                    <input type="file" name="image" class="dropify"
+                                    <input type="file" name="images[]" multiple class="dropify"
                                         data-url="{{ route('Broker.Project.deleteImage', $project->id) }}"
                                         data-default-file="{{ url($project->image) }}" />
+                                </div> --}}
+
+                                <div class="col-sm-12 col-md-12 mb-3">
+                                    <label class="form-label mb-2">@lang('Project photo') </label>
+                                    <input type="file" name="images[]"
+                                        data-url="{{ route('Broker.Project.deleteImage', $project->id) }}"
+                                        @if ($project->ProjectImages->count() > 0) data-default-file="{{ url($project->ProjectImages[0]->image) }}" @endif
+                                        multiple class="dropify" accept="image/jpeg, image/png" />
                                 </div>
+
+
 
 
 

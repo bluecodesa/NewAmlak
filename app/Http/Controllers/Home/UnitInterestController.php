@@ -114,7 +114,6 @@ class UnitInterestController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
             'whatsapp' => 'nullable|string|max:255',
@@ -139,7 +138,6 @@ class UnitInterestController extends Controller
     protected function notifyUsers(UnitInterest $intrestOrder)
     {
         $unitId = $intrestOrder->unit_id;
-
         // Find all brokers who have shown interest in this unit
         $brokers = User::whereHas('unitInterests', function ($query) use ($unitId) {
             $query->where('unit_id', $unitId);

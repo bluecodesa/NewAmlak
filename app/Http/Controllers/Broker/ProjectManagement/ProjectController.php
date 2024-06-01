@@ -78,7 +78,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $files = [
-            'image' => $request->file('image'),
+            'images' => $request->file('images'),
             'project_masterplan' => $request->file('project_masterplan'),
             'project_brochure' => $request->file('project_brochure')
         ];
@@ -110,8 +110,8 @@ class ProjectController extends Controller
 
     public function update(Request $request, $id)
     {
-        $images = $request->image;
-        $this->projectService->updateProject($id, $request->except('image'), $images);
+        $images = $request->images;
+        $this->projectService->updateProject($id, $request->except('images'), $images);
         return redirect()->route('Broker.Project.index')->with('success', __('Update successfully'));
     }
 

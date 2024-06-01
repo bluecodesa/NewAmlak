@@ -201,7 +201,8 @@
 
                                             <div class="col-sm-12 col-md-12 mb-3">
                                                 <label class="form-label mb-2">@lang('Project photo') </label>
-                                                <input type="file" name="image" class="dropify" data-default-file="" />
+                                                <input type="file" name="images[]" multiple class="dropify"
+                                                accept="image/jpeg, image/png" />
 
                                             </div>
 

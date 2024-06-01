@@ -249,7 +249,7 @@
                     <!-- project Card -->
                     <div class="card mb-4">
                         <div class="card-body">
-                            <div class="user-avatar-section">
+                            {{-- <div class="user-avatar-section">
                                 <div class="d-flex align-items-center flex-column">
                                     <img class="img-fluid rounded mb-3 pt-1 mt-4" src="{{ $project->image_url }}"
                                         height="100" width="100" alt="User avatar" />
@@ -258,7 +258,33 @@
                                         <span class="badge bg-label-secondary mt-1">@lang('Project')</span>
                                     </div>
                                 </div>
+                            </div> --}}
+
+                            <div class="user-avatar-section">
+                                <div class="d-flex align-items-center flex-column">
+
+                                    <div class="row">
+                                        @forelse($project->ProjectImages as $image)
+                                            <div class="col-6 mb-1">
+                                                <img class="img-fluid rounded mb-3 pt-1 mt-4" src="{{ url($image->image) }}"
+                                                    alt="{{ $project->name }}" height="100" width="100">
+                                            </div>
+                                        @empty
+
+                                            <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                                                src="{{ url('Offices/Projects/default.svg') }}" alt="{{ $project->name }}"
+                                                height="100" width="100">
+                                        @endforelse
+                                        <div class="user-info text-center">
+                                            <h4 class="mb-2">{{ $project->number_unit }}</h4>
+                                            <span class="badge bg-label-secondary mt-1">@lang('Project')</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+
+
                             <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
                                 <div class="d-flex align-items-start me-4 mt-3 gap-2">
                                     <span class="badge bg-label-primary p-2 rounded"><i

@@ -68,4 +68,9 @@ class Project extends Model
     {
         return $this->belongsTo(DeliveryCase::class, 'delivery_case_id');
     }
+
+    public function ProjectImages()
+    {
+        return $this->hasMany(ProjectImage::class, 'project_id');
+    }
 }
