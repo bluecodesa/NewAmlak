@@ -21,6 +21,7 @@ use App\Models\Role;
 use App\Models\SubscriptionSection;
 use App\Models\SubscriptionTypeRole;
 use App\Models\Unit;
+use App\Notifications\Admin\NewPropertyFinderNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -374,4 +375,82 @@ class HomeController extends Controller
         $brokers = User::where('is_broker', 1)->paginate(3);
         return view('Home.Brokers.inc._brokers', compact('brokers'));
     }
+
+
+    public function createPropertyFinder()
+    {
+        $setting =   Setting::first();
+
+        $termsAndConditionsUrl = $setting->terms_pdf;
+        $privacyPolicyUrl = $setting->privacy_pdf;
+        $Regions = Region::all();
+        $cities = City::all();
+        $RolesIds = Role::whereIn('name', ['Property-Finder'])->pluck('id')->toArray();
+
+        return view('Home.Auth.propertyFinder.create', get_defined_vars());
+    }
+
+
+    public function storePropertyFinder(Request $request)
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users|max:255',
+            'phone' => 'required|unique:users',
+            'full_phone' => 'required|unique:users,full_phone',
+            'password' => 'required|string|max:255|confirmed',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+        ];
+
+        $messages = [
+            'name.required' => __('The name field is required.'),
+            'email.required' => __('The email field is required.'),
+            'email.unique' => __('The email has already been taken.'),
+            'full_phone.required' => __('The mobile field is required.'),
+            'full_phone.unique' => __('The mobile has already been taken.'),
+            'full_phone.digits' => __('The mobile must be 9 digits.'),
+            'password.required' => __('The password field is required.'),
+            'password.confirmed' => __('The password confirmation does not match.'),
+            'avatar.image' => __('The broker logo must be an image.')
+        ];
+
+
+        $request->validate($rules, $messages);
+
+        $request_data = [];
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $ext  =  uniqid() . '.' . $file->clientExtension();
+            $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
+            $request_data['avatar'] = '/PropertyFounder/' . 'Logos/' . $ext;
+        }
+
+        $user = User::create([
+            'is_property_founder' => 1,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
+            'email' => $request->email,
+            'user_name' => uniqid(),
+            'password' => bcrypt($request->password),
+            'avatar' => $request_data['avatar'] ?? null, // Use null coalescing operator to handle if no logo
+        ]);
+
+        $this->notifyAdmins2($user);
+
+        // $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+        return redirect()->route('login')->withSuccess(__('Property Finder created successfully.'));
+    }
+
+    protected function notifyAdmins2(User $user)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewPropertyFinderNotification($user));
+        }
+    }
+
+
 }

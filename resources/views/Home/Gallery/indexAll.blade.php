@@ -202,15 +202,27 @@
             data-bs-toggle="modal"
             data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
             >
+            @guest
             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-                data-bs-toggle="modal"
-                data-bs-target="#basicModal"
-                data-unit-id="{{ $unit->id }}"
-                data-user-id="{{ $unit->BrokerData->user_id }}"
-                >
-                <i class="ti ti-heart ti-sm"></i>
-            </a>
+            data-bs-toggle="modal"
+            onclick="redirectToCreatePropertyFinder()">
+            <i class="ti ti-heart ti-sm"></i>
 
+        </a>
+
+            @endguest
+
+            @auth
+            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#basicModal"
+            data-unit-id="{{ $unit->id }}"
+            data-user-id="{{ $unit->BrokerData->user_id }}"
+            >
+            <i class="ti ti-heart ti-sm"></i>
+        </a>
+
+            @endauth
           </div>
           <div class="mx-auto my-3">
             <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">
@@ -349,11 +361,12 @@
       }
       });
 
-
     function redirectToCreateBroker() {
         window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
     }
-
+    function redirectToCreatePropertyFinder() {
+        window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+    }
     function redirectToCreateOffice() {
         window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 

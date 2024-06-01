@@ -33,6 +33,13 @@
                                         </div>
                                         <p>مسوق عقاري</p>
                                     </div>
+                                    <div class="col-sm-12 col-md-6 account_type" onclick="redirectToCreateBroker()">
+                                        <div class="img-smm-y">
+                                            <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }} "
+                                                class="img-fluid">
+                                        </div>
+                                        <p>باحث عن عقار</p>
+                                    </div>
                             </div>
 
                         </div>

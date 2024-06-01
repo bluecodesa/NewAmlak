@@ -22,6 +22,9 @@ class RedirectUsers
             elseif (auth()->user()->is_office) {
                 return redirect()->route('Office.home');
             }
+            elseif (auth()->user()->is_property_founder) {
+                return redirect()->route('PropertyFinder.home');
+            }
 
         }
 

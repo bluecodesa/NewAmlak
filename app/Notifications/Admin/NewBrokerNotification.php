@@ -17,6 +17,7 @@ class NewBrokerNotification extends Notification
 
     private $broker;
 
+
     public function __construct(Broker $broker)
     {
         $this->broker = $broker;
