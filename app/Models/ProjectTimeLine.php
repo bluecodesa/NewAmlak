@@ -17,4 +17,8 @@ class ProjectTimeLine extends Model
     {
         return $this->belongsTo(DeliveryCase::class, 'delivery_id');
     }
+    public function ProjectData()
+    {
+        return $this->belongsTo(ProjectTimeLine::class, 'project_id');
+    }
 }

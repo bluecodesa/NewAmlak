@@ -10,6 +10,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Middleware\PendingPaymentPopup;
 
@@ -55,6 +56,9 @@ Route::group(
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
 
         });
+        Route::post('/send-code-finder', [RegisterController::class, 'sendCode'])->name('send-code-finder');
+        Route::post('/verify-code', [RegisterController::class, 'verifyCode'])->name('verify-code');
+        Route::post('/complete-registration', [RegisterController::class, 'completeRegistration'])->name('complete-registration');
         Route::get('/pending', [SubscriptionController::class, 'viewPending'])->name('pending');
         Route::resource('Notification', 'General\NotificationController');
         Route::get('/', 'Home\HomeController@index')->name('welcome');

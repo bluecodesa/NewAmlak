@@ -203,12 +203,27 @@
             data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
             >
             @guest
-            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+            {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
             onclick="redirectToCreatePropertyFinder()">
             <i class="ti ti-heart ti-sm"></i>
 
+        </a> --}}
+
+         <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#onboardingSlideModal">
+            <i class="ti ti-heart ti-sm"></i>
+
         </a>
+        {{-- <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#onboardingSlideModal">
+        Multistep Slider modal
+      </button> --}}
+
 
             @endguest
 
@@ -291,6 +306,8 @@
 
     @include('Home.Gallery.inc.share')
     @include('Home.Gallery.inc.unitInterest')
+    @include('Home.Auth.propertyFinder.create')
+
 
 
    @endforeach

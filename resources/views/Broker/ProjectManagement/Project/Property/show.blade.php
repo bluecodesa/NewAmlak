@@ -103,8 +103,7 @@
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('Broker.Property.edit', $Property->id) }}"
                                         class="btn btn-warning me-3">@lang('Edit')</a>
-                                    <a href="{{ route('Broker.Property.CreateUnit', $Property->id) }}"
-                                        class="btn btn-primary me-3">@lang('Add unit')</a>
+
 
                                 </div>
                             </div>
@@ -163,7 +162,8 @@
                                                         {{-- <button class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                             <span class="d-none d-sm-inline-block">@lang('Add')</span></span></button> --}}
 
-
+                                                            <a href="{{ route('Broker.Property.CreateUnit', $Property->id) }}"
+                                                                class="btn btn-primary me-3">@lang('Add unit')</a>
                                                     </div>
                                                 </div>
                                             </div>

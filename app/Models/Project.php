@@ -73,4 +73,9 @@ class Project extends Model
     {
         return $this->hasMany(ProjectImage::class, 'project_id');
     }
+
+    public function ProjectTimeLineData()
+    {
+        return $this->hasMany(ProjectTimeLine::class, 'project_id');
+    }
 }
