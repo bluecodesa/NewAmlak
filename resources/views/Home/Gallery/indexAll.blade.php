@@ -1,7 +1,6 @@
 @extends('Home.layouts.home.app')
 @section('content')
 
-
     <section class="section-py first-section-pt">
         <div class="container">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span>المعرض</h4>
@@ -202,12 +201,6 @@
             data-bs-toggle="modal"
             data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a>
             @guest
-                    {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-                    data-bs-toggle="modal"
-                    onclick="redirectToCreatePropertyFinder()">
-                    <i class="ti ti-heart ti-sm"></i>
-
-                </a> --}}
 
                 <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                     data-bs-toggle="modal"
@@ -503,4 +496,5 @@
         alertify.success(@json(__('copy done')));
     }
 </script>
+
 @endpush

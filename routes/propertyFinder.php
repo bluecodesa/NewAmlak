@@ -40,6 +40,10 @@ Route::group(
             ]);
             Route::put('/update-property-finder/{finder}', [HomeController::class, 'updatePropertyFinder'])->name('updatePropertyFinder');
             Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
+            Route::post('/send-code-finder', [HomeController::class, 'sendVerificationCode'])->name('send-code-finder');
+            Route::post('/PropertyFinder/verify-code-finder', [HomeController::class, 'verifyCode'])->name('verify-code-finder');
+            Route::post('/PropertyFinder/complete-registration-finder', [HomeController::class, 'register'])->name('complete-registration-finder');
+
 
 
 

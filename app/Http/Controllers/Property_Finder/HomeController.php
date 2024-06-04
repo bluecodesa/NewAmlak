@@ -8,6 +8,12 @@ use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
+use App\Http\Traits\Email\MailSendCode;
+
+
 
 
 class HomeController extends Controller
@@ -103,6 +109,68 @@ class HomeController extends Controller
         return redirect()->route('PropertyFinder.home')->withSuccess(__('Password updated successfully.'));
     }
 
+
+
+    public function sendVerificationCode(Request $request)
+{
+    dd($request);
+
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email|unique:users',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+    $email = $request->input('email');
+
+    $otp = rand(100000, 999999);
+    Redis::setex("otp:$email", 300, $otp);
+    $this->MailForgotPassword($email, $otp);
+
+    return response()->json(['message' => 'Verification code sent successfully'], 200);
+}
+
+public function verifyCode(Request $request)
+{
+    // Validate verification code
+    $validator = Validator::make($request->all(), [
+        'code' => 'required|digits:6',
+    ]);
+
+    if ($validator->fails() || $request->session()->get('verification_code') != $request->code) {
+        return response()->json(['errors' => ['code' => 'Invalid verification code']], 422);
+    }
+
+    return response()->json(['message' => 'Verification successful'], 200);
+}
+
+public function register(Request $request)
+{
+    // Validate registration data
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'phone' => 'required|string|max:255',
+        'password' => 'required|string|min:8|confirmed',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    // Create user
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->session()->get('email'),
+        'phone' => $request->phone,
+        'password' => bcrypt($request->password),
+    ]);
+
+    // Clear session data
+    $request->session()->forget(['email', 'verification_code']);
+
+    return response()->json(['message' => 'Registration successful'], 200);
+}
 
 
 }
