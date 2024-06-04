@@ -340,7 +340,36 @@
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('Broker.Project.edit', $project->id) }}"
                                         class="btn btn-warning me-3">@lang('Edit')</a>
-                                        @if($project->project_brochure)
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                        class="d-none d-sm-inline-block">@lang('Download')</span></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @if($project->project_masterplan)
+
+                                                    <li>
+                                                        <a href="{{ $project->project_masterplan }}" target="_blank"
+                                                            class="dropdown-item">@lang('Download') @lang('المخطط الرئيسي')</a>
+                                                    </li>
+                                                    @endif
+
+                                                    @if($project->project_brochure)
+                                                    <li>
+
+                                                    <a href="{{ $project->project_brochure }}" target="_blank"
+                                                        class="dropdown-item">@lang('Download') @lang('البروشور')</a>
+                                                    </li>
+
+                                                        @endif
+
+
+                                            </ul>
+                                        </div>
+
+                                        {{-- @if($project->project_masterplan)
                                         <a href="{{ $project->project_masterplan }}" target="_blank"
                                             class="btn btn-primary me-3">@lang('Download') @lang('المخطط الرئيسي')</a>
                                     @endif
@@ -348,7 +377,7 @@
 
                                     <a href="{{ $project->project_brochure }}" target="_blank"
                                         class="btn btn-primary me-3">@lang('Download') @lang('البروشور')</a>
-                                        @endif
+                                        @endif --}}
 
                                 </div>
                             </div>

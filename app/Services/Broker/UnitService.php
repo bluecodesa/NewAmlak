@@ -24,7 +24,6 @@ class UnitService
 
     public function store($data)
     {
-        dd($data);
         $rules = [
             // 'number_unit' => 'required',
             // 'city_id' => 'required',

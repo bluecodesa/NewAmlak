@@ -258,6 +258,13 @@
                                                     <div class="mb-3 col-4">
                                                         <input type="text" name="name[]" class="form-control search"
                                                             placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+                                                            {{-- <input
+                                                            id="TypeaheadSuggestions"
+                                                            class="form-control  typeahead-default-suggestions"
+                                                            type="text"
+                                                            name="name[]"
+                                                            autocomplete="off"
+                                                            placeholder="@lang('Field name')" value="{{ old('name*') }}"/> --}}
                                                     </div>
                                                     <div class="mb-3 col-4">
                                                         <input type="text" name="qty[]" class="form-control"
@@ -280,7 +287,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-12 col-md-12 mb-3">
-                                                <label class="form-label mb-2">@lang('Pictures property') </label>
+                                                <label class="form-label mb-2">@lang('Unit Images') </label>
                                                 <input type="file" name="images[]" multiple class="dropify"
                                                     accept="image/jpeg, image/png" />
                                             </div>
@@ -555,6 +562,8 @@
 
 
 
+
         </script>
+
     @endpush
 @endsection

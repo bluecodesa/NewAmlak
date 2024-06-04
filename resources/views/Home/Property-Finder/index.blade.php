@@ -30,30 +30,37 @@
 
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
               <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                @if ($finder->avatar)
                 <img
-                  src="../../assets/img/avatars/14.png"
-                  alt="user image"
-                  class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                src="{{ $finder->avatar }}"
+                alt="user image"
+                class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                @else
+                <img
+                src="../../assets/img/avatars/14.png"
+                alt="user image"
+                class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                @endif
+
               </div>
               <div class="flex-grow-1 mt-3 mt-sm-5">
                 <div
                   class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                   <div class="user-profile-info">
-                    <h4>John Doe</h4>
+                    <h4>{{ $finder->name }}</h4>
                     <ul
                       class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                       <li class="list-inline-item d-flex gap-1">
-                        <i class="ti ti-color-swatch"></i> UX Designer
+                        <i class="ti ti-color-swatch"></i> @lang('Property Finder')
                       </li>
-                      <li class="list-inline-item d-flex gap-1"><i class="ti ti-map-pin"></i> Vatican City</li>
                       <li class="list-inline-item d-flex gap-1">
-                        <i class="ti ti-calendar"></i> Joined April 2021
+                        <i class="ti ti-calendar"></i>عضو منذ {{ $finder->created_at }}
                       </li>
                     </ul>
                   </div>
-                  <a href="javascript:void(0)" class="btn btn-primary">
+                  {{-- <a href="javascript:void(0)" class="btn btn-primary">
                     <i class="ti ti-check me-1"></i>Connected
-                  </a>
+                  </a> --}}
                 </div>
               </div>
             </div>

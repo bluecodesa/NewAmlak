@@ -8,55 +8,23 @@
           <ul class="list-unstyled mb-4 mt-3">
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-user text-heading"></i
-              ><span class="fw-medium mx-2 text-heading">Full Name:</span> <span>John Doe</span>
+              ><span class="fw-medium mx-2 text-heading">@lang('Name'):</span> <span>{{ $finder->name }}</span>
             </li>
-            <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-check text-heading"></i
-              ><span class="fw-medium mx-2 text-heading">Status:</span> <span>Active</span>
-            </li>
-            <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-crown text-heading"></i
-              ><span class="fw-medium mx-2 text-heading">Role:</span> <span>Developer</span>
-            </li>
-            <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-flag text-heading"></i
-              ><span class="fw-medium mx-2 text-heading">Country:</span> <span>USA</span>
-            </li>
-            <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-file-description text-heading"></i
-              ><span class="fw-medium mx-2 text-heading">Languages:</span> <span>English</span>
-            </li>
+
           </ul>
           <small class="card-text text-uppercase">Contacts</small>
           <ul class="list-unstyled mb-4 mt-3">
             <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading">Contact:</span>
-              <span>(123) 456-7890</span>
+              <i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading">@lang('phone'):</span>
+              <span>{{ $finder->full_phone }}</span>
             </li>
+
             <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-brand-skype"></i><span class="fw-medium mx-2 text-heading">Skype:</span>
-              <span>john.doe</span>
-            </li>
-            <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">Email:</span>
-              <span>john.doe@example.com</span>
+              <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">@lang('Email'):</span>
+              <span>{{ $finder->email }}</span>
             </li>
           </ul>
-          <small class="card-text text-uppercase">Teams</small>
-          <ul class="list-unstyled mb-0 mt-3">
-            <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-brand-angular text-danger me-2"></i>
-              <div class="d-flex flex-wrap">
-                <span class="fw-medium me-2 text-heading">Backend Developer</span><span>(126 Members)</span>
-              </div>
-            </li>
-            <li class="d-flex align-items-center">
-              <i class="ti ti-brand-react-native text-info me-2"></i>
-              <div class="d-flex flex-wrap">
-                <span class="fw-medium me-2 text-heading">React Developer</span><span>(98 Members)</span>
-              </div>
-            </li>
-          </ul>
+
         </div>
       </div>
       <!--/ About User -->
@@ -85,7 +53,7 @@
       <!-- Activity Timeline -->
       <div class="card card-action mb-4">
         <div class="card-header align-items-center">
-          <h5 class="card-action-title mb-0">Activity Timeline</h5>
+          <h5 class="card-action-title mb-0">تعديل البيانات الشخصية</h5>
           <div class="card-action-element">
             <div class="dropdown">
               <button
@@ -107,363 +75,99 @@
           </div>
         </div>
         <div class="card-body pb-0">
-          <ul class="timeline ms-1 mb-0">
-            <li class="timeline-item timeline-item-transparent">
-              <span class="timeline-point timeline-point-primary"></span>
-              <div class="timeline-event">
-                <div class="timeline-header">
-                  <h6 class="mb-0">Client Meeting</h6>
-                  <small class="text-muted">Today</small>
+
+            <form action="{{ route('Broker.Setting.updateBroker', $finder->id) }}" class="row" method="POST"
+                enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+                @include('Admin.layouts.Inc._errors')
+<div class="row">
+                <input type="text" name="key_phone" hidden id="key_phone" value="{{ $finder->key_phone ?? '996' }}">
+
+                <div class="col-md-6 col-12 mb-3">
+                    <label for="name">
+                        @lang('Finder name')<span class="text-danger">*</span></label>
+
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $finder->name }}"
+                        required>
                 </div>
-                <p class="mb-2">Project meeting with john @10:15am</p>
-                <div class="d-flex flex-wrap">
-                  <div class="avatar me-2">
-                    <img src="../../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
-                  </div>
-                  <div class="ms-1">
-                    <h6 class="mb-0">Lester McCarthy (Client)</h6>
-                    <span>CEO of Infibeam</span>
-                  </div>
+
+
+                <div class="col-md-6 col-12 mb-3">
+
+                    <label for="id_number" class="form-label">@lang('id number')</label>
+                    <input type="text" class="form-control" id="id_number" name="id_number"
+                        value="">
                 </div>
-              </div>
-            </li>
-            <li class="timeline-item timeline-item-transparent">
-              <span class="timeline-point timeline-point-success"></span>
-              <div class="timeline-event">
-                <div class="timeline-header">
-                  <h6 class="mb-0">Create a new project for client</h6>
-                  <small class="text-muted">2 Day Ago</small>
+
+                <div class="col-md-6 col-12 mb-3">
+                    <label for="email">@lang('Email')<span class="text-danger">*</span></label>
+
+                    <input type="email" class="form-control" id="email" name="email" value="{{ $finder->email }}">
                 </div>
-                <p class="mb-0">Add files to new design folder</p>
-              </div>
-            </li>
-            <li class="timeline-item timeline-item-transparent">
-              <span class="timeline-point timeline-point-danger"></span>
-              <div class="timeline-event">
-                <div class="timeline-header">
-                  <h6 class="mb-0">Shared 2 New Project Files</h6>
-                  <small class="text-muted">6 Day Ago</small>
+
+
+
+                <div class="col-12 mb-3 col-md-6">
+                    <label for="color" class="form-label">@lang('Mobile Whats app') <span class="required-color">*</span></label>
+                    <div class="input-group">
+                        <input type="text" placeholder="123456789" name="mobile" value="{{ $finder->phone }}"
+                            class="form-control" maxlength="9" pattern="\d{1,9}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                            aria-label="Text input with dropdown button">
+                        <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ $finder->key_phone ?? '996' }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" style="">
+                            <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                            <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <p class="mb-2">
-                  Sent by Mollie Dixon
-                  <img
-                    src="../../assets/img/avatars/4.png"
-                    class="rounded-circle me-3"
-                    alt="avatar"
-                    height="24"
-                    width="24" />
-                </p>
-                <div class="d-flex flex-wrap gap-2 pt-1">
-                  <a href="javascript:void(0)" class="me-3">
-                    <img
-                      src="../../assets/img/icons/misc/doc.png"
-                      alt="Document image"
-                      width="15"
-                      class="me-2" />
-                    <span class="fw-medium text-heading">App Guidelines</span>
-                  </a>
-                  <a href="javascript:void(0)">
-                    <img
-                      src="../../assets/img/icons/misc/xls.png"
-                      alt="Excel image"
-                      width="15"
-                      class="me-2" />
-                    <span class="fw-medium text-heading">Testing Results</span>
-                  </a>
+
+
+
+                <div class="col-md-12 col-12 mb-3">
+                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <img src="{{ $finder->avatar ? asset($finder->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
+                            alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+                        <div class="button-wrapper">
+                            <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
+                                <span class="d-none d-sm-block">اختر صورة شخصيه</span>
+                                <i class="ti ti-upload d-block d-sm-none"></i>
+                                <input type="file" id="upload" class="account-file-input" name="broker_logo" hidden
+                                    accept="image/png, image/jpeg" />
+                            </label>
+                            <button type="button" id="account-image-reset"
+                                class="btn btn-label-secondary account-image-reset mb-3">
+                                <i class="ti ti-refresh-dot d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
+                            </button>
+
+                            <div class="text-muted">Allowed JPG,PNG. Max size 800K</div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </li>
-            <li class="timeline-item timeline-item-transparent border-transparent">
-              <span class="timeline-point timeline-point-info"></span>
-              <div class="timeline-event">
-                <div class="timeline-header">
-                  <h6 class="mb-0">Project status updated</h6>
-                  <small class="text-muted">10 Day Ago</small>
+
+
+
+
+                <div class="col-md-12 mb-3">
+                    <button type="submit" class="btn btn-primary">@lang('save')</button>
                 </div>
-                <p class="mb-0">Woocommerce iOS App Completed</p>
-              </div>
-            </li>
-          </ul>
+
+            </div>
+            </form>
+
+
+
         </div>
       </div>
       <!--/ Activity Timeline -->
-      <div class="row">
-        <!-- Connections -->
-        <div class="col-lg-12 col-xl-6">
-          <div class="card card-action mb-4">
-            <div class="card-header align-items-center">
-              <h5 class="card-action-title mb-0">Connections</h5>
-              <div class="card-action-element">
-                <div class="dropdown">
-                  <button
-                    type="button"
-                    class="btn dropdown-toggle hide-arrow p-0"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="ti ti-dots-vertical text-muted"></i>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="javascript:void(0);">Share connections</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
-                    <li>
-                      <hr class="dropdown-divider" />
-                    </li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Report bug</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <ul class="list-unstyled mb-0">
-                <li class="mb-3">
-                  <div class="d-flex align-items-start">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img src="../../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">Cecilia Payne</h6>
-                        <small class="text-muted">45 Connections</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <button class="btn btn-label-primary btn-icon btn-sm">
-                        <i class="ti ti-user-check ti-xs"></i>
-                      </button>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-3">
-                  <div class="d-flex align-items-start">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img src="../../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">Curtis Fletcher</h6>
-                        <small class="text-muted">1.32k Connections</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <button class="btn btn-primary btn-icon btn-sm">
-                        <i class="ti ti-user-x ti-xs"></i>
-                      </button>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-3">
-                  <div class="d-flex align-items-start">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img src="../../assets/img/avatars/10.png" alt="Avatar" class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">Alice Stone</h6>
-                        <small class="text-muted">125 Connections</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <button class="btn btn-primary btn-icon btn-sm">
-                        <i class="ti ti-user-x ti-xs"></i>
-                      </button>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-3">
-                  <div class="d-flex align-items-start">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img src="../../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">Darrell Barnes</h6>
-                        <small class="text-muted">456 Connections</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <button class="btn btn-label-primary btn-icon btn-sm">
-                        <i class="ti ti-user-check ti-xs"></i>
-                      </button>
-                    </div>
-                  </div>
-                </li>
 
-                <li class="mb-3">
-                  <div class="d-flex align-items-start">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img src="../../assets/img/avatars/12.png" alt="Avatar" class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">Eugenia Moore</h6>
-                        <small class="text-muted">1.2k Connections</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <button class="btn btn-label-primary btn-icon btn-sm">
-                        <i class="ti ti-user-check ti-xs"></i>
-                      </button>
-                    </div>
-                  </div>
-                </li>
-                <li class="text-center">
-                  <a href="javascript:;">View all connections</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!--/ Connections -->
-        <!-- Teams -->
-        <div class="col-lg-12 col-xl-6">
-          <div class="card card-action mb-4">
-            <div class="card-header align-items-center">
-              <h5 class="card-action-title mb-0">Teams</h5>
-              <div class="card-action-element">
-                <div class="dropdown">
-                  <button
-                    type="button"
-                    class="btn dropdown-toggle hide-arrow p-0"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="ti ti-dots-vertical text-muted"></i>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="javascript:void(0);">Share teams</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
-                    <li>
-                      <hr class="dropdown-divider" />
-                    </li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">Report bug</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <ul class="list-unstyled mb-0">
-                <li class="mb-3">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img
-                          src="../../assets/img/icons/brands/react-label.png"
-                          alt="Avatar"
-                          class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">React Developers</h6>
-                        <small class="text-muted">72 Members</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <a href="javascript:;"><span class="badge bg-label-danger">Developer</span></a>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-3">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img
-                          src="../../assets/img/icons/brands/support-label.png"
-                          alt="Avatar"
-                          class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">Support Team</h6>
-                        <small class="text-muted">122 Members</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <a href="javascript:;"><span class="badge bg-label-primary">Support</span></a>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-3">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img
-                          src="../../assets/img/icons/brands/figma-label.png"
-                          alt="Avatar"
-                          class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">UI Designers</h6>
-                        <small class="text-muted">7 Members</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <a href="javascript:;"><span class="badge bg-label-info">Designer</span></a>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-3">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img
-                          src="../../assets/img/icons/brands/vue-label.png"
-                          alt="Avatar"
-                          class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">Vue.js Developers</h6>
-                        <small class="text-muted">289 Members</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <a href="javascript:;"><span class="badge bg-label-danger">Developer</span></a>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-3">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-start">
-                      <div class="avatar me-2">
-                        <img
-                          src="../../assets/img/icons/brands/twitter-label.png"
-                          alt="Avatar"
-                          class="rounded-circle" />
-                      </div>
-                      <div class="me-2 ms-1">
-                        <h6 class="mb-0">Digital Marketing</h6>
-                        <small class="text-muted">24 Members</small>
-                      </div>
-                    </div>
-                    <div class="ms-auto">
-                      <a href="javascript:;"><span class="badge bg-label-secondary">Marketing</span></a>
-                    </div>
-                  </div>
-                </li>
-                <li class="text-center">
-                  <a href="javascript:;">View all teams</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!--/ Teams -->
-      </div>
-      <!-- Projects table -->
-      <div class="card mb-4">
-        <div class="card-datatable table-responsive">
-          <table class="datatables-projects table border-top">
-            <thead>
-              <tr>
-                <th></th>
-                <th></th>
-                <th>Name</th>
-                <th>Leader</th>
-                <th>Team</th>
-                <th class="w-px-200">Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-      </div>
-      <!--/ Projects table -->
+
     </div>
   </div>
   <!--/ User Profile Content -->

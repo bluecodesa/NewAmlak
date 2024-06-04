@@ -212,7 +212,7 @@
 
          <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
-            data-bs-target="#onboardingSlideModal">
+            data-bs-target="#modalToggle">
             <i class="ti ti-heart ti-sm"></i>
 
         </a>

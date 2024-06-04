@@ -26,6 +26,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function create($data, $files)
     {
+
         $project_data = $data;
 
         // Handle project_masterplan upload
@@ -58,12 +59,10 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         if (isset($data['time_line'])) {
             foreach ($data['time_line'] as $index => $timeLine) {
-                // Access the 'status_id' and 'delivery_id' values from the $timeLine array
                 $statusId = isset($timeLine['status_id']) ? $timeLine['status_id'] : null;
                 $deliveryId = isset($timeLine['delivery_id']) ? $timeLine['delivery_id'] : null;
                 $date = isset($data['date'][$index]) ? $data['date'][$index] : null;
 
-                // Create the timeline entry with the correct status and delivery IDs
                 ProjectTimeLine::create([
                     'status_id' => $statusId,
                     'delivery_id' => $deliveryId,
@@ -90,6 +89,8 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function update($id, $data, $images)
     {
+        $project_data = $data;
+
         $project = Project::findOrFail($id);
         // if ($images) {
         //     $ext = $images->getClientOriginalExtension();
@@ -99,7 +100,11 @@ class ProjectRepository implements ProjectRepositoryInterface
         //     // } else {
         //     // $data['image'] = '/Brokers/Projects/default.svg';
         // }
+        unset($project_data['time_line']);
+        unset($project_data['date']);
+
         if ($images) {
+            $project->ProjectImages()->delete();
             foreach ($images as $image) {
                 $ext = uniqid() . '.' . $image->clientExtension();
                 $image->move(public_path() . '/Brokers/Projects/', $ext);
@@ -109,7 +114,24 @@ class ProjectRepository implements ProjectRepositoryInterface
                 ]);
             }
         };
-        $project->update($data);
+        $project->update($project_data);
+        if (isset($data['time_line'])) {
+            $project->ProjectTimeLineData()->delete();
+            foreach ($data['time_line'] as $index => $timeLine) {
+                // Access the 'status_id' and 'delivery_id' values from the $timeLine array
+                $statusId = isset($timeLine['status_id']) ? $timeLine['status_id'] : null;
+                $deliveryId = isset($timeLine['delivery_id']) ? $timeLine['delivery_id'] : null;
+                $date = isset($data['date'][$index]) ? $data['date'][$index] : null;
+
+                // Create the timeline entry with the correct status and delivery IDs
+                ProjectTimeLine::create([
+                    'status_id' => $statusId,
+                    'delivery_id' => $deliveryId,
+                    'project_id' => $project->id,
+                    'date' => $date
+                ]);
+            }
+        }
         return $project;
     }
 
