@@ -167,18 +167,25 @@
                             </div>
 
 
-                            <div class="col-12 col-md-4 mb-3">
-                                <label class="form-label">@lang('owner name') <span class="required-color">*</span>
+                            <div class="col-md-4 col-12 mb-3">
+                                <label class="col-md-6 form-label">@lang('owner name') <span
+                                        class="required-color">*</span>
                                 </label>
-                                <select class="form-select" name="owner_id" required>
-                                    <option disabled value="">@lang('owner name')</option>
-                                    @foreach ($owners as $owner)
-                                        <option value="{{ $owner->id }}"
-                                            {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
-                                            {{ $owner->name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="input-group">
+                                    <select class="form-select" id="OwnersDiv"
+                                        aria-label="Example select with button addon" name="owner_id" required>
+                                        <option disabled selected value="">@lang('owner name')</option>
+                                        @foreach ($owners as $owner)
+                                            <option value="{{ $owner->id }}"
+                                                {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
+                                                {{ $owner->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                        data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
+                                </div>
                             </div>
+
 
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="form-label">@lang('Instrument number')</label>
@@ -228,9 +235,8 @@
                                         <option disabled value="">@lang('Status of Unit') </option>
                                         @foreach (['vacant', 'rented'] as $type)
                                         <option value="{{ $type }}"
-                                        {{ $Unit->status == $type ? 'selected' : '' }}>
-                                            <option value="{{ $type }}">
-                                                {{ __($type) }}</option>
+                                        {{ $Unit->type == $type ? 'selected' : '' }}>
+                                        {{ __($type) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -451,13 +457,19 @@
                     </div>
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                         <div class="row">
-                            <div class=" col-6 mb-3">
+                            <div class="col-6 mb-3">
                                 <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
-                                <input class="form-control" type="file" name="unit_masterplan" id="projectMasterplan" value="{{ $Unit->unit_masterplan }}" accept="image/*,application/pdf" multiple>
+                                <input class="form-control" type="file" name="unit_masterplan" id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                @if($Unit->unit_masterplan)
+                                    <div class="mt-2">
+                                        <label>@lang('Unit Masterplan'):</label>
+                                        <a href="{{ url($Unit->unit_masterplan) }}" target="_blank">@lang('View')</a>
+                                    </div>
+                                @endif
                             </div>
 
-
                         </div>
+
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary waves-effect waves-light"

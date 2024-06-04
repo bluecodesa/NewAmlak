@@ -119,13 +119,6 @@
 
 
 
-
-
-                                </ul>
-                                <div class="d-flex justify-content-center">
-                                    <a href="{{ route('Broker.Unit.edit', $Unit->id) }}"
-                                        class="btn btn-warning me-3">@lang('Edit')</a>
-
                                     @php($types = ['daily', 'monthly', 'quarterly', 'midterm', 'yearly'])
 
 
@@ -141,6 +134,34 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+
+
+
+
+                                </ul>
+                                <div class="d-flex justify-content-center">
+                                    <a href="{{ route('Broker.Unit.edit', $Unit->id) }}"
+                                        class="btn btn-warning me-3">@lang('Edit')</a>
+
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                        class="d-none d-sm-inline-block">@lang('Download')</span></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @if($Unit->unit_masterplan)
+
+                                                    <li>
+                                                        <a href="{{ $Unit->unit_masterplan }}" target="_blank"
+                                                            class="dropdown-item">@lang('Download') @lang('Unit Masterplan')</a>
+                                                    </li>
+                                                @endif
+
+                                            </ul>
+                                        </div>
 
                                 </div>
                             </div>

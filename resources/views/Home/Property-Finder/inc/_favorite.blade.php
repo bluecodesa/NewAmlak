@@ -207,17 +207,17 @@
                     </div>
                 </div>
 
-                <div class="d-flex align-items-center justify-content-center">
+                {{-- <div class="d-flex align-items-center justify-content-center">
                     <a href="tel:+{{ $broker->key_phone }} {{$broker->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                     ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a
                     >
                     <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{ $broker->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
                     ><i class="ti ti-message ti-sm"></i
                     ></a>
-                </div>
+                </div> --}}
                 </div>
             </div>
-            {{-- </div> --}}
+            </div>
         @empty
         <div class="alert alert-danger d-flex align-items-center" role="alert">
             <span class="alert-icon text-danger me-2">
