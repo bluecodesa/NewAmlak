@@ -235,7 +235,7 @@
                                         <option disabled value="">@lang('Status of Unit') </option>
                                         @foreach (['vacant', 'rented'] as $type)
                                         <option value="{{ $type }}"
-                                        {{ $Unit->type == $type ? 'selected' : '' }}>
+                                        {{ $Unit->status == $type ? 'selected' : '' }}>
                                         {{ __($type) }}</option>
                                         @endforeach
                                     </select>
