@@ -59,6 +59,13 @@ Route::group(
         Route::post('/send-code-finder', [RegisterController::class, 'sendCode'])->name('send-code-finder');
         Route::post('/verify-code', [RegisterController::class, 'verifyCode'])->name('verify-code');
         Route::post('/complete-registration', [RegisterController::class, 'completeRegistration'])->name('complete-registration');
+
+        //fav
+        Route::post('/add-to-favorites', [UnitInterestController::class, 'addToFav'])->name('add-to-favorites');
+        Route::post('/reomve-from-favorites', [UnitInterestController::class, 'removeFromFav'])->name('remove-from-favorites');
+
+
+        //
         Route::get('/pending', [SubscriptionController::class, 'viewPending'])->name('pending');
         Route::resource('Notification', 'General\NotificationController');
         Route::get('/', 'Home\HomeController@index')->name('welcome');

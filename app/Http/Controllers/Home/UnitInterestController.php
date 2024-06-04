@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\FavoriteUnit;
 use App\Models\InterestType;
 use App\Models\InterestTypeTranslation;
 use App\Models\PropertyUsage;
@@ -227,4 +228,50 @@ class UnitInterestController extends Controller
 
         return $query->get();
     }
+
+
+    public function addToFav(Request $request)
+    {
+
+        $data = $request->validate([
+        'unit_id' => 'required|integer',
+        'owner_id' => 'required|integer',
+      ]);
+
+
+      $favorite = new FavoriteUnit;
+      $favorite->unit_id = $data['unit_id'];
+      $favorite->owner_id = $data['owner_id'];
+      $favorite->finder_id = auth()->user()->id;
+      $favorite->status = "1";
+
+      $favorite->save();
+
+
+        return redirect()->back()->with('success', 'Unit added to favorites!');
+
+    }
+
+    public function removeFromFav(Request $request)
+    {
+      $data = $request->validate([
+        'unit_id' => 'required|integer',
+      ]);
+
+      $favorite = FavoriteUnit::where('unit_id', $data['unit_id'])
+        ->where('finder_id', auth()->user()->id)
+        ->first();
+
+      if ($favorite) {
+        $favorite->delete();
+        $message = 'Unit removed from favorites!';
+      } else {
+        $message = 'Unit not found in favorites.';
+      }
+
+      return redirect()->back()->with('message', $message);
+    }
+
+
+
 }

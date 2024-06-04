@@ -127,4 +127,16 @@ class User extends Authenticatable
 {
     return $this->hasMany(UnitInterest::class);
 }
+
+    public function FavFinders()
+    {
+        return $this->hasMany(FavoriteUnit::class,'finder_id');
+    }
+
+
+    public function FavOwners()
+    {
+        return $this->hasMany(FavoriteUnit::class,'owner_id');
+    }
+
 }

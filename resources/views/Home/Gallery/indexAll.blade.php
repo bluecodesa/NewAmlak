@@ -203,31 +203,59 @@
             data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
             >
             @guest
-            {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-            data-bs-toggle="modal"
-            onclick="redirectToCreatePropertyFinder()">
-            <i class="ti ti-heart ti-sm"></i>
+                    {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+                    data-bs-toggle="modal"
+                    onclick="redirectToCreatePropertyFinder()">
+                    <i class="ti ti-heart ti-sm"></i>
 
-        </a> --}}
+                </a> --}}
 
-         <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-            data-bs-toggle="modal"
-            data-bs-target="#modalToggle">
-            <i class="ti ti-heart ti-sm"></i>
+                <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalToggle">
+                    <i class="ti ti-heart ti-sm"></i>
 
-        </a>
-        {{-- <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#onboardingSlideModal">
-        Multistep Slider modal
-      </button> --}}
-
+                </a>
 
             @endguest
 
             @auth
+            {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#basicModal"
+            data-unit-id="{{ $unit->id }}"
+            data-user-id="{{ $unit->BrokerData->user_id }}"
+            >
+            <i class="ti ti-heart ti-sm"></i>
+            </a> --}}
+
+            @if(auth()->user()->is_property_finder)
+                @php
+                $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)
+                ->where('finder_id', auth()->user()->id)
+                ->exists();
+                @endphp
+
+                @if($isFavorite)
+                <form method="POST" action="{{ route('remove-from-favorites') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-label-secondary btn-icon d-flex align-items-center me-3">
+                    <i class="ti ti-heart ti-sm bg-danger"></i>
+                    </button>
+                    <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                </form>
+                @else
+                <form method="POST" action="{{ route('add-to-favorites') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-label-secondary btn-icon d-flex align-items-center me-3">
+                    <i class="ti ti-heart ti-sm"></i>
+                    </button>
+                    <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                    <input type="hidden" name="owner_id" value="{{$unit->BrokerData->user_id }}">
+                </form>
+                @endif
+
+            @else
             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
             data-bs-target="#basicModal"
@@ -235,9 +263,10 @@
             data-user-id="{{ $unit->BrokerData->user_id }}"
             >
             <i class="ti ti-heart ti-sm"></i>
-        </a>
-
+            </a>
+            @endif
             @endauth
+
           </div>
           <div class="mx-auto my-3">
             <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">

@@ -113,4 +113,10 @@ class Unit extends Model
     {
         return $this->belongsTo(Gallery::class, 'broker_id', 'broker_id');
     }
+
+    public function Unitfavorites()
+    {
+        return $this->hasMany(FavoriteUnit::class);
+    }
+
 }
