@@ -52,6 +52,7 @@
                             <tr>
                                 {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
+                                <th>@lang('type')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -60,6 +61,7 @@
                             <tr>
                                 {{-- <th>{{ $index + 1 }}</th> --}}
                                 <td>{{  $projectStatu->name }}</td>
+                                <td>{{  __($projectStatu->type) }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -71,7 +73,7 @@
                                                 <a class="dropdown-item"
                                                     href="{{ route('Admin.ProjectSettings.edit', $projectStatu->id) }}">@lang('Edit')</a>
                                             @endif
-                    
+
                                                 <a href="javascript:void(0);"
                                                 onclick="handleDelete('{{ $projectStatu->id }}')"
                                                 class="dropdown-item delete-btn">@lang('Delete')</a>

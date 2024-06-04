@@ -111,7 +111,7 @@ class Unit extends Model
 
     public function gallery()
     {
-        return $this->belongsTo(Gallery::class, 'broker_id', 'broker_id');
+        return $this->belongsTo(Gallery::class, 'broker_id');
     }
 
     public function Unitfavorites()

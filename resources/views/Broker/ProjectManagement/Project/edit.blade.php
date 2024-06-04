@@ -8,7 +8,7 @@
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12">
 
                 <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                     <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
@@ -21,7 +21,7 @@
 
 
             <div class="row">
-                <div class="col-12">
+                <div class="card">
                         @include('Admin.layouts.Inc._errors')
             <div class="col-xl-12">
                 <div class="nav-align-top nav-tabs-shadow mb-4">
@@ -65,17 +65,20 @@
                     </li>
 
                   </ul>
+                  <form action="{{ route('Broker.Project.update', $project->id) }}" method="POST" class="row"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
                   <div class="tab-content">
+
                     <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
 
 
                         {{-- الوصف --}}
+                        <div class="row">
 
-                        <form action="{{ route('Broker.Project.update', $project->id) }}" method="POST" class="row"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                            <div class="col-md-3 col-12 mb-3">
+
+                        <div class="col-md-3 col-12 mb-3">
 
                                 <label class="form-label">
                                     {{ __('project name') }} <span class="required-color">*</span></label>
@@ -254,6 +257,7 @@
 
 
                     </div>
+                    </div>
                     <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                         <div class="col-12 mb-3">
                             <label class="form-label">@lang('Additional details')</label>
@@ -262,21 +266,14 @@
                                 @foreach ($project->ProjectTimeLineData as $timeLine)
                                     <div class="row p-1">
                                         <div class="col">
-                                            <select id="selectpickerGroups" name="time_line[][status_id]" class="form-select selectpicker w-100" data-style="btn-default">
+                                            <select id="selectpickerGroups" name="time_line[]" class="form-select selectpicker w-100" data-style="btn-default">
                                                 <option value="">@lang('Project statu')</option>
                                                 @foreach ($projectStatuses as $status)
                                                     <option value="{{ $status->id }}" {{ $status->id == $timeLine->status_id ? 'selected' : '' }}>{{ $status->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col">
-                                            <select id="selectpickerGroups" name="time_line[][delivery_id]" class="form-select selectpicker w-100" data-style="btn-default">
-                                                <option value="">@lang('Delivery Case')</option>
-                                                @foreach ($deliveryCases as $case)
-                                                    <option value="{{ $case->id }}" {{ $case->id == $timeLine->delivery_id ? 'selected' : '' }}>{{ $case->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+
                                         <div class="col">
                                             <input class="form-control" name="date[]" type="date" id="html5-date-input" value="{{ $timeLine->date }}">
                                         </div>
@@ -322,22 +319,13 @@
                     </div>
 
 
-
-                </form>
-                  </div>
+                </div>
+            </form>
 
                 </div>
-
-              </div>
-
-
-
-
-        </div> <!-- end row -->
-
-    </div>
-    <!-- container-fluid -->
-
+            </div>
+        </div>
+        </div>
 </div>
 </div>
 @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
@@ -500,21 +488,14 @@
 
     newRow.innerHTML = `
         <div class="col">
-            <select name="time_line[][status_id]" class="form-select selectpicker w-100" data-style="btn-default">
+            <select name="time_line[]" class="form-select selectpicker w-100" data-style="btn-default">
                 <option value="">@lang('Project statu')</option>
                 @foreach ($projectStatuses as $status)
                     <option value="{{ $status->id }}" ${status_id == {{ $status->id }} ? 'selected' : ''}>{{ $status->name }}</option>
                 @endforeach
             </select>
         </div>
-        <div class="col">
-            <select name="time_line[][delivery_id]" class="form-select selectpicker w-100" data-style="btn-default">
-                <option value="">@lang('Delivery Case')</option>
-                @foreach ($deliveryCases as $case)
-                    <option value="{{ $case->id }}" ${delivery_id == {{ $case->id }} ? 'selected' : ''}>{{ $case->name }}</option>
-                @endforeach
-            </select>
-        </div>
+
         <div class="col">
             <input class="form-control" name="date[]" type="date" value="${date}">
         </div>

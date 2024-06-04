@@ -34,7 +34,8 @@
                 <img
                 src="{{ $finder->avatar }}"
                 alt="user image"
-                class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
+                class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"  alt="user image"
+                height="150" width="100" />
                 @else
                 <img
                 src="../../assets/img/avatars/14.png"
@@ -112,6 +113,48 @@
       <!--/ Navbar pills -->
     </div>
 </section>
+
+@push('scripts')
+    <script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#uploadedAvatar').attr('src', e.target.result); // Update the preview image
+            };
+
+            reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+        }
+    }
+
+    $("#upload").change(function() {
+        readURL(this); // Call readURL function when a file is selected
+    });
+
+    // JavaScript to handle the reset button functionality
+    $('#account-image-reset').click(function() {
+        // Reset the file input by clearing its value
+        $('#upload').val('');
+
+        // Reset the preview image to the default avatar
+        $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
+    });
+
+    function copyUrl() {
+        var id = $(this).data("url");
+        var input = $("<input>").val(id).appendTo("body").select();
+        document.execCommand("copy");
+        input.remove();
+        Swal.fire({
+            icon: "success",
+            text: @json(__('copy done')),
+            timer: 1000,
+        });
+    }
+    
+    </script>
+@endpush
 
 
 @endsection

@@ -63,8 +63,6 @@ Route::group(
         //fav
         Route::post('/add-to-favorites', [UnitInterestController::class, 'addToFav'])->name('add-to-favorites');
         Route::post('/reomve-from-favorites', [UnitInterestController::class, 'removeFromFav'])->name('remove-from-favorites');
-
-
         //
         Route::get('/pending', [SubscriptionController::class, 'viewPending'])->name('pending');
         Route::resource('Notification', 'General\NotificationController');

@@ -34,6 +34,20 @@
 
                             </div>
                         @endforeach
+                        <div class="col-md-6 col-12 mb-3">
+                            <label class="form-label">
+                                @lang('type') <span class="required-color">*</span></label>
+                                <select class="form-select" name="type" id="type" required>
+                                    <option disabled value="">@lang('Status of Project') </option>
+                                    @foreach (['Project_Status', 'Delivery_Case'] as $type)
+                                    <option value="{{ $type }}"
+                                    {{ $ProjectStatu->type == $type ? 'selected' : '' }}>
+                                    {{ __($type) }}</option>
+                                    @endforeach
+                                </select>
+
+
+                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary waves-effect waves-light">
                                 {{ __('save') }}

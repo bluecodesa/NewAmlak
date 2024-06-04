@@ -26,6 +26,6 @@
 
     <!-- Page JS -->
     <script src="{{ url('HOME_PAGE/js/front-page-landing.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @stack('scripts')

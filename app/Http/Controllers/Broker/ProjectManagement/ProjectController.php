@@ -77,6 +77,8 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
+ 
+
         $files = [
             'images' => $request->file('images'),
             'project_masterplan' => $request->file('project_masterplan'),

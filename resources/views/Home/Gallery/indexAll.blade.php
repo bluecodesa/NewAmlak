@@ -6,29 +6,29 @@
         <div class="container">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span>المعرض</h4>
 
-<div class="row rounded-5">
-    <div class="col-12 rounded-5">
-      <div class="card mb-4 rounded-5">
+            <div class="row rounded-5">
+                <div class="col-12 rounded-5">
+                <div class="card mb-4 rounded-5">
 
-        <div class="user-profile-header-banner rounded-5">
-            <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid" style="height: 200px; width: 100%;">
+                    <div class="user-profile-header-banner rounded-5">
+                        <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid" style="height: 200px; width: 100%;">
 
-        </div>
+                    </div>
 
-      </div>
-    </div>
-  </div>
+                </div>
+                </div>
+            </div>
   <!--/ Header -->
   <div class="card-body">
-    <a
-    class="btn btn-primary me-1"
-    data-bs-toggle="collapse"
-    href="#collapseExample"
-    role="button"
-    aria-expanded="false"
-    aria-controls="collapseExample">
-    @lang('Filter')
-  </a>
+        <a
+        class="btn btn-primary me-1"
+        data-bs-toggle="collapse"
+        href="#collapseExample"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapseExample">
+        @lang('Filter')
+    </a>
   <!-- filter  -->
   <div  class="row">
     <div id="collapseExample" class="collapse col-md-12">
@@ -163,11 +163,11 @@
             </div>
         </form>
     </div>
-  </div>
+    </div>
   <!--/ filter pills -->
-  <div class="divider divider-success">
-    <div class="divider-text">@lang('Units')</div>
-</div>
+        <div class="divider divider-success">
+            <div class="divider-text">@lang('Units')</div>
+        </div>
 
   <!-- Connection Cards -->
   <div class="row g-4">
@@ -200,8 +200,7 @@
           <div class="d-flex align-items-center justify-content-start">
             <a  class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
-            data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
-            >
+            data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a>
             @guest
                     {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                     data-bs-toggle="modal"
@@ -239,8 +238,8 @@
                 @if($isFavorite)
                 <form method="POST" action="{{ route('remove-from-favorites') }}">
                     @csrf
-                    <button type="submit" class="btn btn-label-secondary btn-icon d-flex align-items-center me-3">
-                    <i class="ti ti-heart ti-sm bg-danger"></i>
+                    <button type="submit" class="btn btn-label-danger btn-icon d-flex align-items-center me-3">
+                    <i class="ti ti-heart ti-sm"></i>
                     </button>
                     <input type="hidden" name="unit_id" value="{{ $unit->id }}">
                 </form>
@@ -344,6 +343,7 @@
   </div>
 
 </div>
+  </div>
 </section>
 
 

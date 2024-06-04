@@ -258,13 +258,7 @@
                                                     <div class="mb-3 col-4">
                                                         <input type="text" name="name[]" class="form-control search"
                                                             placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-                                                            {{-- <input
-                                                            id="TypeaheadSuggestions"
-                                                            class="form-control  typeahead-default-suggestions"
-                                                            type="text"
-                                                            name="name[]"
-                                                            autocomplete="off"
-                                                            placeholder="@lang('Field name')" value="{{ old('name*') }}"/> --}}
+                                                     
                                                     </div>
                                                     <div class="mb-3 col-4">
                                                         <input type="text" name="qty[]" class="form-control"

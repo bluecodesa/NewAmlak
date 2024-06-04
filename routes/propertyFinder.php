@@ -38,9 +38,11 @@ Route::group(
                 'Employee' => EmployeeController::class,
                 'Project' => ProjectController::class,
             ]);
-            Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
-            Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');
-            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Office.GetCitiesByRegion');
+            Route::put('/update-property-finder/{finder}', [HomeController::class, 'updatePropertyFinder'])->name('updatePropertyFinder');
+            Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
+
+
+
         });
     }
 );

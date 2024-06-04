@@ -220,20 +220,31 @@
                           href="javascript:;"
                           class="btn btn-secondary me-3"
                           data-bs-toggle="modal"
-                data-bs-target="#twoFactorAuth"
+                        data-bs-target="#twoFactorAuth"
                           >@lang('Share')</a
                         >
 
 
                         {{-- intrest unit --}}
+                        <form action="{{ route('unit_interests.store') }}" method="POST">
+                            @csrf
+
+                            <input hidden name="unit_id" value="{{ $Unit->id }}" />
+                            <input hidden name="user_id" value="{{ $Unit->BrokerData->user_id }}" />
+                            <input hidden name="finder_id" value="{{ auth()->user()->id }}" />
+                            <input hidden name="interested_id" value="{{ auth()->user()->id }}" />
+                            <input hidden type="text" name="key_phone" hidden value="{{ auth()->user()->key_phone }}" id="key_phone">
+                            <input hidden type="text" name="full_phone" hidden id="full_phone" value="{{ auth()->user()->full_phone }}">
+                            <input hidden name="name" value="{{ auth()->user()->name }}" />
+                            <input hidden name="whatsapp" value="{{ auth()->user()->phone }}" />
+
 
                         <button
-                        type="button"
-                        class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#basicModal">
+                        type="submit"
+                        class="btn btn-primary">
                         تسجيل اهتمام
                       </button>
+                    </form>
 
                       <!-- Modal -->
 
@@ -300,7 +311,7 @@
 
                 </div>
               </div>
-                        {{-- . --}}
+                        {{-- .Modal--}}
 
                       </div>
                     </ul>

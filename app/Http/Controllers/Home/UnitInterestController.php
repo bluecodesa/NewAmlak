@@ -123,11 +123,25 @@ class UnitInterestController extends Controller
         ]);
 
         $statusId = InterestTypeTranslation::where('name', 'new order')->value('id');
-
+        $data = $request->all();
         $requestData = $request->all();
-        $requestData['status'] = $statusId;
+        unset($requestData['finder_id']);
 
+
+        $requestData['status'] = $statusId;
         $intrestOrder = UnitInterest::create($requestData);
+
+
+        $favorite = new FavoriteUnit();
+        $favorite->unit_id = $data['unit_id'];
+        $favorite->owner_id = $data['user_id'];
+        $favorite->finder_id = auth()->user()->id;
+        $favorite->status = "1";
+
+        $favorite->save();
+
+
+
 
         $this->notifyUsers($intrestOrder);
 
@@ -239,7 +253,7 @@ class UnitInterestController extends Controller
       ]);
 
 
-      $favorite = new FavoriteUnit;
+      $favorite = new FavoriteUnit();
       $favorite->unit_id = $data['unit_id'];
       $favorite->owner_id = $data['owner_id'];
       $favorite->finder_id = auth()->user()->id;
@@ -269,7 +283,7 @@ class UnitInterestController extends Controller
         $message = 'Unit not found in favorites.';
       }
 
-      return redirect()->back()->with('message', $message);
+      return redirect()->back()->with('success', 'Unit removed from favorites successfully.');
     }
 
 

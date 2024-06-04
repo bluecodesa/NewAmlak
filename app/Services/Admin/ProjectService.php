@@ -34,8 +34,9 @@ class ProjectService
 
     public function createProjectStatu($data)
     {
-
-        $rules = [];
+        $rules = [
+            'type'=> 'required|string',
+        ];
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('project_status_translations', 'name')]];
         }

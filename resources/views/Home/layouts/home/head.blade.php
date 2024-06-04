@@ -35,6 +35,8 @@
     <link href="{{ url('dashboard_files/assets/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/nouislider/nouislider.css') }}" />
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/swiper/swiper.css') }}" />
