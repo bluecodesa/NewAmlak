@@ -144,6 +144,7 @@
                                     <a href="{{ route('Broker.Unit.edit', $Unit->id) }}"
                                         class="btn btn-warning me-3">@lang('Edit')</a>
 
+                                        @if($Unit->unit_masterplan)
 
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-primary dropdown-toggle"
@@ -152,16 +153,15 @@
                                                         class="d-none d-sm-inline-block">@lang('Download')</span></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                @if($Unit->unit_masterplan)
 
                                                     <li>
                                                         <a href="{{ $Unit->unit_masterplan }}" target="_blank"
                                                             class="dropdown-item">@lang('Download') @lang('Unit Masterplan')</a>
                                                     </li>
-                                                @endif
 
                                             </ul>
                                         </div>
+                                        @endif
 
                                 </div>
                             </div>
