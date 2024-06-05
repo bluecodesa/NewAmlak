@@ -146,7 +146,7 @@ class UnitInterestController extends Controller
         $this->notifyUsers($intrestOrder);
 
 
-        return redirect()->back()->with('success', 'Unit Interest created successfully.');
+        return redirect()->back()->with('success', __('Your interest has been registered and added to your favorites'));
     }
 
 
@@ -198,9 +198,8 @@ class UnitInterestController extends Controller
         $unitInterest->update(['status' => $request->status]);
 
         // Optionally, you can return a response or redirect
-        return redirect()->back()->with('success', 'Status updated successfully.');
+        return redirect()->back()->with('success', __('Update successfully'));
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -262,7 +261,7 @@ class UnitInterestController extends Controller
       $favorite->save();
 
 
-        return redirect()->back()->with('success', 'Unit added to favorites!');
+        return redirect()->back()->with('success', __('added successfully'));
 
     }
 
