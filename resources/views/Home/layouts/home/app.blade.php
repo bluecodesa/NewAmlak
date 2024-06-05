@@ -118,18 +118,13 @@
                         @endguest
 
                         @auth
+                        <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm" target="_blank"><span
+                                class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span><span
+                                class="d-none d-md-block">حسابى</span></a>
+
+                    @endauth
 
 
-                            <a href="{{ route('logout') }}"
-                                onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-                                class="btn btn-primary btn-sm" target="_blank"><span
-                                    class="tf-icons ti ti-logout scaleX-n1-rtl me-md-1"></span><span
-                                    class="d-none d-md-block">تسجيل خروج</span></a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                style="display: none;">
-                                @csrf
-                            </form>
-                        @endauth
 
                     </li>
                     <li>
@@ -140,11 +135,18 @@
                                 <span class="d-none d-md-block">سجل معنا الأن</span></a>
                         @endguest
                         @auth
-                            <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm" target="_blank"><span
-                                    class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span><span
-                                    class="d-none d-md-block">لوحة التحكم</span></a>
 
-                        @endauth
+
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+                            class="btn btn-primary btn-sm" target="_blank"><span
+                                class="tf-icons ti ti-logout scaleX-n1-rtl me-md-1"></span><span
+                                class="d-none d-md-block">تسجيل خروج</span></a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                            style="display: none;">
+                            @csrf
+                        </form>
+                    @endauth
                     </li>
                     <!-- navbar button: End -->
                 </ul>
