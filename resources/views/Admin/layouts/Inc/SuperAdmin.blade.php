@@ -339,6 +339,14 @@
                         </a>
                         <ul class="menu-sub">
 
+                            @if (Auth::user()->hasPermission('read-real-estate-settings'))
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.ProjectSettings.index') }}" class="menu-link">
+                                    <div data-i18n="@lang('Project Settings')">@lang('Project Settings')</div>
+                                </a>
+                            </li>
+                            @endif
+
                             <li class="menu-item">
                                 <a href="{{ route('Admin.PropertyType.index') }}" class="menu-link">
                                     <div data-i18n="@lang('Property Types')">@lang('Property Types')</div>
@@ -366,14 +374,6 @@
                         </ul>
                     </li>
                 @endif
-
-                @if (Auth::user()->hasPermission('read-real-estate-settings'))
-                <li class="menu-item">
-                    <a href="{{ route('Admin.ProjectSettings.index') }}" class="menu-link">
-                        <div data-i18n="@lang('Project Settings')">@lang('Project Settings')</div>
-                    </a>
-                </li>
-            @endif
             </ul>
         </li>
     </ul>

@@ -11,7 +11,7 @@
     <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     {{-- <script src="{{ url('dashboard_files/assets/js/sweetalert2.js') }}"></script> --}}
-    <script src="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    {{-- <script src="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script> --}}
     {{-- <script src="{{ url('assets/js/extended-ui-sweetalert2.js') }}"></script> --}}
     <script src="{{ url('dashboard_files/assets/js/bootstrap4-toggle.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/jquery-ui.min.js') }}"></script>
@@ -26,6 +26,6 @@
 
     <!-- Page JS -->
     <script src="{{ url('HOME_PAGE/js/front-page-landing.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 
     @stack('scripts')

@@ -249,16 +249,6 @@
                     <!-- project Card -->
                     <div class="card mb-4">
                         <div class="card-body">
-                            {{-- <div class="user-avatar-section">
-                                <div class="d-flex align-items-center flex-column">
-                                    <img class="img-fluid rounded mb-3 pt-1 mt-4" src="{{ $project->image_url }}"
-                                        height="100" width="100" alt="User avatar" />
-                                    <div class="user-info text-center">
-                                        <h4 class="mb-2">{{ $project->name }}</h4>
-                                        <span class="badge bg-label-secondary mt-1">@lang('Project')</span>
-                                    </div>
-                                </div>
-                            </div> --}}
 
                             <div class="user-avatar-section">
                                 <div class="d-flex align-items-center flex-column">
@@ -292,6 +282,14 @@
                                     <div>
                                         <p class="mb-0 fw-medium"> @lang('Number Properties')</p>
                                         <small> {{ $project->PropertiesProject->count() }} </small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-start me-4 mt-3 gap-2">
+                                    <span class="badge bg-label-primary p-2 rounded"><i
+                                            class="ti ti-building ti-sm"></i></span>
+                                    <div>
+                                        <p class="mb-0 fw-medium"> @lang('Number units')</p>
+                                        <small> {{ $project->UnitsProject->count() }} </small>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-start mt-3 gap-2">
@@ -432,7 +430,17 @@
                                                                 aria-haspopup="dialog" aria-expanded="false"><span>
                                                                     <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                         </div>
+
+                                                        @if (Auth::user()->hasPermission('create-building'))
                                                         <div class="btn-group">
+                                                            <a href="{{ route('Broker.Project.CreateProperty', $project->id) }}" class="btn btn-primary">
+                                                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                        class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                            </a>
+
+                                                        </div>
+                                                    @endif
+                                                        {{-- <div class="btn-group">
                                                             <button type="button" class="btn btn-primary dropdown-toggle"
                                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
@@ -448,7 +456,7 @@
 
 
                                                             </ul>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -563,7 +571,16 @@
                                                                 aria-haspopup="dialog" aria-expanded="false"><span>
                                                                     <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                         </div>
+                                                        @if (Auth::user()->hasPermission('create-unit'))
                                                         <div class="btn-group">
+                                                            <a href="{{ route('Broker.Project.CreateUnitProject', $project->id) }}" class="btn btn-primary">
+                                                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                        class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                            </a>
+
+                                                        </div>
+                                                    @endif
+                                                        {{-- <div class="btn-group">
                                                             <button type="button" class="btn btn-primary dropdown-toggle"
                                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
@@ -578,7 +595,7 @@
                                                                 @endif
 
                                                             </ul>
-                                                        </div>
+                                                        </div> --}}
 
                                                     </div>
                                                 </div>

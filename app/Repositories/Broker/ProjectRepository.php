@@ -58,7 +58,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         if (isset($data['time_line'])) {
             foreach ($data['time_line'] as $index => $statusId) {
-                if (!empty($statusId) && !empty($data['date'][$index])) {
+                if (!empty($statusId) && (isset($data['date'][$index]) || $data['date'][$index] === null)) {
                     ProjectTimeLine::create([
                         'status_id' => $statusId,
                         'project_id' => $project->id,
@@ -114,7 +114,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         if (isset($data['time_line'])) {
             $project->ProjectTimeLineData()->delete();
             foreach ($data['time_line'] as $index => $statusId) {
-                if (!empty($statusId) && !empty($data['date'][$index])) {
+                if (!empty($statusId) && (isset($data['date'][$index]) || $data['date'][$index] === null)) {
                     ProjectTimeLine::create([
                         'status_id' => $statusId,
                         'project_id' => $project->id,

@@ -36,7 +36,7 @@
                         aria-controls="navs-justified-home"
                         aria-selected="true">
                         <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
-                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">7</span>
                       </button>
                     </li>
                     <li class="nav-item">
@@ -49,6 +49,7 @@
                           aria-controls="navs-justified-gallery"
                           aria-selected="false">
                           <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i>  @lang('Time Line')
+                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
                         </button>
                       </li>
                     <li class="nav-item">
@@ -61,6 +62,7 @@
                         aria-controls="navs-justified-profile"
                         aria-selected="false">
                         <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Attachments')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
                       </button>
                     </li>
 
@@ -207,7 +209,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6 col-12 mb-3">
+                            {{-- <div class="col-md-6 col-12 mb-3">
                                 <label class="form-label">@lang('Delivery Case') <span class="required-color"></span></label>
                                 <select class="form-select" name="delivery_case_id">
                                     <option disabled selected value="">@lang('Delivery Case')</option>
@@ -217,7 +219,7 @@
                                         {{ $case->name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
 
 
                             <div class="mb-3 col-12">
@@ -260,7 +262,7 @@
                     </div>
                     <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                         <div class="col-12 mb-3">
-                            <label class="form-label">@lang('Additional details')</label>
+                            <label class="form-label">@lang('قم بإضافة مراحل المشروع هنا')</label>
                             <button type="button" class="btn btn-outline-primary btn-sm" onclick="addFeature()">@lang('Add stage')</button>
                             <div id="features" class="row p-2">
                                 @foreach ($project->ProjectTimeLineData as $timeLine)

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Home\UnitInterestController;
+use App\Http\Controllers\Property_Finder\HomeController as Property_FinderHomeController;
 use App\Http\Middleware\PendingPaymentPopup;
 
 
@@ -56,7 +57,8 @@ Route::group(
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
 
         });
-       
+        Route::post('/send-otp', [Property_FinderHomeController::class, 'sendVerificationCode'])->name('send-otp');
+
         //fav
         Route::post('/add-to-favorites', [UnitInterestController::class, 'addToFav'])->name('add-to-favorites');
         Route::post('/reomve-from-favorites', [UnitInterestController::class, 'removeFromFav'])->name('remove-from-favorites');

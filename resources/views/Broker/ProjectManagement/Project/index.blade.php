@@ -86,6 +86,8 @@
                                 <th>@lang('project name')</th>
                                 <th>@lang('city')</th>
                                 <th>@lang('Number Properties')</th>
+                                <th>@lang('Number Units')</th>
+
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -96,6 +98,8 @@
                                     <td>{{ $project->name ?? '' }}</td>
                                     <td>{{ $project->CityData->name ?? '' }}</td>
                                     <td> {{ $project->PropertiesProject->count() }} </td>
+                                    <td> {{ $project->UnitsProject->count() }} </td>
+
                                     <td>
 
                                         <div class="dropdown">

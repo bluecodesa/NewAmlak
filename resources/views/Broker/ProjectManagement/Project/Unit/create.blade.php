@@ -34,7 +34,7 @@
                         aria-controls="navs-justified-home"
                         aria-selected="true">
                         <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
-                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">10</span>
                       </button>
                     </li>
                     <li class="nav-item">
@@ -47,6 +47,7 @@
                           aria-controls="navs-justified-gallery"
                           aria-selected="false">
                           <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Gallery')
+                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
                         </button>
                       </li>
                     <li class="nav-item">
@@ -59,6 +60,7 @@
                         aria-controls="navs-justified-profile"
                         aria-selected="false">
                         <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('price')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
                       </button>
                     </li>
                     <li class="nav-item">
@@ -71,6 +73,7 @@
                         aria-controls="navs-justified-messages"
                         aria-selected="false">
                         <i class="tf-icons ti ti-file ti-xs me-1"></i> @lang('Attachments')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
                       </button>
                     </li>
                   </ul>
@@ -258,7 +261,7 @@
                                                     <div class="mb-3 col-4">
                                                         <input type="text" name="name[]" class="form-control search"
                                                             placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-                                                     
+
                                                     </div>
                                                     <div class="mb-3 col-4">
                                                         <input type="text" name="qty[]" class="form-control"

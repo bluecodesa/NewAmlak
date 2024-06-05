@@ -5,16 +5,20 @@
 @section('content')
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
+
             <div class="row">
                 <div class="col-12">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
 
                         <span class="text-muted fw-light">@lang('Settings') /</span> <span
-                            class="text-muted fw-light">@lang('Project Settings')</span>
+                            class="text-muted fw-light">@lang('Real estate settings') /</span>
 
+                        @lang('Project Settings')
                     </h4>
                 </div>
             </div>
+
+
             <!-- DataTable with Buttons -->
 
             <div class="card">
@@ -24,19 +28,19 @@
                         <div class="nav-align-top mb-4">
                           <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
                             <li class="nav-item">
-                              <button
-                                type="button"
-                                class="nav-link active"
-                                role="tab"
-                                data-bs-toggle="tab"
-                                data-bs-target="#navs-pills-justified-home"
-                                aria-controls="navs-pills-justified-home"
-                                aria-selected="true">
-                                <i class="tf-icons ti ti-home ti-xs me-1"></i> حالات المشروع
-                                <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger ms-1">3</span>
-                              </button>
-                            </li>
-                            <li class="nav-item">
+                                <button
+                                  type="button"
+                                  class="nav-link"
+                                  role="tab"
+                                  data-bs-toggle="tab"
+                                  data-bs-target="#navs-justified-home"
+                                  aria-controls="navs-justified-home"
+                                  aria-selected="true">
+                                  <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Project status')
+                                  <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                                </button>
+                              </li>
+                            {{-- <li class="nav-item">
                               <button
                                 type="button"
                                 class="nav-link"
@@ -47,7 +51,7 @@
                                 aria-selected="false">
                                 <i class="tf-icons ti ti-user ti-xs me-1"></i> حالات التسليم
                               </button>
-                            </li>
+                            </li> --}}
 
                           </ul>
                           <div class="tab-content">

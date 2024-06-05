@@ -16,8 +16,12 @@ use App\Http\Traits\Email\MailSendCode;
 
 
 
+
 class HomeController extends Controller
 {
+
+    use MailSendCode;
+
     public function index(){
 
         $finder =auth()->user();
@@ -113,23 +117,36 @@ class HomeController extends Controller
 
     public function sendVerificationCode(Request $request)
 {
-    dd($request);
 
-    $validator = Validator::make($request->all(), [
-        'email' => 'required|email|unique:users',
-    ]);
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
-    }
+    $rules = [
+        'email' => 'required|email|unique:users,email',
+    ];
+
+    $messages = [
+        'password.required' => __('The new password field is required.'),
+        'password.min' => __('The new password must be at least 8 characters.'),
+        'password.confirmed' => __('The new password confirmation does not match.'),
+    ];
+
+
+    $request->validate($rules, $messages);
+
+
     $email = $request->input('email');
-
     $otp = rand(100000, 999999);
-    Redis::setex("otp:$email", 300, $otp);
-    $this->MailForgotPassword($email, $otp);
 
-    return response()->json(['message' => 'Verification code sent successfully'], 200);
+    try {
+        // Redis::setex("otp:$email", 300, $otp);
+        $this->MailSendCode($email, $otp);
+
+        return redirect()->route('login')->withSuccess(__('Verification code sent successfully'));
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => 'Failed to send verification code'], 500);
+    }
 }
+
+
 
 public function verifyCode(Request $request)
 {
