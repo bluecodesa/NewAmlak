@@ -17,7 +17,7 @@
 
 <section class="section-py bg-body first-section-pt">
     <div class="container mt-2">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span>الباحث عن عقار</h4>
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">حسابى</a>/ </span>الباحث عن عقار</h4>
 
 
 
@@ -152,7 +152,7 @@
             timer: 1000,
         });
     }
-    
+
     </script>
 @endpush
 
