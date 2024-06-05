@@ -28,4 +28,48 @@
     <script src="{{ url('HOME_PAGE/js/front-page-landing.js')}}"></script>
     <script src="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 
+
+    <script>
+        // $('.dropify').dropify();
+
+        $('.dropify').dropify({
+            messages: {
+                'default': @json(__('Drop files here or click to upload')),
+                'replace': @json(__('Drop files here or click to upload')),
+                'remove': @json(__('Delete')),
+                'error': 'Ooops, something wrong happended.'
+            }
+        });
+
+        var success = '{{ Session::has('success') }}';
+        var sorry = '{{ Session::has('sorry') }}';
+
+        if (success) {
+            var msg = '{{ Session::get('success') }}';
+            alertify.success(msg);
+        }
+        if (sorry) {
+            var msg = '{{ Session::get('sorry') }}';
+            alertify.error(msg);
+        }
+        jQuery(document).ready(function() {
+            $('.summernote').summernote({
+                height: 100, // set editor height
+                minHeight: null, // set minimum height of editor
+                maxHeight: null, // set maximum height of editor
+                focus: true, // set focus to editable area after initializing summernote
+                toolbar: [
+                    // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['misc', ['fullscreen', 'undo', 'redo']],
+                    // Any other toolbar groups and options you want to include...
+                ],
+                // Explicitly remove table and font name options by not including them in the toolbar
+            });
+
+        });
+    </script>
+
     @stack('scripts')
