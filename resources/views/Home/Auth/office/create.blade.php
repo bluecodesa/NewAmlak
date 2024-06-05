@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/typeahead-js/typeahead.css') }}" />
     <!-- Vendor -->
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/@form-validation/form-validation.css') }}" />
+    <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Page CSS -->
     <!-- Page -->
@@ -122,10 +123,10 @@
                                         class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
                                     <div class="button-wrapper">
                                         <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
-                                            <span class="d-none d-sm-block">اختر صورة شخصيه</span>
+                                            <span class="d-none d-sm-block">@lang('Company logo')</span>
                                             <i class="ti ti-upload d-block d-sm-none"></i>
                                             <input type="file" id="upload" class="account-file-input"
-                                                name="broker_logo" hidden accept="image/png, image/jpeg" />
+                                                name="company_logo" hidden accept="image/png, image/jpeg" />
                                         </label>
                                         <button type="button" id="account-image-reset"
                                             class="btn btn-label-secondary account-image-reset mb-3">
@@ -141,55 +142,43 @@
                             <div class="mb-3 row">
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="name"> @lang('Broker name')<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="basic-default-name"
-                                        name="name" placeholder="@lang('Broker name')" required="">
+                                    <label class="form-label" for="company_name"> @lang('Company Name')<span
+                                        class="text-danger">*</span></label>
+
+                                        <input type="text" class="form-control" placeholder="@lang('Company Name')" id="company_name" name="name">
+
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label" for="license_number"> @lang('license number')<span
-                                            class="text-danger">*</span></label>
-
-                                    <input type="text" class="form-control" id="license_number"
-                                        name="license_number" required>
+                                    <label class="form-label" for="name"> @lang('Commercial Registration No')</label>
+                                            <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
+                                            required="hhhh" name="CRN" value="">
                                 </div>
+
                             </div>
                             <div class="mb-3 row">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="email">@lang('Email')<span
+                                <div class="col-md-4">
+                                    <label class="form-label" for="email">@lang('Company email')<span
                                             class="text-danger">*</span></label>
 
                                     <input type="email" class="form-control" id="email" name="email"
                                         required>
 
                                 </div>
-
-                                <div class="col-md-6">
-                                    <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
+                                <div class="col-md-4">
+                                    <label class="form-label" for="email">@lang('Name of company representative')<span
                                             class="text-danger">*</span></label>
-                                    {{-- <div class="input-group">
 
-                                        {{-- <input type="tel" class="form-control" id="mobile" minlength="9"
-                                            maxlength="9" pattern="[0-9]*"
-                                            oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                            onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                            name="mobile" required value=""> --}}
+                                            <input type="text" id="presenter_name" name="presenter_name" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
+                                            required >
 
-                                    {{-- <input type="text" placeholder="123456789" name="mobile" value=""
-                                                    class="form-control" maxlength="9" pattern="\d{1,9}"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                                                    aria-label="Text input with dropdown button">
-                                                <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    996
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end" style="">
-                                                    <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                                    <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
-                                                </ul> --}}
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label" for="mobile">@lang('Company representative number')(@lang('WhatsApp'))<span
+                                            class="text-danger">*</span></label>
 
                                     <div class="input-group">
-                                        <input type="text" placeholder="123456789" id="phone" name="mobile"
+                                        <input type="text" placeholder="123456789" id="phone" name="presenter_number"
                                             value="" class="form-control" maxlength="9" pattern="\d{1,9}"
                                             oninput="updateFullPhone(this)"
                                             aria-label="Text input with dropdown button">
@@ -200,8 +189,8 @@
                                         <ul class="dropdown-menu dropdown-menu-end" style="">
                                             <li><a class="dropdown-item" data-key="971"
                                                     href="javascript:void(0);">971</a></li>
-                                            <li><a class="dropdown-item" data-key="996"
-                                                    href="javascript:void(0);">996</a></li>
+                                            <li><a class="dropdown-item" data-key="966"
+                                                    href="javascript:void(0);">966</a></li>
                                         </ul>
 
                                     </div>
@@ -286,14 +275,7 @@
                             </div>
 
 
-                            <div class="mb-3 row">
-                                <div class="col-md-6">
-                                    <label class="form-label">@lang('id number')</label>
-                                    <input type="text" class="form-control" id="id_number"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
-                                        name="id_number">
-                                </div>
-                            </div>
+
                             <div class="row mb-3">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-8">
@@ -363,7 +345,26 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     <script>
+
+
+var success = '{{ Session::has('success') }}';
+        var sorry = '{{ Session::has('sorry') }}';
+
+        if (success) {
+            var msg = '{{ Session::get('success') }}';
+            alertify.success(msg);
+        }
+        if (sorry) {
+            var msg = '{{ Session::get('sorry') }}';
+            alertify.error(msg);
+        }
+
+
+
         $(document).ready(function() {
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');

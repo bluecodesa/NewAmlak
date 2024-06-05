@@ -108,12 +108,11 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status', 1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
+        // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status', 1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
 
-        $subscriptionTypes = SubscriptionType::whereHas('Roles', function ($query) {
-            $query->where('name', 'Office-Admin');
-        })->get();
-
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->get();
         return view('Home.Auth.office.create', get_defined_vars());
     }
 
@@ -140,9 +139,29 @@ class HomeController extends Controller
             'password' => 'required|string|max:255',
         ];
         $messages = [
-            'name.required' => 'The ' . __('name') . ' field is required.',
-            'email.required' => 'The ' . __('email') . ' field is required.',
-            'presenter_number.required' => 'The ' . __('Company representative number') . ' field is required.',
+            'name.required' => __('The name field is required.'),
+            'email.required' => __('The email field is required.'),
+            'email.email' => __('The email must be a valid email address.'),
+            'email.unique' => __('The email has already been taken.'),
+            'email.max' => __('The email may not be greater than :max characters.'),
+            'city_id.required' => __('The city field is required.'),
+            'city_id.exists' => __('The selected city is invalid.'),
+            'company_logo.required' => __('The company logo field is required.'),
+            'company_logo.file' => __('The company logo must be a file.'),
+            'subscription_type_id.required' => __('The subscription type field is required.'),
+            'subscription_type_id.exists' => __('The selected subscription type is invalid.'),
+            'CRN.required' => __('The CRN field is required.'),
+            'CRN.unique' => __('The CRN has already been taken.'),
+            'CRN.max' => __('The CRN may not be greater than :max characters.'),
+            'presenter_number.required' => __('The Company representative number field is required.'),
+            'presenter_number.unique' => __('The Company representative number has already been taken.'),
+            'presenter_number.max' => __('The Company representative number may not be greater than :max characters.'),
+            'presenter_name.required' => __('The presenter name field is required.'),
+            'presenter_name.string' => __('The presenter name must be a string.'),
+            'presenter_name.max' => __('The presenter name may not be greater than :max characters.'),
+            'password.required' => __('The password field is required.'),
+            'password.string' => __('The password must be a string.'),
+            'password.max' => __('The password may not be greater than :max characters.'),
         ];
         $request->validate($rules, $messages);
 
@@ -180,7 +199,7 @@ class HomeController extends Controller
             $status = 'pending';
         } else {
             $SubType = 'free';
-            $status = 'paid';
+            $status = 'active';
         }
         Subscription::create([
             'office_id' => $office->id,
@@ -204,7 +223,7 @@ class HomeController extends Controller
             'invoice_ID' => 'INV_' . uniqid(),
         ]);
 
-        return redirect()->route('login')->withSuccess(__('added successfully'));
+        return redirect()->route('login')->with('success',__('registerd successfully'));
     }
 
     public function storeBroker(Request $request)
@@ -343,7 +362,7 @@ class HomeController extends Controller
         $this->notifyAdmins($broker);
 
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
-        return redirect()->route('login')->withSuccess(__('Broker created successfully.'));
+        return redirect()->route('login')->with('success',__('registerd successfully'));
     }
 
     protected function notifyAdmins(Broker $broker)

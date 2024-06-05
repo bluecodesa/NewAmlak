@@ -226,6 +226,7 @@
 
 
                         {{-- intrest unit --}}
+                        @auth
                         <form action="{{ route('unit_interests.store') }}" method="POST">
                             @csrf
 
@@ -245,6 +246,7 @@
                         تسجيل اهتمام
                       </button>
                     </form>
+                    @endauth
 
                       <!-- Modal -->
 
