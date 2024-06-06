@@ -259,7 +259,7 @@
                             </div>
                         </div>
                         <div class="col-md mb-md-0 mb-3">
-                            <div class="form-check custom-option custom-option-icon">
+                            <div class="form-check custom-option custom-option-icon" onclick="redirectToCreateOffice()">
                                 <label class="form-check-label custom-option-content" for="customRadioOffice">
                                     <span class="custom-option-body">
                                         <svg width="41" height="40" viewBox="0 0 41 40" fill="none"
@@ -273,7 +273,7 @@
                                         </svg>
 
                                         <span class="custom-option-title"> @lang('Office')
-                                            <small>(قريبا)</small></span>
+                                            </span>
                                     </span>
                                     <input name="customRadioIcon" class="form-check-input" type="radio"
                                         value="" id="customRadioOffice" />
