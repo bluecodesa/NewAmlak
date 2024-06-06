@@ -249,8 +249,8 @@
                                 </div>
                             </a>
                         @elseif(Auth::user()->is_office)
-                        {{-- {{ route('Office.settings.index') }} --}}
-                            <a class="dropdown-item" href="">
+
+                            <a class="dropdown-item" href="{{ route('Office.Setting.index') }}">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
