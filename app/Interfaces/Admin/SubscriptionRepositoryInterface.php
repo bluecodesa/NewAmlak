@@ -25,5 +25,7 @@ interface SubscriptionRepositoryInterface
 
     public function suspendSubscription($id, $isSuspend);
     public function findSubscriptionByBrokerId($brokerId);
+    public function findSubscriptionByOfficeId($officeId);
+
 
 }

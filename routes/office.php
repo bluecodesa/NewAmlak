@@ -6,6 +6,7 @@ use App\Http\Controllers\Office\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Office\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
+use App\Http\Controllers\Office\SettingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,6 +37,8 @@ Route::group(
                 'Owner' => OwnerController::class,
                 'Employee' => EmployeeController::class,
                 'Project' => ProjectController::class,
+                'Setting' => SettingController::class,
+
             ]);
             Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
             Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');

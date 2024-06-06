@@ -53,6 +53,10 @@ class SubscriptionService
     {
         return $this->subscriptionRepository->findSubscriptionByBrokerId($brokerId);
     }
+    public function findSubscriptionByOfficeId($brokerId)
+    {
+        return $this->subscriptionRepository->findSubscriptionByBrokerId($brokerId);
+    }
 
     public function createOfficeSubscription(array $data)
     {

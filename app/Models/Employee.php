@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission;
 
 class Employee extends Model
 {
@@ -22,5 +23,15 @@ class Employee extends Model
     public function OfficeData()
     {
         return $this->belongsTo(Office::class, 'office_id');
+    }
+
+    public function employeePermissions()
+    {
+        return $this->hasMany(EmployeePermission::class);
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'employee_permissions', 'employee_id', 'permission_id');
     }
 }

@@ -57,4 +57,8 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     {
         return Subscription::where('broker_id', $brokerId)->first();
     }
+    public function findSubscriptionByOfficeId($officeId)
+    {
+        return Subscription::where('office_id', $officeId)->first();
+    }
 }
