@@ -6,6 +6,8 @@ use App\Interfaces\Office\SettingRepositoryInterface;
 use App\Models\Office;
 use App\Models\Setting;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+
 
 class SettingService
 {
@@ -105,9 +107,57 @@ class SettingService
 
         // Redirect with success message
         return redirect()->route('Office.Setting.index')->withSuccess(__('Updated successfully.'));
-    
+
 
     }
+
+    public function updateProfileSetting(Request $request, $id)
+    {
+        $office = Office::findOrFail($id);
+
+        // Define validation rules
+        $rules = [
+            'presenter_name' => 'nullable|string|max:255',
+            'presenter_number' => [
+                'nullable',
+                'digits:20',
+                Rule::unique('offices', 'presenter_number')->ignore($office->user_id),
+            ],
+            'office_license' => 'nullable|numeric',
+            'id_number' => 'nullable|numeric',
+        ];
+
+        // Define custom error messages
+        $messages = [
+            'presenter_number.digits' => __('The mobile number must be 20 digits.'),
+            'presenter_number.unique' => __('The mobile number has already been taken.'),
+            'office_license.numeric' => __('The license number must be a number.'),
+            'id_number.numeric' => __('The ID number must be a number.'),
+        ];
+
+        // Validate the request
+        $request->validate($rules, $messages);
+
+        // Update the office data
+        $office->update([
+            'presenter_name' => $request->presenter_name,
+            'presenter_number' => $request->presenter_number,
+            'office_license' => $request->office_license,
+        ]);
+
+        // Update the related user data
+        $user = $office->userData();
+        $user->update([
+            'id_number' => $request->id_number,
+            // 'phone' => $request->mobile,
+            // 'key_phone' => $request->key_phone ?? $user->key_phone,
+            // 'full_phone' => ($request->key_phone ?? $user->key_phone) . $request->mobile,
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Profile settings updated successfully.'));
+    }
+
 
     public function getSettings()
     {

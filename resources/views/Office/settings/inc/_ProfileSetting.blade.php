@@ -1,4 +1,4 @@
-<form action="{{ route('Office.Setting.update', $office->id) }}" class="row" method="POST"
+<form action="{{ route('Office.Setting.updateProfileSetting', $office->id) }}" class="row" method="POST"
     enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -14,7 +14,7 @@
     <div class="col-12 mb-3 col-md-6">
         <label for="color" class="form-label">@lang('Company representative number')(@lang('WhatsApp'))</label>
         <div class="input-group">
-            <input type="text" placeholder="123456789" name="mobile" value="{{ $office->presenter_number }}"
+            <input type="text" placeholder="123456789" name="presenter_number" value="{{ $office->presenter_number }}"
                 class="form-control" maxlength="9" pattern="\d{1,9}"
                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
                 aria-label="Text input with dropdown button">
@@ -33,8 +33,8 @@
         <label for="license_number">
             @lang('license number')</label>
 
-        <input type="text" class="form-control" id="license_number" name="broker_license"
-            value="" required>
+        <input type="text" class="form-control" id="license_number" name="office_license"
+            value="{{ $office->office_license }}" required>
     </div>
 
     <div class="col-md-6 col-12 mb-3">

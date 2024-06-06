@@ -117,8 +117,16 @@ class SettingController extends Controller
     {
         $data = $request->all();
         $this->settingService->updateOffice($data, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Updated successfully.'));
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully.'));
     }
+
+    public function updateProfileSetting(Request $request, string $id)
+    {
+        $data = $request->all();
+        $this->settingService->updateProfileSetting($request, $id);
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully.'));
+    }
+
 
 
     /**
@@ -134,6 +142,6 @@ class SettingController extends Controller
 
         $data = $request->all();
         $this->settingService->updateOffice($data, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Updated successfully.'));
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully.'));
     }
 }
