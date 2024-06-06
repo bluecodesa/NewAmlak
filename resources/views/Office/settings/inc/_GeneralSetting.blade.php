@@ -35,7 +35,7 @@
     <div class="col-12 mb-3 col-md-6">
         <label for="color" class="form-label">@lang('Company Mobile') <span class="required-color">*</span></label>
         <div class="input-group">
-            <input type="text" placeholder="123456789" name="mobile" value="{{ $office->UserData->phone }}"
+            <input type="text" placeholder="123456789" name="phone" value="{{ $office->UserData->phone }}"
                 class="form-control" maxlength="9" pattern="\d{1,9}"
                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
                 aria-label="Text input with dropdown button">
@@ -54,7 +54,7 @@
 
     <div class="col-md-4 col-12 mb-3">
         <div class="d-flex align-items-start align-items-sm-center gap-4">
-            <img src="{{ $office->company_logo ? asset($Office->company_logo) : asset('HOME_PAGE/img/avatars/14.png') }}"
+            <img src="{{ $office->company_logo ? asset($office->company_logo) : asset('HOME_PAGE/img/avatars/14.png') }}"
                 alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
             <div class="button-wrapper">
                 <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">

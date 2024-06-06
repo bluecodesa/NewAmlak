@@ -28,6 +28,8 @@ class SettingService
         $request = request();
 
         $office = Office::findOrFail($id);
+
+        // Update validation rules to handle unique constraint correctly
         $rules = [
             'name' => 'required|string|max:255',
             'email' => [
@@ -36,80 +38,74 @@ class SettingService
                 'max:255',
                 Rule::unique('users')->ignore($office->user_id),
             ],
-            'mobile' => 'required|digits:9|unique:offices,mobile,'.$id,
             'city_id' => 'required|exists:cities,id',
-            'broker_license' => 'required|numeric|unique:brokers,broker_license,'.$id,
-            'password' => 'nullable|string|max:255|confirmed',
-            'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'id_number' => [
-                'nullable',
-                Rule::unique('users')->ignore($id),
+            'company_logo' => 'file|nullable',
+            'CRN' => [
+                'required',
+                Rule::unique('offices')->ignore($id),
+                'max:25'
+            ],
+            'phone' => [
+                'required',
+                Rule::unique('users')->ignore($office->user_id),
+                'max:25'
             ],
         ];
 
-
-
         $messages = [
-            'name.required' => __('The name field is required.'),
+            'name.required' => __('The company name field is required.'),
             'email.required' => __('The email field is required.'),
+            'email.email' => __('The email must be a valid email address.'),
             'email.unique' => __('The email has already been taken.'),
-            'mobile.required' => __('The mobile field is required.'),
-            'mobile.unique' => __('The mobile has already been taken.'),
-            'mobile.digits' => __('The mobile must be 9 digits.'),
-            'broker_license.required' => __('The broker_license field is required.'),
-            'broker_license.numeric' => __('The broker_license field must be number.'),
-            'broker_license.unique' => __('The broker_license has already been taken.'),
-            'password.required' => __('The password field is required.'),
-            'broker_logo.image' => __('The broker logo must be an image.'),
-            'city_id.required' => 'The city field is required.',
-            'city_id.exists' => 'The selected city is invalid.',
-            'id_number.unique' => __('The ID number has already been taken.'),
-            'password.confirmed' => __('The password confirmation does not match.'),
-
-
+            'email.max' => __('The email may not be greater than :max characters.'),
+            'city_id.required' => __('The city field is required.'),
+            'city_id.exists' => __('The selected city is invalid.'),
+            'company_logo.file' => __('The company logo must be a file.'),
+            'CRN.required' => __('The CRN field is required.'),
+            'CRN.unique' => __('The CRN has already been taken.'),
+            'CRN.max' => __('The CRN may not be greater than :max characters.'),
+            'phone.required' => __('The Company mobile number field is required.'),
+            'phone.unique' => __('The Company mobile number has already been taken.'),
+            'phone.max' => __('The Company mobile number may not be greater than :max characters.'),
         ];
+
         $request->validate($rules, $messages);
 
+        // Update the office data
         $office->update([
-            'broker_license' => $request->broker_license,
-            'mobile' => $request->mobile,
+            'CRN' => $request->CRN,
+            'company_name' => $request->name,
             'city_id' => $request->city_id,
-            'id_number' => $request->id_number,
+            'company_logo' => $request['company_logo'] ?? null,
         ]);
 
-        if ($request->hasFile('broker_logo')) {
-            $file = $request->file('broker_logo');
-            $ext = uniqid() . '.' . $file->clientExtension();
-            $file->move(public_path() . '/Brokers/' . 'Logos/', $ext);
-            $office->update(['broker_logo' => '/Brokers/' . 'Logos/' . $ext]);
+        if ($request->hasFile('company_logo')) {
+            $file = $request->file('company_logo');
+            $ext = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/Offices/Logos/'), $ext);
+            $office->update(['company_logo' => '/Offices/Logos/' . $ext]);
         }
 
-
-        $user = $office->UserData();
+        $user = $office->userData();
 
         $userData = [
             'name' => $request->name,
+            'phone' => $request->phone,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
             'email' => $request->email,
         ];
 
-        // Check if $ext is defined and not empty
+        // Update user avatar if new logo is uploaded
         if (isset($ext) && !empty($ext)) {
-            // Construct the avatar path only if $ext is defined
             $userData['avatar'] = '/Offices/Logos/' . $ext;
         }
 
         $user->update($userData);
 
-        if ($request->filled('password')) {
-            $user->update(['password' => bcrypt($request->password)]);
-        }
-
-
-
-
-        // return $this->brokerSettingRepository->updateBroker($data, $id);
+        // Redirect with success message
         return redirect()->route('Office.Setting.index')->withSuccess(__('Updated successfully.'));
-
+    
 
     }
 
