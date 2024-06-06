@@ -30,9 +30,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $data = $this->paymentPendingService->UserPendingPayment();
-        $sectionsIds = Auth::user()
-        ->UserOfficeData?->UserSubscription?->SubscriptionTypeData?->sections()->pluck('section_id')
-        ->toArray();
+        Auth::user()->assignRole('Office-Admin');
         return view('home',   get_defined_vars());
     }
 

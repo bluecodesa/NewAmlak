@@ -10,4 +10,8 @@ class RoleService
     {
         return Role::where('type', 'user')->get();
     }
+    function getById($id)
+    {
+        return Role::find($id);
+    }
 }

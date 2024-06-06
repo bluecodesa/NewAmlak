@@ -2,101 +2,211 @@
 @section('title', __('Add New'))
 @section('content')
 
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container-fluid">
-                <div class="page-title-box">
-                    <div class="card m-b-30">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('Add New')</h4>
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="col-12">
+                <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
+                    @lang('Add New Project')
+                </h4>
+            </div>
+        </div>
+
+        <div class="col-xl-12">
+            <div class="nav-align-top nav-tabs-shadow mb-4">
+              <ul class="nav nav-tabs nav-fill" role="tablist">
+                <li class="nav-item">
+                  <button
+                    type="button"
+                    class="nav-link active"
+                    role="tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#navs-justified-home"
+                    aria-controls="navs-justified-home"
+                    aria-selected="true">
+                    <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('profile')
+                    <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button
+                    type="button"
+                    class="nav-link"
+                    role="tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#navs-justified-messages"
+                    aria-controls="navs-justified-messages"
+                    aria-selected="false">
+                    <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Permissions')
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content">
+                    <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                        <form action="{{ route('Office.Employee.store') }}" method="POST" class="row">
+                            @csrf
+                            @method('post')
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        {{ __('Name') }} <span class="required-color">*</span></label>
+                                    <input type="text" required id="modalRoleName" name="name"
+                                        class="form-control" placeholder="{{ __('Name') }}">
                                 </div>
                             </div>
+
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label"> @lang('Email') <span
+                                            class="required-color">*</span></label>
+                                    <input type="email" required name="email" class="form-control"
+                                        placeholder="@lang('Email')">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label"> @lang('phone') <span
+                                            class="required-color">*</span></label>
+
+                                            <div class="input-group">
+                                                <input type="text" placeholder="123456789" id="phone" name="phone"
+                                                    value="" class="form-control" maxlength="9" pattern="\d{1,9}"
+                                                    oninput="updateFullPhone(this)"
+                                                    aria-label="Text input with dropdown button">
+                                                <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    996
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end" style="">
+                                                    <li><a class="dropdown-item" data-key="971"
+                                                            href="javascript:void(0);">971</a></li>
+                                                    <li><a class="dropdown-item" data-key="966"
+                                                            href="javascript:void(0);">966</a></li>
+                                                </ul>
+
+                                            </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+
+                                <div class="col-md-6">
+
+                                    <div class="mb-3 form-password-toggle">
+                                        <label class="form-label" for="password">@lang('password') <span
+                                                class="text-danger">*</span></label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="password" id="password" class="form-control"
+                                                name="password"
+                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                                aria-describedby="password" required />
+                                            <span class="input-group-text cursor-pointer"><i
+                                                    class="ti ti-eye-off"></i></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                             
+                                    <div class="mb-3 form-password-toggle">
+                                        <label class="form-label" for="password">@lang('Confirm Password') <span
+                                                class="text-danger">*</span></label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="password" id="password_confirmation" class="form-control"
+                                                name="password_confirmation"
+                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                                aria-describedby="password" required />
+                                            <span class="input-group-text cursor-pointer"><i
+                                                    class="ti ti-eye-off"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+
+                        <div class="col-12 mt-3">
+                            <h4>@lang('Permissions') <span class="required-color">*</span></h4>
+                            <!-- Permission table -->
+                            <div class="mb-3">
+                                <div class="col-12" id="Select_All">
+                                    <div class="form-check">
+                                        <input class="form-check-input all-checkbox" type="checkbox" id="all" />
+                                        <label class="form-check-label" for="all">
+                                            @lang('Select/Deselect All')
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12" id="permissions">
+                                    @foreach ($permissions->groupBy('section_id') as $model => $permissions)
+                                        <div class="col-md-12 col-xl-12">
+                                            <div class="card shadow-none bg-transparent border-primary mb-0">
+                                                <div class="card-body p-3 px-0">
+                                                    <h4 class="card-title">
+                                                        {{ $permissions[0]->SectionDate->name }}</h4>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input model-checkbox"
+                                                                    value="{{ $model }}" type="checkbox"
+                                                                    id="{{ $model }}" />
+                                                                <label class="form-check-label" for="{{ $model }}">
+                                                                    @lang('Select/Deselect All')
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        @foreach ($permissions as $item)
+                                                            <div class="col-md-3">
+                                                                <div class="form-check mb-2">
+                                                                    <input class="form-check-input" name="permission[]"
+                                                                        data-model="{{ $model }}"
+                                                                        value="{{ $item->id }}" type="checkbox"
+                                                                        id="{{ $item->id }}" />
+                                                                    <label class="form-check-label"
+                                                                        for="{{ $item->id }}">
+                                                                        {{ app()->getLocale() == 'ar' ? $item->name_ar : $item->name }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+
+                                </div>
+                            </div>
+                            <!-- Permission table -->
                         </div>
                     </div>
-                </div>
+                    <div class="col-12 mb-3">
+                        <button type="submit" class="btn btn-primary me-1">
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card m-b-30">
-                            @include('Admin.layouts.Inc._errors')
+                            {{ __('save') }}
+                        </button>
 
-                            <div class="card-body">
-                                <form action="{{ route('Office.Employee.store') }}" method="POST" class="row">
-                                    @csrf
-                                    @method('post')
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">
-                                                {{ __('Name') }} <span class="required-color">*</span></label>
-                                            <input type="text" required id="modalRoleName" name="name"
-                                                class="form-control" placeholder="{{ __('Name') }}">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label"> @lang('Email') <span
-                                                    class="required-color">*</span></label>
-                                            <input type="email" required name="email" class="form-control"
-                                                placeholder="@lang('Email')">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label"> @lang('phone') <span
-                                                    class="required-color">*</span></label>
-                                            <input type="text" required name="phone" class="form-control"
-                                                placeholder="@lang('phone')">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label>@lang('Region') <span class="text-danger">*</span> </label>
-                                        <select class="form-control" id="Region_id" required>
-                                            <option disabled selected value="">@lang('Region')</option>
-                                            @foreach ($Regions as $Region)
-                                                <option value="{{ $Region->id }}"
-                                                    data-url="{{ route('Admin.Region.show', $Region->id) }}">
-                                                    {{ $Region->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label>@lang('city') <span class="text-danger">*</span> </label>
-                                        <select class="form-control" name="city_id" id="CityDiv" required>
-
-                                        </select>
-                                    </div>
-
-
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary me-1">
-
-                                            {{ __('save') }}
-                                        </button>
-
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div> <!-- end col -->
-                </div> <!-- end col -->
-            </div> <!-- end row -->
-
+                    </div>
+                </form>
+              </div>
+            </div>
         </div>
+
+
+
+
+    </div> <!-- end row -->
+</div>
         <!-- container-fluid -->
 
-    </div>
     @push('scripts')
         <script>
             $('#Region_id').on('change', function() {
@@ -119,3 +229,77 @@
         </script>
     @endpush
 @endsection
+
+
+{{-- <div class="row">
+    <div class="col-12">
+        <div class="card m-b-30">
+            @include('Admin.layouts.Inc._errors')
+
+            <div class="card-body">
+                <form action="{{ route('Office.Employee.store') }}" method="POST" class="row">
+                    @csrf
+                    @method('post')
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">
+                                {{ __('Name') }} <span class="required-color">*</span></label>
+                            <input type="text" required id="modalRoleName" name="name"
+                                class="form-control" placeholder="{{ __('Name') }}">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label"> @lang('Email') <span
+                                    class="required-color">*</span></label>
+                            <input type="email" required name="email" class="form-control"
+                                placeholder="@lang('Email')">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label"> @lang('phone') <span
+                                    class="required-color">*</span></label>
+                            <input type="text" required name="phone" class="form-control"
+                                placeholder="@lang('phone')">
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>@lang('Region') <span class="text-danger">*</span> </label>
+                        <select class="form-control" id="Region_id" required>
+                            <option disabled selected value="">@lang('Region')</option>
+                            @foreach ($Regions as $Region)
+                                <option value="{{ $Region->id }}"
+                                    data-url="{{ route('Admin.Region.show', $Region->id) }}">
+                                    {{ $Region->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>@lang('city') <span class="text-danger">*</span> </label>
+                        <select class="form-control" name="city_id" id="CityDiv" required>
+
+                        </select>
+                    </div>
+
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary me-1">
+
+                            {{ __('save') }}
+                        </button>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end col --> --}}

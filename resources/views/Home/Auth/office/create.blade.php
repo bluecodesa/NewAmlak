@@ -149,14 +149,15 @@
 
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label" for="name"> @lang('Commercial Registration No')</label>
+                                    <label class="form-label" for="name"> @lang('Commercial Registration No')<span
+                                        class="text-danger">*</span></label>
                                             <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
-                                            required="hhhh" name="CRN" value="">
+                                            required name="CRN" value="">
                                 </div>
 
                             </div>
                             <div class="mb-3 row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label class="form-label" for="email">@lang('Company email')<span
                                             class="text-danger">*</span></label>
 
@@ -164,21 +165,21 @@
                                         required>
 
                                 </div>
-                                <div class="col-md-4">
+                                {{-- <div class="col-md-4">
                                     <label class="form-label" for="email">@lang('Name of company representative')<span
                                             class="text-danger">*</span></label>
 
                                             <input type="text" id="presenter_name" name="presenter_name" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
                                             required >
 
-                                </div>
+                                </div> --}}
 
-                                <div class="col-md-4">
-                                    <label class="form-label" for="mobile">@lang('Company representative number')(@lang('WhatsApp'))<span
+                                <div class="col-md-6">
+                                    <label class="form-label" for="mobile">@lang('Company Mobile')<span
                                             class="text-danger">*</span></label>
 
                                     <div class="input-group">
-                                        <input type="text" placeholder="123456789" id="phone" name="presenter_number"
+                                        <input type="text" placeholder="123456789" id="phone" name="phone"
                                             value="" class="form-control" maxlength="9" pattern="\d{1,9}"
                                             oninput="updateFullPhone(this)"
                                             aria-label="Text input with dropdown button">

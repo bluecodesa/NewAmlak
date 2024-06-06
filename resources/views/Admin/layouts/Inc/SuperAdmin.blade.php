@@ -216,7 +216,7 @@
             <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ti ti-users"></i>
-                    <div data-i18n="@lang('User management')">@lang('User management')</div>
+                    <div data-i18n="@lang('Users management')">@lang('Users management')</div>
                 </a>
                 <ul class="menu-sub">
                     @if (Auth::user()->hasPermission('read-users'))

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\Email\MailWelcomeBroker;
 use App\Models\Gallery;
 use App\Notifications\Admin\NewBrokerNotification;
+use App\Notifications\Admin\NewOfficeNotification;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\Office;
@@ -123,23 +124,23 @@ class HomeController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
             'city_id' => 'required|exists:cities,id',
-            'company_logo' => 'required|file',
+            'company_logo' => 'file',
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'CRN' => [
                 'required',
                 Rule::unique('offices'),
                 'max:25'
             ],
-            'presenter_number' => [
+            'phone' => [
                 'required',
-                Rule::unique('offices'),
+                Rule::unique('users'),
                 'max:25'
             ],
-            'presenter_name' => 'required|string|max:255',
+            // 'presenter_name' => 'required|string|max:255',
             'password' => 'required|string|max:255',
         ];
         $messages = [
-            'name.required' => __('The name field is required.'),
+            'name.required' => __('The company name field is required.'),
             'email.required' => __('The email field is required.'),
             'email.email' => __('The email must be a valid email address.'),
             'email.unique' => __('The email has already been taken.'),
@@ -153,9 +154,9 @@ class HomeController extends Controller
             'CRN.required' => __('The CRN field is required.'),
             'CRN.unique' => __('The CRN has already been taken.'),
             'CRN.max' => __('The CRN may not be greater than :max characters.'),
-            'presenter_number.required' => __('The Company representative number field is required.'),
-            'presenter_number.unique' => __('The Company representative number has already been taken.'),
-            'presenter_number.max' => __('The Company representative number may not be greater than :max characters.'),
+            'phone.required' => __('The Company mobile number field is required.'),
+            'phone.unique' => __('The Company mobile number has already been taken.'),
+            'phone.max' => __('The Company mobile number may not be greater than :max characters.'),
             'presenter_name.required' => __('The presenter name field is required.'),
             'presenter_name.string' => __('The presenter name must be a string.'),
             'presenter_name.max' => __('The presenter name may not be greater than :max characters.'),
@@ -164,6 +165,7 @@ class HomeController extends Controller
             'password.max' => __('The password may not be greater than :max characters.'),
         ];
         $request->validate($rules, $messages);
+        $request_data = [];
 
         if ($request->company_logo) {
             $file = $request->File('company_logo');
@@ -176,9 +178,12 @@ class HomeController extends Controller
             'is_office' => 1,
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
             'user_name' => uniqid(),
             'password' => bcrypt($request->password),
-            'avatar' => $request_data['company_logo'],
+            'avatar' => $request_data['company_logo'] ?? null,
         ]);
 
         $office = Office::create([
@@ -187,9 +192,8 @@ class HomeController extends Controller
             'company_name' => $user->name,
             'city_id' => $request->city_id,
             'created_by' => Auth::id(),
-            'presenter_name' => $request->presenter_name,
-            'presenter_number' => $request->presenter_number,
-            'company_logo' => $request_data['company_logo'],
+            // 'presenter_name' => $request->presenter_name,
+            'company_logo' => $request_data['company_logo'] ?? null,
         ]);
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
         $startDate = Carbon::now();
@@ -201,7 +205,7 @@ class HomeController extends Controller
             $SubType = 'free';
             $status = 'active';
         }
-        Subscription::create([
+        $subscription=Subscription::create([
             'office_id' => $office->id,
             'subscription_type_id' => $request->subscription_type_id,
             'status' => $status,
@@ -212,7 +216,7 @@ class HomeController extends Controller
             'total' => '200'
         ]);
 
-        SystemInvoice::create([
+        $Invoice = SystemInvoice::create([
             'office_id' => $office->id,
             'subscription_name' => $subscriptionType->name,
             'amount' => $subscriptionType->price,
@@ -222,7 +226,9 @@ class HomeController extends Controller
             'status' => $status,
             'invoice_ID' => 'INV_' . uniqid(),
         ]);
+        $this->notifyAdminsForOffice($office);
 
+        $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
         return redirect()->route('login')->with('success',__('registerd successfully'));
     }
 
@@ -370,6 +376,14 @@ class HomeController extends Controller
         $admins = User::where('is_admin', true)->get();
         foreach ($admins as $admin) {
             Notification::send($admin, new NewBrokerNotification($broker));
+        }
+    }
+
+    protected function notifyAdminsForOffice(Office $office)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewOfficeNotification($office));
         }
     }
 

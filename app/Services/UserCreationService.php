@@ -25,6 +25,8 @@ class UserCreationService
             'is_office' => 1,
             'name' => $userData['name'],
             'email' => $userData['email'],
+            'key_phone' => $userData['key_phone'],
+            'full_phone' => $userData['full_phone'],
             'user_name' => uniqid(),
             'password' => bcrypt($userData['password']),
             'avatar' => $userData['company_logo'],

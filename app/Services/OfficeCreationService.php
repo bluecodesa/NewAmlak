@@ -19,8 +19,8 @@ class OfficeCreationService
             'company_name' => $user->name,
             'city_id' => $officeData['city_id'],
             'created_by' => Auth::id(),
-            'presenter_name' => $officeData['presenter_name'],
-            'presenter_number' => $officeData['presenter_number'],
+            // 'presenter_name' => $officeData['presenter_name'],
+            // 'presenter_number' => $officeData['presenter_number'],
             'company_logo' => $officeData['company_logo'],
         ]);
 

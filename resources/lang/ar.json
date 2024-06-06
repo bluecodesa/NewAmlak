@@ -4,7 +4,7 @@
     "List subscribers": "قائمة المشتركين",
     "Subscriptions": "انظمة اشتركات المنصة",
     "List invoices": "قائمة الفواتير",
-    "User management": "ادارة المستخدمين",
+    "Users management": "ادارة المستخدمين",
     "Users": "المستخدمين",
     "Add New Admin": "اضافة اداري جديد",
     "Types subscriptions": "انواع الاشتراكات",
@@ -485,7 +485,9 @@
     "Property Finder": "باحث عن عقار",
     "Project_Status": "حالة المشروع",
     "Delivery_Case": "حالة التسليم",
-    "Your interest has been registered and added to your favorites": "تم تسجيل اهتمامك واضافة الوحدة الى المفضلة"
+    "Your interest has been registered and added to your favorites": "تم تسجيل اهتمامك واضافة الوحدة الى المفضلة",
+    "Company Mobile": "رقم جوال الشركة",
+    "Employees": "الموظفين"
 
 
 }

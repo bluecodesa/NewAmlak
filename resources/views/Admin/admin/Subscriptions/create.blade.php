@@ -28,18 +28,19 @@
                         enctype="multipart/form-data">
                         @csrf
                         @method('post')
-
+                        <input type="text" name="key_phone" hidden value="996" id="key_phone">
+                        <input type="text" name="full_phone" hidden id="full_phone" value="996">
                         <div class="col-md-4 col-12 mb-3">
-                            <label for="CR_number"> @lang('Commercial Registration No') </label>
-                            <span class="not_required">(@lang('optional'))</span>
-                            <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
-                                required="hhhh" name="CRN" value="">
+                            <label class="form-label" for="company_name"> @lang('Company Name')<span
+                                class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="@lang('Company Name')" id="company_name" name="name">
+
                         </div>
                         <div class="col-md-4 col-12 mb-3">
-                            <label for="Company_name">@lang('Company Name') <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" class="form-control" placeholder="@lang('Company Name')" id="company_name"
-                                name="name" value="">
+                            <label class="form-label" for="name"> @lang('Commercial Registration No')<span
+                                class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
+                                    required name="CRN" value="">
                         </div>
 
                         <div class="col-md-4 col-12 mb-3">
@@ -51,49 +52,26 @@
                         </div>
 
                         <div class="col-md-4 col-12 mb-3">
-                            <label for="company_logo">@lang('Company logo')</label>
-                            <span class="not_required">(@lang('optional'))</span>
-                            <input type="file" class="form-control d-none" id="company_logo" name="company_logo"
-                                accept="image/png, image/jpg, image/jpeg">
-                            <!-- Image preview with default image -->
-                            <img id="company_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
-                                class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
+                            <label class="form-label" for="mobile">@lang('Company Mobile')<span
+                                class="text-danger">*</span></label>
+
+                        <div class="input-group">
+                            <input type="text" placeholder="123456789" id="phone" name="phone"
+                                value="" class="form-control" maxlength="9" pattern="\d{1,9}"
+                                oninput="updateFullPhone(this)"
+                                aria-label="Text input with dropdown button">
+                            <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                996
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" style="">
+                                <li><a class="dropdown-item" data-key="971"
+                                        href="javascript:void(0);">971</a></li>
+                                <li><a class="dropdown-item" data-key="966"
+                                        href="javascript:void(0);">966</a></li>
+                            </ul>
+
                         </div>
-
-                        <div class="col-md-4 col-12 mb-3">
-                            <label for="presenter_name">@lang('Name of company representative') <span class="text-danger">*</span>
-                            </label>
-
-                            <input type="text" class="form-control" id="presenter_name" name="presenter_name"
-                                value="" required="" placeholder="@lang('Name of company representative')">
-                        </div>
-
-                        <div class="col-md-4 col-12 mb-3">
-                            <label for="presenter_number">@lang('Company representative number')(@lang('WhatsApp'))<span
-                                    class="text-danger">*</span></label>
-                            {{-- <div style="position:relative">
-
-                                <input type="tel" class="form-control" id="presenter_number" minlength="9"
-                                    maxlength="9" pattern="[0-9]*" oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                    onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                    name="presenter_number" required="" value="">
-
-                            </div> --}}
-                            <div class="input-group">
-                                <input type="text" placeholder="123456789" name="presenter_number" value=""
-                                    class="form-control" maxlength="9" pattern="\d{1,9}"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                                    aria-label="Text input with dropdown button">
-                                <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    996
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" style="">
-                                    <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                    <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
-                                </ul>
-
-                            </div>
                         </div>
                         <div class="col-md-4 col-12 mb-3">
                             <label>@lang('Region') <span class="text-danger">*</span> </label>
@@ -114,7 +92,7 @@
                         </div>
 
 
-                        <div class="col-md-4 col-12 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label for="package"> @lang('Subscription Type') <span class="text-danger">*</span></label>
                             <select type="package" class="form-select" name="subscription_type_id" required="">
                                 <option value="" selected disabled> @lang('Subscription Type') </option>
@@ -125,7 +103,25 @@
                             </select>
                         </div>
 
+                        <div class="col-md-6 col-12 mb-3">
+                            <img src="{{ asset('HOME_PAGE/img/avatars/14.png') }}" alt="user-avatar"
+                            class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+                        <div class="button-wrapper">
+                            <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
+                                <span class="d-none d-sm-block">@lang('Company logo')</span>
+                                <i class="ti ti-upload d-block d-sm-none"></i>
+                                <input type="file" id="upload" class="account-file-input"
+                                    name="company_logo" hidden accept="image/png, image/jpeg" />
+                            </label>
+                            <button type="button" id="account-image-reset"
+                                class="btn btn-label-secondary account-image-reset mb-3">
+                                <i class="ti ti-refresh-dot d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
+                            </button>
 
+                            <div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                        </div>
+                        </div>
 
                         <div class="form-password-toggle col-md-6 col-12 mb-3">
                             <label class="form-label" for="basic-default-password33">@lang('password') <span
@@ -151,14 +147,6 @@
                                         class="ti ti-eye-off"></i></span>
                             </div>
                         </div>
-
-                        {{-- <div class="col-md-6 col-12 mb-3 form-password-toggle">
-                            <label for="password_confirmation"> @lang('Confirm Password') <span
-                                    class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="password_confirmation"
-                                aria-describedby="basic-default-password" name="password_confirmation" required=""
-                                placeholder="@lang('Confirm Password') ">
-                        </div> --}}
 
 
                         <div class="col-12">

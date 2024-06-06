@@ -62,19 +62,19 @@ class SubscriptionService
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
             'city_id' => 'required|exists:cities,id',
-            'company_logo' => 'required|file',
+            'company_logo' => 'file',
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'CRN' => [
                 'required',
                 Rule::unique('offices'),
                 'max:25'
             ],
-            'presenter_number' => [
+            'phone' => [
                 'required',
-                Rule::unique('offices'),
+                Rule::unique('users'),
                 'max:25'
             ],
-            'presenter_name' => 'required|string|max:255',
+            // 'presenter_name' => 'required|string|max:255',
             'password' => 'required|string|max:255',
         ];
 
