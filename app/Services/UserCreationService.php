@@ -29,7 +29,7 @@ class UserCreationService
             'full_phone' => $userData['full_phone'],
             'user_name' => uniqid(),
             'password' => bcrypt($userData['password']),
-            'avatar' => $userData['company_logo'],
+            'avatar' => $userData['company_logo'] ?? null,
         ]);
     }
 }

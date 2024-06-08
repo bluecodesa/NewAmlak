@@ -200,7 +200,7 @@
     "Notifications": "الاشعارات",
     "Search Your notifications..": "ابحث في إشعاراتك..",
     "A new office has been added to the platform with the name:": "تم انضمام مكتب جديد في المنصة باسم",
-    "NewOffice": "مكتب عقاري جديد",
+    "NewOffice": "تم تسجيل مكتب عقاري جديد",
     "A new Broker has been added to the platform with the name:": "تم انضمام مسوق جديد في المنصة باسم",
     "NewBroker": "تم تسجيل مسوق عقاري جديد",
     "mobile": "رقم الجوال",
@@ -488,7 +488,9 @@
     "Your interest has been registered and added to your favorites": "تم تسجيل اهتمامك واضافة الوحدة الى المفضلة",
     "Company Mobile": "رقم جوال الشركة",
     "Employees": "الموظفين",
-    "Securtiy": "الحماية"
+    "Securtiy": "الحماية",
+    "Add New Employee": "اضافة موظف جديد",
+    "Number projects": "عدد المشاريع"
 
 
 }

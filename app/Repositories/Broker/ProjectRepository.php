@@ -24,6 +24,10 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         return Project::where('broker_id', $brokerId)->get();
     }
+    public function getAllByOfficeId($officeId)
+    {
+        return Project::where('office_id', $officeId)->get();
+    }
 
     public function create($data, $files)
     {

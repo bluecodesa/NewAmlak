@@ -6,6 +6,7 @@ use App\Http\Traits\Email\MailWelcomeBroker;
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Models\Broker;
 use App\Models\Gallery;
+use App\Models\Office;
 use App\Models\SubscriptionHistory;
 use App\Models\SubscriptionSection;
 use App\Models\SubscriptionType;
@@ -53,9 +54,9 @@ class SubscriptionService
     {
         return $this->subscriptionRepository->findSubscriptionByBrokerId($brokerId);
     }
-    public function findSubscriptionByOfficeId($brokerId)
+    public function findSubscriptionByOfficeId($officeId)
     {
-        return $this->subscriptionRepository->findSubscriptionByBrokerId($brokerId);
+        return $this->subscriptionRepository->findSubscriptionByOfficeId($officeId);
     }
 
     public function createOfficeSubscription(array $data)
@@ -100,15 +101,38 @@ class SubscriptionService
 
         $subscriptionType = SubscriptionType::find($request['subscription_type_id']);
 
-        // $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d');
-        // Calculate the end date
+        $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+        $sectionNames = [];
+        foreach ($hasRealEstateGallerySection as $section) {
+            $sectionNames[] = $section->name;
+        }
+
+        if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+            // Create the gallery
+            $galleryName = explode('@', $request->email)[0];
+            $defaultCoverImage = '/Gallery/cover/cover.png';
+
+            $gallery = Gallery::create([
+                'office_id' => $office->id,
+                'gallery_name' => $galleryName,
+                'gallery_status' => 1,
+                'gallery_cover' => $defaultCoverImage,
+            ]);
+        } else {
+            $gallery = null;
+        }
+
+
         $endDate = $subscriptionType->calculateEndDate(Carbon::now());
 
         // Set the desired time (e.g., 23:59:59)
         $endDate->setHour(23)->setMinute(59)->setSecond(59);
 
         // Format the end date
-        $endDate = $endDate->format('Y-m-d H:i:s');
+        // $endDate = $endDate->format('Y-m-d H:i:s');
+
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
 
 
         $status = ($subscriptionType->price > 0) ? 'pending' : 'active';
@@ -123,11 +147,27 @@ class SubscriptionService
             'end_date' => $endDate,
             'total' => '200'
         ]);
+        foreach ($subscriptionType->sections()->get() as $section_id) {
+            SubscriptionSection::create([
+                'section_id' => $section_id->id,
+                'subscription_id' => $subscription->id,
+            ]);
+        }
+
+        $this->notifyAdminsForOffice($office);
 
         // Create system invoice
         $this->createSystemInvoice($office, $subscriptionType, $status);
 
         return $subscription;
+    }
+
+    protected function notifyAdminsForOffice(Office $office)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewOfficeNotification($office));
+        }
     }
 
 

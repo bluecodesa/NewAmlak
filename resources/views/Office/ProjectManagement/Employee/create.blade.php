@@ -6,9 +6,9 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
             <div class="col-12">
-                <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                    <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
-                    @lang('Add New Project')
+                <h4 class=""><a href="{{ route('Office.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <a href="{{ route('Office.Employee.index') }}" class="text-muted fw-light">@lang('Employees') </a> /
+                    @lang('Add New Employee')
                 </h4>
             </div>
         </div>
@@ -44,10 +44,15 @@
                 </li>
               </ul>
               <div class="tab-content">
+                @include('Admin.layouts.Inc._errors')
+
                     <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
                         <form action="{{ route('Office.Employee.store') }}" method="POST" class="row">
                             @csrf
                             @method('post')
+
+                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
+                            <input type="text" name="full_phone" hidden id="full_phone" value="966">
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">
@@ -112,7 +117,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                             
+
                                     <div class="mb-3 form-password-toggle">
                                         <label class="form-label" for="password">@lang('Confirm Password') <span
                                                 class="text-danger">*</span></label>
@@ -144,43 +149,47 @@
                                 </div>
                                 <div class="col-12" id="permissions">
                                     @foreach ($permissions->groupBy('section_id') as $model => $permissions)
-                                        <div class="col-md-12 col-xl-12">
-                                            <div class="card shadow-none bg-transparent border-primary mb-0">
-                                                <div class="card-body p-3 px-0">
-                                                    <h4 class="card-title">
-                                                        {{ $permissions[0]->SectionDate->name }}</h4>
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input model-checkbox"
-                                                                    value="{{ $model }}" type="checkbox"
-                                                                    id="{{ $model }}" />
-                                                                <label class="form-check-label" for="{{ $model }}">
-                                                                    @lang('Select/Deselect All')
+                                    <div class="col-md-12 col-xl-12">
+                                        <div class="card shadow-none bg-transparent border-primary mb-0">
+                                            <div class="card-body p-3 px-0">
+                                                <h4 class="card-title">
+                                                    {{ $permissions[0]->SectionDate->name }}
+                                                </h4>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input model-checkbox"
+                                                                   value="{{ $model }}"
+                                                                   type="checkbox"
+                                                                   id="{{ $model }}" />
+                                                            <label class="form-check-label"
+                                                                   for="{{ $model }}">
+                                                                @lang('Select/Deselect All')
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    @foreach ($permissions as $item)
+                                                        <div class="col-md-3">
+                                                            <div class="form-check mb-2">
+                                                                <input class="form-check-input"
+                                                                       name="permissions[]"
+                                                                       data-model="{{ $model }}"
+                                                                       value="{{ $item->id }}"
+                                                                       type="checkbox"
+                                                                       id="{{ $item->id }}" />
+                                                                <label class="form-check-label"
+                                                                       for="{{ $item->id }}">
+                                                                    {{ app()->getLocale() == 'ar' ? $item->name_ar : $item->name }}
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <hr>
-                                                        @foreach ($permissions as $item)
-                                                            <div class="col-md-3">
-                                                                <div class="form-check mb-2">
-                                                                    <input class="form-check-input" name="permission[]"
-                                                                        data-model="{{ $model }}"
-                                                                        value="{{ $item->id }}" type="checkbox"
-                                                                        id="{{ $item->id }}" />
-                                                                    <label class="form-check-label"
-                                                                        for="{{ $item->id }}">
-                                                                        {{ app()->getLocale() == 'ar' ? $item->name_ar : $item->name }}
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    </div>
+                                @endforeach
 
 
                                 </div>
@@ -227,79 +236,23 @@
                 });
             });
         </script>
+
+<script>
+    function updateFullPhone(input) {
+        input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+        var key_phone = $('#key_phone').val();
+        var fullPhone = key_phone + input.value;
+        document.getElementById('full_phone').value = fullPhone;
+    }
+    $(document).ready(function() {
+        $('.dropdown-item').on('click', function() {
+            var key = $(this).data('key');
+            var phone = $('#phone').val();
+            $('#key_phone').val(key);
+            $('#full_phone').val(key + phone);
+            $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+        });
+    });
+</script>
     @endpush
 @endsection
-
-
-{{-- <div class="row">
-    <div class="col-12">
-        <div class="card m-b-30">
-            @include('Admin.layouts.Inc._errors')
-
-            <div class="card-body">
-                <form action="{{ route('Office.Employee.store') }}" method="POST" class="row">
-                    @csrf
-                    @method('post')
-
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label">
-                                {{ __('Name') }} <span class="required-color">*</span></label>
-                            <input type="text" required id="modalRoleName" name="name"
-                                class="form-control" placeholder="{{ __('Name') }}">
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label"> @lang('Email') <span
-                                    class="required-color">*</span></label>
-                            <input type="email" required name="email" class="form-control"
-                                placeholder="@lang('Email')">
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label"> @lang('phone') <span
-                                    class="required-color">*</span></label>
-                            <input type="text" required name="phone" class="form-control"
-                                placeholder="@lang('phone')">
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label>@lang('Region') <span class="text-danger">*</span> </label>
-                        <select class="form-control" id="Region_id" required>
-                            <option disabled selected value="">@lang('Region')</option>
-                            @foreach ($Regions as $Region)
-                                <option value="{{ $Region->id }}"
-                                    data-url="{{ route('Admin.Region.show', $Region->id) }}">
-                                    {{ $Region->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label>@lang('city') <span class="text-danger">*</span> </label>
-                        <select class="form-control" name="city_id" id="CityDiv" required>
-
-                        </select>
-                    </div>
-
-
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary me-1">
-
-                            {{ __('save') }}
-                        </button>
-
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div> <!-- end col -->
-</div> <!-- end col --> --}}

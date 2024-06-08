@@ -117,17 +117,22 @@ class SettingController extends Controller
     {
         $data = $request->all();
         $this->settingService->updateOffice($data, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully.'));
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
     }
 
     public function updateProfileSetting(Request $request, string $id)
     {
         $data = $request->all();
         $this->settingService->updateProfileSetting($request, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully.'));
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
     }
 
-
+    public function updatePassword(Request $request, string $id)
+    {
+        $data = $request->all();
+        $this->settingService->updatePassword($request, $id);
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
+    }
 
     /**
      * Remove the specified resource from storage.

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
+use App\Models\EmployeePermission;
+use App\Models\Office;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\Office\EmployeeService;
@@ -12,6 +16,7 @@ use App\Services\RoleService;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Admin\PermissionService;
 use App\Services\Admin\SectionService;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 
 class EmployeeController extends Controller
@@ -62,19 +67,87 @@ class EmployeeController extends Controller
             ->get();
         return view('Office.ProjectManagement.Employee.create', get_defined_vars());
     }
-    public function store(Request $request)
-    {
+    // public function store(Request $request)
+    // {
 
-        $requestData = $request->only(['name', 'email', 'phone']);
-        $roleId = $request->roles;
-        $employeeData = [
-            'office_id' => Auth::user()->UserOfficeData->id,
-            'city_id' => $request->city_id
-        ];
-        $this->EmployeeService->create($requestData, $roleId, $employeeData);
-        return redirect()->route('Office.Employee.index')->with('success', __('added successfully'));
+    //     $requestData = $request->only(['name', 'email', 'phone']);
+    //     $roleId = $request->roles;
+    //     $employeeData = [
+    //         'office_id' => Auth::user()->UserOfficeData->id,
+    //         'city_id' => $request->city_id
+    //     ];
+    //     $this->EmployeeService->create($requestData, $roleId, $employeeData);
+    //     return redirect()->route('Office.Employee.index')->with('success', __('added successfully'));
+    // }
+
+    public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'phone' => 'required|string|max:9|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+        'permissions' => 'required|array',
+    ], [
+        'name.required' => __('The name field is required.'),
+        'name.string' => __('The name must be a string.'),
+        'name.max' => __('The name may not be greater than :max characters.'),
+
+        'email.required' => __('The email field is required.'),
+        'email.string' => __('The email must be a string.'),
+        'email.email' => __('The email must be a valid email address.'),
+        'email.max' => __('The email may not be greater than :max characters.'),
+        'email.unique' => __('The email has already been taken.'),
+
+        'phone.required' => __('The phone field is required.'),
+        'phone.string' => __('The phone must be a string.'),
+        'phone.max' => __('The phone may not be greater than :max characters.'),
+        'phone.unique' => __('The phone has already been taken.'),
+
+        'password.required' => __('The password field is required.'),
+        'password.string' => __('The password must be a string.'),
+        'password.min' => __('The password must be at least :min characters.'),
+        'password.confirmed' => __('The password confirmation does not match.'),
+
+        'permissions.required' => __('At least one permission must be selected.'),
+        'permissions.array' => __('Invalid permissions data.'),
+    ]);
+
+    $officeId = auth()->user()->UserOfficeData->id;
+    $office = Office::find($officeId);
+
+    $currentEmployeeCount = Employee::where('office_id', $officeId)->count();
+
+    if ($currentEmployeeCount >= $office->max_of_employee) {
+        return redirect()->back()->with('error', __('The maximum number of employees for this office has been reached.'));
     }
 
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'key_phone' => $request->key_phone,
+        'full_phone' => $request->full_phone,
+        'password' => Hash::make($request->password),
+    ]);
+
+    $employee = Employee::create([
+        'user_id' => $user->id,
+        'office_id' => $officeId,
+    ]);
+
+    $employeePermissions = [];
+    foreach ($request->permissions as $permissionId) {
+        $employeePermissions[] = [
+            'employee_id' => $employee->id,
+            'permission_id' => $permissionId,
+        ];
+    }
+
+    EmployeePermission::insert($employeePermissions);
+
+    return redirect()->route('Office.Employee.index')->with('success', __('Employee added successfully.'));
+}
 
     public function show(string $id)
     {
@@ -83,26 +156,82 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        $Employee = $this->EmployeeService->find($id);
+        $employee = $this->EmployeeService->find($id);
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $roles =  $this->RoleService->getAllRoles();
-        return view('Admin.ProjectManagement.Employee.edit', get_defined_vars());
+        $roleIds = Role::where('name', 'Office-Employee')->pluck('id')->toArray();
+        $permissions = Permission::where('type', 'user')
+        ->whereIn('id', function ($query) use ($roleIds) {
+            $query->select('permission_id')
+                  ->from('role_has_permissions')
+                  ->whereIn('role_id', $roleIds);
+        })
+        ->get();
+        // $permissions=EmployeePermission::where('employee_id','=',$employee->id)->get();
+        return view('Office.ProjectManagement.Employee.edit', get_defined_vars());
     }
 
 
-    public function update(Request $request, $id)
-    {
+    // public function update(Request $request, $id)
+    // {
 
-        $requestData = $request->only(['name', 'email', 'phone']);
-        $roleId = $request->roles;
-        $employeeData = [
-            'office_id' => Auth::user()->UserOfficeData->id,
-            'city_id' => $request->city_id
-        ];
-        $this->EmployeeService->update($id, $requestData, $roleId, $employeeData);
-        return redirect()->route('Office.Employee.index')->with('success', __('Update successfully'));
-    }
+    //     $requestData = $request->only(['name', 'email', 'phone']);
+    //     $roleId = $request->roles;
+    //     $employeeData = [
+    //         'office_id' => Auth::user()->UserOfficeData->id,
+    //         'city_id' => $request->city_id
+    //     ];
+    //     $this->EmployeeService->update($id, $requestData, $roleId, $employeeData);
+    //     return redirect()->route('Office.Employee.index')->with('success', __('Update successfully'));
+    // }
+
+    public function update(Request $request, Employee $employee)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $employee->user_id,
+        'phone' => 'required|string|max:9|unique:users,phone,' . $employee->user_id,
+        'password' => 'nullable|string|min:8|confirmed',
+        'permissions' => 'required|array',
+    ], [
+        'name.required' => __('The name field is required.'),
+        'name.string' => __('The name must be a string.'),
+        'name.max' => __('The name may not be greater than :max characters.'),
+
+        'email.required' => __('The email field is required.'),
+        'email.string' => __('The email must be a string.'),
+        'email.email' => __('The email must be a valid email address.'),
+        'email.max' => __('The email may not be greater than :max characters.'),
+        'email.unique' => __('The email has already been taken.'),
+
+        'phone.required' => __('The phone field is required.'),
+        'phone.string' => __('The phone must be a string.'),
+        'phone.max' => __('The phone may not be greater than :max characters.'),
+        'phone.unique' => __('The phone has already been taken.'),
+
+        'password.string' => __('The password must be a string.'),
+        'password.min' => __('The password must be at least :min characters.'),
+        'password.confirmed' => __('The password confirmation does not match.'),
+
+        'permissions.required' => __('At least one permission must be selected.'),
+        'permissions.array' => __('Invalid permissions data.'),
+    ]);
+
+    $user = $employee->user;
+    $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'key_phone' => $request->key_phone,
+        'full_phone' => $request->full_phone,
+        'password' => ($request->password) ? Hash::make($request->password) : $user->password,
+    ]);
+
+    $employee->permissions()->sync($request->permissions);
+
+    return redirect()->route('Office.Employee.index')->with('success', __('Employee updated successfully.'));
+}
 
 
     public function destroy(string $id)

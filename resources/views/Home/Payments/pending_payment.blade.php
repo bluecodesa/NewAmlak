@@ -2,7 +2,13 @@
     <div class="modal-dialog modal-xl modal-simple modal-pricing">
         <div class="modal-content">
             <div class="modal-body text-center">
-                <h5 class="modal-title mt-0">@lang('subscription'): @lang(Auth::user()->UserBrokerData->UserSubscriptionPending->status ?? 'pending')</h5>
+                <h5 class="modal-title mt-0">
+                    @if(Auth::user()->UserBrokerData)
+                        @lang('subscription'): @lang(Auth::user()->UserBrokerData->UserSubscriptionPending->status ?? 'pending')
+                    @elseif(Auth::user()->UserOfficeData)
+                        @lang('subscription'): @lang(Auth::user()->UserOfficeData->UserSubscriptionPending->status ?? 'pending')
+                    @endif
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                 @if (Auth::check())
@@ -25,7 +31,8 @@
                         @forelse ($UserSubscriptionTypes as $type)
                             <div class="col-xl-3 col-md-3 mb-md-0 mb-4">
                                 <label class="form-check custom-option custom-option-icon h-100">
-                                    <div class="card border-primary border shadow-none h-100 @if ($type->id == Auth::user()->UserBrokerData->UserSubscription->subscription_type_id) border-primary @else border-secondary @endif">
+                                    <div class="card border-primary border shadow-none h-100 @if (Auth::user()->UserBrokerData && $type->id == Auth::user()->UserBrokerData->UserSubscription->subscription_type_id)
+                                         border-primary @elseif (Auth::user()->UserOfficeData && $type->id == Auth::user()->UserOfficeData->UserSubscription->subscription_type_id) border-primary @else border-secondary @endif">
                                         <div class="card-body position-relative">
                                             <div class="position-absolute end-0 me-4 top-0 mt-4"></div>
                                             <h3 class="card-title text-center text-capitalize mb-1">{{ $type->name }}</h3>

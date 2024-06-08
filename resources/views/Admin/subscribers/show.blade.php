@@ -131,7 +131,7 @@
                                         <span class="fw-medium me-1">@lang('phone') :</span>
                                         <span>
                                             @if ($subscriber->office_id)
-                                                {{ $subscriber->OfficeData->presenter_number ?? '' }}
+                                                {{ $subscriber->OfficeData->userData->full_phone ?? '' }}
                                             @endif
                                             @if ($subscriber->broker_id)
                                                 {{-- +{{ $subscriber->BrokerData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }} --}}
@@ -143,7 +143,7 @@
                                         <span class="fw-medium me-1">@lang('id number') :</span>
                                         <span>
                                             @if ($subscriber->office_id)
-                                                {{ $subscriber->OfficeData->presenter_number ?? '' }}
+                                                {{ $subscriber->OfficeData->userData->id_number ?? '' }}
                                             @endif
                                             @if ($subscriber->broker_id)
                                                 {{ $subscriber->BrokerData->id_number ?? '' }}
@@ -154,7 +154,7 @@
                                         <span class="fw-medium me-1">@lang('license number') :</span>
                                         <span>
                                             @if ($subscriber->office_id)
-                                                {{ $subscriber->OfficeData->presenter_number ?? '' }}
+                                                {{ $subscriber->OfficeData->office_license ?? '' }}
                                             @endif
                                             @if ($subscriber->broker_id)
                                                 {{ $subscriber->BrokerData->broker_license ?? '' }}
@@ -168,6 +168,57 @@
                                         </span>
                                     </li>
                                 </ul>
+                                <div class="d-flex justify-content-center">
+                                    <span class="fw-medium me-1">@lang('الحد الاقصي من عدد الموظفين') : {{ $subscriber->OfficeData->max_of_employee ?? '' }}</span>
+                                    <a href="{{ route('Broker.Project.edit', $subscriber->id) }}"
+                                        class="btn btn-warning me-3"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#basicModal">@lang('Edit')</a>
+
+                                              <!-- Modal -->
+                                              <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel1">@lang('Edit Numbers of Max Employees')</h5>
+                                                      <button
+                                                        type="button"
+                                                        class="btn-close"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <div class="row">
+                                                        <form action="{{ route('Admin.updateNumOfEmployee', $subscriber->OfficeData->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+
+                                                            <div class="mb-3">
+                                                                <label for="max_of_employee" class="form-label">@lang('Numbers of Employees') <span class="text-danger">*</span></label>
+                                                                <select class="form-select" name="max_of_employee" id="max_of_employee" required>
+                                                                    <option disabled value="">@lang('Select Max Number of Employees')</option>
+                                                                    @foreach (['5', '10', '15', '20', '30', '40', '50'] as $num)
+                                                                        <option value="{{ $num }}" @if($subscriber->OfficeData->max_of_employee == $num) selected @endif>{{ $num }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+
+                                                      </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                                        @lang('Cancel')
+                                                      </button>
+                                                      <button type="submit" class="btn btn-primary">@lang('save')</button>
+                                                    </div>
+                                                    </form>
+                                                  </div>
+                                                </div>
+                                              </div>
+
+                                </div>
 
                             </div>
                         </div>
@@ -275,6 +326,81 @@
                         </div>
 
                     </div>
+
+                    <div class="card mb-4">
+                        <h5 class="card-header">@lang('Employees')</h5>
+
+                        <div class="table-responsive text-nowrap">
+                            <table class="table" id="table">
+                                <thead class="table-dark">
+                                    <tr>
+                                        {{-- <th>#</th> --}}
+                                        <th >@lang('Name')</th>
+                                        <th >@lang('Email')</th>
+                                        <th >@lang('phone')</th>
+                                        {{-- <th >@lang('city')</th>
+                                        <th >@lang('role name')</th> --}}
+                                        <th >@lang('Action')</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @forelse($employees as $employee)
+                                        <tr>
+                                            {{-- <td>{{ $index + 1 }}</td> --}}
+                                            <td>{{ $employee->UserData->name ?? '' }}</td>
+                                            <td>{{ $employee->UserData->email ?? '' }}</td>
+                                            <td>{{ $employee->UserData->phone ?? '' }}</td>
+                                            {{-- <td>{{ $employee->CityData->name ?? '' }}</td>
+                                            <td>{{ $employee->UserData->roles[0]->name ?? '' }}</td> --}}
+
+                                            <td>
+
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ti ti-dots-vertical"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu" style="">
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Office.Employee.show', $employee->id) }}">@lang('Show')</a>
+                                                        @if (Auth::user()->hasPermission('delete-employee-account'))
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('Office.Employee.edit', $employee->id) }}">@lang('Edit')</a>
+                                                        @endif
+                                                        @if (Auth::user()->hasPermission('delete-employee-account'))
+                                                            <a href="javascript:void(0);"
+                                                                onclick="handleDelete('{{ $employee->id }}')"
+                                                                class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                            <form id="delete-form-{{ $employee->id }}"
+                                                                action="{{ route('Office.Employee.destroy', $employee->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <td colspan="4">
+                                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                                <span class="alert-icon text-danger me-2">
+                                                    <i class="ti ti-ban ti-xs"></i>
+                                                </span>
+                                                @lang('No Data Found!')
+                                            </div>
+                                        </td>
+                                    @endforelse
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
                     <div class="row">
 
 
@@ -313,6 +439,30 @@
                                                     <div>
                                                         <h6 class="mb-0 text-nowrap">{{ $numberOfUnits }}</h6>
                                                         <small>@lang('Number units')</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex">
+                                                    <div class="avatar flex-shrink-0 me-2">
+                                                        <span class="avatar-initial rounded bg-label-primary"><i
+                                                                class="ti ti-building ti-md"></i></span>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-0 text-nowrap">{{ $numberOfProperties }}</h6>
+                                                        <small>@lang('Number properties')</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex">
+                                                    <div class="avatar flex-shrink-0 me-2">
+                                                        <span class="avatar-initial rounded bg-label-primary"><i
+                                                                class="ti ti-building ti-md"></i></span>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-0 text-nowrap">{{ $numberOfProjects }}</h6>
+                                                        <small>@lang('Number projects')</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -396,6 +546,7 @@
                     </div>
                 </div>
                 <!--/ User Content -->
+
             </div>
             <!-- Modal to add new record -->
 

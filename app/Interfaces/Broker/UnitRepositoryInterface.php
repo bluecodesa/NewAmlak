@@ -7,6 +7,9 @@ interface UnitRepositoryInterface
 {
     public function getAll($brokerId);
 
+    public function getAllByOffice($officeId);
+
+
     public function store($data);
 
     public function update($id, $data);

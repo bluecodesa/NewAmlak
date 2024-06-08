@@ -22,6 +22,11 @@ class UnitRepository implements UnitRepositoryInterface
         return Unit::where('broker_id', $brokerId)->get();
     }
 
+    public function getAllByOffice($officeId)
+    {
+        return Unit::where('office_id', $officeId)->get();
+    }
+
     public function store($data)
     {
         $rules = [

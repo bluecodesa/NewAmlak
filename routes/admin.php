@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Broker\TicketController;
 use App\Models\City;
+use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +81,7 @@ Route::group(
             Route::get('/AddNotificationsManagement', [SettingController::class, 'AddNotificationsManagement'])->name('AddNotificationsManagement');
 
 
+            Route::put('/updateNumOfEmployee/{id}', [SubscriptionController::class, 'updateNumOfEmployee'])->name('updateNumOfEmployee');
 
 
 

@@ -7,7 +7,7 @@ use App\Models\Office;
 use App\Models\Setting;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 
 class SettingService
 {
@@ -120,7 +120,6 @@ class SettingService
             'presenter_name' => 'nullable|string|max:255',
             'presenter_number' => [
                 'nullable',
-                'digits:20',
                 Rule::unique('offices', 'presenter_number')->ignore($office->user_id),
             ],
             'office_license' => 'nullable|numeric',
@@ -158,6 +157,34 @@ class SettingService
         return redirect()->route('Office.Setting.index')->withSuccess(__('Profile settings updated successfully.'));
     }
 
+
+    public function updatePassword(Request $request, $id)
+    {
+        $office = Office::findOrFail($id);
+
+        $rules = [
+            'password' => 'required|string|min:8|confirmed',
+        ];
+
+        // Define custom error messages
+        $messages = [
+            'password.required' => __('The password field is required.'),
+            'password.min' => __('The password must be at least 8 characters.'),
+            'password.confirmed' => __('The password confirmation does not match.'),
+        ];
+
+        // Validate the request
+        $request->validate($rules, $messages);
+
+        // Update the password
+        $user = $office->userData();
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Password updated successfully.'));
+    }
 
     public function getSettings()
     {

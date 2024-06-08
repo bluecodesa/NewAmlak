@@ -24,6 +24,11 @@ class ProjectService
         return $this->projectRepository->getAllByBrokerId($brokerId);
     }
 
+    public function getAllProjectsByOfficeId($officeId)
+    {
+        return $this->projectRepository->getAllByOfficeId($officeId);
+    }
+
     public function createProject($data, $files)
     {
         // Validation rules

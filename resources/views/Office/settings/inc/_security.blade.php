@@ -2,13 +2,13 @@
 <div class="card mb-4">
     <h5 class="card-header">تغير كلمة المرور</h5>
     <div class="card-body">
-        <form id="formAccountSettings" method="POST" action="{{ route('Office.Setting.update', $office->id) }}">
+        <form id="formChangePassword" method="POST" action="{{ route('Office.Setting.updatePassword', $office->id) }}">
             @csrf
             @method('PUT')
             <div class="row">
                 <div class="col-md-4 col-12 mb-3">
-                    <div class=" form-password-toggle">
-                        <label class="form-label" for="password">@lang('password') <span class="text-danger">*</span></label>
+                    <div class="form-password-toggle">
+                        <label class="form-label" for="password">@lang('Password') <span class="text-danger">*</span></label>
                         <div class="input-group input-group-merge">
                             <input type="password" id="password" class="form-control" name="password"
                                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
@@ -16,24 +16,22 @@
                             <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="col-md-4 col-12 mb-3">
                     <div class="form-password-toggle">
-                        <label class="form-label" for="password">@lang('Confirm Password') <span class="text-danger">*</span></label>
+                        <label class="form-label" for="password_confirmation">@lang('Confirm Password') <span class="text-danger">*</span></label>
                         <div class="input-group input-group-merge">
                             <input type="password" id="password_confirmation" class="form-control" name="password_confirmation"
                                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                aria-describedby="password" required />
+                                aria-describedby="password_confirmation" required />
                             <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div>
-                <button type="submit" class="btn btn-primary me-2">@lang('save')</button>
+                <button type="submit" class="btn btn-primary me-2">@lang('Save')</button>
                 <button type="reset" class="btn btn-label-secondary">@lang('Cancel')</button>
             </div>
         </form>

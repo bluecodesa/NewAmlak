@@ -91,7 +91,7 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-6">
-                    <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <h4 class=""><a href="{{ route('Office.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         @lang('Employees')</h4>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                                             <div class="btn-group">
                                                 <a href="{{ route('Office.Employee.create') }}" class="btn btn-primary">
                                                     <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add new employee')</span></span>
+                                                            class="d-none d-sm-inline-block">@lang('Add New Employee')</span></span>
                                                 </a>
 
                                             </div>
@@ -152,8 +152,8 @@
                                 <th >@lang('Name')</th>
                                 <th >@lang('Email')</th>
                                 <th >@lang('phone')</th>
-                                <th >@lang('city')</th>
-                                <th >@lang('role name')</th>
+                                {{-- <th >@lang('city')</th>
+                                <th >@lang('role name')</th> --}}
                                 <th >@lang('Action')</th>
                             </tr>
                         </thead>
@@ -164,8 +164,8 @@
                                     <td>{{ $employee->UserData->name ?? '' }}</td>
                                     <td>{{ $employee->UserData->email ?? '' }}</td>
                                     <td>{{ $employee->UserData->phone ?? '' }}</td>
-                                    <td>{{ $employee->CityData->name ?? '' }}</td>
-                                    <td>{{ $employee->UserData->roles[0]->name ?? '' }}</td>
+                                    {{-- <td>{{ $employee->CityData->name ?? '' }}</td>
+                                    <td>{{ $employee->UserData->roles[0]->name ?? '' }}</td> --}}
 
                                     <td>
 
@@ -185,7 +185,7 @@
                                                     <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $employee->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $project->id }}"
+                                                    <form id="delete-form-{{ $employee->id }}"
                                                         action="{{ route('Office.Employee.destroy', $employee->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
@@ -198,7 +198,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <td colspan="6">
+                                <td colspan="4">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <span class="alert-icon text-danger me-2">
                                             <i class="ti ti-ban ti-xs"></i>

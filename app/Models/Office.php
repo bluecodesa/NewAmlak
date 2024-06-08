@@ -39,4 +39,8 @@ class Office extends Model
     {
         return $this->hasOne(Subscription::class, 'office_id');
     }
+    public function UserSystemInvoiceLatest()
+    {
+        return $this->hasOne(SystemInvoice::class, 'office_id')->latest();
+    }
 }

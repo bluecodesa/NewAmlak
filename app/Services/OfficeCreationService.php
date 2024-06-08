@@ -21,11 +21,11 @@ class OfficeCreationService
             'created_by' => Auth::id(),
             // 'presenter_name' => $officeData['presenter_name'],
             // 'presenter_number' => $officeData['presenter_number'],
-            'company_logo' => $officeData['company_logo'],
+            'company_logo' => $officeData['company_logo'] ?? null,
         ]);
 
         // Notify admins about the new office
-        $this->notifyAdmins($office);
+        // $this->notifyAdmins($office);
 
         return $office;
     }

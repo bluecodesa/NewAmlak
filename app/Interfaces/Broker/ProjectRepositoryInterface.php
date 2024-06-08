@@ -7,6 +7,8 @@ interface ProjectRepositoryInterface
 {
     public function getAllByBrokerId($brokerId);
 
+    public function getAllByOfficeId($brokerId);
+
     public function create(array $data, array $files);
 
     public function update($id, $data, $images);

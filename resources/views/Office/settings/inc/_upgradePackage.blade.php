@@ -91,7 +91,7 @@
                             @if ($type->id != Auth::user()->UserOfficeData->UserSubscription->subscription_type_id)
                                 <div class="col-xl-3 col-md-3 mb-md-0 mb-4">
                                     <label class="form-check custom-option custom-option-icon h-100">
-                                        <div class="card border-primary border shadow-none h-100 @if ($type->id == Auth::user()->UserBrokerData->UserSubscription->subscription_type_id) border-primary @else border-secondary @endif">
+                                        <div class="card border-primary border shadow-none h-100 @if ($type->id == Auth::user()->UserOfficeData->UserSubscription->subscription_type_id) border-primary @else border-secondary @endif">
                                             <div class="card-body position-relative">
                                                 <div class="position-absolute end-0 me-4 top-0 mt-4"></div>
                                                 <h3 class="card-title text-center text-capitalize mb-1">{{ $type->name }}</h3>

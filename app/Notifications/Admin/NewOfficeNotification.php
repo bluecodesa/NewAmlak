@@ -3,6 +3,8 @@
 namespace App\Notifications\Admin;
 
 use App\Models\Office;
+use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -27,9 +29,16 @@ class NewOfficeNotification extends Notification
 
     public function toDatabase($notifiable)
     {
+        $user_id=$this->office->user_id;
+        $user=User::where('id',$user_id)->first();
+        $office=Office::where('user_id',$user_id)->first();
+        $subscriber=Subscription::where('office_id',$office->id)->first();
+        $subscriptionType = $subscriber->SubscriptionTypeData;
+        $subscriptionTypeName = $subscriptionType ? $subscriptionType->name : '';
+
         return [
-            'msg' => __('A new office has been added to the platform with the name:') . ' ' . ($this->office->company_name),
-            'url' => route('Admin.Subscribers.index'),
+            'msg' => __('') . ' ' . ($user->name).' '. __('Subscription Type'). ' ' .($subscriptionTypeName),
+            'url' => route('Admin.Subscribers.show', $subscriber->id),
             'type_noty' => 'NewOffice',
             'service_name' => 'NewOffice',
             'created_at' => now(),

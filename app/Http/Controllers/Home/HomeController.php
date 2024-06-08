@@ -226,6 +226,31 @@ class HomeController extends Controller
             'status' => $status,
             'invoice_ID' => 'INV_' . uniqid(),
         ]);
+        $galleryName = explode('@', $request->email)[0];
+        $defaultCoverImage = '/Gallery/cover/cover.png';
+
+
+        //
+        $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+        $sectionNames = [];
+        foreach ($hasRealEstateGallerySection as $section) {
+            $sectionNames[] = $section->name;
+        }
+
+        if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+            $galleryName = explode('@', $request->email)[0];
+            $defaultCoverImage = '/Gallery/cover/cover.png';
+
+            $gallery = Gallery::create([
+                'office_id' => $office->id,
+                'gallery_name' => $galleryName,
+                'gallery_status' => 1,
+                'gallery_cover' => $defaultCoverImage,
+            ]);
+        } else {
+            $gallery = null;
+        }
         $this->notifyAdminsForOffice($office);
 
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
