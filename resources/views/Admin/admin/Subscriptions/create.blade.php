@@ -189,26 +189,53 @@
                 });
             });
             //
-            $('#company_logo_preview').click(function() {
-                $('#company_logo').click(); // Trigger file input click on image click
-            });
 
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        $('#company_logo_preview').attr('src', e.target.result); // Update the preview image
-                    };
-
-                    reader.readAsDataURL(input.files[0]); // Convert image to base64 string
-                }
-            }
-
-            $("#company_logo").change(function() {
-                readURL(this); // Call readURL function when a file is selected
-            });
         </script>
+
+<script>
+    function updateFullPhone(input) {
+        input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+        var key_phone = $('#key_phone').val();
+        var fullPhone = key_phone + input.value;
+        document.getElementById('full_phone').value = fullPhone;
+    }
+    $(document).ready(function() {
+        $('.dropdown-item').on('click', function() {
+            var key = $(this).data('key');
+            var phone = $('#phone').val();
+            $('#key_phone').val(key);
+            $('#full_phone').val(key + phone);
+            $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+        });
+    });
+
+
+    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#uploadedAvatar').attr('src', e.target.result); // Update the preview image
+                };
+
+                reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+            }
+        }
+
+        $("#upload").change(function() {
+            readURL(this); // Call readURL function when a file is selected
+        });
+        // JavaScript to handle the reset button functionality
+        $('#account-image-reset').click(function() {
+            // Reset the file input by clearing its value
+            $('#upload').val('');
+
+            // Reset the preview image to the default avatar
+            $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
+        });
+
+
+</script>
     @endpush
 
 @endsection

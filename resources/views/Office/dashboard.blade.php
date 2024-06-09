@@ -427,14 +427,14 @@
     {{-- @include('Office.inc._SubscriptionSuspend') --}}
 
     @push('scripts')
-        @if ((Auth::user()->UserBrokerData->UserSubscriptionSuspend ?? null) && (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null))
+        @if ((Auth::user()->UserOfficeData->UserSubscriptionSuspend ?? null) && (Auth::user()->UserOfficeData->UserSubscriptionPending ?? null))
             <script>
                 $(document).ready(function() {
                     $('.bs-example-modal-center').modal('show');
                 });
             </script>
 
-        @elseif (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null)
+        @elseif (Auth::user()->UserOfficeData->UserSubscriptionPending ?? null)
         <script>
             $(document).ready(function() {
                 $('.bs-example-modal-center2').modal('show');

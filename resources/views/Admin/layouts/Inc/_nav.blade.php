@@ -264,6 +264,22 @@
                                     </div>
                                 </div>
                             </a>
+                            @elseif(Auth::user()->is_employee)
+
+                            <a class="dropdown-item" href="{{ route('Office.Setting.index') }}">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar avatar-online">
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                                alt class="h-auto rounded-circle" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
+                                        <small class="text-muted">{{ Auth::user()->roles[0]->name_ar ?? '' }}</small>
+                                    </div>
+                                </div>
+                            </a>
                         @endif
 
                     </li>

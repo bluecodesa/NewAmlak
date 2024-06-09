@@ -22,6 +22,8 @@ class RouteServiceProvider extends ServiceProvider
 
     protected $dashboard_namespace = 'App\Http\Controllers\Admin';
     protected $office_namespace = 'App\Http\Controllers\Office';
+    protected $employee_namespace = 'App\Http\Controllers\Employee';
+
     protected $propertyFinder_namespace = 'App\Http\Controllers\Property_Finder';
 
     protected $broker_namespace = 'App\Http\Controllers\Broker';
@@ -54,6 +56,11 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->office_namespace)
                 ->group(base_path('routes/office.php'));
+
+                Route::middleware('web')
+                ->namespace($this->office_namespace)
+                ->group(base_path('routes/employee.php'));
+
 
 
                 Route::middleware('web')

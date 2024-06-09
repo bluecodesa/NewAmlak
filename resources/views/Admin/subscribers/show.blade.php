@@ -195,12 +195,7 @@
 
                                                             <div class="mb-3">
                                                                 <label for="max_of_employee" class="form-label">@lang('Numbers of Employees') <span class="text-danger">*</span></label>
-                                                                <select class="form-select" name="max_of_employee" id="max_of_employee" required>
-                                                                    <option disabled value="">@lang('Select Max Number of Employees')</option>
-                                                                    @foreach (['5', '10', '15', '20', '30', '40', '50'] as $num)
-                                                                        <option value="{{ $num }}" @if($subscriber->OfficeData->max_of_employee == $num) selected @endif>{{ $num }}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                <input type="number" class="form-select" name="max_of_employee" id="max_of_employee" required>
                                                             </div>
 
 
