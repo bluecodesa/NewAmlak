@@ -152,6 +152,9 @@
             @if (Auth::user()->is_office)
                 @include('Admin.layouts.Inc.Office')
             @endif
+            @if (Auth::user()->is_employee)
+            @include('Admin.layouts.Inc.Employee')
+            @endif
             @if (Auth::user()->is_broker)
                 @php
                     $sectionNames = Auth::user()->sectionNames();

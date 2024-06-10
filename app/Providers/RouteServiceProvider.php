@@ -58,7 +58,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/office.php'));
 
                 Route::middleware('web')
-                ->namespace($this->office_namespace)
+                ->namespace($this->employee_namespace)
                 ->group(base_path('routes/employee.php'));
 
 

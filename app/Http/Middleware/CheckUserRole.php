@@ -34,6 +34,11 @@ class CheckUserRole
                         return $next($request);
                     }
                     break;
+                    case 'employee':
+                        if (Auth::user()->is_employee) {
+                            return $next($request);
+                        }
+                        break;
             }
         }
 

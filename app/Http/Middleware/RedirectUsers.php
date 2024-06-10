@@ -22,7 +22,7 @@ class RedirectUsers
             elseif (auth()->user()->is_office) {
                 return redirect()->route('Office.home');
             }
-            elseif (auth()->user()->is_office) {
+            elseif (auth()->user()->is_employee) {
                 return redirect()->route('Employee.home');
             }
             elseif (auth()->user()->is_property_finder) {

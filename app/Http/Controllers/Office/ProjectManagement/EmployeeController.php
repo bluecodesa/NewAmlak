@@ -114,6 +114,7 @@ class EmployeeController extends Controller
         'permissions.array' => __('Invalid permissions data.'),
     ]);
 
+    $permissions = Permission::whereIn('id', $request['permissions'])->get();
     $officeId = auth()->user()->UserOfficeData->id;
     $office = Office::find($officeId);
 
@@ -133,33 +134,41 @@ class EmployeeController extends Controller
         'password' => Hash::make($request->password),
     ]);
 
+    $role = Role::firstOrCreate(['name' => 'Office-Employee']);
+    $user->assignRole($role);
+
+    $role->syncPermissions($permissions);
+
     $employee = Employee::create([
         'user_id' => $user->id,
         'office_id' => $officeId,
     ]);
 
-    $employeePermissions = [];
-    foreach ($request->permissions as $permissionId) {
-        $employeePermissions[] = [
-            'employee_id' => $employee->id,
-            'permission_id' => $permissionId,
-        ];
-    }
-
-    EmployeePermission::insert($employeePermissions);
-
+    $user->syncPermissions($permissions);
     return redirect()->route('Office.Employee.index')->with('success', __('Employee added successfully.'));
 }
+
+   // $employeePermissions = [];
+    // foreach ($request->permissions as $permissionId) {
+    //     $employeePermissions[] = [
+    //         'employee_id' => $employee->id,
+    //         'permission_id' => $permissionId,
+    //     ];
+    // }
+
+    // EmployeePermission::insert($employeePermissions);
 
 public function show($id)
 {
     $employee = $this->EmployeeService->find($id);
-    $permissions = Permission::all();
-    $employeePermissions = $employee->permissions->pluck('id')->toArray();
+    // $permissions = Permission::all();
+    // $employeePermissions = $employee->permissions->pluck('id')->toArray();
+    $role =   $this->RoleService->getById($id);
+    $role_permissions =  $role->permissions->pluck('id')->toArray();;
+    $permissions =  $this->PermissionService->getAll()->where('type', $role->type);
 
     return view('Office.ProjectManagement.Employee.show', compact('employee', 'permissions', 'employeePermissions'));
 }
-
 
     public function edit($id)
     {
@@ -167,6 +176,12 @@ public function show($id)
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $roles =  $this->RoleService->getAllRoles();
+
+        $role = Role::where('name', 'Office-Employee')->first();
+        $permissions = $role ? $role->permissions : collect();
+
+        // Retrieve the employee's current permissions
+        $employeePermissions = $employee->UserData->permissions->pluck('id')->toArray();
         $roleIds = Role::where('name', 'Office-Admin')->pluck('id')->toArray();
         $permissions = Permission::where('type', 'user')
         ->whereIn('id', function ($query) use ($roleIds) {
@@ -175,7 +190,8 @@ public function show($id)
                   ->whereIn('role_id', $roleIds);
         })
         ->get();
-        $employeePermissions = EmployeePermission::where('employee_id', $employee->id)->pluck('permission_id')->toArray();
+        // dd($employeePermissions);
+        // $employeePermissions = EmployeePermission::where('employee_id', $employee->id)->pluck('permission_id')->toArray();
         return view('Office.ProjectManagement.Employee.edit', get_defined_vars());
     }
 
