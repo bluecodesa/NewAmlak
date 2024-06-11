@@ -265,12 +265,14 @@
                                 </div>
                             </a>
                             @elseif(Auth::user()->is_employee)
-
+                            @php
+                            $officeAvatar = Auth::user()->office_id;
+                            @endphp
                             <a class="dropdown-item" href="{{ route('Employee.Setting.index') }}">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ Auth::user()->officeAvatar != null ? url(Auth::user()->officeAvatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
