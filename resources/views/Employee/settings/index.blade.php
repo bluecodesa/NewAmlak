@@ -12,13 +12,7 @@
                 </div>
             </div>
             <!-- DataTable with Buttons -->
-            @php
-                $sectionsIds = Auth::user()
-                    ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
-                    ->toArray();
-            @endphp
-
-
+    
             <div class="col-12">
 
                 <div class="nav-align-top  mb-4">
@@ -26,7 +20,7 @@
 
                     <div class="nav-align-top nav-tabs-shadow mb-4">
                         <ul class="nav nav-tabs nav-fill" role="tablist">
-                            @if (Auth::user()->hasPermission('update-user-profile'))
+                            @if (Auth::user()->hasPermission('update-company-profile'))
                                 <li class="nav-item">
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                                         data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
@@ -35,6 +29,8 @@
                                         {{-- <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span> --}}
                                     </button>
                                 </li>
+                                @endif
+                            @if (Auth::user()->hasPermission('update-user-profile'))
                             <li class="nav-item">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
@@ -51,7 +47,7 @@
                               </li>
                               @endif
 
-
+                           @if (Auth::user()->hasPermission('activate-gallery'))
                         <li class="nav-item">
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
@@ -60,25 +56,30 @@
                                 @lang('Gallary Mange')
                             </button>
                         </li>
+                        @endif
 
                     </ul>
 
 
                         <div class="tab-content">
                             {{-- @if (Auth::user()->hasPermission('update-user-profile')) --}}
+                            @if (Auth::user()->hasPermission('update-company-profile'))
                             <div class="tab-pane fade active show" id="navs-justified-home" role="tabpanel">
-                                @include('Office.settings.inc._GeneralSetting')
+                                @include('Employee.settings.inc._GeneralSetting')
                             </div>
+                            @endif
+                           @if (Auth::user()->hasPermission('update-user-profile'))
                             <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                                @include('Office.settings.inc._ProfileSetting')
+                                @include('Employee.settings.inc._ProfileSetting')
                             </div>
                             <div class="tab-pane fade" id="navs-justified-security" role="tabpanel">
-                                @include('Office.settings.inc._security')
+                                @include('Employee.settings.inc._security')
                             </div>
-                            {{-- @endif --}}
+                            @endif
+                            @if (Auth::user()->hasPermission('activate-gallery'))
                             @if ($gallery)
                                 <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
-                                    @include('Office.settings.inc._GalleryMange')
+                                    @include('Employee.settings.inc._GalleryMange')
                                 </div>
                             @else
                             <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
@@ -98,6 +99,7 @@
                                 </div>
                             </div>
                                 {{-- @include('Office.settings.inc._upgradePackage') --}}
+                            @endif
                             @endif
                         </div>
                     </div>

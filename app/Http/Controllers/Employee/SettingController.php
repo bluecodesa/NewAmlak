@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Office;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
@@ -14,7 +14,7 @@ use App\Services\CityService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Services\Broker\UnitService;
-use App\Services\Office\SettingService;
+use App\Services\Employee\SettingService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 
@@ -50,7 +50,7 @@ class SettingController extends Controller
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
 
-        $this->middleware(['role_or_permission:read-building'])->only(['index']);
+        $this->middleware(['role_or_permission:update-user-profile'])->only(['index']);
     }
     public function index()
     {
@@ -58,13 +58,14 @@ class SettingController extends Controller
         $EmailSettingService = $this->EmailSettingService->getAll();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $office = auth()->user()->UserOfficeData;
+        $employee = auth()->user()->UserEmployeeData;
+        $office=$employee->OfficeData;
         $settings = $this->settingService->getOfficeSettings($office);
         $city = $office->CityData;
         $region = $city->RegionData;
         $gallery = $settings['gallery'];
         $NotificationSetting = $settings['notificationSettings'];
-        $subscriber = $this->subscriptionService->findSubscriptionByOfficeId(auth()->user()->UserOfficeData->id);
+        $subscriber = $this->subscriptionService->findSubscriptionByOfficeId(auth()->user()->UserEmployeeData->OfficeData->id);
         $sectionNames = [];
         if ($subscriber) {
             $subscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($subscriber->subscription_type_id);
@@ -73,7 +74,7 @@ class SettingController extends Controller
         }
 
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
-        return view('Office.settings.index', get_defined_vars());
+        return view('Employee.settings.index', get_defined_vars());
     }
 
 
@@ -117,21 +118,21 @@ class SettingController extends Controller
     {
         $data = $request->all();
         $this->settingService->updateOffice($data, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
+        return redirect()->route('Employee.Setting.index')->withSuccess(__('Update successfully'));
     }
 
     public function updateProfileSetting(Request $request, string $id)
     {
         $data = $request->all();
         $this->settingService->updateProfileSetting($request, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
+        return redirect()->route('Employee.Setting.index')->withSuccess(__('Update successfully'));
     }
 
     public function updatePassword(Request $request, string $id)
     {
         $data = $request->all();
         $this->settingService->updatePassword($request, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
+        return redirect()->route('Employee.Setting.index')->withSuccess(__('Update successfully'));
     }
 
     /**

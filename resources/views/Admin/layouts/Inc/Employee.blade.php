@@ -162,7 +162,7 @@
         @endif
         @if (in_array(9, $sectionsIds))
         <li class="menu-item">
-            <a href="{{ route('Office.Setting.index') }}" class="menu-link">
+            <a href="{{ route('Employee.Setting.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
                 <div data-i18n="@lang('Settings')">@lang('Settings')</div>
             </a>

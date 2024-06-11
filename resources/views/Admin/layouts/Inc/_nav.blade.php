@@ -266,7 +266,7 @@
                             </a>
                             @elseif(Auth::user()->is_employee)
 
-                            <a class="dropdown-item" href="{{ route('Office.Setting.index') }}">
+                            <a class="dropdown-item" href="{{ route('Employee.Setting.index') }}">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">

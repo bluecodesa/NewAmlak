@@ -76,8 +76,10 @@ use App\Repositories\Office\ProjectRepository as OfficeProjectRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Interfaces\Admin\ProjectRepositoryInterface;
+use App\Interfaces\Employee\SettingRepositoryInterface as EmployeeSettingRepositoryInterface;
 use App\Interfaces\Office\SettingRepositoryInterface as OfficeSettingRepositoryInterface;
 use App\Repositories\Admin\ProjectRepository;
+use App\Repositories\Employee\SettingRepository as EmployeeSettingRepository;
 use App\Repositories\Office\SettingRepository as OfficeSettingRepository;
 
 class AppServiceProvider extends ServiceProvider
@@ -133,6 +135,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             OfficeSettingRepositoryInterface::class,
             OfficeSettingRepository::class
+        );
+        $this->app->bind(
+            EmployeeSettingRepositoryInterface::class,
+            EmployeeSettingRepository::class
         );
         $this->app->bind(
             PaymentGatewayRepositoryInterface::class,

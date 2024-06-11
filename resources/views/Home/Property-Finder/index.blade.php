@@ -17,7 +17,7 @@
 
 <section class="section-py bg-body first-section-pt">
     <div class="container mt-2">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">حسابى</a>/ </span>الباحث عن عقار</h4>
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي</h4>
 
 
 
@@ -80,16 +80,20 @@
             <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
           </button>
         </li>
+        @if (Auth::user()->hasPermission('Read-favorite-properties') || Auth::user()->hasPermission('Read-favorite-properties-admin'))
         <li class="nav-item" role="presentation">
           <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile" aria-selected="false" tabindex="-1">
             <i class="tf-icons ti ti-heart ti-xs me-1"></i> المفضلة
           </button>
         </li>
+        @endif
+        @if (Auth::user()->hasPermission('update-user-profile'))
         <li class="nav-item" role="presentation">
           <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages" aria-selected="false" tabindex="-1">
             <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> الحماية
           </button>
         </li>
+        @endif
       </ul>
 
 

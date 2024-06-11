@@ -1,4 +1,4 @@
-<form action="{{ route('Office.Setting.update', $office->id) }}" class="row" method="POST"
+<form action="{{ route('Employee.Setting.update', $office->id) }}" class="row" method="POST"
     enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -15,12 +15,19 @@
             required>
     </div>
 
-    <div class="col-md-6 col-12 mb-3">
+    <div class="col-md-3 col-12 mb-3">
         <label class="form-label" for="name"> @lang('Commercial Registration No')<span
             class="text-danger">*</span></label>
                 <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
                  name="CRN"  value="{{ $office->CRN }}" required>
 
+    </div>
+    <div class="col-md-3 col-12 mb-3">
+        <label for="license_number">
+            @lang('license number')</label>
+
+        <input type="text" class="form-control" id="license_number" name="office_license"
+            value="{{ $office->office_license }}" required>
     </div>
 
 

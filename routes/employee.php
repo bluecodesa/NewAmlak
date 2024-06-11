@@ -39,14 +39,14 @@ Route::group(
     //    Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
     //    Route::resource('Employee', EmployeeController::class)->middleware('CheckSubscription');
     //    Route::resource('Project', ProjectController::class)->middleware('CheckSubscription');
-    //    Route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
+       Route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
 
 
 
     //    //
-    //         route::put('updateOffice/{id}', [SettingController::class, 'updateProfileSetting'])->name('Setting.updateProfileSetting')->middleware('CheckSubscription');
-    //         Route::put('/office/setting/password/{id}', [SettingController::class, 'updatePassword'])->name('Setting.updatePassword')->middleware('CheckSubscription');
-    //         Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
+            route::put('updateEmployee/{id}', [SettingController::class, 'updateProfileSetting'])->name('Setting.updateProfileSetting')->middleware('CheckSubscription');
+            Route::put('/employee/setting/password/{id}', [SettingController::class, 'updatePassword'])->name('Setting.updatePassword')->middleware('CheckSubscription');
+            // Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
             Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');
             Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Office.GetCitiesByRegion');
         });

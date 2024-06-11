@@ -221,13 +221,13 @@
             <i class="ti ti-heart ti-sm"></i>
             </a> --}}
 
-            @if(auth()->user()->is_property_finder)
+            @if(auth()->user())
                 @php
                 $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)
                 ->where('finder_id', auth()->user()->id)
                 ->exists();
                 @endphp
-
+                @if (Auth::user()->hasPermission('Add-property-as-favorite') || Auth::user()->hasPermission('Add-property-as-favorite-admin'))
                 @if($isFavorite)
                 <form method="POST" action="{{ route('remove-from-favorites') }}">
                     @csrf
@@ -246,7 +246,7 @@
                     <input type="hidden" name="owner_id" value="{{$unit->BrokerData->user_id }}">
                 </form>
                 @endif
-
+                @endif
             @else
             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
@@ -312,15 +312,37 @@
                 <span>@lang('Views')</span>
               </div>
           </div>
+          @auth
+<div class="d-flex align-items-center justify-content-center">
+    @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
+    <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+      ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+    @endif
+    @if (Auth::user()->hasPermission('Send-message-to-broker') || Auth::user()->hasPermission('Send-message-to-broker-admin'))
+    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{$broker->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
+      ><i class="ti ti-message ti-sm"></i
+    ></a>
+    @endif
+  </div> 
+@endauth
+@guest
+<div class="d-flex align-items-center justify-content-center">
+    <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+        ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+    <a  target="_blank" class="btn btn-label-secondary btn-icon"
+        ><i class="ti ti-message ti-sm"></i
+      ></a>
+  </div>
+@endguest
 
-          <div class="d-flex align-items-center justify-content-center">
+          {{-- <div class="d-flex align-items-center justify-content-center">
             <a href="tel:+{{ $broker->key_phone }} {{$broker->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
               ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a
             >
             <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{ $broker->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
               ><i class="ti ti-message ti-sm"></i
             ></a>
-          </div>
+          </div> --}}
         </div>
       </div>
     </div>

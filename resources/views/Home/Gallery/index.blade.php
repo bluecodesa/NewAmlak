@@ -230,7 +230,7 @@
                 @lang('SAR') / {{ __($unit->rent_type_show) }}</span>
 
           </div>
-          <div class="d-flex align-items-center justify-content-start">
+          {{-- <div class="d-flex align-items-center justify-content-start">
             <a  class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
             data-bs-toggle="modal"
             data-bs-target="#onboardHorizontalImageModal{{$unit->id}}">
@@ -240,6 +240,70 @@
             data-bs-toggle="modal"
             data-bs-target="#basicModal"><i class="ti ti-heart ti-sm"></i
             ></a>
+          </div> --}}
+          <div class="d-flex align-items-center justify-content-start">
+            <a  class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a>
+            @guest
+
+                <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalToggle">
+                    <i class="ti ti-heart ti-sm"></i>
+
+                </a>
+
+            @endguest
+
+            @auth
+            {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#basicModal"
+            data-unit-id="{{ $unit->id }}"
+            data-user-id="{{ $unit->BrokerData->user_id }}"
+            >
+            <i class="ti ti-heart ti-sm"></i>
+            </a> --}}
+
+            @if(auth()->user())
+                @php
+                $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)
+                ->where('finder_id', auth()->user()->id)
+                ->exists();
+                @endphp
+                @if (Auth::user()->hasPermission('Add-property-as-favorite') || Auth::user()->hasPermission('Add-property-as-favorite-admin'))
+                @if($isFavorite)
+                <form method="POST" action="{{ route('remove-from-favorites') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-label-danger btn-icon d-flex align-items-center me-3">
+                    <i class="ti ti-heart ti-sm"></i>
+                    </button>
+                    <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                </form>
+                @else
+                <form method="POST" action="{{ route('add-to-favorites') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-label-secondary btn-icon d-flex align-items-center me-3">
+                    <i class="ti ti-heart ti-sm"></i>
+                    </button>
+                    <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                    <input type="hidden" name="owner_id" value="{{$unit->BrokerData->user_id }}">
+                </form>
+                @endif
+                @endif
+            @else
+            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#basicModal"
+            data-unit-id="{{ $unit->id }}"
+            data-user-id="{{ $unit->BrokerData->user_id }}"
+            >
+            <i class="ti ti-heart ti-sm"></i>
+            </a>
+            @endif
+            @endauth
+
           </div>
           <div class="mx-auto my-3">
             <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">
@@ -293,15 +357,29 @@
                 <span>@lang('Views')</span>
               </div>
           </div>
+@auth
+<div class="d-flex align-items-center justify-content-center">
+    @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
+    <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+      ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+    @endif
+    @if (Auth::user()->hasPermission('Send-message-to-broker') || Auth::user()->hasPermission('Send-message-to-broker-admin'))
+    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{$broker->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
+      ><i class="ti ti-message ti-sm"></i
+    ></a>
+    @endif
+  </div> 
+@endauth
+@guest
+<div class="d-flex align-items-center justify-content-center">
+    <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+        ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+    <a  target="_blank" class="btn btn-label-secondary btn-icon"
+        ><i class="ti ti-message ti-sm"></i
+      ></a>
+  </div>
+@endguest
 
-          <div class="d-flex align-items-center justify-content-center">
-            <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
-              ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a
-            >
-            <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{$broker->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
-              ><i class="ti ti-message ti-sm"></i
-            ></a>
-          </div>
         </div>
       </div>
     </div>

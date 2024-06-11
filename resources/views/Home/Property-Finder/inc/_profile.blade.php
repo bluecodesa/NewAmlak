@@ -74,6 +74,7 @@
             </div>
           </div>
         </div>
+        @if (Auth::user()->hasPermission('update-user-profile'))
         <div class="card-body pb-0">
 
                 <form action="{{ route('PropertyFinder.updatePropertyFinder', $finder->id) }}" class="row" method="POST"
@@ -164,6 +165,7 @@
 
 
         </div>
+        @endif
       </div>
       <!--/ Activity Timeline -->
 

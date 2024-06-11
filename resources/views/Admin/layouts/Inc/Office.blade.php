@@ -11,7 +11,7 @@
             {{-- <span class="app-brand-text demo menu-text fw-bold">{{ $sitting->title }}</span> --}}
         {{-- </a> --}}
 
-        <a href="{{ route('Broker.home') }}" class="app-brand-link">
+        <a href="{{ route('Office.home') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <svg width="32" height="22" viewBox="0 0 32 22" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +43,7 @@
     <ul class="menu-inner py-1">
         <!-- Page -->
         <li class="menu-item ">
-            <a href="{{ route('Admin.home') }}" class="menu-link">
+            <a href="{{ route('Office.home') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Page 1">@lang('dashboard')</div>
             </a>
@@ -58,7 +58,7 @@
                 <ul class="menu-sub">
                     @if (Auth::user()->hasPermission('read-project'))
                         <li class="menu-item">
-                            <a href="{{ route('Broker.Project.index') }}" class="menu-link">
+                            <a href="{{ route('Office.Project.index') }}" class="menu-link">
                                 <div data-i18n="@lang('Projects')">@lang('Projects')</div>
                             </a>
                         </li>
@@ -79,12 +79,12 @@
                             </li>
                         @endif
                         <li class="menu-item">
-                                <a href="{{ route('Broker.Developer.index') }}" class="menu-link">
+                                <a href="{{ route('Office.Developer.index') }}" class="menu-link">
                                     <div data-i18n="@lang('developers')">@lang('developers')</div>
                                 </a>
                             </li>
                         <li class="menu-item">
-                            <a href="{{ route('Broker.Advisor.index') }}" class="menu-link">
+                            <a href="{{ route('Office.Advisor.index') }}" class="menu-link">
                                 <div data-i18n="@lang('advisors')">@lang('advisors')</div>
                             </a>
                         </li>

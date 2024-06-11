@@ -70,6 +70,11 @@ class UnitInterestController extends Controller
         $this->FeatureService = $FeatureService;
         $this->galleryService = $galleryService;
         $this->settingService = $settingService;
+        //
+        // $this->middleware(['role_or_permission:Add-property-as-favorite'])->only(['addToFav','removeFromFav']);
+        $this->middleware(['permission:Add-property-as-favorite-admin|Add-property-as-favorite'])->only(['addToFavorites', 'removeFromFavorites']);
+
+
     }
 
 

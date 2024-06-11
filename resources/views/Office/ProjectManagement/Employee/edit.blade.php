@@ -52,8 +52,8 @@
                                 @csrf
                                 @method('PUT')
 
-                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
-                            <input type="text" name="full_phone" hidden id="full_phone" value="966">
+                                <input type="text" name="key_phone" hidden value="{{ $employee->UserData->key_phone }}" id="key_phone">
+                                <input type="text" name="full_phone" hidden id="full_phone" value="{{ $employee->UserData->full_phone }}">
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">
