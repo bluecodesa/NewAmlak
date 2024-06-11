@@ -18,8 +18,7 @@
                 <div class="d-flex align-items-center justify-content-start">
                     <a  class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                     data-bs-toggle="modal"
-                    data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a
-                    >
+                    data-bs-target="#onboardHorizontalImageModal{{$unit->id}}"><i class="ti ti-share ti-sm"></i></a>
                     @auth
 
                     @if(auth()->user()->is_property_finder)
@@ -52,8 +51,12 @@
                     @endauth
 
                 </div>
+                @php
+                $gallery_name= $unit->gallery->gallery_name;
+                $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id])";
+                @endphp
                 <div class="mx-auto my-3">
-                    {{-- <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default"> --}}
+                    <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id]) }}" class="card-hover-border-default">
                     @if ($unit->UnitImages->isNotEmpty())
                     <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image" class="rounded-square"  width="140"  height="140" />
                     @else
@@ -143,6 +146,9 @@
             </span>
             @lang('No Data Found!')
         </div>
+
+        @include('Home.Gallery.inc.share')
+
         @endforelse
 
 
