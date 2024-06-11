@@ -29,7 +29,7 @@
       </div>
       <!--/ About User -->
       <!-- Profile Overview -->
-      <div class="card mb-4">
+      {{-- <div class="card mb-4">
         <div class="card-body">
           <p class="card-text text-uppercase">Overview</p>
           <ul class="list-unstyled mb-0">
@@ -46,7 +46,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> --}}
       <!--/ Profile Overview -->
     </div>
     <div class="col-xl-8 col-lg-7 col-md-7">
