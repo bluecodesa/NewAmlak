@@ -117,7 +117,7 @@
                             <span class="d-none d-md-block">سجل معنا الأن</span></a>
                     @endguest
                     @auth
-                        <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm" target="_blank"><span
+                        <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm" ><span
                                 class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span><span
                                 class="d-none d-md-block">حسابى</span></a>
 
