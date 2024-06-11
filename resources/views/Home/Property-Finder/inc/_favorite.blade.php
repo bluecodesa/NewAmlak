@@ -105,14 +105,34 @@
                     </div>
                 </div>
 
-                <div class="d-flex align-items-center justify-content-center">
+                {{-- <div class="d-flex align-items-center justify-content-center">
                     <a href="tel:+{{ $unit->BrokerData->key_phone }} {{$unit->BrokerData->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                     ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a
                     >
                     <a href="https://web.whatsapp.com/send?phone=tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
                     ><i class="ti ti-message ti-sm"></i
                     ></a>
-                </div>
+                </div> --}}
+
+                <div class="d-flex align-items-center justify-content-center">
+                    @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
+                    <a href="tel:+{{ $unit->BrokerData->key_phone }} {{$unit->BrokerData->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+                        ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                      @else
+                      <a @disabled(true) target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+                        ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                    @endif
+                    @if (Auth::user()->hasPermission('Send-message-to-broker') || Auth::user()->hasPermission('Send-message-to-broker-admin'))
+                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
+                        ><i class="ti ti-message ti-sm"></i
+                    ></a>
+                    @else
+                    <a @disabled(true) target="_blank" class="btn btn-label-secondary btn-icon"
+                        ><i class="ti ti-message ti-sm"></i
+                      ></a>
+                    @endif
+                  </div> 
+
                 </div>
             </div>
             </div>

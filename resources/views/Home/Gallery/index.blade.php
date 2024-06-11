@@ -362,11 +362,18 @@
     @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
     <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank" class="btn btn-primary d-flex align-items-center me-3"
       ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+      @else
+      <a @disabled(true) target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+        ><i class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
     @endif
     @if (Auth::user()->hasPermission('Send-message-to-broker') || Auth::user()->hasPermission('Send-message-to-broker-admin'))
     <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{$broker->mobile}}" target="_blank" class="btn btn-label-secondary btn-icon"
       ><i class="ti ti-message ti-sm"></i
     ></a>
+    @else
+    <a @disabled(true) target="_blank" class="btn btn-label-secondary btn-icon"
+        ><i class="ti ti-message ti-sm"></i
+      ></a>
     @endif
   </div> 
 @endauth
