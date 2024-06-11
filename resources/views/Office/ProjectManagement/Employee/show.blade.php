@@ -21,7 +21,6 @@
                             data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
                             aria-selected="true">
                             <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('profile')
-                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
                         </button>
                     </li>
                     <li class="nav-item">
@@ -79,52 +78,40 @@
                         <div class="col-12 mt-3">
                             <h4>@lang('Permissions')</h4>
                             <div class="mb-3">
-                                <div class="col-12" id="Select_All">
-                                    <div class="form-check">
-                                        <input class="form-check-input all-checkbox" type="checkbox" id="all" disabled />
-                                        <label class="form-check-label" for="all">
-                                            @lang('Select/Deselect All')
-                                        </label>
-                                    </div>
-                                </div>
                                 <div class="col-12" id="permissions">
-                                    @foreach ($permissions->groupBy('section_id') as $model => $permissions)
-                                        <div class="col-md-12 col-xl-12">
-                                            <div class="card shadow-none bg-transparent border-primary mb-0">
-                                                <div class="card-body p-3 px-0">
-                                                    <h4 class="card-title">
-                                                        {{ $permissions[0]->SectionDate->name }}
-                                                    </h4>
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input model-checkbox"
-                                                                    value="{{ $model }}" type="checkbox" id="{{ $model }}"
-                                                                    disabled />
-                                                                <label class="form-check-label" for="{{ $model }}">
-                                                                    @lang('Select/Deselect All')
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-                                                        @foreach ($permissions as $item)
-                                                            <div class="col-md-3">
-                                                                <div class="form-check mb-2">
-                                                                    <input class="form-check-input" name="permissions[]"
-                                                                        data-model="{{ $model }}" value="{{ $item->id }}"
-                                                                        type="checkbox" id="{{ $item->id }}"
-                                                                        @if(in_array($item->id, $employeePermissions)) checked @endif
-                                                                        disabled />
-                                                                    <label class="form-check-label" for="{{ $item->id }}">
-                                                                        {{ app()->getLocale() == 'ar' ? $item->name_ar : $item->name }}
-                                                                    </label>
+                                    @foreach ($permissions->groupBy('section_id') as $model => $groupedPermissions)
+                                        @php
+                                            // Filter permissions to only show selected ones
+                                            $filteredPermissions = $groupedPermissions->filter(function($permission) use ($employeePermissions) {
+                                                return in_array($permission->id, $employeePermissions);
+                                            });
+                                        @endphp
+                                        
+                                        @if ($filteredPermissions->isNotEmpty())
+                                            <div class="col-md-12 col-xl-12">
+                                                <div class="card shadow-none bg-transparent border-primary mb-0">
+                                                    <div class="card-body p-3 px-0">
+                                                        <h4 class="card-title">
+                                                            {{ $filteredPermissions->first()->SectionDate->name }}
+                                                        </h4>
+                                                        <div class="row">
+                                                            @foreach ($filteredPermissions as $item)
+                                                                <div class="col-md-3">
+                                                                    <div class="form-check mb-2">
+                                                                        <input class="form-check-input" name="permissions[]"
+                                                                            value="{{ $item->id }}" type="checkbox" id="{{ $item->id }}"
+                                                                            checked disabled />
+                                                                        <label class="form-check-label" for="{{ $item->id }}">
+                                                                            {{ app()->getLocale() == 'ar' ? $item->name_ar : $item->name }}
+                                                                        </label>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        @endforeach
+                                                            @endforeach
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -142,17 +129,4 @@
     </div>
 </div>
 
-@push('scripts')
-<script>
-    $(document).ready(function() {
-        $('.dropdown-item').on('click', function() {
-            var key = $(this).data('key');
-            var phone = $('#phone').val();
-            $('#key_phone').val(key);
-            $('#full_phone').val(key + phone);
-            $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-        });
-    });
-</script>
-@endpush
 @endsection

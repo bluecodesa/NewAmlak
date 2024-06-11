@@ -160,11 +160,18 @@ class EmployeeController extends Controller
 
 public function show($id)
 {
-    $employee = $this->EmployeeService->find($id);
+    // $employee = $this->EmployeeService->find($id);
 
-    $role =   $this->RoleService->getById($id);
-    $role_permissions =  $role->permissions->pluck('id')->toArray();;
-    $permissions =  $this->PermissionService->getAll()->where('type', $role->type);
+    // $role =   $this->RoleService->getById($id);
+    // $role_permissions =  $role->permissions->pluck('id')->toArray();;
+    // $permissions =  $this->PermissionService->getAll()->where('type', $role->type);
+       // Retrieve the employee record by ID
+       $employee = Employee::with('userData')->findOrFail($id);
+
+       $permissions = Permission::all();
+   
+       $employeePermissions = $employee->userData->permissions->pluck('id')->toArray();
+   
 
     return view('Office.ProjectManagement.Employee.show', compact('employee', 'permissions', 'employeePermissions'));
 }
@@ -179,11 +186,9 @@ public function show($id)
         $role = Role::where('name', 'Office-Employee')->first();
         $permissions = $role ? $role->permissions : collect();
 
-        // Retrieve the employee's current permissions
         $employeePermissions = $employee->UserData->permissions->pluck('id')->toArray();
         $roleIds = Role::where('name', 'Office-Admin')->pluck('id')->toArray();
 
-        // Step 2: Retrieve permissions of type 'user' and filter by role IDs
         $permissions = Permission::where('type', 'user')
             ->whereIn('id', function ($query) use ($roleIds) {
                 $query->select('permission_id')
