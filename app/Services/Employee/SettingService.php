@@ -140,6 +140,8 @@ class SettingService
                 'max:255',
                 Rule::unique('users')->ignore($employee->user_id),
             ],
+            'id_number' => 'required|numeric',
+
         ], [
             'name.required' => __('The name field is required.'),
             'name.string' => __('The name must be a string.'),
@@ -155,6 +157,9 @@ class SettingService
             'phone.string' => __('The phone must be a string.'),
             'phone.max' => __('The phone may not be greater than :max characters.'),
             'full_phone.unique' => __('The phone has already been taken.'),
+            'id_number.numeric' => __('The ID number must be a number.'),
+            'id_number.required' => __('The ID number field is required.'),
+
 
          
         ]);
@@ -166,6 +171,8 @@ class SettingService
             'phone' => $request->phone,
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
+            'id_number' => $request->id_number,
+
         ]);
 
         return redirect()->route('Employee.Setting.index')->withSuccess(__('Profile settings updated successfully.'));

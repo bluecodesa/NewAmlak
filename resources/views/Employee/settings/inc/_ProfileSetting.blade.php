@@ -5,7 +5,7 @@
 
 <input type="text" name="key_phone" hidden value="{{ $employee->UserData->key_phone }}" id="key_phone">
 <input type="text" name="full_phone" hidden id="full_phone" value="{{ $employee->UserData->full_phone }}">
-<div class="col-md-4">
+<div class="col-md-6">
     <div class="mb-3">
         <label class="form-label">
             {{ __('Name') }} <span class="required-color">*</span></label>
@@ -15,7 +15,7 @@
 </div>
 
 
-<div class="col-md-4">
+<div class="col-md-6">
     <div class="mb-3">
         <label class="form-label"> @lang('Email') <span
                 class="required-color">*</span></label>
@@ -25,7 +25,7 @@
 </div>
 
 
-<div class="col-md-4">
+<div class="col-md-6">
     <div class="mb-3">
         <label class="form-label"> @lang('phone') <span
                 class="required-color">*</span></label>
@@ -49,6 +49,15 @@
                 </div>
     </div>
 </div>
+<div class="col-md-6 col-12 mb-3">
+
+    <label for="id_number" class="form-label">@lang('id number')
+        <span
+                class="required-color">*</span></label>
+    <input type="text" class="form-control" id="id_number" name="id_number"
+        value="{{ $employee->UserData->id_number }}">
+</div>
+
 
     <div class="col-md-12">
         <button type="submit" class="btn btn-primary">@lang('save')</button>
