@@ -133,6 +133,10 @@ class HomeController extends Controller
             ],
             'phone' => [
                 'required',
+                'max:25'
+            ],
+            'full_phone' => [
+                'required',
                 Rule::unique('users'),
                 'max:25'
             ],
@@ -155,7 +159,7 @@ class HomeController extends Controller
             'CRN.unique' => __('The CRN has already been taken.'),
             'CRN.max' => __('The CRN may not be greater than :max characters.'),
             'phone.required' => __('The Company mobile number field is required.'),
-            'phone.unique' => __('The Company mobile number has already been taken.'),
+            'full_phone.unique' => __('The Company mobile number has already been taken.'),
             'phone.max' => __('The Company mobile number may not be greater than :max characters.'),
             'presenter_name.required' => __('The presenter name field is required.'),
             'presenter_name.string' => __('The presenter name must be a string.'),

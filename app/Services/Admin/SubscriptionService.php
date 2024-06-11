@@ -76,14 +76,42 @@ class SubscriptionService
             ],
             'phone' => [
                 'required',
+                'max:25'
+            ],
+            'full_phone' => [
+                'required',
                 Rule::unique('users'),
                 'max:25'
             ],
             // 'presenter_name' => 'required|string|max:255',
             'password' => 'required|string|max:255',
         ];
-
-        validator($data, $rules)->validate();
+        $messages = [
+            'name.required' => __('The company name field is required.'),
+            'email.required' => __('The email field is required.'),
+            'email.email' => __('The email must be a valid email address.'),
+            'email.unique' => __('The email has already been taken.'),
+            'email.max' => __('The email may not be greater than :max characters.'),
+            'city_id.required' => __('The city field is required.'),
+            'city_id.exists' => __('The selected city is invalid.'),
+            'company_logo.required' => __('The company logo field is required.'),
+            'company_logo.file' => __('The company logo must be a file.'),
+            'subscription_type_id.required' => __('The subscription type field is required.'),
+            'subscription_type_id.exists' => __('The selected subscription type is invalid.'),
+            'CRN.required' => __('The CRN field is required.'),
+            'CRN.unique' => __('The CRN has already been taken.'),
+            'CRN.max' => __('The CRN may not be greater than :max characters.'),
+            'phone.required' => __('The Company mobile number field is required.'),
+            'full_phone.unique' => __('The Company mobile number has already been taken.'),
+            'phone.max' => __('The Company mobile number may not be greater than :max characters.'),
+            'presenter_name.required' => __('The presenter name field is required.'),
+            'presenter_name.string' => __('The presenter name must be a string.'),
+            'presenter_name.max' => __('The presenter name may not be greater than :max characters.'),
+            'password.required' => __('The password field is required.'),
+            'password.string' => __('The password must be a string.'),
+            'password.max' => __('The password may not be greater than :max characters.'),
+        ];
+        validator($data, $rules,$messages)->validate();
 
         if ($request->hasFile('company_logo')) {
             $file = $request->file('company_logo');

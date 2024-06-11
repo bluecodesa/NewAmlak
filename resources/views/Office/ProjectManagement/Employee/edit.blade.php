@@ -86,7 +86,7 @@
                                                     aria-label="Text input with dropdown button">
                                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect"
                                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    996
+                                                    {{  $employee->UserData->key_phone}}
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end" style="">
                                                     <li><a class="dropdown-item" data-key="971"
@@ -98,7 +98,7 @@
                                             </div>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
+                            {{-- <div class="mb-3 row">
 
                                 <div class="col-md-6">
 
@@ -132,7 +132,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                     </div>
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                         <div class="col-12 mt-3">

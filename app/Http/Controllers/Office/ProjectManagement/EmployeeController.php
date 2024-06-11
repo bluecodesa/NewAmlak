@@ -223,9 +223,11 @@ public function show($id)
             ],
             'phone' => [
                 'required',
+            ],
+            'full_phone' => [
+                'required',
                 Rule::unique('users')->ignore($employee->user_id),
             ],
-            'password' => 'nullable|string|min:8|confirmed',
             'permissions' => 'required|array',
         ], [
             'name.required' => __('The name field is required.'),
@@ -241,11 +243,7 @@ public function show($id)
             'phone.required' => __('The phone field is required.'),
             'phone.string' => __('The phone must be a string.'),
             'phone.max' => __('The phone may not be greater than :max characters.'),
-            'phone.unique' => __('The phone has already been taken.'),
-
-            'password.string' => __('The password must be a string.'),
-            'password.min' => __('The password must be at least :min characters.'),
-            'password.confirmed' => __('The password confirmation does not match.'),
+            'full_phone.unique' => __('The phone has already been taken.'),
 
             'permissions.required' => __('At least one permission must be selected.'),
             'permissions.array' => __('Invalid permissions data.'),
@@ -258,7 +256,7 @@ public function show($id)
             'phone' => $request->phone,
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
-            'password' => ($request->password) ? Hash::make($request->password) : $user->password,
+            // 'password' => ($request->password) ? Hash::make($request->password) : $user->password,
         ]);
 
         $employee->permissions()->sync($request->permissions);
