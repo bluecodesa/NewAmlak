@@ -255,8 +255,8 @@
                 <div class="modal-dialog" role="document">
                    <form action="{{ route('unit_interests.store') }}" method="POST">
                        @csrf
-                       <input type="text" name="key_phone" hidden value="996" id="key_phone">
-                       <input type="text" name="full_phone" hidden id="full_phone" value="996">
+                       <input type="text" name="key_phone" hidden value="966" id="key_phone">
+                       <input type="text" name="full_phone" hidden id="full_phone" value="966">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel1">تسجيل اهتمام</h5>
@@ -287,13 +287,13 @@
                     aria-label="Text input with dropdown button">
                 <button class="btn btn-outline-primary dropdown-toggle waves-effect"
                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    996
+                    966
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" style="">
                     <li><a class="dropdown-item" data-key="971"
                             href="javascript:void(0);">971</a></li>
-                    <li><a class="dropdown-item" data-key="996"
-                            href="javascript:void(0);">996</a></li>
+                    <li><a class="dropdown-item" data-key="966"
+                            href="javascript:void(0);">966</a></li>
                 </ul>
 
             </div>

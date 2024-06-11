@@ -5,7 +5,7 @@
 
     @include('Admin.layouts.Inc._errors')
 
-    <input type="text" name="key_phone" hidden id="key_phone" value="{{ $office->key_phone ?? '996' }}">
+    <input type="text" name="key_phone" hidden id="key_phone" value="{{ $office->key_phone ?? '966' }}">
 
     <div class="col-md-6 col-12 mb-3">
         <label class="form-label" for="company_name"> @lang('Company Name')<span
@@ -41,7 +41,7 @@
                 aria-label="Text input with dropdown button">
             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{ $office->UserData->key_phone ?? '996' }}
+                {{ $office->UserData->key_phone ?? '966' }}
             </button>
             <ul class="dropdown-menu dropdown-menu-end" style="">
                 <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>

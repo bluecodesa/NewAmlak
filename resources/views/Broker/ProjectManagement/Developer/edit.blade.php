@@ -21,10 +21,10 @@
                     <form action="{{ route('Broker.Developer.update', $developer->id) }}" method="POST" class="row">
                         @csrf
                         @method('PUT')
-                        <input type="text" name="key_phone" hidden value="{{ $developer->key_phone ?? '996' }}"
+                        <input type="text" name="key_phone" hidden value="{{ $developer->key_phone ?? '966' }}"
                             id="key_phone">
                         <input type="text" name="full_phone" id="full_phone"
-                            value="{{ $developer->full_phone ?? ($developer->key_phone ?? '996') }}">
+                            value="{{ $developer->full_phone ?? ($developer->key_phone ?? '966') }}">
                         <div class="col-md-6 mb-3 col-12">
 
                             <label class="form-label">
@@ -50,11 +50,11 @@
                                     oninput="updateFullPhone(this)" aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $developer->key_phone ?? '996' }}
+                                    {{ $developer->key_phone ?? '966' }}
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" style="">
                                     <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                    <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                                    <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
                                 </ul>
                             </div>
                         </div>

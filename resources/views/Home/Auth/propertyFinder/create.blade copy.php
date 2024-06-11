@@ -106,8 +106,8 @@
                             method="POST" enctype="multipart/form-data">
                             @csrf
 
-                            <input type="text" name="key_phone" hidden value="996" id="key_phone">
-                            <input type="text" name="full_phone" hidden id="full_phone" value="996">
+                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
+                            <input type="text" name="full_phone" hidden id="full_phone" value="966">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>

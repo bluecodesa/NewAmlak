@@ -5,7 +5,7 @@
 
     @include('Admin.layouts.Inc._errors')
 
-    <input type="text" name="key_phone" hidden id="key_phone" value="{{ $broker->key_phone ?? '996' }}">
+    <input type="text" name="key_phone" hidden id="key_phone" value="{{ $broker->key_phone ?? '966' }}">
 
     <div class="col-md-6 col-12 mb-3">
         <label for="name">
@@ -41,11 +41,11 @@
                 aria-label="Text input with dropdown button">
             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{ $broker->key_phone ?? '996' }}
+                {{ $broker->key_phone ?? '966' }}
             </button>
             <ul class="dropdown-menu dropdown-menu-end" style="">
                 <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
             </ul>
         </div>
     </div>

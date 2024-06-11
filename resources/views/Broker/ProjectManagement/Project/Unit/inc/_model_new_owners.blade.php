@@ -93,8 +93,8 @@
                 <form action="{{ route('Broker.Unit.SaveNewOwners') }}" method="POST" id="OwnerForm" class="row">
                     @csrf
                     @method('post')
-                    <input type="text" hidden name="key_phone" value="996" id="key_phone">
-                    <input type="text" hidden name="full_phone" id="full_phone" value="996">
+                    <input type="text" hidden name="key_phone" value="966" id="key_phone">
+                    <input type="text" hidden name="full_phone" id="full_phone" value="966">
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">
                             {{ __('Name') }} <span class="required-color">*</span></label>
@@ -141,11 +141,11 @@
                                 aria-label="Text input with dropdown button">
                             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                996
+                                966
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" style="">
                                 <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                                <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
                             </ul>
                         </div>
                     </div>

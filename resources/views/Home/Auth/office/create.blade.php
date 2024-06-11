@@ -105,8 +105,8 @@
                             method="POST" enctype="multipart/form-data">
                             @csrf
 
-                            <input type="text" name="key_phone" hidden value="996" id="key_phone">
-                            <input type="text" name="full_phone" hidden id="full_phone" value="996">
+                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
+                            <input type="text" name="full_phone" hidden id="full_phone" value="966">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -185,7 +185,7 @@
                                             aria-label="Text input with dropdown button">
                                         <button class="btn btn-outline-primary dropdown-toggle waves-effect"
                                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            996
+                                            966
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end" style="">
                                             <li><a class="dropdown-item" data-key="971"
