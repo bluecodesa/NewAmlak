@@ -63,6 +63,18 @@ class CheckSubscriptionMiddleware
             }
         }
 
+        if (Auth::user()->is_office) {
+            $subscription =      Auth::user()->UserOfficeData->UserSubscriptionPending;
+            $Suspend = Auth::user()->UserOfficeData->UserSubscriptionSuspend;
+            if ($subscription) {
+                return    redirect()->route('Office.home');
+            }
+            if ($Suspend) {
+                return    redirect()->route('Office.home');
+            }
+        }
+
+
         if (Auth::check()) {
             $url = URL::current();
             $notifications = auth()->user()->unreadNotifications
