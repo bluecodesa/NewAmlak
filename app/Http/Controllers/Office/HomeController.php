@@ -154,4 +154,9 @@ class HomeController extends Controller
         $cities = City::where('region_id', $id)->get();
         return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
+
+    function ViewInvoice()
+    {
+        return view('Home.Payments.inc._ViewInvoice');
+    }
 }

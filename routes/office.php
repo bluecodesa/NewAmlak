@@ -31,6 +31,8 @@ Route::group(
     function () {
         Route::prefix('office')->name('Office.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
+            Route::get('ViewInvoice', 'HomeController@ViewInvoice')->name('ViewInvoice');
+
        //resources
        Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');

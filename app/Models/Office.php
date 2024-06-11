@@ -26,7 +26,7 @@ class Office extends Model
 
     public function UserSubscriptionPending()
     {
-        return $this->hasOne(Subscription::class, 'office_id')->where('status', 'pending');
+        return $this->hasOne(Subscription::class, 'office_id')->where('status', '!=', 'active');
     }
 
 

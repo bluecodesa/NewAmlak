@@ -63,8 +63,13 @@
                 </div>
                 <hr>
                 <div class="col-12">
+                    @if(Auth::user()->UserBrokerData)
                     <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" data-url="{{ route('Broker.ViewInvoice') }}">اكمال الدفع</button>
                     <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
+                    @elseif(Auth::user()->UserOfficeData)
+                    <button type="button" class="btn btn-primary waves-effect waves-light view_inv" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" data-url="{{ route('Office.ViewInvoice') }}">اكمال الدفع</button>
+                    <a href="{{ route('Broker.Tickets.index') }}" class="btn btn-outline-warning">@lang('technical support')</a>
+                    @endif
                 </div>
             </div>
         </div>
