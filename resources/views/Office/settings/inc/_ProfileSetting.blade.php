@@ -29,14 +29,7 @@
         </div>
     </div>
 
-    <div class="col-md-6 col-12 mb-3">
-        <label for="license_number">
-            @lang('license number')</label>
-
-        <input type="text" class="form-control" id="license_number" name="office_license"
-            value="{{ $office->office_license }}" required>
-    </div>
-
+   
     <div class="col-md-6 col-12 mb-3">
 
         <label for="id_number" class="form-label">@lang('id number')</label>

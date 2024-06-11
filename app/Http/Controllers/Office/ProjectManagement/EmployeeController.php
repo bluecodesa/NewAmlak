@@ -121,7 +121,7 @@ class EmployeeController extends Controller
     $currentEmployeeCount = Employee::where('office_id', $officeId)->count();
 
     if ($currentEmployeeCount >= $office->max_of_employee) {
-        return redirect()->back()->with('error', __('The maximum number of employees for this office has been reached.'));
+        return redirect()->back()->with('success', __('The maximum number of employees for this office has been reached.'));
     }
 
     $user = User::create([

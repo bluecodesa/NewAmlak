@@ -52,6 +52,8 @@ class SettingService
                 Rule::unique('users')->ignore($office->user_id),
                 'max:25'
             ],
+            'office_license' => 'nullable|numeric',
+
         ];
 
         $messages = [
@@ -69,6 +71,8 @@ class SettingService
             'phone.required' => __('The Company mobile number field is required.'),
             'phone.unique' => __('The Company mobile number has already been taken.'),
             'phone.max' => __('The Company mobile number may not be greater than :max characters.'),
+            'office_license.numeric' => __('The license number must be a number.'),
+
         ];
 
         $request->validate($rules, $messages);
@@ -79,6 +83,8 @@ class SettingService
             'company_name' => $request->name,
             'city_id' => $request->city_id,
             'company_logo' => $request['company_logo'] ?? null,
+            'office_license' => $request->office_license ?? null,
+
         ]);
 
         if ($request->hasFile('company_logo')) {
@@ -122,7 +128,6 @@ class SettingService
                 'nullable',
                 Rule::unique('offices', 'presenter_number')->ignore($office->user_id),
             ],
-            'office_license' => 'nullable|numeric',
             'id_number' => 'nullable|numeric',
         ];
 
@@ -130,7 +135,6 @@ class SettingService
         $messages = [
             'presenter_number.digits' => __('The mobile number must be 20 digits.'),
             'presenter_number.unique' => __('The mobile number has already been taken.'),
-            'office_license.numeric' => __('The license number must be a number.'),
             'id_number.numeric' => __('The ID number must be a number.'),
         ];
 
