@@ -88,7 +88,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-
+       
         Auth::user()->assignRole('Office-Employee');
         return view('home',   get_defined_vars());
     }
