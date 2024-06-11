@@ -26,7 +26,7 @@
                     aria-controls="navs-justified-home"
                     aria-selected="true">
                     <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('profile')
-                    <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                    <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">5</span>
                   </button>
                 </li>
 
