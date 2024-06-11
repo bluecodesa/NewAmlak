@@ -163,7 +163,7 @@
                                     {{-- <td>{{ $index + 1 }}</td> --}}
                                     <td>{{ $employee->UserData->name ?? '' }}</td>
                                     <td>{{ $employee->UserData->email ?? '' }}</td>
-                                    <td>{{ $employee->UserData->phone ?? '' }}</td>
+                                    <td>{{ $employee->UserData->full_phone ?? '' }}</td>
                                     {{-- <td>{{ $employee->CityData->name ?? '' }}</td>
                                     <td>{{ $employee->UserData->roles[0]->name ?? '' }}</td> --}}
 
