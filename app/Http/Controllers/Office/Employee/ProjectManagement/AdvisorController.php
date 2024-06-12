@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Office\ProjectManagement;
+namespace App\Http\Controllers\Office\Employee\ProjectManagement;
 
 use App\Http\Controllers\Controller;
 use App\Services\CityService;

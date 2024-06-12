@@ -66,14 +66,14 @@
 
                         @if (Auth::user()->hasPermission('read-building'))
                         <li class="menu-item">
-                                <a href="{{ route('Broker.Property.index') }}" class="menu-link">
+                                <a href="{{ route('Office.Property.index') }}" class="menu-link">
                                     <div data-i18n="@lang('properties')">@lang('properties')</div>
                                 </a>
                             </li>
                         @endif
                         @if (Auth::user()->hasPermission('read-all-units'))
                         <li class="menu-item">
-                                <a href="{{ route('Broker.Unit.index') }}" class="menu-link">
+                                <a href="{{ route('Office.Unit.index') }}" class="menu-link">
                                     <div data-i18n="@lang('Units')">@lang('Units')</div>
                                 </a>
                             </li>
@@ -138,7 +138,7 @@
 
         @if (in_array(16, $sectionsIds))
         <li class="menu-item">
-                <a href="{{ route('Broker.Owner.index') }}" class="menu-link">
+                <a href="{{ route('Office.Owner.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
                     <div data-i18n="@lang('Owners Management')">@lang('Owners Management')</div>
                 </a>

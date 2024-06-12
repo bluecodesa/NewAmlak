@@ -10,7 +10,7 @@
             {{-- <span class="app-brand-text demo menu-text fw-bold">{{ $sitting->title }}</span> --}}
         {{-- </a> --}}
 
-        <a href="{{ route('Broker.home') }}" class="app-brand-link">
+        <a href="{{ route('Office.home') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <svg width="32" height="22" viewBox="0 0 32 22" fill="none"
                     xmlns="http://www.w3.org/2000/svg">

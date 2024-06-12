@@ -1,6 +1,6 @@
 @extends('Admin.layouts.app')
 
-@section('title', __('Projects'))
+@section('title', __('properties'))
 
 @section('content')
     <div class="content-wrapper">
@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Projects')</h4>
+                        @lang('properties')</h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
@@ -17,9 +17,9 @@
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('Projects') </h5>
+                        <h5 class="card-header">@lang('properties') </h5>
+                        <hr>
                     </div>
-                    <hr>
                     <div class="col-12">
                         <div class="row">
                             <div class="col-4">
@@ -41,33 +41,15 @@
                                                     aria-haspopup="dialog" aria-expanded="false"><span>
                                                         <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    @if (Auth::user()->hasPermission('create-project'))
-                                                        <li><a class="dropdown-item"
-                                                                href="{{ route('Office.Project.create') }}">@lang('Add New Project')</a>
-                                                        </li>
-                                                    @endif
-                                                    @if (Auth::user()->hasPermission('create-building'))
-                                                        {{-- <li><a class="dropdown-item"
-                                                                href="{{ route('Office.Property.create') }}">@lang('Add new property')</a>
-                                                        </li> --}}
-                                                    @endif
+                                            @if (Auth::user()->hasPermission('create-building'))
+                                                <div class="btn-group">
+                                                    <a href="{{ route('Office.Property.create') }}" class="btn btn-primary">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add new property')</span></span>
+                                                    </a>
 
-
-                                                    @if (Auth::user()->hasPermission('create-unit'))
-                                                        {{-- <li><a class="dropdown-item"
-                                                                href="{{ route('Office.Unit.create') }}">@lang('Add unit')</a>
-                                                        </li> --}}
-                                                    @endif
-
-                                                </ul>
-                                            </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -82,23 +64,27 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                {{-- <th>#</th> --}}
-                                <th>@lang('project name')</th>
+                                <th>@lang('property name')</th>
                                 <th>@lang('city')</th>
-                                <th>@lang('Number Properties')</th>
-                                <th>@lang('Number units')</th>
-
+                                {{-- <th>@lang('location')</th> --}}
+                                <th>@lang('Property type')</th>
+                                <th>@lang('Type use')</th>
+                                <th>@lang('owner name')</th>
+                                {{-- <th>@lang('Instrument number')</th> --}}
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @forelse($Projects as $index => $project)
+                            @forelse($properties as $index => $property)
                                 <tr>
-                                    {{-- <td>{{ $index + 1 }}</td> --}}
-                                    <td>{{ $project->name ?? '' }}</td>
-                                    <td>{{ $project->CityData->name ?? '' }}</td>
-                                    <td> {{ $project->PropertiesProject->count() }} </td>
-                                    <td> {{ $project->UnitsProject->count() }} </td>
+
+                                    <td>{{ $property->name ?? '' }}</td>
+                                    <td>{{ $property->CityData->name ?? '' }}</td>
+                                    {{-- <td>{{ $property->location ?? '' }}</td> --}}
+                                    <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
+                                    <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
+                                    <td>{{ $property->OwnerData->name ?? '' }}</td>
+                                    {{-- <td>{{ $property->instrument_number ?? '' }}</td> --}}
 
                                     <td>
 
@@ -108,18 +94,25 @@
                                                 <i class="ti ti-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu" style="">
-                                                <a class="dropdown-item"
-                                                    href="{{ route('Office.Project.show', $project->id) }}">@lang('Show')</a>
-                                                @if (Auth::user()->hasPermission('read-project'))
+                                                @if (Auth::user()->hasPermission('create-unit'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Office.Project.edit', $project->id) }}">@lang('Edit')</a>
+                                                        href="{{ route('Office.Property.CreateUnit', $property->id) }}"
+                                                        class="btn btn-outline-dark btn-sm waves-effect waves-light">@lang('Add units')</a>
                                                 @endif
-                                                @if (Auth::user()->hasPermission('delete-project'))
-                                                    <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $project->id }}')"
-                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $project->id }}"
-                                                        action="{{ route('Office.Project.destroy', $project->id) }}"
+                                                <a class="dropdown-item"
+                                                    href="{{ route('Office.Property.show', $property->id) }}"
+                                                    class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                @if (Auth::user()->hasPermission('update-building'))
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('Office.Property.edit', $property->id) }}"
+                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                @endif
+                                                @if (Auth::user()->hasPermission('delete-building'))
+                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                        onclick="handleDelete('{{ $property->id }}')"
+                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                    <form id="delete-form-{{ $property->id }}"
+                                                        action="{{ route('Office.Property.destroy', $property->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
@@ -131,7 +124,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <td colspan="5">
+                                <td colspan="6">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <span class="alert-icon text-danger me-2">
                                             <i class="ti ti-ban ti-xs"></i>
@@ -171,7 +164,7 @@
                 });
 
                 // Save the workbook as an Excel file
-                XLSX.writeFile(wb, @json(__('Projects')) + '.xlsx');
+                XLSX.writeFile(wb, @json(__('Roles')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
         </script>

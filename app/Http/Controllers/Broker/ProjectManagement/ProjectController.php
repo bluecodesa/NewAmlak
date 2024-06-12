@@ -35,7 +35,9 @@ class ProjectController extends Controller
 
 
 
-    public function __construct(AllServiceService $AllServiceService, FeatureService $FeatureService ,ProjectService $projectService,AdminProjectService $AdminProjectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    public function __construct(AllServiceService $AllServiceService, FeatureService $FeatureService ,
+    ProjectService $projectService,AdminProjectService $AdminProjectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, 
+    PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;

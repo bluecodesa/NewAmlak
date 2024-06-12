@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employee;
+namespace App\Http\Controllers\Office\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
@@ -14,7 +14,7 @@ use App\Services\CityService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Services\Broker\UnitService;
-use App\Services\Employee\SettingService;
+use App\Services\Office\Employee\SettingService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 
@@ -74,7 +74,7 @@ class SettingController extends Controller
         }
 
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
-        return view('Employee.settings.index', get_defined_vars());
+        return view('Office.Employee.settings.index', get_defined_vars());
     }
 
 

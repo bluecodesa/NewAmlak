@@ -151,7 +151,8 @@ class HomeController extends Controller
 
     public function GetCitiesByRegion($id)
     {
-        $cities = City::where('region_id', $id)->get();
+        // $cities = City::where('region_id', $id)->get();
+        $cities = $this->RegionService->getCityByRegionId($id);
         return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
 
@@ -159,4 +160,12 @@ class HomeController extends Controller
     {
         return view('Home.Payments.inc._ViewInvoice');
     }
+    public function GetDistrictsByCity($id)
+    {
+        // $districts = District::where('city_id', $id)->get();
+        $districts = $this->districtService->getDistrictsByCity($id);
+
+        return view('Admin.settings.Region.inc._district', get_defined_vars());
+    }
+
 }

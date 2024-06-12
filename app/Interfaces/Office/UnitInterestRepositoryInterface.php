@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Interfaces\Office;
+
+use App\Models\UnitInterest;
+use Illuminate\Http\Request;
+
+interface UnitInterestRepositoryInterface
+{
+    public function index(Request $request);
+
+    public function create(array $data);
+
+    public function store(Request $request);
+
+    public function show(string $id);
+
+    public function update(Request $request, string $id);
+
+    public function destroy(string $id);
+
+    public function getFilteredUnitInterests($userId, $statusFilter, $propFilter, $unitFilter, $projectFilter, $clientFilter);
+}

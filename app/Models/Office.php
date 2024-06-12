@@ -14,6 +14,10 @@ class Office extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function EmployeeeData()
+    {
+        return $this->hasMany(Employee::class, 'employee_id');
+    }
     public function CityData()
     {
         return $this->belongsTo(City::class, 'city_id');

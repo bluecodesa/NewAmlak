@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employee;
+namespace App\Http\Controllers\Office\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
@@ -88,7 +88,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-       
+
         Auth::user()->assignRole('Office-Employee');
         return view('home',   get_defined_vars());
     }
