@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Employee;
+namespace App\Services\Office\Employee;
 
-use App\Interfaces\Employee\SettingRepositoryInterface;
+use App\Interfaces\Office\Employee\SettingRepositoryInterface;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Setting;
@@ -112,12 +112,12 @@ class SettingService
         $user->update($userData);
 
         // Redirect with success message
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Updated successfully.'));
+        return redirect()->route('Employee.Setting.index')->withSuccess(__('Updated successfully.'));
 
 
     }
 
-  
+
     public function updateProfileSetting(Request $request, $id)
     {
         $employee = Employee::findOrFail($id);
@@ -161,7 +161,7 @@ class SettingService
             'id_number.required' => __('The ID number field is required.'),
 
 
-         
+
         ]);
 
         $user = $employee->userData();
@@ -182,15 +182,15 @@ class SettingService
     public function updatePassword(Request $request, $id)
     {
         $employee = Employee::findOrFail($id);
-    
+
         // Fetch the associated user
         $user = $employee->userData;
-    
+
         $rules = [
             'current_password' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
         ];
-    
+
         // Define custom error messages
         $messages = [
             'current_password.required' => __('The current password field is required.'),
@@ -198,24 +198,24 @@ class SettingService
             'password.min' => __('The new password must be at least 8 characters.'),
             'password.confirmed' => __('The new password confirmation does not match.'),
         ];
-    
+
         // Validate the request
         $request->validate($rules, $messages);
-    
+
         // Verify the current password
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => __('The current password is incorrect.')]);
         }
-    
+
         // Update the password
         $user->update([
             'password' => Hash::make($request->password),
         ]);
-    
+
         // Redirect with success message
         return redirect()->route('Employee.Setting.index')->withSuccess(__('Password updated successfully.'));
     }
-    
+
 
     public function getSettings()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces\Employee;
+namespace App\Interfaces\Office\Employee;
 
 use App\Models\Office;
 use App\Models\Setting;

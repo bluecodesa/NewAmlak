@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\Employee;
+namespace App\Repositories\Office\Employee;
 
 use App\Models\Gallery;
 use App\Models\Setting;
-use App\Interfaces\Employee\SettingRepositoryInterface;
+use App\Interfaces\Office\Employee\SettingRepositoryInterface;
 use App\Models\Office;
 use App\Models\EmailSetting;
 use App\Models\Employee;
