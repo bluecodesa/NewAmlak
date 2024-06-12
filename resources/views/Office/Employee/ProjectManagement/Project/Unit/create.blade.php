@@ -245,7 +245,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            @if (Auth::user()->hasPermission('show-employee-account'))
+                                            @if (Auth::user()->hasPermission('assign-unit-employee'))
                                             <div class="col-12 mb-2 col-md-4">
                                                 <label class="form-label">@lang('The Responsible Employee')
                                                 </label>
