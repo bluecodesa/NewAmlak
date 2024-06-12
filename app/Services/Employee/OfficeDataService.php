@@ -13,21 +13,21 @@ class OfficeDataService
 {
     public function getAdvisors()
     {
-        return Advisor::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        return Advisor::where('office_id', Auth::user()->UserEmployeeData->OfficeData->id)->get();
     }
 
     public function getDevelopers()
     {
-        return Developer::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        return Developer::where('office_id', Auth::user()->UserEmployeeData->OfficeData->id)->get();
     }
 
     public function getOwners()
     {
-        return Owner::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        return Owner::where('office_id', Auth::user()->UserEmployeeData->OfficeData->id)->get();
     }
 
     public function getEmployees()
     {
-        return Employee::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        return Employee::where('office_id', Auth::user()->UserEmployeeData->OfficeData->id)->get();
     }
 }

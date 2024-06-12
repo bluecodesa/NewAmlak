@@ -85,7 +85,6 @@ class CheckSubscriptionMiddleware
                 $notification->markAsRead();
             });
         }
-
         return $next($request);
     }
 }

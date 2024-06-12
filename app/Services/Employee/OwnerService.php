@@ -45,7 +45,7 @@ class OwnerService
         ];
 
         validator($data, $rules)->validate();
-        $data['office_id'] = Auth::user()->UserOfficeData->id;
+        $data['office_id'] = Auth::user()->UserEmployeeData->OfficeData->id;
         $Owner = $this->OwnerRepository->create($data);
 
         return $Owner;

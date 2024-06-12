@@ -91,7 +91,7 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-6">
-                    <h4 class=""><a href="{{ route('Office.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <h4 class=""><a href="{{ route('Employee.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         @lang('Employees')</h4>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                                             </div>
                                             @if (Auth::user()->hasPermission('create-employee-account'))
                                             <div class="btn-group">
-                                                <a href="{{ route('Office.Employee.create') }}" class="btn btn-primary">
+                                                <a href="{{ route('Employee.Employee.create') }}" class="btn btn-primary">
                                                     <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
                                                             class="d-none d-sm-inline-block">@lang('Add New Employee')</span></span>
                                                 </a>
@@ -175,18 +175,20 @@
                                                 <i class="ti ti-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu" style="">
+                                                @if (Auth::user()->hasPermission('show-employee-account'))
                                                 <a class="dropdown-item"
-                                                    href="{{ route('Office.Employee.show', $employee->id) }}">@lang('Show')</a>
-                                                @if (Auth::user()->hasPermission('delete-employee-account'))
+                                                    href="{{ route('Employee.Employee.show', $employee->id) }}">@lang('Show')</a>
+                                                @endif
+                                                    @if (Auth::user()->hasPermission('delete-employee-account'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Office.Employee.edit', $employee->id) }}">@lang('Edit')</a>
+                                                        href="{{ route('Employee.Employee.edit', $employee->id) }}">@lang('Edit')</a>
                                                 @endif
                                                 @if (Auth::user()->hasPermission('delete-employee-account'))
                                                     <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $employee->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
                                                     <form id="delete-form-{{ $employee->id }}"
-                                                        action="{{ route('Office.Employee.destroy', $employee->id) }}"
+                                                        action="{{ route('Employee.Employee.destroy', $employee->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')

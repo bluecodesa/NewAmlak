@@ -57,7 +57,7 @@
                 <ul class="menu-sub">
                     @if (Auth::user()->hasPermission('read-project'))
                         <li class="menu-item">
-                            <a href="{{ route('Broker.Project.index') }}" class="menu-link">
+                            <a href="{{ route('Employee.Project.index') }}" class="menu-link">
                                 <div data-i18n="@lang('Projects')">@lang('Projects')</div>
                             </a>
                         </li>
@@ -72,7 +72,7 @@
                         @endif
                         @if (Auth::user()->hasPermission('read-all-units'))
                         <li class="menu-item">
-                                <a href="{{ route('Broker.Unit.index') }}" class="menu-link">
+                                <a href="{{ route('Employee.Unit.index') }}" class="menu-link">
                                     <div data-i18n="@lang('Units')">@lang('Units')</div>
                                 </a>
                             </li>
@@ -100,7 +100,7 @@
                 </a>
                 <ul class="menu-sub">
                         <li class="menu-item">
-                            <a href="{{ route('Office.Employee.index') }}" class="menu-link">
+                            <a href="{{ route('Employee.Employee.index') }}" class="menu-link">
                                 <div data-i18n="@lang('Employees')">@lang('Employees')</div>
                             </a>
                         </li>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Office\Employee;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
@@ -88,14 +88,21 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-
         Auth::user()->assignRole('Office-Employee');
         return view('home',   get_defined_vars());
     }
 
     public function GetCitiesByRegion($id)
     {
-        $cities = City::where('region_id', $id)->get();
+        // $cities = City::where('region_id', $id)->get();
+        $cities = $this->RegionService->getCityByRegionId($id);
         return view('Admin.settings.Region.inc._city', get_defined_vars());
+    }
+    public function GetDistrictsByCity($id)
+    {
+        // $districts = District::where('city_id', $id)->get();
+        $districts = $this->districtService->getDistrictsByCity($id);
+
+        return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
 }

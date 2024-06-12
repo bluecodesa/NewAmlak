@@ -76,13 +76,17 @@ use App\Repositories\Office\ProjectRepository as OfficeProjectRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Interfaces\Admin\ProjectRepositoryInterface;
+use App\Interfaces\Employee\ProjectRepositoryInterface as EmployeeProjectRepositoryInterface;
 use App\Interfaces\Employee\SettingRepositoryInterface as EmployeeSettingRepositoryInterface;
+use App\Interfaces\Employee\UnitRepositoryInterface as EmployeeUnitRepositoryInterface;
 use App\Interfaces\Office\PropertyRepositoryInterface as OfficePropertyRepositoryInterface;
 use App\Interfaces\Office\SettingRepositoryInterface as OfficeSettingRepositoryInterface;
 use App\Interfaces\Office\UnitInterestRepositoryInterface as OfficeUnitInterestRepositoryInterface;
 use App\Interfaces\Office\UnitRepositoryInterface as OfficeUnitRepositoryInterface;
 use App\Repositories\Admin\ProjectRepository;
+use App\Repositories\Employee\ProjectRepository as EmployeeProjectRepository;
 use App\Repositories\Employee\SettingRepository as EmployeeSettingRepository;
+use App\Repositories\Employee\UnitRepository as EmployeeUnitRepository;
 use App\Repositories\Office\PropertyRepository as OfficePropertyRepository;
 use App\Repositories\Office\SettingRepository as OfficeSettingRepository;
 use App\Repositories\Office\UnitInterestRepository as OfficeUnitInterestRepository;
@@ -200,6 +204,11 @@ class AppServiceProvider extends ServiceProvider
             OfficeProjectRepositoryInterface::class,
             OfficeProjectRepository::class
         );
+
+        $this->app->bind(
+            EmployeeProjectRepositoryInterface::class,
+            EmployeeProjectRepository::class
+        );
         $this->app->bind(
             BrokerProjectRepositoryInterface::class,
             BrokerProjectRepository::class
@@ -220,7 +229,7 @@ class AppServiceProvider extends ServiceProvider
             PropertyTypeRepositoryInterface::class,
             PropertyTypeRepository::class
         );
-    
+
         $this->app->bind(
             PropertyUsageRepositoryInterface::class,
             PropertyUsageRepository::class
@@ -285,6 +294,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             OfficeUnitRepositoryInterface::class,
             OfficeUnitRepository::class
+        );
+        $this->app->bind(
+            EmployeeUnitRepositoryInterface::class,
+            EmployeeUnitRepository::class
         );
 
         $this->app->bind(

@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body" style="text-align:right;">
-                <form action="{{ route('Office.Unit.SaveNewOwners') }}" method="POST" id="OwnerForm" class="row">
+                <form action="{{ route('Broker.Unit.SaveNewOwners') }}" method="POST" id="OwnerForm" class="row">
                     @csrf
                     @method('post')
                     <div class="col-md-6">
@@ -90,7 +90,7 @@
                 <div class="text-center">
                     <h3 class="mb-2">@lang('Add New Owner')</h3>
                 </div>
-                <form action="{{ route('Office.Unit.SaveNewOwners') }}" method="POST" id="OwnerForm" class="row">
+                <form action="{{ route('Employee.Unit.SaveNewOwners') }}" method="POST" id="OwnerForm" class="row">
                     @csrf
                     @method('post')
                     <input type="text" hidden name="key_phone" value="966" id="key_phone">
@@ -119,7 +119,7 @@
                             <option disabled selected value="">@lang('Region')</option>
                             @foreach ($Regions as $Region)
                                 <option value="{{ $Region->id }}"
-                                    data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}">
+                                    data-url="{{ route('Employee.Employee.GetCitiesByRegion', $Region->id) }}">
                                     {{ $Region->name }}</option>
                             @endforeach
                         </select>

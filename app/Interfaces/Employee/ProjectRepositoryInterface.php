@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Interfaces\Office;
+namespace App\Interfaces\Employee;
 
 interface ProjectRepositoryInterface
 {
     public function getAllByOfficeId($officeId);
 
-    public function create($data, $images);
+    public function create($data, $files);
 
     public function update($id, $data, $images);
 
@@ -16,4 +16,7 @@ interface ProjectRepositoryInterface
     public function delete($id);
 
     public function storeProperty($data, $images);
+
+    public function StoreUnit($id, $data);
+    public function autocomplete($data);
 }

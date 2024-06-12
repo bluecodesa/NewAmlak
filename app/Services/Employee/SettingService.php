@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Office\Employee;
+namespace App\Services\Employee;
 
-use App\Interfaces\Office\Employee\SettingRepositoryInterface;
+use App\Interfaces\Employee\SettingRepositoryInterface;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\Setting;

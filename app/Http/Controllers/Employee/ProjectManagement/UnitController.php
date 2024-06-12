@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Office\Employee\ProjectManagement;
+namespace App\Http\Controllers\Employee\ProjectManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Unit;
@@ -9,10 +9,10 @@ use App\Models\UnitInterest;
 use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
 use App\Services\CityService;
-use App\Services\Office\OfficeDataService;
-use App\Services\Office\Employee\OwnerService;
-use App\Services\Office\Employee\UnitInterestService;
-use App\Services\Office\Employee\UnitService;
+use App\Services\Employee\OfficeDataService;
+use App\Services\Employee\OwnerService;
+use App\Services\Employee\UnitInterestService;
+use App\Services\Employee\UnitService;
 use App\Services\FeatureService;
 use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
-use App\Services\Office\Employee\EmployeeService;
+use App\Services\Employee\EmployeeService;
 
 class UnitController extends Controller
 {
@@ -59,7 +59,7 @@ class UnitController extends Controller
         PropertyTypeService $propertyTypeService,
         ServiceTypeService $ServiceTypeService,
         PropertyUsageService $propertyUsageService,
-        UnitInterestService $unitInterestService,
+        // UnitInterestService $unitInterestService,
         SubscriptionTypeService $SubscriptionTypeService,
         SubscriptionService $subscriptionService,
         EmployeeService $EmployeeService
@@ -75,7 +75,7 @@ class UnitController extends Controller
         $this->FeatureService = $FeatureService;
         $this->ownerService = $ownerService;
         $this->settingService = $settingService;
-        $this->unitInterestService = $unitInterestService;
+        // $this->unitInterestService = $unitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->EmployeeService = $EmployeeService;
@@ -90,8 +90,8 @@ class UnitController extends Controller
 
     public function index()
     {
-        $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
-        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $units = $this->UnitService->getAll(auth()->user()->UserEmployeeData->OfficeData->id);
+        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserEmployeeData->OfficeData->id);
         return view('Office.Employee.ProjectManagement.Project.Unit.index',  get_defined_vars());
     }
 
@@ -107,7 +107,7 @@ class UnitController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
-        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserEmployeeData->OfficeData->id);
         return view('Office.Employee.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 
@@ -162,18 +162,18 @@ class UnitController extends Controller
     public function show($id)
     {
         $Unit = $this->UnitService->findById($id);
-        $officeId = auth()->user()->UserOfficeData->id;
+        $officeId = auth()->user()->UserEmployeeData->OfficeData->id;
         $subscription = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
         if ($subscription) {
             $sectionsIds = auth()->user()
-                ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+                ->UserEmployeeData->OfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
                 ->toArray();
-            if (in_array(18, $sectionsIds)) {
-                $unitInterests = $this->unitInterestService->getUnitInterestsByUnitId($id);
-                $interestsTypes = $this->settingService->getAllInterestTypes();
-            }
+            // if (in_array(18, $sectionsIds)) {
+            //     $unitInterests = $this->unitInterestService->getUnitInterestsByUnitId($id);
+            //     $interestsTypes = $this->settingService->getAllInterestTypes();
+            // }
         }
-        if (auth()->user()->UserOfficeData->id === $Unit->office_id) {
+        if (auth()->user()->UserEmployeeData->OfficeData->id === $Unit->office_id) {
             return view('Office.Employee.ProjectManagement.Project.Unit.show', get_defined_vars());
         } else {
             abort(403, 'Unauthorized action.');
@@ -193,7 +193,7 @@ class UnitController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
-        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserEmployeeData->OfficeData->id);
 
         return view('Office.Employee.ProjectManagement.Project.Unit.edit', get_defined_vars());
     }

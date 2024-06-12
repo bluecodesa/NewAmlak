@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Office\Employee;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
@@ -14,7 +14,7 @@ use App\Services\CityService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Services\Broker\UnitService;
-use App\Services\Office\Employee\SettingService;
+use App\Services\Employee\SettingService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 
@@ -54,7 +54,6 @@ class SettingController extends Controller
     }
     public function index()
     {
-
         $EmailSettingService = $this->EmailSettingService->getAll();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();

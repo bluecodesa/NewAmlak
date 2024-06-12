@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Projects'))
+@section('title', __('Units'))
 @section('content')
 
 
@@ -8,7 +8,7 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
 
                     <h4 class=""><a href="{{ route('Office.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Office.Unit.index') }}" class="text-muted fw-light">@lang('Units') </a> /

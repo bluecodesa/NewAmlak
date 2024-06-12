@@ -12,7 +12,7 @@
                 </div>
             </div>
             <!-- DataTable with Buttons -->
-    
+
             <div class="col-12">
 
                 <div class="nav-align-top  mb-4">
@@ -65,21 +65,21 @@
                             {{-- @if (Auth::user()->hasPermission('update-user-profile')) --}}
                             @if (Auth::user()->hasPermission('update-company-profile'))
                             <div class="tab-pane fade active show" id="navs-justified-home" role="tabpanel">
-                                @include('Employee.settings.inc._GeneralSetting')
+                                @include('Office.Employee.settings.inc._GeneralSetting')
                             </div>
                             @endif
                            @if (Auth::user()->hasPermission('update-user-profile'))
                             <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                                @include('Employee.settings.inc._ProfileSetting')
+                                @include('Office.Employee.settings.inc._ProfileSetting')
                             </div>
                             <div class="tab-pane fade" id="navs-justified-security" role="tabpanel">
-                                @include('Employee.settings.inc._security')
+                                @include('Office.Employee.settings.inc._security')
                             </div>
                             @endif
                             @if (Auth::user()->hasPermission('activate-gallery'))
                             @if ($gallery)
                                 <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
-                                    @include('Employee.settings.inc._GalleryMange')
+                                    @include('Office.Employee.settings.inc._GalleryMange')
                                 </div>
                             @else
                             <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
