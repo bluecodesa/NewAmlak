@@ -260,7 +260,7 @@
                                         <option disabled selected value="">@lang('The Responsible Employee') </option>
                                         @foreach ($employees as $employee)
                                             <option value="{{ $employee->id }}"
-                                                {{ $employee->id == $employee->employee_id ? 'selected' : '' }}>
+                                                {{ $employee->id == $Unit->employee_id ? 'selected' : '' }}>
                                                 {{ $employee->UserData->name  }}</option>
                                     @endforeach
                                     </select>
