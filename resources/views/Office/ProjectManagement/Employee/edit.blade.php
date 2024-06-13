@@ -8,7 +8,7 @@
             <div class="col-12">
                 <h4 class=""><a href="{{ route('Office.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                     <a href="{{ route('Office.Employee.index') }}" class="text-muted fw-light">@lang('Employees') </a> /
-                    @lang('Edit')
+                    @lang('Edit') : {{ $employee->UserData->name }}
                 </h4>
             </div>
         </div>

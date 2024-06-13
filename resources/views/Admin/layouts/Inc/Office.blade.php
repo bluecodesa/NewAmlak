@@ -109,6 +109,23 @@
             </li>
         @endif
 
+        @if (in_array(14, $sectionsIds))
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
+                <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                <div data-i18n="@lang('Renter Management')">@lang('Renter Management')</div>
+            </a>
+            <ul class="menu-sub">
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Renter.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Renters')">@lang('Renters')</div>
+                        </a>
+                    </li>
+            </ul>
+        </li>
+    @endif
+
 
         @if (in_array(18, $sectionsIds))
         <li class="menu-item">

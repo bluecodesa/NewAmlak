@@ -9,7 +9,7 @@
                 <h4 class="">
                     <a href="{{ route('Office.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                     <a href="{{ route('Office.Employee.index') }}" class="text-muted fw-light">@lang('Employees')</a> /
-                    @lang('Show')
+                    @lang('Show') : {{ $employee->UserData->name }}
                 </h4>
             </div>
         </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Office\HomeController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
 use App\Http\Controllers\Office\ProjectManagement\PropertyController;
+use App\Http\Controllers\Office\ProjectManagement\Renter\RenterController;
 use App\Http\Controllers\Office\ProjectManagement\UnitController;
 use App\Http\Controllers\Office\SettingController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,7 @@ Route::group(
        Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
        Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+       Route::resource('Renter', RenterController::class)->middleware('CheckSubscription');
        Route::resource('Employee', EmployeeController::class)->middleware('CheckSubscription');
        //projects routes
        Route::resource('Project', ProjectController::class)->middleware('CheckSubscription');
