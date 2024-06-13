@@ -64,6 +64,10 @@ class User extends Authenticatable
         return $this->hasOne(Employee::class, 'user_id');
     }
 
+    public function UserRenterData()
+    {
+        return $this->hasOne(Renter::class, 'user_id');
+    }
     public static function getAdmins()
     {
         return self::where('is_admin', 1)->paginate(100);

@@ -41,7 +41,11 @@ Route::group(
        Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
        Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+       //renter
        Route::resource('Renter', RenterController::class)->middleware('CheckSubscription');
+       Route::post('/renter-search', [RenterController::class, 'searchByIdNumber'])->name('Renter.searchByIdNumber');
+       Route::get('/renter/add/{id}', [RenterController::class, 'add'])->name('Renter.add');
+        //end renter
        Route::resource('Employee', EmployeeController::class)->middleware('CheckSubscription');
        //projects routes
        Route::resource('Project', ProjectController::class)->middleware('CheckSubscription');

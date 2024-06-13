@@ -20,6 +20,7 @@ use App\Interfaces\Admin\SubscriptionTypeRepositoryInterface;
 use App\Interfaces\Admin\SupportRepositoryInterface;
 use App\Repositories\Admin\SupportRepository;
 use App\Repositories\Broker\TicketRepository;
+use App\Repositories\Office\RenterRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -80,6 +81,7 @@ use App\Interfaces\Employee\ProjectRepositoryInterface as EmployeeProjectReposit
 use App\Interfaces\Employee\SettingRepositoryInterface as EmployeeSettingRepositoryInterface;
 use App\Interfaces\Employee\UnitRepositoryInterface as EmployeeUnitRepositoryInterface;
 use App\Interfaces\Office\PropertyRepositoryInterface as OfficePropertyRepositoryInterface;
+use App\Interfaces\Office\RenterRepositoryInterface;
 use App\Interfaces\Office\SettingRepositoryInterface as OfficeSettingRepositoryInterface;
 use App\Interfaces\Office\UnitInterestRepositoryInterface as OfficeUnitInterestRepositoryInterface;
 use App\Interfaces\Office\UnitRepositoryInterface as OfficeUnitRepositoryInterface;
@@ -194,6 +196,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             OwnerRepositoryInterface::class,
             OwnerRepository::class
+        );
+        $this->app->bind(
+            RenterRepositoryInterface::class,
+            RenterRepository::class
         );
         $this->app->bind(
             BrokerOwnerRepositoryInterface::class,

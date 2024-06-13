@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-6 ">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Office.Owner.index') }}" class="text-muted fw-light">@lang('owners')
+                        <a href="{{ route('Office.Renter.index') }}" class="text-muted fw-light">@lang('Renters')
                         </a> /
                         @lang('Edit')
                     </h4>
@@ -18,22 +18,22 @@
             <div class="card">
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
-                    <form action="{{ route('Office.Owner.update', $Owner->id) }}" method="POST" class="row">
+                    <form action="{{ route('Office.Renter.update', $Renter->id) }}" method="POST" class="row">
                         @csrf
                         @method('PUT')
-                        <input type="text" name="key_phone" hidden value="{{ $Owner->key_phone ?? '966' }}"
+                        <input type="text" name="key_phone" hidden value="{{ $Renter->key_phone ?? '966' }}"
                             id="key_phone">
-                        <input type="text" name="full_phone" hidden id="full_phone" value="{{ $Owner->full_phone }}">
+                        <input type="text" name="full_phone" hidden id="full_phone" value="{{ $Renter->full_phone }}">
                         <div class="col-md-6 mb-3 col-12">
                             <label class="form-label">
                                 {{ __('Name') }} <span class="required-color">*</span></label>
-                            <input type="text" value="{{ $Owner->name }}" required id="modalRoleName" name="name"
+                            <input type="text" value="{{ $Renter->name }}" required id="modalRoleName" name="name"
                                 class="form-control" placeholder="{{ __('Name') }}">
 
                         </div>
                         <div class="col-md-6 mb-3 col-12">
                             <label class="form-label"> @lang('Email') <span class="required-color">*</span></label>
-                            <input type="email" value="{{ $Owner->email }}" required name="email" class="form-control"
+                            <input type="email" value="{{ $Renter->email }}" required name="email" class="form-control"
                                 placeholder="@lang('Email')">
 
                         </div>
@@ -46,43 +46,17 @@
                                     class="required-color">*</span></label>
                             <div class="input-group">
                                 <input type="text" placeholder="123456789" name="phone" id="phone"
-                                    value="{{ $Owner->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
+                                    value="{{ $Renter->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
                                     oninput="updateFullPhone(this)" aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $Owner->key_phone ?? '966' }}
+                                    {{ $Renter->key_phone ?? '966' }}
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" style="">
                                     <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                                     <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
                                 </ul>
                             </div>
-                        </div>
-
-
-                        <div class="col-md-4 mb-3 col-12">
-                            <label class="form-label">@lang('Region') <span class="required-color">*</span> </label>
-                            <select class="form-select" id="Region_id" required>
-                                <option disabled value="">@lang('Region')</option>
-                                @foreach ($Regions as $Region)
-                                    <option value="{{ $Region->id }}"
-                                        data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}"
-                                        {{ $Region->id == $Owner->CityData->RegionData->id ? 'selected' : '' }}>
-                                        {{ $Region->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-md-4 mb-3 col-12">
-                            <label class="form-label">@lang('city') <span class="required-color">*</span> </label>
-                            <select class="form-select" name="city_id" id="CityDiv" required>
-                                <option disabled value="">@lang('city')</option>
-                                @foreach ($cities as $city)
-                                    <option value="{{ $city->id }}"
-                                        {{ $city->id == $Owner->city_id ? 'selected' : '' }}>
-                                        {{ $city->name }}</option>
-                                @endforeach
-                            </select>
                         </div>
 
 

@@ -1,6 +1,6 @@
 @extends('Admin.layouts.app')
 
-@section('title', __('owners'))
+@section('title', __('Renters'))
 
 @section('content')
     <div class="content-wrapper">
@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('owners')</h4>
+                        @lang('Renters')</h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
@@ -17,7 +17,7 @@
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('owners') </h5>
+                        <h5 class="card-header">@lang('Renters') </h5>
                     </div>
                     <div class="col-12">
                         <hr>
@@ -42,13 +42,20 @@
                                                         <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
                                             @if (Auth::user()->hasPermission('create-owner'))
-                                                <div class="btn-group">
-                                                    <a href="{{ route('Office.Owner.create') }}" class="btn btn-primary">
+                                                {{-- <div class="btn-group">
+                                                    <a href="{{ route('Office.Renter.create') }}" class="btn btn-primary">
                                                         <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add New Owner')</span></span>
+                                                                class="d-none d-sm-inline-block">@lang('Add New Renter')</span></span>
                                                     </a>
 
-                                                </div>
+                                                </div> --}}
+                                                <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#basicModal">
+                                                @lang('Add New Renter')
+                                              </button>
                                             @endif
                                         </div>
                                     </div>
@@ -67,20 +74,20 @@
                                 <th scope="col">@lang('Name')</th>
                                 <th scope="col">@lang('Email')</th>
                                 <th scope="col">@lang('phone')</th>
-                                <th scope="col">@lang('city')</th>
+                                {{-- <th scope="col">@lang('city')</th> --}}
                                 <th scope="col">@lang('Office')</th>
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @forelse ($owners as $owner)
+                            @forelse ($Renters as $renter)
                                 <tr>
 
-                                    <td>{{ $owner->name }}</td>
-                                    <td>{{ $owner->email }}</td>
-                                    <td>{{ $owner->full_phone }}</td>
-                                    <td>{{ $owner->CityData->name }}</td>
-                                    <td>{{ $owner->OfficeData->UserData->name }}</td>
+                                    <td>{{ $renter->UserData->name }}</td>
+                                    <td>{{ $renter->UserData->email }}</td>
+                                    <td>{{ $renter->UserData->full_phone }}</td>
+                                    {{-- <td>{{ $renter->CityData->name }}</td> --}}
+                                    <td>{{ $renter->OfficeData->UserData->name }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -90,16 +97,16 @@
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Office.Owner.edit', $owner->id) }}">@lang('Edit')</a>
+                                                        href="{{ route('Office.Renter.edit', $renter->id) }}">@lang('Edit')</a>
                                                 @endif
 
 
                                                 @if (Auth::user()->hasPermission('delete-owner'))
                                                     <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $owner->id }}')"
+                                                        onclick="handleDelete('{{ $renter->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $owner->id }}"
-                                                        action="{{ route('Office.Owner.destroy', $owner->id) }}"
+                                                    <form id="delete-form-{{ $renter->id }}"
+                                                        action="{{ route('Office.Renter.destroy', $renter->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
@@ -136,6 +143,8 @@
         </div>
 
         <div class="content-backdrop fade"></div>
+
+        @include('Office.ProjectManagement.Renter.inc._serach')
     </div>
 
 
@@ -152,7 +161,7 @@
                 });
 
                 // Save the workbook as an Excel file
-                XLSX.writeFile(wb, @json(__('owners')) + '.xlsx');
+                XLSX.writeFile(wb, @json(__('Renters')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
         </script>

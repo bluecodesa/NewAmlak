@@ -18,6 +18,10 @@ class Office extends Model
     {
         return $this->hasMany(Employee::class, 'employee_id');
     }
+    public function RenterData()
+    {
+        return $this->hasMany(Renter::class, 'office_id');
+    }
     public function CityData()
     {
         return $this->belongsTo(City::class, 'city_id');

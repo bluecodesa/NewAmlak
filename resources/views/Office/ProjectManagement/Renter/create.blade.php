@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Add New Owner'))
+@section('title', __('Add New Renter'))
 @section('content')
 
     <div class="content-wrapper">
@@ -8,9 +8,9 @@
                 <div class="col-6 ">
 
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Office.Owner.index') }}" class="text-muted fw-light">@lang('owners')
+                        <a href="{{ route('Office.Renter.index') }}" class="text-muted fw-light">@lang('Renters')
                         </a> /
-                        @lang('Add New Owner')
+                        @lang('Add New Renter')
                     </h4>
                 </div>
             </div>
@@ -18,7 +18,7 @@
             <div class="card">
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
-                    <form action="{{ route('Office.Owner.store') }}" method="POST" class="row">
+                    <form action="{{ route('Office.Renter.store') }}" method="POST" class="row">
                         <input type="text" name="key_phone" hidden value="966" id="key_phone">
                         <input type="text" name="full_phone" hidden id="full_phone" value="966">
                         @csrf
@@ -38,7 +38,7 @@
                                 placeholder="@lang('Email')">
                         </div>
 
-                        <div class="col-12 mb-3 col-md-4">
+                        <div class="col-12 mb-3 col-md-6">
                             <label for="color" class="form-label">@lang('phone') <span
                                     class="required-color">*</span></label>
                             <div class="input-group">
@@ -56,27 +56,47 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6 col-12 mb-3">
 
-
-                        <div class="col-md-4 col-12 mb-3">
-                            <label class="form-label">@lang('Region') </label>
-                            <select class="form-select" id="Region_id" required>
-                                <option disabled selected value="">@lang('Region')</option>
-                                @foreach ($Regions as $Region)
-                                    <option value="{{ $Region->id }}"
-                                        data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}">
-                                        {{ $Region->name }}</option>
-                                @endforeach
-                            </select>
+                            <label for="id_number" class="form-label">@lang('id number')</label>
+                            <input type="text" class="form-control" id="id_number" name="id_number" >
                         </div>
 
-                        <div class="col-md-4 col-12 mb-3">
-                            <label class="form-label">@lang('city') </label>
-                            <select class="form-select" name="city_id" id="CityDiv" required>
+                        <div class="mb-3 row">
 
-                            </select>
+                            <div class="col-md-6">
+
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password">@lang('password') <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password" class="form-control"
+                                            name="password"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="password" required />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password">@lang('Confirm Password') <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password_confirmation" class="form-control"
+                                            name="password_confirmation"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="password" required />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
 
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary me-1">
