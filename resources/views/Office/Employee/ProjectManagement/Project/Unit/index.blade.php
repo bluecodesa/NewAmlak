@@ -83,7 +83,9 @@
 
                                         <td>{{ $unit->number_unit ?? '' }}</td>
                                         <td>{{ $unit->OwnerData->name ?? '' }}</td>
-                                        <td>{{ $unit->EmployeeData->UserData->name ?? Auth::user()->name }}</td>
+                                        {{-- <td>{{ $unit->EmployeeData->UserData->name ?? Auth::user()->name }}</td> --}}
+                                        <td>{{ $unit->EmployeeData->UserData->name ?? $unit->OfficeData->UserData->name}}</td>
+
                                         <td>
                                             <span
                                                 class="badge badge-pill bg-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"

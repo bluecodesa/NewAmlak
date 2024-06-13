@@ -38,6 +38,10 @@ class Unit extends Model
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
+    public function OfficeData()
+    {
+        return $this->belongsTo(Office::class, 'office_id');
+    }
 
     public function ServiceTypeData()
     {

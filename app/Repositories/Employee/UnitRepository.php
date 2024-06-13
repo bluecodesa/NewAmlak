@@ -58,7 +58,6 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
         $unit_data['office_id'] = Auth::user()->UserEmployeeData->OfficeData->id;
-        $data['employee_id'] = isset($data['employee_id']) ? $data['employee_id'] : Auth::user()->UserEmployeeData->id;
         if (isset($data['show_gallery'])) {
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
         } else {

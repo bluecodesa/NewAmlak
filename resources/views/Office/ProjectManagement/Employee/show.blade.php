@@ -6,8 +6,9 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
             <div class="col-12">
-                <h4 class=""><a href="{{ route('Office.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                    <a href="{{ route('Office.Employee.index') }}" class="text-muted fw-light">@lang('Employees') </a> /
+                <h4 class="">
+                    <a href="{{ route('Office.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <a href="{{ route('Office.Employee.index') }}" class="text-muted fw-light">@lang('Employees')</a> /
                     @lang('Show')
                 </h4>
             </div>
@@ -18,15 +19,13 @@
                 <ul class="nav nav-tabs nav-fill" role="tablist">
                     <li class="nav-item">
                         <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
-                            aria-selected="true">
+                            data-bs-target="#navs-justified-home" aria-controls="navs-justified-home" aria-selected="true">
                             <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('profile')
                         </button>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
-                            aria-selected="false">
+                            data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages" aria-selected="false">
                             <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Permissions')
                         </button>
                     </li>
@@ -36,13 +35,10 @@
 
                     <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
                         <div class="row">
-                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
-                            <input type="text" name="full_phone" hidden id="full_phone" value="966">
-
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Name') }}</label>
-                                    <input type="text" id="modalRoleName" name="name" value="{{ $employee->UserData->name }}"
+                                    <input type="text" name="name" value="{{ $employee->UserData->name }}"
                                         class="form-control" placeholder="{{ __('Name') }}" disabled>
                                 </div>
                             </div>
@@ -59,18 +55,16 @@
                                 <div class="mb-3">
                                     <label class="form-label"> @lang('phone')</label>
                                     <div class="input-group">
-                                        <input type="text" placeholder="123456789" id="phone" name="phone"
+                                        <input type="text" placeholder="123456789" name="phone"
                                             value="{{ $employee->UserData->phone }}" class="form-control" maxlength="9"
                                             pattern="\d{1,9}" aria-label="Text input with dropdown button" disabled>
                                         <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                             data-bs-toggle="dropdown" aria-expanded="false" disabled>
-                                            966
+                                            {{ $employee->UserData->key_phone }}
                                         </button>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
 
@@ -86,7 +80,7 @@
                                                 return in_array($permission->id, $employeePermissions);
                                             });
                                         @endphp
-                                        
+
                                         @if ($filteredPermissions->isNotEmpty())
                                             <div class="col-md-12 col-xl-12">
                                                 <div class="card shadow-none bg-transparent border-primary mb-0">

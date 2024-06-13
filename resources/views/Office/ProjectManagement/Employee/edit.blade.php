@@ -169,23 +169,24 @@
                                                             </div>
                                                         </div>
                                                         <hr>
-                                                        @foreach ($permissions as $item)
-                                                            <div class="col-md-3">
-                                                                <div class="form-check mb-2">
-                                                                    <input class="form-check-input"
-                                                                           name="permissions[]"
-                                                                           data-model="{{ $model }}"
-                                                                           value="{{ $item->id }}"
-                                                                           type="checkbox"
-                                                                           id="{{ $item->id }}"
-                                                                           @if(in_array($item->id, $employeePermissions)) checked @endif />
-                                                                    <label class="form-check-label"
-                                                                           for="{{ $item->id }}">
-                                                                        {{ app()->getLocale() == 'ar' ? $item->name_ar : $item->name }}
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
+                                                        @foreach($permissions as $permission)
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="checkbox"
+                                                                name="permissions[]"
+                                                                value="{{ $permission->id }}"
+                                                                id="permission_{{ $permission->id }}"
+                                                                @if(in_array($permission->id, $employeePermissions)) checked @endif
+                                                            >
+
+                                                            <label class="form-check-label"
+                                                           for="permission_{{ $permission->id }}">
+                                                         {{ app()->getLocale() == 'ar' ? $permission->name_ar : $permission->name }}
+                                                     </label>
+                                                        </div>
+                                                    @endforeach
+
                                                     </div>
                                                 </div>
                                             </div>

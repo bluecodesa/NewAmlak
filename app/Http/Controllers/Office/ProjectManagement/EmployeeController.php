@@ -158,46 +158,37 @@ class EmployeeController extends Controller
 
     // EmployeePermission::insert($employeePermissions);
 
-public function show($id)
-{
-    // $employee = $this->EmployeeService->find($id);
-
-    // $role =   $this->RoleService->getById($id);
-    // $role_permissions =  $role->permissions->pluck('id')->toArray();;
-    // $permissions =  $this->PermissionService->getAll()->where('type', $role->type);
-       // Retrieve the employee record by ID
-       $employee = Employee::with('userData')->findOrFail($id);
-
-       $permissions = Permission::all();
-   
-       $employeePermissions = $employee->userData->permissions->pluck('id')->toArray();
-   
-
-    return view('Office.ProjectManagement.Employee.show', compact('employee', 'permissions', 'employeePermissions'));
-}
-
-    public function edit($id)
+    public function show($id)
     {
-        $employee = $this->EmployeeService->find($id);
-        $Regions = $this->regionService->getAllRegions();
-        $cities = $this->cityService->getAllCities();
-        $roles =  $this->RoleService->getAllRoles();
+        $employee = Employee::with('userData')->findOrFail($id);
+        $permissions = Permission::all();
+        $employeePermissions = $employee->userData->permissions->pluck('id')->toArray();
 
-        $role = Role::where('name', 'Office-Employee')->first();
-        $permissions = $role ? $role->permissions : collect();
-
-        $employeePermissions = $employee->UserData->permissions->pluck('id')->toArray();
-        $roleIds = Role::where('name', 'Office-Admin')->pluck('id')->toArray();
-
-        $permissions = Permission::where('type', 'user')
-            ->whereIn('id', function ($query) use ($roleIds) {
-                $query->select('permission_id')
-                      ->from('role_has_permissions')
-                      ->whereIn('role_id', $roleIds);
-            })
-            ->get();
-       return view('Office.ProjectManagement.Employee.edit', get_defined_vars());
+        return view('Office.ProjectManagement.Employee.show', compact('employee', 'permissions', 'employeePermissions'));
     }
+public function edit($id)
+{
+    $employee = $this->EmployeeService->find($id);
+    $Regions = $this->regionService->getAllRegions();
+    $cities = $this->cityService->getAllCities();
+    $roles =  $this->RoleService->getAllRoles();
+
+    $role = Role::where('name', 'Office-Employee')->first();
+    $permissions = $role ? $role->permissions : collect();
+
+    $employeePermissions = $employee->UserData->permissions->pluck('id')->toArray();
+    $roleIds = Role::where('name', 'Office-Admin')->pluck('id')->toArray();
+
+    $permissions = Permission::where('type', 'user')
+        ->whereIn('id', function ($query) use ($roleIds) {
+            $query->select('permission_id')
+                  ->from('role_has_permissions')
+                  ->whereIn('role_id', $roleIds);
+        })
+        ->get();
+        return view('Office.ProjectManagement.Employee.edit', get_defined_vars());
+    }
+
 
 
     // public function update(Request $request, $id)
@@ -217,7 +208,7 @@ public function show($id)
     public function update(Request $request, $id)
     {
         $employee = Employee::findOrFail($id);
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => [
@@ -244,29 +235,29 @@ public function show($id)
             'name.required' => __('The name field is required.'),
             'name.string' => __('The name must be a string.'),
             'name.max' => __('The name may not be greater than :max characters.'),
-    
+
             'email.required' => __('The email field is required.'),
             'email.string' => __('The email must be a string.'),
             'email.email' => __('The email must be a valid email address.'),
             'email.max' => __('The email may not be greater than :max characters.'),
             'email.unique' => __('The email has already been taken.'),
-    
+
             'phone.required' => __('The phone field is required.'),
             'phone.string' => __('The phone must be a string.'),
             'phone.max' => __('The phone may not be greater than :max characters.'),
             'phone.unique' => __('The phone has already been taken.'),
-    
+
             'password.string' => __('The password must be a string.'),
             'password.min' => __('The password must be at least :min characters.'),
             'password.confirmed' => __('The password confirmation does not match.'),
-    
+
             'permissions.required' => __('At least one permission must be selected.'),
             'permissions.array' => __('Invalid permissions data.'),
         ]);
-    
+
         $permissions = Permission::whereIn('id', $request['permissions'])->get();
-    
-        $user = $employee->userData();
+
+        $user = $employee->userData;
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -276,12 +267,12 @@ public function show($id)
         ]);
 
         $role = Role::firstOrCreate(['name' => 'Office-Employee']);
-    
-        $role->syncPermissions($permissions);
-    
+        $user->syncPermissions($permissions);
+
         return redirect()->route('Office.Employee.index')->with('success', __('Employee updated successfully.'));
     }
-    
+
+
 
     public function destroy(string $id)
     {

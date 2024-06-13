@@ -245,19 +245,30 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+
                                             @if (Auth::user()->hasPermission('assign-unit-employee'))
                                             <div class="col-12 mb-2 col-md-4">
-                                                <label class="form-label">@lang('The Responsible Employee')
-                                                </label>
+                                                <label class="form-label">@lang('The Responsible Employee')</label>
                                                 <select class="form-select" name="employee_id" id="type">
-                                                    <option disabled selected value="">@lang('The Responsible Employee') </option>
+                                                    <option disabled selected value="">@lang('The Responsible Employee')</option>
                                                     @foreach ($employees as $employee)
-                                                    <option value="{{ $employee->id }}">
-                                                        {{ $employee->UserData->name }}</option>
-                                                @endforeach
+                                                        <option value="{{ $employee->id }}" {{  Auth::user()->UserEmployeeData->id ? 'selected' : '' }}>
+                                                            {{ $employee->UserData->name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
-                                            @endif
+                                        @else
+                                            <div class="col-12 mb-2 col-md-4">
+                                                <label class="form-label">@lang('The Responsible Employee')</label>
+                                                <select class="form-select" name="employee_id" id="type" disabled>
+                                                    <option selected value="{{ Auth::user()->UserEmployeeData->id }}">
+                                                        {{ Auth::user()->name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        @endif
+
 
                                 <div class="col-sm-12 col-md-6 mb-3" hidden>
                                     <label class="form-label">@lang('lat&long')</label>
