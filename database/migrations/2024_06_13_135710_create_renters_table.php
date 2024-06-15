@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('renters', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('office_id')->nullable();
-            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
+            // $table->unsignedBigInteger('office_id')->nullable();
+            // $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

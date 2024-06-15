@@ -1,11 +1,8 @@
-
-@if (session('found_user'))
-    <h2>Add {{ session('found_user')->name }} as Renter</h2>
-    <form action="{{ route('Office.Renter.store') }}" method="POST">
+@if ($user = App\Models\User::where('id_number', $search_id_number)->first())
+    <form action="{{ route('Office.Renter.addToOffice', $user->id) }}" method="POST">
         @csrf
-        <input type="hidden" name="user_id" value="{{ session('found_user')->id }}">
-        <button type="submit">Add as Renter</button>
+        <button type="submit" class="btn btn-success">Add as Renter</button>
     </form>
 @else
-    <p>No user found.</p>
+    <a href="{{ route('Office.Renter.create') }}" class="btn btn-primary">Register</a>
 @endif

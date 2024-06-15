@@ -17,7 +17,7 @@ class RenterRepository implements RenterRepositoryInterface
     public function getAllByOfficeId($officeId)
     {
 
-        return Renter::where('office_id', $officeId)->get();
+        return Office::find($officeId)->RenterData;
     }
 
     public function create($data)
@@ -75,7 +75,6 @@ class RenterRepository implements RenterRepositoryInterface
 
         $renter = Renter::create([
             'user_id' => $user->id,
-            'office_id' => $officeId,
         ]);
 
         // $data['office_id'];
@@ -84,6 +83,10 @@ class RenterRepository implements RenterRepositoryInterface
         //     'office_id' => $data['office_id'],
         //     'user_id'=> $user->id
         // ]);
+        $office = Office::find($officeId);
+        $office->RenterData()->attach($renter->id);
+        return $renter;
+
     }
 
     function getRenterById($id)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Office\ProjectManagement\Renter;
 
 use App\Http\Controllers\Controller;
+use App\Models\Office;
 use App\Models\Renter;
 use Illuminate\Http\Request;
 use App\Services\CityService;
@@ -27,7 +28,8 @@ class RenterController extends Controller
 
     public function index()
     {
-        $Renters = $this->RenterService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $officeId = auth()->user()->UserOfficeData->id;
+        $Renters = $this->RenterService->getAllByOfficeId($officeId);
         return view('Office.ProjectManagement.Renter.index', get_defined_vars());
     }
 
@@ -37,50 +39,84 @@ class RenterController extends Controller
 
 
 
-public function searchByIdNumber(Request $request)
-{
-    $validatedData = $request->validate([
-        'id_number' => 'required|string',
-    ]);
+     public function searchByIdNumber(Request $request)
+     {
+         $validatedData = $request->validate([
+             'id_number' => 'required|string',
+         ]);
 
-    $idNumber = $validatedData['id_number'];
+         $idNumber = $validatedData['id_number'];
+         $officeId = auth()->user()->UserOfficeData->id;
 
-    // Search for the user by id_number
-    $user = User::where('id_number', $idNumber)->first();
+         $user = User::where('id_number', $idNumber)->first();
 
-    if ($user) {
-        // If user found, check if they are already a renter
-        if ($user->is_property_finder) {
-            session(['found_user' => $user]);
-            return redirect()->route('Office.Renter.add', ['id' => $user->id])->with('success', 'User is already registered before And now he is as a renter.');
-            // return redirect()->back()->with('success', 'User is already registered before.');
-        }
-        // else {
-        //     // Set a session variable or data to indicate found user
-        //     session(['found_user' => $user]);
-        //     return redirect()->route('Office.Renter.add', ['id' => $user->id]);
-        // }
-    } else {
-        return redirect()->route('Office.Renter.create')->with('success' ,'رقم الهوية لم يكن مسجل من قبل .. اكمل البيانات لتكملة التسجيل.');
-    }
-}
+         if ($user) {
+             if ($user->is_property_finder) {
+                 // Check if the user is already a renter in this office
+                 $existingRenter = Renter::where('user_id', $user->id)
+                     ->whereHas('OfficeData', function ($query) use ($officeId) {
+                         $query->where('office_id', $officeId);
+                     })
+                     ->first();
 
-public function add($id)
-{
-    // Validate if user with $id exists
-    $user = User::findOrFail($id);
-    // If user is not already a renter, mark them as a renter
-    if (!$user->is_renter) {
-        $user->update(['is_renter' => 1]);
-        Renter::create([
-            'user_id' => $user->id,
-            'office_id' => auth()->user()->UserOfficeData->id,
-        ]);
-        return redirect()->route('Office.Renter.index')->with('success', 'User  is already registered before  And now  added as renter successfully.');
-    }
+                 if ($existingRenter) {
+                     return redirect()->route('Office.Renter.index')
+                         ->with('error', 'User is already a renter in this office.');
+                 }
 
-    return redirect()->back()->with('error', 'User is already registered as a renter.');
-}
+                 // Update user as renter and associate with office
+                 $user->update(['is_renter' => 1]);
+                 $renter = Renter::updateOrCreate(['user_id' => $user->id]);
+                 $renter->OfficeData()->attach($officeId);
+
+                 return redirect()->route('Office.Renter.index')
+                     ->with('success', 'User is already registered as a property finder and has been added as a renter to your office.');
+             } else {
+                 // Check if the user is already a renter in this office
+                 $existingRenter = Renter::where('user_id', $user->id)
+                     ->whereHas('OfficeData', function ($query) use ($officeId) {
+                         $query->where('office_id', $officeId);
+                     })
+                     ->first();
+
+                 if ($existingRenter) {
+                     return redirect()->route('Office.Renter.index')
+                         ->with('error', 'User is already a renter in this office.');
+                 }
+
+                 // Add the user as a renter for the current office
+                 $renter = Renter::updateOrCreate(['user_id' => $user->id]);
+                 $renter->offices()->attach($officeId);
+
+                 return redirect()->route('Office.Renter.index')
+                     ->with('success', 'User has been added as a renter to your office.');
+             }
+         } else {
+             return redirect()->route('Office.Renter.create')
+                 ->with('success', 'رقم الهوية لم يكن مسجل من قبل .. اكمل البيانات لتكملة التسجيل.');
+         }
+     }
+
+     public function addToOffice($userId)
+     {
+         $user = User::findOrFail($userId);
+
+         // Check if the user is already a renter
+         if (!$user->is_renter) {
+             $user->update(['is_renter' => 1]);
+             $renter = Renter::create(['user_id' => $userId]);
+         } else {
+             $renter = $user->UserRenterData()->first();
+         }
+
+         $officeId = auth()->user()->UserOfficeData->id;
+         $office = Office::find($officeId);
+         $office->RenterData()->attach($renter->id);
+
+         return redirect()->route('Office.Renter.index')->with('success', __('Renter added to office successfully.'));
+     }
+
+
 
     public function create()
     {

@@ -44,7 +44,7 @@ Route::group(
        //renter
        Route::resource('Renter', RenterController::class)->middleware('CheckSubscription');
        Route::post('/renter-search', [RenterController::class, 'searchByIdNumber'])->name('Renter.searchByIdNumber');
-       Route::get('/renter/add/{id}', [RenterController::class, 'add'])->name('Renter.add');
+       Route::get('/renter/add/{id}', [RenterController::class, 'addToOffice'])->name('Renter.add');
         //end renter
        Route::resource('Employee', EmployeeController::class)->middleware('CheckSubscription');
        //projects routes

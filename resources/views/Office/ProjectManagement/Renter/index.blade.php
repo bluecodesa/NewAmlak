@@ -86,8 +86,11 @@
                                     <td>{{ $renter->UserData->name }}</td>
                                     <td>{{ $renter->UserData->email }}</td>
                                     <td>{{ $renter->UserData->full_phone }}</td>
-                                    {{-- <td>{{ $renter->CityData->name }}</td> --}}
-                                    <td>{{ $renter->OfficeData->UserData->name }}</td>
+                                    <td>{{ auth()->user()->name }}</td>
+                                    {{-- <td>{{ $renter->OfficeData->UserData->name }}</td> --}}
+                                    {{-- @foreach ($renter->OfficeData as $office)
+                                    <td>{{ $office->UserData->name }}</td>
+                                    @endforeach --}}
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -145,6 +148,8 @@
         <div class="content-backdrop fade"></div>
 
         @include('Office.ProjectManagement.Renter.inc._serach')
+        {{-- @include('Office.ProjectManagement.Renter.inc.search-result-modal') --}}
+
     </div>
 
 
