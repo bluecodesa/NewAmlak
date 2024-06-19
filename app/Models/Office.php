@@ -20,7 +20,7 @@ class Office extends Model
     }
     public function RenterData()
     {
-        return $this->belongsToMany(Renter::class, 'office_renter');
+        return $this->belongsToMany(Renter::class, 'office_renters');
     }
     public function CityData()
     {

@@ -18,6 +18,10 @@ class Renter extends Model
     // Relationship with office
     public function OfficeData()
     {
-        return $this->belongsToMany(Office::class, 'office_renter');
+        return $this->belongsToMany(Office::class, 'office_renters');
+    }
+    public function OfficeRenterData()
+    {
+        return $this->hasMany(OfficeRenter::class, 'renter_id');
     }
 }

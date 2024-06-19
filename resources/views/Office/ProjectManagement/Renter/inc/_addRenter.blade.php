@@ -1,8 +1,5 @@
-@if ($user = App\Models\User::where('id_number', $search_id_number)->first())
-    <form action="{{ route('Office.Renter.addToOffice', $user->id) }}" method="POST">
-        @csrf
-        <button type="submit" class="btn btn-success">Add as Renter</button>
-    </form>
-@else
-    <a href="{{ route('Office.Renter.create') }}" class="btn btn-primary">Register</a>
-@endif
+<!-- resources/views/Office/ProjectManagement/Renter/inc/_result.blade.php -->
+<div class="alert alert-success">{{ $message }}</div>
+
+<a href="{{ route('Office.Renter.create') }}" class="btn btn-primary">@lang('Add New Renter')</a>
+

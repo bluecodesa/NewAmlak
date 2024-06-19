@@ -494,7 +494,12 @@
     "Current Password": "كلمة السر الحالية",
     "The Responsible Employee": "الموظف المسئول",
     "Renter Management": "إدارة المستأجرين",
-    "Renters": "المستأجرين"
+    "Renters": "المستأجرين",
+    "Renter": "مستأجر",
+    "Add New Renter": "اضافة مستأجر جديد",
+    "Renter Name": "اسم المستأجر",
+    "Add as Renter": "اضافة كامستأجر",
+    "not_active": "غير نشط"
 
 
 }
