@@ -2,14 +2,12 @@
 
 namespace App\Email\Admin;
 
+
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendCode extends Mailable
+class SendOtpMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,10 +28,15 @@ class SendCode extends Mailable
 
     }
 
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
     public function build()
     {
-        return $this->subject($this->subject)
-        ->view('emails.Admin.send_code')
-        ->with(['code' => $this->code]);
+        return $this->subject('Your OTP for Property Finder Registration')
+                    ->view('emails.Home.sendOtpMail')->with(['code' => $this->code]);
     }
 }
+

@@ -9,6 +9,7 @@ use App\Http\Controllers\Employee\ProjectManagement\ProjectController;
 use App\Http\Controllers\Employee\HomeController;
 use App\Http\Controllers\Employee\ProjectManagement\UnitController;
 use App\Http\Controllers\Employee\SettingController;
+use App\Http\Controllers\Office\ProjectManagement\Renter\RenterController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -66,6 +67,11 @@ Route::group(
 
        Route::resource('Employee', EmployeeController::class)->middleware('CheckSubscription');
 
+        //renter
+        Route::resource('Renter', RenterController::class)->middleware('CheckSubscription');
+        Route::post('/renter-search', [RenterController::class, 'searchByIdNumber'])->name('Renter.searchByIdNumber');
+        Route::post('/renter/add/{id}', [RenterController::class, 'addAsRenter'])->name('Renter.addAsRenter');
+         //end renter
 
             // Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
             Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');

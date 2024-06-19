@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel1">لتسجيل  مستأجر الرجاء التحق اولا من كونه موجود من قبل</h5>
+          <h5 class="modal-title" id="exampleModalLabel1"> برجاء ادخال رقم هوية المستأجر     </h5>
           <button
             type="button"
             class="btn-close"
@@ -15,9 +15,9 @@
         <div class="modal-body">
           <div class="row">
             <div class="col mb-3">
-                    <input type="text" name="id_number" id="nameBasic" class="form-control" placeholder="Enter ID Number" />
-
+                <input type="number" required name="id_number" id="nameBasic" class="form-control" placeholder="Enter ID Number" pattern="\d*" />
             </div>
+
           </div>
         </div>
         <div class="modal-footer">

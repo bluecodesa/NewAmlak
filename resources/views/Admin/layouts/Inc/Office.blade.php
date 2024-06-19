@@ -109,7 +109,7 @@
             </li>
         @endif
 
-        @if (in_array(14, $sectionsIds))
+        @if (in_array(19, $sectionsIds))
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}

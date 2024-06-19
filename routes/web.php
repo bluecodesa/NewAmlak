@@ -57,7 +57,7 @@ Route::group(
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
 
         });
-        Route::post('/send-otp', [Property_FinderHomeController::class, 'sendVerificationCode'])->name('send-otp');
+        // Route::post('/send-otp', [Property_FinderHomeController::class, 'sendVerificationCode'])->name('send-otp');
 
         //fav
         Route::post('/add-to-favorites', [UnitInterestController::class, 'addToFav'])->name('add-to-favorites');
@@ -88,6 +88,19 @@ Route::group(
 
         // Route::get('/filter/brokers',  [HomeController::class, 'filterBrokers'])->name('filter.brokers');
 
+        //create property finder
+
+        // Route for sending OTP
+        Route::post('/send-otp', [Property_FinderHomeController::class, 'sendOtp'])->name('send-otp');
+
+        // Route for verifying OTP
+        Route::post('/verify-otp', [Property_FinderHomeController::class, 'verifyOtp'])->name('verify-otp');
+
+        // Route for resending OTP
+        Route::post('/resend-otp', [Property_FinderHomeController::class, 'resendOtp'])->name('resend-otp');
+
+        // Route for registering property finder
+        Route::post('/register-property-finder', [Property_FinderHomeController::class, 'registerPropertyFinder'])->name('register-property-finder');
 
     }
 

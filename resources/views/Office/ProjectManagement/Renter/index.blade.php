@@ -105,13 +105,16 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">لتسجيل  مستأجر الرجاء التحق اولا من كونه موجود من قبل</h5>
+                        <h5 class="modal-title" id="exampleModalLabel1"> برجاء ادخال رقم هوية المستأجر
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    @include('Admin.layouts.Inc._errors')
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
                                 <input type="text" name="id_number" id="idNumberInput" class="form-control" placeholder="Enter ID Number" />
+                                <div class="invalid-feedback" id="idNumberError"></div>
                             </div>
                         </div>
                         <div id="searchResults"></div>
@@ -142,24 +145,114 @@
     }
 
     $(document).ready(function () {
-        $('#searchBtn').click(function () {
-            var idNumber = $('#idNumberInput').val();
-            $.ajax({
-                url: '{{ route('Office.Renter.searchByIdNumber') }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id_number: idNumber
-                },
-                success: function (response) {
-                    $('#searchResults').html(response.html);
-                },
-                error: function (xhr) {
+    $('#searchBtn').click(function () {
+        var idNumber = $('#idNumberInput').val();
+        $.ajax({
+            url: '{{ route('Office.Renter.searchByIdNumber') }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id_number: idNumber
+            },
+            success: function (response) {
+                $('#idNumberInput').removeClass('is-invalid');
+                $('#idNumberError').text('');
+                $('#searchResults').html(response.html);
+            },
+            error: function (xhr) {
+                var errors = xhr.responseJSON.errors;
+                if (errors.id_number) {
+                    $('#idNumberInput').addClass('is-invalid');
+                    $('#idNumberError').text(errors.id_number[0]);
+                } else {
                     $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
                 }
-            });
+            }
         });
     });
+});
+$(document).ready(function () {
+    $('#searchBtn').click(function () {
+        var idNumber = $('#idNumberInput').val();
+        $.ajax({
+            url: '{{ route('Office.Renter.searchByIdNumber') }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id_number: idNumber
+            },
+            success: function (response) {
+                $('#idNumberInput').removeClass('is-invalid');
+                $('#idNumberError').text('');
+                $('#searchResults').html(response.html);
+            },
+            error: function (xhr) {
+                var errors = xhr.responseJSON.errors;
+                if (errors.id_number) {
+                    $('#idNumberInput').addClass('is-invalid');
+                    $('#idNumberError').text(errors.id_number[0]);
+                } else {
+                    $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                }
+            }
+        });
+    });
+});
+$(document).ready(function () {
+    $('#searchBtn').click(function () {
+        var idNumber = $('#idNumberInput').val();
+        $.ajax({
+            url: '{{ route('Office.Renter.searchByIdNumber') }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id_number: idNumber
+            },
+            success: function (response) {
+                $('#idNumberInput').removeClass('is-invalid');
+                $('#idNumberError').text('');
+                $('#searchResults').html(response.html);
+            },
+            error: function (xhr) {
+                var errors = xhr.responseJSON.errors;
+                if (errors.id_number) {
+                    $('#idNumberInput').addClass('is-invalid');
+                    $('#idNumberError').text(errors.id_number[0]);
+                } else {
+                    $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                }
+            }
+        });
+    });
+});
+$(document).ready(function () {
+    $('#searchBtn').click(function () {
+        var idNumber = $('#idNumberInput').val();
+        $.ajax({
+            url: '{{ route('Office.Renter.searchByIdNumber') }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id_number: idNumber
+            },
+            success: function (response) {
+                $('#idNumberInput').removeClass('is-invalid');
+                $('#idNumberError').text('');
+                $('#searchResults').html(response.html);
+            },
+            error: function (xhr) {
+                var errors = xhr.responseJSON.errors;
+                if (errors.id_number) {
+                    $('#idNumberInput').addClass('is-invalid');
+                    $('#idNumberError').text(errors.id_number[0]);
+                } else {
+                    $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                }
+            }
+        });
+    });
+});
+
 </script>
 @endpush
 @endsection

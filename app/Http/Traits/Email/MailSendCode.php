@@ -2,8 +2,7 @@
 
 namespace App\Http\Traits\Email;
 
-use App\Email\Admin\SendCode;
-use App\Models\Broker;
+use App\Email\Admin\SendOtpMail;
 use App\Models\EmailTemplate;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -13,30 +12,20 @@ trait MailSendCode
 {
     public function MailSendCode($email, $code)
     {
-        $notification_id = DB::table('notification_settings')->where('notification_name', 'Forget_Password')->where('email',1)->value('id');
+        $notification_id = DB::table('notification_settings')->where('notification_name', 'add-new-property-finder')->where('email',1)->value('id');
         $EmailTemplate =  EmailTemplate::where('notification_setting_id', $notification_id)->first();
         $user = User::where('email', $email)->first();
         if ($EmailTemplate) {
             $subject =  $EmailTemplate->subject;
-            $data['variable_owner_name'] = '';
-            $data['variable_tenant_name'] = '';
-            $data['variable_building_name'] = '';
-            $data['variable_flat_no'] = '';
-            $data['variable_agreement_id'] = '';
-            $data['variable_agreement_expire_date'] = '';
-            $data['variable_settel_date'] = '';
-            $data['variable_verification_code'] = $code;
-            // $data['variable_broker_name'] = $user->UserBrokerData->name != null ? $user->UserBrokerData->name : "";
-            $data['variable_broker_name'] = $user->name != null ? $user->name : "";
-            $data['variable_subscriber_name'] = $user->name != null ? $user->name : "";
-            // $email = $user->email;
+
+            $data['otp'] = $code;
             $content = $EmailTemplate->content;
             foreach ($data as $key => $value) {
                 $placeholder = '$data[' . $key . ']';
                 $content = str_replace($placeholder, $value, $content);
             }
             try {
-                Mail::to($email)->send(new SendCode($data, $content, $subject, $EmailTemplate, $code)); // Pass $code to ForgotPassword Mailable
+                Mail::to($email)->send(new SendOtpMail($data, $content, $subject, $EmailTemplate, $code)); // Pass $code to ForgotPassword Mailable
             } catch (\Throwable $th) {
                 // Handle exceptions
             }

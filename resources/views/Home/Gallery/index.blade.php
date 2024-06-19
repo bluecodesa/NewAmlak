@@ -375,7 +375,7 @@
         ><i class="ti ti-message ti-sm"></i
       ></a>
     @endif
-  </div> 
+  </div>
 @endauth
 @guest
 <div class="d-flex align-items-center justify-content-center">
@@ -393,6 +393,7 @@
 
     @include('Home.Gallery.inc.share')
     @include('Home.Gallery.inc.unitInterest')
+    @include('Home.Auth.propertyFinder.create')
 
    @endforeach
   </div>

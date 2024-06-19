@@ -45,7 +45,10 @@ class RenterController extends Controller
 public function searchByIdNumber(Request $request)
 {
     $validatedData = $request->validate([
-        'id_number' => 'required|string',
+        'id_number' => 'required|numeric',
+    ], [
+        'id_number.required' => 'The ID number field is required.',
+        'id_number.numeric' => 'The ID number must be a number.',
     ]);
 
     $idNumber = $validatedData['id_number'];
