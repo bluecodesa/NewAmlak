@@ -94,12 +94,75 @@ class RenterRepository implements RenterRepositoryInterface
         return Renter::find($id);
     }
 
+    // public function updateRenter($id, $data)
+    // {
+    //     $Renter = Renter::findOrFail($id);
+    //     $Renter->update($data);
+    //     return $Renter;
+    // }
     public function updateRenter($id, $data)
-    {
-        $Renter = Renter::findOrFail($id);
-        $Renter->update($data);
-        return $Renter;
-    }
+{
+    // Define validation rules
+    $renter = Renter::findOrFail($id);
+
+    $rules = [
+        'name' => 'required|string|max:255',
+       'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($renter->UserData->id),
+            ],
+            'phone' => [
+                'required',
+                'string',
+                'max:25',
+            ],
+            'full_phone' => [
+                'required',
+                'string',
+                'max:25',
+                Rule::unique('users')->ignore($renter->UserData->id),
+            ],
+    ];
+
+    $messages = [
+        'name.required' => __('The name field is required.'),
+        'name.string' => __('The name must be a string.'),
+        'name.max' => __('The name may not be greater than :max characters.'),
+
+        'email.required' => __('The email field is required.'),
+        'email.string' => __('The email must be a string.'),
+        'email.email' => __('The email must be a valid email address.'),
+        'email.max' => __('The email may not be greater than :max characters.'),
+        'email.unique' => __('The email has already been taken.'),
+
+        'phone.required' => __('The phone field is required.'),
+        'phone.string' => __('The phone must be a string.'),
+        'phone.max' => __('The phone may not be greater than :max characters.'),
+        'phone.unique' => __('The phone has already been taken.'),
+
+        'full_phone.required' => __('The full_phone field is required.'),
+        'full_phone.string' => __('The full_phone must be a string.'),
+        'full_phone.max' => __('The full_phone may not be greater than :max characters.'),
+        'full_phone.unique' => __('The full_phone has already been taken.'),
+    ];
+
+    validator($data, $rules, $messages)->validate();
+
+    $user = $renter->UserData;
+
+    $user->name = $data['name'];
+    $user->email = $data['email'];
+    $user->full_phone = $data['full_phone'];
+    $user->phone = $data['phone'];
+
+    $user->save();
+
+    return $renter;
+}
+
 
     public function deleteRenter($id)
     {

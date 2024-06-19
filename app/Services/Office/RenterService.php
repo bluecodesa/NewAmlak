@@ -52,23 +52,23 @@ class RenterService
 
     public function updateRenter($id, $data)
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'city_id' => 'required',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('owners')->ignore($id),
-                'max:255'
-            ],
-            'phone' => [
-                'required',
-                Rule::unique('owners')->ignore($id),
-                'max:25'
-            ],
-        ];
+        // $rules = [
+        //     'name' => 'required|string|max:255',
+        //     'city_id' => 'required',
+        //     'email' => [
+        //         'required',
+        //         'email',
+        //         Rule::unique('owners')->ignore($id),
+        //         'max:255'
+        //     ],
+        //     'phone' => [
+        //         'required',
+        //         Rule::unique('owners')->ignore($id),
+        //         'max:25'
+        //     ],
+        // ];
 
-        validator($data, $rules)->validate();
+        // validator($data, $rules)->validate();
 
         $Renter = $this->RenterRepository->updateRenter($id, $data);
 

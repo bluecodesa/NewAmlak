@@ -21,19 +21,19 @@
                     <form action="{{ route('Office.Renter.update', $Renter->id) }}" method="POST" class="row">
                         @csrf
                         @method('PUT')
-                        <input type="text" name="key_phone" hidden value="{{ $Renter->key_phone ?? '966' }}"
+                        <input type="text" name="key_phone" hidden value="{{ $Renter->UserData->key_phone ?? '966' }}"
                             id="key_phone">
-                        <input type="text" name="full_phone" hidden id="full_phone" value="{{ $Renter->full_phone }}">
+                        <input type="text" name="full_phone" hidden id="full_phone" value="{{ $Renter->UserData->full_phone }}">
                         <div class="col-md-6 mb-3 col-12">
                             <label class="form-label">
                                 {{ __('Name') }} <span class="required-color">*</span></label>
-                            <input type="text" value="{{ $Renter->name }}" required id="modalRoleName" name="name"
+                            <input type="text" value="{{ $Renter->UserData->name }}" required id="modalRoleName" name="name"
                                 class="form-control" placeholder="{{ __('Name') }}">
 
                         </div>
                         <div class="col-md-6 mb-3 col-12">
                             <label class="form-label"> @lang('Email') <span class="required-color">*</span></label>
-                            <input type="email" value="{{ $Renter->email }}" required name="email" class="form-control"
+                            <input type="email" value="{{ $Renter->UserData->email }}" required name="email" class="form-control"
                                 placeholder="@lang('Email')">
 
                         </div>
@@ -41,22 +41,28 @@
 
 
 
-                        <div class="col-12 mb-3 col-md-4">
+                        <div class="col-12 mb-3 col-md-6">
                             <label for="color" class="form-label">@lang('phone') <span
                                     class="required-color">*</span></label>
                             <div class="input-group">
                                 <input type="text" placeholder="123456789" name="phone" id="phone"
-                                    value="{{ $Renter->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
+                                    value="{{ $Renter->UserData->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
                                     oninput="updateFullPhone(this)" aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $Renter->key_phone ?? '966' }}
+                                    {{ $Renter->UserData->key_phone ?? '966' }}
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" style="">
                                     <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                                     <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
                                 </ul>
                             </div>
+                        </div>
+                        <div class="col-md-6 mb-3 col-12">
+                            <label class="form-label"> @lang('id number') <span class="required-color">*</span></label>
+                            <input disabled readonly type="email" value="{{ $Renter->UserData->id_number }}" required name="email" class="form-control"
+                                placeholder="@lang('Email')">
+
                         </div>
 
 
