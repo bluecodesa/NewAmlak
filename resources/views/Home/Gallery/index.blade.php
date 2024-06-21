@@ -405,6 +405,7 @@
 @include('Home.layouts.inc.__addSubscriberModal')
 
 <script>
+    
     // Add an event listener to the submit button
          $('#city_filter').on('change', function() {
           var selectedOption = $(this).find(':selected');

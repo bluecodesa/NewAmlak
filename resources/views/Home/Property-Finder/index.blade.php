@@ -52,7 +52,14 @@
                     <ul
                       class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                       <li class="list-inline-item d-flex gap-1">
-                        <i class="ti ti-color-swatch"></i> @lang('Property Finder')
+                        <i class="ti ti-color-swatch"></i>
+                        @if ($finder->is_property_finder)
+                        @lang('Property Finder')
+
+                        @elseif($finder->is_renter)
+                        @lang('Renter')
+
+                        @endif 
                       </li>
                       <li class="list-inline-item d-flex gap-1">
                         <i class="ti ti-calendar"></i>عضو منذ {{ $finder->created_at }}
@@ -158,6 +165,24 @@
     }
 
     </script>
+
+<script>
+    function updateFullPhone(input) {
+        input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+        var key_phone = $('#key_phone').val();
+        var fullPhone = key_phone + input.value;
+        document.getElementById('full_phone').value = fullPhone;
+    }
+    $(document).ready(function() {
+        $('.dropdown-item').on('click', function() {
+            var key = $(this).data('key');
+            var phone = $('#phone').val();
+            $('#key_phone').val(key);
+            $('#full_phone').val(key + phone);
+            $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+        });
+    });
+</script>
 @endpush
 
 

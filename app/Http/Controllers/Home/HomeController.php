@@ -453,41 +453,48 @@ class HomeController extends Controller
     }
 
 
+
     public function storePropertyFinder(Request $request)
     {
+        dd($request);
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
-            'phone' => 'required|unique:users',
-            'full_phone' => 'required|unique:users,full_phone',
+            'phone' => [
+                'required',
+                'max:25'
+            ],
+            'full_phone' => [
+                'required',
+                Rule::unique('users'),
+                'max:25'
+            ],
             'password' => 'required|string|max:255|confirmed',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
         ];
-
+    
         $messages = [
             'name.required' => __('The name field is required.'),
             'email.required' => __('The email field is required.'),
             'email.unique' => __('The email has already been taken.'),
             'full_phone.required' => __('The mobile field is required.'),
             'full_phone.unique' => __('The mobile has already been taken.'),
-            'full_phone.digits' => __('The mobile must be 9 digits.'),
             'password.required' => __('The password field is required.'),
             'password.confirmed' => __('The password confirmation does not match.'),
             'avatar.image' => __('The broker logo must be an image.')
         ];
-
-
+    
         $request->validate($rules, $messages);
-
+    
         $request_data = [];
-
+    
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $ext  =  uniqid() . '.' . $file->clientExtension();
             $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
             $request_data['avatar'] = '/PropertyFounder/' . 'Logos/' . $ext;
         }
-
+    
         $user = User::create([
             'is_property_founder' => 1,
             'name' => $request->name,
@@ -497,15 +504,14 @@ class HomeController extends Controller
             'email' => $request->email,
             'user_name' => uniqid(),
             'password' => bcrypt($request->password),
-            'avatar' => $request_data['avatar'] ?? null, // Use null coalescing operator to handle if no logo
+            'avatar' => $request_data['avatar'] ?? null, 
         ]);
-
+    
         $this->notifyAdmins2($user);
-
-        // $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+    
         return redirect()->route('login')->withSuccess(__('Property Finder created successfully.'));
     }
-
+    
     protected function notifyAdmins2(User $user)
     {
         $admins = User::where('is_admin', true)->get();

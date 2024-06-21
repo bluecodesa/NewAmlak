@@ -6,9 +6,10 @@
                 <div class="text-center mb-4">
                     <h3 class="mb-2">تسجيل الدخول</h3>
                 </div>
-                <p>للتواصل مع املاك للتطوير العقاري, يرجى إدخال ايميلك</p>
+                <div id="messageContainer" class="mb-3"></div>
                 <form id="emailForm" class="row g-3">
                     @csrf
+                    <p>للتواصل مع املاك للتطوير العقاري, يرجى إدخال ايميلك</p>
                     <div class="col-12">
                         <label for="email" class="form-label">@lang('Email')</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="@lang('Email')" required autofocus />
@@ -19,36 +20,85 @@
                     </div>
                 </form>
                 <div id="otpVerification" class="mt-4 d-none">
-                    <p>Enter OTP received on your email:</p>
+                    <p>@lang('Enter OTP received on your email:')</p>
                     <form id="otpForm" class="row g-3">
                         @csrf
                         <div class="col-12">
                             <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required />
                         </div>
                         <div class="col-12">
-                            <button type="button" class="btn btn-primary me-sm-3 me-1" id="verifyOtpButton">Verify OTP</button>
-                            <button type="button" class="btn btn-label-secondary" id="resendOtpButton">Resend OTP</button>
+                            <button type="button" class="btn btn-primary me-sm-3 me-1" id="verifyOtpButton">@lang('Verify OTP')</button>
+                            <button type="button" class="btn btn-label-secondary" id="resendOtpButton">@lang('Resend OTP') </button>
                         </div>
                     </form>
                 </div>
                 <div id="newPropertyFinderForm" class="mt-4 d-none">
-                    <p>Complete registration:</p>
+                    <p>@lang('Complete registration')</p>
                     <form id="registerForm" class="row g-3">
                         @csrf
-                        <div class="col-12">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required />
+                    
+                        {{-- <input type="text" name="key_phone" hidden value="966" id="key_phone">
+                        <input type="text" name="full_phone" hidden id="full_phone" value="966"> --}}
+                    
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label class="form-label" for="name">@lang('Finder name')<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="@lang('Finder name')" required>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="email">@lang('Email')<span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="register_email" name="email" required>
+                            </div>
                         </div>
-                        <div class="col-12">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
+                    
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password">@lang('password') <span class="text-danger">*</span></label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required>
+                                        <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                    </div>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password_confirmation">@lang('Confirm Password') <span class="text-danger">*</span></label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required>
+                                        <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                    </div>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
                         </div>
-                        <input type="hidden" id="email_hidden" name="email_hidden" />
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary me-sm-3 me-1" id="registerButton">Register</button>
-                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                    
+                        {{-- <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label class="form-label" for="mobile">@lang('Company Mobile')<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" placeholder="123456789" id="phone" name="phone" value="" class="form-control" maxlength="9" pattern="\d{1,9}" aria-label="Text input with dropdown button">
+                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button" data-bs-toggle="dropdown" aria-expanded="false">966</button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                                        <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
+                                    </ul>
+                                </div>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                     --}}
+                        <div class="row mb-3">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8">
+                                <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</a>
+                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
+                            </div>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
@@ -57,88 +107,128 @@
 
 
 <script>
-    $(document).ready(function() {
-        $('#sendOtpButton').click(function() {
-            var email = $('#email').val();
-            $.ajax({
-                type: 'POST',
-                url: '{{ route("send-otp") }}',
-                data: {
-                    email: email,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    $('#emailForm').addClass('d-none');
-                    $('#otpVerification').removeClass('d-none');
-                    $('#email_hidden').val(email);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    alert('Failed to send OTP. Please try again later.');
-                }
-            });
-        });
 
-        // Verify OTP Button
-        $('#verifyOtpButton').click(function() {
-            var otp = $('#otp').val();
-            var email = $('#email_hidden').val();
-            $.ajax({
-                type: 'POST',
-                url: '{{ route("verify-otp") }}',
-                data: {
-                    email: email,
-                    otp: otp,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    $('#otpVerification').addClass('d-none');
-                    $('#newPropertyFinderForm').removeClass('d-none');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    alert('Failed to verify OTP. Please try again.');
-                }
-            });
-        });
+    function updateFullPhone() {
+        const phoneInput = $('#phone').val();
+        const keyPhone = $('#key_phone').val();
+        $('#full_phone').val(keyPhone + phoneInput);
+    }
 
-        // Resend OTP Button
-        $('#resendOtpButton').click(function() {
-            var email = $('#email_hidden').val();
-            $.ajax({
-                type: 'POST',
-                url: '{{ route("resend-otp") }}',
-                data: {
-                    email: email,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    alert('OTP has been resent to your email.');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    alert('Failed to resend OTP. Please try again later.');
-                }
-            });
-        });
+    $('#phone').on('input', updateFullPhone);
 
-        // Register Form Submission
-        $('#registerForm').submit(function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-            $.ajax({
-                type: 'POST',
-                url: '{{ route("register-property-finder") }}',
-                data: formData,
-                success: function(response) {
-                    alert('Property Finder registered successfully.');
-                    $('#modalToggle').modal('hide');
-                },
-                error: function(xhr, status, error) {
+$(document).ready(function() {
+    function displayMessage(message, type) {
+        $('#messageContainer').html('<div class="alert alert-' + type + '">' + message + '</div>');
+    }
+
+    function displayValidationErrors(errors) {
+        // Clear previous errors
+        $('.invalid-feedback').remove();
+        $('.form-control').removeClass('is-invalid');
+
+        for (const key in errors) {
+            if (errors.hasOwnProperty(key)) {
+                const errorMessage = errors[key][0];
+                const inputElement = $('[name="' + key + '"]');
+                inputElement.addClass('is-invalid');
+                inputElement.after('<div class="invalid-feedback">' + errorMessage + '</div>');
+            }
+        }
+    }
+
+    $('#sendOtpButton').click(function() {
+        var email = $('#email').val();
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("send-otp") }}',
+            data: {
+                email: email,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $('#emailForm').addClass('d-none');
+                $('#otpVerification').removeClass('d-none');
+                $('#email_hidden').val(email);
+                displayMessage('OTP has been sent to your email.', 'success');
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 400) {
+                    var response = JSON.parse(xhr.responseText);
+                    displayMessage(response.message, 'danger');
+                } else {
                     console.error(xhr.responseText);
-                    alert('Failed to register Property Finder. Please try again.');
+                    displayMessage('Failed to send OTP. Please try again later.', 'danger');
                 }
-            });
+            }
         });
     });
+
+    $('#verifyOtpButton').click(function() {
+        var otp = $('#otp').val();
+        var email = $('#email_hidden').val();
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("verify-otp") }}',
+            data: {
+                email: email,
+                otp: otp,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $('#otpVerification').addClass('d-none');
+                $('#newPropertyFinderForm').removeClass('d-none');
+                $('#registerForm #register_email').val(email); // Populate email in registration form
+                displayMessage('OTP verified successfully.', 'success');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                displayMessage('Failed to verify OTP. Please try again.', 'danger');
+            }
+        });
+    });
+
+    $('#resendOtpButton').click(function() {
+        var email = $('#email_hidden').val();
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("resend-otp") }}',
+            data: {
+                email: email,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                displayMessage('OTP has been resent to your email.', 'success');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                displayMessage('Failed to resend OTP. Please try again later.', 'danger');
+            }
+        });
+    });
+
+    $('#registerForm').submit(function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("register-property-finder") }}',
+            data: formData,
+            success: function(response) {
+                displayMessage('Property Finder registered successfully.', 'success');
+                $('#modalToggle').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 422) {
+                    var errors = xhr.responseJSON.errors;
+                    displayValidationErrors(errors);
+                } else {
+                    displayMessage('Failed to register Property Finder. Please try again.', 'danger');
+                }
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+
 </script>

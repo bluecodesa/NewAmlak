@@ -45,10 +45,20 @@ class RenterController extends Controller
 public function searchByIdNumber(Request $request)
 {
     $validatedData = $request->validate([
-        'id_number' => 'required|numeric',
+        'id_number' => [
+            'required',
+            'numeric',
+            'digits:10',
+            function ($attribute, $value, $fail) {
+                if (!preg_match('/^[12]\d{9}$/', $value)) {
+                    $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                }
+            },
+        ],
     ], [
         'id_number.required' => 'The ID number field is required.',
         'id_number.numeric' => 'The ID number must be a number.',
+        'id_number.digits' => 'The ID number must be exactly 10 digits long.',
     ]);
 
     $idNumber = $validatedData['id_number'];
@@ -57,6 +67,18 @@ public function searchByIdNumber(Request $request)
     $user = User::where('id_number', $idNumber)->first();
 
     if ($user) {
+       
+        if ($user->is_renter) {
+            $existingRenter = Renter::where('user_id', $user->id)
+                ->whereHas('OfficeData', function ($query) use ($officeId) {
+                    $query->where('office_id', $officeId);
+                })
+                ->first();
+                if ($existingRenter) {
+                    return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._result_renter', ['message' => __('User is already a renter in this office.'), 'user' => $user])->render()]);
+                }
+            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._result_renter', ['message' => __('User is already registered as a renter.'), 'user' => $user])->render()]);
+        }
         if ($user->is_property_finder) {
             $existingRenter = Renter::where('user_id', $user->id)
                 ->whereHas('OfficeData', function ($query) use ($officeId) {
@@ -65,15 +87,18 @@ public function searchByIdNumber(Request $request)
                 ->first();
 
             if ($existingRenter) {
-                return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._result_renter', ['message' => 'User is already a renter in this office.', 'user' => $user])->render()]);
+                return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._result_renter', ['message' => __('User found and is a property finder.'), 'user' => $user])->render()]);
             }
 
-            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc.search-result-modal', ['message' => 'User found and is a property finder.', 'user' => $user])->render()]);
-        } else {
-            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => 'User is not registered'])->render()]);
+            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc.search-result-modal', ['message' => __('User found and is a property finder.'), 'user' => $user])->render()]);
+        }  if ($user) {
+            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._result_renter', ['message' => __('User is already registered'), 'user' => $user])->render()]);
+        }
+        else {
+            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => __('User is not registered')])->render()]);
         }
     } else {
-        return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => 'User is not registered'])->render()]);
+        return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => __('User is not registered')])->render()]);
     }
 }
 
@@ -117,15 +142,15 @@ public function addAsRenter($id)
         //
         $renter =  $this->RenterService->getRenterById($id);
         $officeRenters = $renter->OfficeRenterData;
-
-if ($officeRenters->isNotEmpty()) {
-    foreach ($officeRenters as $officeRenter) {
-        $renterStatus = $officeRenter->renter_status;
-    }
-        $Regions = $this->regionService->getAllRegions();
-        $cities = $this->cityService->getAllCities();
-        return view('Office.ProjectManagement.Renter.show', get_defined_vars());
-    }
+        $contracts =null;
+        if ($officeRenters->isNotEmpty()) {
+            foreach ($officeRenters as $officeRenter) {
+                $renterStatus = $officeRenter->renter_status;
+            }
+                $Regions = $this->regionService->getAllRegions();
+                $cities = $this->cityService->getAllCities();
+                return view('Office.ProjectManagement.Renter.show', get_defined_vars());
+            }
 }
 
     public function edit($id)

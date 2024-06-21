@@ -161,7 +161,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
+                                    <label class="form-label" for="mobile">@lang('Company Mobile')<span
                                             class="text-danger">*</span></label>
 
                                     <div class="input-group">
@@ -244,7 +244,7 @@
                             <div class="divider-text"></div>
                         </div>
 
-                        <div class="d-flex justify-content-center">
+                        {{-- <div class="d-flex justify-content-center">
                             <div class="form-group mb-0 row">
                                 <div class="col-12 m-t-10 text-center">
                                     @lang('By registering') @lang('you accept our')
@@ -256,7 +256,7 @@
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <!-- Register Card -->
@@ -360,23 +360,23 @@
         });
     </script>
 
-    <script>
-        function updateFullPhone(input) {
-            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
-            var key_phone = $('#key_phone').val();
-            var fullPhone = key_phone + input.value;
-            document.getElementById('full_phone').value = fullPhone;
-        }
-        $(document).ready(function() {
-            $('.dropdown-item').on('click', function() {
-                var key = $(this).data('key');
-                var phone = $('#phone').val();
-                $('#key_phone').val(key);
-                $('#full_phone').val(key + phone);
-                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-            });
+<script>
+    function updateFullPhone(input) {
+        input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+        var key_phone = $('#key_phone').val();
+        var fullPhone = key_phone + input.value;
+        document.getElementById('full_phone').value = fullPhone;
+    }
+    $(document).ready(function() {
+        $('.dropdown-item').on('click', function() {
+            var key = $(this).data('key');
+            var phone = $('#phone').val();
+            $('#key_phone').val(key);
+            $('#full_phone').val(key + phone);
+            $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
         });
-    </script>
+    });
+</script>
 
 </body>
 

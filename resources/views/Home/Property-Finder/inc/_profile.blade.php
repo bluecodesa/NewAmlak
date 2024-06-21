@@ -99,7 +99,7 @@
 
                         <label for="id_number" class="form-label">@lang('id number')</label>
                         <input type="text" class="form-control" id="id_number" name="id_number"
-                            value="">
+                            value="{{ $finder->id_number }}">
                     </div>
 
                     <div class="col-md-6 col-12 mb-3">

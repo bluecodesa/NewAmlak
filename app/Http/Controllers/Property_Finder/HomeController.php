@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use App\Http\Traits\Email\MailSendCode;
 use  App\Email\Admin\SendOtpMail;
-
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\Admin\NewPropertyFinderNotification;
 
 
 
@@ -23,15 +25,23 @@ class HomeController extends Controller
 
     use MailSendCode;
 
-    public function index(){
+    public function index()
+    {
+        $finder = auth()->user();
 
-        $finder =auth()->user();
+        if ($finder->is_renter) {
+            $finder->assignRole('Renter');
+        } elseif ($finder->is_property_finder) {
+            $finder->assignRole('Property-Finder');
+        }
+
         $favorites = FavoriteUnit::where('finder_id', $finder->id)->get();
         $units = Unit::with('Unitfavorites')
             ->whereIn('id', $favorites->pluck('unit_id'))
             ->get();
-        return view('Home.Property-Finder.index',  get_defined_vars());
+        return view('Home.Property-Finder.index', get_defined_vars());
     }
+
     public function create(){
 
     }
@@ -42,12 +52,23 @@ class HomeController extends Controller
 
     public function updatePropertyFinder(Request $request, $id)
     {
+        
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required|unique:users,phone,' . $id,
             'key_phone' => 'required|string',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'id_number' => [
+            'required',
+            'numeric',
+            'digits:10',
+            function ($attribute, $value, $fail) {
+                if (!preg_match('/^[12]\d{9}$/', $value)) {
+                    $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                }
+            },
+        ],
         ];
 
         $messages = [
@@ -56,7 +77,12 @@ class HomeController extends Controller
             'email.unique' => __('The email has already been taken.'),
             'phone.required' => __('The mobile field is required.'),
             'phone.unique' => __('The mobile has already been taken.'),
-            'avatar.image' => __('The broker logo must be an image.')
+            'avatar.image' => __('The Image logo must be an image.'),
+            'id_number.required' => 'The ID number field is required.',
+            'id_number.numeric' => 'The ID number must be a number.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+
+
         ];
 
         $request->validate($rules, $messages);
@@ -80,6 +106,7 @@ class HomeController extends Controller
             $finder->name = $request->name;
             $finder->email = $request->email;
             $finder->phone = $request->phone;
+            $finder->id_number = $request->id_number;
             $finder->key_phone = $request->key_phone;
             $finder->full_phone = $request->key_phone . $request->phone;
 
@@ -154,12 +181,23 @@ class HomeController extends Controller
     public function sendOtp(Request $request)
     {
         $email = $request->input('email');
-        $otp = mt_rand(100000, 999999);
-        session(['otp' => $otp]);
-        $this->MailSendCode($request->email, $otp);
-        return response()->json(['message' => 'OTP sent successfully']);
+    
+        // Check if the email is already registered in the users table
+        $userExists = User::where('email', $email)->exists();
+    
+        if (!$userExists) {
+            // If the email is not registered, send the OTP
+            // $otp = mt_rand(100000, 999999);
+            $otp = 555555; // Static OTP for testing
+            session(['otp' => $otp]);
+            $this->MailSendCode($request->email, $otp);
+            return response()->json(['message' => 'OTP sent successfully']);
+        } else {
+            // If the email is already registered, return an error message
+            return response()->json(['message' => 'This email is already registered.'], 400);
+        }
     }
-
+    
 
     public function verifyOtp(Request $request)
 {
@@ -181,19 +219,87 @@ public function resendOtp(Request $request)
 }
 
 
+// public function registerPropertyFinder(Request $request)
+// {
+//     $name = $request->input('name');
+//     $email = $request->input('email_hidden');
+//     $password = Hash::make($request->input('password'));
+//     // Create Property Finder logic
+//     $propertyFinder = PropertyFinder::create([
+//         'name' => $name,
+//         'email' => $email,
+//         'password' => $password,
+//     ]);
+//     return response()->json(['message' => 'Property Finder created successfully']);
+// }
+
+
 public function registerPropertyFinder(Request $request)
 {
-    $name = $request->input('name');
-    $email = $request->input('email_hidden');
-    $password = Hash::make($request->input('password'));
-    // Create Property Finder logic
-    $propertyFinder = PropertyFinder::create([
-        'name' => $name,
-        'email' => $email,
-        'password' => $password,
+   
+    $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users|max:255',
+        // 'phone' => [
+        //     'required',
+        //     'max:25'
+        // ],
+        // 'full_phone' => [
+        //     'required',
+        //     Rule::unique('users'),
+        //     'max:25'
+        // ],
+        'password' => 'required|string|max:255|confirmed',
+        'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+    ];
+
+    $messages = [
+        'name.required' => __('The name field is required.'),
+        'email.required' => __('The email field is required.'),
+        'email.unique' => __('The email has already been taken.'),
+        'full_phone.required' => __('The mobile field is required.'),
+        'full_phone.unique' => __('The mobile has already been taken.'),
+        'password.required' => __('The password field is required.'),
+        'password.confirmed' => __('The password confirmation does not match.'),
+        'avatar.image' => __('The broker logo must be an image.')
+    ];
+
+    $request->validate($rules, $messages);
+
+    $request_data = [];
+
+    if ($request->hasFile('avatar')) {
+        $file = $request->file('avatar');
+        $ext  =  uniqid() . '.' . $file->clientExtension();
+        $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
+        $request_data['avatar'] = '/PropertyFounder/' . 'Logos/' . $ext;
+    }
+
+    $user = User::create([
+        'is_property_finder' => 1,
+        'name' => $request->name,
+        'phone' => $request->phone ?? null,
+        'key_phone' => $request->key_phone ?? null,
+        'full_phone' => $request->full_phone ?? null,
+        'email' => $request->email,
+        'user_name' => uniqid(),
+        'password' => bcrypt($request->password),
+        'avatar' => $request_data['avatar'] ?? null, 
     ]);
+
+    $this->notifyAdmins2($user);
+
     return response()->json(['message' => 'Property Finder created successfully']);
 }
+
+protected function notifyAdmins2(User $user)
+{
+    $admins = User::where('is_admin', true)->get();
+    foreach ($admins as $admin) {
+        Notification::send($admin, new NewPropertyFinderNotification($user));
+    }
+}
+
 
 
 }

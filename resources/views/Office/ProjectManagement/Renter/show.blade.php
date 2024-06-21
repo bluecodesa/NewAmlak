@@ -362,12 +362,12 @@
                             </thead>
                             <tbody class="table-border-bottom-0">
                                 <tr>
-                                    @if ($renter)
+                                    @if ($contracts)
 
-                                    <td>{{ $renter->UserData->name }}</td>
-                                    <td>{{ $renter->UserData->email }}</td>
-                                    <td>{{ $renter->UserData->full_phone }}</td>
-                                    <td>{{ auth()->user()->name }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
@@ -454,12 +454,12 @@
                             </thead>
                             <tbody class="table-border-bottom-0">
                                 <tr>
-                                    @if ($renter)
+                                    @if ($contracts)
 
-                                    <td>{{ $renter->UserData->name }}</td>
-                                    <td>{{ $renter->UserData->email }}</td>
-                                    <td>{{ $renter->UserData->full_phone }}</td>
-                                    <td>{{ auth()->user()->name }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
@@ -546,12 +546,12 @@
                             </thead>
                             <tbody class="table-border-bottom-0">
                                 <tr>
-                                    @if ($renter)
+                                    @if ($contracts)
 
-                                    <td>{{ $renter->UserData->name }}</td>
-                                    <td>{{ $renter->UserData->email }}</td>
-                                    <td>{{ $renter->UserData->full_phone }}</td>
-                                    <td>{{ auth()->user()->name }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">

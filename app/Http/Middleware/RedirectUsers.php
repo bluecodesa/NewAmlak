@@ -28,6 +28,9 @@ class RedirectUsers
             elseif (auth()->user()->is_property_finder) {
                 return redirect()->route('PropertyFinder.home');
             }
+            elseif (auth()->user()->is_renter) {
+                return redirect()->route('PropertyFinder.home');
+            }
 
         }
 
