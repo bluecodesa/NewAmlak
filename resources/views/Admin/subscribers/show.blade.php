@@ -168,6 +168,8 @@
                                         </span>
                                     </li>
                                 </ul>
+                                @if (Auth::user()->hasPermission('update-account-users-limit'))
+
                                 <div class="d-flex justify-content-center">
                                     <span class="fw-medium me-1">@lang('الحد الاقصي من عدد الموظفين') : {{ $subscriber->OfficeData->max_of_employee ?? '' }}</span>
                                     <a href="{{ route('Broker.Project.edit', $subscriber->id) }}"
@@ -214,6 +216,7 @@
                                               </div>
 
                                 </div>
+                                @endif
 
                             </div>
                         </div>

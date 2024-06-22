@@ -252,20 +252,17 @@
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3 col-12">
-                                <button
-                                type="button"
-                                class="nav-link btn btn-primary"
-                                role="tab"
-                                data-bs-toggle="tab"
-                                data-bs-target="#navs-justified-profile"
-                                aria-controls="navs-justified-profile"
-                                aria-selected="false">
-                                    @lang('calculate')
+                                <button type="button" class="nav-link btn btn-primary" id="calculateButton">
+                                    @lang('Calculate')
                                 </button>
                             </div>
 
                     </div>
                     <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                        <div id="contractDetails" style="display: none;">
+                            <!-- Contract details will be dynamically added here -->
+                        </div>
+
                     </div>
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                     </div>
@@ -364,6 +361,118 @@
             });
         });
     </script>
+
+<script>
+    $(document).ready(function() {
+        // Event listener for the Calculate button
+        $('#calculateButton').on('click', function() {
+            // Gather all relevant data from the form
+            var formData = {
+                price: parseFloat($('input[name="price"]').val()), // Convert price to float
+                contract_type: $('select[name="contract_type"]').val(),
+                contract_date_gregorian: new Date($('input[name="contract_date_gregorian"]').val()), // Convert to Date object
+                contract_duration: parseInt($('input[name="contract_duration"]').val()), // Convert duration to integer
+                duration_unit: $('select[name="duration_unit"]').val(),
+                payment_cycle: $('select[name="payment_cycle"]').val(),
+                service_type_id: parseInt($('select[name="service_type_id"]').val()), // Convert service type to integer
+                commissions_rate: parseFloat($('input[name="commissions_rate"]').val()), // Convert commissions rate to float
+                collection_type: $('select[name="collection_type"]').val(),
+            };
+
+            // Initialize variables for contract details
+            var numberOfContracts = 1; // Default to 1 contract
+            var contracts = [];
+
+            // Calculate number of sub-contracts based on duration and payment cycle
+            if (formData.duration_unit === 'year' && formData.payment_cycle === 'annual') {
+                numberOfContracts = formData.contract_duration; // One contract per year
+            } else if (formData.duration_unit === 'month' && formData.payment_cycle === 'monthly') {
+                numberOfContracts = formData.contract_duration; // One contract per month
+            } else if (formData.duration_unit === 'year' && formData.payment_cycle === 'monthly') {
+                numberOfContracts = formData.contract_duration * 12; // Convert years to months
+            }
+
+            // Calculate start and end dates for each contract
+            var startDate = formData.contract_date_gregorian;
+            var endDate = new Date(startDate);
+
+            // Calculate commissions based on service type and collection type
+            var commissionPerContract = 0;
+            if (formData.service_type_id === 3) { // Assuming serviceTypeSelect = 3 means additional fields are relevant
+                if (formData.collection_type === 'once') {
+                    // Calculate commission once-off
+                    commissionPerContract = (formData.commissions_rate / 100) * formData.price; // Commission for the first contract
+                } else if (formData.collection_type === 'divided') {
+                    // Calculate commission divided
+                    commissionPerContract = (formData.commissions_rate / 100) * (formData.price / numberOfContracts); // Equal commission for each contract
+                }
+            }
+
+            // Loop to calculate contracts
+            for (var i = 0; i < numberOfContracts; i++) {
+                // Calculate end date based on contract duration unit (month or year)
+                if (formData.duration_unit === 'month') {
+                    endDate.setMonth(startDate.getMonth() + 1); // End date is one month from start date
+                } else if (formData.duration_unit === 'year') {
+                    endDate.setFullYear(startDate.getFullYear() + 1); // End date is one year from start date
+                }
+
+                // Calculate price for each contract
+                var pricePerContract = formData.price / numberOfContracts;
+
+                // Adjust price for commission if applicable
+                var finalPrice = pricePerContract;
+                if (commissionPerContract !== 0) {
+                    finalPrice += commissionPerContract;
+                }
+
+                // Prepare contract object with details
+                var contract = {
+                    contractNumber: i + 1,
+                    startDate: startDate.toLocaleDateString('en-US'),
+                    endDate: endDate.toLocaleDateString('en-US'),
+                    price: finalPrice.toFixed(2), // Display price with two decimal places
+                };
+
+                // Add contract object to contracts array
+                contracts.push(contract);
+
+                // Update startDate for next contract (increment by 1 month or 1 year)
+                if (formData.duration_unit === 'month') {
+                    startDate.setMonth(startDate.getMonth() + 1);
+                } else if (formData.duration_unit === 'year') {
+                    startDate.setFullYear(startDate.getFullYear() + 1);
+                }
+            }
+
+            // Create HTML for displaying contract details
+            var contractsHTML = '<h4>Number of Contracts: ' + numberOfContracts + '</h4>';
+            contractsHTML += '<ul>';
+            contracts.forEach(function(contract) {
+                contractsHTML += '<li>';
+                contractsHTML += '<strong>Contract ' + contract.contractNumber + '</strong>';
+                contractsHTML += '<ul>';
+                contractsHTML += '<li>Start Date: ' + contract.startDate + '</li>';
+                contractsHTML += '<li>End Date: ' + contract.endDate + '</li>';
+                contractsHTML += '<li>Price: ' + contract.price + '</li>';
+                contractsHTML += '</ul>';
+                contractsHTML += '</li>';
+            });
+            contractsHTML += '</ul>';
+
+            // Display contract details on the page
+            $('#contractDetails').html(contractsHTML);
+
+            // Optionally, you can hide or show this section based on your needs
+            $('#contractDetails').show();
+        });
+    });
+</script>
+
+
+
+
+
 
 @endpush
 
