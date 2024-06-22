@@ -80,6 +80,7 @@ use App\Interfaces\Admin\ProjectRepositoryInterface;
 use App\Interfaces\Employee\ProjectRepositoryInterface as EmployeeProjectRepositoryInterface;
 use App\Interfaces\Employee\SettingRepositoryInterface as EmployeeSettingRepositoryInterface;
 use App\Interfaces\Employee\UnitRepositoryInterface as EmployeeUnitRepositoryInterface;
+use App\Interfaces\Office\ContractRepositoryInterface;
 use App\Interfaces\Office\PropertyRepositoryInterface as OfficePropertyRepositoryInterface;
 use App\Interfaces\Office\RenterRepositoryInterface;
 use App\Interfaces\Office\SettingRepositoryInterface as OfficeSettingRepositoryInterface;
@@ -89,6 +90,7 @@ use App\Repositories\Admin\ProjectRepository;
 use App\Repositories\Employee\ProjectRepository as EmployeeProjectRepository;
 use App\Repositories\Employee\SettingRepository as EmployeeSettingRepository;
 use App\Repositories\Employee\UnitRepository as EmployeeUnitRepository;
+use App\Repositories\Office\ContractRepository;
 use App\Repositories\Office\PropertyRepository as OfficePropertyRepository;
 use App\Repositories\Office\SettingRepository as OfficeSettingRepository;
 use App\Repositories\Office\UnitInterestRepository as OfficeUnitInterestRepository;
@@ -204,6 +206,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             BrokerOwnerRepositoryInterface::class,
             BrokerOwnerRepository::class
+        );
+
+        $this->app->bind(
+            ContractRepositoryInterface::class,
+            ContractRepository::class
         );
 
         $this->app->bind(

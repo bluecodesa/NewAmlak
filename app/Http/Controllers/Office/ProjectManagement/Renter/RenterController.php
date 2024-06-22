@@ -67,7 +67,7 @@ public function searchByIdNumber(Request $request)
     $user = User::where('id_number', $idNumber)->first();
 
     if ($user) {
-       
+
         if ($user->is_renter) {
             $existingRenter = Renter::where('user_id', $user->id)
                 ->whereHas('OfficeData', function ($query) use ($officeId) {
@@ -77,7 +77,7 @@ public function searchByIdNumber(Request $request)
                 if ($existingRenter) {
                     return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._result_renter', ['message' => __('User is already a renter in this office.'), 'user' => $user])->render()]);
                 }
-            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._result_renter', ['message' => __('User is already registered as a renter.'), 'user' => $user])->render()]);
+            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc.search-result-modal', ['message' => __('User found and is a property finder.'), 'user' => $user])->render()]);
         }
         if ($user->is_property_finder) {
             $existingRenter = Renter::where('user_id', $user->id)

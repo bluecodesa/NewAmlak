@@ -6,6 +6,7 @@ use App\Http\Controllers\Office\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Office\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Office\HomeController;
+use App\Http\Controllers\Office\ProjectManagement\Contract\ContractController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
 use App\Http\Controllers\Office\ProjectManagement\PropertyController;
 use App\Http\Controllers\Office\ProjectManagement\Renter\RenterController;
@@ -41,6 +42,8 @@ Route::group(
        Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
        Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+       Route::resource('Contract', ContractController::class)->middleware('CheckSubscription');
+
        //renter
        Route::resource('Renter', RenterController::class)->middleware('CheckSubscription');
        Route::post('/renter-search', [RenterController::class, 'searchByIdNumber'])->name('Renter.searchByIdNumber');

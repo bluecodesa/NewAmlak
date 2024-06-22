@@ -2,7 +2,6 @@
     $sectionsIds = Auth::user()
     ->UserOfficeData?->UserSubscription?->SubscriptionTypeData?->sections()->pluck('section_id')
         ->toArray();
-
 @endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
@@ -125,6 +124,24 @@
             </ul>
         </li>
     @endif
+
+
+    @if (in_array(30, $sectionsIds))
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
+            <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+            <div data-i18n="@lang('Contract Management')">@lang('Contract Management')</div>
+        </a>
+        <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('Office.Contract.index') }}" class="menu-link">
+                        <div data-i18n="@lang('Contracts')">@lang('Contracts')</div>
+                    </a>
+                </li>
+        </ul>
+    </li>
+@endif
 
 
         @if (in_array(18, $sectionsIds))

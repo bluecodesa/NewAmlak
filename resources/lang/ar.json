@@ -497,7 +497,7 @@
     "Renters": "المستأجرين",
     "Renter": "مستأجر",
     "Add New Renter": "اضافة مستأجر جديد",
-    "Renter Name": "اسم المستأجر",
+    "Renter name": "اسم المستأجر",
     "Add as Renter": "اضافة كامستأجر",
     "not_active": "غير نشط",
     "User is already registered": "هذا المستخدم موجود بالفعل",
@@ -508,7 +508,11 @@
     "Verify OTP": "تحقق من الرمز",
     "Resend OTP": "اعادة ارسال الرمز",
     "Complete registration": "اكمال التسجيل",
-    "Finder Name": "اسم المستأجر"
+    "Finder Name": "اسم المستأجر",
+    "Contract Management": "ادارة العقود",
+    "Contracts": "العقود",
+    "Add New Contract": "اضافة عقد جديد",
+    "Base Settings": "اعدادات اساسية"
 
 
 }

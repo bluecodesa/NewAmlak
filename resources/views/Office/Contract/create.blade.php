@@ -1,0 +1,370 @@
+@extends('Admin.layouts.app')
+@section('title', __('Add New Contract'))
+@section('content')
+
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+                <div class="col-6 ">
+
+                    <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        <a href="{{ route('Office.Contract.index') }}" class="text-muted fw-light">@lang('Contracts')
+                        </a> /
+                        @lang('Add New Contract')
+                    </h4>
+                </div>
+            </div>
+
+            <div class="col-xl-12">
+                <div class="nav-align-top nav-tabs-shadow mb-4">
+                    <div class="col-md-3 col-12 mb-3">
+                        <label class="form-label">
+                            {{ __('Contract Number') }} <span class="required-color"></span></label>
+                        <input disabled type="text" required id="modalRoleName" name="number_unit"
+                            class="form-control" placeholder="{{ __('Contract Number') }}">
+
+                    </div>
+                  <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link active"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-home"
+                        aria-controls="navs-justified-home"
+                        aria-selected="true">
+                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Base Settings')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-profile"
+                        aria-controls="navs-justified-profile"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-user ti-xs me-1"></i> Profile
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-messages"
+                        aria-controls="navs-justified-messages"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> Messages
+                      </button>
+                    </li>
+                  </ul>
+
+                  <div class="tab-content">
+                    <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                        <form action="{{ route('Office.Unit.store') }}" method="POST" class="row"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('post')
+                        <div class="col-md-4 mb-3 col-12">
+                            <label class="form-label">@lang('Project') <span class="required-color">*</span>
+                            </label>
+                            <select class="form-select" name="project_id" required>
+                                <option disabled selected value="">@lang('Project')</option>
+                                @foreach ($projects as $project)
+                                    <option value="{{ $project->id }}">
+                                        {{ $project->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-3 col-12">
+                            <label class="form-label">@lang('property') <span class="required-color">*</span>
+                            </label>
+                            <select class="form-select" name="property_id" required>
+                                <option disabled selected value="">@lang('property')</option>
+                                @foreach ($properties as $property)
+                                    <option value="{{ $property->id }}">
+                                        {{ $property->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3 col-12">
+                            <label class="form-label">@lang('Unit') <span class="required-color">*</span>
+                            </label>
+                            <select class="form-select" name="unit_id" required>
+                                <option disabled selected value="">@lang('Unit')</option>
+                                @foreach ($units as $unit)
+                                    <option value="{{ $unit->id }}">
+                                        {{ $unit->number_unit }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <label class="col-md-6 form-label">@lang('owner name') <span
+                                    class="required-color">*</span>
+                            </label>
+                            <div class="input-group">
+                                <select class="form-select" id="OwnersDiv"
+                                    aria-label="Example select with button addon" name="owner_id" required>
+                                    <option disabled selected value="">@lang('owner name')</option>
+                                    @foreach ($owners as $owner)
+                                        <option value="{{ $owner->id }}">
+                                            {{ $owner->name }}</option>
+                                    @endforeach
+                                </select>
+                             </div>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <label class="col-md-6 form-label">@lang('Employee Name') <span
+                                    class="required-color">*</span>
+                            </label>
+                            <div class="input-group">
+                                <select class="form-select" id="OwnersDiv"
+                                    aria-label="Example select with button addon" name="owner_id" required>
+                                    <option disabled selected value="">@lang('Employee Name')</option>
+                                    @foreach ($employees as $employee)
+                                        <option value="{{ $employee->id }}">
+                                            {{ $employee->UserData->name }}</option>
+                                    @endforeach
+                                </select>
+                             </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 mb-3">
+                            <label class="form-label">@lang('price')</label>
+                            <input type="number" name="price" class="form-control"
+                                placeholder="@lang('price')" value="{{ old('price') }}" />
+                        </div>
+
+                           <!-- Contract Type -->
+                           <div class="col-md-4 mb-3 col-12">
+                            <label class="form-label">@lang('Contract Type') <span class="required-color">*</span></label>
+                            <select class="form-select" name="type" id="type" required>
+                                <option disabled selected value="">@lang('Contract Type')</option>
+                                @foreach (['rent', 'sale'] as $type)
+                                    <option value="{{ $type }}">
+                                        {{ __($type) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-3 col-12">
+                            <label class="form-label">@lang('offered service') <span class="required-color">*</span></label>
+                            <select class="form-select" name="service_type_id" id="serviceTypeSelect" required>
+                                <option disabled selected value="">@lang('offered service')</option>
+                                @foreach ($servicesTypes as $service)
+                                    <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div id="propertyManagementFields" class="row" style="display: none;">
+
+                            <!-- Commissions Rate -->
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('Commissions Rate') <span class="required-color">*</span></label>
+                                <input type="number" name="commissions_rate" class="form-control" placeholder="@lang('Commissions Rate')" required>
+                            </div>
+
+                            <!-- Collection Type -->
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('Collection Type') <span class="required-color">*</span></label>
+                                <select class="form-select" name="type" id="type" required>
+                                    <option disabled selected value="">@lang('Collection Type')</option>
+                                    @foreach (['once', 'divided'] as $type)
+                                        <option value="{{ $type }}">
+                                            {{ __($type) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                            <!-- Renters -->
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('Renter') <span class="required-color">*</span></label>
+                                <select class="form-select" id="RenterDiv"
+                                aria-label="Example select with button addon" name="renter_id" required>
+                                <option disabled selected value="">@lang('Renter name')</option>
+                                @foreach ($renters as $renter)
+                                    <option value="{{ $renter->id }}">
+                                        {{ $renter->UserData->name }}</option>
+                                @endforeach
+                            </select>
+                            </div>
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
+                                  <input class="form-control" type="date" value="" id="html5-date-input" />
+                            </div>
+
+                              <!-- Calendar Type -->
+                              <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('Calendar Type') <span class="required-color">*</span></label>
+                                <select class="form-select" id="calendarTypeSelect" required>
+                                    <option disabled selected value="">@lang('Select Calendar Type')</option>
+                                    <option value="gregorian">@lang('Gregorian')</option>
+                                    <option value="hijri">@lang('Hijri')</option>
+                                </select>
+                            </div>
+
+                            <!-- Contract Date -->
+                            <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
+                                <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
+                                <input class="form-control" type="date" name="contract_date_gregorian" />
+                            </div>
+                            <div class="col-md-4 mb-3 col-12" id="hijriDate" style="display: none;">
+                                <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color"></span></label>
+                                <input class="form-control" type="text" name="contract_date_hijri" id="hijriDatePicker" placeholder="@lang('Hijri Date')" />
+                            </div>
+
+                            <!-- Duration of the Contract -->
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('Duration of the Contract') <span class="required-color">*</span></label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="contract_duration" placeholder="@lang('Duration')" required>
+                                    <select class="form-select" name="duration_unit" required>
+                                        <option value="month">@lang('Month')</option>
+                                        <option value="year">@lang('Year')</option>
+                                    </select>
+                                </div>
+                            </div>
+                                <!-- Payment Cycle -->
+                                <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('Payment Cycle') <span class="required-color">*</span></label>
+                                <select class="form-select" name="payment_cycle" required>
+                                    <option disabled selected value="">@lang('Payment Cycle')</option>
+                                    @foreach (['annual', 'semi-annual', 'quarterly', 'monthly'] as $cycle)
+                                        <option value="{{ $cycle }}">{{ __($cycle) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('التجديد التلقائي') <span class="required-color">*</span></label>
+                                <select class="form-select" name="type" id="type" required>
+                                    <option disabled selected value="">@lang('Collection Type')</option>
+                                    @foreach (['not_renewed', 'renewed'] as $type)
+                                        <option value="{{ $type }}">
+                                            {{ __($type) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3 col-12">
+                                <button
+                                type="button"
+                                class="nav-link btn btn-primary"
+                                role="tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-profile"
+                                aria-controls="navs-justified-profile"
+                                aria-selected="false">
+                                    @lang('calculate')
+                                </button>
+                            </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary me-1">
+
+                            {{ __('save') }}
+                        </button>
+
+                    </div>
+                      </form>
+                  </div>
+
+                </div>
+              </div>
+
+        </div>
+
+        <div class="content-backdrop fade"></div>
+    </div>
+@push('scripts')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-hijri/2.1.1/moment-hijri.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hijri-datepicker/1.1.3/js/bootstrap-hijri-datepicker.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hijri-datepicker/1.1.3/css/bootstrap-hijri-datepicker.min.css" rel="stylesheet"/>
+
+
+        <script>
+            function updateFullPhone(input) {
+                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+                var key_phone = $('#key_phone').val();
+                var fullPhone = key_phone + input.value;
+                document.getElementById('full_phone').value = fullPhone;
+            }
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    var phone = $('#phone').val();
+                    $('#key_phone').val(key);
+                    $('#full_phone').val(key + phone);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
+            });
+
+            $('#Region_id').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#CityDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#CityDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+        </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#serviceTypeSelect').on('change', function() {
+                var selectedValue = $(this).val();
+                if (selectedValue == 3) {
+                    $('#propertyManagementFields').show();
+                } else {
+                    $('#propertyManagementFields').hide();
+                }
+            });
+
+            $('#calendarTypeSelect').on('change', function() {
+                var selectedValue = $(this).val();
+                if (selectedValue === 'gregorian') {
+                    $('#gregorianDate').show();
+                    $('#hijriDate').hide();
+                } else if (selectedValue === 'hijri') {
+                    $('#gregorianDate').hide();
+                    $('#hijriDate').show();
+                } else {
+                    $('#gregorianDate').hide();
+                    $('#hijriDate').hide();
+                }
+            });
+
+            // Initialize Hijri Date Picker
+            $('#hijriDatePicker').hijriDatePicker({
+                hijri: true,
+                format: "YYYY-MM-DD",
+                hijriFormat: "iYYYY-iMM-iDD",
+                showSwitcher: false,
+            });
+        });
+    </script>
+
+@endpush
+
+@endsection
