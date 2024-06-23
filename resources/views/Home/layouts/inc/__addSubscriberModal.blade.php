@@ -72,8 +72,9 @@
                   </div>
                 </div>
                 <div class="col-md mb-md-0 mb-3">
-                    <div class="form-check custom-option custom-option-icon" onclick="redirectToCreatePropertyFinder()">
-                      <label class="form-check-label custom-option-content" for="customRadioHome">
+                    <div class="form-check custom-option custom-option-icon" data-bs-toggle="modal"
+                    data-bs-target="#modalToggle">
+                      <label class="form-check-label custom-option-content" for="customRadioFinder">
                         <span class="custom-option-body">
                           <svg
                             width="41"
@@ -98,7 +99,7 @@
                           class="form-check-input"
                           type="radio"
                           value=""
-                          id="customRadioHome"
+                          id="customRadioFinder"
                           checked />
                       </label>
                     </div>
@@ -111,16 +112,19 @@
     </div>
   </div>
   <!--/ Add New user -->
+  @include('Home.Auth.propertyFinder.create')
 
   <script>
     function redirectToCreateBroker() {
         window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
     }
-    function redirectToCreatePropertyFinder() {
-        window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
-    }
+    // function redirectToCreatePropertyFinder() {
+    //     window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+    // }
     function redirectToCreateOffice() {
         window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+

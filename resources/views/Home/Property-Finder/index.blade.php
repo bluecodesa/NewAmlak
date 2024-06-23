@@ -53,13 +53,13 @@
                       class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                       <li class="list-inline-item d-flex gap-1">
                         <i class="ti ti-color-swatch"></i>
-                        @if ($finder->is_property_finder)
-                        @lang('Property Finder')
-
-                        @elseif($finder->is_renter)
+                        @if ($finder->is_renter)
                         @lang('Renter')
 
-                        @endif 
+                        @elseif($finder->is_property_finder)
+                        @lang('Property Finder')
+
+                        @endif
                       </li>
                       <li class="list-inline-item d-flex gap-1">
                         <i class="ti ti-calendar"></i>عضو منذ {{ $finder->created_at }}

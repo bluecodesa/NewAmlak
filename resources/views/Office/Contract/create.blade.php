@@ -446,11 +446,11 @@
             }
 
             // Create HTML for displaying contract details
-            var contractsHTML = '<h4>Number of Contracts: ' + numberOfContracts + '</h4>';
+            var contractsHTML = '<h4>عدد الاقساط: ' + numberOfContracts + '</h4>';
             contractsHTML += '<ul>';
             contracts.forEach(function(contract) {
                 contractsHTML += '<li>';
-                contractsHTML += '<strong>Contract ' + contract.contractNumber + '</strong>';
+                contractsHTML += '<strong>قسط ' + contract.contractNumber + '</strong>';
                 contractsHTML += '<ul>';
                 contractsHTML += '<li>Start Date: ' + contract.startDate + '</li>';
                 contractsHTML += '<li>End Date: ' + contract.endDate + '</li>';

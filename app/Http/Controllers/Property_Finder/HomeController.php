@@ -28,7 +28,6 @@ class HomeController extends Controller
     public function index()
     {
         $finder = auth()->user();
-
         if ($finder->is_renter) {
             $finder->assignRole('Renter');
         } elseif ($finder->is_property_finder) {
@@ -52,7 +51,7 @@ class HomeController extends Controller
 
     public function updatePropertyFinder(Request $request, $id)
     {
-        
+
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
@@ -60,15 +59,16 @@ class HomeController extends Controller
             'key_phone' => 'required|string',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'id_number' => [
-            'required',
-            'numeric',
-            'digits:10',
-            function ($attribute, $value, $fail) {
-                if (!preg_match('/^[12]\d{9}$/', $value)) {
-                    $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
-                }
-            },
-        ],
+                'required',
+                'numeric',
+                'digits:10',
+                'unique:users,id_number,' . $id, // Ensure ID number is unique, excluding the current user
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                    }
+                },
+            ],
         ];
 
         $messages = [
@@ -81,8 +81,7 @@ class HomeController extends Controller
             'id_number.required' => 'The ID number field is required.',
             'id_number.numeric' => 'The ID number must be a number.',
             'id_number.digits' => 'The ID number must be exactly 10 digits long.',
-
-
+            'id_number.unique' => 'The ID number has already been taken.', // Custom message for unique constraint
         ];
 
         $request->validate($rules, $messages);
@@ -181,10 +180,10 @@ class HomeController extends Controller
     public function sendOtp(Request $request)
     {
         $email = $request->input('email');
-    
+
         // Check if the email is already registered in the users table
         $userExists = User::where('email', $email)->exists();
-    
+
         if (!$userExists) {
             // If the email is not registered, send the OTP
             // $otp = mt_rand(100000, 999999);
@@ -197,7 +196,7 @@ class HomeController extends Controller
             return response()->json(['message' => 'This email is already registered.'], 400);
         }
     }
-    
+
 
     public function verifyOtp(Request $request)
 {
@@ -236,7 +235,7 @@ public function resendOtp(Request $request)
 
 public function registerPropertyFinder(Request $request)
 {
-   
+
     $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users|max:255',
@@ -284,7 +283,7 @@ public function registerPropertyFinder(Request $request)
         'email' => $request->email,
         'user_name' => uniqid(),
         'password' => bcrypt($request->password),
-        'avatar' => $request_data['avatar'] ?? null, 
+        'avatar' => $request_data['avatar'] ?? null,
     ]);
 
     $this->notifyAdmins2($user);

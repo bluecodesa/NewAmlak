@@ -155,6 +155,7 @@ class RenterRepository implements RenterRepositoryInterface
 
     $user->name = $data['name'];
     $user->email = $data['email'];
+    $user->key_phone = $data['key_phone'];
     $user->full_phone = $data['full_phone'];
     $user->phone = $data['phone'];
 

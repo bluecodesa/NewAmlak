@@ -19,6 +19,7 @@
         rel="stylesheet" />
 
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/fonts/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/css/rtl/core.css" class="template-customizer-core-css') }}" />

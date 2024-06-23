@@ -25,6 +25,7 @@
                         @csrf
                         <div class="col-12">
                             <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required />
+                            <input type="hidden" id="email_hidden" name="email_hidden"> <!-- Hidden input for storing the email -->
                         </div>
                         <div class="col-12">
                             <button type="button" class="btn btn-primary me-sm-3 me-1" id="verifyOtpButton">@lang('Verify OTP')</button>
@@ -36,13 +37,9 @@
                     <p>@lang('Complete registration')</p>
                     <form id="registerForm" class="row g-3">
                         @csrf
-                    
-                        {{-- <input type="text" name="key_phone" hidden value="966" id="key_phone">
-                        <input type="text" name="full_phone" hidden id="full_phone" value="966"> --}}
-                    
                         <div class="mb-3 row">
                             <div class="col-md-6">
-                                <label class="form-label" for="name">@lang('Finder name')<span class="text-danger">*</span></label>
+                                <label class="form-label" for="name">@lang('Finder Name')<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="@lang('Finder name')" required>
                                 <div class="invalid-feedback"></div>
                             </div>
@@ -51,7 +48,6 @@
                                 <input type="email" class="form-control" id="register_email" name="email" required>
                             </div>
                         </div>
-                    
                         <div class="mb-3 row">
                             <div class="col-md-6">
                                 <div class="mb-3 form-password-toggle">
@@ -74,22 +70,6 @@
                                 </div>
                             </div>
                         </div>
-                    
-                        {{-- <div class="mb-3 row">
-                            <div class="col-md-6">
-                                <label class="form-label" for="mobile">@lang('Company Mobile')<span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="text" placeholder="123456789" id="phone" name="phone" value="" class="form-control" maxlength="9" pattern="\d{1,9}" aria-label="Text input with dropdown button">
-                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button" data-bs-toggle="dropdown" aria-expanded="false">966</button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                        <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
-                                    </ul>
-                                </div>
-                                <div class="invalid-feedback"></div>
-                            </div>
-                        </div>
-                     --}}
                         <div class="row mb-3">
                             <div class="col-md-4"></div>
                             <div class="col-md-8">
@@ -98,24 +78,13 @@
                             </div>
                         </div>
                     </form>
-                    
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
 <script>
-
-    function updateFullPhone() {
-        const phoneInput = $('#phone').val();
-        const keyPhone = $('#key_phone').val();
-        $('#full_phone').val(keyPhone + phoneInput);
-    }
-
-    $('#phone').on('input', updateFullPhone);
-
 $(document).ready(function() {
     function displayMessage(message, type) {
         $('#messageContainer').html('<div class="alert alert-' + type + '">' + message + '</div>');
@@ -136,6 +105,16 @@ $(document).ready(function() {
         }
     }
 
+    function resetModal() {
+        $('#emailForm')[0].reset();
+        $('#otpForm')[0].reset();
+        $('#registerForm')[0].reset();
+        $('#emailForm').removeClass('d-none');
+        $('#otpVerification').addClass('d-none');
+        $('#newPropertyFinderForm').addClass('d-none');
+        $('#messageContainer').html('');
+    }
+
     $('#sendOtpButton').click(function() {
         var email = $('#email').val();
         $.ajax({
@@ -148,7 +127,7 @@ $(document).ready(function() {
             success: function(response) {
                 $('#emailForm').addClass('d-none');
                 $('#otpVerification').removeClass('d-none');
-                $('#email_hidden').val(email);
+                $('#email_hidden').val(email); // Store the email in the hidden input
                 displayMessage('OTP has been sent to your email.', 'success');
             },
             error: function(xhr, status, error) {
@@ -215,6 +194,8 @@ $(document).ready(function() {
             data: formData,
             success: function(response) {
                 displayMessage('Property Finder registered successfully.', 'success');
+                toastr.success('Property Finder registered successfully.');
+                resetModal();
                 $('#modalToggle').modal('hide');
             },
             error: function(xhr, status, error) {
@@ -228,7 +209,10 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Reset modal when it's closed
+    $('#modalToggle').on('hidden.bs.modal', function () {
+        resetModal();
+    });
 });
-
-
 </script>

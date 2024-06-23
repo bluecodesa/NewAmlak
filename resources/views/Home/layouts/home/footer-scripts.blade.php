@@ -27,6 +27,7 @@
     <!-- Page JS -->
     <script src="{{ url('HOME_PAGE/js/front-page-landing.js')}}"></script>
     <script src="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
     <script>

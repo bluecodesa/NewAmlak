@@ -247,6 +247,14 @@
                       </button>
                     </form>
                     @endauth
+                    @guest
+                    <button
+                    type="submit"
+                    class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#modalToggle">
+                    تسجيل اهتمام
+                  </button>
+                    @endguest
 
                       <!-- Modal -->
 
@@ -342,6 +350,9 @@
 
 
    @include('Home.Gallery.Unit.share')
+   @include('Home.Auth.propertyFinder.create')
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
    <script>
     function copyUrl() {
