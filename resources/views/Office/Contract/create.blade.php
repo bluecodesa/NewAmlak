@@ -21,7 +21,7 @@
                         <label class="form-label">
                             {{ __('Contract Number') }} <span class="required-color"></span></label>
                         <input disabled type="text" required id="modalRoleName" name="number_unit"
-                            class="form-control" placeholder="{{ __('Contract Number') }}">
+                            class="form-control" placeholder="{{ __('يحدد أليا') }}">
 
                     </div>
                   <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -59,9 +59,33 @@
                         data-bs-target="#navs-justified-messages"
                         aria-controls="navs-justified-messages"
                         aria-selected="false">
-                        <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> Messages
+                        <i class="tf-icons ti ti-money-dots ti-xs me-1"></i> المدفوعات
                       </button>
                     </li>
+                    <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-justified-messages"
+                          aria-controls="navs-justified-messages"
+                          aria-selected="false">
+                          <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> فواتير الكترونية
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-justified-messages"
+                          aria-controls="navs-justified-messages"
+                          aria-selected="false">
+                          <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> مرفقات
+                        </button>
+                      </li>
                   </ul>
 
                   <div class="tab-content">
