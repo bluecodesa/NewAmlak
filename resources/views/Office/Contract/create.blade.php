@@ -40,20 +40,7 @@
                                 <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('Installments')
                             </button>
                         </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
-                                aria-selected="false">
-                                <i class="tf-icons ti ti-money-dots ti-xs me-1"></i> المدفوعات
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
-                                aria-selected="false">
-                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> فواتير الكترونية
-                            </button>
-                        </li>
+
                         <li class="nav-item">
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
@@ -70,9 +57,8 @@
                                 @csrf
                                 @method('post')
                                 <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('Project') <span class="required-color">*</span>
-                                    </label>
-                                    <select class="form-select" name="project_id" required>
+                                    <label class="form-label">@lang('Project') <span class="required-color">*</span></label>
+                                    <select class="form-select" name="project_id" id="projectSelect" required>>
                                         <option disabled selected value="">@lang('Project')</option>
                                         @foreach ($projects as $project)
                                             <option value="{{ $project->id }}">
@@ -82,26 +68,23 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('property') <span class="required-color">*</span>
-                                    </label>
-                                    <select class="form-select" name="property_id" required>
+                                    <label class="form-label">@lang('property') <span class="required-color">*</span></label>
+                                    <select class="form-select" name="property_id" id="propertySelect" required>
                                         <option disabled selected value="">@lang('property')</option>
                                         @foreach ($properties as $property)
-                                            <option value="{{ $property->id }}">
-                                                {{ $property->name }}</option>
+                                        <option value="{{ $property->id }}">{{ $property->name }}</option>
+
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('Unit') <span class="required-color">*</span>
-                                    </label>
-                                    <select class="form-select" name="unit_id" required>
-                                        <option disabled selected value="">@lang('Unit')</option>
-                                        @foreach ($units as $unit)
-                                            <option value="{{ $unit->id }}">
-                                                {{ $unit->number_unit }}</option>
-                                        @endforeach
-                                    </select>
+                                        <label class="form-label">@lang('Unit') <span class="required-color">*</span></label>
+                                        <select class="form-select" name="unit_id" id="unitSelect" required>
+                                            <option disabled selected value="">@lang('Unit')</option>
+                                            @foreach ($units as $unit)
+                                                <option value="{{ $unit->id }}">{{ $unit->number_unit }}</option>
+                                            @endforeach
+                                        </select>
                                 </div>
                                 <div class="col-12 col-md-4 mb-3">
                                     <label class="col-md-6 form-label">@lang('owner name') <span
@@ -133,11 +116,15 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-4 mb-3">
-                                    <label class="form-label">@lang('price')<span
+                                <div class="col-md-4 mb-3">
+                                    <label for="price" class="form-label">@lang('price') <span
                                             class="required-color">*</span></label>
-                                    <input type="number" required name="price" class="form-control"
-                                        placeholder="@lang('price')" value="{{ old('price') }}" />
+                                    <div class="input-group">
+                                        <input type="number" name="price" class="form-control" placeholder="@lang('price')"
+                                            aria-label="@lang('price')" aria-describedby="button-addon2" required>
+                                        <button class="btn btn-outline-primary waves-effect" type="button"
+                                            id="button-addon2">@lang('SAR')</button>
+                                    </div>
                                 </div>
 
                                 <!-- Contract Type -->
@@ -281,6 +268,25 @@
 
                         </div>
                         <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                            <div class="col-12 mb-3">
+                                <label class="form-label">@lang('Attachments')</label>
+                                <div id="features" class="row">
+                                    <div class="mb-3 col-4">
+                                        <input type="text" name="name[]" class="form-control search"
+                                            placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <input type="file" name="qty[]" class="form-control"
+                                            placeholder="@lang('value')" value="{{ old('qty*') }}" />
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn btn-primary w-100"
+                                            onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                class="d-none d-sm-inline-block">@lang('Add Attachment')</span></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary me-1">
@@ -303,6 +309,112 @@
 
 
     @push('scripts')
+
+    <script>
+        document.getElementById('projectSelect').addEventListener('change', function() {
+            var projectId = this.value;
+            if (projectId) {
+                fetchPropertiesAndUnits(projectId);
+            } else {
+                clearDropdowns();
+            }
+        });
+
+        document.getElementById('propertySelect').addEventListener('change', function() {
+            var propertyId = this.value;
+            if (propertyId) {
+                fetchUnitsByProperty(propertyId);
+            } else {
+                clearUnitDropdown();
+            }
+        });
+
+        function fetchPropertiesAndUnits(projectId) {
+            fetch(`/get-project-details/${projectId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    populateDropdown('propertySelect', data.properties, 'id', 'name');
+                    clearUnitDropdown(); // Clear units dropdown when properties change
+                })
+                .catch(error => {
+                    console.error('Error fetching project details:', error);
+                    alert('An error occurred while fetching project details. Please try again.');
+                });
+        }
+
+        function fetchUnitsByProperty(propertyId) {
+            fetch(`/get-units-by-property/${propertyId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    populateDropdown('unitSelect', data.units, 'id', 'number_unit');
+                })
+                .catch(error => {
+                    console.error('Error fetching units:', error);
+                    alert('An error occurred while fetching units. Please try again.');
+                });
+        }
+
+        function populateDropdown(dropdownId, items, valueField, textField) {
+            var dropdown = document.getElementById(dropdownId);
+            dropdown.innerHTML = '<option disabled selected value="">@lang('Choose')</option>';
+            items.forEach(item => {
+                var option = document.createElement('option');
+                option.value = item[valueField];
+                option.textContent = item[textField];
+                dropdown.appendChild(option);
+            });
+        }
+
+        function clearDropdowns() {
+            document.getElementById('propertySelect').innerHTML = '<option disabled selected value="">@lang('Property')</option>';
+            clearUnitDropdown();
+        }
+
+        function clearUnitDropdown() {
+            document.getElementById('unitSelect').innerHTML = '<option disabled selected value="">@lang('Unit')</option>';
+        }
+
+
+        function addFeature() {
+                const featuresContainer = document.getElementById('features');
+                const newRow = document.createElement('div');
+                newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
+
+                // Use the exact same class names and structure as your existing rows
+                newRow.innerHTML = `
+        <div class="col-4">
+            <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+        </div>
+        <div class="col-4">
+            <input type="file" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+        </div>
+    `;
+
+                featuresContainer.appendChild(newRow);
+            }
+
+            function removeFeature(button) {
+                const rowToRemove = button.parentNode.parentNode;
+                rowToRemove.remove();
+            }
+
+
+
+    </script>
+
         <script>
             $('#txtHijriDate').calendarsPicker({
                 calendar: $.calendars.instance('islamic', 'Ar'),
