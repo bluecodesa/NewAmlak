@@ -403,10 +403,7 @@
 
     @include('Home.Gallery.inc.share')
     @include('Home.Gallery.inc.unitInterest')
-    @include('Home.Auth.propertyFinder.create')
-
    @endforeach
-
   </div>
 
   </div>
@@ -415,6 +412,8 @@
 </section>
 
 @include('Home.layouts.inc.__addSubscriberModal')
+@include('Home.Auth.propertyFinder.create')
+
 
 <script>
 
