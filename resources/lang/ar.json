@@ -126,6 +126,8 @@
     "quarterly": "ربع سنوياً",
     "midterm": "نصف سنوي",
     "yearly": "سنوياً",
+    "annual": "سنوياً",
+    "semi-annual": "نصف سنوي",
     "Rental price": "سعر الايجار",
     "Choose the rental price": "اختار سعر التأجير",
     "rental price has been updated": "تم تحديث سعر التأجير",
@@ -512,7 +514,18 @@
     "Contract Management": "ادارة العقود",
     "Contracts": "العقود",
     "Add New Contract": "اضافة عقد جديد",
-    "Base Settings": "اعدادات اساسية"
+    "Base Settings": "اعدادات اساسية",
+    "Contract Type": "نوع العقد",
+    "Calendar Type": "نوع التقويم",
+    "Gregorian": "ميلادي",
+    "Hijri": "هجري",
+    "Duration of the Contract": "مدة العقد",
+    "Commissions Rate": "نسبة العمولة",
+    "Collection Type": "طريقة التحصيل",
+    "Number of Installments": "عدد الاقساط",
+    "Installment": "قسط",
+    "Installments": "الاقساط",
+    "Payment Cycle": "دورة السداد"
 
 
 }
