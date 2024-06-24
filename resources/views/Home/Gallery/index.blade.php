@@ -403,9 +403,10 @@
 
     @include('Home.Gallery.inc.share')
     @include('Home.Gallery.inc.unitInterest')
+    @include('Home.Auth.propertyFinder.create')
 
    @endforeach
-   @include('Home.Auth.propertyFinder.create')
+
   </div>
 
   </div>
