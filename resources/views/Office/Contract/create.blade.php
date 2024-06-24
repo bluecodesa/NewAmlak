@@ -277,7 +277,8 @@
                             </div>
                             <div class="col-md-4 mb-3 col-12">
                                 <button type="button"
-                                 class="nav-link btn btn-primary" id="calculateButton"
+                                 id="calculateButton"
+                                 class="btn btn-primary me-1"
                                  role="tab"
                                  data-bs-toggle="tab"
                                  data-bs-target="#navs-justified-profile"
