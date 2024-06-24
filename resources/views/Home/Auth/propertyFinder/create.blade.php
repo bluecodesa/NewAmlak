@@ -127,7 +127,7 @@ $(document).ready(function() {
             success: function(response) {
                 $('#emailForm').addClass('d-none');
                 $('#otpVerification').removeClass('d-none');
-                $('#email_hidden').val(email); // Store the email in the hidden input
+                $('#email_hidden').val(email);
                 displayMessage('OTP has been sent to your email.', 'success');
             },
             error: function(xhr, status, error) {
@@ -156,7 +156,7 @@ $(document).ready(function() {
             success: function(response) {
                 $('#otpVerification').addClass('d-none');
                 $('#newPropertyFinderForm').removeClass('d-none');
-                $('#registerForm #register_email').val(email); // Populate email in registration form
+                $('#registerForm #register_email').val(email);
                 displayMessage('OTP verified successfully.', 'success');
             },
             error: function(xhr, status, error) {
@@ -210,7 +210,6 @@ $(document).ready(function() {
         });
     });
 
-    // Reset modal when it's closed
     $('#modalToggle').on('hidden.bs.modal', function () {
         resetModal();
     });
