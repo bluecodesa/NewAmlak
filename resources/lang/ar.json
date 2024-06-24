@@ -526,7 +526,8 @@
     "Installment": "قسط",
     "Installments": "الاقساط",
     "Payment Cycle": "دورة السداد",
-    "Contract Number": "رقم العقد"
+    "Contract Number": "رقم العقد",
+    "Number Of Contracts": "عدد العقود النشطه"
 
 
 }

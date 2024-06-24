@@ -24,4 +24,9 @@ class Renter extends Model
     {
         return $this->hasMany(OfficeRenter::class, 'renter_id');
     }
+
+    public function latestOfficeRenter()
+    {
+        return $this->hasOne(OfficeRenter::class, 'renter_id')->latestOfMany();
+    }
 }

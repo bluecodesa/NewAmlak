@@ -52,7 +52,8 @@
                             <th scope="col">@lang('Name')</th>
                             <th scope="col">@lang('Email')</th>
                             <th scope="col">@lang('phone')</th>
-                            <th scope="col">@lang('Office')</th>
+                            <th scope="col">@lang('status')</th>
+                            <th scope="col">@lang('Number Of Contracts')</th>
                             <th scope="col">@lang('Action')</th>
                         </tr>
                     </thead>
@@ -62,7 +63,8 @@
                             <td>{{ $renter->UserData->name }}</td>
                             <td>{{ $renter->UserData->email }}</td>
                             <td>{{ $renter->UserData->full_phone }}</td>
-                            <td>{{ auth()->user()->name }}</td>
+                            <td> {{ __( $renter->latestOfficeRenter->renter_status )}} </td>
+                            <td></td>
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
