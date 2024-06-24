@@ -83,6 +83,7 @@ class ContractController extends Controller
     public function index()
     {
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $contracts=[];
         return view('Office.Contract.index', get_defined_vars());
     }
 

@@ -73,7 +73,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @forelse ($owners as $owner)
+                            @forelse ($contracts as $owner)
                                 <tr>
 
                                     <td>{{ $owner->name }}</td>
