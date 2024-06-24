@@ -41,8 +41,11 @@
     <link href="{{ url('dashboard_files/assets/css/semantic.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
+    <link href="{{ url('dashboard_files/assets/css/jquery.calendars.picker.css') }}" rel="stylesheet">
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
     <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
+    <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
+
     {{-- <link href="{{ url('dashboard_files/assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ url('dashboard_files/assets/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ url('assets/vendor/libs/animate-css/animate.css') }}" />
@@ -153,7 +156,7 @@
                 @include('Admin.layouts.Inc.Office')
             @endif
             @if (Auth::user()->is_employee)
-            @include('Admin.layouts.Inc.Employee')
+                @include('Admin.layouts.Inc.Employee')
             @endif
             @if (Auth::user()->is_broker)
                 @php
@@ -202,6 +205,8 @@
     <script src="{{ url('dashboard_files/assets/js/bootstrap4-toggle.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/jquery-ui.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/printThis.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/jquery-ui.js') }}"></script>
+
 
     <script src="{{ url('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     {{-- <script src="{{ url('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
@@ -225,6 +230,14 @@
     <script src="{{ url('assets/vendor/libs/dropzone/dropzone.js') }}"></script>
     <script src="{{ url('assets/js/forms-file-upload.js') }}"></script>
     <script src="{{ url('assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/jquery.calendars.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/jquery.calendars.plus.min.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/jquery.plugin.min.js') }}"></script>
+
+    <script src="{{ url('dashboard_files/assets/js/jquery.calendars.picker.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/jquery.calendars.islamic.min.js') }}"></script>
+
+    <script src="{{ url('dashboard_files/assets/js/jquery.calendars.picker-ar.js') }}"></script>
 
     {{-- <script src="{{ url('assets/js/forms-selects.js') }}"></script> --}}
     <script>
