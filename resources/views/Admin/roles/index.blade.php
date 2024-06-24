@@ -99,7 +99,7 @@
                                                         href="{{ route('Admin.roles.show', $role->id) }}">@lang('Show')</a>
                                                 @endif
 
-                                                @if (Auth::user()->hasPermission('view-role'))
+                                                @if (Auth::user()->hasPermission('update-role'))
                                                     <a class="dropdown-item"
                                                         href="{{ route('Admin.roles.edit', $role->id) }}">@lang('Edit')</a>
                                                 @endif

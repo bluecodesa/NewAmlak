@@ -54,9 +54,17 @@
                               </li>
                             </ul>
                           </div>
+                          @guest
                           <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank" class="btn btn-primary">
-                            <i class="ti ti-phone me-1"></i>تواصل
+                            <i class="ti ti-phone me-1"   data-bs-toggle="modal"
+                            data-bs-target="#modalToggle"></i>تواصل
                           </a>
+                          @endguest
+                    @auth
+                    <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank" class="btn btn-primary">
+                        <i class="ti ti-phone me-1"></i>تواصل
+                      </a>
+                    @endauth
                         </div>
                       </div>
                     </div>

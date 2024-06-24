@@ -148,4 +148,25 @@ class ContractController extends Controller
         $this->OwnerService->deleteOwner($id);
         return redirect()->route('Office.Owner.index')->with('success', __('Deleted successfully'));
     }
+
+    public function getProjectDetails(Project $project)
+    {
+        $properties = $project->PropertiesProject;
+        $units = $project->UnitsProject;
+
+        return response()->json([
+            'properties' => $properties,
+            'units' => $units
+        ]);
+    }
+    public function getUnitsByProperty(Property $property)
+    {
+        // Fetch units associated with the property
+        $units = $property->PropertyUnits;
+
+        // Return the data as a JSON response
+        return response()->json([
+            'units' => $units
+        ]);
+    }
 }

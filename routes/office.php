@@ -42,7 +42,11 @@ Route::group(
        Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
        Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+       //contract
        Route::resource('Contract', ContractController::class)->middleware('CheckSubscription');
+
+
+       //
 
        //renter
        Route::resource('Renter', RenterController::class)->middleware('CheckSubscription');
@@ -89,5 +93,8 @@ Route::group(
             Route::get('GetDistrictsByCity/{id}', [HomeController::class, 'GetDistrictsByCity'])->name('Office.GetDistrictsByCity')->middleware('CheckSubscription');
 
         });
+        Route::get('/get-project-details/{project}', [ContractController::class, 'getProjectDetails']);
+        Route::get('/get-units-by-property/{property}', [ContractController::class, 'getUnitsByProperty']);
+
     }
 );
