@@ -10,7 +10,7 @@ class PermissionRepository implements PermissionRepositoryInterface
 {
     public function getAll()
     {
-        return Permission::orderBy('id', 'DESC')->paginate(100);
+        return Permission::orderBy('id', 'DESC')->paginate(200);
     }
 
     public function create($data)
