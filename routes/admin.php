@@ -54,6 +54,7 @@ Route::group(
     function () {
         Route::prefix('app')->name('Admin.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
+            Route::get('/ContactUs', 'HomeController@ContactUs')->name('ContactUs');
             Route::get('/payment-gateways/{id}/edit', [SettingController::class, 'editPaymentGatewayForm'])->name('payment-gateways.edit');
             Route::put('/payment-gateways/{id}', [SettingController::class, 'updatePaymentGateway'])->name('update-payment-gateway');
             Route::post('/payment-gateways/create', [SettingController::class, 'createPaymentGateway'])->name('create-payment-gateway');
@@ -99,14 +100,14 @@ Route::group(
             Route::post('SupportTickets/{id}/close', [SupportController::class, 'closeTicket'])->name('closeTicket');
             Route::get('/InfoSupport', [SupportController::class, 'showInfoSupport'])->name('Support.showInfoSupport');
             Route::put('InfoSupport/update', [SupportController::class, 'updateInfoSupport'])->name('InfoSupport.update');
-        // delviry cases
+            // delviry cases
 
-        Route::get('/project-DelviryCases', [ProjectController::class, 'getAllDeliveryCases'])->name('ProjectSettings.delivery-cases');
-        Route::get('/project-DelviryCases/create', [ProjectController::class, 'createDeliveryCase'])->name('ProjectSettings.createDelivery-case');
-        Route::post('/project-DelviryCases/store', [ProjectController::class, 'storeDeliveryCase'])->name('ProjectSettings.storeDelivery-case');
-        Route::get('/project-DelviryCases/{id}/edit', [ProjectController::class, 'editDeliveryCase'])->name('ProjectSettings.editDelivery-case');
-        Route::put('/project-DelviryCases/{id}/update', [ProjectController::class, 'updateDeliveryCase'])->name('ProjectSettings.updateDelivery-case');
-        Route::delete('/project-DelviryCases/{id}/destroy', [ProjectController::class, 'deleteDeliveryCase'])->name('ProjectSettings.destroyDelivery-case');
+            Route::get('/project-DelviryCases', [ProjectController::class, 'getAllDeliveryCases'])->name('ProjectSettings.delivery-cases');
+            Route::get('/project-DelviryCases/create', [ProjectController::class, 'createDeliveryCase'])->name('ProjectSettings.createDelivery-case');
+            Route::post('/project-DelviryCases/store', [ProjectController::class, 'storeDeliveryCase'])->name('ProjectSettings.storeDelivery-case');
+            Route::get('/project-DelviryCases/{id}/edit', [ProjectController::class, 'editDeliveryCase'])->name('ProjectSettings.editDelivery-case');
+            Route::put('/project-DelviryCases/{id}/update', [ProjectController::class, 'updateDeliveryCase'])->name('ProjectSettings.updateDelivery-case');
+            Route::delete('/project-DelviryCases/{id}/destroy', [ProjectController::class, 'deleteDeliveryCase'])->name('ProjectSettings.destroyDelivery-case');
 
 
 

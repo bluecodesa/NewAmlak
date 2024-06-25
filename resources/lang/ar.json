@@ -24,6 +24,7 @@
     "days remaining": "أيام متبقية",
     "Geographic scope": "النطاق الجغرافي",
     "search...": "بحث ...",
+    "Your message has been received successfully": "تم استقبال رسالتك بنجاح",
     "deleted successfully": "تم الحذف بنجاح",
     "Duration type": "نوع المدة",
     "No Data Found!": "لا يوجد بيانات",
@@ -38,7 +39,12 @@
     "Add": "اضافة",
     "Add New Section": "اضافة قسم جديد",
     "Edit Section": "تعديل القسم",
+    "Customer messages": "رسائل العملاء",
+    "new message": "رسالة جديدة",
+    "You have a new message in the Customer Messages section": "لديك رسالة جديدة في قسم رسائل العملاء",
     "Name": "الاسم",
+    "message": "الرسالة",
+    "content the message": "محتوي الرسالة",
     "Enter the name of the role in English": "ادخل اسم الدور بالانجليزية",
     "Enter the name of the role in Arabic": "ادخل اسم الدور بالعربية",
     "sign in": "تسجيل الدخول",
@@ -528,6 +534,4 @@
     "Payment Cycle": "دورة السداد",
     "Contract Number": "رقم العقد",
     "Number Of Contracts": "عدد العقود النشطه"
-
-
 }

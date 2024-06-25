@@ -250,6 +250,15 @@
             </li>
         @endif
 
+        @if (Auth::user()->hasPermission('read-support-ticket-admin'))
+            <li class="menu-item">
+                <a href="{{ route('Admin.ContactUs') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-mail"></i>
+                    <div data-i18n="@lang('Customer messages')">@lang('Customer messages')</div>
+                </a>
+            </li>
+        @endif
+
 
         <li class="menu-item" style="">
             <a href="javascript:void(0);" class="menu-link menu-toggle">

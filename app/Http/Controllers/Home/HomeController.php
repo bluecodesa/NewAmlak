@@ -14,6 +14,7 @@ use App\Models\Region;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\Broker;
+use App\Models\ContactUs;
 use App\Models\Setting;
 use App\Models\SystemInvoice;
 use App\Models\User;
@@ -22,6 +23,7 @@ use App\Models\Role;
 use App\Models\SubscriptionSection;
 use App\Models\SubscriptionTypeRole;
 use App\Models\Unit;
+use App\Notifications\Admin\NewContactUsNotification;
 use App\Notifications\Admin\NewPropertyFinderNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -112,8 +114,8 @@ class HomeController extends Controller
         // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status', 1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
 
         $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
-        ->whereIn('id', $RolesSubscriptionTypeIds)
-        ->get();
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->get();
         return view('Home.Auth.office.create', get_defined_vars());
     }
 
@@ -209,7 +211,7 @@ class HomeController extends Controller
             $SubType = 'free';
             $status = 'active';
         }
-        $subscription=Subscription::create([
+        $subscription = Subscription::create([
             'office_id' => $office->id,
             'subscription_type_id' => $request->subscription_type_id,
             'status' => $status,
@@ -258,7 +260,7 @@ class HomeController extends Controller
         $this->notifyAdminsForOffice($office);
 
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
-        return redirect()->route('login')->with('success',__('registerd successfully'));
+        return redirect()->route('login')->with('success', __('registerd successfully'));
     }
 
     public function storeBroker(Request $request)
@@ -397,7 +399,7 @@ class HomeController extends Controller
         $this->notifyAdmins($broker);
 
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
-        return redirect()->route('login')->with('success',__('registerd successfully'));
+        return redirect()->route('login')->with('success', __('registerd successfully'));
     }
 
     protected function notifyAdmins(Broker $broker)
@@ -519,5 +521,27 @@ class HomeController extends Controller
         }
     }
 
+    function StoreContactUs(Request $request)
+    {
 
+        $rules = [
+            'name' => 'required|string|max:255',
+            'full_phone' => 'required|string|max:255',
+            'message' => 'required|string',
+        ];
+
+        $messages = [
+            'name.required' => __('The name field is required.'),
+            'full_phone.required' => __('The mobile field is required.'),
+            'message.required' => __('The message field is required.'),
+        ];
+        $request->validate($rules, $messages);
+        $ContactUs =   ContactUs::create($request->all());
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewContactUsNotification($ContactUs));
+        }
+
+        return back()->withSuccess(__('Your message has been received successfully'));
+    }
 }

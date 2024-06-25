@@ -55,7 +55,6 @@ Route::group(
             Route::post('create-prperty-finder', [HomeController::class, 'storePropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
 
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
-
         });
         // Route::post('/send-otp', [Property_FinderHomeController::class, 'sendVerificationCode'])->name('send-otp');
 
@@ -84,6 +83,10 @@ Route::group(
 
         Route::get('/brokers',  [HomeController::class, 'showAllBrokers'])->name('brokers');
         Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity');
+
+        Route::post('StoreContactUs',  [HomeController::class, 'StoreContactUs'])->name('home.StoreContactUs');
+
+
         // Route::get('/loadMoreBrokers', 'HomeController@loadMoreBrokers')->name('loadMoreBrokers');
 
         // Route::get('/filter/brokers',  [HomeController::class, 'filterBrokers'])->name('filter.brokers');
@@ -101,7 +104,6 @@ Route::group(
 
         // Route for registering property finder
         Route::post('/register-property-finder', [Property_FinderHomeController::class, 'registerPropertyFinder'])->name('register-property-finder');
-
     }
 
 );
