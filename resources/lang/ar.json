@@ -527,7 +527,13 @@
     "Installments": "الاقساط",
     "Payment Cycle": "دورة السداد",
     "Contract Number": "رقم العقد",
-    "Number Of Contracts": "عدد العقود النشطه"
+    "Number Of Contracts": "عدد العقود النشطه",
+    "Contract validity": "صلاحية العقد",
+    "Contract Start Date": "تاريخ بداية العقد",
+    "Contract End Date": "تاريخ نهاية العقد",
+    "not_renewed": "بدون",
+    "renewed": "يجدد تلقائي",
+    "draft": "مسودة"
 
 
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Office\ProjectManagement\Contract;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attachment;
+use App\Models\AttachmentContract;
 use App\Models\Contract;
 use App\Models\Installment;
 use App\Models\Project;
@@ -25,6 +27,7 @@ use App\Services\ServiceTypeService;
 use App\Services\Office\EmployeeService;
 use App\Services\Office\RenterService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 
@@ -159,7 +162,8 @@ class ContractController extends Controller
         $units=Unit::where('office_id',$office_id)->get();
         $renters = $this->RenterService->getAllByOfficeId($office_id);
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
-        $contract = Contract::findOrFail($id);
+        $contract =  $this->ContractService->getContractById($id);
+
 
         return view('Office.Contract.edit', get_defined_vars());
     }
@@ -172,8 +176,8 @@ class ContractController extends Controller
 
     public function destroy(string $id)
     {
-        $this->OwnerService->deleteOwner($id);
-        return redirect()->route('Office.Owner.index')->with('success', __('Deleted successfully'));
+        $this->ContractService->deleteContract($id);
+        return redirect()->route('Office.Contract.index')->with('success', __('Deleted successfully'));
     }
 
     public function getProjectDetails(Project $project)
@@ -200,8 +204,8 @@ class ContractController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'project_id' => 'required|exists:projects,id',
-            'property_id' => 'required|exists:properties,id',
+            'project_id' => 'nullable|exists:projects,id',
+            'property_id' => 'nullable|exists:properties,id',
             'unit_id' => 'required|exists:units,id',
             'owner_id' => 'required|exists:owners,id',
             'employee_id' => 'required|exists:employees,id',
@@ -211,13 +215,16 @@ class ContractController extends Controller
             'commissions_rate' => 'nullable|numeric',
             'collection_type' => 'nullable|string',
             'renter_id' => 'required|exists:renters,id',
+            'calendarTypeSelect' => 'required|string|in:gregorian,hijri',
             'gregorian_contract_date' => 'nullable|date',
             'hijri_contract_date' => 'nullable|string',
-            'date_concluding_contract'=>'nullable|date',
+            'date_concluding_contract' => 'nullable|date',
             'contract_duration' => 'required|integer',
             'duration_unit' => 'required|string',
             'payment_cycle' => 'required|string',
-            'auto_renew' => 'required|string'
+            'auto_renew' => 'required|string',
+            'name.*' => 'nullable|string',
+            'attachment.*' => 'nullable|file',
         ], [
             'project_id.required' => 'The project ID field is required.',
             'project_id.exists' => 'The selected project ID is invalid.',
@@ -239,8 +246,12 @@ class ContractController extends Controller
             'collection_type.string' => 'The collection type must be a string.',
             'renter_id.required' => 'The renter ID field is required.',
             'renter_id.exists' => 'The selected renter ID is invalid.',
-            'contract_date.required' => 'The contract date field is required.',
-            'contract_date.date' => 'The contract date must be a valid date.',
+            'calendarTypeSelect.required' => 'The calendar type field is required.',
+            'calendarTypeSelect.string' => 'The calendar type must be a string.',
+            'calendarTypeSelect.in' => 'The calendar type must be either gregorian or hijri.',
+            'gregorian_contract_date.date' => 'The Gregorian contract date must be a valid date.',
+            'hijri_contract_date.string' => 'The Hijri contract date must be a valid string.',
+            'date_concluding_contract.date' => 'The concluding contract date must be a valid date.',
             'contract_duration.required' => 'The contract duration field is required.',
             'contract_duration.integer' => 'The contract duration must be an integer.',
             'duration_unit.required' => 'The duration unit field is required.',
@@ -248,16 +259,16 @@ class ContractController extends Controller
             'payment_cycle.required' => 'The payment cycle field is required.',
             'payment_cycle.string' => 'The payment cycle must be a string.',
             'auto_renew.required' => 'The auto renew field is required.',
-            'auto_renew.string' => 'The auto renew field must be string.'
+            'auto_renew.string' => 'The auto renew field must be a string.',
+            'name.*.string' => 'The name field for attachments must be a string.',
+            'attachment.*.file' => 'The attachment must be a file.',
         ]);
-        $id = $request['id'];
-        $contractNumber = '100' . $id;
-        $validatedData['contract_number'] = $contractNumber;
+        
+
         $contractData = [
-            'contract_number' => $contractNumber,
             'office_id' => auth()->user()->UserOfficeData->id,
-            'project_id' => $validatedData['project_id'],
-            'property_id' => $validatedData['property_id'],
+            'project_id' => $validatedData['project_id'] ?? null,
+            'property_id' => $validatedData['property_id'] ?? null,
             'unit_id' => $validatedData['unit_id'],
             'owner_id' => $validatedData['owner_id'],
             'employee_id' => $validatedData['employee_id'],
@@ -271,15 +282,54 @@ class ContractController extends Controller
             'duration_unit' => $validatedData['duration_unit'],
             'payment_cycle' => $validatedData['payment_cycle'],
             'auto_renew' => $validatedData['auto_renew'],
-        ];
+            'date_concluding_contract' => $validatedData['date_concluding_contract'],
 
+        ];
         if ($validatedData['gregorian_contract_date']) {
-            $contractData['contract_date'] = $validatedData['gregorian_contract_date'];
+            $startDate = Carbon::parse($validatedData['gregorian_contract_date']);
+            $contractData['start_contract_date'] = $startDate;
         } elseif ($validatedData['hijri_contract_date']) {
-            $contractData['contract_date'] = $validatedData['hijri_contract_date'];
+            $startDate = Carbon::parse($validatedData['hijri_contract_date']);
+            $contractData['start_contract_date'] = $startDate;
         }
+        switch ($validatedData['duration_unit']) {
+            case 'month':
+                $endDate = $startDate->copy()->addMonths($validatedData['contract_duration']);
+                break;
+            case 'year':
+                $endDate = $startDate->copy()->addYears($validatedData['contract_duration']);
+                break;
+            default:
+                return back()->withErrors(['duration_unit' => 'Invalid duration unit provided.']);
+        }
+    
+        $contractData['end_contract_date'] = $endDate;
 
         $contract = Contract::create($contractData);
+
+        foreach ($request->file('attachment') as $index => $attachmentFile) {
+            $attachmentName = $validatedData['name'][$index];
+    
+            $filePath = $attachmentFile->store('attachments');
+    
+            $attachment = Attachment::where('name', $attachmentName)->first();
+    
+            if (!$attachment) {
+                $attachment = Attachment::create([
+                    'name' => $attachmentName,
+                    'created_by' => Auth::id(),
+                ]);
+            }
+    
+            AttachmentContract::create([
+                'attachment_id' => $attachment->id,
+                'contract_id' => $contract->id,
+                'attachment' => $filePath, 
+            ]);
+        }
+        $contractNumber = '100' . $contract->id;
+
+        $contract->update(['contract_number' => $contractNumber]);
 
         $this->createInstallments($contract, $validatedData);
 

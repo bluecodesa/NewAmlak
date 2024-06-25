@@ -66,8 +66,8 @@
                                     </div>
                                 @endif
                                 <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('Project') <span class="required-color">*</span></label>
-                                    <select class="form-select" name="project_id" id="projectSelect" required>>
+                                    <label class="form-label">@lang('Project') <span class="required-color"></span></label>
+                                    <select class="form-select" name="project_id" id="projectSelect">
                                         <option disabled selected value="">@lang('Project')</option>
                                         @foreach ($projects as $project)
                                             <option value="{{ $project->id }}">
@@ -77,8 +77,8 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('property') <span class="required-color">*</span></label>
-                                    <select class="form-select" name="property_id" id="propertySelect" required>
+                                    <label class="form-label">@lang('property') <span class="required-color"></span></label>
+                                    <select class="form-select" name="property_id" id="propertySelect">
                                         <option disabled selected value="">@lang('property')</option>
                                         @foreach ($properties as $property)
                                         <option value="{{ $property->id }}">{{ $property->name }}</option>
@@ -197,12 +197,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('تاريخ ابرام العقد') <span
-                                            class="required-color"></span></label>
-                                    <input class="form-control" type="date" value="" id="html5-date-input" name='date_concluding_contract' />
-                                </div>
-
+                            
                                 <!-- Calendar Type -->
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Calendar Type') <span
@@ -215,14 +210,24 @@
                                 </div>
 
                                 <!-- Contract Date -->
-                                <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
-                                    <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
-                                    <input class="form-control" type="date" name="gregorian_contract_date" value=""/>
-                                </div>
-                                <div class="col-md-4 mb-3 col-12" id="hijriDate" style="display: none;">
-                                    <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color"></span></label>
-                                    <input class="form-control" type="text" name="hijri_contract_date" value="" id="txtHijriDate" placeholder="@lang('Hijri Date')" />
-                                </div>
+                      
+                                    <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
+                                        <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
+                                        <input class="form-control" type="date" name="date_concluding_contract" />
+                                    </div>
+                                    <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
+                                        <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
+                                        <input class="form-control" type="date" name="gregorian_contract_date" />
+                                    </div>
+                                    <div class="col-md-4 mb-3 col-12" id="hijriDate2" style="display: none;">
+                                        <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
+                                        <input class="form-control" type="text" id="txtHijriDate" name="date_concluding_contract" placeholder="@lang('Hijri Date')" />
+                                    </div>
+                                    <div class="col-md-4 mb-3 col-12" id="hijriDate" style="display: none;">
+                                        <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color"></span></label>
+                                        <input class="form-control" id="txtHijriDate" type="text" name="hijri_contract_date" placeholder="@lang('Hijri Date')" />
+                                    </div>
+
 
 
                                 <!-- Duration of the Contract -->
@@ -259,16 +264,17 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-4 mb-3 col-12">
-                                    <button type="button" id="calculateButton" class="btn btn-primary me-1"
-                                        role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
-                                        aria-controls="navs-justified-profile">
-                                        @lang('Calculate')
-                                    </button>
-                                </div>
+                             
 
                         </div>
                         <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                            <div class="col-md-4 mb-3 col-12">
+                                <button type="button" id="calculateButton" class="btn btn-primary me-1"
+                                    role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
+                                    aria-controls="navs-justified-profile">
+                                    @lang('Calculate')
+                                </button>
+                            </div>
                             <div id="contractDetails" style="display: none;">
                                 <!-- Contract details will be dynamically added here -->
                             </div>
@@ -284,8 +290,8 @@
 
                                     </div>
                                     <div class="mb-3 col-4">
-                                        <input type="file" name="qty[]" class="form-control"
-                                            placeholder="@lang('value')" value="{{ old('qty*') }}" />
+                                        <input class="form-control" type="file" name="attachment[]" 
+                                            id="projectMasterplan" accept="image/*,application/pdf">
                                     </div>
                                     <div class="col">
                                         <button type="button" class="btn btn-primary w-100"
@@ -392,33 +398,31 @@
         }
 
 
-        function addFeature() {
-                const featuresContainer = document.getElementById('features');
-                const newRow = document.createElement('div');
-                newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
+    function addFeature() {
+    const featuresContainer = document.getElementById('features');
+    const newRow = document.createElement('div');
+    newRow.classList.add('row', 'mb-3');
 
-                // Use the exact same class names and structure as your existing rows
-                newRow.innerHTML = `
-        <div class="col-4">
-            <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+    newRow.innerHTML = `
+        <div class="mb-3 col-4">
+            <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
         </div>
-        <div class="col-4">
-            <input type="file" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+        <div class="mb-3 col-4">
+            <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
         </div>
         <div class="col-4">
             <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
         </div>
     `;
 
-                featuresContainer.appendChild(newRow);
-            }
-
-            function removeFeature(button) {
-                const rowToRemove = button.parentNode.parentNode;
-                rowToRemove.remove();
-            }
+    featuresContainer.appendChild(newRow);
+}
 
 
+function removeFeature(button) {
+    const rowToRemove = button.parentNode.parentNode;
+    rowToRemove.remove();
+}
 
     </script>
 
@@ -482,13 +486,19 @@
                     var selectedValue = $(this).val();
                     if (selectedValue === 'gregorian') {
                         $('#gregorianDate').show();
+                        $('#gregorianDate2').show();
                         $('#hijriDate').hide();
+                        $('#hijriDate2').hide();
                     } else if (selectedValue === 'hijri') {
                         $('#gregorianDate').hide();
+                        $('#gregorianDate2').hide();
                         $('#hijriDate').show();
+                        $('#hijriDate2').show();
                     } else {
                         $('#gregorianDate').hide();
+                        $('#gregorianDate2').hide();
                         $('#hijriDate').hide();
+                        $('#hijriDate2').hide();
                     }
                 });
 
@@ -503,7 +513,9 @@
                     var formData = {
                         price: parseFloat($('input[name="price"]').val()), // Convert price to float
                         contract_type: $('select[name="contract_type"]').val(),
-                        contract_date_gregorian: new Date($('input[name="contract_date_gregorian"]')
+                        contract_date_gregorian: new Date($('input[name="gregorian_contract_date"]')
+                            .val()), // Convert to Date object
+                        contract_date_hijri: new Date($('input[name="hijri_contract_date"]')
                             .val()), // Convert to Date object
                         contract_duration: parseInt($('input[name="contract_duration"]')
                             .val()), // Convert duration to integer

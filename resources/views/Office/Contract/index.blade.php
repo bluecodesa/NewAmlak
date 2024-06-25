@@ -64,11 +64,14 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col">@lang('Name')</th>
-                                <th scope="col">@lang('Email')</th>
-                                <th scope="col">@lang('phone')</th>
-                                <th scope="col">@lang('city')</th>
-                                <th scope="col">@lang('Office')</th>
+                                <th scope="col">@lang('Contract Number')</th>
+                                <th scope="col">@lang('Unit')</th>
+                                <th scope="col">@lang('Renter')</th>
+                                <th scope="col">@lang('status')</th>
+                                <th scope="col">@lang('Contract validity')</th>
+                                <th scope="col">@lang('Contract Start Date')</th>
+                                <th scope="col">@lang('Contract End Date')</th>
+
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>
@@ -77,10 +80,13 @@
                                 <tr>
 
                                     <td>{{ $contract->contract_number }}</td>
-                                    <td>{{ $contract->email }}</td>
-                                    <td>{{ $contract->full_phone }}</td>
-                                    <td>{{ $contract->price }}</td>
-                                    <td>{{ $contract->office->UserData->name }}</td>
+                                    <td>{{ $contract->unit->number_unit }}</td>
+                                    <td>{{ $contract->renter->UserData->name }}</td>
+                                    <td>{{ __($contract->status) }}</td>
+                                    <td>{{ __($contract->contract_validity) }}</td>
+                                    <td>{{ $contract->start_contract_date }}</td>
+                                    <td>{{ $contract->end_contract_date }}</td>
+
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
