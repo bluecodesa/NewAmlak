@@ -10,7 +10,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title> {{ $sitting->title }} - 500</title>
+    <title> {{ $sitting->title }}</title>
 
     <meta name="description" content="" />
 
@@ -71,7 +71,8 @@
         <div class="misc-wrapper">
             <h2 class="mb-1 mx-2">@lang('This Gallery is not available now / contact the Broker')!</h2>
             <br>
-            <a href="{{ route('Admin.home') }}" class="btn btn-primary mb-4">@lang('Back to Dashboard')</a>
+            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile }}"
+                class="btn btn-primary mb-4" target="_blank">@lang('Connect by whats app')</a>
             <div class="mt-4">
                 <img src="{{ url('assets/img/illustrations/page-misc-under-maintenance.png') }}"
                     alt="page-misc-under-maintenance" width="550" class="img-fluid" />
