@@ -1,76 +1,114 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}"
+    class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
+    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
+    data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>{{ $sitting->title }} @lang('register')</title>
-    <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
-    <meta content="Themesdesign" name="author" />
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <link href="{{ url('dashboard_files/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/icons.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url('dashboard_files/assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <title> {{ $sitting->title }}</title>
 
-    <link href="http://fonts.cdnfonts.com/css/tajawal" rel="stylesheet">
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/fonts/flag-icons.css') }}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/core.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/theme-default.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/css/demo.css') }}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="{{ url('assets/vendor/css/pages/page-misc.css') }}" />
+
+    <!-- Helpers -->
+    <script src="{{ url('assets/vendor/js/helpers.js') }}"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{ url('assets/js/config.js') }}"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
     <style>
-        body,
-        h4,
-        h5,
-        strong,
-        label span,
         * {
-            font-family: 'Tajawal';
+            font-family: "Noto Kufi Arabic", sans-serif !important;
+            /* font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal; */
+            /* text-transform: capitalize !important; */
         }
     </style>
 </head>
 
 <body>
-            <div class="account-pages">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="text-center mb-5">
-                                    <div class="mb-5">
-                                        <img src="{{ url($sitting->icon) }}" height="100" alt="logo">
-                                    </div>
-                                    <h4 class="mt-4 text-uppercase">@lang('This Gallery is not available now / contact the Broker')</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end row -->
+    <!-- Content -->
 
-                        {{-- <div class="row">
-                            <div class="col-lg-12">
-                                <div class="comming-watch text-center mb-5">
-                                    <div class="countdown"><div><div class="card card-body p-3"><span class="countdown-num">200</span><span class="text-uppercase">days</span></div><div class="card card-body p-3"><span class="countdown-num">04</span><span class="text-uppercase">hours</span></div></div><div class="lj-countdown-ms "><div class="card card-body p-3"><span class="countdown-num">33</span><span class="text-uppercase">minutes</span></div><div class="card card-body p-3"><span class="countdown-num">09</span><span class="text-uppercase">seconds</span></div></div></div>
-                                </div>
+    <!--Under Maintenance -->
+    <div class="container-xxl container-p-y">
+        <div class="misc-wrapper">
+            <h2 class="mb-1 mx-2">@lang('This Gallery is not available now / contact the Broker')!</h2>
+            <br>
+            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile }}"
+                class="btn btn-primary mb-4" target="_blank">@lang('Connect by whats app')</a>
+            <div class="mt-4">
+                <img src="{{ url('assets/img/illustrations/page-misc-under-maintenance.png') }}"
+                    alt="page-misc-under-maintenance" width="550" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid misc-bg-wrapper misc-under-maintenance-bg-wrapper">
+        <img src="{{ url('assets/img/illustrations/bg-shape-image-light.png') }}" alt="page-misc-under-maintenance"
+            data-app-light-img="illustrations/bg-shape-image-light.png"
+            data-app-dark-img="illustrations/bg-shape-image-dark.png" />
+    </div>
+    <!-- /Under Maintenance -->
 
-                            </div>
-                        </div> --}}
-                        <!-- end row -->
+    <!-- / Content -->
 
-                        <div class="text-center">
-                            {{-- <p>تواصل مع المسوق</p> --}}
-                            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}" class="btn btn-primary" target="_blank">@lang('Connect by whats app')</a>
-                            {{-- <button type="submit" class="btn btn-primary">@lang('Connect by whats app')</button> --}}
-                                    {{-- <a  href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile}}>Whatsapp</a> --}}
-                            </div>
-                    </div>
-                </div>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
 
-    <!-- jQuery  -->
-    <script src="{{ url('dashboard_files/assets/js/jquery.min.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/metismenu.min.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/jquery.slimscroll.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/waves.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ url('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/node-waves/node-waves.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/hammer/hammer.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <script src="{{ url('assets/vendor/js/menu.js') }}"></script>
 
-    <!-- App js -->
-    <script src="{{ url('dashboard_files/assets/js/app.js') }}"></script>
+    <!-- endbuild -->
 
-            </body>
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="{{ url('assets/js/main.js') }}"></script>
+
+    <!-- Page JS -->
+</body>
+
 </html>

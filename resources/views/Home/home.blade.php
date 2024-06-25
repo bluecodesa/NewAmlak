@@ -1,255 +1,234 @@
 @extends('Home.layouts.home.app')
 @section('content')
-
     <!-- Sections:Start -->
-
+    <style>
+        .required-color {
+            color: red;
+        }
+    </style>
     <div data-bs-spy="scroll" class="scrollspy-example">
-      <!-- Hero: Start -->
-      <section id="hero-animation">
-        <div id="landingHero" class="section-py landing-hero position-relative">
-          <img
-            src="{{ url('HOME_PAGE/img/front-pages/backgrounds/hero-bg.png')}}"
-            alt="hero background"
-            class="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100"
-            data-speed="1" />
-          <div class="container">
-            <div class="hero-text-box text-center">
-              <h1 class="text-primary hero-title display-6 fw-bold">أملاك خيارك الأول لإدارة الأملاك العقارية
-            </h1>
-              <h2 class="hero-sub-title h6 mb-4 pb-1">
-                منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين<br class="d-none d-lg-block" />
-              </h2>
-              <div class="landing-hero-btn d-inline-block position-relative">
-                <span class="hero-btn-item position-absolute d-none d-md-flex text-heading"
-                  >للتسجيل
-                  <img
-                    src="{{ url('HOME_PAGE/img/front-pages/icons/Join-community-arrow.png')}}"
-                    alt="Join community arrow"
-                    class="scaleX-n1-rtl"
-                /></span>
-                <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal"
-                data-bs-target="#addSubscriberModal">سجل معنا الأن</a>
-              </div>
-            </div>
-            <div id="heroDashboardAnimation" class="hero-animation-img">
-
-                <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
-                  <img
-                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/hero-dashboard-light.png')}}"
-                    alt="hero dashboard"
-                    class="animation-img"
-                    data-app-light-img="front-pages/landing-page/hero-dashboard-light.png"
-                    data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png" />
-                  <img
-                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/hero-elements-light.png')}}"
-                    alt="hero elements"
-                    class="position-absolute hero-elements-img animation-img top-0 start-0"
-                    data-app-light-img="front-pages/landing-page/hero-elements-light.png"
-                    data-app-dark-img="front-pages/landing-page/hero-elements-dark.png" />
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="landing-hero-blank"></div>
-      </section>
-      <!-- Hero: End -->
-
-      <!-- Useful features: Start -->
-      <section id="landingFeatures" class="section-py landing-features">
-        <div class="container">
-          <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">أملاك نظام إدارة متطور
-            </span>
-          </div>
-          <h3 class="text-center mb-1">
-            <span class="position-relative fw-bold z-1"
-              >أملاك نظام إدارة متطور
-
-              <img
-                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
-                alt="laptop charging"
-                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
-            </span>
-          </h3>
-          <p class="text-center mb-3 mb-md-5 pb-3">
-            حلول تقنية متطورة تلبي جميع أعمالك
-
-        </p>
-          <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
-            <div class="col-lg-3 col-sm-6 text-center features-icon-box">
-              <div class="text-center mb-3">
-                <img src="{{ url('HOME_PAGE/img/front-pages/icons/laptop.png')}}" alt="laptop charging" />
-              </div>
-              <h5 class="mb-3">علاقات العملاء
-            </h5>
-              <p class="features-icon-description">
-                من خلال منصة مخصصة لعملائك تستطيع استقبال طلبات الصيانة والشكاوى              </p>
-            </div>
-            <div class="col-lg-3 col-sm-6 text-center features-icon-box">
-              <div class="text-center mb-3">
-                <img src="{{ url('HOME_PAGE/img/front-pages/icons/rocket.png')}}" alt="transition up" />
-              </div>
-              <h5 class="mb-3">التنبيهات للعقود
-            </h5>
-              <p class="features-icon-description">
-                من خلال لوحة التحكم الخاصة بك يمكنك متابعة جميع عقود عملائك ومعرفة عدد الأيام المتبقية لانتهاء العقد              </p>
-            </div>
-            <div class="col-lg-3 col-sm-6 text-center features-icon-box">
-              <div class="text-center mb-3">
-                <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper.png')}}" alt="edit" />
-              </div>
-              <h5 class="mb-3">ملفات مشتركة
-            </h5>
-              <p class="features-icon-description">
-                من خلال النظام يمكنكم مشاركة وتبادل الملفات وحفظها واسترجاعها عند الحاجة.
-
-            </p>
-            </div>
-            <div class="col-lg-3 col-sm-6 text-center features-icon-box">
-              <div class="text-center mb-3">
-                <img src="{{ url('HOME_PAGE/img/front-pages/icons/check.png')}}" alt="3d select solid" />
-              </div>
-              <h5 class="mb-3">دعم فني متقدم 24/7
-            </h5>
-              <p class="features-icon-description">
-                تقدم أملاك دعم فني متقدم خلال 24/7 لجميع التحديات التقنية التي تواجه أعمالك.
-
-            </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-      <!-- Useful features: End -->
-
-      <!-- Real customers reviews: Start -->
-      <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
-        <!-- What people say slider: Start -->
-        <div class="container">
-          <div class="row align-items-center gx-0 gy-4 g-lg-5">
-            <div class="col-md-6 col-lg-5 col-xl-3">
-              <div class="mb-3 pb-1">
-                <span class="badge bg-label-primary">شركاء النجاح
-                </span>
-              </div>
-              <h3 class="mb-1">
-                <span class="position-relative fw-bold z-1"
-                  >شركاء النجاح
-
-                  <img
-                    src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
-                    alt="laptop charging"
-                    class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
-                </span>
-              </h3>
-              <p class="mb-3 mb-md-5">
-                نتشرف بثقة و دعم العديد من المؤسسات حول المملكة
-
-<br class="d-none d-xl-block" />
-
-              </p>
-              <div class="landing-reviews-btns">
-                <button
-                  id="reviews-previous-btn"
-                  class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
-                  type="button">
-                  <i class="ti ti-chevron-left ti-sm"></i>
-                </button>
-                <button id="reviews-next-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl" type="button">
-                  <i class="ti ti-chevron-right ti-sm"></i>
-                </button>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-7 col-xl-9">
-              <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
-                <div class="swiper" id="swiper-reviews">
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                      <div class="card h-100">
-                        <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                            <img
-                            src="{{ url('HOME_PAGE/images/new/partners/1.png')}}"
-                            alt="client logo"
-                             />
+        <!-- Hero: Start -->
+        <section id="hero-animation">
+            <div id="landingHero" class="section-py landing-hero position-relative">
+                <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/hero-bg.png') }}" alt="hero background"
+                    class="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100"
+                    data-speed="1" />
+                <div class="container">
+                    <div class="hero-text-box text-center">
+                        <h1 class="text-primary hero-title display-6 fw-bold">أملاك خيارك الأول لإدارة الأملاك العقارية
+                        </h1>
+                        <h2 class="hero-sub-title h6 mb-4 pb-1">
+                            منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين<br class="d-none d-lg-block" />
+                        </h2>
+                        <div class="landing-hero-btn d-inline-block position-relative">
+                            <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">للتسجيل
+                                <img src="{{ url('HOME_PAGE/img/front-pages/icons/Join-community-arrow.png') }}"
+                                    alt="Join community arrow" class="scaleX-n1-rtl" /></span>
+                            <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                                data-bs-target="#addSubscriberModal">سجل معنا الأن</a>
                         </div>
-                      </div>
                     </div>
-                      <div class="swiper-slide">
-                        <div class="card h-100">
-                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                              <img
-                              src="{{ url('HOME_PAGE/images/new/partners/2.png')}}"
-                              alt="client logo"
-                               />
-                          </div>
+                    <div id="heroDashboardAnimation" class="hero-animation-img">
+
+                        <div id="heroAnimationImg" class="position-relative hero-dashboard-img pt-5">
+                            <img src="{{ url('HOME_PAGE/homepage.png') }}" style="border-radius: 10px;" alt="hero dashboard"
+                                class="animation-img" data-app-light-img="front-pages/landing-page/hero-dashboard-light.png"
+                                data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png" />
+                            {{-- <img src="" alt="hero elements"
+                                class="position-absolute hero-elements-img animation-img top-0 start-0"
+                                data-app-light-img="" data-app-dark-img="" /> --}}
                         </div>
-                      </div>
-                      <div class="swiper-slide">
-                        <div class="card h-100">
-                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                              <img
-                              src="{{ url('HOME_PAGE/images/new/partners/3.png')}}"
-                              alt="client logo"
-                               />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide">
-                        <div class="card h-100">
-                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                              <img
-                              src="{{ url('HOME_PAGE/images/new/partners/4.png')}}"
-                              alt="client logo"
-                               />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide">
-                        <div class="card h-100">
-                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                              <img
-                              src="{{ url('HOME_PAGE/images/new/partners/5.png')}}"
-                              alt="client logo"
-                               />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide">
-                        <div class="card h-100">
-                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                              <img
-                              src="{{ url('HOME_PAGE/images/new/partners/6.png')}}"
-                              alt="client logo"
-                               />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="swiper-slide">
-                        <div class="card h-100">
-                          <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                              <img
-                              src="{{ url('HOME_PAGE/images/new/partners/7.png')}}"
-                              alt="client logo"
-                               />
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="swiper-button-next"></div>
-                  <div class="swiper-button-prev"></div>
+
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <!-- What people say slider: End -->
+            <div class="landing-hero-blank"></div>
+        </section>
+        <!-- Hero: End -->
 
-        <!-- Logo slider: End -->
-      </section>
+        <!-- Useful features: Start -->
+        <section id="landingFeatures" class="section-py landing-features">
+            <div class="container">
+                <div class="text-center mb-3 pb-1">
+                    <span class="badge bg-label-primary">أملاك نظام إدارة متطور
+                    </span>
+                </div>
+                <h3 class="text-center mb-1">
+                    <span class="position-relative fw-bold z-1">أملاك نظام إدارة متطور
+
+                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}" alt="laptop charging"
+                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                </h3>
+                <p class="text-center mb-3 mb-md-5 pb-3">
+                    حلول تقنية متطورة تلبي جميع أعمالك
+
+                </p>
+                <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
+                    <div class="col-lg-3 col-sm-6 text-center features-icon-box">
+                        <div class="text-center mb-3">
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/laptop.png') }}" alt="laptop charging" />
+                        </div>
+                        <h5 class="mb-3">علاقات العملاء
+                        </h5>
+                        <p class="features-icon-description">
+                            من خلال منصة مخصصة لعملائك تستطيع استقبال طلبات الصيانة والشكاوى </p>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 text-center features-icon-box">
+                        <div class="text-center mb-3">
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/rocket.png') }}" alt="transition up" />
+                        </div>
+                        <h5 class="mb-3">التنبيهات للعقود
+                        </h5>
+                        <p class="features-icon-description">
+                            من خلال لوحة التحكم الخاصة بك يمكنك متابعة جميع عقود عملائك ومعرفة عدد الأيام المتبقية لانتهاء
+                            العقد </p>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 text-center features-icon-box">
+                        <div class="text-center mb-3">
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper.png') }}" alt="edit" />
+                        </div>
+                        <h5 class="mb-3">ملفات مشتركة
+                        </h5>
+                        <p class="features-icon-description">
+                            من خلال النظام يمكنكم مشاركة وتبادل الملفات وحفظها واسترجاعها عند الحاجة.
+
+                        </p>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 text-center features-icon-box">
+                        <div class="text-center mb-3">
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/check.png') }}" alt="3d select solid" />
+                        </div>
+                        <h5 class="mb-3">دعم فني متقدم 24/7
+                        </h5>
+                        <p class="features-icon-description">
+                            تقدم أملاك دعم فني متقدم خلال 24/7 لجميع التحديات التقنية التي تواجه أعمالك.
+
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- Useful features: End -->
+
+        <!-- Real customers reviews: Start -->
+        <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
+            <!-- What people say slider: Start -->
+            <div class="container">
+                <div class="row align-items-center gx-0 gy-4 g-lg-5">
+                    <div class="col-md-6 col-lg-5 col-xl-3">
+                        <div class="mb-3 pb-1">
+                            <span class="badge bg-label-primary">شركاء النجاح
+                            </span>
+                        </div>
+                        <h3 class="mb-1">
+                            <span class="position-relative fw-bold z-1">شركاء النجاح
+
+                                <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                                    alt="laptop charging"
+                                    class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                            </span>
+                        </h3>
+                        <p class="mb-3 mb-md-5">
+                            نتشرف بثقة و دعم العديد من المؤسسات حول المملكة
+
+                            <br class="d-none d-xl-block" />
+
+                        </p>
+                        <div class="landing-reviews-btns">
+                            <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
+                                type="button">
+                                <i class="ti ti-chevron-left ti-sm"></i>
+                            </button>
+                            <button id="reviews-next-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl"
+                                type="button">
+                                <i class="ti ti-chevron-right ti-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-7 col-xl-9">
+                        <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
+                            <div class="swiper" id="swiper-reviews">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="card h-100">
+                                            <div
+                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                <img src="{{ url('HOME_PAGE/images/new/partners/1.png') }}"
+                                                    alt="client logo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card h-100">
+                                            <div
+                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                <img src="{{ url('HOME_PAGE/images/new/partners/2.png') }}"
+                                                    alt="client logo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card h-100">
+                                            <div
+                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                <img src="{{ url('HOME_PAGE/images/new/partners/3.png') }}"
+                                                    alt="client logo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card h-100">
+                                            <div
+                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                <img src="{{ url('HOME_PAGE/images/new/partners/4.png') }}"
+                                                    alt="client logo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card h-100">
+                                            <div
+                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                <img src="{{ url('HOME_PAGE/images/new/partners/5.png') }}"
+                                                    alt="client logo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card h-100">
+                                            <div
+                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                <img src="{{ url('HOME_PAGE/images/new/partners/6.png') }}"
+                                                    alt="client logo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card h-100">
+                                            <div
+                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                <img src="{{ url('HOME_PAGE/images/new/partners/7.png') }}"
+                                                    alt="client logo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- What people say slider: End -->
+
+            <!-- Logo slider: End -->
+        </section>
 
 
-      {{-- <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
+        {{-- <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
         <!-- What people say slider: Start -->
         <div class="container">
           <div class="row align-items-center gx-0 gy-4 g-lg-5">
@@ -539,110 +518,103 @@
         </div>
         <!-- Logo slider: End -->
       </section> --}}
-      <!-- Real customers reviews: End -->
+        <!-- Real customers reviews: End -->
 
-      <section id="landingTeam" class="section-py landing-team">
-        <div class="container">
-          <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">Our Great Team</span>
-          </div>
-          <h3 class="text-center mb-1">
-            <span class="position-relative fw-bold z-1"
-              >Supported
-              <img
-                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
-                alt="laptop charging"
-                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
-            </span>
-            by Real People
-          </h3>
-          <p class="text-center mb-md-5 pb-3">Who is behind these great-looking interfaces?</p>
-          <div class="row gy-5 mt-2">
-            <div class="col-lg-3 col-sm-6">
-              <div class="card mt-3 mt-lg-0 shadow-none">
-                <div class="bg-label-primary position-relative team-image-box">
-                  <img
-                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-1.png')}}"
-                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
-                    alt="human image" />
+        {{-- <section id="landingTeam" class="section-py landing-team">
+            <div class="container">
+                <div class="text-center mb-3 pb-1">
+                    <span class="badge bg-label-primary">Our Great Team</span>
                 </div>
-                <div class="card-body border border-top-0 border-label-primary text-center">
-                  <h5 class="card-title mb-0">Sophie Gilbert</h5>
-                  <p class="text-muted mb-0">Project Manager</p>
+                <h3 class="text-center mb-1">
+                    <span class="position-relative fw-bold z-1">Supported
+                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            alt="laptop charging"
+                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                    by Real People
+                </h3>
+                <p class="text-center mb-md-5 pb-3">Who is behind these great-looking interfaces?</p>
+                <div class="row gy-5 mt-2">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card mt-3 mt-lg-0 shadow-none">
+                            <div class="bg-label-primary position-relative team-image-box">
+                                <img src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-1.png') }}"
+                                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                                    alt="human image" />
+                            </div>
+                            <div class="card-body border border-top-0 border-label-primary text-center">
+                                <h5 class="card-title mb-0">Sophie Gilbert</h5>
+                                <p class="text-muted mb-0">Project Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card mt-3 mt-lg-0 shadow-none">
+                            <div class="bg-label-info position-relative team-image-box">
+                                <img src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-2.png') }}"
+                                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                                    alt="human image" />
+                            </div>
+                            <div class="card-body border border-top-0 border-label-info text-center">
+                                <h5 class="card-title mb-0">Paul Miles</h5>
+                                <p class="text-muted mb-0">UI Designer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card mt-3 mt-lg-0 shadow-none">
+                            <div class="bg-label-danger position-relative team-image-box">
+                                <img src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-3.png') }}"
+                                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                                    alt="human image" />
+                            </div>
+                            <div class="card-body border border-top-0 border-label-danger text-center">
+                                <h5 class="card-title mb-0">Nannie Ford</h5>
+                                <p class="text-muted mb-0">Development Lead</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card mt-3 mt-lg-0 shadow-none">
+                            <div class="bg-label-success position-relative team-image-box">
+                                <img src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-4.png') }}"
+                                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
+                                    alt="human image" />
+                            </div>
+                            <div class="card-body border border-top-0 border-label-success text-center">
+                                <h5 class="card-title mb-0">Chris Watkins</h5>
+                                <p class="text-muted mb-0">Marketing Manager</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="card mt-3 mt-lg-0 shadow-none">
-                <div class="bg-label-info position-relative team-image-box">
-                  <img
-                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-2.png')}}"
-                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
-                    alt="human image" />
-                </div>
-                <div class="card-body border border-top-0 border-label-info text-center">
-                  <h5 class="card-title mb-0">Paul Miles</h5>
-                  <p class="text-muted mb-0">UI Designer</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="card mt-3 mt-lg-0 shadow-none">
-                <div class="bg-label-danger position-relative team-image-box">
-                  <img
-                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-3.png')}}"
-                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
-                    alt="human image" />
-                </div>
-                <div class="card-body border border-top-0 border-label-danger text-center">
-                  <h5 class="card-title mb-0">Nannie Ford</h5>
-                  <p class="text-muted mb-0">Development Lead</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="card mt-3 mt-lg-0 shadow-none">
-                <div class="bg-label-success position-relative team-image-box">
-                  <img
-                    src="{{ url('HOME_PAGE/img/front-pages/landing-page/team-member-4.png')}}"
-                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
-                    alt="human image" />
-                </div>
-                <div class="card-body border border-top-0 border-label-success text-center">
-                  <h5 class="card-title mb-0">Chris Watkins</h5>
-                  <p class="text-muted mb-0">Marketing Manager</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section> --}}
 
-      <!-- Our great team: Start -->
+        <!-- Our great team: Start -->
 
-      <!-- Our great team: End -->
+        <!-- Our great team: End -->
 
-      <!-- Pricing plans: Start -->
-      <section id="landingPricing" class="section-py bg-body landing-pricing">
-        <div class="container">
-          <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">باقات وأسعار أملاك
-            </span>
-          </div>
-          <h3 class="text-center mb-1">
-            <span class="position-relative fw-bold z-1"
-              >توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة
+        <!-- Pricing plans: Start -->
+        <section id="landingPricing" class="section-py bg-body landing-pricing">
+            <div class="container">
+                <div class="text-center mb-3 pb-1">
+                    <span class="badge bg-label-primary">باقات وأسعار أملاك
+                    </span>
+                </div>
+                <h3 class="text-center mb-1">
+                    <span class="position-relative fw-bold z-1">توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين
+                        بكل سهولة
 
-              <img
-                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
-                alt="laptop charging"
-                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
-            </span>
-          </h3>
-          <p class="text-center mb-4 pb-3">
+                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            alt="laptop charging"
+                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                </h3>
+                <p class="text-center mb-4 pb-3">
 
-          </p>
-          {{-- <div class="text-center mb-5">
+                </p>
+                {{-- <div class="text-center mb-5">
             <div class="position-relative d-inline-block pt-3 pt-md-0">
               <label class="switch switch-primary me-0">
                 <span class="switch-label">ادفع شهري</span>
@@ -662,29 +634,26 @@
               </div>
             </div>
           </div> --}}
-          @guest
+                @guest
 
-          <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
-            <!-- Basic Plan: Start -->
-            @foreach ($subscriptionTypes as $subscriptionType)
-
-            <div class="col-xl-3 col-lg-6">
-              <div class="card">
-                <div class="card-header">
-                  <div class="text-center">
-                    <img
-                      src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png')}}"
-                      alt="paper airplane icon"
-                      class="mb-4 pb-2" />
-                    <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
-                    <div class="d-flex align-items-center justify-content-center">
-                        <p>
-                            @foreach ($subscriptionType->roles as $role)
-                                <span> اشتراك   {{ $role->name_ar }}</span>
-                            @endforeach
-                        </p>
-                    </div>
-                    {{-- <div class="d-flex align-items-center justify-content-center">
+                    <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
+                        <!-- Basic Plan: Start -->
+                        @foreach ($subscriptionTypes as $subscriptionType)
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="text-center">
+                                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png') }}"
+                                                alt="paper airplane icon" class="mb-4 pb-2" />
+                                            <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <p>
+                                                    @foreach ($subscriptionType->roles as $role)
+                                                        <span> اشتراك {{ $role->name_ar }}</span>
+                                                    @endforeach
+                                                </p>
+                                            </div>
+                                            {{-- <div class="d-flex align-items-center justify-content-center">
                       <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
                       <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
                       <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
@@ -693,147 +662,148 @@
                       <div class="price-yearly text-muted price-yearly-toggle d-none">$ 168 / year</div>
                     </div> --}}
 
-                    <div class="d-flex align-items-center justify-content-center">
-                        <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
-                        <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }} </span>
-                        <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }} {{ __($subscriptionType->period_type) }}</sub>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <sup
+                                                    class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                                                <span
+                                                    class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}
+                                                </span>
+                                                <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }}
+                                                    {{ __($subscriptionType->period_type) }}</sub>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            @foreach ($sections as $section)
+                                                <li>
+                                                    <h5>
+
+                                                        @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+                                                            <span
+                                                                class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                                                <i class="ti ti-check ti-xs"></i>
+                                                            </span>
+                                                        @else
+                                                            <span
+                                                                class="badge badge-center rounded-pill bg-label-danger p-0 me-2">
+                                                                <i class="ti ti-minus ti-xs"></i>
+                                                        @endif
+                                                        </span>
+                                                        {{ $section->name }}
+                                                    </h5>
+                                                </li>
+                                            @endforeach
+
+                                        </ul>
+                                        <div class="d-grid mt-4 pt-3">
+                                            @if ($subscriptionType && $subscriptionType->roles->count() == 2)
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
+                                            @elseif ($role->name == 'RS-Broker')
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
+                                            @elseif ($role->name == 'Office-Admin')
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        <!-- Basic Plan: End -->
+
                     </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <ul class="list-unstyled">
-                    @foreach ($sections as $section)
-                    <li>
-                      <h5>
+                @endguest
 
-                          @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                          <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          >
-                          <i class="ti ti-check ti-xs"></i>
-                        </span>
-                        @else
-                        <span class="badge badge-center rounded-pill bg-label-danger p-0 me-2"
-                        >
-                        <i class="ti ti-minus ti-xs"></i>
-                        @endif
-                        </span>
-                        {{ $section->name }}
-                      </h5>
-                    </li>
-                    @endforeach
+                @auth
 
-                  </ul>
-                  <div class="d-grid mt-4 pt-3">
-                    @if ($subscriptionType && $subscriptionType->roles->count() == 2)
-
-                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
-                    @elseif ($role->name == "RS-Broker")
-                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
-                    @elseif ($role->name == "Office-Admin")
-                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
-                    @endif
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            @endforeach
-            <!-- Basic Plan: End -->
-
-          </div>
-          @endguest
-
-          @auth
-
-          <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
-            <!-- Basic Plan: Start -->
-            @foreach ($subscriptionTypesRoles as $subscriptionType)
-
-            <div class="col-xl-3 col-lg-6">
-              <div class="card">
-                <div class="card-header">
-                  <div class="text-center">
-                    <img
-                      src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png')}}"
-                      alt="paper airplane icon"
-                      class="mb-4 pb-2" />
-                    <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
-                    <div class="d-flex align-items-center justify-content-center">
-                        <p>
-                            @foreach ($subscriptionType->roles as $role)
-                                <span> اشتراك   {{ $role->name_ar }}</span>
-                            @endforeach
-                        </p>
-                    </div>
-                    {{-- <div class="d-flex align-items-center justify-content-center">
+                    <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
+                        <!-- Basic Plan: Start -->
+                        @foreach ($subscriptionTypesRoles as $subscriptionType)
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="text-center">
+                                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png') }}"
+                                                alt="paper airplane icon" class="mb-4 pb-2" />
+                                            <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <p>
+                                                    @foreach ($subscriptionType->roles as $role)
+                                                        <span> اشتراك {{ $role->name_ar }}</span>
+                                                    @endforeach
+                                                </p>
+                                            </div>
+                                            {{-- <div class="d-flex align-items-center justify-content-center">
                       <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
                       <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
                       <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
                     </div> --}}
-                    <div class="d-flex align-items-center justify-content-center">
-                        <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
-                        <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }} </span>
-                        <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }} {{ __($subscriptionType->period_type) }}</sub>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <sup
+                                                    class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                                                <span
+                                                    class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}
+                                                </span>
+                                                <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }}
+                                                    {{ __($subscriptionType->period_type) }}</sub>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            @foreach ($sections as $section)
+                                                <li>
+                                                    <h5>
+
+                                                        @if ($subscriptionType->SectionData->contains('section_id', $section->id))
+                                                            <span
+                                                                class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                                                <i class="ti ti-check ti-xs"></i>
+                                                            </span>
+                                                        @else
+                                                            <span
+                                                                class="badge badge-center rounded-pill bg-label-danger p-0 me-2">
+                                                                <i class="ti ti-minus ti-xs"></i>
+                                                        @endif
+                                                        </span>
+                                                        {{ $section->name }}
+                                                    </h5>
+                                                </li>
+                                            @endforeach
+
+                                        </ul>
+                                        <div class="d-grid mt-4 pt-3">
+                                            @if ($subscriptionType && $subscriptionType->roles->count() == 2)
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
+                                            @elseif ($role->name == 'RS-Broker')
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
+                                            @elseif ($role->name == 'Office-Admin')
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        <!-- Basic Plan: End -->
+
                     </div>
+                @endauth
 
-
-                  </div>
-                </div>
-                <div class="card-body">
-                  <ul class="list-unstyled">
-                    @foreach ($sections as $section)
-                    <li>
-                      <h5>
-
-                          @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                          <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"
-                          >
-                          <i class="ti ti-check ti-xs"></i>
-                        </span>
-                        @else
-                        <span class="badge badge-center rounded-pill bg-label-danger p-0 me-2"
-                        >
-                        <i class="ti ti-minus ti-xs"></i>
-                        @endif
-                        </span>
-                        {{ $section->name }}
-                      </h5>
-                    </li>
-                    @endforeach
-
-                  </ul>
-                  <div class="d-grid mt-4 pt-3">
-                    @if ($subscriptionType && $subscriptionType->roles->count() == 2)
-
-                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
-                    @elseif ($role->name == "RS-Broker")
-                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
-                    @elseif ($role->name == "Office-Admin")
-                    <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
-                    @endif
-                  </div>
-                </div>
-              </div>
             </div>
+        </section>
+        <!-- Pricing plans: End -->
 
-            @endforeach
-            <!-- Basic Plan: End -->
-
-          </div>
-          @endauth
-
-        </div>
-      </section>
-      <!-- Pricing plans: End -->
-
-      <!-- Fun facts: Start -->
-      {{-- <section id="landingFunFacts" class="section-py landing-fun-facts">
+        <!-- Fun facts: Start -->
+        {{-- <section id="landingFunFacts" class="section-py landing-fun-facts">
         <div class="container">
           <div class="row gy-3">
             <div class="col-sm-6 col-lg-3">
@@ -887,277 +857,270 @@
           </div>
         </div>
       </section> --}}
-      <!-- Fun facts: End -->
+        <!-- Fun facts: End -->
 
-      <!-- FAQ: Start -->
-      <section id="landingFAQ" class="section-py bg-body landing-faq">
-        <div class="container">
-          <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">            الأسئلة الشائعة
-            </span>
-          </div>
-          <h3 class="text-center mb-1">
-            <span class="position-relative fw-bold z-1"
-              >            الأسئلة الشائعة
+        <!-- FAQ: Start -->
+        <section id="landingFAQ" class="section-py bg-body landing-faq">
+            <div class="container">
+                <div class="text-center mb-3 pb-1">
+                    <span class="badge bg-label-primary"> الأسئلة الشائعة
+                    </span>
+                </div>
+                <h3 class="text-center mb-1">
+                    <span class="position-relative fw-bold z-1"> الأسئلة الشائعة
 
-              <img
-                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
-                alt="laptop charging"
-                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
-            </span>
-          </h3>
-          <p class="text-center mb-5 pb-3"></p>
-          <div class="row gy-5">
-            <div class="col-lg-5">
-              <div class="text-center">
-                <img
-                  src="{{ url('HOME_PAGE/img/front-pages/landing-page/faq-boy-with-logos.png')}}"
-                  alt="faq boy with logos"
-                  class="faq-image" />
-              </div>
-            </div>
-            <div class="col-lg-7">
-              <div class="accordion" id="accordionExample">
-                <div class="card accordion-item active">
-                  <h2 class="accordion-header" id="headingOne">
-                    <button
-                      type="button"
-                      class="accordion-button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionOne"
-                      aria-expanded="true"
-                      aria-controls="accordionOne">
-                      ماهي منصة أملاك؟
-                    </button>
-                  </h2>
-
-                  <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        هي منصة إلكترونية تم تصميمها بإتقان لتوفير حلول متكاملة لجميع الخدمات العقارية بطريقة سهلة وشاملة لكافة المهام والإجراءات الخاصة بالمكاتب العقارية و إدارة العقارات والوحدات السكنية والتجارية على السواء. تهدف أملاك إلى إدارة جميع مستويات المشروعات العقارية بدءا من الوحدات وصولا إلى المشروعات عبر نظام متطور وحلول تقنية مبتكرة تهدف إلى القيام بجميع الاعمال عن بعد بجودة وموثوقية عالية، عبر استقطاب العديد من الخبرات الإدارية و التسويقية والمحاسبية ذات الكفاءة العالية.
+                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            alt="laptop charging"
+                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                </h3>
+                <p class="text-center mb-5 pb-3"></p>
+                <div class="row gy-5">
+                    <div class="col-lg-5">
+                        <div class="text-center">
+                            <img src="{{ url('HOME_PAGE/img/front-pages/landing-page/faq-boy-with-logos.png') }}"
+                                alt="faq boy with logos" class="faq-image" />
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <div class="card accordion-item">
-                  <h2 class="accordion-header" id="headingTwo">
-                    <button
-                      type="button"
-                      class="accordion-button collapsed"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionTwo"
-                      aria-expanded="false"
-                      aria-controls="accordionTwo">
-                      ما هي خطط الأسعار المتاحة للاشتراك في منصة أملاك؟
+                    <div class="col-lg-7">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card accordion-item active">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button type="button" class="accordion-button" data-bs-toggle="collapse"
+                                        data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                                        ماهي منصة أملاك؟
+                                    </button>
+                                </h2>
 
-                    </button>
-                  </h2>
-                  <div
-                    id="accordionTwo"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingTwo"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        توفر منصة أملاك مجموعة متنوعة من خطط الأسعار لتناسب منشأتك بشكل متكامل وتلبي جميع الخدمات
-                        التي تحتاجها.
-                        <ul style="list-style:none">
-                            <li>- اشتراك مجاني (فترة تجريبية)</li>
-                            <li>- اشتراك شهري</li>
-                            <li>- اشتراك سنوي (قريبا)</li>
-                        </ul>
-                      </div>
-                  </div>
-                </div>
-                <div class="card accordion-item">
-                  <h2 class="accordion-header" id="headingThree">
-                    <button
-                      type="button"
-                      class="accordion-button collapsed"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionThree"
-                      aria-expanded="false"
-                      aria-controls="accordionThree">
-                      ما هي الاجراءات اللازمة للتسجيل على منصة أملاك؟
-                    </button>
-                  </h2>
-                  <div
-                    id="accordionThree"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingThree"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        للتسجيل و الانضمام إلى نظام أملاك يجب مليء فورم التسجيل عبر الضغط على زر "سجل معنا الآن" و
-                        ادخال بيانات شركتك:
-                        <ul style="list-style:none;">
-                            <li>-اسم الشركة</li>
-                            <li>-البريد الإلكتروني</li>
-                            <li>-شعار الشركة</li>
-                            <li>-اسم ورقم هاتف ممثل الشركة</li>
-                            <li>-اختيار نوع الاشتراك في النظام</li>
-                        </ul>
-                        بعد ذلك سوف يكون حسابك جاهزاً لتبدأ تجربة متميزة ومبتكرة لإدارة مشروعك العقاري.
+                                <div id="accordionOne" class="accordion-collapse collapse show"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        هي منصة إلكترونية تم تصميمها بإتقان لتوفير حلول متكاملة لجميع الخدمات العقارية
+                                        بطريقة سهلة وشاملة لكافة المهام والإجراءات الخاصة بالمكاتب العقارية و إدارة العقارات
+                                        والوحدات السكنية والتجارية على السواء. تهدف أملاك إلى إدارة جميع مستويات المشروعات
+                                        العقارية بدءا من الوحدات وصولا إلى المشروعات عبر نظام متطور وحلول تقنية مبتكرة تهدف
+                                        إلى القيام بجميع الاعمال عن بعد بجودة وموثوقية عالية، عبر استقطاب العديد من الخبرات
+                                        الإدارية و التسويقية والمحاسبية ذات الكفاءة العالية.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#accordionTwo" aria-expanded="false"
+                                        aria-controls="accordionTwo">
+                                        ما هي خطط الأسعار المتاحة للاشتراك في منصة أملاك؟
+
+                                    </button>
+                                </h2>
+                                <div id="accordionTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        توفر منصة أملاك مجموعة متنوعة من خطط الأسعار لتناسب منشأتك بشكل متكامل وتلبي جميع
+                                        الخدمات
+                                        التي تحتاجها.
+                                        <ul style="list-style:none">
+                                            <li>- اشتراك مجاني (فترة تجريبية)</li>
+                                            <li>- اشتراك شهري</li>
+                                            <li>- اشتراك سنوي (قريبا)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#accordionThree" aria-expanded="false"
+                                        aria-controls="accordionThree">
+                                        ما هي الاجراءات اللازمة للتسجيل على منصة أملاك؟
+                                    </button>
+                                </h2>
+                                <div id="accordionThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        للتسجيل و الانضمام إلى نظام أملاك يجب مليء فورم التسجيل عبر الضغط على زر "سجل معنا
+                                        الآن" و
+                                        ادخال بيانات شركتك:
+                                        <ul style="list-style:none;">
+                                            <li>-اسم الشركة</li>
+                                            <li>-البريد الإلكتروني</li>
+                                            <li>-شعار الشركة</li>
+                                            <li>-اسم ورقم هاتف ممثل الشركة</li>
+                                            <li>-اختيار نوع الاشتراك في النظام</li>
+                                        </ul>
+                                        بعد ذلك سوف يكون حسابك جاهزاً لتبدأ تجربة متميزة ومبتكرة لإدارة مشروعك العقاري.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#accordionFour" aria-expanded="false"
+                                        aria-controls="accordionFour">
+                                        ماذا أفعل عندما تواجهني مشكلة أثناء استخدامي لمنصة أملاك؟
+                                    </button>
+                                </h2>
+                                <div id="accordionFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        عندما تواجهك مشكلة أو إذا كان لديك شكوى أو اقتراحات يمكنك فتح تذكرة دعم فني بسهولة
+                                        من خلال
+                                        حسابك على المنصة و سوف يصلك الرد من فريق الدعم في اسرع وقت.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <div class="card accordion-item">
-                  <h2 class="accordion-header" id="headingFour">
-                    <button
-                      type="button"
-                      class="accordion-button collapsed"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionFour"
-                      aria-expanded="false"
-                      aria-controls="accordionFour">
-                      ماذا أفعل عندما تواجهني مشكلة أثناء استخدامي لمنصة أملاك؟
-                    </button>
-                  </h2>
-                  <div
-                    id="accordionFour"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="headingFour"
-                    data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        عندما تواجهك مشكلة أو إذا كان لديك شكوى أو اقتراحات يمكنك فتح تذكرة دعم فني بسهولة من خلال
-                        حسابك على المنصة و سوف يصلك الرد من فريق الدعم في اسرع وقت.
-                     </div>
-                  </div>
-                </div>
-
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <!-- FAQ: End -->
+        </section>
+        <!-- FAQ: End -->
 
-      <!-- CTA: Start -->
-      <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
-        <img
-          src="{{ url('HOME_PAGE/img/front-pages/backgrounds/cta-bg-light.png')}}"
-          class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1"
-          alt="cta image"
-          data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
-          data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
-        <div class="container">
-          <div class="row align-items-center gy-5 gy-lg-0">
-            <div class="col-lg-6 text-center text-lg-start">
-              <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
-            </h6>
-            <h6 class="h2 text-primary fw-bold mb-1">انضم لنا الآن
-            </h6>
-              <p class="fw-medium mb-4">واجهة سهلة الإستخدام بمميزات متعددة
+        <!-- CTA: Start -->
+        <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
+            <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/cta-bg-light.png') }}"
+                class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1" alt="cta image"
+                data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
+                data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
+            <div class="container">
+                <div class="row align-items-center gy-5 gy-lg-0">
+                    <div class="col-lg-6 text-center text-lg-start" style="    padding: 16px 0px;">
+                        <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
+                        </h6>
+                        <h6 class="h2 text-primary fw-bold mb-1">انضم لنا الآن
+                        </h6>
+                        <p class="fw-medium mb-4">واجهة سهلة الإستخدام بمميزات متعددة
 
-              </p>
-              <a href="#" data-bs-toggle="modal"
-              data-bs-target="#addSubscriberModal"  class="btn btn-lg btn-primary">سجل معنا الأن</a>
-            </div>
-            <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
-              {{-- <img
+                        </p>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#addSubscriberModal"
+                            class="btn btn-lg btn-primary">سجل معنا الأن</a>
+                    </div>
+                    <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
+                        {{-- <img
                 src="{{ url('HOME_PAGE/img/front-pages/landing-page/cta-dashboard.png')}}"
                 alt="cta dashboard"
                 class="img-fluid" /> --}}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <!-- CTA: End -->
+        </section>
+        <!-- CTA: End -->
 
-      <!-- Contact Us: Start -->
-      <section id="landingContact" class="section-py bg-body landing-contact">
-        <div class="container">
-          <div class="text-center mb-3 pb-1">
-            <span class="badge bg-label-primary">توصل معنا</span>
-          </div>
-          <h3 class="text-center mb-1">
-            <span class="position-relative fw-bold z-1"
-              >دعنا نعمل
-              <img
-                src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png')}}"
-                alt="laptop charging"
-                class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
-            </span>
-            معا
-          </h3>
-          <p class="text-center mb-4 mb-lg-5 pb-md-3">أي سؤال أو ملاحظة؟ فقط اكتب لنا رسالة</p>
-          <div class="row gy-4">
-            <div class="col-lg-5">
-              <div class="contact-img-box position-relative border p-2 h-100">
-                <img
-                  src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png')}}"
-                  alt="contact border"
-                  class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl" />
-                <img
-                  src="{{ url('HOME_PAGE/img/front-pages/landing-page/contact-customer-service.png')}}"
-                  alt="contact customer service"
-                  class="contact-img w-100 scaleX-n1-rtl" />
-                <div class="pt-3 px-4 pb-1">
-                  <div class="row gy-3 gx-md-4">
-                    <div class="col-md-6 col-lg-12 col-xl-6">
-                      <div class="d-flex align-items-center">
-                        <div class="badge bg-label-primary rounded p-2 me-2"><i class="ti ti-mail ti-sm"></i></div>
-                        <div>
-                          <p class="mb-0">@lang('Email')</p>
-                          <h5 class="mb-0">
-                            <a href="mailto:{{ $sitting->support_email }}" class="text-heading">{{ $sitting->support_email }}</a>
-                          </h5>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 col-lg-12 col-xl-6">
-                      <div class="d-flex align-items-center">
-                        <div class="badge bg-label-success rounded p-2 me-2">
-                          <i class="ti ti-phone-call ti-sm"></i>
-                        </div>
-                        <div>
-                          <p class="mb-0">@lang('phone')</p>
-                          <h6 class="mb-0"><a href="tel:+{{ $sitting->full_phone }}" class="text-heading">{{ $sitting->full_phone }}</a></h6>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+        <!-- Contact Us: Start -->
+        <section id="landingContact" class="section-py bg-body landing-contact">
+            <div class="container">
+                <div class="text-center mb-3 pb-1">
+                    <span class="badge bg-label-primary">توصل معنا</span>
                 </div>
-              </div>
-            </div>
-            <div class="col-lg-7">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="mb-1">ارسال رسالة</h4>
-                  <p class="mb-4">
-                    إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
-                      class="d-none d-lg-block" />
-                      الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح.                  </p>
-                  <form>
-                    <div class="row g-3">
-                      <div class="col-md-6">
-                        <label class="form-label" for="contact-form-fullname">الاسم الرباعي</label>
-                        <input type="text" class="form-control" id="contact-form-fullname" placeholder="الاسم الرباعي" />
-                      </div>
-                      <div class="col-md-6">
-                        <label class="form-label" for="contact-form-email">البريد الالكتروني</label>
-                        <input
-                          type="text"
-                          id="contact-form-email"
-                          class="form-control"
-                          placeholder="البريد الاكتروني" />
-                      </div>
-                      <div class="col-12">
-                        <label class="form-label" for="contact-form-message">الرسالة</label>
-                        <textarea
-                          id="contact-form-message"
-                          class="form-control"
-                          rows="8"
-                          placeholder="محتوي الرسالة"></textarea>
-                      </div>
-                      <div class="col-12">
-                        <button type="submit" class="btn btn-primary">ارسال</button>
-                      </div>
+                <h3 class="text-center mb-1">
+                    <span class="position-relative fw-bold z-1">دعنا نعمل
+                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            alt="laptop charging"
+                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                    معا
+                </h3>
+                <p class="text-center mb-4 mb-lg-5 pb-md-3">أي سؤال أو ملاحظة؟ فقط اكتب لنا رسالة</p>
+                <div class="row gy-4">
+                    <div class="col-lg-5">
+                        <div class="contact-img-box position-relative border p-2 h-100">
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png') }}"
+                                alt="contact border"
+                                class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl" />
+                            <img src="https://tryamlak.com/HOME_PAGE/images/new/Group104105.png" style="max-height: 420px"
+                                alt="contact customer service" class="contact-img w-100 scaleX-n1-rtl" />
+                            <div class="pt-3 px-4 pb-1">
+                                <div class="row gy-3 gx-md-4">
+                                    <div class="col-md-6 col-lg-12 col-xl-6">
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge bg-label-primary rounded p-2 me-2"><i
+                                                    class="ti ti-mail ti-sm"></i></div>
+                                            <div>
+                                                <p class="mb-0">@lang('Email')</p>
+                                                <h5 class="mb-0">
+                                                    <a href="mailto:{{ $sitting->support_email }}"
+                                                        class="text-heading">{{ $sitting->support_email }}</a>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-12 col-xl-6">
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge bg-label-success rounded p-2 me-2">
+                                                <i class="ti ti-phone-call ti-sm"></i>
+                                            </div>
+                                            <div>
+                                                <p class="mb-0">@lang('phone')</p>
+                                                <h6 class="mb-0"><a href="tel:+{{ $sitting->full_phone }}"
+                                                        class="text-heading">{{ $sitting->full_phone }}</a></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </form>
+                    <div class="col-lg-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mb-1">ارسال رسالة</h4>
+                                <p class="mb-4">
+                                    إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
+                                        class="d-none d-lg-block" />
+                                    الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح. </p>
+                                <form action="{{ route('home.StoreContactUs') }}" method="POST">
+                                    @csrf
+                                    <input type="text" name="key_phone" hidden required value="966"
+                                        id="key_phone">
+                                    <input type="text" name="full_phone" hidden required id="full_phone"
+                                        value="966">
+
+                                    <div class="row g-3">
+                                        <div class="col-md-6 col-12">
+                                            <label class="form-label" for="contact-form-fullname">@lang('Name') <span
+                                                    class="required-color">*</span></label>
+                                            <input type="text" name="name" class="form-control" required
+                                                id="contact-form-fullname" placeholder="@lang('Name')" />
+                                        </div>
+                                        <div class="col-12 mb-3 col-md-6">
+                                            <label for="color" class="form-label">@lang('phone') <span
+                                                    class="required-color">*</span></label>
+                                            <div class="input-group">
+                                                <input type="text" placeholder="123456789" name="mobile" required
+                                                    id="phone" value="" class="form-control" maxlength="9"
+                                                    pattern="\d{1,9}" oninput="updateFullPhone(this)"
+                                                    aria-label="Text input with dropdown button">
+                                                <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    966
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end" style="">
+                                                    <li><a class="dropdown-item" data-key="971"
+                                                            href="javascript:void(0);">971</a></li>
+                                                    <li><a class="dropdown-item" data-key="966"
+                                                            href="javascript:void(0);">966</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label" for="contact-form-message">@lang('message') <span
+                                                    class="required-color">*</span></label>
+                                            <textarea id="contact-form-message" name="message" class="form-control" required rows="8"
+                                                placeholder="@lang('content the message')"></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">ارسال</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <!-- Contact Us: End -->
+        </section>
+        <!-- Contact Us: End -->
     </div>
 
     <!-- / Sections:End -->
@@ -1165,18 +1128,32 @@
     <!-- Footer: Start -->
 
     @include('Home.layouts.inc.__addSubscriberModal')
-<script>
-    function redirectToCreateBroker() {
-        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
-    }
-    // function redirectToCreatePropertyFinder() {
-    //     window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
-    // }
-    function redirectToCreateOffice() {
-        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+    <script>
+        function redirectToCreateBroker() {
+            window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+        }
+        // function redirectToCreatePropertyFinder() {
+        //     window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+        // }
+        function redirectToCreateOffice() {
+            window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 
-    }
-</script>
+        }
 
-    @endsection
-
+        function updateFullPhone(input) {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+            var key_phone = $('#key_phone').val();
+            var fullPhone = key_phone + input.value;
+            document.getElementById('full_phone').value = fullPhone;
+        }
+        $(document).ready(function() {
+            $('.dropdown-item').on('click', function() {
+                var key = $(this).data('key');
+                var phone = $('#phone').val();
+                $('#key_phone').val(key);
+                $('#full_phone').val(key + phone);
+                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+            });
+        });
+    </script>
+@endsection
