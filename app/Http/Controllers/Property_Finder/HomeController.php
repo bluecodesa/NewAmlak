@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Admin\NewPropertyFinderNotification;
-use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
+
 
 
 class HomeController extends Controller
@@ -181,23 +180,22 @@ class HomeController extends Controller
     public function sendOtp(Request $request)
     {
         $email = $request->input('email');
+
+        // Check if the email is already registered in the users table
         $userExists = User::where('email', $email)->exists();
 
         if (!$userExists) {
-            $otp = str_pad(mt_rand(0, 9999), 6, STR_PAD_LEFT);
-            $expiry = Carbon::now()->addMinutes(30);
-
-            Cache::put('password_reset_code_' . $email, $otp, $expiry);
-
-            // Send the OTP email
-            $this->MailSendCode($email, $otp);
-
+            // If the email is not registered, send the OTP
+            $otp = mt_rand(100000, 999999);
+            // $otp = 555555; // Static OTP for testing
+            session(['otp' => $otp]);
+            $this->MailSendCode($request->email, $otp);
             return response()->json(['message' => 'OTP sent successfully']);
         } else {
+            // If the email is already registered, return an error message
             return response()->json(['message' => 'This email is already registered.'], 400);
         }
     }
-
 
 
     public function verifyOtp(Request $request)

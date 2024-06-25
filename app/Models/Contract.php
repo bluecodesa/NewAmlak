@@ -10,20 +10,52 @@ class Contract extends Model
     protected $guarded = [];
 
 
-
-    public function CityData()
+    protected $dates = [
+        'contract_date',
+    ];
+    public function office()
     {
-        return $this->belongsTo(City::class, 'city_id');
+        return $this->belongsTo(Office::class);
     }
 
-    public function OfficeData()
+    public function project()
     {
-        return $this->belongsTo(Office::class, 'office_id');
+        return $this->belongsTo(Project::class);
     }
 
-    public function BrokerData()
+    public function property()
     {
-        return $this->belongsTo(Broker::class, 'broker_id');
+        return $this->belongsTo(Property::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(Owner::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function serviceType()
+    {
+        return $this->belongsTo(ServiceType::class);
+    }
+
+    public function renter()
+    {
+        return $this->belongsTo(Renter::class);
+    }
+
+    public function installments()
+    {
+        return $this->hasMany(Installment::class);
     }
 
 

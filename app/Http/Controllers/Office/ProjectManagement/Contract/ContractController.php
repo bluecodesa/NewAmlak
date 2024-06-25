@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Office\ProjectManagement\Contract;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
+use App\Models\Installment;
 use App\Models\Project;
 use App\Models\Property;
 use App\Models\Unit;
@@ -16,11 +18,14 @@ use App\Services\Office\OfficeDataService;
 use App\Services\Office\UnitInterestService;
 use App\Services\Office\UnitService;
 use App\Services\FeatureService;
+use App\Services\Office\ContractService;
 use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Services\Office\EmployeeService;
 use App\Services\Office\RenterService;
+use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 
 
@@ -44,10 +49,13 @@ class ContractController extends Controller
     protected $subscriptionService;
     protected $EmployeeService;
     protected $RenterService;
+    protected $ContractService;
+
 
 
     public function __construct(
         SettingService $settingService,
+        ContractService $ContractService,
         OwnerService $OwnerService,
         UnitService $UnitService,
         RegionService $regionService,
@@ -63,6 +71,7 @@ class ContractController extends Controller
         RenterService $RenterService
     )
     {
+        $this->ContractService = $ContractService;
         $this->OwnerService = $OwnerService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -82,8 +91,7 @@ class ContractController extends Controller
 
     public function index()
     {
-        $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
-        $contracts=[];
+        $contracts = $this->ContractService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         return view('Office.Contract.index', get_defined_vars());
     }
 
@@ -115,11 +123,11 @@ class ContractController extends Controller
         return view('Office.Contract.create', get_defined_vars());
     }
 
-    public function store(Request $request)
-    {
-        $this->OwnerService->createOwner($request->all());
-        return redirect()->route('Office.Owner.index')->with('success', __('added successfully'));
-    }
+    // public function store(Request $request)
+    // {
+    //     $this->OwnerService->createOwner($request->all());
+    //     return redirect()->route('Office.Owner.index')->with('success', __('added successfully'));
+    // }
 
     /**
      * Display the specified resource.
@@ -131,17 +139,36 @@ class ContractController extends Controller
 
     public function edit($id)
     {
-        $Owner =  $this->OwnerService->getOwnerById($id);
+        $types = $this->propertyTypeService->getAllPropertyTypes();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        return view('Office.ProjectManagement.Owner.edit', get_defined_vars());
+        $advisors = $this->officeDataService->getAdvisors();
+        $developers = $this->officeDataService->getDevelopers();
+        $owners = $this->officeDataService->getOwners();
+        $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        $services = $this->AllServiceService->getAllServices();
+        $features = $this->FeatureService->getAllFeature();
+        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+
+        $office_id = auth()->user()->UserOfficeData->id;
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $projects=Project::where('office_id',$office_id)->get();
+        $properties=Property::where('office_id',$office_id)->get();
+        $units=Unit::where('office_id',$office_id)->get();
+        $renters = $this->RenterService->getAllByOfficeId($office_id);
+        $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $contract = Contract::findOrFail($id);
+
+        return view('Office.Contract.edit', get_defined_vars());
     }
 
-    public function update(Request $request, $id)
-    {
-        $this->OwnerService->updateOwner($id, $request->all());
-        return redirect()->route('Office.Owner.index')->with('success', __('Update successfully'));
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     $this->OwnerService->updateOwner($id, $request->all());
+    //     return redirect()->route('Office.Owner.index')->with('success', __('Update successfully'));
+    // }
 
     public function destroy(string $id)
     {
@@ -169,4 +196,217 @@ class ContractController extends Controller
             'units' => $units
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'project_id' => 'required|exists:projects,id',
+            'property_id' => 'required|exists:properties,id',
+            'unit_id' => 'required|exists:units,id',
+            'owner_id' => 'required|exists:owners,id',
+            'employee_id' => 'required|exists:employees,id',
+            'price' => 'required|numeric',
+            'type' => 'required|string',
+            'service_type_id' => 'required|exists:service_types,id',
+            'commissions_rate' => 'nullable|numeric',
+            'collection_type' => 'nullable|string',
+            'renter_id' => 'required|exists:renters,id',
+            'gregorian_contract_date' => 'nullable|date',
+            'hijri_contract_date' => 'nullable|string',
+            'date_concluding_contract'=>'nullable|date',
+            'contract_duration' => 'required|integer',
+            'duration_unit' => 'required|string',
+            'payment_cycle' => 'required|string',
+            'auto_renew' => 'required|string'
+        ], [
+            'project_id.required' => 'The project ID field is required.',
+            'project_id.exists' => 'The selected project ID is invalid.',
+            'property_id.required' => 'The property ID field is required.',
+            'property_id.exists' => 'The selected property ID is invalid.',
+            'unit_id.required' => 'The unit ID field is required.',
+            'unit_id.exists' => 'The selected unit ID is invalid.',
+            'owner_id.required' => 'The owner ID field is required.',
+            'owner_id.exists' => 'The selected owner ID is invalid.',
+            'employee_id.required' => 'The employee ID field is required.',
+            'employee_id.exists' => 'The selected employee ID is invalid.',
+            'price.required' => 'The price field is required.',
+            'price.numeric' => 'The price must be a number.',
+            'type.required' => 'The type field is required.',
+            'type.string' => 'The type must be a string.',
+            'service_type_id.required' => 'The service type ID field is required.',
+            'service_type_id.exists' => 'The selected service type ID is invalid.',
+            'commissions_rate.numeric' => 'The commissions rate must be a number.',
+            'collection_type.string' => 'The collection type must be a string.',
+            'renter_id.required' => 'The renter ID field is required.',
+            'renter_id.exists' => 'The selected renter ID is invalid.',
+            'contract_date.required' => 'The contract date field is required.',
+            'contract_date.date' => 'The contract date must be a valid date.',
+            'contract_duration.required' => 'The contract duration field is required.',
+            'contract_duration.integer' => 'The contract duration must be an integer.',
+            'duration_unit.required' => 'The duration unit field is required.',
+            'duration_unit.string' => 'The duration unit must be a string.',
+            'payment_cycle.required' => 'The payment cycle field is required.',
+            'payment_cycle.string' => 'The payment cycle must be a string.',
+            'auto_renew.required' => 'The auto renew field is required.',
+            'auto_renew.string' => 'The auto renew field must be string.'
+        ]);
+        $id = $request['id'];
+        $contractNumber = '100' . $id;
+        $validatedData['contract_number'] = $contractNumber;
+        $contractData = [
+            'contract_number' => $contractNumber,
+            'office_id' => auth()->user()->UserOfficeData->id,
+            'project_id' => $validatedData['project_id'],
+            'property_id' => $validatedData['property_id'],
+            'unit_id' => $validatedData['unit_id'],
+            'owner_id' => $validatedData['owner_id'],
+            'employee_id' => $validatedData['employee_id'],
+            'price' => $validatedData['price'],
+            'type' => $validatedData['type'],
+            'service_type_id' => $validatedData['service_type_id'],
+            'commissions_rate' => $validatedData['commissions_rate'],
+            'collection_type' => $validatedData['collection_type'] ?? null,
+            'renter_id' => $validatedData['renter_id'],
+            'contract_duration' => $validatedData['contract_duration'],
+            'duration_unit' => $validatedData['duration_unit'],
+            'payment_cycle' => $validatedData['payment_cycle'],
+            'auto_renew' => $validatedData['auto_renew'],
+        ];
+
+        if ($validatedData['gregorian_contract_date']) {
+            $contractData['contract_date'] = $validatedData['gregorian_contract_date'];
+        } elseif ($validatedData['hijri_contract_date']) {
+            $contractData['contract_date'] = $validatedData['hijri_contract_date'];
+        }
+
+        $contract = Contract::create($contractData);
+
+        $this->createInstallments($contract, $validatedData);
+
+        return redirect()->route('Office.Contract.index')->with('success', 'Contract created successfully.');
+    }
+
+    private function createInstallments(Contract $contract, array $data)
+    {
+        $numberOfContracts = 1;
+        $installments = [];
+
+        if ($data['duration_unit'] === 'year' && $data['payment_cycle'] === 'annual') {
+            $numberOfContracts = $data['contract_duration'];
+        } else if ($data['duration_unit'] === 'month' && $data['payment_cycle'] === 'monthly') {
+            $numberOfContracts = $data['contract_duration'];
+        } else if ($data['duration_unit'] === 'year' && $data['payment_cycle'] === 'monthly') {
+            $numberOfContracts = $data['contract_duration'] * 12;
+        }
+
+        // $startDate = new \DateTime($data['contract_date']);
+        if ($data['gregorian_contract_date']) {
+            $startDate = new \DateTime($data['gregorian_contract_date']);
+        } elseif ($data['hijri_contract_date']) {
+            $hijriDate = $data['hijri_contract_date'];
+            $startDate = new \DateTime($hijriDate);
+        } else {
+            throw new \InvalidArgumentException('Invalid calendar type provided.');
+        }
+        $pricePerContract = $data['price'] / $numberOfContracts;
+        $commissionPerContract = 0;
+
+        if ($data['service_type_id'] == 3) {
+            if ($data['collection_type'] == 'once') {
+                $commissionPerContract = ($data['commissions_rate'] / 100) * $data['price'];
+            } else if ($data['collection_type'] == 'divided') {
+                $commissionPerContract = ($data['commissions_rate'] / 100) * ($data['price'] / $numberOfContracts);
+            }
+        }
+
+        for ($i = 0; $i < $numberOfContracts; $i++) {
+            $endDate = clone $startDate;
+            if ($data['duration_unit'] === 'month') {
+                $endDate->modify('+1 month');
+            } else if ($data['duration_unit'] === 'year') {
+                $endDate->modify('+1 year');
+            }
+
+            $finalPrice = $pricePerContract;
+            if ($commissionPerContract !== 0) {
+                if ($data['collection_type'] === 'once') {
+                    if ($i === 0) {
+                        $finalPrice += $commissionPerContract;
+                    }
+                } else if ($data['collection_type'] === 'divided') {
+                    $finalPrice += $commissionPerContract;
+                }
+            }
+
+            $installments[] = [
+                'contract_id' => $contract->id,
+                'price' => $finalPrice,
+                'start_date' => $startDate->format('Y-m-d'),
+                'end_date' => $endDate->format('Y-m-d')
+            ];
+
+            $startDate = clone $endDate;
+        }
+
+        Installment::insert($installments);
+    }
+
+    public function update(Request $request, Contract $contract)
+{
+    $validatedData = $request->validate([
+        'project_id' => 'required|exists:projects,id',
+        'property_id' => 'required|exists:properties,id',
+        'unit_id' => 'required|exists:units,id',
+        'owner_id' => 'required|exists:owners,id',
+        'employee_id' => 'required|exists:employees,id',
+        'price' => 'required|numeric',
+        'type' => 'required|string',
+        'service_type_id' => 'required|exists:service_types,id',
+        'commissions_rate' => 'nullable|numeric',
+        'collection_type' => 'nullable|string',
+        'renter_id' => 'required|exists:renters,id',
+        'gregorian_contract_date' => 'nullable|date',
+        'hijri_contract_date' => 'nullable|string',
+        'date_concluding_contract' => 'nullable|date',
+        'contract_duration' => 'required|integer',
+        'duration_unit' => 'required|string',
+        'payment_cycle' => 'required|string',
+        'auto_renew' => 'required|string'
+    ]);
+
+    $contract->project_id = $validatedData['project_id'];
+    $contract->property_id = $validatedData['property_id'];
+    $contract->unit_id = $validatedData['unit_id'];
+    $contract->owner_id = $validatedData['owner_id'];
+    $contract->employee_id = $validatedData['employee_id'];
+    $contract->price = $validatedData['price'];
+    $contract->type = $validatedData['type'];
+    $contract->service_type_id = $validatedData['service_type_id'];
+    $contract->commissions_rate = $validatedData['commissions_rate'];
+    $contract->collection_type = $validatedData['collection_type'] ?? null;
+    $contract->renter_id = $validatedData['renter_id'];
+    $contract->contract_duration = $validatedData['contract_duration'];
+    $contract->duration_unit = $validatedData['duration_unit'];
+    $contract->payment_cycle = $validatedData['payment_cycle'];
+    $contract->auto_renew = $validatedData['auto_renew'];
+
+    if ($validatedData['gregorian_contract_date']) {
+        $contract->contract_date = $validatedData['gregorian_contract_date'];
+    } elseif ($validatedData['hijri_contract_date']) {
+        $contract->contract_date = $validatedData['hijri_contract_date'];
+    }
+
+    $contract->save();
+
+    // Update installments logic
+    $this->updateInstallments($contract, $validatedData);
+
+    return redirect()->route('Office.Contract.index')->with('success', 'Contract updated successfully.');
+}
+
+private function updateInstallments(Contract $contract, array $data)
+{
+
+}
+
 }

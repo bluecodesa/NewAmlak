@@ -73,14 +73,14 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @forelse ($contracts as $owner)
+                            @forelse ($contracts as $contract)
                                 <tr>
 
-                                    <td>{{ $owner->name }}</td>
-                                    <td>{{ $owner->email }}</td>
-                                    <td>{{ $owner->full_phone }}</td>
-                                    <td>{{ $owner->CityData->name }}</td>
-                                    <td>{{ $owner->OfficeData->UserData->name }}</td>
+                                    <td>{{ $contract->contract_number }}</td>
+                                    <td>{{ $contract->email }}</td>
+                                    <td>{{ $contract->full_phone }}</td>
+                                    <td>{{ $contract->price }}</td>
+                                    <td>{{ $contract->office->UserData->name }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -89,17 +89,21 @@
                                             </button>
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('update-owner'))
+                                                <a class="dropdown-item"
+                                                    href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Show') @lang('Installments')</a>
+                                                @endif
+                                                @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Office.Owner.edit', $owner->id) }}">@lang('Edit')</a>
+                                                        href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                                                 @endif
 
 
                                                 @if (Auth::user()->hasPermission('delete-owner'))
                                                     <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $owner->id }}')"
+                                                        onclick="handleDelete('{{ $contract->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $owner->id }}"
-                                                        action="{{ route('Office.Owner.destroy', $owner->id) }}"
+                                                    <form id="delete-form-{{ $contract->id }}"
+                                                        action="{{ route('Office.Contract.destroy', $contract->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')

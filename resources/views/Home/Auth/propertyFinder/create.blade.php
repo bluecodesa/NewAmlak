@@ -39,13 +39,13 @@
                         @csrf
                         <div class="mb-3 row">
                             <div class="col-md-6">
-                                <label class="form-label" for="name">@lang('Finder Name')<span class="text-danger">*</span></label>
+                                <label class="form-label" for="name">@lang('Name')<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="@lang('Finder name')" required>
                                 <div class="invalid-feedback"></div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="email">@lang('Email')<span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="register_email" name="email" required>
+                                <input type="email" class="form-control" id="register_email" name="email" disabled required>
                             </div>
                         </div>
                         <div class="mb-3 row">

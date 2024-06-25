@@ -52,10 +52,19 @@
 
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
-                            <form action="{{ route('Office.Unit.store') }}" method="POST" class="row"
+                            <form action="{{ route('Office.Contract.store') }}" method="POST" class="row"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('post')
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Project') <span class="required-color">*</span></label>
                                     <select class="form-select" name="project_id" id="projectSelect" required>>
@@ -106,8 +115,8 @@
                                             class="required-color">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <select class="form-select" id="OwnersDiv"
-                                            aria-label="Example select with button addon" name="owner_id" required>
+                                        <select class="form-select"
+                                            aria-label="Example select with button addon" name="employee_id" required>
                                             <option disabled selected value="">@lang('Employee Name')</option>
                                             @foreach ($employees as $employee)
                                                 <option value="{{ $employee->id }}">
@@ -156,16 +165,16 @@
                                     <!-- Commissions Rate -->
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Commissions Rate') <span
-                                                class="required-color">*</span></label>
+                                                class="required-color"></span></label>
                                         <input type="number" name="commissions_rate" class="form-control"
-                                            placeholder="@lang('Commissions Rate')" required>
+                                            placeholder="@lang('Commissions Rate')">
                                     </div>
 
                                     <!-- Collection Type -->
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Collection Type') <span
-                                                class="required-color">*</span></label>
-                                        <select class="form-select" name="collection_type" id="type" required>
+                                                class="required-color"></span></label>
+                                        <select class="form-select" name="collection_type" id="type" >
                                             <option disabled selected value="">@lang('Collection Type')</option>
                                             @foreach (['once', 'divided'] as $type)
                                                 <option value="{{ $type }}">
@@ -191,7 +200,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('تاريخ ابرام العقد') <span
                                             class="required-color"></span></label>
-                                    <input class="form-control" type="date" value="" id="html5-date-input" />
+                                    <input class="form-control" type="date" value="" id="html5-date-input" name='date_concluding_contract' />
                                 </div>
 
                                 <!-- Calendar Type -->
@@ -207,16 +216,14 @@
 
                                 <!-- Contract Date -->
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
-                                    <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span
-                                            class="required-color"></span></label>
-                                    <input class="form-control" type="date" name="contract_date_gregorian" />
+                                    <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
+                                    <input class="form-control" type="date" name="gregorian_contract_date" value=""/>
                                 </div>
                                 <div class="col-md-4 mb-3 col-12" id="hijriDate" style="display: none;">
-                                    <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span
-                                            class="required-color"></span></label>
-                                    <input class="form-control" type="text" name="contract_date_hijri"
-                                        id="txtHijriDate" placeholder="@lang('Hijri Date')" />
+                                    <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color"></span></label>
+                                    <input class="form-control" type="text" name="hijri_contract_date" value="" id="txtHijriDate" placeholder="@lang('Hijri Date')" />
                                 </div>
+
 
                                 <!-- Duration of the Contract -->
                                 <div class="col-md-4 mb-3 col-12">
@@ -245,7 +252,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('التجديد التلقائي') <span
                                             class="required-color">*</span></label>
-                                    <select class="form-select" name="type" id="type" required>
+                                    <select class="form-select" name="auto_renew" id="auto_renew" required>
                                         @foreach (['not_renewed', 'renewed'] as $type)
                                             <option value="{{ $type }}">
                                                 {{ __($type) }}</option>

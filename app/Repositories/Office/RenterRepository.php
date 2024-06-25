@@ -27,6 +27,17 @@ class RenterRepository implements RenterRepositoryInterface
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|max:9|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'id_number' => [
+                'required',
+                'numeric',
+                'digits:10',
+                'unique:users,id_number,', // Ensure ID number is unique, excluding the current user
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                    }
+                },
+            ],
         ];
 
         $messages = [
@@ -49,6 +60,11 @@ class RenterRepository implements RenterRepositoryInterface
             'password.string' => __('The password must be a string.'),
             'password.min' => __('The password must be at least :min characters.'),
             'password.confirmed' => __('The password confirmation does not match.'),
+            'id_number.required' => 'The ID number field is required.',
+            'id_number.numeric' => 'The ID number must be a number.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+            'id_number.unique' => 'The ID number has already been taken.', // Custom message for unique constraint
+        
 
         ];
         validator($data, $rules,$messages)->validate();
