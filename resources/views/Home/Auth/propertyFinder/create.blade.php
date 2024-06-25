@@ -45,28 +45,45 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="email">@lang('Email')<span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="register_email" name="email" disabled required>
+                                <input type="email" value="" class="form-control" id="register_email" name="email" disabled required>
                             </div>
                         </div>
                         <div class="mb-3 row">
+
                             <div class="col-md-6">
+                                {{-- <label for="password"> @lang('password') <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="password" name="password" required> --}}
                                 <div class="mb-3 form-password-toggle">
-                                    <label class="form-label" for="password">@lang('password') <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="password">@lang('password') <span
+                                            class="text-danger">*</span></label>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required>
-                                        <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                        <input type="password" id="password" class="form-control"
+                                            name="password"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="password" required />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
                                     </div>
-                                    <div class="invalid-feedback"></div>
                                 </div>
+
                             </div>
+
                             <div class="col-md-6">
+                                {{-- <label for="password_confirmation"> @lang('Confirm Password') <span
+                                class="text-danger">*</span></label> <input type="password" class="form-control"
+                            id="password_confirmation" name="password_confirmation" required> --}}
+
                                 <div class="mb-3 form-password-toggle">
-                                    <label class="form-label" for="password_confirmation">@lang('Confirm Password') <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="password">@lang('Confirm Password') <span
+                                            class="text-danger">*</span></label>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required>
-                                        <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                        <input type="password" id="password_confirmation" class="form-control"
+                                            name="password_confirmation"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="password" required />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
                                     </div>
-                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         </div>
@@ -186,29 +203,38 @@ $(document).ready(function() {
     });
 
     $('#registerForm').submit(function(e) {
-        e.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-            type: 'POST',
-            url: '{{ route("register-property-finder") }}',
-            data: formData,
-            success: function(response) {
-                displayMessage('Property Finder registered successfully.', 'success');
-                toastr.success('Property Finder registered successfully.');
-                resetModal();
-                $('#modalToggle').modal('hide');
-            },
-            error: function(xhr, status, error) {
-                if (xhr.status === 422) {
-                    var errors = xhr.responseJSON.errors;
-                    displayValidationErrors(errors);
-                } else {
-                    displayMessage('Failed to register Property Finder. Please try again.', 'danger');
-                }
-                console.error(xhr.responseText);
+    e.preventDefault();
+
+    // Enable the email field temporarily for submission
+    $('#register_email').prop('disabled', false);
+
+    var formData = $(this).serialize();
+    $.ajax({
+        type: 'POST',
+        url: '{{ route("register-property-finder") }}',
+        data: formData,
+        success: function(response) {
+            displayMessage('Property Finder registered successfully.', 'success');
+            toastr.success('Property Finder registered successfully.');
+            resetModal();
+            $('#modalToggle').modal('hide');
+        },
+        error: function(xhr, status, error) {
+            if (xhr.status === 422) {
+                var errors = xhr.responseJSON.errors;
+                displayValidationErrors(errors);
+            } else {
+                displayMessage('Failed to register Property Finder. Please try again.', 'danger');
             }
-        });
+            console.error(xhr.responseText);
+        },
+        complete: function() {
+            // Disable the email field again after submission
+            $('#register_email').prop('disabled', true);
+        }
     });
+});
+
 
     $('#modalToggle').on('hidden.bs.modal', function () {
         resetModal();

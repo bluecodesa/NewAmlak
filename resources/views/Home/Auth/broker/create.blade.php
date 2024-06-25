@@ -249,7 +249,7 @@
 
                                 <div class="col-md-6">
                                     {{-- <label for="password"> @lang('password') <span class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="password" name="password" required> --}}
+                                <input type="password" class="form-control" id="password" name="password" required> --}}
                                     <div class="mb-3 form-password-toggle">
                                         <label class="form-label" for="password">@lang('password') <span
                                                 class="text-danger">*</span></label>

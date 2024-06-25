@@ -421,9 +421,6 @@
     </section>
 
     @include('Home.layouts.inc.__addSubscriberModal')
-    @include('Home.Auth.propertyFinder.create')
-
-
     <script>
         // Add an event listener to the submit button
         $('#city_filter').on('change', function() {

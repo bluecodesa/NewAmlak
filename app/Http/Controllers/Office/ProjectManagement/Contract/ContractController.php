@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attachment;
 use App\Models\AttachmentContract;
 use App\Models\Contract;
+use App\Models\ContractAttachment;
 use App\Models\Installment;
 use App\Models\Project;
 use App\Models\Property;
@@ -283,6 +284,8 @@ class ContractController extends Controller
             'payment_cycle' => $validatedData['payment_cycle'],
             'auto_renew' => $validatedData['auto_renew'],
             'date_concluding_contract' => $validatedData['date_concluding_contract'],
+            'calendarTypeSelect' => $validatedData['calendarTypeSelect'],
+
 
         ];
         if ($validatedData['gregorian_contract_date']) {
@@ -321,7 +324,7 @@ class ContractController extends Controller
                 ]);
             }
     
-            AttachmentContract::create([
+            ContractAttachment::create([
                 'attachment_id' => $attachment->id,
                 'contract_id' => $contract->id,
                 'attachment' => $filePath, 

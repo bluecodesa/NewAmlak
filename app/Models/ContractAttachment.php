@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AttachmentContract extends Model
+class ContractAttachment extends Model
 {
     use HasFactory;
 

@@ -202,7 +202,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Calendar Type') <span
                                             class="required-color">*</span></label>
-                                    <select class="form-select" id="calendarTypeSelect" required>
+                                    <select class="form-select" id="calendarTypeSelect" name="calendarTypeSelect" required>
                                         <option disabled selected value="">@lang('Calendar Type')</option>
                                         <option value="gregorian">@lang('Gregorian')</option>
                                         <option value="hijri">@lang('Hijri')</option>
