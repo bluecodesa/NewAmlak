@@ -150,7 +150,12 @@ class PropertyController extends Controller
 
         $images = $request->images;
         $this->PropertyService->update($id, $request->except('images'), $images);
-        return redirect()->route('Broker.Property.index')->with('success', __('Update successfully'));
+        $Property = $this->PropertyService->findById($id);
+        if ($Property->project_id != null) {
+            return redirect()->route('Broker.Project.show', $Property->project_id)->with('success', __('Update successfully'));
+        } else {
+            return redirect()->route('Broker.Property.index')->with('success', __('Update successfully'));
+        }
     }
 
     public function destroy(string $id)

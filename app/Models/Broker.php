@@ -73,4 +73,9 @@ class Broker extends Model
 
         return $this->hasMany(Unit::class, 'broker_id');
     }
+
+    public function BrokerHasProjects()
+    {
+        return $this->hasMany(Project::class, 'broker_id');
+    }
 }

@@ -35,12 +35,15 @@ class SubscriptionController extends Controller
     protected $EmployeeService;
 
 
-    public function __construct(SystemInvoiceRepositoryInterface $systemInvoiceRepository,
-    UnitService $UnitService, OwnerService $ownerService,
-    SubscriptionService $subscriptionService,
-    RegionService $regionService, CityService $cityService,
-    EmployeeService $EmployeeService)
-    {
+    public function __construct(
+        SystemInvoiceRepositoryInterface $systemInvoiceRepository,
+        UnitService $UnitService,
+        OwnerService $ownerService,
+        SubscriptionService $subscriptionService,
+        RegionService $regionService,
+        CityService $cityService,
+        EmployeeService $EmployeeService
+    ) {
         $this->subscriptionService = $subscriptionService;
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -95,6 +98,9 @@ class SubscriptionController extends Controller
             $numberOfowners = $this->ownerService->getNumberOfOwners($brokerId);
             $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
+            $numberOfProperties = $this->UnitService->getAll($brokerId)->count();
+            $numberOfProjects = $subscriber->BrokerData->BrokerHasProjects->count();
+            return view('Admin.subscribers.ShowBroker', get_defined_vars());
         } elseif ($officeId) {
             $numberOfowners = $this->ownerService->getNumberOfOwners($officeId);
             $numberOfUnits = $this->UnitService->getAllByOffice($officeId)->count();
@@ -103,11 +109,8 @@ class SubscriptionController extends Controller
             $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
             $employees = $this->EmployeeService->getAllByOfficeId($officeId);
 
+            return view('Admin.subscribers.show', get_defined_vars());
         }
-
-
-
-        return view('Admin.subscribers.show', get_defined_vars());
     }
 
 
@@ -175,21 +178,20 @@ class SubscriptionController extends Controller
     }
 
     public function updateNumOfEmployee(Request $request, string $id)
-{
-    $request->validate([
-        'max_of_employee' => 'required|numeric|min:1', // Add validation rules for max_of_employee field
-    ], [
-        'max_of_employee.required' => __('The max of employee field is required.'),
-        'max_of_employee.numeric' => __('The max of employee field must be a number.'),
-        'max_of_employee.min' => __('The max of employee field must be at least :min.'),
-    ]);
+    {
+        $request->validate([
+            'max_of_employee' => 'required|numeric|min:1', // Add validation rules for max_of_employee field
+        ], [
+            'max_of_employee.required' => __('The max of employee field is required.'),
+            'max_of_employee.numeric' => __('The max of employee field must be a number.'),
+            'max_of_employee.min' => __('The max of employee field must be at least :min.'),
+        ]);
 
-    $office = Office::findOrFail($id);
-    // Update the max_of_employee field
-    $office->max_of_employee = $request->max_of_employee;
-    $office->save();
+        $office = Office::findOrFail($id);
+        // Update the max_of_employee field
+        $office->max_of_employee = $request->max_of_employee;
+        $office->save();
 
-    return redirect()->back()->with('success', __('Max number of employees updated successfully.'));
-}
-
+        return redirect()->back()->with('success', __('Max number of employees updated successfully.'));
+    }
 }

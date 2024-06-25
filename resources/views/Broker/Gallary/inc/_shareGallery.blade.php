@@ -57,9 +57,10 @@
                                     <h6>@lang('Share the link')</h6>
                                     <p>@lang('Share the property link or copy it on your site')</p>
                                     <div class="input-group">
-                                        <input type="text" class="form-control galleryNameCopy" readonly
+                                        <input type="text" class="form-control galleryNameCopy"
+                                            id="{{ 'galleryNameCopy_' . $unit->id }}" readonly
                                             value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
-                                        <button onclick="copyToClipboard('.galleryNameCopy')"
+                                        <button onclick="copyToClipboard('galleryNameCopy_{{ $unit->id }}')"
                                             class="btn btn-outline-primary waves-effect" type="button">
                                             <i class="ti ti-copy"></i>
                                         </button>
@@ -89,18 +90,12 @@
     </div>
     @push('scripts')
         <script>
-            function copyToClipboard(selector) {
-                // Get the input element
-                var copyText = document.querySelector(selector);
-
-                // Select the text field
+            function copyToClipboard(elementId) {
+                var copyText = document.getElementById(elementId);
                 copyText.select();
-                copyText.setSelectionRange(0, 99999); // For mobile devices
-
-                // Copy the text inside the text field
+                copyText.setSelectionRange(0, 99999); /* For mobile devices */
                 document.execCommand("copy");
 
-                // Optionally, you can provide feedback to the user
                 alertify.success(@json(__('copy done')));
             }
         </script>
