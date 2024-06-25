@@ -119,7 +119,7 @@
                             <option disabled selected value="">@lang('Region')</option>
                             @foreach ($Regions as $Region)
                                 <option value="{{ $Region->id }}"
-                                    data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}">
+                                    data-url="{{ Auth::user()->is_broker == true ? route('Broker.Broker.GetCitiesByRegion', $Region->id) : route('Office.Office.GetCitiesByRegion', $Region->id) }}">
                                     {{ $Region->name }}</option>
                             @endforeach
                         </select>
