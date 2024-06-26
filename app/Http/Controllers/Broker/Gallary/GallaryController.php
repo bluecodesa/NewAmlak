@@ -206,11 +206,17 @@ class GallaryController extends Controller
     {
 
         $data = $this->galleryService->showUnitPublic($gallery_name, $id);
-        if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
 
+
+        if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
-        return view('Home.Gallery.Unit.show', $data);
+        $broker = $data['broker'];
+        if ($broker->license_validity == 'valid') {
+            return view('Home.Gallery.Unit.show', $data);
+        } else {
+            return view('Broker.Gallary.inc._GalleryComingsoon', $data);
+        }
     }
 
     public function showByName(Request $request, $name)
