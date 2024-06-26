@@ -7,9 +7,9 @@
     <title> {{ $sitting->title }} - @yield ('title')</title>
 
     <meta name="description" content="" />
-
+    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url('HOME_PAGE/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url($sitting->icon) }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
