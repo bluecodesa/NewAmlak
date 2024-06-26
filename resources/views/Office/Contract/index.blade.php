@@ -96,10 +96,10 @@
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('update-owner'))
                                                 <a class="dropdown-item"
-                                                    href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Show') @lang('Installments')</a>
+                                                    href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
                                                 @endif
-                                                @if (Auth::user()->hasPermission('update-owner'))
-                                                    <a class="dropdown-item"
+                                                @if (Auth::user()->hasPermission('update-owner') && $contract->status != 'Relay')
+                                                <a class="dropdown-item"
                                                         href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                                                 @endif
 

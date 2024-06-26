@@ -25,4 +25,8 @@ class ContractAttachment extends Model
     {
         return $this->belongsTo(User::class, 'finder_id');
     }
+    public function AttachmentData()
+    {
+        return $this->belongsTo(Attachment::class, 'attachment_id');
+    }
 }

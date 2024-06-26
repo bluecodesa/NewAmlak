@@ -91,7 +91,7 @@
                                         <select class="form-select" name="unit_id" id="unitSelect" required>
                                             <option disabled selected value="">@lang('Unit')</option>
                                             @foreach ($units as $unit)
-                                                <option value="{{ $unit->id }}">{{ $unit->number_unit }}</option>
+                                            <option value="{{ $unit->id }}" data-service-type-id="{{ $unit->service_type_id }}">{{ $unit->number_unit }}</option>
                                             @endforeach
                                         </select>
                                 </div>
@@ -112,11 +112,11 @@
                                 </div>
                                 <div class="col-12 col-md-4 mb-3">
                                     <label class="col-md-6 form-label">@lang('Employee Name') <span
-                                            class="required-color">*</span>
+                                            class="required-color"></span>
                                     </label>
                                     <div class="input-group">
                                         <select class="form-select"
-                                            aria-label="Example select with button addon" name="employee_id" required>
+                                            aria-label="Example select with button addon" name="employee_id">
                                             <option disabled selected value="">@lang('Employee Name')</option>
                                             @foreach ($employees as $employee)
                                                 <option value="{{ $employee->id }}">
@@ -159,6 +159,8 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <input type="hidden" name="service_type_id" id="hiddenServiceTypeId" />
+
 
                                 <div id="propertyManagementFields" class="row" style="display: none;">
 
@@ -213,7 +215,7 @@
                       
                                     <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
                                         <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
-                                        <input class="form-control" type="date" name="date_concluding_contract" />
+                                        <input class="form-control" type="date" id="gregorianDate3" name="date_concluding_contract" />
                                     </div>
                                     <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
                                         <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
@@ -225,7 +227,7 @@
                                     </div>
                                     <div class="col-md-4 mb-3 col-12" id="hijriDate" style="display: none;">
                                         <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color"></span></label>
-                                        <input class="form-control" id="txtHijriDate" type="text" name="hijri_contract_date" placeholder="@lang('Hijri Date')" />
+                                        <input class="form-control" id="txtHijriDate2" type="text" name="hijri_contract_date" placeholder="@lang('Hijri Date')" />
                                     </div>
 
 
@@ -435,6 +437,14 @@ function removeFeature(button) {
                 //     alert('You picked ' + date[0].formatDate());
                 // }
             });
+            $('#txtHijriDate2').calendarsPicker({
+                calendar: $.calendars.instance('islamic', 'Ar'),
+                // monthsToShow: [1, 2],
+                // showOtherMonths: true,
+                // onSelect: function(date) {
+                //     alert('You picked ' + date[0].formatDate());
+                // }
+            });
 
             function updateFullPhone(input) {
                 input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
@@ -507,14 +517,12 @@ function removeFeature(button) {
 
         <script>
             $(document).ready(function() {
-                // Event listener for the Calculate button
                 $('#calculateButton').on('click', function() {
-                    // Gather all relevant data from the form
                     var formData = {
                         price: parseFloat($('input[name="price"]').val()), // Convert price to float
                         contract_type: $('select[name="contract_type"]').val(),
-                        contract_date_gregorian: new Date($('input[name="gregorian_contract_date"]')
-                            .val()), // Convert to Date object
+                        contract_date_gregorian: null,
+                        contract_date_hijri: null,
                         contract_date_hijri: new Date($('input[name="hijri_contract_date"]')
                             .val()), // Convert to Date object
                         contract_duration: parseInt($('input[name="contract_duration"]')
@@ -528,11 +536,23 @@ function removeFeature(button) {
                         collection_type: $('select[name="collection_type"]').val(),
                     };
 
-                    // Initialize variables for contract details
-                    var numberOfContracts = 1; // Default to 1 contract
+                    if ($('#calendarTypeSelect').val() === 'gregorian') {
+                        formData.contract_date_gregorian = new Date($('input[name="gregorian_contract_date"]').val());
+                        // Set contract_date_hijri to null when using Gregorian calendar
+                        formData.contract_date_hijri = null;
+                        var startDate = formData.contract_date_gregorian;
+
+                    } else if ($('#calendarTypeSelect').val() === 'hijri') {
+                        formData.contract_date_hijri = new Date($('input[name="hijri_contract_date"]').val());
+                        formData.contract_date_gregorian = null;
+                        var startDate = formData.contract_date_hijri;
+
+
+                    }
+
+                    var numberOfContracts = 1; 
                     var contracts = [];
 
-                    // Calculate number of sub-contracts based on duration and payment cycle
                     if (formData.duration_unit === 'year' && formData.payment_cycle === 'annual') {
                         numberOfContracts = formData.contract_duration; // One contract per year
                     } else if (formData.duration_unit === 'month' && formData.payment_cycle === 'monthly') {
@@ -541,65 +561,56 @@ function removeFeature(button) {
                         numberOfContracts = formData.contract_duration * 12; // Convert years to months
                     }
 
-                    // Calculate start and end dates for each contract
-                    var startDate = formData.contract_date_gregorian;
                     var endDate = new Date(startDate);
 
-                    // Calculate commissions based on service type and collection type
                     var commissionPerContract = 0;
-                    if (formData.service_type_id ==
-                        3) { // Assuming serviceTypeSelect = 3 means additional fields are relevant
+                    if (formData.service_type_id == 3) { 
                         if (formData.collection_type == 'once') {
-                            // Calculate commission once-off
+                            
                             commissionPerContract = (formData.commissions_rate / 100) * formData
-                                .price; // Commission for the first contract
+                                .price;
                         } else if (formData.collection_type == 'divided') {
-                            // Calculate commission divided
+                            
                             commissionPerContract = (formData.commissions_rate / 100) * (formData.price /
-                                numberOfContracts); // Equal commission for each contract
+                                numberOfContracts); 
                         }
                     }
 
 
-                    // Loop to calculate contracts
                     for (var i = 0; i < numberOfContracts; i++) {
-                        // Calculate end date based on contract duration unit (month or year)
+                      
                         if (formData.duration_unit === 'month') {
-                            endDate.setMonth(startDate.getMonth() + 1); // End date is one month from start date
+                            endDate.setMonth(startDate.getMonth() + 1);
                         } else if (formData.duration_unit === 'year') {
                             endDate.setFullYear(startDate.getFullYear() +
-                                1); // End date is one year from start date
+                                1); 
                         }
 
-                        // Calculate price for each contract
                         var pricePerContract = formData.price / numberOfContracts;
 
-                        // Adjust price for commission if applicable
+                       
                         var finalPrice = pricePerContract;
                         if (commissionPerContract !== 0) {
                             if (formData.collection_type === 'once') {
-                                // Add commission only for the first installment
+                                
                                 if (i === 0) {
                                     finalPrice += commissionPerContract;
                                 }
                             } else if (formData.collection_type === 'divided') {
-                                // Add equal commission for each installment
+                               
                                 finalPrice += commissionPerContract;
                             }
                         }
 
-                        // Prepare contract object with details
                         var contract = {
                             contractNumber: i + 1,
                             startDate: startDate.toLocaleDateString('en-US'),
                             endDate: endDate.toLocaleDateString('en-US'),
-                            price: finalPrice.toFixed(2), // Display price with two decimal places
+                            price: finalPrice.toFixed(2), 
                         };
 
-                        // Add contract object to contracts array
                         contracts.push(contract);
 
-                        // Update startDate for next contract (increment by 1 month or 1 year)
                         if (formData.duration_unit === 'month') {
                             startDate.setMonth(startDate.getMonth() + 1);
                         } else if (formData.duration_unit === 'year') {
@@ -607,7 +618,6 @@ function removeFeature(button) {
                         }
                     }
 
-                    // Create HTML for displaying contract details
                     var contractsHTML = '<h4>@lang('Number of Installments'): ' + numberOfContracts + '</h4>';
                     contractsHTML += '<div class="row">';
 
@@ -660,6 +670,52 @@ function removeFeature(button) {
                     $('#contractDetails').show();
                 });
             });
+        </script>
+
+        <script>
+        $(document).ready(function() {
+
+        // Function to handle unit selection
+        $('#unitSelect').on('change', function() {
+            var unitId = $(this).val();
+            var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
+            
+            // Set service type and disable select
+            if (serviceTypeId) {
+                $('#serviceTypeSelect').val(serviceTypeId);
+                $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
+            } else {
+                $('#serviceTypeSelect').val('');
+                $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
+            }
+
+            // Show property management fields if service type is 3
+            if (serviceTypeId == 3) {
+                $('#propertyManagementFields').show();
+            } else {
+                $('#propertyManagementFields').hide();
+            }
+
+            // Optionally, update hidden input for service_type_id
+            $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
+
+        });
+
+        // Trigger change event on page load
+        $('#unitSelect').trigger('change');
+
+        // Function to handle service type change
+        $('#serviceTypeSelect').on('change', function() {
+            var selectedValue = $(this).val();
+            if (selectedValue == 3) {
+                $('#propertyManagementFields').show();
+            } else {
+                $('#propertyManagementFields').hide();
+            }
+        });
+
+        });
+
         </script>
     @endpush
 
