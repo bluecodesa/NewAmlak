@@ -525,7 +525,8 @@
                 var urlToShare = $("#" + inputId).val();
 
                 var textToShare = @json(__('Share this unit from Amlak'));
-                var whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(urlToShare);
+                var whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(textToShare +
+                    " " + urlToShare);
 
                 window.open(whatsappUrl, '_blank');
             });
