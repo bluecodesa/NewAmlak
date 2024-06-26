@@ -214,8 +214,8 @@
                                 <!-- Contract Date -->
                       
                                     <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
-                                        <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
-                                        <input class="form-control" type="date" id="gregorianDate3" name="date_concluding_contract" />
+                                        <label for="html5-date-input" class="col-md-12 col-form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
+                                          <input class="form-control" type="date" name="date_concluding_contract" value="" id="html5-date-input" />
                                     </div>
                                     <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
                                         <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>

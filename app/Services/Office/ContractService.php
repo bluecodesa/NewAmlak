@@ -28,24 +28,6 @@ class ContractService
 
     public function createContract($data)
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'city_id' => 'required',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('owners'),
-                'max:255'
-            ],
-            'phone' => [
-                'required',
-                Rule::unique('owners'),
-                'max:25'
-            ],
-        ];
-
-        validator($data, $rules)->validate();
-        $data['office_id'] = Auth::user()->UserOfficeData->id;
         $Contract = $this->ContractRepository->create($data);
 
         return $Contract;

@@ -529,6 +529,7 @@
     "Finder Name": "اسم المستأجر",
     "Contract Management": "ادارة العقود",
     "Contracts": "العقود",
+    "Contract": "عقد",
     "Add New Contract": "اضافة عقد جديد",
     "Base Settings": "اعدادات اساسية",
     "Contract Type": "نوع العقد",
@@ -555,6 +556,7 @@
     "Certified": "معتمد",
     "Certify": "اعتماد",
     "Relay": "مرحل",
-    "Deportation": "ترحيل"
+    "Deportation": "ترحيل",
+    "Payments": "المدفوعات"
 
 }

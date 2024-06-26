@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Edit'))
+@section('title', __('Show'))
 @section('content')
 
 <div class="content-wrapper">
@@ -9,7 +9,7 @@
                 <h4>
                     <a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                     <a href="{{ route('Office.Contract.index') }}" class="text-muted fw-light">@lang('Contracts')</a> /
-                    @lang('Edit')
+                    @lang('Show')
                 </h4>
             </div>
         </div>
@@ -36,6 +36,12 @@
                         <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
                         placeholder="{{ __('Relay') }}">
                         @endif
+                    </div>
+                    <div class="col-md-3 col-12 mb-3">
+                        <label class="form-label">
+                            {{ __('Contract validity') }} <span class="required-color"></span></label>
+                            <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
+                            placeholder="{{__($contract->contract_validity) }}">
                     </div>
                     <div class="col-md-4 col-12 mb-3">
                         @if($contract->status == 'draft')
@@ -72,28 +78,24 @@
                             <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> مرفقات
                         </button>
                     </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-payments" aria-controls="navs-justified-payments"
+                                aria-selected="false">
+                            <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Payments')
+                        </button>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
-                        <form method="POST" class='row' action="{{ route('Office.Contract.update', $contract->id) }}">
-                            @csrf
-                            @method('PUT')
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                        <form method="POST" class='row'>
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('Project') <span class="required-color"></span></label>
-                                <select class="form-select" name="project_id" id="projectSelect">
+                                <select disabled class="form-select" name="project_id" id="projectSelect">
                                     <option disabled selected value="">@lang('Project')</option>
                                     @foreach ($projects as $project)
-                                        <option value="{{ $project->id }}" {{ $contract->project_id == $project->id ? 'selected' : '' }}>
+                                        <option disabled value="{{ $project->id }}" {{ $contract->project_id == $project->id ? 'selected' : '' }}>
                                             {{ $project->name }}
                                         </option>
                                     @endforeach
@@ -102,10 +104,10 @@
 
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('property') <span class="required-color"></span></label>
-                                <select class="form-select" name="property_id" id="propertySelect">
+                                <select disabled class="form-select" name="property_id" id="propertySelect">
                                     <option disabled selected value="">@lang('property')</option>
                                     @foreach ($properties as $property)
-                                        <option value="{{ $property->id }}" {{ $contract->property_id == $property->id ? 'selected' : '' }}>
+                                        <option disabled value="{{ $property->id }}" {{ $contract->property_id == $property->id ? 'selected' : '' }}>
                                             {{ $property->name }}
                                         </option>
                                     @endforeach
@@ -113,10 +115,10 @@
                             </div>
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('Unit') <span class="required-color">*</span></label>
-                                <select class="form-select" name="unit_id" id="unitSelect" required>
+                                <select disabled class="form-select" name="unit_id" id="unitSelect" required>
                                     <option disabled selected value="">@lang('Unit')</option>
                                     @foreach ($units as $unit)
-                                    <option value="{{ $unit->id }}" {{ $contract->unit_id == $unit->id ? 'selected' : '' }} data-service-type-id="{{ $unit->service_type_id }}">{{ $unit->number_unit }}</option>
+                                    <option disabled value="{{ $unit->id }}" {{ $contract->unit_id == $unit->id ? 'selected' : '' }} data-service-type-id="{{ $unit->service_type_id }}">{{ $unit->number_unit }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -125,11 +127,11 @@
                                         class="required-color">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <select class="form-select" id="OwnersDiv"
+                                    <select disabled class="form-select" id="OwnersDiv"
                                             aria-label="Example select with button addon" name="owner_id" required>
                                         <option disabled selected value="">@lang('owner name')</option>
                                         @foreach ($owners as $owner)
-                                            <option value="{{ $owner->id }}" {{ $contract->owner_id == $owner->id ? 'selected' : '' }}>
+                                            <option disabled value="{{ $owner->id }}" {{ $contract->owner_id == $owner->id ? 'selected' : '' }}>
                                                 {{ $owner->name }}
                                             </option>
                                         @endforeach
@@ -141,11 +143,11 @@
                                         class="required-color"></span>
                                 </label>
                                 <div class="input-group">
-                                    <select class="form-select"
+                                    <select disabled class="form-select"
                                             aria-label="Example select with button addon" name="employee_id">
                                         <option disabled selected value="">@lang('Employee Name')</option>
                                         @foreach ($employees as $employee)
-                                            <option value="{{ $employee->id }}" {{ $contract->employee_id == $employee->id ? 'selected' : '' }}>
+                                            <option disabled value="{{ $employee->id }}" {{ $contract->employee_id == $employee->id ? 'selected' : '' }}>
                                                 {{  $employee->UserData->name }}
                                             </option>
                                         @endforeach
@@ -156,7 +158,7 @@
                                 <label for="price" class="form-label">@lang('price') <span
                                         class="required-color">*</span></label>
                                 <div class="input-group">
-                                    <input id="price" type="number" class="form-control @error('price')
+                                    <input id="price" disabled type="number" class="form-control @error('price')
                                      is-invalid @enderror" name="price" value="{{ old('price', $contract->price) }}" required>
                                     <button class="btn btn-outline-primary waves-effect" type="button"
                                             id="button-addon2">@lang('SAR')</button>
@@ -167,10 +169,10 @@
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('Contract Type') <span
                                         class="required-color">*</span></label>
-                                <select class="form-select" name="type" id="type" required>
+                                <select disabled class="form-select" name="type" id="type" required>
                                     <option disabled selected value="">@lang('Contract Type')</option>
                                     @foreach (['rent', 'sale'] as $type)
-                                    <option  value="{{ $type }}" {{  $contract->type == $type ? 'selected' : '' }}>
+                                    <option disabled value="{{ $type }}" {{  $contract->type == $type ? 'selected' : '' }}>
                                             {{ __($type) }}</option>
                                     @endforeach
                                 </select>
@@ -179,10 +181,10 @@
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('offered service') <span
                                         class="required-color">*</span></label>
-                                <select class="form-select" name="service_type_id" id="serviceTypeSelect" required>
+                                <select disabled class="form-select" name="service_type_id" id="serviceTypeSelect" required>
                                     <option disabled selected value="">@lang('offered service')</option>
                                     @foreach ($servicesTypes as $service)
-                                    <option value="{{ $service->id }}" {{ $contract->service_type_id == $service->id ? 'selected' : '' }}>
+                                    <option disabled value="{{ $service->id }}" {{ $contract->service_type_id == $service->id ? 'selected' : '' }}>
                                         {{ $service->name }}</option>
                                     @endforeach
                                 </select>
@@ -194,7 +196,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Commissions Rate') <span
                                             class="required-color"></span></label>
-                                    <input type="number" name="commissions_rate" class="form-control" value="{{ $contract->commissions_rate }}"
+                                    <input disabled type="number" name="commissions_rate" class="form-control" value="{{ $contract->commissions_rate }}"
                                         placeholder="@lang('Commissions Rate')">
                                 </div>
 
@@ -202,10 +204,10 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Collection Type') <span
                                             class="required-color"></span></label>
-                                    <select class="form-select" name="collection_type" id="type" >
+                                    <select disabled class="form-select" name="collection_type" id="type" >
                                         <option disabled selected value="">@lang('Collection Type')</option>
                                         @foreach (['once', 'divided'] as $type)
-                                        <option value="{{ $type }}" {{ $contract->collection_type == $type ? 'selected' : '' }}>
+                                        <option disabled value="{{ $type }}" {{ $contract->collection_type == $type ? 'selected' : '' }}>
                                             {{ __($type) }}</option>
                                         @endforeach
                                     </select>
@@ -216,11 +218,11 @@
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('Renter') <span
                                         class="required-color">*</span></label>
-                                <select class="form-select" id="RenterDiv"
+                                <select disabled class="form-select" id="RenterDiv"
                                     aria-label="Example select with button addon" name="renter_id" required>
                                     <option disabled selected value="">@lang('Renter name')</option>
                                     @foreach ($renters as $renter)
-                                    <option value="{{ $renter->id }}" {{ $contract->renter_id == $renter->id ? 'selected' : '' }}>
+                                    <option disabled value="{{ $renter->id }}" {{ $contract->renter_id == $renter->id ? 'selected' : '' }}>
                                         {{ $renter->UserData->name }}</option>
                                     @endforeach
                                 </select>
@@ -229,10 +231,10 @@
                             <!-- Calendar Type -->
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('Calendar Type') <span class="required-color">*</span></label>
-                                <select class="form-select" id="calendarTypeSelect" name="calendarTypeSelect" required>
+                                <select disabled class="form-select" id="calendarTypeSelect" name="calendarTypeSelect" required>
                                     <option disabled selected value="">@lang('Calendar Type')</option>
-                                    <option value="gregorian" {{ $contract->calendarTypeSelect == 'gregorian' ? 'selected' : '' }}>@lang('Gregorian')</option>
-                                    <option value="hijri" {{  $contract->calendarTypeSelect == 'hijri' ? 'selected' : '' }}>@lang('Hijri')</option>
+                                    <option disabled value="gregorian" {{ $contract->calendarTypeSelect == 'gregorian' ? 'selected' : '' }}>@lang('Gregorian')</option>
+                                    <option disabled value="hijri" {{  $contract->calendarTypeSelect == 'hijri' ? 'selected' : '' }}>@lang('Hijri')</option>
                                 </select>
                             </div>
                             
@@ -241,19 +243,19 @@
                   
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="{{ $contract->calendarTypeSelect == 'gregorian' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
-                                    <input class="form-control" type="date" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
+                                    <input disabled class="form-control" type="date" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
                                 </div>
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="{{ $contract->calendarTypeSelect == 'gregorian' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
-                                    <input class="form-control" type="date" name="gregorian_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}"/>
+                                    <input disabled class="form-control" type="date" name="gregorian_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}"/>
                                 </div>
                                 <div class="col-md-4 mb-3 col-12" id="hijriDate2" style="{{ $contract->calendarTypeSelect == 'hijri' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
-                                    <input class="form-control" type="text" id="txtHijriDate" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
+                                    <input disabled class="form-control" type="text" id="txtHijriDate" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
                                 </div>
                                 <div class="col-md-4 mb-3 col-12" id="hijriDate" style="{{ $contract->calendarTypeSelect == 'hijri' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color"></span></label>
-                                    <input class="form-control" id="txtHijriDate2" type="text" name="hijri_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}" />
+                                    <input disabled class="form-control" id="txtHijriDate2" type="text" name="hijri_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}" />
                                 </div>
 
 
@@ -263,11 +265,11 @@
                                 <label class="form-label">@lang('Duration of the Contract') <span
                                         class="required-color">*</span></label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" name="contract_duration" value="{{ $contract->contract_duration }}"
+                                    <input disabled type="number" class="form-control" name="contract_duration" value="{{ $contract->contract_duration }}"
                                         placeholder="@lang('Duration')" required>
-                                    <select class="form-select" name="duration_unit" required>
-                                        <option value="month" {{ $contract->duration_unit == 'month' ? 'selected' : '' }}>@lang('month')</option>
-                                        <option value="year" {{  $contract->duration_unit == 'year' ? 'selected' : '' }}>@lang('year')</option>
+                                    <select disabled class="form-select" name="duration_unit" required>
+                                        <option disabled value="month" {{ $contract->duration_unit == 'month' ? 'selected' : '' }}>@lang('month')</option>
+                                        <option disabled value="year" {{  $contract->duration_unit == 'year' ? 'selected' : '' }}>@lang('year')</option>
                                     </select>
                                 </div>
                             </div>
@@ -275,10 +277,10 @@
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('Payment Cycle') <span
                                         class="required-color">*</span></label>
-                                <select class="form-select" name="payment_cycle" required>
+                                <select disabled class="form-select" name="payment_cycle" required>
                                     <option disabled selected value="">@lang('Payment Cycle')</option>
                                     @foreach (['annual', 'semi-annual', 'quarterly', 'monthly'] as $cycle)
-                                    <option value="{{ $cycle }}" {{ $contract->payment_cycle == $cycle ? 'selected' : '' }}>
+                                    <option disabled value="{{ $cycle }}" {{ $contract->payment_cycle == $cycle ? 'selected' : '' }}>
                                         {{ __($cycle) }}</option>
                                     @endforeach
                                 </select>
@@ -286,9 +288,9 @@
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('التجديد التلقائي') <span
                                         class="required-color">*</span></label>
-                                <select class="form-select" name="auto_renew" id="auto_renew" required>
+                                <select disabled class="form-select" name="auto_renew" id="auto_renew" required>
                                     @foreach (['not_renewed', 'renewed'] as $type)
-                                    <option value="{{ $type }}" {{ $contract->auto_renew == $type ? 'selected' : '' }}>
+                                    <option disabled value="{{ $type }}" {{ $contract->auto_renew == $type ? 'selected' : '' }}>
 
                                             {{ __($type) }}</option>
                                     @endforeach
@@ -299,16 +301,114 @@
 
                     <!-- Installments Tab -->
                     <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                        <div class="col-md-4 mb-3 col-12">
-                            <button type="button" id="calculateButton" class="btn btn-primary me-1"
-                                role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
-                                aria-controls="navs-justified-profile">
-                                @lang('Calculate')
-                            </button>
+                   
+                 
+                        <!-- Installments table -->
+                      <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">@lang('Installments')</h5>
                         </div>
-                        <div id="contractDetails" style="display: none;">
-                            <!-- Contract details will be dynamically added here -->
+                        <div class="card-datatable table-responsive">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                <div class="card-header border-top rounded-0 py-2">
+                                    <div class="row">
+                                        <div class="col-6">
+
+                                            <div class="me-5 ms-n2 pe-5">
+                                                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                                        <input id="SearchInput" class="form-control"
+                                                            placeholder="@lang('search...')"
+                                                            aria-controls="DataTables_Table_0"></label></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+
+                                            <div
+                                                class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                                <div
+                                                    class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                                    <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                        <div class="btn-group">
+                                                            <button onclick="exportToExcel()"
+                                                                class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                                aria-haspopup="dialog" aria-expanded="false"><span>
+                                                                    <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                        <div class="table-responsive text-nowrap">
+                                            <table class="table" id="table">
+                                                <thead class="table-dark">
+                                                    <tr>
+
+                                                        <th>@lang('Installment Number')</th>
+                                                        <th>@lang('Amount')</th>
+                                                        <th>@lang('status')</th>
+                                                        <th>@lang('Start Date')</th>
+                                                        <th>@lang('End Date')</th>
+                                                        <th>@lang('Action')</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-border-bottom-0">
+                                                    @forelse ($contract->installments as $index => $installment)
+                                                        <tr>
+
+                                                            <td>{{ $installment->id }}</td>
+                                                            <td>{{ $installment->price }}</td>
+                                                            <td>{{ __($installment->status) }}</td>
+                                                            <td>{{ $installment->start_date }}</td>
+                                                            <td>{{ $installment->end_date }}</td>
+                                                            <td>
+
+                                                                <div class="dropdown">
+                                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <i class="ti ti-dots-vertical"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu" style="">
+                                                                        @if (Auth::user()->hasPermission('read-unit'))
+                                                                            <a class="dropdown-item"
+                                                                                href="{{ route('Broker.Unit.show', $contract->id) }}"
+                                                                                class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('تحصيل')</a>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                        <td colspan="6">
+                                                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                                                <span class="alert-icon text-danger me-2">
+                                                                    <i class="ti ti-ban ti-xs"></i>
+                                                                </span>
+                                                                @lang('No Data Found!')
+                                                            </div>
+                                                        </td>
+                                                    @endforelse
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                            </div>
                         </div>
+                        </div>
+                    <!-- /Installments table -->
+                        
+                    </div>
+
+                    <!-- Attachments Tab -->
+                    <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                     
+
                         <div class="col-12 mb-3" id="installmentsTable">
                             <div class="card">
                                 <h5 class="card-header"> @lang('Installments') </h5>
@@ -316,22 +416,27 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>@lang('Installment Number')</th>
-                                                <th>@lang('Amount')</th>
-                                                <th>@lang('status')</th>
-                                                <th>@lang('Start Date')</th>
-                                                <th>@lang('End Date')</th>
+                                                <th>@lang('#')</th>
+                                                <th>@lang('Name')</th>
+                                                <th>@lang('Attachments')</th>
+                                                <th>@lang('Show')</th>
+
+                                              
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($contract->installments as $installment)
+                                            @foreach ($contract->ContractAttachmentData  as $attachment)
                                                 <tr>
-                                                    <td>{{ $installment->id }}</td>
-                                                    <td>{{ $installment->price }}</td>
-                                                    <td>{{ __($installment->status) }}</td>
-                                                    <td>{{ $installment->start_date }}</td>
-                                                    <td>{{ $installment->end_date }}</td>
-                                                   
+                                                    <td></td>
+                                                    <td>{{ $attachment->AttachmentData->name }}</td>
+                                                    <td>{{ $attachment->attachment }}</td>
+                                                    @if($attachment->attachment)
+                                                    <td>
+
+                                                    <a href="{{ $attachment->attachment }}"
+                                                        id="button-addon2" class="btn btn-primary">Download File</a>
+                                                </td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -339,53 +444,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Attachments Tab -->
-                    <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
-                     
-                        <div class="col-12 mb-3">
-                            <label class="form-label">@lang('Additional details')</label>
-                            <button type="button" class="btn btn-outline-primary btn-sm"
-                                onclick="addFeature()">@lang('Add details')</button>
-                            @foreach ($contract->ContractAttachmentData  as $attachment)
-                                <div class="row p-1">
-                                    <div class="col">
-                                        <input type="text" name="name[]" class="form-control search"
-                                            placeholder="@lang('Field name')"
-                                            value="{{ $attachment->AttachmentData->name }}" />
-                                    </div>
-                                    <div class="col">
-                                        <div class="input-group">
-                                            <input type="file" name="attachment[]" class="form-control" accept="image/*,application/pdf">
-                                            @if($attachment->attachment)
-                                            <a class="btn btn-outline-primary waves-effect" type="button" href="{{ $attachment->attachment }}"
-                                                id="button-addon2">@lang('Download')</a>
-                                            @endif
-                                        </div>
-                                    </div>
-                           
-                                    <div class="col">
-                                        <button type="button"
-                                            class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
-                                    </div>
-                                </div>
-                            @endforeach
 
-                            <div id="features" class="row p-2">
-
-                            </div>
-                        </div>
                     </div>
               
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary me-1">
-
-                                {{ __('save') }}
-                            </button>
-
-                        </div>
-                        </form>
+                    <div class="tab-pane fade" id="navs-justified-payments" role="tabpanel">
+                    </div>
                     </div>
 
                 </div>
@@ -884,6 +948,36 @@ $('#serviceTypeSelect').on('change', function() {
     });
 
     </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function checkAndUpdateContracts() {
+            $.ajax({
+                url: '{{ route('contracts.updateValidity') }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error('Failed to update contract validity.');
+                    }
+                },
+                error: function() {
+                    toastr.error('An error occurred. Please try again.');
+                }
+            });
+        }
+
+        // Run the function periodically (e.g., every 5 minutes)
+        setInterval(checkAndUpdateContracts, 300000); // 300000 milliseconds = 5 minutes
+    });
+</script>
+
 
     @endpush
 
