@@ -64,6 +64,10 @@
                                             class="btn btn-outline-primary waves-effect" type="button">
                                             <i class="ti ti-copy"></i>
                                         </button>
+                                        <button class="whatsapp-share-btn btn btn-outline-success waves-effect"
+                                            data-unit-id="{{ $unit->id }}" type="button">
+                                            <i class="ti ti-brand-whatsapp"></i>
+                                        </button>
                                     </div>
 
                                     {{-- <div class="input-group">
@@ -90,10 +94,24 @@
     </div>
     @push('scripts')
         <script>
+            $(document).ready(function() {
+                $('.whatsapp-share-btn').on('click', function() {
+                    var unitId = $(this).data('unit-id');
+                    var inputId = "galleryNameCopy_" + unitId;
+                    var urlToShare = $("#" + inputId).val();
+
+                    var textToShare = @json(__('Share this unit from Amlak'));
+                    var whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(textToShare +
+                        " " + urlToShare);
+
+                    window.open(whatsappUrl, '_blank');
+                });
+            });
+
             function copyToClipboard(elementId) {
                 var copyText = document.getElementById(elementId);
                 copyText.select();
-                copyText.setSelectionRange(0, 99999); /* For mobile devices */
+                copyText.setSelectionRange(0, 99999); // For mobile devices
                 document.execCommand("copy");
 
                 alertify.success(@json(__('copy done')));
