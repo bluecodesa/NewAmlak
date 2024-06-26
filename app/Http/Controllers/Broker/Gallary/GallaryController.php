@@ -14,6 +14,7 @@ use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
+use App\Models\Setting;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\Unit;
@@ -340,13 +341,13 @@ class GallaryController extends Controller
         $daily_rent = $request->input('daily_rent', false);
         $districtFilter = request()->input('district_filter', 'all');
 
-        $data = $this->galleryService->showAllGalleries($cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent);
+        $data = $this->galleryService->showAllGalleries($cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
         foreach ($data['galleries'] as $gallery) {
             $visitor = Visitor::where('gallery_id', $gallery->id)
                 ->where('ip_address', $request->ip())
                 ->where('visited_at', '>=', now()->subHour())
                 ->first();
-    
+
             if (!$visitor) {
                 $newVisitor = new Visitor();
                 $newVisitor->gallery_id = $gallery->id;
@@ -363,8 +364,13 @@ class GallaryController extends Controller
                 ->distinct('ip_address')
                 ->count('ip_address');
         }
-    
+
         $data['unitVisitorsCount'] = $unitVisitorsCount;
-        return view('Home.Gallery.indexAll',  $data);
+        $checkActive = Setting::first();
+        if ($checkActive->active_gallery == 1) {
+            return view('Home.Gallery.indexAll',  $data);
+        } else {
+            return view('Home.Gallery.ComingSoon');
+        }
     }
 }

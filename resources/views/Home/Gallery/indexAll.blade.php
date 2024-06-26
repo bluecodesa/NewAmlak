@@ -267,7 +267,7 @@
                                         </div>
                                         <div class="mx-auto my-3">
                                             @php
-                                                $gallery_name=$unit->gallery->gallery_name;
+                                                $gallery_name = $unit->gallery->gallery_name;
                                             @endphp
                                             <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id]) }}"
                                                 class="card-hover-border-default">
@@ -518,18 +518,12 @@
 </script>
 @push('scripts')
     <script>
-        function copyToClipboard(selector) {
-            // Get the input element
-            var copyText = document.querySelector(selector);
-
-            // Select the text field
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
             copyText.select();
-            copyText.setSelectionRange(0, 99999); // For mobile devices
-
-            // Copy the text inside the text field
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
             document.execCommand("copy");
 
-            // Optionally, you can provide feedback to the user
             alertify.success(@json(__('copy done')));
         }
     </script>
