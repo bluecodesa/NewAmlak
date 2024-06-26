@@ -56,10 +56,6 @@
                             <div class="tab-pane fade" id="navs-within-card-link_{{ $unit->id }}" role="tabpanel">
                                 <h6>@lang('Share the link')</h6>
                                 <p>@lang('Share the property link or copy it on your site')</p>
-                                {{-- <div class="input-group">
-                                <span onclick="copyUrl()" data-url="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}" class="input-group-text" id="basic-addon11"><i class="tf-icons ti ti-copy"></i></span>
-                                <input type="text" class="form-control" readonly value="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}" placeholder="Username" aria-label="Username" aria-describedby="basic-addon11">
-                              </div> --}}
                                 <div class="input-group">
                                     <input type="text" class="form-control galleryNameCopy"
                                         id="{{ 'galleryNameCopy_' . $unit->id }}" readonly
@@ -67,6 +63,14 @@
                                     <button onclick="copyToClipboard('galleryNameCopy_{{ $unit->id }}')"
                                         class="btn btn-outline-primary waves-effect" type="button">
                                         <i class="ti ti-copy"></i>
+                                    </button>
+                                    <button class="whatsapp-share-btn btn btn-outline-success waves-effect"
+                                        data-unit-id="{{ $unit->id }}" type="button">
+                                        {{-- <i class="fa fa-whatsapp"></i> --}}
+
+                                        <i class="ti ti-brand-whatsapp"></i>
+
+                                        {{-- <i class="fa-brands fa-whatsapp"></i> --}}
                                     </button>
                                 </div>
                             </div>
