@@ -201,5 +201,33 @@
                 });
             });
         });
+
+        $(document).ready(function() {
+            $('.toggleGalleryPage').change(function() {
+                var url = $(this).data('url');
+                if (this.checked) {
+                    var active_gallery = 1
+                } else {
+                    var active_gallery = 0
+                }
+                $.ajax({
+                    url: url,
+                    method: "get",
+                    data: {
+                        active_gallery: active_gallery,
+                    },
+                    success: function(data) {
+                        if (active_gallery == 0) {
+                            alertify.success(@json(__('Gallery page has been suspended')));
+                        } else {
+                            alertify.success(@json(__('Gallery page has been activated')));
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+        });
     </script>
 @endsection

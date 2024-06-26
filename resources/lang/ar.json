@@ -41,6 +41,7 @@
     "Edit Section": "تعديل القسم",
     "Customer messages": "رسائل العملاء",
     "new message": "رسالة جديدة",
+    "Enable Gallery Page": "تفعيل صفحة المعرض",
     "You have a new message in the Customer Messages section": "لديك رسالة جديدة في قسم رسائل العملاء",
     "Name": "الاسم",
     "message": "الرسالة",
@@ -225,6 +226,8 @@
     "Real estate settings": "إعدادات العقارات",
     "home page has been activated": "تم تفعيل الصفحة الرئيسية",
     "Home page has been suspended": "تم ايقاف الصفحة الرئيسية",
+    "Gallery page has been activated": "تم تفعيل المعرض",
+    "Gallery page has been suspended": "تم ايقاف المعرض",
     "Enable Landing Page": "تفعيل صفحة الهبوط",
     "Subscription has been activated": "تم تفعيل الاشتراك",
     "Subscription has been suspended": "تم تعليق الاشتراك",
@@ -533,7 +536,6 @@
     "Installments": "الاقساط",
     "Payment Cycle": "دورة السداد",
     "Contract Number": "رقم العقد",
-
     "Number Of Contracts": "عدد العقود النشطه",
     "Contract validity": "صلاحية العقد",
     "Contract Start Date": "تاريخ بداية العقد",
@@ -541,7 +543,4 @@
     "not_renewed": "بدون",
     "renewed": "يجدد تلقائي",
     "draft": "مسودة"
-
-
-
 }

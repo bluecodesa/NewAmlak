@@ -65,6 +65,14 @@ class SettingRepository implements SettingRepositoryInterface
         ]);
     }
 
+    public function ChangeActiveGalleryPage($request)
+    {
+        $Setting =  Setting::first();
+        $Setting->update([
+            'active_gallery' => $request->active_gallery,
+        ]);
+    }
+
     public function NotificationToggleSetting($data, $id)
     {
         NotificationSetting::where('id', $id)->update([

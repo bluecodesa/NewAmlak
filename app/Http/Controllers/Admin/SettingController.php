@@ -61,6 +61,13 @@ class SettingController extends Controller
         return $this->settingRepo->ChangeActiveHomePage($request);
     }
 
+
+    public function ChangeActiveGalleryPage(Request $request)
+    {
+        return $this->settingRepo->ChangeActiveGalleryPage($request);
+    }
+
+
     public function create()
     {
     }
