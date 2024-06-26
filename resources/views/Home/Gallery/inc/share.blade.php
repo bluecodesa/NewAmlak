@@ -66,11 +66,7 @@
                                     </button>
                                     <button class="whatsapp-share-btn btn btn-outline-success waves-effect"
                                         data-unit-id="{{ $unit->id }}" type="button">
-                                        {{-- <i class="fa fa-whatsapp"></i> --}}
-
                                         <i class="ti ti-brand-whatsapp"></i>
-
-                                        {{-- <i class="fa-brands fa-whatsapp"></i> --}}
                                     </button>
                                 </div>
                             </div>
