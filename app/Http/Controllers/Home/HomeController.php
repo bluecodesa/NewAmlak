@@ -428,8 +428,14 @@ class HomeController extends Controller
     public function showAllBrokers(Request $request)
     {
 
+        $users =  User::where('is_broker', true)
+            ->whereHas('UserBrokerData.GalleryData')
+            ->with('UserBrokerData')
+            ->whereHas('UserBrokerData', function ($query) {
+                $query->where('license_validity', 'valid');
+            })
+            ->paginate(9);
 
-        $users = User::whereHas('UserBrokerData.GalleryData')->paginate(9);
 
         return view('Home.Brokers.index', get_defined_vars());
     }

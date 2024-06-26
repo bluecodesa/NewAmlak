@@ -4,6 +4,7 @@ namespace App\Services\Broker;
 
 use App\Interfaces\Broker\SettingRepositoryInterface;
 use App\Models\Broker;
+use App\Models\Gallery;
 use App\Models\Setting;
 use Illuminate\Validation\Rule;
 
@@ -20,7 +21,6 @@ class SettingService
     {
 
         return $this->brokerSettingRepository->getBrokerSettings($broker);
-
     }
 
     public function updateBroker(array $data, $id)
@@ -36,9 +36,10 @@ class SettingService
                 'max:255',
                 Rule::unique('users')->ignore($broker->user_id),
             ],
-            'mobile' => 'required|digits:9|unique:brokers,mobile,'.$id,
+            'mobile' => 'required|digits:9|unique:brokers,mobile,' . $id,
             'city_id' => 'required|exists:cities,id',
-            'broker_license' => 'required|numeric|unique:brokers,broker_license,'.$id,
+            'license_date' => 'required',
+            'broker_license' => 'required|numeric|unique:brokers,broker_license,' . $id,
             'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'id_number' => [
@@ -72,16 +73,26 @@ class SettingService
 
         $broker->update([
             'broker_license' => $request->broker_license,
+            'license_date' => $request->license_date,
             'mobile' => $request->mobile,
             'city_id' => $request->city_id,
             'id_number' => $request->id_number,
         ]);
+
+
 
         if ($request->hasFile('broker_logo')) {
             $file = $request->file('broker_logo');
             $ext = uniqid() . '.' . $file->clientExtension();
             $file->move(public_path() . '/Brokers/' . 'Logos/', $ext);
             $broker->update(['broker_logo' => '/Brokers/' . 'Logos/' . $ext]);
+        }
+        if ($broker->license_date > now()->format('Y-m-d')) {
+            $broker->update(['license_validity' => 'valid']);
+            // Gallery::where('broker_id', $broker->id)->first()->update(['gallery_status' => '1']);
+        } else {
+            $broker->update(['license_validity' => 'expired']);
+            Gallery::where('broker_id', $broker->id)->first()->update(['gallery_status' => '0']);
         }
 
 
@@ -98,6 +109,7 @@ class SettingService
             $userData['avatar'] = '/Brokers/Logos/' . $ext;
         }
 
+
         $user->update($userData);
 
         if ($request->filled('password')) {
@@ -109,8 +121,6 @@ class SettingService
 
         // return $this->brokerSettingRepository->updateBroker($data, $id);
         return redirect()->route('Broker.Setting.index')->withSuccess(__('Updated successfully.'));
-
-
     }
 
     public function getSettings()
@@ -121,5 +131,4 @@ class SettingService
         // Return the settings data
         return $settings;
     }
-
 }

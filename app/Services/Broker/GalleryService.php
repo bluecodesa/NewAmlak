@@ -26,18 +26,17 @@ class GalleryService
 
 
 
-    public function __construct(UnitRepositoryInterface $UnitRepository,
-    UnitRepository $unitRepository,
-    GalleryRepositoryInterface $galleryRepository,
-    PropertyUsageService  $propertyUsageService
+    public function __construct(
+        UnitRepositoryInterface $UnitRepository,
+        UnitRepository $unitRepository,
+        GalleryRepositoryInterface $galleryRepository,
+        PropertyUsageService  $propertyUsageService
 
-    )
-    {
+    ) {
         $this->galleryRepository = $galleryRepository;
         $this->UnitRepository = $UnitRepository;
         $this->unitRepository = $unitRepository;
-        $this->propertyUsageService =$propertyUsageService;
-
+        $this->propertyUsageService = $propertyUsageService;
     }
 
 
@@ -59,7 +58,7 @@ class GalleryService
 
     public function update(array $data, $galleryId)
     {
-        $request=request();
+        $request = request();
         $data = $request->validate([
             'gallery_name' => [
                 'required',
@@ -81,7 +80,6 @@ class GalleryService
         ]);
 
         return $this->galleryRepository->update($data, $galleryId);
-
     }
 
     public function delete($galleryId)
@@ -98,7 +96,7 @@ class GalleryService
 
     public function updateCover(array $data)
     {
-        $request=request();
+        $request = request();
         $data = $request->validate([
             'gallery_id' => 'required',
             'gallery_cover' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -123,45 +121,45 @@ class GalleryService
             $broker = Broker::findOrFail($brokerId);
             $gallery = $this->galleryRepository->findByGalleryName($galleryName);
             return get_defined_vars();
-        }else{
+        } else {
 
-        $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
-        $Unit = $this->UnitRepository->findById($id);
+            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            $Unit = $this->UnitRepository->findById($id);
 
-        if (!$Unit) {
-            abort(404);
+            if (!$Unit) {
+                abort(404);
+            }
+
+            $gallery = $this->galleryRepository->findByBrokerId($gallery->broker_id);
+
+            $broker = Broker::findOrFail($Unit->broker_id);
+            $brokers = User::findOrFail($broker->user_id);
+            $unit_id = $Unit->id;
+            $user_id = $broker->user_id;
+
+
+
+            $visitor = Visitor::where('unit_id', $id)
+                ->where('ip_address', request()->ip())
+                ->where('visited_at', '>=', now()->subHour())
+                ->first();
+
+            if (!$visitor) {
+
+                $newVisitor = new Visitor();
+                $newVisitor->unit_id = $id;
+                $newVisitor->gallery_id = $gallery->id;
+                $newVisitor->ip_address = request()->ip();
+                $newVisitor->visited_at = now();
+                $newVisitor->save();
+            }
+            $unitVisitorsCount = Visitor::where('unit_id', $Unit->id)->distinct('ip_address')->count('ip_address');
+
+            return get_defined_vars();
         }
-
-        $gallery = $this->galleryRepository->findByBrokerId($gallery->broker_id);
-
-        $broker=Broker::findOrFail($Unit->broker_id);
-        $brokers=User::findOrFail($broker->user_id);
-        $unit_id=$Unit->id;
-        $user_id=$broker->user_id;
-
-
-
-        $visitor = Visitor::where('unit_id', $id)
-            ->where('ip_address', request()->ip())
-            ->where('visited_at', '>=', now()->subHour())
-            ->first();
-
-        if (!$visitor) {
-
-            $newVisitor = new Visitor();
-            $newVisitor->unit_id = $id;
-            $newVisitor->gallery_id = $gallery->id;
-            $newVisitor->ip_address = request()->ip();
-            $newVisitor->visited_at = now();
-            $newVisitor->save();
-        }
-            $unitVisitorsCount= Visitor::where('unit_id', $Unit->id)->distinct('ip_address')->count('ip_address');
-
-        return get_defined_vars();
-    }
     }
 
-    public function showByName($name, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
+    public function showByName($name, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent)
 
     {
 
@@ -173,41 +171,37 @@ class GalleryService
             $broker = Broker::findOrFail($brokerId);
             $gallery = $this->galleryRepository->findByGalleryName($name);
             return get_defined_vars(); // Return data to be passed to the view
-        }else{
-
-        $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
-        $uniqueIds = $units->pluck('CityData.id')->unique();
-        $uniqueNames = $units->pluck('CityData.name')->unique();
-        $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
-        $districtsIds = $districts->pluck('district_id')->toArray();
-        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
-        $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
-        $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
-        $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
-        $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
-        $unit = $units->first();
-        if ($unit) {
-            $id = $unit->id;
-            $unit_id = $unit->id;
-            $broker = Broker::findOrFail($unit->broker_id);
-            $user_id = $broker->user_id;
         } else {
-            $unit_id = null;
-            $unitDetails = null;
-            $user_id = null;
-            $broker = Broker::findOrFail($brokerId);
 
+            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            $uniqueIds = $units->pluck('CityData.id')->unique();
+            $uniqueNames = $units->pluck('CityData.name')->unique();
+            $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+            $districtsIds = $districts->pluck('district_id')->toArray();
+            $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
+            $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
+            $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
+            $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
+            $units = $this->filterUnitsPublic($units, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+            $unit = $units->first();
+            if ($unit) {
+                $id = $unit->id;
+                $unit_id = $unit->id;
+                $broker = Broker::findOrFail($unit->broker_id);
+                $user_id = $broker->user_id;
+            } else {
+                $unit_id = null;
+                $unitDetails = null;
+                $user_id = null;
+                $broker = Broker::findOrFail($brokerId);
+            }
+
+
+            return get_defined_vars();
         }
-
-
-        return get_defined_vars();
-
-        }
-
-
     }
 
-    public function showAllGalleries($cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
+    public function showAllGalleries($cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent)
 
     {
         $usages =  $this->propertyUsageService->getAll();
@@ -217,14 +211,14 @@ class GalleryService
         $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
         foreach ($galleries as $gallery) {
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                                ->where('show_gallery', 1)
-                                ->get();
+                ->where('show_gallery', 1)
+                ->get();
             $units = $units->merge($galleryUnits);
         }
 
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
-        $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
+        $units = $this->filterUnitsPublic($units, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
         $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
@@ -232,13 +226,12 @@ class GalleryService
         $districtsuniqueIds = $units->pluck('DistrictData.id')->filter()->unique();
         $districtsUniqueNames = $units->pluck('DistrictData.name')->unique();
         return get_defined_vars();
-
     }
 
-    public function filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent)
+    public function filterUnitsPublic($units, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent)
     {
         // Filter by city if not 'all'
-        if ($cityFilter !== 'all' ) {
+        if ($cityFilter !== 'all') {
             $units = $units->where('city_id', $cityFilter);
         }
 
@@ -249,7 +242,6 @@ class GalleryService
         // Filter by project if not 'all'
         if ($projectFilter !== 'all') {
             $units = $units->where('PropertyData.ProjectData.id', $projectFilter);
-
         }
 
         // Filter by property usage if not 'all'
@@ -262,40 +254,40 @@ class GalleryService
         }
 
         // Filter by price range (from and to)
-            if ($priceFrom !== null && $priceFrom !== '') {
-                $units = $units->where('price', '>=', $priceFrom);
-            }
+        if ($priceFrom !== null && $priceFrom !== '') {
+            $units = $units->where('price', '>=', $priceFrom);
+        }
 
-            if ($priceTo !== null && $priceTo !== '') {
-                $units = $units->where('price', '<=', $priceTo);
-            }
-
-
-            if ($hasImageFilter) {
-                $unitIdsWithImages = UnitImage::pluck('unit_id')->toArray();
-                $units = $units->filter(function ($unit) use ($unitIdsWithImages) {
-                    return in_array($unit->id, $unitIdsWithImages);
-                });
-            }
+        if ($priceTo !== null && $priceTo !== '') {
+            $units = $units->where('price', '<=', $priceTo);
+        }
 
 
-            // Filter by units with price
-            if ($hasPriceFilter) {
-                $units = $units->whereNotNull('price');
-            }
+        if ($hasImageFilter) {
+            $unitIdsWithImages = UnitImage::pluck('unit_id')->toArray();
+            $units = $units->filter(function ($unit) use ($unitIdsWithImages) {
+                return in_array($unit->id, $unitIdsWithImages);
+            });
+        }
 
-            if ($daily_rent) {
-                $units = $units->where('daily_rent' , 1);
-            }
 
-            if ($districtFilter !== 'all') {
-                $units = $units->where('district_id', $districtFilter);
-            }
+        // Filter by units with price
+        if ($hasPriceFilter) {
+            $units = $units->whereNotNull('price');
+        }
 
-            return $units;
+        if ($daily_rent) {
+            $units = $units->where('daily_rent', 1);
+        }
+
+        if ($districtFilter !== 'all') {
+            $units = $units->where('district_id', $districtFilter);
+        }
+
+        return $units;
     }
 
-    public function filterUnits($units, $adTypeFilter,$propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter,$projectFilter,$dailyFilter)
+    public function filterUnits($units, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter)
     {
         // Filter by advertisement type if not 'all'
         if ($adTypeFilter !== 'all') {
@@ -331,10 +323,4 @@ class GalleryService
 
         return $units;
     }
-
-
-
-
-
-
 }

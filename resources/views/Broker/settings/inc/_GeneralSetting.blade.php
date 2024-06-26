@@ -7,7 +7,7 @@
 
     <input type="text" name="key_phone" hidden id="key_phone" value="{{ $broker->key_phone ?? '966' }}">
 
-    <div class="col-md-6 col-12 mb-3">
+    <div class="col-md-4 col-12 mb-3">
         <label for="name">
             @lang('Broker name')<span class="text-danger">*</span></label>
 
@@ -15,12 +15,20 @@
             required>
     </div>
 
-    <div class="col-md-6 col-12 mb-3">
+    <div class="col-md-4 col-12 mb-3">
         <label for="license_number">
             @lang('license number')<span class="text-danger">*</span></label>
 
         <input type="text" class="form-control" id="license_number" name="broker_license"
             value="{{ $broker->broker_license }}" required>
+    </div>
+
+
+    <div class="col-md-4 col-12 mb-3">
+        <label for="license_number">
+            @lang('License expiration date')<span class="text-danger">*</span></label>
+        <input type="date" class="form-control" id="license_number" name="license_date"
+            value="{{ $broker->license_date }}" required>
     </div>
 
 
