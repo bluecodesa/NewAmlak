@@ -5,6 +5,7 @@ namespace App\Repositories\Broker;
 
 use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Models\Feature;
+use App\Models\Gallery;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\Unit;
@@ -220,4 +221,23 @@ class UnitRepository implements UnitRepositoryInterface
     {
         return Unit::destroy($id);
     }
+
+    public function getAllUnitsForGalleriesWithShowGallery()
+    {
+        $units = collect(); 
+ 
+        $galleries = Gallery::where('gallery_status', 1)->get();
+    
+        foreach ($galleries as $gallery) {
+            $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
+                                ->where('show_gallery', 1)
+                                ->get();
+            
+            $units = $units->merge($galleryUnits); 
+
+        }
+        return $units;
+    }
+    
+
 }
