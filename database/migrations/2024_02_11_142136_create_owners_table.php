@@ -23,7 +23,6 @@ return new class extends Migration
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
             $table->foreign('broker_id')->references('id')->on('brokers')->onDelete('cascade');
-
             $table->timestamps();
         });
     }
