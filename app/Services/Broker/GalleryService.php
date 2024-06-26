@@ -12,6 +12,7 @@ use App\Models\Unit;
 use App\Models\UnitImage;
 use App\Models\User;
 use App\Models\Visitor;
+use App\Repositories\Broker\UnitRepository;
 use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 
@@ -19,11 +20,14 @@ class GalleryService
 {
     protected $galleryRepository;
     protected $UnitRepository;
+    protected $unitRepository;
+
     protected $propertyUsageService;
 
 
 
     public function __construct(UnitRepositoryInterface $UnitRepository,
+    UnitRepository $unitRepository,
     GalleryRepositoryInterface $galleryRepository,
     PropertyUsageService  $propertyUsageService
 
@@ -31,6 +35,7 @@ class GalleryService
     {
         $this->galleryRepository = $galleryRepository;
         $this->UnitRepository = $UnitRepository;
+        $this->unitRepository = $unitRepository;
         $this->propertyUsageService =$propertyUsageService;
 
     }
@@ -202,44 +207,24 @@ class GalleryService
 
     }
 
-
     public function showAllGalleries($cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter,$typeUseFilter,$adTypeFilter,$priceFrom , $priceTo ,$hasImageFilter , $hasPriceFilter,$daily_rent)
 
     {
         $usages =  $this->propertyUsageService->getAll();
         $galleries = $this->galleryRepository->allPublic();
         $units = collect();
-        $districts = collect(); // Initialize an empty collection before the loop
+        $districts = collect();
+        $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
         foreach ($galleries as $gallery) {
-            $galleryUnits = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
+                                ->where('show_gallery', 1)
+                                ->get();
             $units = $units->merge($galleryUnits);
-            $brokerId = $gallery->broker_id;
-            $broker = Broker::findOrFail($brokerId);
-            $galleryDistricts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
-            $districts = $districts->merge($galleryDistricts);
         }
-        $unit_id = null;
-        $unitDetails = null;
-        $user_id = null;
-        if ($units) {
-        foreach($units as $unit){
-            $broker = Broker::findOrFail($unit->broker_id);
-            $unit_id = $unit->id;
-            $user_id = $broker->user_id;
-        }
-    }else{
-        $units[]=null;
-        $unit_id = null;
-        $unitDetails = null;
-        $user_id = null;
-        $unit= null;
-    }
 
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $units = $this->filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent );
-        // $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
-        // $districtsIds = $districts->pluck('district_id')->toArray();
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
         $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
@@ -249,6 +234,7 @@ class GalleryService
         return get_defined_vars();
 
     }
+
     public function filterUnitsPublic($units, $cityFilter,$propertyTypeFilter,$districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter , $hasPriceFilter,$daily_rent)
     {
         // Filter by city if not 'all'

@@ -9,11 +9,11 @@
                 <div class="col-12 rounded-5">
                     <div class="card mb-4 rounded-5">
 
-                        <div class="user-profile-header-banner rounded-5">
+                        {{-- <div class="user-profile-header-banner rounded-5">
                             <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid"
                                 style="height: 200px; width: 100%;">
 
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
@@ -266,7 +266,10 @@
 
                                         </div>
                                         <div class="mx-auto my-3">
-                                            <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}"
+                                            @php
+                                                $gallery_name=$unit->gallery->gallery_name;
+                                            @endphp
+                                            <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id]) }}"
                                                 class="card-hover-border-default">
                                                 @if ($unit->UnitImages->isNotEmpty())
                                                     <img src="{{ url($unit->UnitImages->first()->image) }}"

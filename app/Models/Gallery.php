@@ -30,4 +30,9 @@ class Gallery extends Model
     {
         return $this->hasMany(Visitor::class);
     }
+
+    public function units()
+    {
+        return $this->hasMany(Unit::class, 'broker_id', 'broker_id');
+    }
 }
