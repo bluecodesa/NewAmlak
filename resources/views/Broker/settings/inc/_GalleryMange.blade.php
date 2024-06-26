@@ -55,10 +55,12 @@
                         <label for="editGalleryName">@lang('Enable Gallery')</label>
                         <div class="d-flex" style="margin-top: 10px">
                             @if ($gallery->gallery_status == 0)
-                                <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status"
+                                <input type="checkbox" class="toggleHomePage gallery_status"
+                                    {{ $broker->license_validity != 'valid' ? 'disabled' : '' }} name="gallery_status"
                                     value="0" data-toggle="toggle">
                             @else
-                                <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status"
+                                <input type="checkbox" class="toggleHomePage gallery_status"
+                                    {{ $broker->license_validity != 'valid' ? 'disabled' : '' }} name="gallery_status"
                                     value="1" checked data-toggle="toggle" data-onstyle="primary">
                             @endif
                         </div>
@@ -119,7 +121,8 @@
 
                     <div class="form-check form-switch mb-2">
                         <input class="form-check-input" disabled type="checkbox" id="flexSwitchCheckChecked"
-                            value="0" name="gallery_status" class="gallery_status" checked="">
+                            value="0" name="gallery_status" class="gallery_status"
+                            {{ $broker->license_validity != 'valid' ? 'disabled' : '' }} checked="">
                         <label class="form-check-label" for="flexSwitchCheckChecked">@lang('Enable Gallery')</label>
                     </div>
 

@@ -130,7 +130,7 @@ class SettingController extends Controller
 
     public function updateBroker(Request $request, $id)
     {
-
+        // return $request->all();
         $data = $request->all();
         $this->settingService->updateBroker($data, $id);
         return redirect()->route('Broker.Setting.index')->withSuccess(__('Updated successfully.'));

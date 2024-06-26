@@ -252,8 +252,12 @@ class GallaryController extends Controller
             $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->distinct('ip_address')->count('ip_address');
         }
         $data['unitVisitorsCount'] = $unitVisitorsCount;
-
-        return view('Home.Gallery.index', $data);
+        $check_val =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData;
+        if ($check_val->license_validity == 'valid') {
+            return view('Home.Gallery.index', $data);
+        } else {
+            return view('Broker.Gallary.inc._GalleryComingsoon', $data);
+        }
     }
 
 
