@@ -95,6 +95,10 @@ Route::group(
         });
         Route::get('/get-project-details/{project}', [ContractController::class, 'getProjectDetails']);
         Route::get('/get-units-by-property/{property}', [ContractController::class, 'getUnitsByProperty']);
+        Route::post('/contracts/{contract}/certify', [ContractController::class, 'certify'])->name('contracts.certify');
+        Route::post('/contracts/{contract}/deportation', [ContractController::class, 'deportation'])->name('contracts.deportation');
+        Route::delete('/contracts/{contract}', [ContractController::class, 'reset'])->name('contracts.destroy');
+
 
     }
 );

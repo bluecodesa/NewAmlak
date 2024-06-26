@@ -29,18 +29,23 @@
                         @if($contract->status == 'draft')
                             <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
                                    placeholder="{{ __('draft') }}">
-                        @elseif ($contract->status == 'certifcat')
+                        @elseif ($contract->status == 'Certified')
                             <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
-                                   placeholder="{{ __('معتمد') }}">
+                                   placeholder="{{ __('Certified') }}">
                         @else
-                            <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
-                                   placeholder="{{ __('محول') }}">
+                        <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
+                        placeholder="{{ __('Relay') }}">
                         @endif
                     </div>
                     <div class="col-md-4 col-12 mb-3">
-                        <button class="btn btn-secondary">@lang('اعتماد')</button>
-                        <button class="btn btn-primary">@lang('ترحيل')</button>
-                        <button class="btn btn-danger">@lang('استعادة')</button>
+                        @if($contract->status == 'draft')
+                        <button class="btn btn-secondary" id="certifyButton" data-contract-id="{{ $contract->id }}">@lang('Certify')</button>
+                        <button class="btn btn-secondary" id="deportationButton" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
+                        <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
+                        @elseif ($contract->status == 'Certified')
+                        <button class="btn btn-secondary" id="deportationButton" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
+                        <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
+                        @endif
                     </div>
                 </div>
 
@@ -111,9 +116,7 @@
                                 <select class="form-select" name="unit_id" id="unitSelect" required>
                                     <option disabled selected value="">@lang('Unit')</option>
                                     @foreach ($units as $unit)
-                                        <option value="{{ $unit->id }}" {{ $contract->unit_id == $unit->id ? 'selected' : '' }}>
-                                            {{ $unit->number_unit }}
-                                        </option>
+                                    <option value="{{ $unit->id }}" {{ $contract->unit_id == $unit->id ? 'selected' : '' }} data-service-type-id="{{ $unit->service_type_id }}">{{ $unit->number_unit }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -135,11 +138,11 @@
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="col-md-6 form-label">@lang('Employee Name') <span
-                                        class="required-color">*</span>
+                                        class="required-color"></span>
                                 </label>
                                 <div class="input-group">
                                     <select class="form-select"
-                                            aria-label="Example select with button addon" name="employee_id" required>
+                                            aria-label="Example select with button addon" name="employee_id">
                                         <option disabled selected value="">@lang('Employee Name')</option>
                                         @foreach ($employees as $employee)
                                             <option value="{{ $employee->id }}" {{ $contract->employee_id == $employee->id ? 'selected' : '' }}>
@@ -180,17 +183,18 @@
                                     <option disabled selected value="">@lang('offered service')</option>
                                     @foreach ($servicesTypes as $service)
                                     <option value="{{ $service->id }}" {{ $contract->service_type_id == $service->id ? 'selected' : '' }}>
-                                            {{ $service->name }}</option>
+                                        {{ $service->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            <input type="hidden" name="service_type_id" id="hiddenServiceTypeId" />
                             <div id="propertyManagementFields" class="row" style="display: none;">
 
                                 <!-- Commissions Rate -->
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Commissions Rate') <span
                                             class="required-color"></span></label>
-                                    <input type="number" name="commissions_rate" class="form-control"
+                                    <input type="number" name="commissions_rate" class="form-control" value="{{ $contract->commissions_rate }}"
                                         placeholder="@lang('Commissions Rate')">
                                 </div>
 
@@ -201,8 +205,8 @@
                                     <select class="form-select" name="collection_type" id="type" >
                                         <option disabled selected value="">@lang('Collection Type')</option>
                                         @foreach (['once', 'divided'] as $type)
-                                            <option value="{{ $type }}">
-                                                {{ __($type) }}</option>
+                                        <option value="{{ $type }}" {{ $contract->collection_type == $type ? 'selected' : '' }}>
+                                            {{ __($type) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -232,24 +236,24 @@
                                 </select>
                             </div>
                             
-
+       
                             <!-- Contract Date -->
                   
-                                <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
+                                <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="{{ $contract->calendarTypeSelect == 'gregorian' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
-                                    <input class="form-control" type="date" name="date_concluding_contract" />
+                                    <input class="form-control" type="date" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
                                 </div>
-                                <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
+                                <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="{{ $contract->calendarTypeSelect == 'gregorian' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
-                                    <input class="form-control" type="date" name="gregorian_contract_date" />
+                                    <input class="form-control" type="date" name="gregorian_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}"/>
                                 </div>
-                                <div class="col-md-4 mb-3 col-12" id="hijriDate2" style="display: none;">
+                                <div class="col-md-4 mb-3 col-12" id="hijriDate2" style="{{ $contract->calendarTypeSelect == 'hijri' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
-                                    <input class="form-control" type="text" id="txtHijriDate" name="date_concluding_contract" placeholder="@lang('Hijri Date')" />
+                                    <input class="form-control" type="text" id="txtHijriDate" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
                                 </div>
-                                <div class="col-md-4 mb-3 col-12" id="hijriDate" style="display: none;">
+                                <div class="col-md-4 mb-3 col-12" id="hijriDate" style="{{ $contract->calendarTypeSelect == 'hijri' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color"></span></label>
-                                    <input class="form-control" id="txtHijriDate" type="text" name="hijri_contract_date" placeholder="@lang('Hijri Date')" />
+                                    <input class="form-control" id="txtHijriDate2" type="text" name="hijri_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}" />
                                 </div>
 
 
@@ -305,7 +309,7 @@
                         <div id="contractDetails" style="display: none;">
                             <!-- Contract details will be dynamically added here -->
                         </div>
-                        <div class="col-12 mb-3">
+                        <div class="col-12 mb-3" id="installmentsTable">
                             <div class="card">
                                 <h5 class="card-header"> @lang('Installments') </h5>
                                 <div class="table-responsive text-nowrap">
@@ -314,6 +318,7 @@
                                             <tr>
                                                 <th>@lang('Installment Number')</th>
                                                 <th>@lang('Amount')</th>
+                                                <th>@lang('status')</th>
                                                 <th>@lang('Start Date')</th>
                                                 <th>@lang('End Date')</th>
                                             </tr>
@@ -323,6 +328,7 @@
                                                 <tr>
                                                     <td>{{ $installment->id }}</td>
                                                     <td>{{ $installment->price }}</td>
+                                                    <td>{{ __($installment->status) }}</td>
                                                     <td>{{ $installment->start_date }}</td>
                                                     <td>{{ $installment->end_date }}</td>
                                                    
@@ -337,12 +343,35 @@
 
                     <!-- Attachments Tab -->
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                     
                         <div class="col-12 mb-3">
-                            <div class="card">
-                                <h5 class="card-header">مرفقات</h5>
-                                <div class="card-body">
-                                  
+                            <label class="form-label">@lang('Additional details')</label>
+                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                onclick="addFeature()">@lang('Add details')</button>
+                            @foreach ($contract->ContractAttachmentData  as $attachment)
+                                <div class="row p-1">
+                                    <div class="col">
+                                        <input type="text" name="name[]" class="form-control search"
+                                            placeholder="@lang('Field name')"
+                                            value="{{ $attachment->AttachmentData->name }}" />
+                                    </div>
+                                    <div class="col">
+                                        <input type="file" name="attachment[]" class="form-control" accept="image/*,application/pdf" />
+                                        @if($attachment->attachment)
+                                        <a href="{{ Storage::url($attachment->attachment) }}" target="_blank" class="btn btn-primary">Download File</a>
+                                    
+                                    @endif
+                                    </div>
+                           
+                                    <div class="col">
+                                        <button type="button"
+                                            class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
+                                    </div>
                                 </div>
+                            @endforeach
+
+                            <div id="features" class="row p-2">
+
                             </div>
                         </div>
                     </div>
@@ -445,30 +474,30 @@
 
 
         function addFeature() {
-                const featuresContainer = document.getElementById('features');
-                const newRow = document.createElement('div');
-                newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
+            const featuresContainer = document.getElementById('features');
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
 
-                // Use the exact same class names and structure as your existing rows
-                newRow.innerHTML = `
-        <div class="col-4">
-            <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-        </div>
-        <div class="col-4">
-            <input type="file" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
-        </div>
-        <div class="col-4">
-            <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-        </div>
-    `;
+            // Use the exact same class names and structure as your existing rows
+            newRow.innerHTML = `
+<div class="col">
+<input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+</div>
+<div class="col">
+<input type="file" required name="attachment[]" class="form-control" placeholder="@lang('value')" value="" />
+</div>
+<div class="col mr-2">
+<button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+</div>
+`;
 
-                featuresContainer.appendChild(newRow);
-            }
+            featuresContainer.appendChild(newRow);
+        }
 
-            function removeFeature(button) {
-                const rowToRemove = button.parentNode.parentNode;
-                rowToRemove.remove();
-            }
+        function removeFeature(button) {
+            const rowToRemove = button.parentNode.parentNode;
+            rowToRemove.remove();
+        }
 
 
 
@@ -476,6 +505,14 @@
 
         <script>
             $('#txtHijriDate').calendarsPicker({
+                calendar: $.calendars.instance('islamic', 'Ar'),
+                // monthsToShow: [1, 2],
+                // showOtherMonths: true,
+                // onSelect: function(date) {
+                //     alert('You picked ' + date[0].formatDate());
+                // }
+            });
+            $('#txtHijriDate2').calendarsPicker({
                 calendar: $.calendars.instance('islamic', 'Ar'),
                 // monthsToShow: [1, 2],
                 // showOtherMonths: true,
@@ -561,10 +598,8 @@
                     var formData = {
                         price: parseFloat($('input[name="price"]').val()), // Convert price to float
                         contract_type: $('select[name="contract_type"]').val(),
-                        contract_date_gregorian: new Date($('input[name="gregorian_contract_date"]')
-                            .val()), // Convert to Date object
-                        contract_date_hijri: new Date($('input[name="hijri_contract_date"]')
-                            .val()), // Convert to Date object
+                        contract_date_gregorian: null,
+                        contract_date_hijri: null,
                         contract_duration: parseInt($('input[name="contract_duration"]')
                             .val()), // Convert duration to integer
                         duration_unit: $('select[name="duration_unit"]').val(),
@@ -576,7 +611,20 @@
                         collection_type: $('select[name="collection_type"]').val(),
                     };
 
-                    // Initialize variables for contract details
+                    if ($('#calendarTypeSelect').val() === 'gregorian') {
+                        formData.contract_date_gregorian = new Date($('input[name="gregorian_contract_date"]').val());
+                        // Set contract_date_hijri to null when using Gregorian calendar
+                        formData.contract_date_hijri = null;
+                        var startDate = formData.contract_date_gregorian;
+
+                    } else if ($('#calendarTypeSelect').val() === 'hijri') {
+                        formData.contract_date_hijri = new Date($('input[name="hijri_contract_date"]').val());
+                        formData.contract_date_gregorian = null;
+                        var startDate = formData.contract_date_hijri;
+
+
+                    }
+
                     var numberOfContracts = 1; // Default to 1 contract
                     var contracts = [];
 
@@ -590,7 +638,6 @@
                     }
 
                     // Calculate start and end dates for each contract
-                    var startDate = formData.contract_date_gregorian;
                     var endDate = new Date(startDate);
 
                     // Calculate commissions based on service type and collection type
@@ -705,10 +752,137 @@
 
 
                     // Optionally, you can hide or show this section based on your needs
-                    $('#contractDetails').show();
+                    $('#contractDetails').html(contractsHTML).show();
+                    $('#installmentsTable').hide();
                 });
             });
         </script>
+
+
+<script>
+   $(document).ready(function() {
+
+// Function to handle unit selection
+$('#unitSelect').on('change', function() {
+    var unitId = $(this).val();
+    var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
+    
+    // Set service type and disable select
+    if (serviceTypeId) {
+        $('#serviceTypeSelect').val(serviceTypeId);
+        $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
+    } else {
+        $('#serviceTypeSelect').val('');
+        $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
+    }
+
+    // Show property management fields if service type is 3
+    if (serviceTypeId == 3) {
+        $('#propertyManagementFields').show();
+    } else {
+        $('#propertyManagementFields').hide();
+    }
+
+    // Optionally, update hidden input for service_type_id
+    $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
+
+});
+
+// Trigger change event on page load
+$('#unitSelect').trigger('change');
+
+// Function to handle service type change
+$('#serviceTypeSelect').on('change', function() {
+    var selectedValue = $(this).val();
+    if (selectedValue == 3) {
+        $('#propertyManagementFields').show();
+    } else {
+        $('#propertyManagementFields').hide();
+    }
+});
+
+});
+
+    </script>
+
+    <script>
+        //action buttons 
+
+    $(document).ready(function() {
+        $('#certifyButton').click(function() {
+            var contractId = $(this).data('contract-id');
+            $.ajax({
+                url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if(response.success) {
+                        location.reload();
+                    } else {
+                        alert('Failed to certify contract.');
+                    }
+                },
+                error: function() {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        });
+    });
+
+
+    $(document).ready(function() {
+        $('#deportationButton').click(function() {
+            var contractId = $(this).data('contract-id');
+            $.ajax({
+                url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if(response.success) {
+                        window.location.href = '{{ route('Office.Contract.index') }}';
+                    } else {
+                        alert('Failed to deportation contract.');
+                    }
+                },
+                error: function() {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        });
+    });
+
+
+
+    $(document).ready(function() {
+        $('#restoreButton').click(function() {
+            var contractId = $(this).data('contract-id');
+                $.ajax({
+                    url: '{{ route('contracts.destroy', ['contract' => ':id']) }}'.replace(':id', contractId),
+                    method: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if(response.success) {
+                            window.location.href = '{{ route('Office.Contract.create') }}';
+                        } else {
+                            alert('Failed to delete contract.');
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+           
+        });
+    });
+
+    </script>
+
     @endpush
 
 @endsection
