@@ -52,6 +52,7 @@
                 </div>
                 @if (Auth::user()->hasPermission('activate-gallery'))
                     <div class="col-12 col-md-6 mb-3">
+
                         <label for="editGalleryName">@lang('Enable Gallery')</label>
                         <div class="d-flex" style="margin-top: 10px">
                             @if ($gallery->gallery_status == 0)
@@ -64,15 +65,18 @@
                                     value="1" {{ $gallery->gallery_status == 1 ? 'checked' : '' }}
                                     data-toggle="toggle" data-onstyle="primary">
                             @endif
+
                         </div>
+
                     </div>
                 @endif
-
-
-
+                @if ($broker->license_validity != 'valid')
+                    <div class="col-12 mb-1">
+                        <span class="badge bg-label-danger">@lang('Please update your FAL license data to be able to advertise properties and display them in your gallery')</span>
+                    </div>
+                @endif
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">@lang('Edit')</button>
-
                 </div>
             </form>
 
