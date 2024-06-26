@@ -61,7 +61,8 @@
                             @else
                                 <input type="checkbox" class="toggleHomePage gallery_status"
                                     {{ $broker->license_validity != 'valid' ? 'disabled' : '' }} name="gallery_status"
-                                    value="1" checked data-toggle="toggle" data-onstyle="primary">
+                                    value="1" {{ $gallery->gallery_status == 1 ? 'checked' : '' }}
+                                    data-toggle="toggle" data-onstyle="primary">
                             @endif
                         </div>
                     </div>
@@ -122,7 +123,7 @@
                     <div class="form-check form-switch mb-2">
                         <input class="form-check-input" disabled type="checkbox" id="flexSwitchCheckChecked"
                             value="0" name="gallery_status" class="gallery_status"
-                            {{ $broker->license_validity != 'valid' ? 'disabled' : '' }} checked="">
+                            {{ $broker->license_validity != 'valid' ? 'disabled' : '' }}>
                         <label class="form-check-label" for="flexSwitchCheckChecked">@lang('Enable Gallery')</label>
                     </div>
 
