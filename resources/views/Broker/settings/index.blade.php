@@ -59,7 +59,7 @@
                                     @include('Broker.settings.inc._GalleryMange')
                                 </div>
                             @else
-                                <div class="col-lg-10">
+                                <div class="col-md-12">
                                     <div class="card timeline shadow">
                                         <div class="card-header">
                                             <h5 class="card-title">@lang('لا يوجد معرض')</h5>
@@ -67,7 +67,7 @@
                                         <div class="card-body">
                                             <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
 
-                                            <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                            <button type="button" data-toggle="modal" data-target="#basicModal"
                                                 class="btn btn-primary">@lang('Subscription upgrade')</button>
                                         </div>
                                     </div>
