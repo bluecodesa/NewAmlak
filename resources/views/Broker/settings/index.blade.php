@@ -59,7 +59,7 @@
                                     @include('Broker.settings.inc._GalleryMange')
                                 @else
                                     <div class="col-md-12">
-                                        <div class="card timeline shadow">
+                                        <div class="card timeline shadow-none bg-transparent">
                                             <div class="card-header">
                                                 <h5 class="card-title">@lang('لا يوجد معرض')</h5>
                                             </div>
