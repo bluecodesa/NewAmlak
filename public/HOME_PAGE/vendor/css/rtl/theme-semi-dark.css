@@ -104,12 +104,12 @@ a.bg-primary:hover, a.bg-primary:focus {
 }
 
 .bg-label-primary {
-  background-color: #eae8fd !important;
+  background-color: #cbe6e9 !important;
   color: #009490 !important;
 }
 
 .bg-label-hover-primary {
-  background-color: #eae8fd !important;
+  background-color: #cbe6e9 !important;
   color: #009490 !important;
 }
 .bg-label-hover-primary:hover {
@@ -359,7 +359,7 @@ button.list-group-item-primary.active {
 .btn-label-primary.disabled, .btn-label-primary:disabled {
   color: #009490 !important;
   border-color: transparent !important;
-  background: #eae8fd !important;
+  background: #cbe6e9 !important;
   box-shadow: none;
 }
 
@@ -1076,7 +1076,7 @@ li.ui-timepicker-selected,
 }
 
 .fc .fc-event-primary:not(.fc-list-event) {
-  background-color: #eae8fd !important;
+  background-color: #cbe6e9 !important;
   color: #009490 !important;
 }
 .fc .fc-event-primary.fc-list-event .fc-list-event-dot {
@@ -1102,7 +1102,7 @@ li.ui-timepicker-selected,
 
 .swal2-progress-steps[class] .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step,
 .swal2-progress-steps[class] .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step-line {
-  background: #eae8fd;
+  background: #cbe6e9;
 }
 
 .pcr-app .pcr-type.active,

@@ -1038,10 +1038,10 @@
                         <div class="contact-img-box position-relative border p-2 h-100">
                             <img src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png') }}"
                                 alt="contact border"
-                                class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl" />
-                            <img src="https://tryamlak.com/HOME_PAGE/images/new/Group104105.png"
-                                style="max-height: 420px;" alt="contact customer service"
-                                class="contact-img w-100 scaleX-n1-rtl" />
+                                class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl"
+                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);" />
+                            <img src="{{ url($sitting->icon) }}" style="max-height: 420px;"
+                                alt="contact customer service" class="contact-img w-100 scaleX-n1-rtl" />
                             <div class="pt-3 px-4 pb-1">
                                 <div class="row gy-3 gx-md-4">
                                     <div class="col-md-6 col-lg-12 col-xl-6">
