@@ -202,7 +202,8 @@
 }
 .landing-contact .contact-img-box,
 .landing-contact .contact-img-box .contact-img {
-  border-radius: 3.75rem 0.375rem 0.375rem 0.375rem;
+  /* border-radius: 3.75rem 0.375rem 0.375rem 0.375rem; */
+  border-radius: 0.375rem 3.75rem 0.375rem 0.375rem;
 }
 .landing-contact .contact-img-box .contact-border-img {
   inset-block-start: -2.5rem;
