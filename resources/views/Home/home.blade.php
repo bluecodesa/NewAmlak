@@ -1010,10 +1010,7 @@
                             class="btn btn-lg btn-primary">سجل معنا الأن</a>
                     </div>
                     <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
-                        {{-- <img
-                src="{{ url('HOME_PAGE/img/front-pages/landing-page/cta-dashboard.png')}}"
-                alt="cta dashboard"
-                class="img-fluid" /> --}}
+
                     </div>
                 </div>
             </div>
