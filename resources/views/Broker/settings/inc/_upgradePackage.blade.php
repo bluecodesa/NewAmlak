@@ -68,7 +68,7 @@
 </div> --}}
 
 
-<div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="UpgradePackage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-simple modal-pricing">
         <div class="modal-content p-2 p-md-5">
             <form action="{{ route('UpgradeSubscription') }}" method="post">

@@ -66,7 +66,7 @@
                                             <div class="card-body">
                                                 <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
 
-                                                <button type="button" data-toggle="modal" data-target="#basicModal"
+                                                <button type="button" data-toggle="modal" data-target="#UpgradePackage"
                                                     class="btn btn-primary">@lang('Subscription upgrade')</button>
                                             </div>
                                         </div>
