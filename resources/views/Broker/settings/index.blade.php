@@ -71,7 +71,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @include('Broker.settings.inc._upgradePackage')
                                 @endif
                             </div>
 
@@ -84,7 +83,7 @@
                 <!-- Modal to add new record -->
 
 
-
+                @include('Broker.settings.inc._upgradePackage')
             </div>
 
             <div class="content-backdrop fade"></div>
