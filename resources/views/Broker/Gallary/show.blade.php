@@ -16,7 +16,8 @@
                             <ol class="breadcrumb float-right">
 
                                 <li class="breadcrumb-item"><a
-                                        href="{{ route('Broker.Gallery.show',$Unit->id) }}">@lang('Show') @lang('Unit') {{ $Unit->number_unit }}</a></li>
+                                        href="{{ route('Broker.Gallery.show', $Unit->id) }}">@lang('Show')
+                                        @lang('Unit') {{ $Unit->number_unit }}</a></li>
                                 <li class="breadcrumb-item"><a
                                         href="{{ route('Broker.Gallery.index') }}">@lang('Gallary')</a></li>
                                 <li class="breadcrumb-item"><a href="{{ route('Broker.home') }}">@lang('dashboard')</a></li>
@@ -267,69 +268,77 @@
                         </div>
                     </div>
                     @if (in_array(18, $sectionsIds))
-                    <div class="col-12">
-                        <div class="card m-b-30">
-                            <div class="card-body">
-                                <div class="col-sm-6">
-                                    <h4 class="page-title">
-                                        @lang('Requests for interest')</h4>
-                                </div>
-                                <div class="table-responsive b-0" data-pattern="priority-columns">
-                                    <table id="datatable-buttons"
-                                        class="table table-striped table-bordered dt-responsive nowrap"
-                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
+                        <div class="col-12">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <div class="col-sm-6">
+                                        <h4 class="page-title">
+                                            @lang('Requests for interest')</h4>
+                                    </div>
+                                    <div class="table-responsive b-0" data-pattern="priority-columns">
+                                        <table id="datatable-buttons"
+                                            class="table table-striped table-bordered dt-responsive nowrap"
+                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
 
                                                     <th>@lang('Client Name')</th>
                                                     <th>@lang('phone')</th>
                                                     <th>@lang('status')</th>
                                                     <th>@lang('Action')</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($unitInterests as $index => $client)
-                                            <tr>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($unitInterests as $index => $client)
+                                                    <tr>
 
-                                                <td>{{ $index + 1 }}</td>
-                                                <td> {{ $client->name }}</td>
-                                                <td>{{ $client->whatsapp }}</td>
-                                                <td>
-                                                    <form method="POST" action="{{ route('Broker.Interest.status.update', $client->id) }}">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $client->id }}">
-                                                        <select class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
-                                                            @foreach ($interestsTypes as $interestsType)
-                                                                <option value="{{ $interestsType->id }}" {{ $client->status == $interestsType->id ? 'selected' : '' }}>
-                                                                    {{ __($interestsType->name) }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        <button type="submit" class="submit-from" hidden=""></button>
-                                                    </form>
-
-
-                                                </td>
-
-                                                <td>
-                                                    <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" data-toggle="modal" data-target="#shareLinkUnit{{ $client->id }}"
-                                                        href="tel:{{ env('COUNTRY_CODE') . $client->whatsapp }}" onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
-                                                        @lang('مكالمة')</a>
-                                                    <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $client->whatsapp }}"
-                                                        class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td> {{ $client->name }}</td>
+                                                        <td>{{ $client->whatsapp }}</td>
+                                                        <td>
+                                                            <form method="POST"
+                                                                action="{{ route('Broker.Interest.status.update', $client->id) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="id"
+                                                                    value="{{ $client->id }}">
+                                                                <select class="form-control select-input w-auto"
+                                                                    name="status" onchange="this.form.submit()">
+                                                                    @foreach ($interestsTypes as $interestsType)
+                                                                        <option value="{{ $interestsType->id }}"
+                                                                            {{ $client->status == $interestsType->id ? 'selected' : '' }}>
+                                                                            {{ __($interestsType->name) }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <button type="submit" class="submit-from"
+                                                                    hidden=""></button>
+                                                            </form>
 
 
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                                        </td>
+
+                                                        <td>
+                                                            <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light"
+                                                                data-toggle="modal"
+                                                                data-target="#shareLinkUnit{{ $client->id }}"
+                                                                href="tel:{{ env('COUNTRY_CODE') . $client->whatsapp }}"
+                                                                onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
+                                                                @lang('مكالمة')</a>
+                                                            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $client->whatsapp }}"
+                                                                class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
+
+
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                 </div>
-
                             </div>
                         </div>
-                    </div>
                     @endif
                 </div> <!-- end col -->
             </div> <!-- end row -->

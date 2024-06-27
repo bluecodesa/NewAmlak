@@ -70,7 +70,7 @@
 
                         </div>
                         <div class="card-body pb-0">
-                            {{ $Unit->note ?? '' }}
+                            {!! $Unit->note ?? '' !!}
                         </div>
                         <div class="card-body pb-0">
 

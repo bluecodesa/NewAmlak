@@ -73,8 +73,6 @@ class UnitInterestController extends Controller
         //
         // $this->middleware(['role_or_permission:Add-property-as-favorite'])->only(['addToFav','removeFromFav']);
         $this->middleware(['permission:Add-property-as-favorite-admin|Add-property-as-favorite'])->only(['addToFavorites', 'removeFromFavorites']);
-
-
     }
 
 
@@ -131,8 +129,6 @@ class UnitInterestController extends Controller
         $data = $request->all();
         $requestData = $request->all();
         unset($requestData['finder_id']);
-
-
         $requestData['status'] = $statusId;
         $intrestOrder = UnitInterest::create($requestData);
 
@@ -252,44 +248,40 @@ class UnitInterestController extends Controller
     {
 
         $data = $request->validate([
-        'unit_id' => 'required|integer',
-        'owner_id' => 'required|integer',
-      ]);
+            'unit_id' => 'required|integer',
+            'owner_id' => 'required|integer',
+        ]);
 
 
-      $favorite = new FavoriteUnit();
-      $favorite->unit_id = $data['unit_id'];
-      $favorite->owner_id = $data['owner_id'];
-      $favorite->finder_id = auth()->user()->id;
-      $favorite->status = "1";
+        $favorite = new FavoriteUnit();
+        $favorite->unit_id = $data['unit_id'];
+        $favorite->owner_id = $data['owner_id'];
+        $favorite->finder_id = auth()->user()->id;
+        $favorite->status = "1";
 
-      $favorite->save();
+        $favorite->save();
 
 
         return redirect()->back()->with('success', __('added successfully'));
-
     }
 
     public function removeFromFav(Request $request)
     {
-      $data = $request->validate([
-        'unit_id' => 'required|integer',
-      ]);
+        $data = $request->validate([
+            'unit_id' => 'required|integer',
+        ]);
 
-      $favorite = FavoriteUnit::where('unit_id', $data['unit_id'])
-        ->where('finder_id', auth()->user()->id)
-        ->first();
+        $favorite = FavoriteUnit::where('unit_id', $data['unit_id'])
+            ->where('finder_id', auth()->user()->id)
+            ->first();
 
-      if ($favorite) {
-        $favorite->delete();
-        $message = 'Unit removed from favorites!';
-      } else {
-        $message = 'Unit not found in favorites.';
-      }
+        if ($favorite) {
+            $favorite->delete();
+            $message = 'Unit removed from favorites!';
+        } else {
+            $message = 'Unit not found in favorites.';
+        }
 
-      return redirect()->back()->with('success', 'Unit removed from favorites successfully.');
+        return redirect()->back()->with('success', 'Unit removed from favorites successfully.');
     }
-
-
-
 }

@@ -110,7 +110,7 @@
         {{-- </a> --}}
 
         <a href="{{ route('Broker.home') }}" class="app-brand-link">
-            <img src="{{ url($sitting->icon) }}" width="40" alt="">
+            <img src="{{ url($sitting->icon) }}" width="46" alt="">
             <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">{{ $sitting->title }}</span>
         </a>
 
