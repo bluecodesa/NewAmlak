@@ -54,26 +54,27 @@
                                 @include('Broker.settings.inc._GeneralSetting')
                             </div>
                             {{-- @endif --}}
-                            @if ($gallery)
-                                <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                            <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                                @if ($gallery)
                                     @include('Broker.settings.inc._GalleryMange')
-                                </div>
-                            @else
-                                <div class="col-md-12">
-                                    <div class="card timeline shadow">
-                                        <div class="card-header">
-                                            <h5 class="card-title">@lang('لا يوجد معرض')</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
+                                @else
+                                    <div class="col-md-12">
+                                        <div class="card timeline shadow">
+                                            <div class="card-header">
+                                                <h5 class="card-title">@lang('لا يوجد معرض')</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
 
-                                            <button type="button" data-toggle="modal" data-target="#basicModal"
-                                                class="btn btn-primary">@lang('Subscription upgrade')</button>
+                                                <button type="button" data-toggle="modal" data-target="#basicModal"
+                                                    class="btn btn-primary">@lang('Subscription upgrade')</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                @include('Broker.settings.inc._upgradePackage')
-                            @endif
+                                    @include('Broker.settings.inc._upgradePackage')
+                                @endif
+                            </div>
+
                         </div>
                     </div>
                 </div>
