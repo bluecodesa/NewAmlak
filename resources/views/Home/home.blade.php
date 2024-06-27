@@ -134,6 +134,7 @@
                             <span class="position-relative fw-bold z-1">شركاء النجاح
 
                                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                                    style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                                     alt="laptop charging"
                                     class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                             </span>
@@ -881,6 +882,7 @@
                     <span class="position-relative fw-bold z-1"> الأسئلة الشائعة
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                             alt="laptop charging"
                             class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                     </span>
@@ -1027,6 +1029,7 @@
                 <h3 class="text-center mb-1">
                     <span class="position-relative fw-bold z-1">دعنا نعمل
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                             alt="laptop charging"
                             class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                     </span>
@@ -1040,8 +1043,8 @@
                                 alt="contact border"
                                 class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl"
                                 style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);" />
-                            <img src="{{ url($sitting->icon) }}" style="max-height: 420px;"
-                                alt="contact customer service" class="contact-img w-100 scaleX-n1-rtl" />
+                            <img src="{{ url('HOME_PAGE/img/front-pages/4.png') }}" style="max-height: 420px;"
+                                alt="contact customer service" class="contact-img w-100" />
                             <div class="pt-3 px-4 pb-1">
                                 <div class="row gy-3 gx-md-4">
                                     <div class="col-md-6 col-lg-12 col-xl-6">
