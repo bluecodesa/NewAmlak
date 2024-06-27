@@ -265,16 +265,17 @@ class HomeController extends Controller
 
     public function storeBroker(Request $request)
     {
+        // return $request;
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
             'full_phone' => 'required|unique:brokers,full_phone',
-            'city_id' => 'required|exists:cities,id',
+            // 'city_id' => 'required|exists:cities,id',
             'subscription_type_id' => 'required|exists:subscription_types,id',
             'license_number' => 'required|numeric|unique:brokers,broker_license',
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'id_number' => 'nullable|unique:brokers,id_number'
+            // 'id_number' => 'nullable|unique:brokers,id_number'
 
         ];
 
@@ -285,8 +286,8 @@ class HomeController extends Controller
             'full_phone.required' => __('The mobile field is required.'),
             'full_phone.unique' => __('The mobile has already been taken.'),
             'full_phone.digits' => __('The mobile must be 9 digits.'),
-            'city_id.required' => __('The city field is required.'),
-            'city_id.exists' => __('The selected city is invalid.'),
+            // 'city_id.required' => __('The city field is required.'),
+            // 'city_id.exists' => __('The selected city is invalid.'),
             'subscription_type_id.required' => __('The subscription type field is required.'),
             'subscription_type_id.exists' => __('The selected subscription type is invalid.'),
             'license_number.required' => __('The license number field is required.'),
@@ -295,7 +296,7 @@ class HomeController extends Controller
             'password.required' => __('The password field is required.'),
             'password.confirmed' => __('The password confirmation does not match.'),
             'broker_logo.image' => __('The broker logo must be an image.'),
-            'id_number.unique' => __('The ID number has already been taken.')
+            // 'id_number.unique' => __('The ID number has already been taken.')
         ];
 
 
@@ -316,25 +317,28 @@ class HomeController extends Controller
             'email' => $request->email,
             'user_name' => uniqid(),
             'password' => bcrypt($request->password),
-            'avatar' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
+            'avatar' => $request_data['broker_logo'] ?? null,
         ]);
 
         // Create Broker
         $broker = Broker::create([
             'user_id' => $user->id,
             'broker_license' => $request->license_number,
+            'license_date' => $request->license_date,
             'mobile' => $request->mobile,
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
-            'city_id' => $request->city_id,
-            'id_number' => $request->id_number ?? null,
-            'broker_logo' => $request_data['broker_logo'] ?? null, // Use null coalescing operator to handle if no logo
+            // 'city_id' => $request->city_id,
+            'broker_logo' => $request_data['broker_logo'] ?? null,
         ]);
 
 
-        $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
+
+
+        $subscriptionType = SubscriptionType::find($request->subscription_type_id);
         $startDate = Carbon::now();
         $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+
         if ($subscriptionType->price > 0) {
             $SubType = 'paid';
             $status = 'pending';
@@ -352,6 +356,7 @@ class HomeController extends Controller
             'end_date' => $endDate,
             'total' => '200'
         ]);
+
         foreach ($subscriptionType->sections()->get() as $section_id) {
             SubscriptionSection::create([
                 'section_id' => $section_id->id,
@@ -385,7 +390,6 @@ class HomeController extends Controller
             // Create the gallery
             $galleryName = explode('@', $request->email)[0];
             $defaultCoverImage = '/Gallery/cover/cover.png';
-
             $gallery = Gallery::create([
                 'broker_id' => $broker->id,
                 'gallery_name' => $galleryName,
@@ -396,10 +400,25 @@ class HomeController extends Controller
             $gallery = null;
         }
 
+        if ($broker->license_date > now()->format('Y-m-d')) {
+            $broker->update(['license_validity' => 'valid']);
+            // Gallery::where('broker_id', $broker->id)->first()->update(['gallery_status' => '1']);
+        } else {
+            $broker->update(['license_validity' => 'expired']);
+            $checkGallery =     Gallery::where('broker_id', $broker->id)->first();
+            if ($checkGallery) {
+                $checkGallery->update(['gallery_status' => '0']);
+            }
+        }
+
         $this->notifyAdmins($broker);
 
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
-        return redirect()->route('login')->with('success', __('registerd successfully'));
+
+        auth()->loginUsingId($user->id);
+        return redirect()->route('Broker.home')->withSuccess(__('registerd successfully'));
+
+        // return redirect()->route('login')->with('success', __('registerd successfully'));
     }
 
     protected function notifyAdmins(Broker $broker)

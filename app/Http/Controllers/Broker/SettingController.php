@@ -62,7 +62,7 @@ class SettingController extends Controller
         $broker = auth()->user()->UserBrokerData;
         $settings = $this->settingService->getBrokerSettings($broker);
         $city = $broker->CityData;
-        $region = $city->RegionData;
+        $region = $city->RegionData ?? [];
         $gallery = $settings['gallery'];
         $NotificationSetting = $settings['notificationSettings'];
         $subscriber = $this->subscriptionService->findSubscriptionByBrokerId(auth()->user()->UserBrokerData->id);

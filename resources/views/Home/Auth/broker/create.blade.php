@@ -30,10 +30,9 @@
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/flag-icons.css') }}" />
 
     <!-- Core CSS -->
+    {{-- <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/css/rtl/core.css" class="template-customizer-core-css') }}" />
     <link rel="stylesheet"
-        href="{{ asset('HOME_PAGE/vendor/css/rtl/core.css" class="template-customizer-core-css') }}" />
-    <link rel="stylesheet"
-        href="{{ asset('HOME_PAGE/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css') }}" />
+        href="{{ url('HOME_PAGE/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css') }}" /> --}}
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/css/demo.css') }}" />
 
     <!-- Vendors CSS -->
@@ -100,10 +99,9 @@
                         <!-- /Logo -->
                         <h4 class="mb-1 pt-2 text-center">سجل الأن</h4>
 
-                        <form id="formAuthentication" class="mb-3" action="{{ route('Home.Brokers.CreateBroker') }}"
-                            method="POST" enctype="multipart/form-data">
+                        <form id="registrationForm" class="mb-3 row" action="{{ route('Home.Brokers.CreateBroker') }}"
+                            method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
                             @csrf
-
                             <input type="text" name="key_phone" hidden value="966" id="key_phone">
                             <input type="text" name="full_phone" hidden id="full_phone" value="966">
                             @if ($errors->any())
@@ -116,7 +114,7 @@
                                 </div>
                             @endif
 
-                            <div class="mb-3 row">
+                            <div class="mb-3 col-12">
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
                                     <img src="{{ asset('HOME_PAGE/img/avatars/14.png') }}" alt="user-avatar"
                                         class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
@@ -132,198 +130,158 @@
                                             <i class="ti ti-refresh-dot d-block d-sm-none"></i>
                                             <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
                                         </button>
-
-                                        <div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="mb-3 row">
 
-                                <div class="col-md-6">
-                                    <label class="form-label" for="name"> @lang('Broker name')<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="basic-default-name"
-                                        name="name" placeholder="@lang('Broker name')" required="">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="license_number"> @lang('license number')<span
-                                            class="text-danger">*</span></label>
 
-                                    <input type="text" class="form-control" id="license_number"
-                                        name="license_number" required>
-                                </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="name"> @lang('Broker name')<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="basic-default-name" name="name"
+                                    placeholder="@lang('Broker name')" required>
                             </div>
-                            <div class="mb-3 row">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="email">@lang('Email')<span
-                                            class="text-danger">*</span></label>
 
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        required>
+
+
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="license_number"> @lang('license number')<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="license_number" name="license_number"
+                                    required>
+                            </div>
+
+                            <div class="col-md-4 col-12 mb-3">
+                                <label for="license_date">
+                                    @lang('License expiration date')<span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="license_date" name="license_date"
+                                    value="" required>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="email">@lang('Email')<span
+                                        class="text-danger">*</span></label>
+
+                                <input type="email" class="form-control" id="email" name="email" required>
+
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
+                                        class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" placeholder="123456789" id="phone" name="mobile"
+                                        value="" class="form-control" required maxlength="9"
+                                        pattern="\d{1,9}" oninput="updateFullPhone(this)"
+                                        aria-label="Text input with dropdown button">
+                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        966
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" style="">
+                                        <li><a class="dropdown-item" data-key="971"
+                                                href="javascript:void(0);">971</a></li>
+                                        <li><a class="dropdown-item" data-key="966"
+                                                href="javascript:void(0);">966</a></li>
+                                    </ul>
 
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
+                            </div>
+
+
+                            <div class="col-md-4 col-12 mb-3">
+                                <label class="form-label" for="package"> @lang('Subscription Type') <span
+                                        class="text-danger">*</span></label>
+                                <select type="package" class="form-select" name="subscription_type_id" required>
+                                    <option value="" selected disabled> @lang('Subscription Type') </option>
+                                    @foreach ($subscriptionTypes as $subscriptionType)
+                                        <option value="{{ $subscriptionType->id }}">
+                                            {{ $subscriptionType->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            {{--
+                            <div class="form-group col-md-4">
+                                <label class="form-label">@lang('Region') <span
+                                        class="text-danger">*</span></label>
+                                <select type="package" class="form-select" id="Region_id" name="region_id" required>
+                                    <option disabled selected value="">@lang('Region')</option>
+                                    @foreach ($Regions as $Region)
+                                        <option value="{{ $Region->id }}"
+                                            data-url="{{ route('Home.Region.show', $Region->id) }}">
+                                            {{ $Region->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label class="form-label">@lang('city') <span class="text-danger">*</span>
+                                </label>
+                                <select type="package" class="form-select" name="city_id" id="CityDiv" required>
+                                </select>
+                            </div> --}}
+
+
+
+
+
+                            <div class="col-md-6">
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password">@lang('password') <span
                                             class="text-danger">*</span></label>
-                                    {{-- <div class="input-group">
-
-                                        {{-- <input type="tel" class="form-control" id="mobile" minlength="9"
-                                            maxlength="9" pattern="[0-9]*"
-                                            oninvalid="setCustomValidity('Please enter 9 numbers.')"
-                                            onchange="try{setCustomValidity('')}catch(e){}" placeholder="599123456"
-                                            name="mobile" required value=""> --}}
-
-                                    {{-- <input type="text" placeholder="123456789" name="mobile" value=""
-                                                    class="form-control" maxlength="9" pattern="\d{1,9}"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                                                    aria-label="Text input with dropdown button">
-                                                <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    996
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end" style="">
-                                                    <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                                    <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
-                                                </ul> --}}
-
-                                    <div class="input-group">
-                                        <input type="text" placeholder="123456789" id="phone" name="mobile"
-                                            value="" class="form-control" maxlength="9" pattern="\d{1,9}"
-                                            oninput="updateFullPhone(this)"
-                                            aria-label="Text input with dropdown button">
-                                        <button class="btn btn-outline-primary dropdown-toggle waves-effect"
-                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            966
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" style="">
-                                            <li><a class="dropdown-item" data-key="971"
-                                                    href="javascript:void(0);">971</a></li>
-                                            <li><a class="dropdown-item" data-key="966"
-                                                    href="javascript:void(0);">966</a></li>
-                                        </ul>
-
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password" class="form-control" name="password"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="password" required />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
                                     </div>
-
                                 </div>
                             </div>
-                            <div class="mb-3 row">
 
-                                <div class="form-group col-md-4">
-                                    <label class="form-label">@lang('Region') <span
+                            <div class="col-md-6 mb-3">
+
+
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password">@lang('Confirm Password') <span
                                             class="text-danger">*</span></label>
-                                    <select type="package" class="form-select" id="Region_id" name="region_id"
-                                        required>
-                                        <option disabled selected value="">@lang('Region')</option>
-                                        @foreach ($Regions as $Region)
-                                            <option value="{{ $Region->id }}"
-                                                data-url="{{ route('Home.Region.show', $Region->id) }}">
-                                                {{ $Region->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password_confirmation" class="form-control"
+                                            name="password_confirmation"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="password" required />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
+                                    </div>
                                 </div>
-
-                                <div class="form-group col-md-4">
-                                    <label class="form-label">@lang('city') <span class="text-danger">*</span>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-check mb-0 ms-2">
+                                    <input class="form-check-input" required type="checkbox" id="terms-conditions">
+                                    <label class="form-check-label" for="terms-conditions">
+                                        <a href="{{ asset($termsAndConditionsUrl) }}" target="_blank" download>
+                                            @lang('By registering') @lang('you accept our') @lang('Conditions') &amp;
+                                            @lang('Terms')
+                                        </a>
                                     </label>
-                                    <select type="package" class="form-select" name="city_id" id="CityDiv"
-                                        required>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-4 col-12 mb-3">
-                                    <label class="form-label" for="package"> @lang('Subscription Type') <span
-                                            class="text-danger">*</span></label>
-                                    <select type="package" class="form-select" name="subscription_type_id" required>
-                                        <option value="" selected disabled> @lang('Subscription Type') </option>
-                                        @foreach ($subscriptionTypes as $subscriptionType)
-                                            <option value="{{ $subscriptionType->id }}">
-                                                {{ $subscriptionType->name }}</option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </div>
 
-                            <div class="mb-3 row">
+                            <div class="col-12">
+                                <a href="{{ route('welcome') }}" type="button"
+                                    class="btn btn-secondary">@lang('Cancel')</a>
+                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
 
-                                <div class="col-md-6">
-                                    {{-- <label for="password"> @lang('password') <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" id="password" name="password" required> --}}
-                                    <div class="mb-3 form-password-toggle">
-                                        <label class="form-label" for="password">@lang('password') <span
-                                                class="text-danger">*</span></label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="password" id="password" class="form-control"
-                                                name="password"
-                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                aria-describedby="password" required />
-                                            <span class="input-group-text cursor-pointer"><i
-                                                    class="ti ti-eye-off"></i></span>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-6">
-                                    {{-- <label for="password_confirmation"> @lang('Confirm Password') <span
-                                    class="text-danger">*</span></label> <input type="password" class="form-control"
-                                id="password_confirmation" name="password_confirmation" required> --}}
-
-                                    <div class="mb-3 form-password-toggle">
-                                        <label class="form-label" for="password">@lang('Confirm Password') <span
-                                                class="text-danger">*</span></label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="password" id="password_confirmation" class="form-control"
-                                                name="password_confirmation"
-                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                aria-describedby="password" required />
-                                            <span class="input-group-text cursor-pointer"><i
-                                                    class="ti ti-eye-off"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="mb-3 row">
-                                <div class="col-md-6">
-                                    <label class="form-label">@lang('id number')</label>
-                                    <input type="text" class="form-control" id="id_number"
-                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
-                                        name="id_number">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-8">
-                                    <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">@lang('Cancel')</a>
-
-                                    <button type="submit" class="btn btn-primary">@lang('Submit')</button>
-                                </div>
                             </div>
 
                         </form>
 
 
-                        <div class="divider my-4">
-                            <div class="divider-text"></div>
-                        </div>
-
-                        <div class="d-flex justify-content-center">
-                            <div class="form-group mb-0 row">
-                                <div class="col-12 m-t-10 text-center">
-                                    @lang('By registering') @lang('you accept our')
-                                    <a href="{{ asset($termsAndConditionsUrl) }}" target="_blank" download>
-                                        @lang('Conditions') &amp; @lang('Terms')
-                                    </a>
-                                    <a href="{{ asset($privacyPolicyUrl) }}" target="_blank" download>
-                                        @lang('and') @lang('our privacy policy')
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- Register Card -->
@@ -358,7 +316,7 @@
 
     <!-- Page JS -->
     <script src="{{ asset('HOME_PAGE/js/pages-auth.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/js/pages-account-settings-account.js') }}"></script>
+    {{-- <script src="{{ asset('HOME_PAGE/js/pages-account-settings-account.js') }}"></script> --}}
 
 
 
@@ -395,6 +353,15 @@
                 });
             });
         });
+
+        function validateForm() {
+            var checkBox = document.getElementById('terms-conditions');
+            if (!checkBox.checked) {
+                alert("You must accept the terms and conditions before registering.");
+                return false;
+            }
+            return true;
+        }
 
         // $('#broker_logo_preview').click(function() {
         //     $('#broker_logo').click(); // Trigger file input click on image click
