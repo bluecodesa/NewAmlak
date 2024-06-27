@@ -68,6 +68,7 @@
 
                                                 <button type="button" data-toggle="modal" data-target="#UpgradePackage"
                                                     class="btn btn-primary">@lang('Subscription upgrade')</button>
+                                                @include('Broker.settings.inc._upgradePackage')
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +84,7 @@
                 <!-- Modal to add new record -->
 
 
-                @include('Broker.settings.inc._upgradePackage')
+
             </div>
 
             <div class="content-backdrop fade"></div>
