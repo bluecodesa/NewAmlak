@@ -10,8 +10,7 @@
         <!-- Hero: Start -->
         <section id="hero-animation">
             <div id="landingHero" class="section-py landing-hero position-relative">
-                <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/hero-bg.png') }}" alt="hero background"
-                    class="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100"
+                <img class="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100"
                     data-speed="1" />
                 <div class="container">
                     <div class="hero-text-box text-center">
@@ -23,6 +22,7 @@
                         <div class="landing-hero-btn d-inline-block position-relative">
                             <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">للتسجيل
                                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/Join-community-arrow.png') }}"
+                                    style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                                     alt="Join community arrow" class="scaleX-n1-rtl" /></span>
                             <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal"
                                 data-bs-target="#addSubscriberModal">سجل معنا الأن</a>
@@ -56,7 +56,9 @@
                 <h3 class="text-center mb-1">
                     <span class="position-relative fw-bold z-1">أملاك نظام إدارة متطور
 
-                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}" alt="laptop charging"
+                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                            alt="laptop charging"
                             class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                     </span>
                 </h3>
@@ -67,7 +69,8 @@
                 <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
                         <div class="text-center mb-3">
-                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/laptop.png') }}" alt="laptop charging" />
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/laptop.png') }}" alt="laptop charging"
+                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);" />
                         </div>
                         <h5 class="mb-3">علاقات العملاء
                         </h5>
@@ -76,7 +79,8 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
                         <div class="text-center mb-3">
-                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/rocket.png') }}" alt="transition up" />
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/rocket.png') }}" alt="transition up"
+                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);" />
                         </div>
                         <h5 class="mb-3">التنبيهات للعقود
                         </h5>
@@ -86,7 +90,9 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
                         <div class="text-center mb-3">
-                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper.png') }}" alt="edit" />
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper.png') }}"
+                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                                alt="edit" />
                         </div>
                         <h5 class="mb-3">ملفات مشتركة
                         </h5>
@@ -97,7 +103,9 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
                         <div class="text-center mb-3">
-                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/check.png') }}" alt="3d select solid" />
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/check.png') }}"
+                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                                alt="3d select solid" />
                         </div>
                         <h5 class="mb-3">دعم فني متقدم 24/7
                         </h5>
@@ -607,6 +615,7 @@
                         بكل سهولة
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                             alt="laptop charging"
                             class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                     </span>
@@ -644,6 +653,7 @@
                                     <div class="card-header">
                                         <div class="text-center">
                                             <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png') }}"
+                                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                                                 alt="paper airplane icon" class="mb-4 pb-2" />
                                             <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
                                             <div class="d-flex align-items-center justify-content-center">
@@ -727,6 +737,7 @@
                                     <div class="card-header">
                                         <div class="text-center">
                                             <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png') }}"
+                                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                                                 alt="paper airplane icon" class="mb-4 pb-2" />
                                             <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
                                             <div class="d-flex align-items-center justify-content-center">
@@ -979,7 +990,7 @@
 
         <!-- CTA: Start -->
         <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
-            <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/cta-bg-light.png') }}"
+            <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/cta-bg-light.png') }}" style=""
                 class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1" alt="cta image"
                 data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
                 data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
@@ -1028,8 +1039,9 @@
                             <img src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png') }}"
                                 alt="contact border"
                                 class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl" />
-                            <img src="https://tryamlak.com/HOME_PAGE/images/new/Group104105.png" style="max-height: 420px"
-                                alt="contact customer service" class="contact-img w-100 scaleX-n1-rtl" />
+                            <img src="https://tryamlak.com/HOME_PAGE/images/new/Group104105.png"
+                                style="max-height: 420px;" alt="contact customer service"
+                                class="contact-img w-100 scaleX-n1-rtl" />
                             <div class="pt-3 px-4 pb-1">
                                 <div class="row gy-3 gx-md-4">
                                     <div class="col-md-6 col-lg-12 col-xl-6">

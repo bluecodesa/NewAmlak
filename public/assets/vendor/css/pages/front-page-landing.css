@@ -32,7 +32,7 @@
   }
 }
 .landing-hero .hero-title {
-  background: linear-gradient(to right, #28c76f 0%, #5a4aff 47.92%, #ff3739 100%);
+  background: linear-gradient(to right, #28c76f 0%, #79b9bb 47.92%, #009490 100%);
   background-size: 200% auto;
   color: #5d596c;
   background-clip: text;
@@ -210,10 +210,13 @@
 }
 
 .light-style .landing-hero {
-  background: linear-gradient(138.18deg, #eae8fd 0%, #fce5e6 94.44%);
+  /* background: linear-gradient(138.18deg, #eae8fd 0%, #fce5e6 94.44%); */
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(88,169,172,1) 100%);
 }
 .light-style .landing-hero::after {
-  background-color: #fff;
+  /* background-color: #fff; */
+  border: 1px solid transparent;
+  /* background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(88,169,172,1) 100%); */
 }
 
 .dark-style .landing-hero {
