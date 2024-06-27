@@ -32,7 +32,7 @@
     </div>
 
 
-    <div class="col-md-6 col-12 mb-3">
+    <div class="col-md-4 col-12 mb-3">
         <label for="email">@lang('Email')<span class="text-danger">*</span></label>
 
         <input type="email" class="form-control" id="email" name="email" value="{{ $broker->UserData->email }}">
@@ -40,7 +40,7 @@
 
 
 
-    <div class="col-12 mb-3 col-md-6">
+    <div class="col-12 mb-3 col-md-4">
         <label for="color" class="form-label">@lang('Mobile Whats app') <span class="required-color">*</span></label>
         <div class="input-group">
             <input type="text" placeholder="123456789" name="mobile" value="{{ $broker->mobile }}"
@@ -59,6 +59,36 @@
     </div>
 
 
+
+    <div class="col-md-4 col-12 mb-3">
+
+        <label for="id_number" class="form-label">@lang('id number')</label>
+        <input type="text" class="form-control" id="id_number" name="id_number" value="{{ $broker->id_number }}">
+    </div>
+
+
+
+
+
+    <div class="col-md-4 col-12 mb-3">
+        <label>@lang('Region') <span class="text-danger">*</span></label>
+        <select type="package" class="form-select" id="Region_id" required>
+            <option selected value="{{ $region->id ?? '' }}">
+                {{ $region->name ?? '' }}</option>
+            @foreach ($Regions as $Region)
+                <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
+                    {{ $Region->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-4 col-12 mb-3">
+        <label>@lang('city') <span class="text-danger">*</span></label>
+        <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
+            <option selected value="{{ $city->id ?? '' }}">
+                {{ $city->name ?? '' }}</option>
+        </select>
+    </div>
 
     <div class="col-md-4 col-12 mb-3">
         <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -82,60 +112,9 @@
         </div>
     </div>
 
-    <div class="col-md-4 col-12 mb-3">
-        <label>@lang('Region') <span class="text-danger">*</span></label>
-        <select type="package" class="form-select" id="Region_id" required>
-            <option selected value="{{ $region->id ?? '' }}">
-                {{ $region->name ?? '' }}</option>
-            @foreach ($Regions as $Region)
-                <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
-                    {{ $Region->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-md-4 col-12 mb-3">
-        <label>@lang('city') <span class="text-danger">*</span></label>
-        <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
-            <option selected value="{{ $city->id ?? '' }}">
-                {{ $city->name ?? '' }}</option>
-        </select>
-    </div>
-
-    <div class="col-md-4 col-12 mb-3">
-        <div class=" form-password-toggle">
-            <label class="form-label" for="password">@lang('password') <span class="text-danger">*</span></label>
-            <div class="input-group input-group-merge">
-                <input type="password" id="password" class="form-control" name="password"
-                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                    aria-describedby="password" required />
-                <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-md-4 col-12 mb-3">
-        <div class="form-password-toggle">
-            <label class="form-label" for="password">@lang('Confirm Password') <span class="text-danger">*</span></label>
-            <div class="input-group input-group-merge">
-                <input type="password" id="password_confirmation" class="form-control" name="password_confirmation"
-                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                    aria-describedby="password" required />
-                <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-            </div>
-        </div>
-    </div>
 
 
 
-
-    <div class="col-md-4 col-12 mb-3">
-
-        <label for="id_number" class="form-label">@lang('id number')</label>
-        <input type="text" class="form-control" id="id_number" name="id_number"
-            value="{{ $broker->id_number }}">
-    </div>
 
 
 

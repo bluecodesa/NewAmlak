@@ -58,6 +58,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
+        .template-customizer-open-btn {
+            display: none !important;
+        }
+    </style>
+    <style>
         body,
         h4,
         h1,

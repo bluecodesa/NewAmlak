@@ -61,6 +61,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
+    @if (!Auth::user()->is_admin)
+        <style>
+            .template-customizer-open-btn {
+                display: none !important;
+            }
+        </style>
+    @endif
     <style>
         .required-color {
             color: red;
@@ -177,6 +184,7 @@
     </div>
     <!-- END wrapper -->
 
+    i
 
 
     <!-- endbuild -->

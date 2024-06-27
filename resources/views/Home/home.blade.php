@@ -5,7 +5,12 @@
         .required-color {
             color: red;
         }
+
+        .template-customizer-open-btn {
+            display: none !important;
+        }
     </style>
+
     <div data-bs-spy="scroll" class="scrollspy-example">
         <!-- Hero: Start -->
         <section id="hero-animation">

@@ -106,6 +106,16 @@
 
     @push('scripts')
         <script>
+            function copyToClipboard(element) {
+                var url = $(element).data('url');
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val(url).select();
+                document.execCommand("copy");
+                $temp.remove();
+                alertify.success(@json(__('copy done')));
+            }
+
             function exportToExcel() {
                 // Get the table by ID
                 var table = document.getElementById('table');

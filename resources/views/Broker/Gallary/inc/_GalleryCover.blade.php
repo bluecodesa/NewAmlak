@@ -2,9 +2,18 @@
     <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg">
         @lang('Edit') @lang('Image') <i class="ti ti-camera"></i>
     </button>
+
+    <button onclick="copyToClipboard(this)"
+        data-url="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
+        class="btn btn-outline-primary btn-sm waves-effect mb-2" type="button">
+        @lang('Share the link') <i class="ti ti-copy"></i>
+    </button>
+
     <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid"
         style="height: 200px; width: 100%;">
 </div>
+
+
 
 
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"

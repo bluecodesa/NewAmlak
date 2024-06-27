@@ -40,7 +40,7 @@ class SettingService
             'city_id' => 'required|exists:cities,id',
             'license_date' => 'required',
             'broker_license' => 'required|numeric|unique:brokers,broker_license,' . $id,
-            'password' => 'nullable|string|max:255|confirmed',
+            // 'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'id_number' => [
                 'nullable',
@@ -60,12 +60,12 @@ class SettingService
             'broker_license.required' => __('The broker_license field is required.'),
             'broker_license.numeric' => __('The broker_license field must be number.'),
             'broker_license.unique' => __('The broker_license has already been taken.'),
-            'password.required' => __('The password field is required.'),
+            // 'password.required' => __('The password field is required.'),
             'broker_logo.image' => __('The broker logo must be an image.'),
             'city_id.required' => 'The city field is required.',
             'city_id.exists' => 'The selected city is invalid.',
             'id_number.unique' => __('The ID number has already been taken.'),
-            'password.confirmed' => __('The password confirmation does not match.'),
+            // 'password.confirmed' => __('The password confirmation does not match.'),
 
 
         ];

@@ -60,6 +60,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
+        .template-customizer-open-btn {
+            display: none !important;
+        }
+    </style>
+
+    <style>
         body,
         h4,
         h1,
@@ -143,16 +149,17 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="company_name"> @lang('Company Name')<span
-                                        class="text-danger">*</span></label>
+                                            class="text-danger">*</span></label>
 
-                                        <input type="text" class="form-control" placeholder="@lang('Company Name')" id="company_name" name="name">
+                                    <input type="text" class="form-control" placeholder="@lang('Company Name')"
+                                        id="company_name" name="name">
 
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="name"> @lang('Commercial Registration No')<span
-                                        class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
-                                            required name="CRN" value="">
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')"
+                                        id="CR_number" required name="CRN" value="">
                                 </div>
 
                             </div>
@@ -350,9 +357,7 @@
     <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     <script>
-
-
-var success = '{{ Session::has('success') }}';
+        var success = '{{ Session::has('success') }}';
         var sorry = '{{ Session::has('sorry') }}';
 
         if (success) {

@@ -58,6 +58,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
+        .template-customizer-open-btn {
+            display: none !important;
+        }
+
         body,
         h4,
         h1,
@@ -259,7 +263,8 @@
                             </div>
                         </div>
                         <div class="col-md mb-md-0 mb-3">
-                            <div class="form-check custom-option custom-option-icon" onclick="redirectToCreateOffice()">
+                            <div class="form-check custom-option custom-option-icon"
+                                onclick="redirectToCreateOffice()">
                                 <label class="form-check-label custom-option-content" for="customRadioOffice">
                                     <span class="custom-option-body">
                                         <svg width="41" height="40" viewBox="0 0 41 40" fill="none"
@@ -273,7 +278,7 @@
                                         </svg>
 
                                         <span class="custom-option-title"> @lang('Office')
-                                            </span>
+                                        </span>
                                     </span>
                                     <input name="customRadioIcon" class="form-check-input" type="radio"
                                         value="" id="customRadioOffice" />
@@ -293,9 +298,11 @@
     function redirectToCreateBroker() {
         window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
     }
+
     function redirectToCreatePropertyFinder() {
         window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
     }
+
     function redirectToCreateOffice() {
         window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 
