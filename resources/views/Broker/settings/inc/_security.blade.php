@@ -1,8 +1,8 @@
 <!-- Change Password -->
-<div class="card mb-4">
+<div class="card mb-4 card shadow-none bg-transparent">
     <h5 class="card-header">@lang('Set new password')</h5>
     <div class="card-body">
-        <form id="formChangePassword" method="POST" action="{{ route('Office.Setting.updatePassword', $office->id) }}">
+        <form id="formChangePassword" method="POST" action="{{ route('Broker.Setting.updatePassword', $broker->id) }}">
             @csrf
             @method('PUT')
             <div class="row">

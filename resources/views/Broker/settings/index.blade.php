@@ -36,6 +36,14 @@
                                     </button>
                                 </li>
                             @endif
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
+                                    aria-selected="false" tabindex="-1">
+                                    <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
+                                </button>
+                            </li>
+
                             <li class="nav-item">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
@@ -53,6 +61,12 @@
                             <div class="tab-pane fade active show" id="navs-justified-home" role="tabpanel">
                                 @include('Broker.settings.inc._GeneralSetting')
                             </div>
+
+                            <div class="tab-pane fade" id="navs-justified-security" role="tabpanel">
+                                @include('Broker.settings.inc._security')
+
+                            </div>
+
                             {{-- @endif --}}
                             <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                                 @if ($gallery)
@@ -74,6 +88,7 @@
                                     </div>
                                 @endif
                             </div>
+
 
                         </div>
                     </div>

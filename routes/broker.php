@@ -61,6 +61,10 @@ Route::group(
             //
             route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
             route::put('updateBroker/{id}', [SettingController::class, 'updateBroker'])->name('Setting.updateBroker')->middleware('CheckSubscription');
+            route::put('updatePassword/{id}', [SettingController::class, 'updatePassword'])->name('Setting.updatePassword')->middleware('CheckSubscription');
+
+
+
             //
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');
             Route::get('/CreateUnit/{id}', 'ProjectManagement\PropertyController@CreateUnit')->name('Property.CreateUnit')->middleware('CheckSubscription');
