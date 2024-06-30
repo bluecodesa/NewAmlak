@@ -252,11 +252,11 @@ class ContractController extends Controller
             'name.*' => 'nullable|string',
             'attachment.*' => 'nullable|file',
         ]);
-    
+
         if (is_null($validatedData['employee_id'])) {
             $validatedData['employee_id'] = Auth::id();
         }
-    
+
         $contractData = [
             'office_id' => auth()->user()->UserOfficeData->id,
             'project_id' => $validatedData['project_id'] ?? null,
@@ -277,7 +277,7 @@ class ContractController extends Controller
             'date_concluding_contract' => $validatedData['date_concluding_contract'],
             'calendarTypeSelect' => $validatedData['calendarTypeSelect'],
         ];
-    
+
         if ($validatedData['gregorian_contract_date']) {
             $startDate = Carbon::parse($validatedData['gregorian_contract_date']);
             $contractData['start_contract_date'] = $startDate;
@@ -285,7 +285,7 @@ class ContractController extends Controller
             $startDate = Carbon::parse($validatedData['hijri_contract_date']);
             $contractData['start_contract_date'] = $startDate;
         }
-    
+
         switch ($validatedData['duration_unit']) {
             case 'month':
                 $endDate = $startDate->copy()->addMonths($validatedData['contract_duration']);
@@ -296,49 +296,49 @@ class ContractController extends Controller
             default:
                 return back()->withErrors(['duration_unit' => 'Invalid duration unit provided.']);
         }
-    
+
         $contractData['end_contract_date'] = $endDate;
         $contract = Contract::find($id);
 
         $contract->update($contractData);
-    
+
         // Handle attachments
         if ($request->has('attachment')) {
             // Delete existing attachments
             $contract->ContractAttachmentData()->delete();
-    
+
             // Upload new attachments
             foreach ($request->file('attachment') as $index => $attachmentFile) {
                 $attachmentName = $validatedData['name'][$index] ?? 'Attachment ' . ($index + 1);
-    
+
                 $filePath = $attachmentFile->store('attachments');
-    
+
                 $attachment = Attachment::create([
                     'name' => $attachmentName,
                     'created_by' => Auth::id(),
                 ]);
-    
+
                 ContractAttachment::create([
                     'attachment_id' => $attachment->id,
                     'contract_id' => $contract->id,
                     'attachment' => $filePath,
                 ]);
             }
-        } 
+        }
         $this->updateInstallments($contract, $validatedData);
-    
+
         return redirect()->route('Office.Contract.index')->with('success', 'Contract updated successfully.');
     }
-    
+
     private function updateInstallments(Contract $contract, array $data)
     {
         // Delete existing installments
         $contract->installments()->delete();
-    
+
         // Create new installments
         $numberOfContracts = 1;
         $installments = [];
-    
+
         if ($data['duration_unit'] === 'year' && $data['payment_cycle'] === 'annual') {
             $numberOfContracts = $data['contract_duration'];
         } else if ($data['duration_unit'] === 'month' && $data['payment_cycle'] === 'monthly') {
@@ -346,7 +346,7 @@ class ContractController extends Controller
         } else if ($data['duration_unit'] === 'year' && $data['payment_cycle'] === 'monthly') {
             $numberOfContracts = $data['contract_duration'] * 12;
         }
-    
+
         // Determine start date
         if ($data['gregorian_contract_date']) {
             $startDate = new \DateTime($data['gregorian_contract_date']);
@@ -355,10 +355,10 @@ class ContractController extends Controller
         } else {
             throw new \InvalidArgumentException('Invalid calendar type provided.');
         }
-    
+
         $pricePerContract = $data['price'] / $numberOfContracts;
         $commissionPerContract = 0;
-    
+
         if ($data['service_type_id'] == 3) {
             if ($data['collection_type'] == 'once') {
                 $commissionPerContract = ($data['commissions_rate'] / 100) * $data['price'];
@@ -366,7 +366,7 @@ class ContractController extends Controller
                 $commissionPerContract = ($data['commissions_rate'] / 100) * ($data['price'] / $numberOfContracts);
             }
         }
-    
+
         for ($i = 0; $i < $numberOfContracts; $i++) {
             $endDate = clone $startDate;
             if ($data['duration_unit'] === 'month') {
@@ -374,7 +374,7 @@ class ContractController extends Controller
             } else if ($data['duration_unit'] === 'year') {
                 $endDate->modify('+1 year');
             }
-    
+
             $finalPrice = $pricePerContract;
             if ($commissionPerContract !== 0) {
                 if ($data['collection_type'] === 'once') {
@@ -385,7 +385,7 @@ class ContractController extends Controller
                     $finalPrice += $commissionPerContract;
                 }
             }
-    
+
             $installments[] = [
                 'contract_id' => $contract->id,
                 'price' => $finalPrice,
@@ -394,10 +394,10 @@ class ContractController extends Controller
             ];
             $startDate = clone $endDate;
         }
-    
+
         Installment::insert($installments);
     }
-    
+
     public function certify(Contract $contract)
 {
     $contract->update(['status' => 'Certified']);

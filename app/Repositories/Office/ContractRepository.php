@@ -90,10 +90,10 @@ class ContractRepository implements ContractRepositoryInterface
         ];
         validator($data, $rules,$messages)->validate();
 
-        
-        if (is_null($data['employee_id'])) {
-            $data['employee_id'] = Auth::id();
-        }
+
+        // if (empty($data['employee_id'])) {
+        //     $data['employee_id'] = auth()->user()->UserOfficeData->id;
+        // }
 
 
         $contractData = [
@@ -102,7 +102,7 @@ class ContractRepository implements ContractRepositoryInterface
             'property_id' => $data['property_id'] ?? null,
             'unit_id' => $data['unit_id'],
             'owner_id' => $data['owner_id'],
-            'employee_id' => $data['employee_id'],
+            'employee_id' => $data['employee_id'] ?? null,
             'price' => $data['price'],
             'type' => $data['type'],
             'service_type_id' => $data['service_type_id'],
@@ -135,7 +135,7 @@ class ContractRepository implements ContractRepositoryInterface
             default:
                 return back()->withErrors(['duration_unit' => 'Invalid duration unit provided.']);
         }
-    
+
         $contractData['end_contract_date'] = $endDate;
 
         $contract = Contract::create($contractData);
@@ -149,13 +149,13 @@ class ContractRepository implements ContractRepositoryInterface
                         'created_by' => Auth::id()
                     ]);
                 }
-        
+
                 $attachmentFile = $data['attachment'][$index];
                 $ext = $attachmentFile->getClientOriginalExtension();
                 $fileName = uniqid() . '.' . $ext;
-        
+
                 $attachmentFile->move(public_path('/Offices/Contracts/' . $attachment->name), $fileName);
-        
+
                 ContractAttachment::create([
                     'attachment_id' => $attachment->id,
                     'contract_id' => $contract->id,
@@ -163,7 +163,7 @@ class ContractRepository implements ContractRepositoryInterface
                 ]);
             }
         }
-        
+
 
         $contractNumber = '10' . $contract->id;
 

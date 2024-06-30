@@ -117,7 +117,7 @@
                                     <div class="input-group">
                                         <select class="form-select"
                                             aria-label="Example select with button addon" name="employee_id">
-                                            <option disabled selected value="">@lang('Employee Name')</option>
+                                            <option disabled selected value="{{ auth()->user()->UserOfficeData->id }}">@lang('Employee Name')</option>
                                             @foreach ($employees as $employee)
                                                 <option value="{{ $employee->id }}">
                                                     {{ $employee->UserData->name }}</option>
@@ -170,6 +170,13 @@
                                                 class="required-color"></span></label>
                                         <input type="number" name="commissions_rate" class="form-control"
                                             placeholder="@lang('Commissions Rate')">
+                                            <div class="input-group">
+                                                <input type="number" name="price" class="form-control" placeholder="@lang('price')"
+                                                    aria-label="@lang('price')" aria-describedby="button-addon2" required>
+                                                <button class="btn btn-outline-primary waves-effect" type="button"
+                                                    id="button-addon2">@lang('SAR')</button>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- Collection Type -->
@@ -199,7 +206,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            
+
                                 <!-- Calendar Type -->
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Calendar Type') <span
@@ -212,7 +219,7 @@
                                 </div>
 
                                 <!-- Contract Date -->
-                      
+
                                     <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
                                         <label for="html5-date-input" class="col-md-12 col-form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
                                           <input class="form-control" type="date" name="date_concluding_contract" value="" id="html5-date-input" />
@@ -266,7 +273,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                             
+
 
                         </div>
                         <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
@@ -292,7 +299,7 @@
 
                                     </div>
                                     <div class="mb-3 col-4">
-                                        <input class="form-control" type="file" name="attachment[]" 
+                                        <input class="form-control" type="file" name="attachment[]"
                                             id="projectMasterplan" accept="image/*,application/pdf">
                                     </div>
                                     <div class="col">
@@ -550,7 +557,7 @@ function removeFeature(button) {
 
                     }
 
-                    var numberOfContracts = 1; 
+                    var numberOfContracts = 1;
                     var contracts = [];
 
                     if (formData.duration_unit === 'year' && formData.payment_cycle === 'annual') {
@@ -564,40 +571,40 @@ function removeFeature(button) {
                     var endDate = new Date(startDate);
 
                     var commissionPerContract = 0;
-                    if (formData.service_type_id == 3) { 
+                    if (formData.service_type_id == 3) {
                         if (formData.collection_type == 'once') {
-                            
+
                             commissionPerContract = (formData.commissions_rate / 100) * formData
                                 .price;
                         } else if (formData.collection_type == 'divided') {
-                            
+
                             commissionPerContract = (formData.commissions_rate / 100) * (formData.price /
-                                numberOfContracts); 
+                                numberOfContracts);
                         }
                     }
 
 
                     for (var i = 0; i < numberOfContracts; i++) {
-                      
+
                         if (formData.duration_unit === 'month') {
                             endDate.setMonth(startDate.getMonth() + 1);
                         } else if (formData.duration_unit === 'year') {
                             endDate.setFullYear(startDate.getFullYear() +
-                                1); 
+                                1);
                         }
 
                         var pricePerContract = formData.price / numberOfContracts;
 
-                       
+
                         var finalPrice = pricePerContract;
                         if (commissionPerContract !== 0) {
                             if (formData.collection_type === 'once') {
-                                
+
                                 if (i === 0) {
                                     finalPrice += commissionPerContract;
                                 }
                             } else if (formData.collection_type === 'divided') {
-                               
+
                                 finalPrice += commissionPerContract;
                             }
                         }
@@ -606,7 +613,7 @@ function removeFeature(button) {
                             contractNumber: i + 1,
                             startDate: startDate.toLocaleDateString('en-US'),
                             endDate: endDate.toLocaleDateString('en-US'),
-                            price: finalPrice.toFixed(2), 
+                            price: finalPrice.toFixed(2),
                         };
 
                         contracts.push(contract);
@@ -679,7 +686,7 @@ function removeFeature(button) {
         $('#unitSelect').on('change', function() {
             var unitId = $(this).val();
             var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
-            
+
             // Set service type and disable select
             if (serviceTypeId) {
                 $('#serviceTypeSelect').val(serviceTypeId);
