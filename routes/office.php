@@ -99,6 +99,7 @@ Route::group(
         Route::post('/contracts/{contract}/deportation', [ContractController::class, 'deportation'])->name('contracts.deportation');
         Route::delete('/contracts/{contract}', [ContractController::class, 'reset'])->name('contracts.destroy');
         Route::post('/contracts/update-validity', [ContractController::class, 'updateValidity'])->name('contracts.updateValidity');
+        Route::get('/get-unit-details/{unitId}', [ContractController::class, 'getUnitDetails']);
 
 
     }

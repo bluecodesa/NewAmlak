@@ -166,5 +166,33 @@
                 alertify.success(@json(__('Download done')));
             }
         </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function checkAndUpdateContracts() {
+            $.ajax({
+                url: '{{ route('contracts.updateValidity') }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                    } else {
+                        toastr.error('Failed to update contract validity.');
+                    }
+                },
+                error: function() {
+                    toastr.error('An error occurred. Please try again.');
+                }
+            });
+        }
+
+        // Run the function periodically (e.g., every 5 minutes)
+        setInterval(checkAndUpdateContracts, 300); // 300000 milliseconds = 5 minutes
+    });
+</script>
     @endpush
 @endsection

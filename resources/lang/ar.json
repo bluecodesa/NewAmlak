@@ -557,12 +557,18 @@
     "Certified": "معتمد",
     "Certify": "اعتماد",
     "Relay": "مرحل",
-    "Deportation": "ترحيل",
+    "Deportation": "تنفيذ",
     "Payments": "المدفوعات",
     "The current password field is required.": "حقل كلمة المرور الحالية مطلوب.",
     "The new password field is required.": "حقل كلمة المرور الجديدة مطلوب.",
     "The new password must be at least 8 characters.": "يجب أن تكون كلمة المرور الجديدة مكونة من 8 أحرف على الأقل.",
     "The new password confirmation does not match.": "تأكيد كلمة المرور الجديدة غير متطابق.",
     "The current password is incorrect.": "كلمة المرور الحالية غير صحيحة.",
-    "Password updated successfully.": "تم تحديث كلمة المرور بنجاح."
+    "Password updated successfully.": "تم تحديث كلمة المرور بنجاح.",
+    "once": "مرة واحدة",
+    "divided": "مقسمة",
+    "without": "بدون",
+    "Choose": "اختر",
+    "Add Attachment": "اضافة مرفق",
+    "Calculate Installments": "تحضير الاقساط"
 }

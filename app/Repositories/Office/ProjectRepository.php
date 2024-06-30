@@ -162,7 +162,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         unset($unit_data['images']);
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
-        $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
+        $unit_data['office_id'] = Auth::user()->UserOfficeData->id;
         $unit_data['project_id'] = $id;
         if (isset($data['show_gallery'])) {
             if ($data['show_gallery'] == 'on') {
@@ -218,16 +218,16 @@ class ProjectRepository implements ProjectRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() . '/Brokers/Projects/Property/Unit', $ext);
+                    $image->move(public_path() . '/Offices/Projects/Property/Unit', $ext);
                     UnitImage::create([
-                        'image' => '/Brokers/Projects/Property/Unit/' . $ext,
+                        'image' => '/Offices/Projects/Property/Unit/' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }
             }
         }
 
-        return redirect()->route('Broker.Project.index')->with('success', __('added successfully'));
+        return redirect()->route('Office.Project.index')->with('success', __('added successfully'));
     }
 
     public function autocomplete($data)

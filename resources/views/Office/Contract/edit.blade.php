@@ -39,11 +39,11 @@
                     </div>
                     <div class="col-md-4 col-12 mb-3">
                         @if($contract->status == 'draft')
-                        <button class="btn btn-secondary" id="certifyButton" data-contract-id="{{ $contract->id }}">@lang('Certify')</button>
-                        <button class="btn btn-secondary" id="deportationButton" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
+                        <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Certify')</button>
+                        <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
                         <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
                         @elseif ($contract->status == 'Certified')
-                        <button class="btn btn-secondary" id="deportationButton" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
+                        <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
                         <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
                         @endif
                     </div>
@@ -225,7 +225,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        
+
                             <!-- Calendar Type -->
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('Calendar Type') <span class="required-color">*</span></label>
@@ -235,10 +235,10 @@
                                     <option value="hijri" {{  $contract->calendarTypeSelect == 'hijri' ? 'selected' : '' }}>@lang('Hijri')</option>
                                 </select>
                             </div>
-                            
-       
+
+
                             <!-- Contract Date -->
-                  
+
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="{{ $contract->calendarTypeSelect == 'gregorian' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
                                     <input class="form-control" type="date" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
@@ -294,7 +294,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                         
+
                     </div>
 
                     <!-- Installments Tab -->
@@ -331,7 +331,7 @@
                                                     <td>{{ __($installment->status) }}</td>
                                                     <td>{{ $installment->start_date }}</td>
                                                     <td>{{ $installment->end_date }}</td>
-                                                   
+
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -343,7 +343,7 @@
 
                     <!-- Attachments Tab -->
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
-                     
+
                         <div class="col-12 mb-3">
                             <label class="form-label">@lang('Additional details')</label>
                             <button type="button" class="btn btn-outline-primary btn-sm"
@@ -364,7 +364,7 @@
                                             @endif
                                         </div>
                                     </div>
-                           
+
                                     <div class="col">
                                         <button type="button"
                                             class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
@@ -377,7 +377,7 @@
                             </div>
                         </div>
                     </div>
-              
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary me-1">
 
@@ -768,7 +768,7 @@
 $('#unitSelect').on('change', function() {
     var unitId = $(this).val();
     var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
-    
+
     // Set service type and disable select
     if (serviceTypeId) {
         $('#serviceTypeSelect').val(serviceTypeId);
@@ -807,55 +807,150 @@ $('#serviceTypeSelect').on('change', function() {
 
     </script>
 
+<script>
+    $(document).ready(function() {
+
+        // Function to handle unit selection
+        $('#unitSelect').on('change', function() {
+            var unitId = $(this).val();
+
+            // Fetch unit details via AJAX
+            if (unitId) {
+                fetchUnitDetails(unitId);
+            } else {
+                resetUnitDetails();
+            }
+        });
+
+        function fetchUnitDetails(unitId) {
+            // AJAX request to get unit details
+            $.ajax({
+                url: '/get-unit-details/' + unitId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Populate owner ID and disable the input
+                    $('#OwnersDiv').val(data.owner_id);
+                    $('#OwnersDiv').prop('disabled', true);
+
+                    // Update salary display (yearly)
+                    var yearlySalary = data.unit_rental_price.yearly;
+                    $('#unitSalary').val(yearlySalary);
+
+                    // Optionally, update hidden input for owner_id
+                    $('#hiddenOwnerId').val(data.owner_id);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching unit details:', error);
+                }
+            });
+        }
+
+        function resetUnitDetails() {
+            // Clear owner ID and enable the input
+            $('#OwnersDiv').val('');
+            $('#OwnersDiv').prop('disabled', false);
+
+            // Clear salary display (yearly)
+            $('#unitSalary').val('');
+
+            // Clear hidden input values if needed
+            $('#hiddenOwnerId').val('');
+        }
+
+        // Trigger change event on page load
+        $('#unitSelect').trigger('change');
+
+    });
+</script>
+
     <script>
-        //action buttons 
+        //action buttons
 
-    $(document).ready(function() {
-        $('#certifyButton').click(function() {
-            var contractId = $(this).data('contract-id');
-            $.ajax({
-                url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if(response.success) {
-                        location.reload();
-                    } else {
-                        alert('Failed to certify contract.');
-                    }
-                },
-                error: function() {
-                    alert('An error occurred. Please try again.');
+        // $('#certifyButton').click(function() {
+        //     var contractId = $(this).data('contract-id');
+        //     $.ajax({
+        //         url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
+        //         method: 'POST',
+        //         data: {
+        //             _token: '{{ csrf_token() }}'
+        //         },
+        //         success: function(response) {
+        //             if(response.success) {
+        //                 location.reload();
+        //             } else {
+        //                 alert('Failed to certify contract.');
+        //             }
+        //         },
+        //         error: function() {
+        //             alert('An error occurred. Please try again.');
+        //         }
+        //     });
+        // });
+
+        function certifyContract(contractId) {
+        $.ajax({
+            url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    toastr.error('Failed to certify contract.');
                 }
-            });
+            },
+            error: function() {
+                toastr.error('An error occurred. Please try again.');
+            }
         });
-    });
+    }
 
-
-    $(document).ready(function() {
-        $('#deportationButton').click(function() {
-            var contractId = $(this).data('contract-id');
-            $.ajax({
-                url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if(response.success) {
-                        window.location.href = '{{ route('Office.Contract.index') }}';
-                    } else {
-                        alert('Failed to deportation contract.');
-                    }
-                },
-                error: function() {
-                    alert('An error occurred. Please try again.');
+    function deportContract(contractId) {
+        $.ajax({
+            url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    window.location.href = '{{ route('Office.Contract.index') }}';
+                } else {
+                    toastr.error('Failed to deportation contract.');
                 }
-            });
+            },
+            error: function() {
+                toastr.error('An error occurred. Please try again.');
+            }
         });
-    });
+    }
+
+
+    // $(document).ready(function() {
+    //     $('#deportationButton').click(function() {
+    //         var contractId = $(this).data('contract-id');
+    //         $.ajax({
+    //             url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
+    //             method: 'POST',
+    //             data: {
+    //                 _token: '{{ csrf_token() }}'
+    //             },
+    //             success: function(response) {
+    //                 if(response.success) {
+    //                     window.location.href = '{{ route('Office.Contract.index') }}';
+    //                 } else {
+    //                     alert('Failed to deportation contract.');
+    //                 }
+    //             },
+    //             error: function() {
+    //                 alert('An error occurred. Please try again.');
+    //             }
+    //         });
+    //     });
+    // });
 
 
 
@@ -879,9 +974,31 @@ $('#serviceTypeSelect').on('change', function() {
                         alert('An error occurred. Please try again.');
                     }
                 });
-           
+
         });
     });
+
+    function handleDeportation(id) {
+        Swal.fire({
+            title: "@lang('Are you sure')",
+            text: "@lang('You cannot revert this action!')",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "@lang('Yes, Deport it!')",
+            cancelButtonText: "@lang('Cancel')",
+            customClass: {
+                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                // Perform the deportation action via AJAX
+                deportContract(id);
+            }
+        });
+    }
+
 
     </script>
 

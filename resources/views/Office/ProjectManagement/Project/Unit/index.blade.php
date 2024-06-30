@@ -83,10 +83,10 @@
 
                                         <td>{{ $unit->number_unit ?? '' }}</td>
                                         <td>{{ $unit->OwnerData->name ?? '' }}</td>
-                                        <td>{{ $unit->EmployeeData->UserData->name ?? '' }}</td>
+                                        <td>{{ $unit->EmployeeData->UserData->name ?? $unit->OfficeData->UserData->name  }}</td>
                                         <td>
                                             <span
-                                                class="badge badge-pill bg-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
+                                                class="badge badge-pill bg-{{ $unit->PropertyData != null ? 'success' : 'warning' }}"
                                                 style="font-size: 13px;">
                                                 {{ $unit->PropertyData->name ?? __('nothing') }}
                                             </span>

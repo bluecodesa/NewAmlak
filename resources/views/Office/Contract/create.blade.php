@@ -68,7 +68,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Project') <span class="required-color"></span></label>
                                     <select class="form-select" name="project_id" id="projectSelect">
-                                        <option disabled selected value="">@lang('Project')</option>
+                                        <option  selected value="">@lang('without')</option>
                                         @foreach ($projects as $project)
                                             <option value="{{ $project->id }}">
                                                 {{ $project->name }}</option>
@@ -79,7 +79,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                     <select class="form-select" name="property_id" id="propertySelect">
-                                        <option disabled selected value="">@lang('property')</option>
+                                        <option  selected value="">@lang('without')</option>
                                         @foreach ($properties as $property)
                                         <option value="{{ $property->id }}">{{ $property->name }}</option>
 
@@ -110,6 +110,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <input type="hidden" name="owner_id" id="hiddenOwnerId" />
                                 <div class="col-12 col-md-4 mb-3">
                                     <label class="col-md-6 form-label">@lang('Employee Name') <span
                                             class="required-color"></span>
@@ -129,7 +130,7 @@
                                     <label for="price" class="form-label">@lang('price') <span
                                             class="required-color">*</span></label>
                                     <div class="input-group">
-                                        <input type="number" name="price" class="form-control" placeholder="@lang('price')"
+                                        <input type="number" name="price" id="unitSalary" class="form-control" placeholder="@lang('price')"
                                             aria-label="@lang('price')" aria-describedby="button-addon2" required>
                                         <button class="btn btn-outline-primary waves-effect" type="button"
                                             id="button-addon2">@lang('SAR')</button>
@@ -168,15 +169,12 @@
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Commissions Rate') <span
                                                 class="required-color"></span></label>
-                                        <input type="number" name="commissions_rate" class="form-control"
-                                            placeholder="@lang('Commissions Rate')">
                                             <div class="input-group">
-                                                <input type="number" name="price" class="form-control" placeholder="@lang('price')"
-                                                    aria-label="@lang('price')" aria-describedby="button-addon2" required>
+                                                <input type="number" name="commissions_rate" class="form-control"
+                                                placeholder="@lang('Commissions Rate')">
                                                 <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('SAR')</button>
+                                                    id="button-addon2">@lang('%')</button>
                                             </div>
-                                        </div>
                                     </div>
 
                                     <!-- Collection Type -->
@@ -220,10 +218,10 @@
 
                                 <!-- Contract Date -->
 
-                                    <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
-                                        <label for="html5-date-input" class="col-md-12 col-form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
-                                          <input class="form-control" type="date" name="date_concluding_contract" value="" id="html5-date-input" />
-                                    </div>
+                                <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
+                                    <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
+                                    <input class="form-control" type="date"  name="date_concluding_contract" />
+                                </div>
                                     <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
                                         <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
                                         <input class="form-control" type="date" name="gregorian_contract_date" />
@@ -256,12 +254,10 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Payment Cycle') <span
                                             class="required-color">*</span></label>
-                                    <select class="form-select" name="payment_cycle" required>
-                                        <option disabled selected value="">@lang('Payment Cycle')</option>
-                                        @foreach (['annual', 'semi-annual', 'quarterly', 'monthly'] as $cycle)
-                                            <option value="{{ $cycle }}">{{ __($cycle) }}</option>
-                                        @endforeach
-                                    </select>
+                                            <select class="form-select" name="payment_cycle" required>
+                                                <option disabled selected value="">@lang('Payment Cycle')</option>
+                                                <!-- Options will be dynamically updated based on selection -->
+                                            </select>
                                 </div>
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('التجديد التلقائي') <span
@@ -281,7 +277,7 @@
                                 <button type="button" id="calculateButton" class="btn btn-primary me-1"
                                     role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
                                     aria-controls="navs-justified-profile">
-                                    @lang('Calculate')
+                                    @lang('Calculate Installments')
                                 </button>
                             </div>
                             <div id="contractDetails" style="display: none;">
@@ -361,7 +357,8 @@
                 })
                 .then(data => {
                     populateDropdown('propertySelect', data.properties, 'id', 'name');
-                    clearUnitDropdown(); // Clear units dropdown when properties change
+                    populateDropdown('unitSelect', data.units, 'id', 'number_unit');
+
                 })
                 .catch(error => {
                     console.error('Error fetching project details:', error);
@@ -398,7 +395,8 @@
         }
 
         function clearDropdowns() {
-            document.getElementById('propertySelect').innerHTML = '<option disabled selected value="">@lang('Property')</option>';
+            document.getElementById('propertySelect').innerHTML = '<option disabled selected value="">@lang('property')</option>';
+            document.getElementById('unitSelect').innerHTML = '<option disabled selected value="">@lang('Unit')</option>';
             clearUnitDropdown();
         }
 
@@ -523,6 +521,28 @@ function removeFeature(button) {
         </script>
 
         <script>
+
+            $(document).ready(function() {
+                    $('select[name="duration_unit"]').change(function() {
+                        var durationUnit = $(this).val();
+                        var paymentCycleSelect = $('select[name="payment_cycle"]');
+                        paymentCycleSelect.empty(); // Clear existing options
+
+                        var options = ['annual', 'semi-annual', 'quarterly', 'monthly'];
+
+                        if (durationUnit === 'month') {
+                            options = ['quarterly', 'monthly'];
+                        }
+
+                        options.forEach(function(option) {
+                            paymentCycleSelect.append('<option value="' + option + '">' + option + '</option>');
+                        });
+                    });
+
+                    $('select[name="duration_unit"]').trigger('change');
+                });
+
+
             $(document).ready(function() {
                 $('#calculateButton').on('click', function() {
                     var formData = {
@@ -564,8 +584,15 @@ function removeFeature(button) {
                         numberOfContracts = formData.contract_duration; // One contract per year
                     } else if (formData.duration_unit === 'month' && formData.payment_cycle === 'monthly') {
                         numberOfContracts = formData.contract_duration; // One contract per month
-                    } else if (formData.duration_unit === 'year' && formData.payment_cycle === 'monthly') {
+                    }else if (formData.duration_unit === 'month' && formData.payment_cycle === 'quarterly') {
+                        numberOfContracts = formData.contract_duration / 3; // Three contracts per quarter
+                    }else if (formData.duration_unit === 'year' && formData.payment_cycle === 'monthly') {
                         numberOfContracts = formData.contract_duration * 12; // Convert years to months
+                    }
+                    else if (formData.duration_unit === 'year' && formData.payment_cycle === 'semi-annual') {
+                        numberOfContracts = formData.contract_duration * 2; // Two contracts per year (semi-annual)
+                    } else if (formData.duration_unit === 'year' && formData.payment_cycle === 'quarterly') {
+                        numberOfContracts = formData.contract_duration * 4; // Four contracts per year (quarterly)
                     }
 
                     var endDate = new Date(startDate);
@@ -724,6 +751,64 @@ function removeFeature(button) {
         });
 
         </script>
+
+<script>
+    $(document).ready(function() {
+
+        // Function to handle unit selection
+        $('#unitSelect').on('change', function() {
+            var unitId = $(this).val();
+
+            // Fetch unit details via AJAX
+            if (unitId) {
+                fetchUnitDetails(unitId);
+            } else {
+                resetUnitDetails();
+            }
+        });
+
+        function fetchUnitDetails(unitId) {
+            // AJAX request to get unit details
+            $.ajax({
+                url: '/get-unit-details/' + unitId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Populate owner ID and disable the input
+                    $('#OwnersDiv').val(data.owner_id);
+                    $('#OwnersDiv').prop('disabled', true);
+
+                    // Update salary display (yearly)
+                    var yearlySalary = data.unit_rental_price.yearly;
+                    $('#unitSalary').val(yearlySalary);
+
+                    // Optionally, update hidden input for owner_id
+                    $('#hiddenOwnerId').val(data.owner_id);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching unit details:', error);
+                }
+            });
+        }
+
+        function resetUnitDetails() {
+            // Clear owner ID and enable the input
+            $('#OwnersDiv').val('');
+            $('#OwnersDiv').prop('disabled', false);
+
+            // Clear salary display (yearly)
+            $('#unitSalary').val('');
+
+            // Clear hidden input values if needed
+            $('#hiddenOwnerId').val('');
+        }
+
+        // Trigger change event on page load
+        $('#unitSelect').trigger('change');
+
+    });
+</script>
+
     @endpush
 
 @endsection

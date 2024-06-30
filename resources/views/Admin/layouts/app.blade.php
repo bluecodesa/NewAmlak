@@ -365,6 +365,27 @@
                 }
             });
         }
+
+        function handleCertify(id) {
+        Swal.fire({
+            title: "@lang('Are you sure')",
+            text: "@lang('You cannot revert this action!')",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "@lang('Yes, Certify it!')",
+            cancelButtonText: "@lang('Cancel')",
+            customClass: {
+                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                // Perform the certify action via AJAX
+                certifyContract(id);
+            }
+        });
+    }
     </script>
 
 </body>
