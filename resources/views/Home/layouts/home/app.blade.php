@@ -113,7 +113,7 @@
                         @guest
                             <a href="{{ route('login') }}" class="btn btn-primary btn-sm"><span
                                     class="tf-icons ti ti-login scaleX-n1-rtl me-md-1"></span><span
-                                    class="d-none d-md-block">تسجيل</span></a>
+                                    class="d-none d-md-block">@lang('login')</span></a>
 
 
                         @endguest

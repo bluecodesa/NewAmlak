@@ -213,6 +213,8 @@ class GallaryController extends Controller
         }
         $broker = $data['broker'];
         if ($broker->license_validity == 'valid') {
+            $data['CheckUnitExist'] = UnitInterest::where(['interested_id' => Auth::id(), 'unit_id' => $id])->exists();
+            // return $data;
             return view('Home.Gallery.Unit.show', $data);
         } else {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);

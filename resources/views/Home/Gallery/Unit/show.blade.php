@@ -240,6 +240,7 @@
 
                                     {{-- intrest unit --}}
                                     @auth
+
                                         <form action="{{ route('unit_interests.store') }}" method="POST">
                                             @csrf
 
@@ -255,8 +256,9 @@
                                             <input hidden name="whatsapp" value="{{ auth()->user()->phone }}" />
 
 
-                                            <button type="submit" class="btn btn-primary">
-                                                تسجيل اهتمام
+                                            <button type="submit" {{ $CheckUnitExist == false ? '' : 'disabled' }}
+                                                class="btn btn-primary">
+                                                {{ $CheckUnitExist == false ? ' تسجيل اهتمام' : 'تم تسجيل اهتمام' }}
                                             </button>
                                         </form>
                                     @endauth
