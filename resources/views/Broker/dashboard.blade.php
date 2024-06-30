@@ -66,7 +66,7 @@
             <div class="row">
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Broker.Unit.IndexByStatus', 'vacant') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -110,11 +110,11 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Broker.Unit.IndexByStatus', 'rented') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -158,11 +158,11 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Broker.Unit.IndexByUsage', '5') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -207,11 +207,11 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Broker.Unit.IndexByUsage', '4') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -253,10 +253,11 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
+
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Broker.Owner.index') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -285,10 +286,10 @@
                             </div> --}}
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Broker.Gallary.showInterests') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -317,11 +318,11 @@
                             </div> --}}
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Broker.Gallery.index') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -350,7 +351,7 @@
                             </div> --}}
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
             </div>

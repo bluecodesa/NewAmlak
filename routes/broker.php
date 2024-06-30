@@ -78,6 +78,8 @@ Route::group(
             Route::post('SaveNewOwners', [UnitController::class, 'SaveNewOwners'])->name('Unit.SaveNewOwners');
             Route::get('/UnitdeleteImage/{id}', 'ProjectManagement\UnitController@deleteImage')->name('Unit.deleteImage')->middleware('CheckSubscription');
             Route::get('/UpdateRentPriceByType/{id}', 'ProjectManagement\UnitController@UpdateRentPriceByType')->name('Unit.UpdateRentPriceByType')->middleware('CheckSubscription');
+            Route::get('/IndexByStatus/{id}', 'ProjectManagement\UnitController@IndexByStatus')->name('Unit.IndexByStatus')->middleware('CheckSubscription');
+            Route::get('/IndexByUsage/{id}', 'ProjectManagement\UnitController@IndexByUsage')->name('Unit.IndexByUsage')->middleware('CheckSubscription');
             Route::delete('/gallery/unit/{id}', [UnitController::class, 'destroyUnitGallery'])->name('gallery.unit.destroy');
             //
             route::resource('Tickets', TicketController::class);

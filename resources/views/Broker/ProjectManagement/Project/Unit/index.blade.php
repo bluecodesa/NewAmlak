@@ -9,7 +9,15 @@
                 <div class="col-6">
                     <h4 class="">
                         <a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Units')
+                        @lang('Units') @isset($type)
+                            |
+                            {{ __($type) }}
+                        @endisset
+                        @isset($usage)
+                            |
+                            {{ $usage->name }}
+                        @endisset
+
                     </h4>
                 </div>
 
@@ -17,7 +25,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">@lang('Units')</h5>
+                    <h5 class="card-title mb-0">@lang('Units') </h5>
                 </div>
                 {{-- <div class="col-3 py-1">
                     <input id="SearchInput" class="form-control  rounded-pill mt-3" type="text"
