@@ -1,4 +1,5 @@
 @extends('Home.layouts.home.app')
+@section('title', __('home'))
 @section('content')
     <!-- Sections:Start -->
     <style>
