@@ -1,5 +1,5 @@
 @extends('Home.layouts.home.app')
-@section('title', __('Unit') . ' ' . $Unit->number_unit)
+@section('title', __('Unit') . ' ' . $Unit->ad_name ?? ($Unit->number_unit ?? ''))
 @section('content')
 
 
@@ -8,7 +8,7 @@
         <div class="container">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                     <span class="text-muted fw-light"> <a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>/</span>
-                    وحدة : {{ $Unit->number_unit }}</h4>
+                    وحدة : {{ $Unit->ad_name ?? ($Unit->number_unit ?? '') }}</h4>
             <input hidden type="text" name="unit_idd" value="{{ $Unit->id }}" />
             <!-- Header -->
 
@@ -240,6 +240,7 @@
 
                                     {{-- intrest unit --}}
                                     @auth
+
                                         <form action="{{ route('unit_interests.store') }}" method="POST">
                                             @csrf
 
@@ -255,8 +256,9 @@
                                             <input hidden name="whatsapp" value="{{ auth()->user()->phone }}" />
 
 
-                                            <button type="submit" class="btn btn-primary">
-                                                تسجيل اهتمام
+                                            <button type="submit" {{ $CheckUnitExist == false ? '' : 'disabled' }}
+                                                class="btn btn-primary">
+                                                {{ $CheckUnitExist == false ? ' تسجيل اهتمام' : 'تم تسجيل اهتمام' }}
                                             </button>
                                         </form>
                                     @endauth

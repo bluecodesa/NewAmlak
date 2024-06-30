@@ -78,4 +78,20 @@ class Broker extends Model
     {
         return $this->hasMany(Project::class, 'broker_id');
     }
+
+
+    public function UserDataCustomer()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getUserDataCustomer()
+    {
+        return 'AMK1-' . $this->getUserDataCustomer->customer_id ?? '';
+    }
+
+    public function getUserDataCustomerAttribute()
+    {
+        return 'AMK1-' . $this->user->customer_id ?? '';
+    }
 }

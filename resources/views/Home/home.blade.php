@@ -1,4 +1,5 @@
 @extends('Home.layouts.home.app')
+@section('title', __('home'))
 @section('content')
     <!-- Sections:Start -->
     <style>
@@ -59,7 +60,7 @@
                     </span>
                 </div>
                 <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">أملاك نظام إدارة متطور
+                    <span class="position-relative fw-bold z-1">تميز معنا في إدارة الأملاك والتسويق العقاري
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                             style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
@@ -69,7 +70,6 @@
                 </h3>
                 <p class="text-center mb-3 mb-md-5 pb-3">
                     حلول تقنية متطورة تلبي جميع أعمالك
-
                 </p>
                 <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
@@ -80,14 +80,14 @@
                         <h5 class="mb-3">علاقات العملاء
                         </h5>
                         <p class="features-icon-description">
-                            من خلال منصة مخصصة لعملائك تستطيع استقبال طلبات الصيانة والشكاوى </p>
+                            توفر لك منصة أملاك افضل الطرق الاحترافية لمتابعة نمو أعمالك</p>
                     </div>
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">
                         <div class="text-center mb-3">
                             <img src="{{ url('HOME_PAGE/img/front-pages/icons/rocket.png') }}" alt="transition up"
                                 style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);" />
                         </div>
-                        <h5 class="mb-3">التنبيهات للعقود
+                        <h5 class="mb-3"> إدارة عقود العملاء
                         </h5>
                         <p class="features-icon-description">
                             من خلال لوحة التحكم الخاصة بك يمكنك متابعة جميع عقود عملائك ومعرفة عدد الأيام المتبقية لانتهاء
@@ -99,10 +99,10 @@
                                 style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                                 alt="edit" />
                         </div>
-                        <h5 class="mb-3">ملفات مشتركة
+                        <h5 class="mb-3"> التسويق والعروض العقارية
                         </h5>
                         <p class="features-icon-description">
-                            من خلال النظام يمكنكم مشاركة وتبادل الملفات وحفظها واسترجاعها عند الحاجة.
+                            امتلك معرضك العقاري المميز من خلال منصة أملاك و وسع نطاق أعمالك لتصل لأكبر عدد من العملاء
 
                         </p>
                     </div>
@@ -617,8 +617,8 @@
                     </span>
                 </div>
                 <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين
-                        بكل سهولة
+                    <span class="position-relative fw-bold z-1">توفر لك منصة أملاك باقات مميزة تمكنك من إدارة أعمالك بكل
+                        سهولة
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                             style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
@@ -1146,6 +1146,18 @@
 
     @include('Home.layouts.inc.__addSubscriberModal')
     <script>
+        $('#phone').on('input', function() {
+            // Update the pattern attribute dynamically based on current input length
+            var currentLength = $(this).val().length;
+            var minLength = 9;
+
+            if (currentLength < minLength) {
+                $(this).attr('pattern', '\\d{' + minLength + '}');
+            } else {
+                $(this).attr('pattern', '\\d{' + currentLength + '}');
+            }
+        });
+
         function redirectToCreateBroker() {
             window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
         }

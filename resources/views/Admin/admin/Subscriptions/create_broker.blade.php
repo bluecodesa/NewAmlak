@@ -144,7 +144,7 @@
                             <span class="not_required">(@lang('optional'))</span>
                             <input type="file" class="form-control d-none" id="broker_logo" name="broker_logo"
                                 accept="image/png, image/jpg, image/jpeg">
-                            <img id="broker_logo_preview" src="https://www.svgrepo.com/show/29852/user.svg"
+                            <img id="broker_logo_preview" src="url('HOME_PAGE/img/avatars/14.png')"
                                 class="d-flex mr-3 rounded-circle" height="64" style="cursor: pointer;" />
 
                         </div>

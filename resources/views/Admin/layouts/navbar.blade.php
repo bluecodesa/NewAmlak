@@ -85,8 +85,7 @@
                             @if (Auth::user()->avatar)
                                 <img src="{{ Auth::user()->avatar }}" alt="user" class="rounded-circle">
                             @else
-                                <img src="https://www.svgrepo.com/show/29852/user.svg" alt="user"
-                                    class="rounded-circle">
+                                <img src="url('HOME_PAGE/img/avatars/14.png')" alt="user" class="rounded-circle">
                             @endif
 
                         </a>

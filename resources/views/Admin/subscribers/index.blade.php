@@ -72,6 +72,7 @@
                         <thead class="table-dark">
                             <tr>
                                 {{-- <th>#</th> --}}
+                                <th>@lang('Customer ID')</th>
                                 <th>@lang('Subscriber Name')</th>
                                 <th>@lang('Account Type')</th>
                                 {{-- <th>@lang('Subscription Type')</th> --}}
@@ -90,6 +91,15 @@
                                 <tr>
                                     {{-- <td>{{ $index + 1 }}</td> --}}
 
+
+                                    <td>
+                                        @if ($subscriber->office_id)
+                                            {{ $subscriber->OfficeData->UserData->customer_id ?? '-' }}
+                                        @elseif ($subscriber->broker_id)
+                                            {{ $subscriber->BrokerData->UserData->customer_id ?? '-' }}
+                                        @endif
+                                    </td>
+
                                     <td>
                                         @if ($subscriber->office_id)
                                             {{ $subscriber->OfficeData->UserData->name ?? '' }}
@@ -97,6 +107,8 @@
                                             {{ $subscriber->BrokerData->UserData->name ?? '' }}
                                         @endif
                                     </td>
+
+
                                     <td>
                                         @if ($subscriber->office_id)
                                             @lang('Office')
@@ -195,7 +207,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @empty
+                            @empty
                                 <td colspan="6">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <span class="alert-icon text-danger me-2">

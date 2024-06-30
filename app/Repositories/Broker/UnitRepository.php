@@ -224,20 +224,17 @@ class UnitRepository implements UnitRepositoryInterface
 
     public function getAllUnitsForGalleriesWithShowGallery()
     {
-        $units = collect(); 
- 
+        $units = collect();
+
         $galleries = Gallery::where('gallery_status', 1)->get();
-    
+
         foreach ($galleries as $gallery) {
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                                ->where('show_gallery', 1)
-                                ->get();
-            
-            $units = $units->merge($galleryUnits); 
+                ->where('show_gallery', 1)
+                ->get();
 
+            $units = $units->merge($galleryUnits);
         }
         return $units;
     }
-    
-
 }

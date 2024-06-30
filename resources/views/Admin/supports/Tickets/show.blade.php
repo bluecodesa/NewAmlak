@@ -50,7 +50,7 @@
                                         <li class="mb-2 pt-1">
                                             <span class="fw-medium me-1">@lang('Description'):</span>
                                             {{-- <span>{{ $ticket->content }}</span> --}}
-                                            <h6 class="mb-1">{!!  $ticket->content !!}</h6>
+                                            <h6 class="mb-1">{!! $ticket->content !!}</h6>
 
                                         </li>
                                         <li class="mb-2 pt-1">
@@ -108,42 +108,47 @@
                     <!-- User List Style -->
                     <div class="col-12 col-lg-10 mb-4 mb-xl-0">
                         <div class="card overflow-hidden mb-4">
-                            <div class="card-body"  id="vertical-example">
+                            <div class="card-body" id="vertical-example">
                                 <h5 class="mt-4 small text-uppercase text-muted">@lang('Comments')</h5>
                                 <div class="demo-inline-spacing mt-3">
                                     <div class="list-group" style="max-height: 400px; overflow-y: auto;">
-                                        @if($ticketResponses && $ticketResponses->isNotEmpty())
+                                        @if ($ticketResponses && $ticketResponses->isNotEmpty())
                                             @foreach ($ticketResponses as $response)
-                                            <div class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer">
-                                                <img src="{{ optional($response->UserData)->avatar ?: 'https://www.svgrepo.com/show/29852/user.svg' }}"
-                                                     alt="{{ optional($response->UserData)->name ?? 'Default Name' }}" class="rounded-circle me-3 w-px-50" />
-                                                <div class="w-100">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="user-info">
-                                                            <h6 class="mb-1">{!! $response->response !!}</h6>
-                                                            <small>{{ optional($response->UserData)->name ?? 'Anonymous' }}</small>
-                                                            <div class="user-status">
-                                                                <span class="badge"></span>
-                                                                <small>{{ $response->created_at->format('Y-m-d H:i:s') }}</small>
+                                                <div
+                                                    class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer">
+                                                    <img src="{{ optional($response->UserData)->avatar ?: url('HOME_PAGE/img/avatars/14.png') }}"
+                                                        alt="{{ optional($response->UserData)->name ?? 'Default Name' }}"
+                                                        class="rounded-circle me-3 w-px-50" />
+                                                    <div class="w-100">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="user-info">
+                                                                <h6 class="mb-1">{!! $response->response !!}</h6>
+                                                                <small>{{ optional($response->UserData)->name ?? 'Anonymous' }}</small>
+                                                                <div class="user-status">
+                                                                    <span class="badge"></span>
+                                                                    <small>{{ $response->created_at->format('Y-m-d H:i:s') }}</small>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="add-btn">
-                                                            @if ($response->response_attachment)
-                                                            <span class="badge bg-label-secondary">{{ basename($response->response_attachment) }}</span>
-                                                            <a class="btn btn-primary ti ti-download btn-sm" href="{{ asset($response->response_attachment) }}" download></a>
-                                                            @endif
+                                                            <div class="add-btn">
+                                                                @if ($response->response_attachment)
+                                                                    <span
+                                                                        class="badge bg-label-secondary">{{ basename($response->response_attachment) }}</span>
+                                                                    <a class="btn btn-primary ti ti-download btn-sm"
+                                                                        href="{{ asset($response->response_attachment) }}"
+                                                                        download></a>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                             @endforeach
                                         @else
-                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                            <span class="alert-icon text-danger me-2">
-                                                <i class="ti ti-ban ti-xs"></i>
-                                            </span>
-                                            @lang('No Comments Found!')
-                                        </div>
+                                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                                <span class="alert-icon text-danger me-2">
+                                                    <i class="ti ti-ban ti-xs"></i>
+                                                </span>
+                                                @lang('No Comments Found!')
+                                            </div>
                                         @endif
                                     </div>
                                 </div>

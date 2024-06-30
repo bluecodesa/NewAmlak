@@ -20,7 +20,7 @@
                                                 height="100" width="100" alt="User avatar">
                                         @else
                                             <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                                src="https://www.svgrepo.com/show/29852/user.svg" height="100"
+                                                src="{{ asset('HOME_PAGE/img/avatars/14.png') }}" height="100"
                                                 width="100" alt="User avatar">
                                         @endif
                                         <div class="user-info text-center">

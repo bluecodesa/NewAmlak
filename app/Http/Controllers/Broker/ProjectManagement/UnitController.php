@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\PropertyUsage;
 use App\Models\Unit;
 use App\Models\UnitInterest;
 use App\Services\Admin\SettingService;
@@ -85,7 +86,29 @@ class UnitController extends Controller
     public function index()
     {
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        $type = '';
         return view('Broker.ProjectManagement.Project.Unit.index',  get_defined_vars());
+    }
+
+    function IndexByStatus($type)
+    {
+        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        $units = $units->where('status', $type);
+
+        return view('Broker.ProjectManagement.Project.Unit.index', get_defined_vars());
+    }
+
+    function IndexByUsage($usage)
+    {
+        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        if ($usage == '5') {
+            $units = $units->where('property_usage_id', '!=', $usage);
+        } else {
+
+            $units = $units->where('property_usage_id', $usage);
+        }
+        $usage = PropertyUsage::find($usage);
+        return view('Broker.ProjectManagement.Project.Unit.index', get_defined_vars());
     }
 
     public function create()

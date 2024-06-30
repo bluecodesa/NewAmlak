@@ -61,6 +61,10 @@ class SubscriptionController extends Controller
 
     public function index()
     {
+
+
+
+
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $subscribers = $this->subscriptionService->getAllSubscribers();
