@@ -262,7 +262,8 @@
                                                     @endif
                                                 </a>
                                             </div>
-                                            <h4 class="mb-1 card-title">{{ $unit->number_unit ?? '' }}</h4>
+                                            <h4 class="mb-1 card-title">{{ $unit->ad_name ?? ($unit->number_unit ?? '') }}
+                                            </h4>
                                             <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
                                                 <span class="pb-1"><i
