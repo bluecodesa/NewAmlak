@@ -126,26 +126,25 @@ class User extends Authenticatable
         $avatarPath = public_path($this->avatar);
 
         if (!file_exists($avatarPath)) {
-            return 'url('HOME_PAGE/img/avatars/14.png')';
+            return 'HOME_PAGE/img/avatars/14.png';
         } else {
             return asset($this->avatar);
         }
     }
 
     public function unitInterests()
-{
-    return $this->hasMany(UnitInterest::class);
-}
+    {
+        return $this->hasMany(UnitInterest::class);
+    }
 
     public function FavFinders()
     {
-        return $this->hasMany(FavoriteUnit::class,'finder_id');
+        return $this->hasMany(FavoriteUnit::class, 'finder_id');
     }
 
 
     public function FavOwners()
     {
-        return $this->hasMany(FavoriteUnit::class,'owner_id');
+        return $this->hasMany(FavoriteUnit::class, 'owner_id');
     }
-
 }

@@ -218,7 +218,7 @@
                                 $office_avatar = $employee->OfficeData->company_logo;
                             @endphp
 
-                            <img src="{{ $office_avatar != null ? url($office_avatar) : url('HOME_PAGE/img/avatars/14.png') }}"
+                            <img src="{{ $office_avatar != null ? url($office_avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
                                 alt class="h-auto rounded-circle" />
                         @else
                             <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : url('HOME_PAGE/img/avatars/14.png') }}"
@@ -233,7 +233,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'url('HOME_PAGE/img/avatars/14.png')' }}"
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
@@ -248,7 +248,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'url('HOME_PAGE/img/avatars/14.png')' }}"
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
@@ -263,7 +263,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'url('HOME_PAGE/img/avatars/14.png')' }}"
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
@@ -282,7 +282,7 @@
                                                 $employee = Auth::user()->UserEmployeeData;
                                                 $office = $employee->OfficeData->company_logo;
                                             @endphp
-                                            <img src="{{ $office != null ? url($office) : 'url('HOME_PAGE/img/avatars/14.png')' }}"
+                                            <img src="{{ $office != null ? url($office) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
