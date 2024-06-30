@@ -70,7 +70,6 @@
                 </h3>
                 <p class="text-center mb-3 mb-md-5 pb-3">
                     حلول تقنية متطورة تلبي جميع أعمالك
-
                 </p>
                 <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
                     <div class="col-lg-3 col-sm-6 text-center features-icon-box">

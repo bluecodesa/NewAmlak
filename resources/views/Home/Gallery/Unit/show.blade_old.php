@@ -229,7 +229,7 @@
                     @if (!empty($brokers->avatar))
                     <img src="{{ $brokers->avatar }}" alt="user" class="img-fluid rounded-circle">
                     @else
-                    <img src="{{ asset('url('HOME_PAGE/img/avatars/14.png')') }}" alt="Default User" class="img-fluid rounded-circle">
+                    <img src="{{ asset(url('HOME_PAGE/img/avatars/14.png')) }}" alt="Default User" class="img-fluid rounded-circle">
                     @endif
                 </div>
 

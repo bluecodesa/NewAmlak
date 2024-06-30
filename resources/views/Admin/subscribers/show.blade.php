@@ -30,9 +30,9 @@
                             <div class="user-avatar-section">
                                 <div class="d-flex align-items-center flex-column">
                                     <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                        src="@if ($subscriber->office_id) {{ $subscriber->OfficeData->company_logo ?? 'url('HOME_PAGE/img/avatars/14.png')' }}
+                                        src="@if ($subscriber->office_id) {{ $subscriber->OfficeData->company_logo ?? url('HOME_PAGE/img/avatars/14.png') }}
                                                 @elseif ($subscriber->broker_id)
-                                                    {{ $subscriber->BrokerData->broker_logo ?? 'url('HOME_PAGE/img/avatars/14.png')' }} {{-- Use asset helper --}} @endif"
+                                                    {{ $subscriber->BrokerData->broker_logo ?? url('HOME_PAGE/img/avatars/14.png') }} {{-- Use asset helper --}} @endif"
                                         height="100" width="100" alt="User avatar">
                                     <div class="user-info text-center">
                                         <h4 class="mb-2">
@@ -169,53 +169,58 @@
                                     </li>
                                 </ul>
                                 @if (Auth::user()->hasPermission('update-account-users-limit'))
+                                    <div class="d-flex justify-content-center">
+                                        <span class="fw-medium me-1">@lang('الحد الاقصي من عدد الموظفين') :
+                                            {{ $subscriber->OfficeData->max_of_employee ?? '' }}</span>
+                                        <a href="{{ route('Broker.Project.edit', $subscriber->id) }}"
+                                            class="btn btn-warning me-3" data-bs-toggle="modal"
+                                            data-bs-target="#basicModal">@lang('Edit')</a>
 
-                                <div class="d-flex justify-content-center">
-                                    <span class="fw-medium me-1">@lang('الحد الاقصي من عدد الموظفين') : {{ $subscriber->OfficeData->max_of_employee ?? '' }}</span>
-                                    <a href="{{ route('Broker.Project.edit', $subscriber->id) }}"
-                                        class="btn btn-warning me-3"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#basicModal">@lang('Edit')</a>
-
-                                              <!-- Modal -->
-                                              <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                  <div class="modal-content">
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
                                                     <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel1">@lang('Edit Numbers of Max Employees')</h5>
-                                                      <button
-                                                        type="button"
-                                                        class="btn-close"
-                                                        data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                        <h5 class="modal-title" id="exampleModalLabel1">@lang('Edit Numbers of Max Employees')
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                      <div class="row">
-                                                        <form action="{{ route('Admin.updateNumOfEmployee', $subscriber->OfficeData->id) }}" method="POST">
-                                                            @csrf
-                                                            @method('PUT')
+                                                        <div class="row">
+                                                            <form
+                                                                action="{{ route('Admin.updateNumOfEmployee', $subscriber->OfficeData->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('PUT')
 
-                                                            <div class="mb-3">
-                                                                <label for="max_of_employee" class="form-label">@lang('Numbers of Employees') <span class="text-danger">*</span></label>
-                                                                <input type="number" class="form-select" name="max_of_employee" id="max_of_employee" required>
-                                                            </div>
+                                                                <div class="mb-3">
+                                                                    <label for="max_of_employee"
+                                                                        class="form-label">@lang('Numbers of Employees') <span
+                                                                            class="text-danger">*</span></label>
+                                                                    <input type="number" class="form-select"
+                                                                        name="max_of_employee" id="max_of_employee"
+                                                                        required>
+                                                                </div>
 
 
-                                                      </div>
+                                                        </div>
 
                                                     </div>
                                                     <div class="modal-footer">
-                                                      <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                                                        @lang('Cancel')
-                                                      </button>
-                                                      <button type="submit" class="btn btn-primary">@lang('save')</button>
+                                                        <button type="button" class="btn btn-label-secondary"
+                                                            data-bs-dismiss="modal">
+                                                            @lang('Cancel')
+                                                        </button>
+                                                        <button type="submit"
+                                                            class="btn btn-primary">@lang('save')</button>
                                                     </div>
                                                     </form>
-                                                  </div>
                                                 </div>
-                                              </div>
+                                            </div>
+                                        </div>
 
-                                </div>
+                                    </div>
                                 @endif
 
                             </div>
@@ -260,8 +265,8 @@
                             </div> --}}
                             <div class="progress" style="height: 10px">
                                 <div id="progress-bar-{{ $subscriber->id }}" class="progress-bar" role="progressbar"
-                                    style="width: {{ $progress_percentage }}%;" aria-valuenow="{{ $progress_percentage }}"
-                                    aria-valuemin="0" aria-valuemax="100">
+                                    style="width: {{ $progress_percentage }}%;"
+                                    aria-valuenow="{{ $progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
                                     {{ $progress_percentage }}%
                                 </div>
                             </div>
@@ -333,12 +338,12 @@
                                 <thead class="table-dark">
                                     <tr>
                                         {{-- <th>#</th> --}}
-                                        <th >@lang('Name')</th>
-                                        <th >@lang('Email')</th>
-                                        <th >@lang('phone')</th>
+                                        <th>@lang('Name')</th>
+                                        <th>@lang('Email')</th>
+                                        <th>@lang('phone')</th>
                                         {{-- <th >@lang('city')</th>
                                         <th >@lang('role name')</th> --}}
-                                        <th >@lang('Action')</th>
+                                        <th>@lang('Action')</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">

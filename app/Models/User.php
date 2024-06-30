@@ -115,7 +115,7 @@ class User extends Authenticatable
     // public function getAvatar()
     // {
     //     if (!file_exists(public_path(url($this->avatar)))) {
-    //         return 'url('HOME_PAGE/img/avatars/14.png')';
+    //         return url('HOME_PAGE/img/avatars/14.png');
     //     } else {
     //         return url($this->avatar);
     //     }
