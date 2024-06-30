@@ -92,7 +92,10 @@ class SettingService
             // Gallery::where('broker_id', $broker->id)->first()->update(['gallery_status' => '1']);
         } else {
             $broker->update(['license_validity' => 'expired']);
-            Gallery::where('broker_id', $broker->id)->first()->update(['gallery_status' => '0']);
+            $check_gallary = Gallery::where('broker_id', $broker->id)->first();
+            if ($check_gallary) {
+                $check_gallary->update(['gallery_status' => '0']);
+            }
         }
 
 
