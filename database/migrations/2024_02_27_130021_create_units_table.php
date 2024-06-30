@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->increments('id');
             $table->string('number_unit')->nullable();
+            $table->string('ad_name')->nullable();
             $table->unsignedBigInteger('office_id')->nullable();
             $table->integer('broker_id')->unsigned()->nullable();
             $table->integer('employee_id')->unsigned()->nullable();
@@ -39,7 +40,7 @@ return new class extends Migration
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
             $table->foreign('broker_id')->references('id')->on('brokers')->onDelete('cascade');
             $table->foreign('property_type_id')->references('id')->on('property_types')->onDelete('cascade');
-            $table->enum('status', ['vacant', 'rented'])->default('vacant'); 
+            $table->enum('status', ['vacant', 'rented'])->default('vacant');
             $table->timestamps();
         });
     }
