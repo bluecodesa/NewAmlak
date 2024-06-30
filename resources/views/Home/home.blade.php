@@ -1146,6 +1146,18 @@
 
     @include('Home.layouts.inc.__addSubscriberModal')
     <script>
+        $('#phone').on('input', function() {
+            // Update the pattern attribute dynamically based on current input length
+            var currentLength = $(this).val().length;
+            var minLength = 9;
+
+            if (currentLength < minLength) {
+                $(this).attr('pattern', '\\d{' + minLength + '}');
+            } else {
+                $(this).attr('pattern', '\\d{' + currentLength + '}');
+            }
+        });
+
         function redirectToCreateBroker() {
             window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
         }
