@@ -115,7 +115,7 @@
                                         @if($ticketResponses && $ticketResponses->isNotEmpty())
                                             @foreach ($ticketResponses as $response)
                                             <div class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer">
-                                                <img src="{{ optional($response->UserData)->avatar ?: 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                                <img src="{{ optional($response->UserData)->avatar ?: 'url('HOME_PAGE/img/avatars/14.png')' }}"
                                                      alt="{{ optional($response->UserData)->name ?? 'Default Name' }}" class="rounded-circle me-3 w-px-50" />
                                                 <div class="w-100">
                                                     <div class="d-flex justify-content-between">

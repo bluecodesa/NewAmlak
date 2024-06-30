@@ -212,16 +212,17 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        @if(Auth::user()->is_employee)
-                        @php
-                        $employee =Auth::user()->UserEmployeeData;
-                       $office_avatar=$employee->OfficeData->company_logo;
-                        @endphp
-                        <img src="{{ $office_avatar != null ? url($office_avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
-                            alt class="h-auto rounded-circle" />
+                        @if (Auth::user()->is_employee)
+                            @php
+                                $employee = Auth::user()->UserEmployeeData;
+                                $office_avatar = $employee->OfficeData->company_logo;
+                            @endphp
+
+                            <img src="{{ $office_avatar != null ? url($office_avatar) : url('HOME_PAGE/img/avatars/14.png') }}"
+                                alt class="h-auto rounded-circle" />
                         @else
-                        <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
-                            alt class="h-auto rounded-circle" />
+                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : url('HOME_PAGE/img/avatars/14.png') }}"
+                                alt class="h-auto rounded-circle" />
                         @endif
                     </div>
                 </a>
@@ -232,7 +233,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'url('HOME_PAGE/img/avatars/14.png')' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
@@ -247,7 +248,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'url('HOME_PAGE/img/avatars/14.png')' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
@@ -258,12 +259,11 @@
                                 </div>
                             </a>
                         @elseif(Auth::user()->is_office)
-
                             <a class="dropdown-item" href="{{ route('Office.Setting.index') }}">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'url('HOME_PAGE/img/avatars/14.png')' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
@@ -273,16 +273,16 @@
                                     </div>
                                 </div>
                             </a>
-                            @elseif(Auth::user()->is_employee)
+                        @elseif(Auth::user()->is_employee)
                             <a class="dropdown-item" href="{{ route('Employee.Setting.index') }}">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
                                             @php
-                                                 $employee =Auth::user()->UserEmployeeData;
-                                                $office=$employee->OfficeData->company_logo;
+                                                $employee = Auth::user()->UserEmployeeData;
+                                                $office = $employee->OfficeData->company_logo;
                                             @endphp
-                                            <img src="{{ $office != null ? url($office) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ $office != null ? url($office) : 'url('HOME_PAGE/img/avatars/14.png')' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>

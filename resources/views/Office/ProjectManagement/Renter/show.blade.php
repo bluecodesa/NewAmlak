@@ -86,7 +86,7 @@
                             <div class="user-avatar-section">
                                 <div class="d-flex align-items-center flex-column">
                                     <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                        src="@if ($renter->user_id) {{ $renter->UserData->avatar ?? 'https://www.svgrepo.com/show/29852/user.svg' }}
+                                        src="@if ($renter->user_id) {{ $renter->UserData->avatar ?? 'url('HOME_PAGE/img/avatars/14.png')' }}
                                                  {{-- Use asset helper --}} @endif"
                                         height="100" width="100" alt="User avatar">
                                     <div class="user-info text-center">

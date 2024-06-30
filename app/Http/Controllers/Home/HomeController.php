@@ -352,7 +352,7 @@ class HomeController extends Controller
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
             // 'city_id' => $request->city_id,
-            'broker_logo' => $request_data['broker_logo'] ?? null,
+            'broker_logo' => $request_data['broker_logo'] ?? 'HOME_PAGE/img/avatars/14.png',
         ]);
 
 

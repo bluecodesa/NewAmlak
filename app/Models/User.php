@@ -115,7 +115,7 @@ class User extends Authenticatable
     // public function getAvatar()
     // {
     //     if (!file_exists(public_path(url($this->avatar)))) {
-    //         return 'https://www.svgrepo.com/show/29852/user.svg';
+    //         return 'url('HOME_PAGE/img/avatars/14.png')';
     //     } else {
     //         return url($this->avatar);
     //     }
@@ -126,7 +126,7 @@ class User extends Authenticatable
         $avatarPath = public_path($this->avatar);
 
         if (!file_exists($avatarPath)) {
-            return 'https://www.svgrepo.com/show/29852/user.svg';
+            return 'url('HOME_PAGE/img/avatars/14.png')';
         } else {
             return asset($this->avatar);
         }
