@@ -60,7 +60,7 @@
                                         <input type="text" class="form-control galleryNameCopy"
                                             id="{{ 'galleryNameCopy_' . $unit->id }}" readonly
                                             value="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
-                                        <button onclick="copyToClipboard('galleryNameCopy_{{ $unit->id }}')"
+                                        <button onclick="copyToClipboardShare('galleryNameCopy_{{ $unit->id }}')"
                                             class="btn btn-outline-primary waves-effect" type="button">
                                             <i class="ti ti-copy"></i>
                                         </button>
@@ -108,7 +108,7 @@
                 });
             });
 
-            function copyToClipboard(elementId) {
+            function copyToClipboardShare(elementId) {
                 var copyText = document.getElementById(elementId);
                 copyText.select();
                 copyText.setSelectionRange(0, 99999); // For mobile devices
