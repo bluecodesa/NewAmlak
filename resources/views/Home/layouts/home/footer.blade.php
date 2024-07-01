@@ -83,7 +83,7 @@
     <div class="footer-bottom py-3">
         <div
             class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-            <div class="mb-2 mb-md-0">
+            <div class="mb-2 mb-md-0 " style="color: white;">
                 <span class="footer-text">©
                     <script>
                         document.write(new Date().getFullYear());
