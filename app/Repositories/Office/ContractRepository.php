@@ -164,8 +164,8 @@ class ContractRepository implements ContractRepositoryInterface
             }
         }
 
-
-        $contractNumber = '10' . $contract->id;
+        $customer_id = auth()->user()->customer_id;
+        $contractNumber = $customer_id .'-'. $contract->id;
 
         $contract->update(['contract_number' => $contractNumber]);
 
@@ -230,7 +230,9 @@ class ContractRepository implements ContractRepositoryInterface
                 'contract_id' => $contract->id,
                 'price' => $finalPrice,
                 'start_date' => $startDate->format('Y-m-d'),
-                'end_date' => $endDate->format('Y-m-d')
+                'end_date' => $endDate->format('Y-m-d'),
+                'Installment_number' => $contract->contract_number . '-' . ($i + 1)
+
             ];
 
             $startDate = clone $endDate;

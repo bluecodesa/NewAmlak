@@ -98,7 +98,7 @@
                                                 <a class="dropdown-item"
                                                     href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
                                                 @endif
-                                                @if (Auth::user()->hasPermission('update-owner') && $contract->status != 'Relay')
+                                                @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Relay')
                                                 <a class="dropdown-item"
                                                         href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                                                 @endif
@@ -124,7 +124,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <td colspan="6">
+                                <td colspan="8">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <span class="alert-icon text-danger me-2">
                                             <i class="ti ti-ban ti-xs"></i>

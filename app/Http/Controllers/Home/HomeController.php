@@ -179,11 +179,25 @@ class HomeController extends Controller
             $file->move(public_path() . '/Offices/' . 'Logos/', $ext);
             $request_data['company_logo'] = '/Offices/' . 'Logos/' . $ext;
         }
+        // $Last_customer_id = User::latest()->value('customer_id');
+        // if (!$Last_customer_id) {
+        //     $new_customer_id = str_pad(1 + 1, 4, '0', STR_PAD_LEFT);
+        // } else {
+        //     $new_customer_id = str_pad($Last_customer_id + 1, 4, '0', STR_PAD_LEFT);
+        // }
+
         $Last_customer_id = User::latest()->value('customer_id');
+        $delimiter = '-';
+        $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
+
         if (!$Last_customer_id) {
-            $new_customer_id = str_pad(1 + 1, 4, '0', STR_PAD_LEFT);
+            $new_customer_id = 'AMK1-0001';
         } else {
-            $new_customer_id = str_pad($Last_customer_id + 1, 4, '0', STR_PAD_LEFT);
+            $result = explode($delimiter, $Last_customer_id);
+            $number = (int)$result[1] + 1;
+            $tag_index = min(intval($number / 1000), count($prefixes) - 1);
+            $tag = $prefixes[$tag_index];
+            $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
         }
 
         $user = User::create([

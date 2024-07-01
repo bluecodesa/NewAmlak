@@ -55,26 +55,11 @@
                         <label for="installment" class="form-label">@lang('Select Installment')</label>
                         <select id="installment" class="form-select">
                             <option disabled selected value="">@lang('Select Installment')</option>
-                            @foreach ($contract->installments as $index => $installment)
-                                <option value="{{ $installment->id }}">{{ $installment->id }} - {{ $installment->start_date }}</option>
+                            @foreach ($contract->installments as $installment)
+                                <option value="{{ $installment->price }}">{{ $installment->id }} - {{ $installment->start_date }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="totalValue" class="form-label">@lang('Total Value (SAR)')</label>
-                            @foreach ($contract->installments as $index => $installment)
-                                <input class="form-control" placeholder="{{ $installment->price }} " readonly></input>
-                            @endforeach
-                        </select>
-                    </div>
-                    {{-- <div class="col-md-6 mb-3">
-                        <button type="button" class="btn btn-primary" id="addInstallment">@lang('Add Item')</button>
-                    </div> --}}
-                </div>
-                <div id="installmentList" class="row g-3">
-                    <!-- Added installments will be listed here -->
-                </div>
-                <div class="row g-3">
                     <div class="col-md-6 mb-3">
                         <label for="mobile" class="form-label">@lang('Mobile')</label>
                         <input type="text" id="mobile" class="form-control" value="{{ $contract->renter->UserData->full_phone ?? '' }}" readonly disabled />
@@ -84,6 +69,12 @@
                     <div class="col-md-12 mb-3">
                         <label for="notes" class="form-label">@lang('Notes')</label>
                         <textarea id="notes" class="form-control" rows="3" placeholder="@lang('Enter notes')"></textarea>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-6 mb-3">
+                        <label for="totalValue" class="form-label">@lang('Total Value (SAR)')</label>
+                        <input type="text" id="totalValue" class="form-control" readonly />
                     </div>
                 </div>
             </div>
@@ -96,17 +87,13 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#addInstallment').on('click', function() {
-            var selectedInstallment = $('#installment').val();
-            var selectedInstallmentText = $('#installment option:selected').text();
-            if (selectedInstallment) {
-                $('#installmentList').append(
-                    '<div class="col-md-6 mb-3"><input type="text" class="form-control" value="' + selectedInstallmentText + '" readonly disabled /></div>'
-                );
-                // Optionally, update the total value here
-                // Update the totalValue input with the new calculated total
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        var installmentSelect = document.getElementById('installment');
+        var totalValue = document.getElementById('totalValue');
+
+        installmentSelect.addEventListener('change', function() {
+            var selectedOption = installmentSelect.options[installmentSelect.selectedIndex];
+            totalValue.value = selectedOption.value;
         });
     });
 </script>

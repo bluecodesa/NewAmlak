@@ -359,7 +359,7 @@
                                                     @forelse ($contract->installments as $index => $installment)
                                                         <tr>
 
-                                                            <td>{{ $installment->id }}</td>
+                                                            <td>{{ $installment->Installment_number }}</td>
                                                             <td>{{ $installment->price }}</td>
                                                             <td>{{ __($installment->status) }}</td>
                                                             <td>{{ $installment->start_date }}</td>
