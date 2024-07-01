@@ -525,6 +525,20 @@
 
     @push('scripts')
         <script>
+            $(document).ready(function() {
+                $('.whatsapp-share-btn').on('click', function() {
+                    var unitId = $(this).data('unit-id');
+                    var inputId = "galleryNameCopy_" + unitId;
+                    var urlToShare = $("#" + inputId).val();
+
+                    var textToShare = @json(__('Share this unit from Amlak'));
+                    var whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(textToShare +
+                        " " + urlToShare);
+
+                    window.open(whatsappUrl, '_blank');
+                });
+            });
+
             function copyToClipboard(elementId) {
                 var copyText = document.getElementById(elementId);
                 copyText.select();
