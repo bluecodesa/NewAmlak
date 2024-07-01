@@ -49,6 +49,7 @@ class ReceiptController extends Controller
 
     public function store(Request $request)
     {
+        dd($request)
     $validatedData = $request->validate([
             'voucher_number' => 'required|string|unique:receipts,voucher_number',
             'release_date' => 'required|date',
