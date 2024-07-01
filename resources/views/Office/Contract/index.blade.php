@@ -191,7 +191,7 @@
         }
 
         // Run the function periodically (e.g., every 5 minutes)
-        setInterval(checkAndUpdateContracts, 300); // 300000 milliseconds = 5 minutes
+        setInterval(checkAndUpdateContracts, 300000); // 300000 milliseconds = 5 minutes
     });
 </script>
     @endpush

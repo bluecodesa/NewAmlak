@@ -227,7 +227,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        
+
                             <!-- Calendar Type -->
                             <div class="col-md-4 mb-3 col-12">
                                 <label class="form-label">@lang('Calendar Type') <span class="required-color">*</span></label>
@@ -237,10 +237,10 @@
                                     <option disabled value="hijri" {{  $contract->calendarTypeSelect == 'hijri' ? 'selected' : '' }}>@lang('Hijri')</option>
                                 </select>
                             </div>
-                            
-       
+
+
                             <!-- Contract Date -->
-                  
+
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="{{ $contract->calendarTypeSelect == 'gregorian' ? '' : 'display: none;' }}">
                                     <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
                                     <input disabled class="form-control" type="date" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
@@ -296,13 +296,13 @@
                                     @endforeach
                                 </select>
                             </div>
-                         
+
                     </div>
 
                     <!-- Installments Tab -->
                     <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                   
-                 
+
+
                         <!-- Installments table -->
                       <div class="card">
                         <div class="card-header">
@@ -402,12 +402,12 @@
                         </div>
                         </div>
                     <!-- /Installments table -->
-                        
+
                     </div>
 
                     <!-- Attachments Tab -->
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
-                     
+
 
                         <div class="col-12 mb-3" id="installmentsTable">
                             <div class="card">
@@ -421,7 +421,7 @@
                                                 <th>@lang('Attachments')</th>
                                                 <th>@lang('Show')</th>
 
-                                              
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -447,8 +447,31 @@
 
 
                     </div>
-              
+
                     <div class="tab-pane fade" id="navs-justified-payments" role="tabpanel">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                        class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @if (Auth::user()->hasPermission('create-project'))
+                                    <li><a class="dropdown-item" class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#largeModal"
+                                         >@lang('إصدار سند قبض')</a>
+                                    </li>
+
+                                @endif
+                                @if (Auth::user()->hasPermission('create-building'))
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
+                                    </li>
+                                @endif
+
+                            </ul>
+                        </div>
                     </div>
                     </div>
 
@@ -460,6 +483,7 @@
         <div class="content-backdrop fade"></div>
     </div>
 
+    @include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
 
 
     @push('scripts')
@@ -832,7 +856,7 @@
 $('#unitSelect').on('change', function() {
     var unitId = $(this).val();
     var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
-    
+
     // Set service type and disable select
     if (serviceTypeId) {
         $('#serviceTypeSelect').val(serviceTypeId);
@@ -872,7 +896,7 @@ $('#serviceTypeSelect').on('change', function() {
     </script>
 
     <script>
-        //action buttons 
+        //action buttons
 
     $(document).ready(function() {
         $('#certifyButton').click(function() {
@@ -943,7 +967,7 @@ $('#serviceTypeSelect').on('change', function() {
                         alert('An error occurred. Please try again.');
                     }
                 });
-           
+
         });
     });
 

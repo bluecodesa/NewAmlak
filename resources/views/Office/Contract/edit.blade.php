@@ -847,18 +847,12 @@ $('#serviceTypeSelect').on('change', function() {
         }
 
         function resetUnitDetails() {
-            // Clear owner ID and enable the input
             $('#OwnersDiv').val('');
             $('#OwnersDiv').prop('disabled', false);
-
-            // Clear salary display (yearly)
             $('#unitSalary').val('');
-
-            // Clear hidden input values if needed
             $('#hiddenOwnerId').val('');
         }
 
-        // Trigger change event on page load
         $('#unitSelect').trigger('change');
 
     });
@@ -917,7 +911,8 @@ $('#serviceTypeSelect').on('change', function() {
             },
             success: function(response) {
                 if (response.success) {
-                    window.location.href = '{{ route('Office.Contract.index') }}';
+                    location.reload();
+                    // window.location.href = '{{ route('Office.Contract.index') }}';
                 } else {
                     toastr.error('Failed to deportation contract.');
                 }
