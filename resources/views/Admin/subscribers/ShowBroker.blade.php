@@ -166,6 +166,10 @@
                                         <span>
                                             {{ __($subscriber->BrokerData->license_validity) }}
                                         </span>
+                                        <span
+                                            class="badge bg-label-{{ $subscriber->BrokerData->license_validity == 'valid' ? 'success' : 'danger' }}">
+                                            {{ __($subscriber->BrokerData->license_validity ?? 'expired') }}
+                                        </span>
                                     </li>
                                     <li class="pt-1">
                                         <span class="fw-medium me-1">@lang('Subscription Start join') :</span>
