@@ -271,11 +271,11 @@
                                     <input class="form-check-input" required type="checkbox" id="terms-conditions">
                                     <label class="form-check-label" for="terms-conditions"> @lang('By registering')
                                         @lang('you accept our')
-                                        <a href="{{ route('Privacy') }}" target="_blank">
+                                        <a href="{{ route('Terms') }}" target="_blank">
                                             @lang('Conditions')
                                         </a>
                                         &amp;
-                                        <a href="{{ route('Terms') }}" target="_blank">
+                                        <a href="{{ route('Privacy') }}" target="_blank">
                                             @lang('Terms')
                                         </a>
                                     </label>

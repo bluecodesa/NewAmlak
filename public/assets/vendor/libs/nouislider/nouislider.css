@@ -627,7 +627,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   background: #86888b !important;
 }
 .light-style .noUi-success .noUi-connect {
-  background: #28c76f !important;
+  background: #2F3C49 !important;
 }
 .light-style .noUi-success .noUi-handle {
   background: #209f59 !important;
@@ -701,7 +701,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   background: #86888b !important;
 }
 .dark-style .noUi-success .noUi-connect {
-  background: #28c76f !important;
+  background: #2F3C49 !important;
 }
 .dark-style .noUi-success .noUi-handle {
   background: #209f59 !important;

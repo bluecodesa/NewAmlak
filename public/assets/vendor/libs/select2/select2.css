@@ -475,7 +475,7 @@ html:not([dir=rtl]) .select2-container--default .select2-selection--multiple .se
 }
 .light-style .is-valid .select2-container--default .select2-selection,
 .light-style .is-valid.select2-container--default .select2-selection {
-  border-color: #28c76f !important;
+  border-color: #2F3C49 !important;
 }
 .light-style .is-invalid .select2-container--default .select2-selection,
 .light-style .is-invalid.select2-container--default .select2-selection {
@@ -487,7 +487,7 @@ html:not([dir=rtl]) .select2-container--default .select2-selection--multiple .se
 }
 .light-style .select2-success .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background: rgba(40, 199, 111, 0.16) !important;
-  color: #28c76f !important;
+  color: #2F3C49 !important;
 }
 .light-style .select2-info .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background: rgba(0, 207, 232, 0.16) !important;
@@ -653,7 +653,7 @@ html:not([dir=rtl]) .select2-container--default .select2-selection--multiple .se
 }
 .dark-style .is-valid .select2-container--default .select2-selection,
 .dark-style .is-valid.select2-container--default .select2-selection {
-  border-color: #28c76f !important;
+  border-color: #2F3C49 !important;
 }
 .dark-style .is-invalid .select2-container--default .select2-selection,
 .dark-style .is-invalid.select2-container--default .select2-selection {
@@ -665,7 +665,7 @@ html:not([dir=rtl]) .select2-container--default .select2-selection--multiple .se
 }
 .dark-style .select2-success .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background: rgba(40, 199, 111, 0.16) !important;
-  color: #28c76f !important;
+  color: #2F3C49 !important;
 }
 .dark-style .select2-info .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background: rgba(0, 207, 232, 0.16) !important;
