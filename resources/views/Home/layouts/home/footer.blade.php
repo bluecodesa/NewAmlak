@@ -45,10 +45,10 @@
                     <h6 class="footer-title mb-4">روابط مهمة</h6>
                     <ul class="list-unstyled">
 
-                        <li class="mb-3"><a href="#" class="footer-link">الشروط
+                        <li class="mb-3"><a href="{{ route('Terms') }}" class="footer-link">الشروط
                                 والاحكام
                             </a></li>
-                        <li class="mb-3"><a href="#" class="footer-link">
+                        <li class="mb-3"><a href="{{ route('Privacy') }}" class="footer-link">
                                 سياسة الخصوصية</a></li>
                         <li class="mb-3"><a href="#" class="footer-link">
                                 ملفات التوثيق</a></li>

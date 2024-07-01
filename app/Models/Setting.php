@@ -11,7 +11,7 @@ class Setting extends Model
 {
     use Translatable;
 
-    public $translatedAttributes = ['title'];
+    public $translatedAttributes = ['title', 'terms', 'privacy'];
     protected $guarded = [];
     protected $appends = ['full_phone'];
 

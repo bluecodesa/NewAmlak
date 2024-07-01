@@ -77,7 +77,8 @@
                             <img src="{{ url('HOME_PAGE/img/front-pages/icons/laptop.png') }}" alt="laptop charging"
                                 style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);" />
                         </div>
-                        <h5 class="mb-3">علاقات العملاء
+                        <h5 class="mb-3">
+                            لوحة تحكم احترافية
                         </h5>
                         <p class="features-icon-description">
                             توفر لك منصة أملاك افضل الطرق الاحترافية لمتابعة نمو أعمالك</p>

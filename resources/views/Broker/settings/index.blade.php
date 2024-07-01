@@ -107,6 +107,18 @@
         @push('scripts')
             <script>
                 $(document).ready(function() {
+                    $('#license_number').on('change', function(event) {
+                        var licenseNumber = $('#license_number').val();
+                        var pattern = /^1\d{9}$/;
+                        if (!pattern.test(licenseNumber)) {
+                            alertify.error('يجب أن يكون الرقم مكونًا من 10 أرقام ويبدأ برقم 1.');
+                            event.preventDefault(); // Prevent the form from submitting
+                            $('#license_number').val('');
+                        }
+                    });
+                });
+                //
+                $(document).ready(function() {
                     $('.dropdown-item').on('click', function() {
                         var key = $(this).data('key');
                         $('#key_phone').val(key);
