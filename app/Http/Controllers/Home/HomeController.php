@@ -85,6 +85,9 @@ class HomeController extends Controller
     public function createBroker()
     {
         $setting =   Setting::first();
+        if ($setting->active_broker == 0) {
+            return back()->with('sorry', __('soon'));
+        }
 
         $termsAndConditionsUrl = $setting->terms_pdf;
         $privacyPolicyUrl = $setting->privacy_pdf;
@@ -102,7 +105,9 @@ class HomeController extends Controller
     public function createOffice()
     {
         $setting =   Setting::first();
-
+        if ($setting->active_office == 0) {
+            return back()->with('sorry', __('soon'));
+        }
         $termsAndConditionsUrl = $setting->terms_pdf;
         $privacyPolicyUrl = $setting->privacy_pdf;
         $Regions = Region::all();
