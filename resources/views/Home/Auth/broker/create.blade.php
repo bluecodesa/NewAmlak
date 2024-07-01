@@ -272,7 +272,7 @@
                                     <label class="form-check-label" for="terms-conditions"> @lang('By registering')
                                         @lang('you accept our')
                                         <a href="{{ route('Terms') }}" target="_blank">
-                                            @lang('Conditions') @lang('Terms')
+                                            @lang('Conditions') @lang('and') @lang('Terms')
                                         </a>
                                         &amp;
                                         <a href="{{ route('Privacy') }}" target="_blank">
