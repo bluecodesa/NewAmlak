@@ -1,5 +1,5 @@
 @extends('Home.layouts.home.app')
-@section('title', __('Gallary'))
+@section('title', __('Terms'))
 @section('content')
     <section class="section-py first-section-pt">
         <div class="container">
