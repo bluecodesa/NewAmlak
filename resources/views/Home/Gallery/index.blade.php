@@ -378,11 +378,13 @@
                                     <div class="d-flex align-items-center justify-content-center">
                                         @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
                                             <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank"
-                                                class="btn btn-primary d-flex align-items-center me-3"><i
+                                                class="btn btn-primary d-flex align-items-center me-3"
+                                                style="color: white;"><i
                                                     class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                         @else
                                             <a @disabled(true) target="_blank"
-                                                class="btn btn-primary d-flex align-items-center me-3"><i
+                                                class="btn btn-primary d-flex align-items-center me-3"
+                                                style="color: white;"><i
                                                     class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                         @endif
                                         @if (Auth::user()->hasPermission('Send-message-to-broker') ||
