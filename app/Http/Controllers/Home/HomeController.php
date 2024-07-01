@@ -191,7 +191,7 @@ class HomeController extends Controller
         //     $new_customer_id = str_pad($Last_customer_id + 1, 4, '0', STR_PAD_LEFT);
         // }
 
-        $Last_customer_id = User::where('is_broker', true)->orWhere('is_office', true)->where('is_property_finder', true)->latest()->value('customer_id');
+        $Last_customer_id = User::where('customer_id', '!=', null)->value('customer_id');
         $delimiter = '-';
         $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
 
@@ -337,7 +337,7 @@ class HomeController extends Controller
             $request_data['broker_logo'] = '/Brokers/' . 'Logos/' . $ext;
         }
 
-        $Last_customer_id = User::where('is_broker', true)->orWhere('is_office', true)->where('is_property_finder', true)->latest()->value('customer_id');
+        $Last_customer_id = User::where('customer_id', '!=', null)->value('customer_id');
         $delimiter = '-';
         $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
 
