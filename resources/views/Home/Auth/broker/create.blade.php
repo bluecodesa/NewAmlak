@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/fontawesome.css') }}" />
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/tabler-icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/flag-icons.css') }}" />
-
+    <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Core CSS -->
     {{-- <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/css/rtl/core.css" class="template-customizer-core-css') }}" />
     <link rel="stylesheet"
@@ -154,15 +154,16 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="license_number"> @lang('license number')<span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="license_number" name="license_number"
-                                    required>
+                                <input type="text" class="form-control" minlength="1" maxlength="10"
+                                    pattern="1\d{9}" title="يجب أن يكون الرقم مكونًا من 10 أرقام ويبدأ برقم 1."
+                                    id="license_number" name="license_number" required>
                             </div>
 
                             <div class="col-md-4 col-12 mb-3">
                                 <label for="license_date">
                                     @lang('License expiration date')<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="license_date" name="license_date"
-                                    value="" required>
+                                <input type="date" class="form-control" name="license_date" value=""
+                                    required>
                             </div>
 
                             <div class="col-md-4 mb-3">
@@ -315,7 +316,8 @@
     <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/popular.js') }}"></script>
     <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
     <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/auto-focus.js') }}"></script>
-
+    <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     <!-- Main JS -->
     <script src="{{ asset('HOME_PAGE/js/main.js') }}"></script>
 
@@ -323,10 +325,19 @@
     <script src="{{ asset('HOME_PAGE/js/pages-auth.js') }}"></script>
     {{-- <script src="{{ asset('HOME_PAGE/js/pages-account-settings-account.js') }}"></script> --}}
 
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('#license_number').on('change', function(event) {
+                var licenseNumber = $('#license_number').val();
+                var pattern = /^1\d{9}$/;
+                if (!pattern.test(licenseNumber)) {
+                    alertify.error('يجب أن يكون الرقم مكونًا من 10 أرقام ويبدأ برقم 1.');
+                    event.preventDefault(); // Prevent the form from submitting
+                    $('#license_number').val('');
+                }
+            });
+        });
+
         $(document).ready(function() {
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
