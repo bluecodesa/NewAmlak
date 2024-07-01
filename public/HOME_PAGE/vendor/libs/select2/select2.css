@@ -507,7 +507,7 @@ html:not([dir=rtl]) .select2-container--default .select2-selection--multiple .se
 }
 .light-style .select2-dark .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background: rgba(75, 75, 75, 0.16) !important;
-  color: #4b4b4b !important;
+  color: #2f3c49 !important;
 }
 .light-style .select2-gray .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background: rgba(75, 70, 92, 0.16) !important;
