@@ -147,10 +147,9 @@
                                             <div class="dt-buttons btn-group flex-wrap d-flex">
                                                 <div class="btn-group">
                                                     <button onclick="exportToExcel()"
-                                                        class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
-                                                        tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                                        aria-haspopup="dialog" aria-expanded="false"><span>
-                                                            <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                        class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                        type="button"><span><i
+                                                                class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                 </div>
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-primary dropdown-toggle"
@@ -224,13 +223,15 @@
                                     </td>
 
                                     <td>
-                                        <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light" target="_blank"
-                                            data-toggle="modal" data-target="#shareLinkUnit{{ $client->id }}"
+                                        <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light"
+                                            target="_blank" data-toggle="modal"
+                                            data-target="#shareLinkUnit{{ $client->id }}"
                                             href="tel:+{{ $client->key_phone }}{{ $client->whatsapp }}"
                                             onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
                                             @lang('مكالمة')</a>
                                         <a href="https://web.whatsapp.com/send?phone=+{{ $client->key_phone }}{{ $client->whatsapp }}"
-                                            class="btn btn-outline-warning btn-sm waves-effect waves-light" target="_blank">@lang('محادثة(شات)')</a>
+                                            class="btn btn-outline-warning btn-sm waves-effect waves-light"
+                                            target="_blank">@lang('محادثة(شات)')</a>
 
 
                                     </td>

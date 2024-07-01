@@ -91,7 +91,8 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-6">
-                    <h4 class=""><a href="{{ route('Employee.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <h4 class=""><a href="{{ route('Employee.home') }}" class="text-muted fw-light">@lang('dashboard')
+                            /</a>
                         @lang('Employees')</h4>
                 </div>
             </div>
@@ -120,19 +121,19 @@
                                         <div class="dt-buttons btn-group flex-wrap d-flex">
                                             <div class="btn-group">
                                                 <button onclick="exportToExcel()"
-                                                    class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
-                                                    tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                                    aria-haspopup="dialog" aria-expanded="false"><span>
-                                                        <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                    class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                    type="button"><span><i
+                                                            class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
                                             @if (Auth::user()->hasPermission('create-employee-account'))
-                                            <div class="btn-group">
-                                                <a href="{{ route('Employee.Employee.create') }}" class="btn btn-primary">
-                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add New Employee')</span></span>
-                                                </a>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('Employee.Employee.create') }}"
+                                                        class="btn btn-primary">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add New Employee')</span></span>
+                                                    </a>
 
-                                            </div>
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
@@ -149,12 +150,12 @@
                         <thead class="table-dark">
                             <tr>
                                 {{-- <th>#</th> --}}
-                                <th >@lang('Name')</th>
-                                <th >@lang('Email')</th>
-                                <th >@lang('phone')</th>
+                                <th>@lang('Name')</th>
+                                <th>@lang('Email')</th>
+                                <th>@lang('phone')</th>
                                 {{-- <th >@lang('city')</th>
                                 <th >@lang('role name')</th> --}}
-                                <th >@lang('Action')</th>
+                                <th>@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -176,10 +177,10 @@
                                             </button>
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('show-employee-account'))
-                                                <a class="dropdown-item"
-                                                    href="{{ route('Employee.Employee.show', $employee->id) }}">@lang('Show')</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('Employee.Employee.show', $employee->id) }}">@lang('Show')</a>
                                                 @endif
-                                                    @if (Auth::user()->hasPermission('delete-employee-account'))
+                                                @if (Auth::user()->hasPermission('delete-employee-account'))
                                                     <a class="dropdown-item"
                                                         href="{{ route('Employee.Employee.edit', $employee->id) }}">@lang('Edit')</a>
                                                 @endif
@@ -246,5 +247,3 @@
         </script>
     @endpush
 @endsection
-
-

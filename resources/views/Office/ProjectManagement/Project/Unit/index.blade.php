@@ -43,10 +43,9 @@
                                             <div class="dt-buttons btn-group flex-wrap d-flex">
                                                 <div class="btn-group">
                                                     <button onclick="exportToExcel()"
-                                                        class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
-                                                        tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                                        aria-haspopup="dialog" aria-expanded="false"><span>
-                                                            <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                        class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                        type="button"><span><i
+                                                                class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                 </div>
                                                 @if (Auth::user()->hasPermission('create-unit'))
                                                     <a href="{{ route('Office.Unit.create') }}"
@@ -83,7 +82,8 @@
 
                                         <td>{{ $unit->number_unit ?? '' }}</td>
                                         <td>{{ $unit->OwnerData->name ?? '' }}</td>
-                                        <td>{{ $unit->EmployeeData->UserData->name ?? $unit->OfficeData->UserData->name  }}</td>
+                                        <td>{{ $unit->EmployeeData->UserData->name ?? $unit->OfficeData->UserData->name }}
+                                        </td>
                                         <td>
                                             <span
                                                 class="badge badge-pill bg-{{ $unit->PropertyData != null ? 'success' : 'warning' }}"
