@@ -28,10 +28,7 @@ use App\Services\Broker\GalleryService;
 use App\Services\Broker\UnitInterestService;
 use App\Services\PropertyUsageService;
 use App\Services\Admin\SectionService;
-
-
-
-
+use App\Services\Broker\TicketService;
 
 class HomeController extends Controller
 {
@@ -51,10 +48,11 @@ class HomeController extends Controller
     protected $SectionService;
 
 
-
+    protected $ticketService;
 
 
     public function __construct(
+        TicketService $ticketService,
         SystemInvoiceRepositoryInterface $systemInvoiceRepository,
         UnitService $UnitService,
         SubscriptionService $subscriptionService,
@@ -67,7 +65,8 @@ class HomeController extends Controller
         GalleryService $galleryService,
         PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
-        SectionService $SectionService
+        SectionService $SectionService,
+
     ) {
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
@@ -82,7 +81,7 @@ class HomeController extends Controller
         $this->systemInvoiceRepository = $systemInvoiceRepository;
         $this->unitInterestService = $unitInterestService;
         $this->SectionService = $SectionService;
-
+        $this->ticketService = $ticketService;
         $this->middleware('auth');
     }
 
@@ -164,6 +163,8 @@ class HomeController extends Controller
         if ($gallery !== null) {
             $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
         }
+
+        $tickets = $this->ticketService->getUserTickets(auth()->id());
         Auth::user()->assignRole('RS-Broker');
         return view('Broker.dashboard',  get_defined_vars());
     }
