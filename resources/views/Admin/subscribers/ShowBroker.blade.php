@@ -30,10 +30,10 @@
                             <div class="user-avatar-section">
                                 <div class="d-flex align-items-center flex-column">
                                     <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                        src="@if ($subscriber->office_id) {{ $subscriber->OfficeData->company_logo ?? url('HOME_PAGE/img/avatars/14.png') }}
-                                                @elseif ($subscriber->broker_id)
-                                                    {{ $subscriber->BrokerData->broker_logo ?? url('HOME_PAGE/img/avatars/14.png') }} @endif"
-                                        height="100" width="100" alt="User avatar">
+                                        @if ($subscriber->office_id) src="{{ $subscriber->OfficeData->company_logo ?? url('HOME_PAGE/img/avatars/14.png') }}"
+                                        @elseif ($subscriber->broker_id) src="{{ $subscriber->BrokerData->broker_logo ?? url('HOME_PAGE/img/avatars/14.png') }}" @endif
+                                        height="100" width="100"
+                                        alt="{{ $subscriber->office_id != true ? $subscriber->OfficeData->UserData->name ?? '' : $subscriber->BrokerData->UserData->name ?? '' }}">
                                     <div class="user-info text-center">
                                         <h4 class="mb-2">
                                             @if ($subscriber->office_id)
