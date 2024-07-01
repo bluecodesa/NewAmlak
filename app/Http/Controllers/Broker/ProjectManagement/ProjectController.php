@@ -35,10 +35,18 @@ class ProjectController extends Controller
 
 
 
-    public function __construct(AllServiceService $AllServiceService, FeatureService $FeatureService ,
-    ProjectService $projectService,AdminProjectService $AdminProjectService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, 
-    PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
-    {
+    public function __construct(
+        AllServiceService $AllServiceService,
+        FeatureService $FeatureService,
+        ProjectService $projectService,
+        AdminProjectService $AdminProjectService,
+        RegionService $regionService,
+        CityService $cityService,
+        BrokerDataService $brokerDataService,
+        PropertyTypeService $propertyTypeService,
+        ServiceTypeService $ServiceTypeService,
+        PropertyUsageService $propertyUsageService
+    ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
         $this->projectService = $projectService;
@@ -79,7 +87,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
- 
+
 
         $files = [
             'images' => $request->file('images'),
@@ -197,5 +205,4 @@ class ProjectController extends Controller
         $data = $this->projectService->autocomplete($request->all());
         return response()->json($data);
     }
-
 }

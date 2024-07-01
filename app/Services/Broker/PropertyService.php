@@ -110,7 +110,7 @@ class PropertyService
             ],
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
-            'type' => ['required', Rule::in(['sale', 'rent','rent and sale'])],
+            'type' => ['required', Rule::in(['sale', 'rent', 'rent and sale'])],
 
         ];
         $messages = [
@@ -129,7 +129,7 @@ class PropertyService
         ];
 
         // Validate data
-        validator($data, $rules,$messages)->validate();
+        validator($data, $rules, $messages)->validate();
 
         $unit = $this->PropertyRepository->StoreUnit($id, $data);
 

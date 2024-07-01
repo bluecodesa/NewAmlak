@@ -292,6 +292,18 @@
                                 <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                                     <div class="row">
 
+
+                                        <div class="col-md-4 col-12 mb-3">
+
+                                            <label class="form-label">
+                                                {{ __('ad name') }} <span class="required-color">*</span></label>
+                                            <input type="text" required name="ad_name" class="form-control"
+                                                placeholder="{{ __('ad name') }}">
+
+                                        </div>
+
+
+
                                         <div class="col-12 mb-2 col-md-4">
                                             <label class="form-label">@lang('Ad type') <span
                                                     class="required-color">*</span>
@@ -305,12 +317,10 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-2 mb-3">
+                                        <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label"
                                                 style="display: block !important;">@lang('Show in Gallery')
                                             </label>
-                                            {{-- <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
-                                        data-toggle="toggle" data-onstyle="primary"> --}}
 
                                             <label class="switch switch-lg">
                                                 <input type="checkbox" name="show_gallery" class="switch-input"
