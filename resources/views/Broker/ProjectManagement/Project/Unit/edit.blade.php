@@ -306,6 +306,17 @@
                                 <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                                     <div class="row">
 
+
+                                        <div class="col-md-4 col-12 mb-3">
+
+                                            <label class="form-label">
+                                                {{ __('ad name') }} <span class="required-color">*</span></label>
+                                            <input type="text" required name="ad_name" value="{{ $Unit->ad_name }}"
+                                                class="form-control" placeholder="{{ __('ad name') }}">
+
+                                        </div>
+
+
                                         <div class="col-12 mb-3 col-md-4">
                                             <label class="form-label">@lang('Ad type') <span
                                                     class="required-color">*</span>
@@ -320,7 +331,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-2 mb-3">
+                                        <div class="col-sm-12 col-md-4 mb-3">
                                             <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
                                             <label class="switch switch-primary">
                                                 <input type="checkbox" name="show_gallery"
