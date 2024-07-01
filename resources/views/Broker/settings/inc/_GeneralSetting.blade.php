@@ -20,7 +20,9 @@
             @lang('license number')<span class="text-danger">*</span></label>
 
         <input type="text" class="form-control" id="license_number" name="broker_license"
-            value="{{ $broker->broker_license }}" required>
+            value="{{ $broker->broker_license }}" minlength="1" maxlength="10" required pattern="1\d{9}"
+            title="يجب أن يكون الرقم مكونًا من 10 أرقام ويبدأ برقم 1.">
+
     </div>
 
 

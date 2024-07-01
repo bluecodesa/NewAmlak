@@ -162,11 +162,18 @@
                                         </span>
                                     </li>
                                     <li class="pt-1">
+                                        <span class="fw-medium me-1">@lang('license validity') :</span>
+                                        <span>
+                                            {{ __($subscriber->BrokerData->license_validity) }}
+                                        </span>
+                                    </li>
+                                    <li class="pt-1">
                                         <span class="fw-medium me-1">@lang('Subscription Start join') :</span>
                                         <span>
                                             {{ $subscriber->created_at->format('Y-m-d') }}
                                         </span>
                                     </li>
+
                                 </ul>
 
 

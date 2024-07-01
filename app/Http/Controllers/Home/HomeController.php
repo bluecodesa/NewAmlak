@@ -592,4 +592,16 @@ class HomeController extends Controller
 
         return back()->withSuccess(__('Your message has been received successfully'));
     }
+
+    function Privacy()
+    {
+        $setting = Setting::first();
+        return view('Home.Privacy', get_defined_vars());
+    }
+
+    function Terms()
+    {
+        $setting = Setting::first();
+        return view('Home.Terms', get_defined_vars());
+    }
 }

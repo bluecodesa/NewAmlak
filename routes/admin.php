@@ -81,6 +81,13 @@ Route::group(
             Route::get('/NotificationsManagement', [SettingController::class, 'NotificationsManagement'])->name('NotificationsManagement');
             Route::get('/UpdateNotificationsManagement', [SettingController::class, 'UpdateNotificationsManagement'])->name('UpdateNotificationsManagement');
             Route::get('/AddNotificationsManagement', [SettingController::class, 'AddNotificationsManagement'])->name('AddNotificationsManagement');
+            Route::get('/PrivacyPage', [SettingController::class, 'PrivacyPage'])->name('PrivacyPage');
+            Route::post('/UpdatePrivacy', [SettingController::class, 'UpdatePrivacy'])->name('UpdatePrivacy');
+
+            Route::get('/TermsPage', [SettingController::class, 'TermsPage'])->name('TermsPage');
+            Route::post('/UpdateTerms', [SettingController::class, 'UpdateTerms'])->name('UpdateTerms');
+
+
 
 
             Route::put('/updateNumOfEmployee/{id}', [SubscriptionController::class, 'updateNumOfEmployee'])->name('updateNumOfEmployee');
