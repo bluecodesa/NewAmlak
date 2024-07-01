@@ -11,7 +11,7 @@
                      <div class="row">
                          <div class="col-md mb-md-0 mb-3">
                              <div class="form-check custom-option custom-option-icon"
-                                 onclick="redirectToCreateBroker()">
+                                 @if ($sitting->active_broker == 1) onclick="redirectToCreateBroker()" @endif>
                                  <label class="form-check-label custom-option-content" for="customRadioHome">
                                      <span class="custom-option-body">
                                          <svg width="41" height="40" viewBox="0 0 41 40" fill="none"
@@ -24,17 +24,27 @@
                                                  fill="currentColor" />
                                          </svg>
 
-                                         <span class="custom-option-title">@lang('Broker')</span>
+                                         <span class="custom-option-title">@lang('Broker')
+                                             @if ($sitting->active_broker == 0)
+                                                 <br>
+                                                 <span class="badge rounded-pill bg-label-warning">
+                                                     {{ __('Soon') }}</span>
+                                             @endif
+
+                                         </span>
 
                                      </span>
-                                     <input name="customRadioIcon" class="form-check-input" type="radio"
+                                     <input name="customRadioIcon" class="form-check-input"
+                                         {{ $sitting->active_broker == 1 ? '' : 'disabled' }} type="radio"
                                          value="" id="customRadioHome" checked />
                                  </label>
                              </div>
                          </div>
+
+                         {{-- @if ($sitting->active_office == 1) --}}
                          <div class="col-md mb-md-0 mb-3">
                              <div class="form-check custom-option custom-option-icon"
-                                 onclick="redirectToCreateOffice()">
+                                 @if ($sitting->active_office == 1) onclick="redirectToCreateOffice()" @endif>
                                  <label class="form-check-label custom-option-content" for="customRadioOffice">
                                      <span class="custom-option-body">
                                          <svg width="41" height="40" viewBox="0 0 41 40" fill="none"
@@ -47,16 +57,27 @@
                                                  fill="currentColor" />
                                          </svg>
 
-                                         <span class="custom-option-title"> @lang('Office')</span>
+                                         <span class="custom-option-title"> @lang('Office')
+
+                                             @if ($sitting->active_office == 0)
+                                                 <br>
+                                                 <span class="badge rounded-pill bg-label-warning">
+                                                     {{ __('Soon') }}</span>
+                                             @endif
+
+                                         </span>
                                      </span>
-                                     <input name="customRadioIcon" class="form-check-input" type="radio"
+                                     <input name="customRadioIcon" class="form-check-input"
+                                         {{ $sitting->active_office == 1 ? '' : 'disabled' }} type="radio"
                                          value="" id="customRadioOffice" />
                                  </label>
                              </div>
                          </div>
+                         {{-- @endif --}}
+
                          <div class="col-md mb-md-0 mb-3">
                              <div class="form-check custom-option custom-option-icon" data-bs-toggle="modal"
-                                 data-bs-target="#modalToggle">
+                                 @if ($sitting->active_property_finder) data-bs-target="#modalToggle" @endif>
                                  <label class="form-check-label custom-option-content" for="customRadioFinder">
                                      <span class="custom-option-body">
                                          <svg width="41" height="40" viewBox="0 0 41 40" fill="none"
@@ -69,14 +90,23 @@
                                                  fill="currentColor" />
                                          </svg>
 
-                                         <span class="custom-option-title">@lang('owner') / @lang('Property Finder')</span>
+                                         <span class="custom-option-title">@lang('owner') /
+                                             @lang('Property Finder')
+                                             @if ($sitting->active_property_finder == 0)
+                                                 <br>
+                                                 <span class="badge rounded-pill bg-label-warning">
+                                                     {{ __('Soon') }}</span>
+                                             @endif
+                                         </span>
 
                                      </span>
-                                     <input name="customRadioIcon" class="form-check-input" type="radio"
+                                     <input name="customRadioIcon" class="form-check-input"
+                                         {{ $sitting->active_property_finder == 1 ? '' : 'disabled' }} type="radio"
                                          value="" id="customRadioFinder" checked />
                                  </label>
                              </div>
                          </div>
+
                      </div>
                  </div>
 

@@ -228,6 +228,35 @@
                     }
                 });
             });
+            //
+
+            $('.toggleRegister').change(function() {
+                var url = $(this).data('url');
+                var failed = $(this).data('failed');
+                if (this.checked) {
+                    var value = 1
+                } else {
+                    var value = 0
+                }
+                $.ajax({
+                    url: url,
+                    method: "get",
+                    data: {
+                        failed: failed,
+                        value: value,
+                    },
+                    success: function(data) {
+                        if (value == 0) {
+                            alertify.success(@json(__('Deactivation successful.')));
+                        } else {
+                            alertify.success(@json(__('Activation successful.')));
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
         });
     </script>
 @endsection

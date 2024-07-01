@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::table('settings', function (Blueprint $table) {
             $table->boolean('active_gallery')->default(0)->nullable();
+            $table->boolean('active_property_finder')->default(0)->nullable();
+            $table->boolean('active_office')->default(0)->nullable();
+            $table->boolean('active_broker')->default(0)->nullable();
         });
     }
 

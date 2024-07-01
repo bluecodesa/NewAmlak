@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('setting_id')->constrained()->onDelete('cascade');
             $table->string('locale')->index();
             $table->string('title')->nullable();
-
-
+            $table->longText('privacy')->nullable();
+            $table->longText('terms')->nullable();
             $table->unique(['setting_id', 'locale']);
         });
     }

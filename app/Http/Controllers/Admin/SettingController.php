@@ -67,6 +67,14 @@ class SettingController extends Controller
         return $this->settingRepo->ChangeActiveGalleryPage($request);
     }
 
+    function ChangeActiveRegisterUsers(Request $request)
+    {
+        $Setting =  Setting::first();
+        $Setting->update([
+            $request->failed => $request->value,
+        ]);
+    }
+
 
     public function create()
     {

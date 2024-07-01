@@ -60,6 +60,7 @@ Route::group(
             Route::post('/payment-gateways/create', [SettingController::class, 'createPaymentGateway'])->name('create-payment-gateway');
             Route::get('/ChangeActiveHomePage', [SettingController::class, 'ChangeActiveHomePage'])->name('Setting.ChangeActiveHomePage');
             Route::get('/ChangeActiveGalleryPage', [SettingController::class, 'ChangeActiveGalleryPage'])->name('Setting.ChangeActiveGalleryPage');
+            Route::get('/ChangeActiveRegisterUsers', [SettingController::class, 'ChangeActiveRegisterUsers'])->name('Setting.ChangeActiveRegisterUsers');
             Route::post('/create-broker-subscribers', [SubUserController::class, 'createBrokerSubscribers'])->name('create-broker-subscribers');
             Route::get('/update-broker-subscribers/{id}', [SubUserController::class, 'editbroker'])->name('edit-broker-subscribers');
             Route::put('/update-broker-subscribers/{id}', [SubUserController::class, 'updatebroker'])->name('update-broker-subscribers');
