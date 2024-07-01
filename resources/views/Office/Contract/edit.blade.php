@@ -42,6 +42,23 @@
                         <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Certify')</button>
                         <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
                         <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                        class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#basicModal"
+                                         >@lang('إصدار سند قبض')</a>
+                                    </li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
+                                    </li>
+                            </ul>
+                        </div>
                         @elseif ($contract->status == 'Certified')
                         <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
                         <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
@@ -396,9 +413,10 @@
         <div class="content-backdrop fade"></div>
     </div>
 
+    @include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
 
 
-    @push('scripts')
+@push('scripts')
 
     <script>
         document.getElementById('projectSelect').addEventListener('change', function() {
@@ -482,16 +500,16 @@
 
             // Use the exact same class names and structure as your existing rows
             newRow.innerHTML = `
-<div class="col">
-<input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-</div>
-<div class="col">
-<input type="file" required name="attachment[]" class="form-control" placeholder="@lang('value')" value="" />
-</div>
-<div class="col mr-2">
-<button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-</div>
-`;
+        <div class="col">
+        <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+        </div>
+        <div class="col">
+        <input type="file" required name="attachment[]" class="form-control" placeholder="@lang('value')" value="" />
+        </div>
+        <div class="col mr-2">
+        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+        </div>
+        `;
 
             featuresContainer.appendChild(newRow);
         }

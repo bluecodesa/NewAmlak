@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,8 +7,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Office.Receipt.store') }}" method="POST">
+                <form action="{{ route('Office.Receipt.store') }}" method="POST" class="row"
+                    enctype="multipart/form-data">
                     @csrf
+                    @method('post')
+                    <input type="hidden" name="contract_id" value="{{ $contract->id }}" class="form-control" />
+
                     <div class="row g-3">
                         <div class="col-md-6 mb-3">
                             <label for="bondNumber" class="form-label">@lang('Receipt Number')</label>
@@ -57,15 +61,15 @@
                         </div>
                     </div>
                     <div class="row g-3">
-                        <div class="col-md-6 mb-3">
-                            <label for="installment" class="form-label">@lang('Select Installment')</label>
-                            <select id="installment" name="installments[]" class="form-select" multiple>
-                                <option disabled>@lang('Select Installment')</option>
-                                @foreach ($contract->installments as $installment)
-                                    <option value="{{ $installment->price }}" data-id="{{ $installment->id }}">{{ $installment->id }} - {{ $installment->start_date }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="installment" class="form-label">@lang('Select Installment')</label>
+                                <select id="installment" name="installments[]" class="form-select" multiple>
+                                    <option disabled>@lang('Select Installment')</option>
+                                    @foreach ($contract->installments as $installment)
+                                        <option value="{{ $installment->id }}">{{ $installment->id }} - {{ $installment->start_date }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         <div class="col-md-6 mb-3">
                             <label for="totalValue" class="form-label">@lang('Total Value (SAR)')</label>
                             <input type="text" id="totalValue" name="total_price" class="form-control" readonly />
@@ -84,7 +88,7 @@
                     <div class="row g-3">
                         <div class="col-md-6 mb-3">
                             <label for="mobile" class="form-label">@lang('Mobile')</label>
-                            <input type="text" id="mobile" class="form-control" value="{{ $contract->renter->UserData->full_phone ?? '' }}" readonly disabled />
+                            <input type="text" id="mobile" class="form-control" value="{{ $contract->renter->UserData->full_phone ?? '' }}" readonly />
                         </div>
                     </div>
                     <div class="row g-3">
@@ -95,8 +99,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">@lang('Close')</button>
-                        <button type="submit" class="btn btn-primary">@lang('Save changes')</button>
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">@lang('close')</button>
+                        <button type="submit" id="ReceiptSave" class="btn btn-primary">@lang('save')</button>
                     </div>
                 </form>
             </div>

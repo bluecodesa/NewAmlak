@@ -124,7 +124,7 @@ Route::group(
             Route::resources([
                 'roles' => RoleController::class,
                 'users' => UserController::class,
-                'offices' => OfficeController::class,
+              
                 'SubscriptionTypes' => SubscriptionTypesController::class,
                 'Subscribers' => SubscriptionController::class,
                 'Permissions' => PermissionController::class,

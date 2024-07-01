@@ -15,6 +15,7 @@
         </div>
 
         <div class="col-xl-12">
+
             <div class="nav-align-top nav-tabs-shadow mb-4">
                 <div class="row">
                     <div class="col-md-3 col-12 mb-3">
@@ -42,16 +43,6 @@
                             {{ __('Contract validity') }} <span class="required-color"></span></label>
                             <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
                             placeholder="{{__($contract->contract_validity) }}">
-                    </div>
-                    <div class="col-md-4 col-12 mb-3">
-                        @if($contract->status == 'draft')
-                        <button class="btn btn-secondary" id="certifyButton" data-contract-id="{{ $contract->id }}">@lang('Certify')</button>
-                        <button class="btn btn-secondary" id="deportationButton" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
-                        <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
-                        @elseif ($contract->status == 'Certified')
-                        <button class="btn btn-secondary" id="deportationButton" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
-                        <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
-                        @endif
                     </div>
                 </div>
 
@@ -456,24 +447,18 @@
                                         class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
                             </button>
                             <ul class="dropdown-menu">
-                                @if (Auth::user()->hasPermission('create-project'))
                                     <li><a class="dropdown-item" class="btn btn-primary"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#largeModal"
+                                        data-bs-target="#basicModal"
                                          >@lang('إصدار سند قبض')</a>
                                     </li>
-
-                                @endif
-                                @if (Auth::user()->hasPermission('create-building'))
                                     <li><a class="dropdown-item"
                                             href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
                                     </li>
-                                @endif
-
                             </ul>
                         </div>
                     </div>
-                    </div>
+                </div>
 
                 </div>
             </div>
@@ -481,12 +466,10 @@
         </div>
 
         <div class="content-backdrop fade"></div>
-    </div>
+</div>
+@include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
 
-    @include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
-
-
-    @push('scripts')
+@push('scripts')
 
     <script>
         document.getElementById('projectSelect').addEventListener('change', function() {
@@ -570,16 +553,16 @@
 
             // Use the exact same class names and structure as your existing rows
             newRow.innerHTML = `
-<div class="col">
-<input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-</div>
-<div class="col">
-<input type="file" required name="attachment[]" class="form-control" placeholder="@lang('value')" value="" />
-</div>
-<div class="col mr-2">
-<button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-</div>
-`;
+        <div class="col">
+        <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+        </div>
+        <div class="col">
+        <input type="file" required name="attachment[]" class="form-control" placeholder="@lang('value')" value="" />
+        </div>
+        <div class="col mr-2">
+        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+        </div>
+        `;
 
             featuresContainer.appendChild(newRow);
         }
@@ -895,55 +878,145 @@ $('#serviceTypeSelect').on('change', function() {
 
     </script>
 
+<script>
+    $(document).ready(function() {
+
+        // Function to handle unit selection
+        $('#unitSelect').on('change', function() {
+            var unitId = $(this).val();
+
+            // Fetch unit details via AJAX
+            if (unitId) {
+                fetchUnitDetails(unitId);
+            } else {
+                resetUnitDetails();
+            }
+        });
+
+        function fetchUnitDetails(unitId) {
+            // AJAX request to get unit details
+            $.ajax({
+                url: '/get-unit-details/' + unitId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Populate owner ID and disable the input
+                    $('#OwnersDiv').val(data.owner_id);
+                    $('#OwnersDiv').prop('disabled', true);
+
+                    // Update salary display (yearly)
+                    var yearlySalary = data.unit_rental_price.yearly;
+                    $('#unitSalary').val(yearlySalary);
+
+                    // Optionally, update hidden input for owner_id
+                    $('#hiddenOwnerId').val(data.owner_id);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching unit details:', error);
+                }
+            });
+        }
+
+        function resetUnitDetails() {
+            $('#OwnersDiv').val('');
+            $('#OwnersDiv').prop('disabled', false);
+            $('#unitSalary').val('');
+            $('#hiddenOwnerId').val('');
+        }
+
+        $('#unitSelect').trigger('change');
+
+    });
+</script>
+
     <script>
         //action buttons
 
-    $(document).ready(function() {
-        $('#certifyButton').click(function() {
-            var contractId = $(this).data('contract-id');
-            $.ajax({
-                url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if(response.success) {
-                        location.reload();
-                    } else {
-                        alert('Failed to certify contract.');
-                    }
-                },
-                error: function() {
-                    alert('An error occurred. Please try again.');
+        // $('#certifyButton').click(function() {
+        //     var contractId = $(this).data('contract-id');
+        //     $.ajax({
+        //         url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
+        //         method: 'POST',
+        //         data: {
+        //             _token: '{{ csrf_token() }}'
+        //         },
+        //         success: function(response) {
+        //             if(response.success) {
+        //                 location.reload();
+        //             } else {
+        //                 alert('Failed to certify contract.');
+        //             }
+        //         },
+        //         error: function() {
+        //             alert('An error occurred. Please try again.');
+        //         }
+        //     });
+        // });
+
+        function certifyContract(contractId) {
+        $.ajax({
+            url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    toastr.error('Failed to certify contract.');
                 }
-            });
+            },
+            error: function() {
+                toastr.error('An error occurred. Please try again.');
+            }
         });
-    });
+    }
+
+    function deportContract(contractId) {
+        $.ajax({
+            url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                    // window.location.href = '{{ route('Office.Contract.index') }}';
+                } else {
+                    toastr.error('Failed to deportation contract.');
+                }
+            },
+            error: function() {
+                toastr.error('An error occurred. Please try again.');
+            }
+        });
+    }
 
 
-    $(document).ready(function() {
-        $('#deportationButton').click(function() {
-            var contractId = $(this).data('contract-id');
-            $.ajax({
-                url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if(response.success) {
-                        window.location.href = '{{ route('Office.Contract.index') }}';
-                    } else {
-                        alert('Failed to deportation contract.');
-                    }
-                },
-                error: function() {
-                    alert('An error occurred. Please try again.');
-                }
-            });
-        });
-    });
+    // $(document).ready(function() {
+    //     $('#deportationButton').click(function() {
+    //         var contractId = $(this).data('contract-id');
+    //         $.ajax({
+    //             url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
+    //             method: 'POST',
+    //             data: {
+    //                 _token: '{{ csrf_token() }}'
+    //             },
+    //             success: function(response) {
+    //                 if(response.success) {
+    //                     window.location.href = '{{ route('Office.Contract.index') }}';
+    //                 } else {
+    //                     alert('Failed to deportation contract.');
+    //                 }
+    //             },
+    //             error: function() {
+    //                 alert('An error occurred. Please try again.');
+    //             }
+    //         });
+    //     });
+    // });
 
 
 
@@ -971,38 +1044,31 @@ $('#serviceTypeSelect').on('change', function() {
         });
     });
 
+    function handleDeportation(id) {
+        Swal.fire({
+            title: "@lang('Are you sure')",
+            text: "@lang('You cannot revert this action!')",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "@lang('Yes, Deport it!')",
+            cancelButtonText: "@lang('Cancel')",
+            customClass: {
+                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                // Perform the deportation action via AJAX
+                deportContract(id);
+            }
+        });
+    }
+
+
     </script>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    $(document).ready(function() {
-        function checkAndUpdateContracts() {
-            $.ajax({
-                url: '{{ route('contracts.updateValidity') }}',
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success(response.message);
-                    } else {
-                        toastr.error('Failed to update contract validity.');
-                    }
-                },
-                error: function() {
-                    toastr.error('An error occurred. Please try again.');
-                }
-            });
-        }
-
-        // Run the function periodically (e.g., every 5 minutes)
-        setInterval(checkAndUpdateContracts, 300000); // 300000 milliseconds = 5 minutes
-    });
-</script>
-
-
     @endpush
+
 
 @endsection

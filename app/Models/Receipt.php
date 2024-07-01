@@ -38,4 +38,9 @@ class Receipt extends Model
     {
         return $this->belongsToMany(Installment::class, 'installment_receipt');
     }
+
+    public function installments()
+    {
+        return $this->belongsToMany(Installment::class)->withTimestamps();
+    }
 }

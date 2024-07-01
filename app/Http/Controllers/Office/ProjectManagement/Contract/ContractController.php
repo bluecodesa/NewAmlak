@@ -473,4 +473,5 @@ public function updateValidity(Request $request)
     return response()->json($responseData);
 }
 
+
 }
