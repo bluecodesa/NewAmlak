@@ -30,8 +30,8 @@
                             <div class="user-avatar-section">
                                 <div class="d-flex align-items-center flex-column">
                                     <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                        @if ($subscriber->office_id) src="{{ $subscriber->OfficeData->company_logo ?? asset('HOME_PAGE/img/avatars/14.png') }}"
-                                        @elseif ($subscriber->broker_id) src="{{ $subscriber->BrokerData->broker_logo ?? asset('HOME_PAGE/img/avatars/14.png') }}" @endif
+                                        @if ($subscriber->office_id) src="{{ url($subscriber->OfficeData->company_logo) ?? asset('HOME_PAGE/img/avatars/14.png') }}"
+                                        @elseif ($subscriber->broker_id) src="{{ url($subscriber->BrokerData->broker_logo) ?? asset('HOME_PAGE/img/avatars/14.png') }}" @endif
                                         height="100" width="100"
                                         alt="{{ $subscriber->office_id != true ? $subscriber->OfficeData->UserData->name ?? '' : $subscriber->BrokerData->UserData->name ?? '' }}">
                                     <div class="user-info text-center">
