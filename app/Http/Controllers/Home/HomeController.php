@@ -86,7 +86,7 @@ class HomeController extends Controller
     {
         $setting =   Setting::first();
         if ($setting->active_broker == 0) {
-            return back()->with('sorry', __('soon'));
+            return back()->with('sorry', __('Soon'));
         }
 
         $termsAndConditionsUrl = $setting->terms_pdf;
@@ -106,7 +106,7 @@ class HomeController extends Controller
     {
         $setting =   Setting::first();
         if ($setting->active_office == 0) {
-            return back()->with('sorry', __('soon'));
+            return back()->with('sorry', __('Soon'));
         }
         $termsAndConditionsUrl = $setting->terms_pdf;
         $privacyPolicyUrl = $setting->privacy_pdf;
