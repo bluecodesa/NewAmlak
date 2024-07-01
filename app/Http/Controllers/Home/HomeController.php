@@ -194,7 +194,6 @@ class HomeController extends Controller
         $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
         $delimiter = '-';
         $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
-
         if (!$Last_customer_id) {
             $new_customer_id = 'AMK1-0001';
         } else {
@@ -338,7 +337,6 @@ class HomeController extends Controller
         }
 
         $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
-        return $Last_customer_id;
         $delimiter = '-';
         $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
 
