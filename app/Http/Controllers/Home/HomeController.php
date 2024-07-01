@@ -338,6 +338,7 @@ class HomeController extends Controller
         }
 
         $Last_customer_id = User::where('customer_id', '!=', null)->value('customer_id');
+        return $Last_customer_id;
         $delimiter = '-';
         $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
 
