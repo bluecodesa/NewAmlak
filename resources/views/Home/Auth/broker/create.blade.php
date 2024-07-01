@@ -269,9 +269,13 @@
                             <div class="col-12 mb-3">
                                 <div class="form-check mb-0 ms-2">
                                     <input class="form-check-input" required type="checkbox" id="terms-conditions">
-                                    <label class="form-check-label" for="terms-conditions">
-                                        <a href="{{ asset($termsAndConditionsUrl) }}" target="_blank" download>
-                                            @lang('By registering') @lang('you accept our') @lang('Conditions') &amp;
+                                    <label class="form-check-label" for="terms-conditions"> @lang('By registering')
+                                        @lang('you accept our')
+                                        <a href="{{ route('Privacy') }}" target="_blank">
+                                            @lang('Conditions')
+                                        </a>
+                                        &amp;
+                                        <a href="{{ route('Terms') }}" target="_blank">
                                             @lang('Terms')
                                         </a>
                                     </label>

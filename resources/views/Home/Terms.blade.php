@@ -12,6 +12,20 @@
             </div>
     </section>
 
+    @include('Home.layouts.inc.__addSubscriberModal')
+
+    <script>
+        function redirectToCreateBroker() {
+            window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+        }
+        // function redirectToCreatePropertyFinder() {
+        //     window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+        // }
+        function redirectToCreateOffice() {
+            window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+
+        }
+    </script>
 
 
 @endsection
