@@ -14,4 +14,8 @@ class Installment extends Model
     {
         return $this->belongsTo(Contract::class);
     }
+    public function ReceiptData()
+    {
+        return $this->belongsToMany(Receipt::class, 'installment_receipt');
+    }
 }
