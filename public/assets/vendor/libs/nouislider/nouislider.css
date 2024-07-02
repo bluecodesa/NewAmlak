@@ -627,7 +627,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   background: #86888b !important;
 }
 .light-style .noUi-success .noUi-connect {
-  background: #2F3C49 !important;
+  background: #027a76 !important;
 }
 .light-style .noUi-success .noUi-handle {
   background: #209f59 !important;
@@ -657,7 +657,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   background: #b2b2b6 !important;
 }
 .light-style .noUi-dark .noUi-connect {
-  background: #2f3c49 !important;
+  background: #027a76 !important;
 }
 .light-style .noUi-dark .noUi-handle {
   background: #3c3c3c !important;
@@ -701,7 +701,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   background: #86888b !important;
 }
 .dark-style .noUi-success .noUi-connect {
-  background: #2F3C49 !important;
+  background: #027a76 !important;
 }
 .dark-style .noUi-success .noUi-handle {
   background: #209f59 !important;
