@@ -22199,7 +22199,7 @@ html:not([dir=rtl]) .switches-stacked .switch {
   box-shadow: 0 0 0 2px #2f3349;
 }
 .avatar.avatar-online:after {
-  background-color: #2F3C49;
+    background-color: var(--bs-primary);
 }
 .avatar.avatar-offline:after {
   background-color: #a8aaae;

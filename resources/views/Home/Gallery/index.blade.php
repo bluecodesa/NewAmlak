@@ -238,17 +238,7 @@
                                         @lang('SAR') / {{ __($unit->rent_type_show) }}</span>
 
                                 </div>
-                                {{-- <div class="d-flex align-items-center justify-content-start">
-            <a  class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-            data-bs-toggle="modal"
-            data-bs-target="#onboardHorizontalImageModal{{$unit->id}}">
-             <i class="ti-xs me-1 ti ti-share me-1"></i></a
-            >
-            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-            data-bs-toggle="modal"
-            data-bs-target="#basicModal"><i class="ti ti-heart ti-sm"></i
-            ></a>
-          </div> --}}
+
                                 <div class="d-flex align-items-center justify-content-start">
                                     <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                                         data-bs-toggle="modal"
@@ -265,14 +255,6 @@
                                     @endguest
 
                                     @auth
-                                        {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-            data-bs-toggle="modal"
-            data-bs-target="#basicModal"
-            data-unit-id="{{ $unit->id }}"
-            data-user-id="{{ $unit->BrokerData->user_id }}"
-            >
-            <i class="ti ti-heart ti-sm"></i>
-            </a> --}}
 
                                         @if (auth()->user())
                                             @php
@@ -319,21 +301,24 @@
                                     <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}"
                                         class="card-hover-border-default">
                                         @if ($unit->UnitImages->isNotEmpty())
-                                            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image"
-                                                class="rounded-square" width="140" height="140" />
+                                            <img src="{{ url($unit->UnitImages->first()->image) }}" style="width: 100%;"
+                                                alt="Avatar Image" class="rounded-square" height="140" />
                                         @else
                                             <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
                                                 class="rounded-square" width="140" height="140" />
                                         @endif
                                     </a>
                                 </div>
-                                <h4 class="mb-1 card-title">{{ $unit->ad_name ?? ($unit->number_unit ?? '') }}</h4>
+                                <h4 class="mb-1 card-title"> <a
+                                        href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
+                                        {{ $unit->ad_name ?? ($unit->number_unit ?? '') }}
+                                    </a></h4>
                                 <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
                                     <span class="pb-1"><i
                                             class="ti ti-map-pin"></i>{{ $unit->CityData->name ?? '' }}</span>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-center my-3 gap-2">
+                                <div class=" align-items-center my-3 gap-2 text-end">
 
                                     <a href="javascript:;"><span class="badge bg-label-primary">
                                             {{ __($unit->PropertyTypeData->name) ?? '' }}</span></a>
@@ -351,8 +336,7 @@
                                                 class="badge bg-label-info">@lang('rent and sale')</span></a>
                                     @endif
                                     <a href="javascript:;" class="me-1"
-                                        style="
-             @if (!$unit->daily_rent) visibility:hidden @endif">
+                                        style="@if (!$unit->daily_rent) visibility:hidden @endif">
                                         <span class="badge bg-label-secondary">متاح @lang('Daily Rent')</span></a>
                                 </div>
 

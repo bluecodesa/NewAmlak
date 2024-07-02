@@ -330,48 +330,46 @@
                                     </li>
                                     <li class="mb-2 pt-1">
                                         <span class="fw-medium me-1">@lang('Number Properties'):</span>
-                                        <span class="badge bg-label-success">{{ $project->PropertiesProject->count() }}
+                                        <span>{{ $project->PropertiesProject->count() }}
                                             @lang('property')</span>
                                     </li>
 
                                 </ul>
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('Broker.Project.edit', $project->id) }}"
-                                        class="btn btn-warning me-3">@lang('Edit')</a>
+                                        class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light me-3">@lang('Edit')</a>
 
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                        class="d-none d-sm-inline-block">@lang('Download')</span></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                @if($project->project_masterplan)
+                                    <div class="btn-group">
+                                        <button type="button"
+                                            class="btn btn-outline-primary btn-sm waves-effect me-2 dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span><span class="d-none d-sm-inline-block">@lang('Download')</span></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            @if ($project->project_masterplan)
+                                                <li>
+                                                    <a href="{{ $project->project_masterplan }}" target="_blank"
+                                                        class="dropdown-item">@lang('Download') @lang('المخطط الرئيسي')</a>
+                                                </li>
+                                            @endif
 
-                                                    <li>
-                                                        <a href="{{ $project->project_masterplan }}" target="_blank"
-                                                            class="dropdown-item">@lang('Download') @lang('المخطط الرئيسي')</a>
-                                                    </li>
-                                                    @endif
-
-                                                    @if($project->project_brochure)
-                                                    <li>
+                                            @if ($project->project_brochure)
+                                                <li>
 
                                                     <a href="{{ $project->project_brochure }}" target="_blank"
                                                         class="dropdown-item">@lang('Download') @lang('البروشور')</a>
-                                                    </li>
+                                                </li>
+                                            @endif
 
-                                                        @endif
 
+                                        </ul>
+                                    </div>
 
-                                            </ul>
-                                        </div>
-
-                                        {{-- @if($project->project_masterplan)
+                                    {{-- @if ($project->project_masterplan)
                                         <a href="{{ $project->project_masterplan }}" target="_blank"
                                             class="btn btn-primary me-3">@lang('Download') @lang('المخطط الرئيسي')</a>
                                     @endif
-                                    @if($project->project_brochure)
+                                    @if ($project->project_brochure)
 
                                     <a href="{{ $project->project_brochure }}" target="_blank"
                                         class="btn btn-primary me-3">@lang('Download') @lang('البروشور')</a>
@@ -394,7 +392,7 @@
                                 <iframe width="100%" height="200" frameborder="0" style="border:0"
                                     src="https://www.google.com/maps/embed/v1/place?q={{ $project->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
 
-                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -425,21 +423,22 @@
                                                     <div class="dt-buttons btn-group flex-wrap d-flex">
                                                         <div class="btn-group">
                                                             <button onclick="exportToExcel()"
-                                                                class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
-                                                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                                                aria-haspopup="dialog" aria-expanded="false"><span>
-                                                                    <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                                class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                                type="button"><span><i
+                                                                        class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                         </div>
 
                                                         @if (Auth::user()->hasPermission('create-building'))
-                                                        <div class="btn-group">
-                                                            <a href="{{ route('Broker.Project.CreateProperty', $project->id) }}" class="btn btn-primary">
-                                                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                        class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                            </a>
+                                                            <div class="btn-group">
+                                                                <a href="{{ route('Broker.Project.CreateProperty', $project->id) }}"
+                                                                    class="btn btn-primary">
+                                                                    <span><i
+                                                                            class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                                </a>
 
-                                                        </div>
-                                                    @endif
+                                                            </div>
+                                                        @endif
                                                         {{-- <div class="btn-group">
                                                             <button type="button" class="btn btn-primary dropdown-toggle"
                                                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -539,8 +538,8 @@
                     <!-- /property table -->
 
 
-                      <!-- unit table -->
-                      <div class="card">
+                    <!-- unit table -->
+                    <div class="card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">@lang('Units')</h5>
                         </div>
@@ -566,20 +565,21 @@
                                                     <div class="dt-buttons btn-group flex-wrap d-flex">
                                                         <div class="btn-group">
                                                             <button onclick="exportToExcel()"
-                                                                class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
-                                                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                                                aria-haspopup="dialog" aria-expanded="false"><span>
-                                                                    <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                                class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                                type="button"><span><i
+                                                                        class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                         </div>
                                                         @if (Auth::user()->hasPermission('create-unit'))
-                                                        <div class="btn-group">
-                                                            <a href="{{ route('Broker.Project.CreateUnitProject', $project->id) }}" class="btn btn-primary">
-                                                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                        class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                            </a>
+                                                            <div class="btn-group">
+                                                                <a href="{{ route('Broker.Project.CreateUnitProject', $project->id) }}"
+                                                                    class="btn btn-primary">
+                                                                    <span><i
+                                                                            class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                                </a>
 
-                                                        </div>
-                                                    @endif
+                                                            </div>
+                                                        @endif
                                                         {{-- <div class="btn-group">
                                                             <button type="button" class="btn btn-primary dropdown-toggle"
                                                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -604,85 +604,87 @@
                                     </div>
                                 </div>
 
-                                        <div class="table-responsive text-nowrap">
-                                            <table class="table" id="table">
-                                                <thead class="table-dark">
-                                                    <tr>
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table" id="table">
+                                        <thead class="table-dark">
+                                            <tr>
 
-                                                        <th>@lang('Residential number')</th>
-                                                        <th>@lang('owner name')</th>
-                                                        <th>@lang('property')</th>
-                                                        <th>@lang('Property type')</th>
-                                                        <th>@lang('Ad type')</th>
-                                                        <th>@lang('Action')</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="table-border-bottom-0">
-                                                    @forelse ($project->UnitsProject as $index => $unit)
-                                                        <tr>
+                                                <th>@lang('Residential number')</th>
+                                                <th>@lang('owner name')</th>
+                                                <th>@lang('property')</th>
+                                                <th>@lang('Property type')</th>
+                                                <th>@lang('Ad type')</th>
+                                                <th>@lang('Action')</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                            @forelse ($project->UnitsProject as $index => $unit)
+                                                <tr>
 
-                                                            <td>{{ $unit->number_unit ?? '' }}</td>
-                                                            <td>{{ $unit->OwnerData->name ?? '' }}</td>
-                                                            <td>
-                                                                <span
-                                                                    class="badge badge-pill bg-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
-                                                                    style="font-size: 13px;">
-                                                                    {{ $unit->PropertyData->name ?? __('nothing') }}
-                                                                </span>
+                                                    <td>{{ $unit->number_unit ?? '' }}</td>
+                                                    <td>{{ $unit->OwnerData->name ?? '' }}</td>
+                                                    <td>
+                                                        <span
+                                                            class="badge badge-pill bg-{{ $unit->PropertyData != null ? 'success' : 'Warning' }}"
+                                                            style="font-size: 13px;">
+                                                            {{ $unit->PropertyData->name ?? __('nothing') }}
+                                                        </span>
 
-                                                            </td>
-                                                            <td>{{ $unit->PropertyTypeData->name ?? '' }}</td>
-                                                            <td>{{ __($unit->type) ?? '' }}</td>
-                                                            <td>
+                                                    </td>
+                                                    <td>{{ $unit->PropertyTypeData->name ?? '' }}</td>
+                                                    <td>{{ __($unit->type) ?? '' }}</td>
+                                                    <td>
 
-                                                                <div class="dropdown">
-                                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                                        <i class="ti ti-dots-vertical"></i>
-                                                                    </button>
-                                                                    <div class="dropdown-menu" style="">
-                                                                        @if (Auth::user()->hasPermission('read-unit'))
-                                                                            <a class="dropdown-item"
-                                                                                href="{{ route('Broker.Unit.show', $unit->id) }}"
-                                                                                class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
-                                                                        @endif
+                                                        <div class="dropdown">
+                                                            <button type="button"
+                                                                class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ti ti-dots-vertical"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu" style="">
+                                                                @if (Auth::user()->hasPermission('read-unit'))
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('Broker.Unit.show', $unit->id) }}"
+                                                                        class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                                @endif
 
-                                                                        @if (Auth::user()->hasPermission('update-unit'))
-                                                                            <a class="dropdown-item"
-                                                                                href="{{ route('Broker.Unit.edit', $unit->id) }}"
-                                                                                class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
-                                                                        @endif
-                                                                        @if (Auth::user()->hasPermission('delete-unit'))
-                                                                            <a class="dropdown-item" href="javascript:void(0);"
-                                                                                onclick="handleDelete('{{ $unit->id }}')"
-                                                                                class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
-                                                                            <form id="delete-form-{{ $unit->id }}"
-                                                                                action="{{ route('Broker.Unit.destroy', $unit->id) }}"
-                                                                                method="POST" style="display: none;">
-                                                                                @csrf
-                                                                                @method('DELETE')
-                                                                            </form>
-                                                                        @endif
+                                                                @if (Auth::user()->hasPermission('update-unit'))
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('Broker.Unit.edit', $unit->id) }}"
+                                                                        class="btn btn-outline-info btn-sm waves-effect waves-light">@lang('Edit')</a>
+                                                                @endif
+                                                                @if (Auth::user()->hasPermission('delete-unit'))
+                                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                                        onclick="handleDelete('{{ $unit->id }}')"
+                                                                        class="btn btn-outline-danger btn-sm waves-effect waves-light delete-btn">@lang('Delete')</a>
+                                                                    <form id="delete-form-{{ $unit->id }}"
+                                                                        action="{{ route('Broker.Unit.destroy', $unit->id) }}"
+                                                                        method="POST" style="display: none;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                    </form>
+                                                                @endif
 
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    @empty
-                                                        <td colspan="6">
-                                                            <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                                                <span class="alert-icon text-danger me-2">
-                                                                    <i class="ti ti-ban ti-xs"></i>
-                                                                </span>
-                                                                @lang('No Data Found!')
                                                             </div>
-                                                        </td>
-                                                    @endforelse
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <td colspan="6">
+                                                    <div class="alert alert-danger d-flex align-items-center"
+                                                        role="alert">
+                                                        <span class="alert-icon text-danger me-2">
+                                                            <i class="ti ti-ban ti-xs"></i>
+                                                        </span>
+                                                        @lang('No Data Found!')
+                                                    </div>
+                                                </td>
+                                            @endforelse
 
 
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        </tbody>
+                                    </table>
+                                </div>
 
 
                             </div>

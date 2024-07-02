@@ -54,7 +54,8 @@
                             width="140" height="140" />
                     @endif
                 </div>
-                <h5 class="mb-2 pb-1">{{ __('Residential number') }}: {{ $unit->number_unit ?? '' }}</h5>
+                <h5 class="mb-2 pb-1">{{ $unit->ad_name ?? '' }}</h5>
+                <p class="card-text">{{ __('Residential number') }}: {{ $unit->number_unit ?? '' }} </p>
                 <p class="card-text">{{ __('Occupancy') }}: {{ __($unit->status) }} </p>
                 <p class="card-text">{{ __('Ad type') }}: {{ __($unit->type) ?? '' }}</p>
                 <p class="card-text">{{ __('city') }}: {{ $unit->CityData->name ?? '' }}</p>

@@ -92,13 +92,13 @@
                         @if ($pendingPayment)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
-                            <a href="{{ route('welcome') }}#landingPricing" class="btn btn-secondary modal-btn2 w-auto"
-                                target="_blank">@lang('Compare Plans')</a>
+                            <a href="{{ route('welcome') }}#landingPricing"
+                                class="btn btn-outline-primary  waves-effect me-2" target="_blank">@lang('Compare Plans')</a>
                         @elseif ($daysUntilEnd <= 7)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
-                            <a href="{{ route('welcome') }}#landingPricing" class="btn btn-secondary modal-btn2 w-auto"
-                                target="_blank">@lang('Compare Plans')</a>
+                            <a href="{{ route('welcome') }}#landingPricing"
+                                class="btn btn-outline-primary  waves-effect me-2" target="_blank">@lang('Compare Plans')</a>
                         @elseif ($daysUntilEnd <= 0)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#basicModal">@lang('Subscription upgrade')</button>
@@ -142,7 +142,7 @@
 
                                         <td>
                                             <a href="{{ route('Broker.ShowInvoice', $invoice->id) }}"
-                                                class="btn btn-dark btn-sm waves-effect waves-light">@lang('view')
+                                                class="btn btn-secondary add-new btn-primary btn-sm waves-effect waves-light">@lang('view')
                                                 @lang('Invoice')</a>
 
                                         </td>
