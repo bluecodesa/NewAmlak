@@ -185,6 +185,7 @@
     "Enable": "فعال",
     "Subscribers": "المشتركين",
     "SMS": "الرسائل النصية",
+    "Real Estate Brokers": "الوسطاء العقاريين",
     "Clients Bills": "فواتير العملاء",
     "Add New Subscriber": "اضافة مشترك جديد",
     "Subscriber Name": "اسم المشترك",
@@ -587,5 +588,4 @@
     "Date of concluding the contract": "تاريخ ابرام العقد",
     "Contract start date (Gregorian)": "تاريخ بدأ العقد (ميلادي)",
     "Contract start date (Higri)": "تاريخ بدأ العقد (هجري)"
-
 }

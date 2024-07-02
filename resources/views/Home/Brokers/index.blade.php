@@ -1,10 +1,10 @@
 @extends('Home.layouts.home.app')
-
+@section('title', __('Real Estate Brokers'))
 @section('content')
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
-                </span>الوسطاء العقاريين</h4>
+                </span> @lang('Real Estate Brokers') </h4>
 
             <div class="row g-4">
                 @foreach ($users as $broker)

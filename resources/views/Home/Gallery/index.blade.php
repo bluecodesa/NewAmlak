@@ -1,5 +1,5 @@
 @extends('Home.layouts.home.app')
-@section('title', __('Gallary') . ' ' . $broker->UserData->name)
+@section('title', $broker->UserData->name)
 @section('content')
     <section class="section-py first-section-pt">
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -57,14 +57,14 @@
                                         </ul>
                                     </div>
                                     @guest
-                                        <a target="_blank" class="btn btn-primary" data-bs-toggle="modal"
+                                        <a target="_blank" class="btn btn-primary" style="color: white;" data-bs-toggle="modal"
                                             data-bs-target="#modalToggle">
                                             <i class="ti ti-phone me-1"></i>تواصل
                                         </a>
                                     @endguest
                                     @auth
                                         <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank"
-                                            class="btn btn-primary">
+                                            style="color: white;" class="btn btn-primary">
                                             <i class="ti ti-phone me-1"></i>تواصل
                                         </a>
                                     @endauth
@@ -301,8 +301,8 @@
                                     <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}"
                                         class="card-hover-border-default">
                                         @if ($unit->UnitImages->isNotEmpty())
-                                            <img src="{{ url($unit->UnitImages->first()->image) }}" style="width: 100%;"
-                                                alt="Avatar Image" class="rounded-square" height="140" />
+                                            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image"
+                                                class="rounded-square" width="140" height="140" />
                                         @else
                                             <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
                                                 class="rounded-square" width="140" height="140" />
@@ -386,7 +386,7 @@
                                 @guest
                                     <div class="d-flex align-items-center justify-content-center">
                                         <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
-                                            data-bs-toggle="modal" data-bs-target="#modalToggle"><i
+                                            style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
                                                 class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                         <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                             data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a>
