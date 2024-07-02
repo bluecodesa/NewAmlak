@@ -385,14 +385,14 @@
 
             <div class="row">
 
-                <div class="col-lg-6 mb-4 order-md-0 order-lg-0">
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
                     <div class="card">
                         <h5 class="card-header">@lang('Unit indicators')</h5>
                         <div class="card-body">
                             @if ($numberOfUnits)
-                                <canvas id="doughnutChart"></canvas>
+                                <canvas id="doughnutChart" height="100"></canvas>
                             @else
-                                <canvas id="doughnutChart"></canvas>
+                                <canvas id="doughnutChart" height="100"></canvas>
                             @endif
                             {{-- <canvas id="doughnutChart" class="chartjs mb-4" data-height="350"></canvas> --}}
                             <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">

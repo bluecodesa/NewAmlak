@@ -238,17 +238,7 @@
                                         @lang('SAR') / {{ __($unit->rent_type_show) }}</span>
 
                                 </div>
-                                {{-- <div class="d-flex align-items-center justify-content-start">
-            <a  class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-            data-bs-toggle="modal"
-            data-bs-target="#onboardHorizontalImageModal{{$unit->id}}">
-             <i class="ti-xs me-1 ti ti-share me-1"></i></a
-            >
-            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-            data-bs-toggle="modal"
-            data-bs-target="#basicModal"><i class="ti ti-heart ti-sm"></i
-            ></a>
-          </div> --}}
+
                                 <div class="d-flex align-items-center justify-content-start">
                                     <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                                         data-bs-toggle="modal"
@@ -265,14 +255,6 @@
                                     @endguest
 
                                     @auth
-                                        {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-            data-bs-toggle="modal"
-            data-bs-target="#basicModal"
-            data-unit-id="{{ $unit->id }}"
-            data-user-id="{{ $unit->BrokerData->user_id }}"
-            >
-            <i class="ti ti-heart ti-sm"></i>
-            </a> --}}
 
                                         @if (auth()->user())
                                             @php
@@ -319,8 +301,8 @@
                                     <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}"
                                         class="card-hover-border-default">
                                         @if ($unit->UnitImages->isNotEmpty())
-                                            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image"
-                                                class="rounded-square" width="140" height="140" />
+                                            <img src="{{ url($unit->UnitImages->first()->image) }}" style="width: 100%;"
+                                                alt="Avatar Image" class="rounded-square" height="140" />
                                         @else
                                             <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
                                                 class="rounded-square" width="140" height="140" />

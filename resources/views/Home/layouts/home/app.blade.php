@@ -52,7 +52,7 @@
                             <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-medium" href="{{ route('brokers') }}">المسوقين العقاريين</a>
+                            <a class="nav-link fw-medium" href="{{ route('brokers') }}">الوسطاء العقاريين</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('welcome') }}#landingContact">تواصل معنا</a>
