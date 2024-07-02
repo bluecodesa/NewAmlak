@@ -39,7 +39,12 @@ class SettingService
             'mobile' => 'required|digits:9|unique:brokers,mobile,' . $id,
             'city_id' => 'required|exists:cities,id',
             'license_date' => 'required',
-            'broker_license' => 'required|numeric|unique:brokers,broker_license,' . $id,
+            'broker_license' => [
+                'required',
+                'numeric',
+                'unique:brokers,broker_license,' . $id,
+                'regex:/^1\d{9}$/'
+            ],
             // 'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'id_number' => [

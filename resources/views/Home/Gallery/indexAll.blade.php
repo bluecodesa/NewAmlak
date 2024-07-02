@@ -253,11 +253,11 @@
                                                     class="card-hover-border-default">
                                                     @if ($unit->UnitImages->isNotEmpty())
                                                         <img src="{{ url($unit->UnitImages->first()->image) }}"
-                                                            alt="Avatar Image" class="rounded-square" width="140"
-                                                            height="140" />
+                                                            alt="Avatar Image" class="rounded-square" width="200"
+                                                            height="200" />
                                                     @else
                                                         <img src="{{ url('Offices/Projects/default.svg') }}"
-                                                            alt="Avatar Image" class="rounded-square" width="140"
+                                                            alt="Avatar Image" class="rounded-square" width="200"
                                                             height="140" />
                                                     @endif
                                                 </a>
@@ -269,7 +269,7 @@
                                                 <span class="pb-1"><i
                                                         class="ti ti-map-pin"></i>{{ $unit->CityData->name ?? '' }}</span>
                                             </div>
-                                            <div class="d-flex align-items-center justify-content-center my-3 gap-2">
+                                            <div class=" align-items-center my-3 gap-2 text-end">
 
                                                 <a href="javascript:;"><span class="badge bg-label-primary">
                                                         {{ __($unit->PropertyTypeData->name) ?? '' }}</span></a>

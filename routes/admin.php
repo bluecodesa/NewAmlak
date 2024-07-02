@@ -60,6 +60,7 @@ Route::group(
             Route::post('/payment-gateways/create', [SettingController::class, 'createPaymentGateway'])->name('create-payment-gateway');
             Route::get('/ChangeActiveHomePage', [SettingController::class, 'ChangeActiveHomePage'])->name('Setting.ChangeActiveHomePage');
             Route::get('/ChangeActiveGalleryPage', [SettingController::class, 'ChangeActiveGalleryPage'])->name('Setting.ChangeActiveGalleryPage');
+            Route::get('/ChangeActiveRegisterUsers', [SettingController::class, 'ChangeActiveRegisterUsers'])->name('Setting.ChangeActiveRegisterUsers');
             Route::post('/create-broker-subscribers', [SubUserController::class, 'createBrokerSubscribers'])->name('create-broker-subscribers');
             Route::get('/update-broker-subscribers/{id}', [SubUserController::class, 'editbroker'])->name('edit-broker-subscribers');
             Route::put('/update-broker-subscribers/{id}', [SubUserController::class, 'updatebroker'])->name('update-broker-subscribers');
@@ -81,6 +82,13 @@ Route::group(
             Route::get('/NotificationsManagement', [SettingController::class, 'NotificationsManagement'])->name('NotificationsManagement');
             Route::get('/UpdateNotificationsManagement', [SettingController::class, 'UpdateNotificationsManagement'])->name('UpdateNotificationsManagement');
             Route::get('/AddNotificationsManagement', [SettingController::class, 'AddNotificationsManagement'])->name('AddNotificationsManagement');
+            Route::get('/PrivacyPage', [SettingController::class, 'PrivacyPage'])->name('PrivacyPage');
+            Route::post('/UpdatePrivacy', [SettingController::class, 'UpdatePrivacy'])->name('UpdatePrivacy');
+
+            Route::get('/TermsPage', [SettingController::class, 'TermsPage'])->name('TermsPage');
+            Route::post('/UpdateTerms', [SettingController::class, 'UpdateTerms'])->name('UpdateTerms');
+
+
 
 
             Route::put('/updateNumOfEmployee/{id}', [SubscriptionController::class, 'updateNumOfEmployee'])->name('updateNumOfEmployee');
@@ -116,7 +124,7 @@ Route::group(
             Route::resources([
                 'roles' => RoleController::class,
                 'users' => UserController::class,
-                'offices' => OfficeController::class,
+              
                 'SubscriptionTypes' => SubscriptionTypesController::class,
                 'Subscribers' => SubscriptionController::class,
                 'Permissions' => PermissionController::class,

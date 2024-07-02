@@ -30,10 +30,10 @@
                             <div class="user-avatar-section">
                                 <div class="d-flex align-items-center flex-column">
                                     <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                        src="@if ($subscriber->office_id) {{ $subscriber->OfficeData->company_logo ?? url('HOME_PAGE/img/avatars/14.png') }}
-                                                @elseif ($subscriber->broker_id)
-                                                    {{ $subscriber->BrokerData->broker_logo ?? url('HOME_PAGE/img/avatars/14.png') }} {{-- Use asset helper --}} @endif"
-                                        height="100" width="100" alt="User avatar">
+                                        @if ($subscriber->office_id) src="{{ url($subscriber->OfficeData->company_logo) ?? asset('HOME_PAGE/img/avatars/14.png') }}"
+                                        @elseif ($subscriber->broker_id) src="{{ url($subscriber->BrokerData->broker_logo) ?? asset('HOME_PAGE/img/avatars/14.png') }}" @endif
+                                        height="100" width="100"
+                                        alt="{{ $subscriber->office_id != true ? $subscriber->OfficeData->UserData->name ?? '' : $subscriber->BrokerData->UserData->name ?? '' }}">
                                     <div class="user-info text-center">
                                         <h4 class="mb-2">
                                             @if ($subscriber->office_id)
@@ -162,11 +162,19 @@
                                         </span>
                                     </li>
                                     <li class="pt-1">
+                                        <span class="fw-medium me-1">@lang('license validity') :</span>
+                                        <span
+                                            class="badge bg-label-{{ $subscriber->BrokerData->license_validity == 'valid' ? 'success' : 'danger' }}">
+                                            {{ __($subscriber->BrokerData->license_validity ?? 'expired') }}
+                                        </span>
+                                    </li>
+                                    <li class="pt-1">
                                         <span class="fw-medium me-1">@lang('Subscription Start join') :</span>
                                         <span>
                                             {{ $subscriber->created_at->format('Y-m-d') }}
                                         </span>
                                     </li>
+
                                 </ul>
 
 

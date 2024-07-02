@@ -36,10 +36,9 @@
                                         <div class="dt-buttons btn-group flex-wrap d-flex">
                                             <div class="btn-group">
                                                 <button onclick="exportToExcel()"
-                                                    class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
-                                                    tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                                    aria-haspopup="dialog" aria-expanded="false"><span>
-                                                        <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                    class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                    type="button"><span><i
+                                                            class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
                                             @if (Auth::user()->hasPermission('create-owner'))
                                                 <div class="btn-group">
@@ -95,11 +94,11 @@
                                             </button>
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('update-owner') && $contract->status == 'Relay')
-                                                <a class="dropdown-item"
-                                                    href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
                                                 @endif
-                                                @if (Auth::user()->hasPermission('update-owner') && $contract->status != 'Relay')
-                                                <a class="dropdown-item"
+                                                @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Relay')
+                                                    <a class="dropdown-item"
                                                         href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                                                 @endif
 
@@ -124,7 +123,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <td colspan="6">
+                                <td colspan="8">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <span class="alert-icon text-danger me-2">
                                             <i class="ti ti-ban ti-xs"></i>
@@ -165,6 +164,34 @@
                 XLSX.writeFile(wb, @json(__('owners')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                function checkAndUpdateContracts() {
+                    $.ajax({
+                        url: '{{ route('contracts.updateValidity') }}',
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                toastr.success(response.message);
+                            } else {
+                                toastr.error('Failed to update contract validity.');
+                            }
+                        },
+                        error: function() {
+                            toastr.error('An error occurred. Please try again.');
+                        }
+                    });
+                }
+
+                // Run the function periodically (e.g., every 5 minutes)
+                setInterval(checkAndUpdateContracts, 300000); // 300000 milliseconds = 5 minutes
+            });
         </script>
     @endpush
 @endsection

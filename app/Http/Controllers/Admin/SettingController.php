@@ -67,6 +67,14 @@ class SettingController extends Controller
         return $this->settingRepo->ChangeActiveGalleryPage($request);
     }
 
+    function ChangeActiveRegisterUsers(Request $request)
+    {
+        $Setting =  Setting::first();
+        $Setting->update([
+            $request->failed => $request->value,
+        ]);
+    }
+
 
     public function create()
     {
@@ -233,5 +241,33 @@ class SettingController extends Controller
         $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $EmailSettingService = $this->EmailSettingService->getAll();
         return view('Admin.settings.Notifications.Add', get_defined_vars());
+    }
+
+    function PrivacyPage()
+    {
+        $setting = Setting::first();
+        return view('Admin.settings.HomePages.Privacy', get_defined_vars());
+    }
+
+    function UpdatePrivacy(Request $request)
+    {
+        $request_data =  $request->except(['files']);
+        $setting = Setting::first();
+        $setting->update($request_data);
+        return back()->withSuccess(__('Update successfully'));
+    }
+
+    function TermsPage()
+    {
+        $setting = Setting::first();
+        return view('Admin.settings.HomePages.Terms', get_defined_vars());
+    }
+
+    function UpdateTerms(Request $request)
+    {
+        $request_data =  $request->except(['files']);
+        $setting = Setting::first();
+        $setting->update($request_data);
+        return back()->withSuccess(__('Update successfully'));
     }
 }

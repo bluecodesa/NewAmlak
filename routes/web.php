@@ -65,6 +65,8 @@ Route::group(
         Route::get('/pending', [SubscriptionController::class, 'viewPending'])->name('pending');
         Route::resource('Notification', 'General\NotificationController');
         Route::get('/', 'Home\HomeController@index')->name('welcome');
+        Route::get('/Privacy', 'Home\HomeController@Privacy')->name('Privacy');
+        Route::get('/Terms&Conditions', 'Home\HomeController@Terms')->name('Terms');
         Auth::routes();
         Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
         Route::get('/gallery', [GallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');

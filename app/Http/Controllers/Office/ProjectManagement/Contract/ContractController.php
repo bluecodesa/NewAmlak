@@ -209,7 +209,6 @@ class ContractController extends Controller
     {
         $properties = $project->PropertiesProject;
         $units = $project->UnitsProject;
-
         return response()->json([
             'properties' => $properties,
             'units' => $units
@@ -217,10 +216,7 @@ class ContractController extends Controller
     }
     public function getUnitsByProperty(Property $property)
     {
-        // Fetch units associated with the property
         $units = $property->PropertyUnits;
-
-        // Return the data as a JSON response
         return response()->json([
             'units' => $units
         ]);
@@ -460,5 +456,22 @@ public function updateValidity(Request $request)
 
     //     return response()->json(['success' => true, 'message' => 'Contract validity updated successfully.']);
     // }
+
+    public function getUnitDetails($unitId)
+{
+    $unit = Unit::findOrFail($unitId);
+
+    // Load related data
+    $unit->load('OwnerData', 'UnitRentPrice');
+
+    // Prepare response data
+    $responseData = [
+        'owner_id' => $unit->owner_id,
+        'unit_rental_price' => $unit->UnitRentPrice,
+    ];
+
+    return response()->json($responseData);
+}
+
 
 }

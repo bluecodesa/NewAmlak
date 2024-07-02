@@ -472,7 +472,7 @@ div.dt-buttons div.dropdown-menu .dt-button {
   background-color: #fff;
 }
 .light-style .dataTable a:not([href]):not([tabindex]) {
-  color: #28c76f;
+  color: #2F3C49;
 }
 .light-style .dt-button-info {
   box-shadow: 0 0.31rem 1.25rem 0 rgba(75, 70, 92, 0.4);
@@ -485,7 +485,7 @@ div.dt-buttons div.dropdown-menu .dt-button {
   background-color: #2f3349;
 }
 .dark-style .dataTable a:not([href]):not([tabindex]) {
-  color: #28c76f;
+  color: #2F3C49;
 }
 .dark-style .dt-button-info {
   box-shadow: 0 0.31rem 1.25rem 0 rgba(0, 0, 0, 0.4);

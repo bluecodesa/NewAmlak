@@ -39,9 +39,9 @@ class ProjectController extends Controller
 
 
 
-    
 
-    public function __construct(ProjectService $projectService, RegionService $regionService, 
+
+    public function __construct(ProjectService $projectService, RegionService $regionService,
     CityService $cityService, OfficeDataService $officeDataService, PropertyTypeService $propertyTypeService,
      PropertyUsageService $propertyUsageService,
      AdminProjectService $AdminProjectService,
@@ -196,13 +196,13 @@ class ProjectController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
-        return view('Broker.ProjectManagement.Project.CreateUnit', get_defined_vars());
+        return view('Office.ProjectManagement.Project.CreateUnit', get_defined_vars());
     }
 
     function StoreUnit(Request $request, $id)
     {
         $this->projectService->StoreUnit($id, $request->all());
-        return redirect()->route('Broker.Project.show', $id)->with('success', __('added successfully'));
+        return redirect()->route('Office.Project.show', $id)->with('success', __('added successfully'));
     }
 
     public function autocomplete(Request $request)

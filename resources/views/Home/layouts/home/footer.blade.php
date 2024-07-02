@@ -45,10 +45,10 @@
                     <h6 class="footer-title mb-4">روابط مهمة</h6>
                     <ul class="list-unstyled">
 
-                        <li class="mb-3"><a href="#" class="footer-link">الشروط
+                        <li class="mb-3"><a href="{{ route('Terms') }}" class="footer-link">الشروط
                                 والاحكام
                             </a></li>
-                        <li class="mb-3"><a href="#" class="footer-link">
+                        <li class="mb-3"><a href="{{ route('Privacy') }}" class="footer-link">
                                 سياسة الخصوصية</a></li>
                         <li class="mb-3"><a href="#" class="footer-link">
                                 ملفات التوثيق</a></li>
@@ -83,7 +83,7 @@
     <div class="footer-bottom py-3">
         <div
             class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-            <div class="mb-2 mb-md-0">
+            <div class="mb-2 mb-md-0 " style="color: white;">
                 <span class="footer-text">©
                     <script>
                         document.write(new Date().getFullYear());

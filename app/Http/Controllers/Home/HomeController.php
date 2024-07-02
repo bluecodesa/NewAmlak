@@ -85,6 +85,9 @@ class HomeController extends Controller
     public function createBroker()
     {
         $setting =   Setting::first();
+        if ($setting->active_broker == 0) {
+            return back()->with('sorry', __('Soon'));
+        }
 
         $termsAndConditionsUrl = $setting->terms_pdf;
         $privacyPolicyUrl = $setting->privacy_pdf;
@@ -102,7 +105,9 @@ class HomeController extends Controller
     public function createOffice()
     {
         $setting =   Setting::first();
-
+        if ($setting->active_office == 0) {
+            return back()->with('sorry', __('Soon'));
+        }
         $termsAndConditionsUrl = $setting->terms_pdf;
         $privacyPolicyUrl = $setting->privacy_pdf;
         $Regions = Region::all();
@@ -179,11 +184,24 @@ class HomeController extends Controller
             $file->move(public_path() . '/Offices/' . 'Logos/', $ext);
             $request_data['company_logo'] = '/Offices/' . 'Logos/' . $ext;
         }
-        $Last_customer_id = User::latest()->value('customer_id');
+        // $Last_customer_id = User::latest()->value('customer_id');
+        // if (!$Last_customer_id) {
+        //     $new_customer_id = str_pad(1 + 1, 4, '0', STR_PAD_LEFT);
+        // } else {
+        //     $new_customer_id = str_pad($Last_customer_id + 1, 4, '0', STR_PAD_LEFT);
+        // }
+
+        $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
+        $delimiter = '-';
+        $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
         if (!$Last_customer_id) {
-            $new_customer_id = str_pad(1 + 1, 4, '0', STR_PAD_LEFT);
+            $new_customer_id = 'AMK1-0001';
         } else {
-            $new_customer_id = str_pad($Last_customer_id + 1, 4, '0', STR_PAD_LEFT);
+            $result = explode($delimiter, $Last_customer_id);
+            $number = (int)$result[1] + 1;
+            $tag_index = min(intval($number / 1000), count($prefixes) - 1);
+            $tag = $prefixes[$tag_index];
+            $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
         }
 
         $user = User::create([
@@ -318,7 +336,7 @@ class HomeController extends Controller
             $request_data['broker_logo'] = '/Brokers/' . 'Logos/' . $ext;
         }
 
-        $Last_customer_id = User::latest()->value('customer_id');
+        $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
         $delimiter = '-';
         $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
 
@@ -591,5 +609,17 @@ class HomeController extends Controller
         }
 
         return back()->withSuccess(__('Your message has been received successfully'));
+    }
+
+    function Privacy()
+    {
+        $setting = Setting::first();
+        return view('Home.Privacy', get_defined_vars());
+    }
+
+    function Terms()
+    {
+        $setting = Setting::first();
+        return view('Home.Terms', get_defined_vars());
     }
 }

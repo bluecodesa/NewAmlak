@@ -1190,13 +1190,13 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   background: rgba(75, 70, 92, 0.05);
 }
 .light-style .swal2-popup .swal2-icon.swal2-success {
-  border-color: #28c76f;
+  border-color: #2F3C49;
 }
 .light-style .swal2-popup .swal2-icon.swal2-success .swal2-success-ring {
   border-color: rgba(40, 199, 111, 0.2);
 }
 .light-style .swal2-popup .swal2-icon.swal2-success [class^=swal2-success-line] {
-  background-color: #28c76f;
+  background-color: #2F3C49;
 }
 .light-style .swal2-popup .swal2-icon.swal2-question {
   border-color: rgba(168, 170, 174, 0.4);
@@ -1268,13 +1268,13 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   background: rgba(255, 255, 255, 0.8);
 }
 .dark-style .swal2-popup .swal2-icon.swal2-success {
-  border-color: #28c76f;
+  border-color: #2F3C49;
 }
 .dark-style .swal2-popup .swal2-icon.swal2-success .swal2-success-ring {
   border-color: rgba(40, 199, 111, 0.2);
 }
 .dark-style .swal2-popup .swal2-icon.swal2-success [class^=swal2-success-line] {
-  background-color: #28c76f;
+  background-color: #2F3C49;
 }
 .dark-style .swal2-popup .swal2-icon.swal2-question {
   border-color: rgba(168, 170, 174, 0.4);

@@ -3,7 +3,7 @@
 var base = {
         defaultFontFamily: "Overpass, sans-serif",
         primaryColor: "#1b68ff",
-        secondaryColor: "#4f4f4f",
+        secondaryColor: "#2f3c49",
         successColor: "#3ad29f",
         warningColor: "#ffc107",
         infoColor: "#17a2b8",
@@ -62,7 +62,7 @@ function modeSwitch() {
           (light.disabled = !1),
           localStorage.setItem("mode", "light"));
 }
-console.log(curentTheme)/*,
+console.log(curentTheme); /*,
     curentTheme
         ? ("dark" == curentTheme
               ? ((dark.disabled = !1),

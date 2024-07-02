@@ -354,19 +354,45 @@
                     </a>
                 </div>
 
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <a href="{{ route('Broker.Tickets.index') }}" class="card h-100">
+                        <div class="card-header pb-3">
+                            <div class="d-flex align-items-center mb-2 pb-1">
+                                <div class="avatar me-2">
+                                    <span class="avatar-initial rounded bg-label-primary"><i
+                                            class="ti ti-layout-kanban ti-md"></i></span>
+                                </div>
+                                <h4 class="ms-1 mb-0">@lang('technical support')</h4>
+                            </div>
+                            <small class="text-muted"></small>
+                        </div>
+                        <div class="card-body">
+                            <div id="ordersLastWeek"></div>
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                <h4 class="mb-0">{{ $tickets->count() }}</h4>
+                                <span class="text-success"></span>
+                            </div>
+                            <div class="d-flex align-items-center mt-1">
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
             </div>
             {{-- analytics --}}
 
             <div class="row">
 
-                <div class="col-lg-6 mb-4 order-md-0 order-lg-0">
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
                     <div class="card">
                         <h5 class="card-header">@lang('Unit indicators')</h5>
                         <div class="card-body">
                             @if ($numberOfUnits)
-                                <canvas id="doughnutChart"></canvas>
+                                <canvas id="doughnutChart" height="100"></canvas>
                             @else
-                                <canvas id="doughnutChart"></canvas>
+                                <canvas id="doughnutChart" height="100"></canvas>
                             @endif
                             {{-- <canvas id="doughnutChart" class="chartjs mb-4" data-height="350"></canvas> --}}
                             <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">

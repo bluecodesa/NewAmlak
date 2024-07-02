@@ -120,19 +120,18 @@
                                         <div class="dt-buttons btn-group flex-wrap d-flex">
                                             <div class="btn-group">
                                                 <button onclick="exportToExcel()"
-                                                    class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
-                                                    tabindex="0" aria-controls="DataTables_Table_0" type="button"
-                                                    aria-haspopup="dialog" aria-expanded="false"><span>
-                                                        <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                    class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                    type="button"><span><i
+                                                            class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
                                             @if (Auth::user()->hasPermission('create-employee-account'))
-                                            <div class="btn-group">
-                                                <a href="{{ route('Office.Employee.create') }}" class="btn btn-primary">
-                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add New Employee')</span></span>
-                                                </a>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('Office.Employee.create') }}" class="btn btn-primary">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add New Employee')</span></span>
+                                                    </a>
 
-                                            </div>
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
@@ -149,12 +148,12 @@
                         <thead class="table-dark">
                             <tr>
                                 {{-- <th>#</th> --}}
-                                <th >@lang('Name')</th>
-                                <th >@lang('Email')</th>
-                                <th >@lang('phone')</th>
+                                <th>@lang('Name')</th>
+                                <th>@lang('Email')</th>
+                                <th>@lang('phone')</th>
                                 {{-- <th >@lang('city')</th>
                                 <th >@lang('role name')</th> --}}
-                                <th >@lang('Action')</th>
+                                <th>@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -244,5 +243,3 @@
         </script>
     @endpush
 @endsection
-
-

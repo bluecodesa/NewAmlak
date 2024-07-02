@@ -282,7 +282,7 @@
                                                 $employee = Auth::user()->UserEmployeeData;
                                                 $office = $employee->OfficeData->company_logo;
                                             @endphp
-                                            <img src="{{ $office != null ? url($office) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ $office != null ? url($office) : url('HOME_PAGE/img/avatars/14.png') }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Office\HomeController;
 use App\Http\Controllers\Office\ProjectManagement\Contract\ContractController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
 use App\Http\Controllers\Office\ProjectManagement\PropertyController;
+use App\Http\Controllers\Office\ProjectManagement\Receipt\ReceiptController;
 use App\Http\Controllers\Office\ProjectManagement\Renter\RenterController;
 use App\Http\Controllers\Office\ProjectManagement\UnitController;
 use App\Http\Controllers\Office\SettingController;
@@ -80,6 +81,9 @@ Route::group(
         Route::delete('/gallery/unit/{id}', [UnitController::class, 'destroyUnitGallery'])->name('gallery.unit.destroy');
        //end of Unit routes
 
+    //    Route::resource('Receipt', ReceiptController::class)->middleware('CheckSubscription');
+        Route::post('/Receipt', [ReceiptController::class, 'store'])->name('Receipt.store');
+
        Route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
 
 
@@ -99,6 +103,7 @@ Route::group(
         Route::post('/contracts/{contract}/deportation', [ContractController::class, 'deportation'])->name('contracts.deportation');
         Route::delete('/contracts/{contract}', [ContractController::class, 'reset'])->name('contracts.destroy');
         Route::post('/contracts/update-validity', [ContractController::class, 'updateValidity'])->name('contracts.updateValidity');
+        Route::get('/get-unit-details/{unitId}', [ContractController::class, 'getUnitDetails']);
 
 
     }

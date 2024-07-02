@@ -272,6 +272,27 @@
                     </a>
                 </li>
 
+                <li class="menu-item" style="">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <div data-i18n="@lang('districts')"> @lang('Privacy') & @lang('Terms')</div>
+                    </a>
+                    <ul class="menu-sub">
+
+                        <li class="menu-item">
+                            <a href="{{ route('Admin.PrivacyPage') }}" class="menu-link">
+                                <div data-i18n="@lang('Privacy')">@lang('Privacy')</div>
+                            </a>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="{{ route('Admin.TermsPage') }}" class="menu-link">
+                                <div data-i18n="@lang('Terms')">@lang('Terms')</div>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
 
 
                 <li class="menu-item" style="">
@@ -324,6 +345,9 @@
                         </ul>
                     </li>
                 @endif
+
+
+
 
                 {{--  --}}
 
