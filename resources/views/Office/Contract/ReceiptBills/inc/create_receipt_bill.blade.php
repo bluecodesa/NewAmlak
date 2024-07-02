@@ -61,15 +61,17 @@
                         </div>
                     </div>
                     <div class="row g-3">
-                            <div class="col-md-6 mb-3">
-                                <label for="installment" class="form-label">@lang('Select Installment')</label>
-                                <select id="installment" name="installments[]" class="form-select" multiple>
-                                    <option disabled>@lang('Select Installment')</option>
-                                    @foreach ($contract->installments as $installment)
-                                        <option value="{{ $installment->id }}">{{ $installment->id }} - {{ $installment->start_date }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="installment" class="form-label">@lang('Select Installment')</label>
+                            <select id="installment" name="installments[]" class="form-select" multiple>
+                                <option disabled>@lang('Select Installment')</option>
+                                @foreach ($contract->installments as $installment)
+                                @if ($installment->status === 'not_collected')
+                                <option value="{{ $installment->id }}" data-price="{{ $installment->price }}">{{ $installment->id }} - {{ $installment->start_date }}</option>
+                                @endif
+                            @endforeach
+                            </select>
+                        </div>
                         <div class="col-md-6 mb-3">
                             <label for="totalValue" class="form-label">@lang('Total Value (SAR)')</label>
                             <input type="text" id="totalValue" name="total_price" class="form-control" readonly />
@@ -77,11 +79,11 @@
                     </div>
                     <div class="row g-3">
                         <div class="col-md-6 mb-3">
-                            <label for="totalValue" class="form-label">@lang('Reference Number')</label>
+                            <label for="reference_number" class="form-label">@lang('Reference Number')</label>
                             <input type="text"  name="reference_number" class="form-control" readonly />
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="totalValue" class="form-label">@lang('Transaction Number')</label>
+                            <label for="transaction_number" class="form-label">@lang('Transaction Number')</label>
                             <input type="text" name="transaction_number" class="form-control" readonly />
                         </div>
                     </div>
@@ -89,6 +91,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="mobile" class="form-label">@lang('Mobile')</label>
                             <input type="text" id="mobile" class="form-control" value="{{ $contract->renter->UserData->full_phone ?? '' }}" readonly />
+                            <input type="text" id="mobile" hidden name="mobile" class="form-control" value="{{ $contract->renter->UserData->full_phone ?? '' }}" />
+
                         </div>
                     </div>
                     <div class="row g-3">
@@ -109,18 +113,19 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var installmentSelect = document.getElementById('installment');
-        var totalValue = document.getElementById('totalValue');
+   document.addEventListener('DOMContentLoaded', function() {
+    var installmentSelect = document.getElementById('installment');
+    var totalValue = document.getElementById('totalValue');
 
-        installmentSelect.addEventListener('change', function() {
-            var total = 0;
-            for (var i = 0; i < installmentSelect.options.length; i++) {
-                if (installmentSelect.options[i].selected) {
-                    total += parseFloat(installmentSelect.options[i].value);
-                }
+    installmentSelect.addEventListener('change', function() {
+        var total = 0;
+        for (var i = 0; i < installmentSelect.options.length; i++) {
+            if (installmentSelect.options[i].selected) {
+                total += parseFloat(installmentSelect.options[i].getAttribute('data-price'));
             }
-            totalValue.value = total.toFixed(2);
-        });
+        }
+        totalValue.value = total.toFixed(2);
     });
+});
+
 </script>

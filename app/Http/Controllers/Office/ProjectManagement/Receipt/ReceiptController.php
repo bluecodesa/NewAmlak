@@ -147,7 +147,13 @@ class ReceiptController extends Controller
         $installmentIds = $validatedData['installments'];
 
         $installmentNumbers = Installment::whereIn('id', $installmentIds)->pluck('installment_number')->toArray();
+        $Contract_id = $request->contract_id;
 
+            $contract = Contract::find($Contract_id);
+
+            if ($contract) {
+                $contractNumber = $contract->contract_number;
+            }
 
     // Create the receipt
     $receipt = Receipt::create([
@@ -170,13 +176,17 @@ class ReceiptController extends Controller
     ]);
 
     $installmentNumbers = Installment::whereIn('id', $validatedData['installments'])->pluck('installment_number')->toArray();
-    $voucherNumber = $receipt->id . '-' . implode('-', $installmentNumbers);
+    $voucherNumber = $contractNumber . '-' . $receipt->id;
     $receipt->update(['voucher_number' => $voucherNumber]);
 
     foreach ($validatedData['installments'] as $installmentId) {
         $receipt->installments()->attach($installmentId);
-    }
 
+        $installment = Installment::find($installmentId);
+        if ($installment) {
+            $installment->update(['status' => 'collected']);
+        }
+    }
     return redirect()->back()->with('success', 'Receipt created successfully.');
 
     }

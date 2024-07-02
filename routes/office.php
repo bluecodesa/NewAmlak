@@ -81,8 +81,8 @@ Route::group(
         Route::delete('/gallery/unit/{id}', [UnitController::class, 'destroyUnitGallery'])->name('gallery.unit.destroy');
        //end of Unit routes
 
-    //    Route::resource('Receipt', ReceiptController::class)->middleware('CheckSubscription');
-        Route::post('/Receipt', [ReceiptController::class, 'store'])->name('Receipt.store');
+       Route::resource('Receipt', ReceiptController::class)->middleware('CheckSubscription');
+        // Route::post('/Receipt', [ReceiptController::class, 'store'])->name('Receipt.store');
 
        Route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
 
