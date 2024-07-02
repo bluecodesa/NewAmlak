@@ -15,7 +15,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -279,7 +279,8 @@
                                                 fill="currentColor" />
                                         </svg>
 
-                                        <span class="custom-option-title">@lang('owner') / @lang('Property Finder')</span>
+                                        <span class="custom-option-title">@lang('owner') /
+                                            @lang('Property Finder')</span>
 
                                     </span>
                                     <input name="customRadioIcon" class="form-check-input" type="radio"

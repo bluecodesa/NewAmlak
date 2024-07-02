@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr style="border: 2px solid #2F3C49 !important;">
+                                    <hr style="border: 2px solid #027a76 !important;">
 
                                     @php
                                         if ($invoice->OfficeData != null) {
@@ -176,7 +176,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr style="border: 2px solid #2F3C49 !important;">
+                                    <hr style="border: 2px solid #027a76 !important;">
                                     <div class="row">
                                         <div class="col-3">
                                             <table class="table border-success">
