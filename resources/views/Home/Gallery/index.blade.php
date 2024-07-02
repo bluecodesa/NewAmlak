@@ -1,5 +1,5 @@
 @extends('Home.layouts.home.app')
-@section('title', __('Gallary') . ' ' . $broker->UserData->name)
+@section('title', $broker->UserData->name)
 @section('content')
     <section class="section-py first-section-pt">
         <div class="container-xxl flex-grow-1 container-p-y">
