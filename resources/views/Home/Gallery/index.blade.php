@@ -57,14 +57,14 @@
                                         </ul>
                                     </div>
                                     @guest
-                                        <a target="_blank" class="btn btn-primary" data-bs-toggle="modal"
+                                        <a target="_blank" class="btn btn-primary" style="color: white;" data-bs-toggle="modal"
                                             data-bs-target="#modalToggle">
                                             <i class="ti ti-phone me-1"></i>تواصل
                                         </a>
                                     @endguest
                                     @auth
                                         <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank"
-                                            class="btn btn-primary">
+                                            style="color: white;" class="btn btn-primary">
                                             <i class="ti ti-phone me-1"></i>تواصل
                                         </a>
                                     @endauth
@@ -386,7 +386,7 @@
                                 @guest
                                     <div class="d-flex align-items-center justify-content-center">
                                         <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
-                                            data-bs-toggle="modal" data-bs-target="#modalToggle"><i
+                                            style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
                                                 class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                         <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
                                             data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a>
