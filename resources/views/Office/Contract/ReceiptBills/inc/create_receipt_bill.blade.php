@@ -10,7 +10,6 @@
                 <form action="{{ route('Office.Receipt.store') }}" method="POST" class="row"
                     enctype="multipart/form-data">
                     @csrf
-                    @method('post')
                     <input type="hidden" name="contract_id" value="{{ $contract->id }}" class="form-control" />
 
                     <div class="row g-3">
