@@ -37,33 +37,7 @@
                         placeholder="{{ __('Relay') }}">
                         @endif
                     </div>
-                    <div class="col-md-4 col-12 mb-3">
-                        @if($contract->status == 'draft')
-                        <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Certify')</button>
-                        <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
-                        <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
-                        @elseif ($contract->status == 'Certified')
-                        <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
-                        <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
-                        @endif
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                        class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" class="btn btn-primary"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#basicModal"
-                                         >@lang('إصدار سند قبض')</a>
-                                    </li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
-                                    </li>
-                            </ul>
-                        </div>
-                    </div>
+               
                 </div>
 
                 <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -412,9 +386,6 @@
 
         <div class="content-backdrop fade"></div>
     </div>
-
-    @include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
-
 
 @push('scripts')
 
@@ -876,144 +847,7 @@ $('#serviceTypeSelect').on('change', function() {
     });
 </script>
 
-    <script>
-        //action buttons
-
-        // $('#certifyButton').click(function() {
-        //     var contractId = $(this).data('contract-id');
-        //     $.ajax({
-        //         url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
-        //         method: 'POST',
-        //         data: {
-        //             _token: '{{ csrf_token() }}'
-        //         },
-        //         success: function(response) {
-        //             if(response.success) {
-        //                 location.reload();
-        //             } else {
-        //                 alert('Failed to certify contract.');
-        //             }
-        //         },
-        //         error: function() {
-        //             alert('An error occurred. Please try again.');
-        //         }
-        //     });
-        // });
-
-        function certifyContract(contractId) {
-        $.ajax({
-            url: '{{ route('contracts.certify', ['contract' => ':id']) }}'.replace(':id', contractId),
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.success) {
-                    location.reload();
-                } else {
-                    toastr.error('Failed to certify contract.');
-                }
-            },
-            error: function() {
-                toastr.error('An error occurred. Please try again.');
-            }
-        });
-    }
-
-    function deportContract(contractId) {
-        $.ajax({
-            url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.success) {
-                    location.reload();
-                    // window.location.href = '{{ route('Office.Contract.index') }}';
-                } else {
-                    toastr.error('Failed to deportation contract.');
-                }
-            },
-            error: function() {
-                toastr.error('An error occurred. Please try again.');
-            }
-        });
-    }
-
-
-    // $(document).ready(function() {
-    //     $('#deportationButton').click(function() {
-    //         var contractId = $(this).data('contract-id');
-    //         $.ajax({
-    //             url: '{{ route('contracts.deportation', ['contract' => ':id']) }}'.replace(':id', contractId),
-    //             method: 'POST',
-    //             data: {
-    //                 _token: '{{ csrf_token() }}'
-    //             },
-    //             success: function(response) {
-    //                 if(response.success) {
-    //                     window.location.href = '{{ route('Office.Contract.index') }}';
-    //                 } else {
-    //                     alert('Failed to deportation contract.');
-    //                 }
-    //             },
-    //             error: function() {
-    //                 alert('An error occurred. Please try again.');
-    //             }
-    //         });
-    //     });
-    // });
-
-
-
-    $(document).ready(function() {
-        $('#restoreButton').click(function() {
-            var contractId = $(this).data('contract-id');
-                $.ajax({
-                    url: '{{ route('contracts.destroy', ['contract' => ':id']) }}'.replace(':id', contractId),
-                    method: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if(response.success) {
-                            window.location.href = '{{ route('Office.Contract.create') }}';
-                        } else {
-                            alert('Failed to delete contract.');
-                        }
-                    },
-                    error: function() {
-                        alert('An error occurred. Please try again.');
-                    }
-                });
-
-        });
-    });
-
-    function handleDeportation(id) {
-        Swal.fire({
-            title: "@lang('Are you sure')",
-            text: "@lang('You cannot revert this action!')",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: "@lang('Yes, Deport it!')",
-            cancelButtonText: "@lang('Cancel')",
-            customClass: {
-                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
-                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
-            },
-            buttonsStyling: false
-        }).then(function(result) {
-            if (result.isConfirmed) {
-                // Perform the deportation action via AJAX
-                deportContract(id);
-            }
-        });
-    }
-
-
-    </script>
+ 
 
     @endpush
 

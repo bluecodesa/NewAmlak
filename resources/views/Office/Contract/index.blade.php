@@ -93,7 +93,7 @@
                                                 <i class="ti ti-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu" style="">
-                                                @if (Auth::user()->hasPermission('update-owner') && $contract->status == 'Relay')
+                                                @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
                                                         href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
                                                 @endif
