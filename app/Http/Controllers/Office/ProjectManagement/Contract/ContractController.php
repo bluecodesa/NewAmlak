@@ -433,10 +433,10 @@ class ContractController extends Controller
     }
 
     public function certify(Contract $contract)
-{
-    $contract->update(['status' => 'Approved']);
-    return response()->json(['success' => true]);
-}
+    {
+        $contract->update(['status' => 'Approved']);
+        return response()->json(['success' => true]);
+    }
 
 public function deportation(Contract $contract)
 {
@@ -497,7 +497,7 @@ public function updateValidity(Request $request)
     // }
 
     public function getUnitDetails($unitId)
-{
+    {
     $unit = Unit::findOrFail($unitId);
 
     // Load related data
@@ -510,7 +510,7 @@ public function updateValidity(Request $request)
     ];
 
     return response()->json($responseData);
-}
+    }
 
 
 }
