@@ -1,4 +1,5 @@
-<footer class="landing-footer bg-body footer-text">
+<footer class="landing-footer bg-body footer-text" style="bottom = 0px;
+">
     <div class="footer-top position-relative overflow-hidden z-1">
         <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/footer-bg-light.png') }}" alt="footer bg"
             class="footer-bg banner-bg-img z-n1" data-app-light-img="front-pages/backgrounds/footer-bg-light.png"

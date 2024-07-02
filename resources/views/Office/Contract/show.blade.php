@@ -30,22 +30,22 @@
                             @if ($contract->status == 'draft')
                                 <input disabled type="text" required id="modalRoleName" name="number_unit"
                                     class="form-control" placeholder="{{ __('draft') }}">
-                            @elseif ($contract->status == 'Certified')
+                            @elseif ($contract->status == 'Approved')
                                 <input disabled type="text" required id="modalRoleName" name="number_unit"
-                                    class="form-control" placeholder="{{ __('Certified') }}">
+                                    class="form-control" placeholder="{{ __('Approved') }}">
                             @else
                                 <input disabled type="text" required id="modalRoleName" name="number_unit"
-                                    class="form-control" placeholder="{{ __('Relay') }}">
+                                    class="form-control" placeholder="{{ __('Executed') }}">
                             @endif
                         </div>
                         <div class="col-md-4 col-12 mb-3">
                             @if($contract->status == 'draft')
-                            <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Certify')</button>
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
-                            <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
-                            @elseif ($contract->status == 'Certified')
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
-                            <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
+                            <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
+                            <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
+                            @elseif ($contract->status == 'Approved')
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
+                            <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
                             @endif
                         </div>
                         <div class="col-md-3 col-12 mb-3">

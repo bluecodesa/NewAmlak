@@ -248,11 +248,48 @@ class ContractController extends Controller
             'auto_renew' => 'required|string',
             'name.*' => 'nullable|string',
             'attachment.*' => 'nullable|file',
+        ],[
+            'project_id.required' => 'The project ID field is required.',
+            'project_id.exists' => 'The selected project ID is invalid.',
+            'property_id.required' => 'The property ID field is required.',
+            'property_id.exists' => 'The selected property ID is invalid.',
+            'unit_id.required' => 'The unit ID field is required.',
+            'unit_id.exists' => 'The selected unit ID is invalid.',
+            'owner_id.required' => 'The owner ID field is required.',
+            'owner_id.exists' => 'The selected owner ID is invalid.',
+            'employee_id.required' => 'The employee ID field is required.',
+            'employee_id.exists' => 'The selected employee ID is invalid.',
+            'price.required' => 'The price field is required.',
+            'price.numeric' => 'The price must be a number.',
+            'type.required' => 'The type field is required.',
+            'type.string' => 'The type must be a string.',
+            'service_type_id.required' => 'The service type ID field is required.',
+            'service_type_id.exists' => 'The selected service type ID is invalid.',
+            'commissions_rate.numeric' => 'The commissions rate must be a number.',
+            'collection_type.string' => 'The collection type must be a string.',
+            'renter_id.required' => 'The renter ID field is required.',
+            'renter_id.exists' => 'The selected renter ID is invalid.',
+            'calendarTypeSelect.required' => 'The calendar type field is required.',
+            'calendarTypeSelect.string' => 'The calendar type must be a string.',
+            'calendarTypeSelect.in' => 'The calendar type must be either gregorian or hijri.',
+            'gregorian_contract_date.date' => 'The Gregorian contract date must be a valid date.',
+            'hijri_contract_date.string' => 'The Hijri contract date must be a valid string.',
+            'date_concluding_contract.date' => 'The concluding contract date must be a valid date.',
+            'contract_duration.required' => 'The contract duration field is required.',
+            'contract_duration.integer' => 'The contract duration must be an integer.',
+            'duration_unit.required' => 'The duration unit field is required.',
+            'duration_unit.string' => 'The duration unit must be a string.',
+            'payment_cycle.required' => 'The payment cycle field is required.',
+            'payment_cycle.string' => 'The payment cycle must be a string.',
+            'auto_renew.required' => 'The auto renew field is required.',
+            'auto_renew.string' => 'The auto renew field must be a string.',
+            'name.*.string' => 'The name field for attachments must be a string.',
+            'attachment.*.file' => 'The attachment must be a file.',
         ]);
 
-        if (is_null($validatedData['employee_id'])) {
-            $validatedData['employee_id'] = Auth::id();
-        }
+        // if (is_null($validatedData['employee_id'])) {
+        //     $validatedData['employee_id'] = Auth::id();
+        // }
 
         $contractData = [
             'office_id' => auth()->user()->UserOfficeData->id,
@@ -260,7 +297,7 @@ class ContractController extends Controller
             'property_id' => $validatedData['property_id'] ?? null,
             'unit_id' => $validatedData['unit_id'],
             'owner_id' => $validatedData['owner_id'],
-            'employee_id' => $validatedData['employee_id'],
+            'employee_id' => $validatedData['employee_id'] ?? null,
             'price' => $validatedData['price'],
             'type' => $validatedData['type'],
             'service_type_id' => $validatedData['service_type_id'],
@@ -301,10 +338,7 @@ class ContractController extends Controller
 
         // Handle attachments
         if ($request->has('attachment')) {
-            // Delete existing attachments
             $contract->ContractAttachmentData()->delete();
-
-            // Upload new attachments
             foreach ($request->file('attachment') as $index => $attachmentFile) {
                 $attachmentName = $validatedData['name'][$index] ?? 'Attachment ' . ($index + 1);
 
@@ -319,6 +353,7 @@ class ContractController extends Controller
                     'attachment_id' => $attachment->id,
                     'contract_id' => $contract->id,
                     'attachment' => $filePath,
+
                 ]);
             }
         }
@@ -387,7 +422,9 @@ class ContractController extends Controller
                 'contract_id' => $contract->id,
                 'price' => $finalPrice,
                 'start_date' => $startDate->format('Y-m-d'),
-                'end_date' => $endDate->format('Y-m-d')
+                'end_date' => $endDate->format('Y-m-d'),
+                'Installment_number' => $contract->contract_number . '-' . ($i + 1)
+
             ];
             $startDate = clone $endDate;
         }
@@ -397,13 +434,13 @@ class ContractController extends Controller
 
     public function certify(Contract $contract)
 {
-    $contract->update(['status' => 'Certified']);
+    $contract->update(['status' => 'Approved']);
     return response()->json(['success' => true]);
 }
 
 public function deportation(Contract $contract)
 {
-    $contract->update(['status' => 'Relay']);
+    $contract->update(['status' => 'Executed']);
     return response()->json(['success' => true]);
 }
 
