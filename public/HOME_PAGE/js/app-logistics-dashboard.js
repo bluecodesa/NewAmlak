@@ -19,8 +19,8 @@
     const chartColors = {
         donut: {
             series1: config.colors.success,
-            series2: "#027a76b3",
-            series3: "#027a7680",
+            series2: "#2F3C49b3",
+            series3: "#2F3C4980",
             series4: config.colors_label.success,
         },
         line: {

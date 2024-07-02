@@ -89,11 +89,11 @@
         }
 
         .border-info {
-            border: 1px solid #027a76 !important;
+            border: 1px solid #2F3C49 !important;
         }
 
         .border-success {
-            border: 1px solid #027a76 !important
+            border: 1px solid #2F3C49 !important
         } */
 
         body,

@@ -3,7 +3,7 @@
 var base = {
         defaultFontFamily: "Overpass, sans-serif",
         primaryColor: "#1b68ff",
-        secondaryColor: "#027a76",
+        secondaryColor: "#2F3C49",
         successColor: "#3ad29f",
         warningColor: "#ffc107",
         infoColor: "#17a2b8",
