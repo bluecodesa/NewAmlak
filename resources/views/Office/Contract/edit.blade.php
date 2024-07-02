@@ -42,6 +42,10 @@
                         <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Certify')</button>
                         <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
                         <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
+                        @elseif ($contract->status == 'Certified')
+                        <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
+                        <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
+                        @endif
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,10 +63,6 @@
                                     </li>
                             </ul>
                         </div>
-                        @elseif ($contract->status == 'Certified')
-                        <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Deportation')</button>
-                        <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('استعادة')</button>
-                        @endif
                     </div>
                 </div>
 

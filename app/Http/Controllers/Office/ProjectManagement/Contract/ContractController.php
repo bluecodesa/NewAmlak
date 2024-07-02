@@ -188,6 +188,7 @@ class ContractController extends Controller
         $renters = $this->RenterService->getAllByOfficeId($office_id);
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $contract =  $this->ContractService->getContractById($id);
+   
 
 
         return view('Office.Contract.edit', get_defined_vars());
@@ -426,6 +427,7 @@ public function updateValidity(Request $request)
 
         foreach ($contracts as $contract) {
             $contract->contract_validity = 'active';
+            $contract->unit->status = 'rented';
             $contract->save();
         }
 

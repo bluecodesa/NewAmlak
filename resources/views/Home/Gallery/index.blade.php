@@ -301,8 +301,8 @@
                                     <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}"
                                         class="card-hover-border-default">
                                         @if ($unit->UnitImages->isNotEmpty())
-                                            <img src="{{ url($unit->UnitImages->first()->image) }}" style="width: 100%;"
-                                                alt="Avatar Image" class="rounded-square" height="140" />
+                                            <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image"
+                                                class="rounded-square" width="140" height="140" />
                                         @else
                                             <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
                                                 class="rounded-square" width="140" height="140" />
