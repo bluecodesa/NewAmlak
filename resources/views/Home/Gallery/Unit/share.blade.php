@@ -67,7 +67,7 @@
                                         class="btn btn-outline-primary waves-effect" type="button">
                                         <i class="ti ti-copy"></i>
                                     </button>
-                                    <button class="whatsapp-share-btn btn btn-outline-success waves-effect"
+                                    <button class="whatsapp-share-btn btn btn-outline-primary waves-effect"
                                         data-unit-id="{{ $Unit->id }}" type="button">
                                         <i class="ti ti-brand-whatsapp"></i>
                                     </button>

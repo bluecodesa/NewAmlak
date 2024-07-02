@@ -120,14 +120,14 @@
                                 <ul class="list-unstyled mb-4 mt-3">
                                     <h5 class="card-action-title mb-0">@lang('services')</h5>
                                     <div class="d-flex align-items-center justify-content-start my-3 gap-2">
-                                        <ol class="list-group list-group-numbered">
-                                            <span class="text-with-ellipsis">
-                                                @foreach ($Unit->UnitServicesData as $service)
+                                        <ol class=" list-group-numbered row">
+                                            @foreach ($Unit->UnitServicesData as $service)
+                                                <span class="text-with-ellipsis col">
                                                     <li><span
                                                             class="badge bg-label-secondary">{{ $service->ServiceData->name ?? '' }}</span>
                                                     </li>
-                                                @endforeach
-                                            </span>
+                                                </span>
+                                            @endforeach
                                         </ol>
                                     </div>
 
