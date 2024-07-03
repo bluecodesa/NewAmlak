@@ -58,6 +58,16 @@ class Contract extends Model
         return $this->hasMany(Installment::class);
     }
 
+    public function ReceiptData()
+    {
+        return $this->hasMany(Receipt::class);
+    }
+
+
+    public function RecieptData()
+    {
+        return $this->hasMany(Installment::class);
+    }
     public function ContractAttachmentData()
     {
         return $this->hasMany(ContractAttachment::class, 'contract_id');

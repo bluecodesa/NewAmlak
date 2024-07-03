@@ -12,11 +12,11 @@ window.config = {
     colors: {
         primary: "#009490",
         secondary: "#a8aaae",
-        success: "#027a76",
+        success: "#2F3C49",
         info: "#00cfe8",
         warning: "#ff9f43",
         danger: "#ea5455",
-        dark: "#027a76",
+        dark: "#2F3C49",
         black: "#000",
         white: "#fff",
         cardColor: "#fff",
@@ -29,11 +29,11 @@ window.config = {
     colors_label: {
         primary: "#00949029",
         secondary: "#a8aaae29",
-        success: "#027a7629",
+        success: "#2F3C4929",
         info: "#00cfe829",
         warning: "#ff9f4329",
         danger: "#ea545529",
-        dark: "#027a7629",
+        dark: "#2F3C4929",
     },
     colors_dark: {
         cardColor: "#2f3349",

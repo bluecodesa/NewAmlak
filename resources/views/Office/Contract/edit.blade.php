@@ -29,12 +29,12 @@
                         @if($contract->status == 'draft')
                             <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
                                    placeholder="{{ __('draft') }}">
-                        @elseif ($contract->status == 'Certified')
+                        @elseif ($contract->status == 'Approved')
                             <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
-                                   placeholder="{{ __('Certified') }}">
+                                   placeholder="{{ __('Approved') }}">
                         @else
                         <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
-                        placeholder="{{ __('Relay') }}">
+                        placeholder="{{ __('Executed') }}">
                         @endif
                     </div>
                
@@ -111,18 +111,18 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <input type="hidden" name="owner_id" id="hiddenOwnerId" />
                             <div class="col-12 col-md-4 mb-3">
-                                <label class="col-md-6 form-label">@lang('owner name') <span
-                                        class="required-color">*</span>
+                                <label class="col-md-6 form-label">@lang('Employee Name') <span
+                                        class="required-color"></span>
                                 </label>
                                 <div class="input-group">
-                                    <select class="form-select" id="OwnersDiv"
-                                            aria-label="Example select with button addon" name="owner_id" required>
-                                        <option disabled selected value="">@lang('owner name')</option>
-                                        @foreach ($owners as $owner)
-                                            <option value="{{ $owner->id }}" {{ $contract->owner_id == $owner->id ? 'selected' : '' }}>
-                                                {{ $owner->name }}
-                                            </option>
+                                    <select class="form-select"
+                                        aria-label="Example select with button addon" name="employee_id">
+                                        <option disabled selected value="{{ auth()->user()->UserOfficeData->id }}">@lang('Employee Name')</option>
+                                        @foreach ($employees as $employee)
+                                            <option value="{{ $employee->id }}">
+                                                {{ $employee->UserData->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

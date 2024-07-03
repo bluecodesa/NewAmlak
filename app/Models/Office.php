@@ -18,6 +18,15 @@ class Office extends Model
     {
         return $this->hasMany(Employee::class, 'employee_id');
     }
+    public function ContractData()
+    {
+        return $this->hasMany(Contract::class, 'office_id');
+    }
+
+    public function ReceiptData()
+    {
+        return $this->hasMany(Receipt::class, 'office_id');
+    }
     public function InstallmentData()
     {
         return $this->hasMany(Installment::class);

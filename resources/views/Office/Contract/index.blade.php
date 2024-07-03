@@ -40,7 +40,7 @@
                                                     type="button"><span><i
                                                             class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
-                                            @if (Auth::user()->hasPermission('create-owner'))
+                                            @if (Auth::user()->hasPermission('add-new-contract'))
                                                 <div class="btn-group">
                                                     <a href="{{ route('Office.Contract.create') }}" class="btn btn-primary">
                                                         <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
@@ -93,17 +93,15 @@
                                                 <i class="ti ti-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu" style="">
-                                                @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
                                                         href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
-                                                @endif
-                                                @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Relay')
+                                                @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
                                                     <a class="dropdown-item"
                                                         href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                                                 @endif
 
 
-                                                @if (Auth::user()->hasPermission('delete-owner'))
+                                                @if (Auth::user()->hasPermission('delete-contract'))
                                                     <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $contract->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>

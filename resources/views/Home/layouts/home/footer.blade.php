@@ -1,4 +1,5 @@
-<footer class="landing-footer bg-body footer-text">
+<footer class="landing-footer bg-body footer-text" style="bottom = 0px;
+">
     <div class="footer-top position-relative overflow-hidden z-1">
         <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/footer-bg-light.png') }}" alt="footer bg"
             class="footer-bg banner-bg-img z-n1" data-app-light-img="front-pages/backgrounds/footer-bg-light.png"
@@ -92,7 +93,7 @@
                 جميع الحقوق محفوظه ©
                 <a href="{{ env('COMPANY_URL', 'https://bluecode.sa') }}" target="_blank" class="text-reset"> لشركة
                     بلوكود</a> -
-                أملاك {{ env('APP_VERSION', 'V1.0') }}</p>
+                أملاك {{ env('APP_VERSION', 'V1.1') }}</p>
             </div>
             <div>
                 <a href="https://github.com/pixinvent" class="footer-link me-3" target="_blank">

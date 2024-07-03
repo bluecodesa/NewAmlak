@@ -30,7 +30,7 @@ use App\Services\ServiceTypeService;
 use App\Services\Office\EmployeeService;
 use App\Services\Office\RenterService;
 use Carbon\Carbon;
-
+use PDF;
 use Illuminate\Validation\Rule;
 
 class ReceiptController extends Controller
@@ -198,7 +198,8 @@ class ReceiptController extends Controller
      */
     public function show(string $id)
     {
-
+        $receipt = Receipt::with('installments')->findOrFail($id);
+        return response()->json($receipt);
 
     }
 
@@ -225,4 +226,13 @@ class ReceiptController extends Controller
     {
         //
     }
+
+
+public function download($id)
+{
+    $receipt = Receipt::with('installments', 'contract', 'contract.property', 'contract.unit', 'contract.renter')->findOrFail($id);
+    $pdf = PDF::loadView('receipt_pdf', compact('receipt'));
+    return $pdf->download('receipt_' . $receipt->voucher_number . '.pdf');
+}
+
 }

@@ -22,7 +22,7 @@
                         @csrf
                         @method('put')
                         <input type="text" name="key_support_phone" hidden
-                            value="{{ $settings->key_support_phone ?? '996' }}" id="key_phone">
+                            value="{{ $settings->key_support_phone ?? '966' }}" id="key_phone">
                         <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">
                                 @lang('Email content')<span class="required-color">*</span></label>
@@ -43,11 +43,11 @@
                                     aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $settings->key_support_phone ?? '996' }}
+                                    {{ $settings->key_support_phone ?? '966' }}
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" style="">
                                     <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                    <li><a class="dropdown-item" data-key="996" href="javascript:void(0);">996</a></li>
+                                    <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
                                 </ul>
                             </div>
                         </div>
