@@ -37,7 +37,9 @@
                         placeholder="{{ __('Executed') }}">
                         @endif
                     </div>
-               
+                    <div class="col-md-4 col-12 mb-3">
+                    <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
+                    </div>
                 </div>
 
                 <ul class="nav nav-tabs nav-fill" role="tablist">

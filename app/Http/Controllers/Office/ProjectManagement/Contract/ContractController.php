@@ -10,6 +10,7 @@ use App\Models\ContractAttachment;
 use App\Models\Installment;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Receipt;
 use App\Models\Setting;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -161,6 +162,7 @@ class ContractController extends Controller
         $renters = $this->RenterService->getAllByOfficeId($office_id);
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $contract =  $this->ContractService->getContractById($id);
+        $receipt = null;
         $setting =   Setting::first();
         return view('Office.Contract.show', get_defined_vars());
 
@@ -190,9 +192,6 @@ class ContractController extends Controller
         $renters = $this->RenterService->getAllByOfficeId($office_id);
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $contract =  $this->ContractService->getContractById($id);
-
-
-
         return view('Office.Contract.edit', get_defined_vars());
     }
 

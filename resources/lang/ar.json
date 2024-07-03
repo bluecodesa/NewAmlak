@@ -589,5 +589,8 @@
     "Date of concluding the contract": "تاريخ ابرام العقد",
     "Contract start date (Gregorian)": "تاريخ بدأ العقد (ميلادي)",
     "Contract start date (Higri)": "تاريخ بدأ العقد (هجري)",
-    "Receipts": "السندات"
+    "Receipts": "السندات",
+    "Installment Number": "رقم العقد",
+    "Voucher and Payment Receipts": "سندات القبض والصرف",
+    "Financial Managment": "إدارة المالية"
 }

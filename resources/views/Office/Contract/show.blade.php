@@ -42,10 +42,8 @@
                             @if($contract->status == 'draft')
                             <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
                             <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
-                            <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
                             @elseif ($contract->status == 'Approved')
                             <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
-                            <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
                             @endif
                         </div>
                         <div class="col-md-3 col-12 mb-3">
@@ -79,6 +77,7 @@
                                 <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> مرفقات
                             </button>
                         </li>
+                        @if($contract->status == "Executed")
                         <li class="nav-item">
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-payments" aria-controls="navs-justified-payments"
@@ -86,6 +85,7 @@
                                 <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Receipts')
                             </button>
                         </li>
+                        @endif
                     </ul>
 
                     <div class="tab-content">
@@ -402,10 +402,10 @@
                                                     <tr>
 
                                                         <th>@lang('Installment Number')</th>
-                                                        <th>@lang('Amount')</th>
+                                                        <th>@lang('price')</th>
                                                         <th>@lang('status')</th>
-                                                        <th>@lang('Start Date')</th>
-                                                        <th>@lang('End Date')</th>
+                                                        <th>@lang('Contract Start Date')</th>
+                                                        <th>@lang('Contract End Date')</th>
                                                         <th>@lang('Action')</th>
                                                     </tr>
                                                 </thead>

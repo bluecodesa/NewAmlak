@@ -13,6 +13,7 @@ use App\Models\Contract;
 use App\Models\ContractAttachment;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Setting;
 use App\Models\Unit;
 use App\Services\CityService;
 use App\Services\Office\OwnerService;
@@ -97,6 +98,10 @@ class ReceiptController extends Controller
     public function index()
     {
         //
+        $officeId=auth()->user()->UserOfficeData->id;
+        $receipts = Receipt::all()->where('office_id',$officeId);
+        $setting =   Setting::first();
+        return view('Office.FinancialManagment.index',get_defined_vars());
     }
 
     /**

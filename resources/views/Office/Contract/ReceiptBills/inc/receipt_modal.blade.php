@@ -6,6 +6,7 @@
                 <img src="{{ url($setting->icon) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            @if(!empty($receipt))
             <div class="modal-body" id="receiptModalBody">
                 <div class="row">
                     <div class="col-md-6">
@@ -32,10 +33,10 @@
                     <thead>
                         <tr>
                             <th>@lang('Installment Number')</th>
-                            <th>@lang('Amount')</th>
+                            <th>@lang('price')</th>
                             <th>@lang('status')</th>
-                            <th>@lang('Start Date')</th>
-                            <th>@lang('End Date')</th>
+                            <th>@lang('Contract Start Date')</th>
+                            <th>@lang('end Contract End Date')</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,12 +53,15 @@
                 </table>
                 <h5 class="mt-4">Total: {{ $receipt->total_price }} SR</h5>
             </div>            
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="printReceipt()">Print</button>
                 <a href="{{ route('Office.Receipt.download', $receipt->id) }}" class="btn btn-success">Download</a>
             </div>
+            @else
+            <div class="modal-body" id="receiptModalBody">
+            </div>
+            @endif
             
         </div>
     </div>
