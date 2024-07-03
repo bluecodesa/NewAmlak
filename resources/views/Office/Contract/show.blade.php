@@ -406,7 +406,7 @@
                                                         <th>@lang('status')</th>
                                                         <th>@lang('Contract Start Date')</th>
                                                         <th>@lang('Contract End Date')</th>
-                                                        <th>@lang('Action')</th>
+                                                        {{-- <th>@lang('Action')</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-border-bottom-0">
@@ -418,7 +418,7 @@
                                                             <td>{{ __($installment->status) }}</td>
                                                             <td>{{ $installment->start_date }}</td>
                                                             <td>{{ $installment->end_date }}</td>
-                                                            <td>
+                                                            {{-- <td>
 
                                                                 <div class="dropdown">
                                                                     <button type="button"
@@ -434,7 +434,7 @@
                                                                         @endif
                                                                     </div>
                                                                 </div>
-                                                            </td>
+                                                            </td> --}}
                                                         </tr>
                                                     @empty
                                                         <td colspan="6">
@@ -467,7 +467,7 @@
 
                             <div class="col-12 mb-3" id="installmentsTable">
                                 <div class="card">
-                                    <h5 class="card-header"> @lang('Installments') </h5>
+                                    <h5 class="card-header"> @lang('Attachments') </h5>
                                     <div class="table-responsive text-nowrap">
                                         <table class="table">
                                             <thead>
@@ -481,7 +481,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($contract->ContractAttachmentData as $attachment)
+                                                @forelse ($contract->ContractAttachmentData as $attachment)
                                                     <tr>
                                                         <td></td>
                                                         <td>{{ $attachment->AttachmentData->name }}</td>
@@ -495,7 +495,17 @@
                                                             </td>
                                                         @endif
                                                     </tr>
-                                                @endforeach
+                                                @empty
+                                                <td colspan="4">
+                                                    <div class="alert alert-danger d-flex align-items-center"
+                                                        role="alert">
+                                                        <span class="alert-icon text-danger me-2">
+                                                            <i class="ti ti-ban ti-xs"></i>
+                                                        </span>
+                                                        @lang('No Data Found!')
+                                                    </div>
+                                                </td>
+                                            @endforelse
                                             </tbody>
                                         </table>
                                     </div>
