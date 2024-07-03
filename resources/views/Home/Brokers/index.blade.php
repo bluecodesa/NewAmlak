@@ -6,7 +6,7 @@
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                 </span> @lang('Real Estate Brokers') </h4>
 
-            <div class="row g-4" style="min-height: 300px">
+            <div class="row g-4" @if ($users->count() == 0) style="min-height: 300px" @endif>
                 @foreach ($users as $broker)
                     <div class="col-xl-4 col-lg-6 col-md-6">
 
