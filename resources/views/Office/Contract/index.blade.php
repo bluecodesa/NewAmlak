@@ -101,7 +101,7 @@
                                                 @endif
 
 
-                                                @if (Auth::user()->hasPermission('delete-contract'))
+                                                @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
                                                     <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $contract->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
