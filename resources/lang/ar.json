@@ -590,7 +590,9 @@
     "Contract start date (Gregorian)": "تاريخ بدأ العقد (ميلادي)",
     "Contract start date (Higri)": "تاريخ بدأ العقد (هجري)",
     "Receipts": "السندات",
-    "Installment Number": "رقم العقد",
+    "Installment Number": "رقم القسط",
     "Voucher and Payment Receipts": "سندات القبض والصرف",
-    "Financial Managment": "إدارة المالية"
+    "Financial Managment": "إدارة المالية",
+    "Installment Start Date": " بداية استحقاق القسط",
+    "Installment End Date": "نهاية استحقاق القسط"
 }

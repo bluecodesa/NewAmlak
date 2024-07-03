@@ -46,18 +46,18 @@
                         </div>
                         <div class="col-md-4 col-12 mb-3">
                             @if($contract->status == 'draft')
+                            @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
+                            <a class="btn btn-info"
+                                href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
+                            @endif
                             <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
-                            @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
-                            <a class="btn btn-info"
-                                href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
-                            @endif
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>           
                             @elseif ($contract->status == 'Approved')
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
                             @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
                             <a class="btn btn-info"
                                 href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                             @endif
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
                             @endif
                         </div>
                      
@@ -413,8 +413,8 @@
                                                         <th>@lang('Installment Number')</th>
                                                         <th>@lang('price')</th>
                                                         <th>@lang('status')</th>
-                                                        <th>@lang('Contract Start Date')</th>
-                                                        <th>@lang('Contract End Date')</th>
+                                                        <th>@lang('Installment Start Date')</th>
+                                                        <th>@lang('Installment End Date')</th>
                                                         {{-- <th>@lang('Action')</th> --}}
                                                     </tr>
                                                 </thead>
@@ -483,7 +483,6 @@
                                                 <tr>
                                                     <th>@lang('#')</th>
                                                     <th>@lang('Name')</th>
-                                                    <th>@lang('Attachments')</th>
                                                     <th>@lang('Show')</th>
 
 
@@ -494,7 +493,6 @@
                                                     <tr>
                                                         <td></td>
                                                         <td>{{ $attachment->AttachmentData->name }}</td>
-                                                        <td>{{ $attachment->attachment }}</td>
                                                         @if ($attachment->attachment)
                                                             <td>
 
@@ -525,25 +523,9 @@
                         </div>
 
                         <div class="tab-pane fade" id="navs-justified-payments" role="tabpanel">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                            class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#basicModal">@lang('إصدار سند قبض')</a>
-                                    </li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
-                                    </li>
-                                </ul>
-                            </div>
-
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">@lang('Installments')</h5>
+                                    <h5 class="card-title mb-0">@lang('Receipts')</h5>
                                 </div>
                                 <div class="card-datatable table-responsive">
                                     <div id="DataTables_Table_0_wrapper"
@@ -577,8 +559,24 @@
                                                                             <i
                                                                                 class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                                 </div>
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                                class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a class="dropdown-item" class="btn btn-primary" data-bs-toggle="modal"
+                                                                                data-bs-target="#basicModal">@lang('إصدار سند قبض')</a>
+                                                                        </li>
+                                                                        <li><a class="dropdown-item"
+                                                                                href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
@@ -589,11 +587,11 @@
                                                 <thead class="table-dark">
                                                     <tr>
 
-                                                        <th>@lang('Installment Number')</th>
-                                                        <th>@lang('Amount')</th>
+                                                        <th>@lang('Receipt Number')</th>
+                                                        <th>@lang('Total price')</th>
                                                         <th>@lang('type')</th>
-                                                        <th>@lang('Start Date')</th>
-                                                        <th>@lang('End Date')</th>
+                                                        <th>@lang('Release Date')</th>
+                                                        <th>@lang('Payment Date')</th>
                                                         <th>@lang('Action')</th>
                                                     </tr>
                                                 </thead>
