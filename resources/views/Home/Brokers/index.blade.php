@@ -6,7 +6,7 @@
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                 </span> @lang('Real Estate Brokers') </h4>
 
-            <div class="row g-4">
+            <div class="row g-4" style="min-height: 300px">
                 @foreach ($users as $broker)
                     <div class="col-xl-4 col-lg-6 col-md-6">
 
@@ -53,21 +53,22 @@
 
         <!-- End Pagination -->
     </section>
-    <div class="card mb-4">
+    {{-- <div class="card mb-4">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="demo-inline-spacing">
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
-                                {{ $users->links() }}
+
                             </ul>
                         </nav>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
+    {{ $users->links() }}
 
     @include('Home.layouts.inc.__addSubscriberModal')
 @endsection
