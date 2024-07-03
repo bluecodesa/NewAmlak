@@ -44,20 +44,42 @@
                             <input disabled type="text" required id="modalRoleName" name="number_unit"
                                 class="form-control" placeholder="{{ __($contract->contract_validity) }}">
                         </div>
-                        <div class="col-md-4 col-12 mb-3">
+                        <div class="col-md-5 col-12 mb-3">
                             @if($contract->status == 'draft')
                             @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
                             <a class="btn btn-info"
                                 href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                             @endif
                             <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>           
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>  
+                            @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
+                            <a href="javascript:void(0);"
+                                onclick="handleDelete('{{ $contract->id }}')"
+                                class="btn btn-danger delete-btn">@lang('Delete')</a>
+                            <form id="delete-form-{{ $contract->id }}"
+                                action="{{ route('Office.Contract.destroy', $contract->id) }}"
+                                method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            @endif         
                             @elseif ($contract->status == 'Approved')
                             @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
                             <a class="btn btn-info"
                                 href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                             @endif
                             <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
+                            @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
+                            <a href="javascript:void(0);"
+                            onclick="handleDelete('{{ $contract->id }}')"
+                            class="btn btn-danger delete-btn">@lang('Delete')</a>
+                            <form id="delete-form-{{ $contract->id }}"
+                                action="{{ route('Office.Contract.destroy', $contract->id) }}"
+                                method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            @endif
                             @endif
                         </div>
                      
