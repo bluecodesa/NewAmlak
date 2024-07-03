@@ -83,7 +83,7 @@
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-payments" aria-controls="navs-justified-payments"
                                 aria-selected="false">
-                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Payments')
+                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Receipts')
                             </button>
                         </li>
                     </ul>
@@ -521,6 +521,110 @@
                                     </li>
                                 </ul>
                             </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">@lang('Installments')</h5>
+                                </div>
+                                <div class="card-datatable table-responsive">
+                                    <div id="DataTables_Table_0_wrapper"
+                                        class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                        <div class="card-header border-top rounded-0 py-2">
+                                            <div class="row">
+                                                <div class="col-6">
+
+                                                    <div class="me-5 ms-n2 pe-5">
+                                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                                            <label>
+                                                                <input id="SearchInput" class="form-control"
+                                                                    placeholder="@lang('search...')"
+                                                                    aria-controls="DataTables_Table_0"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+
+                                                    <div
+                                                        class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                                        <div
+                                                            class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                                            <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                                <div class="btn-group">
+                                                                    <button onclick="exportToExcel()"
+                                                                        class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                                                        type="button" aria-haspopup="dialog"
+                                                                        aria-expanded="false"><span>
+                                                                            <i
+                                                                                class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="table-responsive text-nowrap">
+                                            <table class="table" id="table">
+                                                <thead class="table-dark">
+                                                    <tr>
+
+                                                        <th>@lang('Installment Number')</th>
+                                                        <th>@lang('Amount')</th>
+                                                        <th>@lang('type')</th>
+                                                        <th>@lang('Start Date')</th>
+                                                        <th>@lang('End Date')</th>
+                                                        <th>@lang('Action')</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-border-bottom-0">
+                                                    @forelse ($contract->ReceiptData as $index => $receipt)
+                                                        <tr>
+
+                                                            <td>{{ $receipt->voucher_number }}</td>
+                                                            <td>{{ $receipt->total_price }}</td>
+                                                            <td>{{ __($receipt->type) }}</td>
+                                                            <td>{{ $receipt->release_date }}</td>
+                                                            <td>{{ $receipt->payment_date }}</td>
+                                                            <td>
+
+                                                                <div class="dropdown">
+                                                                    <button type="button"
+                                                                        class="btn p-0 dropdown-toggle hide-arrow"
+                                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <i class="ti ti-dots-vertical"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu" style="">
+                                                                        @if (Auth::user()->hasPermission('read-unit'))
+                                                                            <a class="dropdown-item receipt-link" href="#" data-bs-toggle="modal"
+                                                                            data-bs-target="#receiptModal" data-id="{{ $receipt->id }}">@lang('Show')</a>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                        <td colspan="6">
+                                                            <div class="alert alert-danger d-flex align-items-center"
+                                                                role="alert">
+                                                                <span class="alert-icon text-danger me-2">
+                                                                    <i class="ti ti-ban ti-xs"></i>
+                                                                </span>
+                                                                @lang('No Data Found!')
+                                                            </div>
+                                                        </td>
+                                                    @endforelse
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -532,6 +636,7 @@
         <div class="content-backdrop fade"></div>
     </div>
     @include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
+    @include('Office.Contract.ReceiptBills.inc.receipt_modal')
 
 
     @push('scripts')

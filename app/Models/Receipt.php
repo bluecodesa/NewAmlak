@@ -14,6 +14,10 @@ class Receipt extends Model
     {
         return $this->belongsTo(Contract::class);
     }
+    public function OfficeData()
+    {
+        return $this->belongsTo(Office::class);
+    }
 
     public function ProjectData()
     {

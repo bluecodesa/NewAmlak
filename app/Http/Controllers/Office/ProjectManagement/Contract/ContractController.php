@@ -10,6 +10,7 @@ use App\Models\ContractAttachment;
 use App\Models\Installment;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Setting;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use App\Services\CityService;
@@ -160,6 +161,7 @@ class ContractController extends Controller
         $renters = $this->RenterService->getAllByOfficeId($office_id);
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $contract =  $this->ContractService->getContractById($id);
+        $setting =   Setting::first();
         return view('Office.Contract.show', get_defined_vars());
 
 

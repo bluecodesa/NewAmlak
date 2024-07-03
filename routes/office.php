@@ -83,6 +83,7 @@ Route::group(
 
        Route::resource('Receipt', ReceiptController::class)->middleware('CheckSubscription');
         // Route::post('/Receipt', [ReceiptController::class, 'store'])->name('Receipt.store');
+        Route::get('receipt/download/{id}', [ReceiptController::class, 'download'])->name('Receipt.download');
 
        Route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
 
