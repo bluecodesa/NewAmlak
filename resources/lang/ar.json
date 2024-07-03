@@ -594,5 +594,10 @@
     "Voucher and Payment Receipts": "سندات القبض والصرف",
     "Financial Managment": "إدارة المالية",
     "Installment Start Date": " بداية استحقاق القسط",
-    "Installment End Date": "نهاية استحقاق القسط"
+    "Installment End Date": "نهاية استحقاق القسط",
+    "Receipt Voucher": "سند قبض",
+    "Voucher Number": "رقم السند",
+    "Beneficiary Name": "اسم المستفيد"
+
+
 }

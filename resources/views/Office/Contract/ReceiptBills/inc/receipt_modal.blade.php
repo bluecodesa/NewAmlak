@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="receiptModalLabel">Receipt Voucher</h5>
+                <h5 class="modal-title" id="receiptModalLabel">@lang('Receipt Voucher')</h5>
                 <img src="{{ url($setting->icon) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -10,8 +10,8 @@
             <div class="modal-body" id="receiptModalBody">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Voucher:</strong> {{ $receipt->voucher_number }}</p>
-                        <p><strong>Payment Date:</strong> {{ $receipt->payment_date }}</p>
+                        <p><strong>@lang('Voucher Number'):</strong> {{ $receipt->voucher_number }}</p>
+                        <p><strong>@lang('Payment Date'):</strong> {{ $receipt->payment_date }}</p>
                         <p><strong>Account Name:</strong> {{ $receipt->ContractData->office->UserData->name ?? 'N/A' }}</p>
                         <p><strong>Prop Parent:</strong> {{ $receipt->contract->property->parent ?? 'N/A' }}</p>
                         <p><strong>#Property:</strong> {{ $receipt->contract->property->name ?? 'N/A' }}</p>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-6">
                         <p><strong>Issue Date:</strong> {{ $receipt->release_date }}</p>
-                        <p><strong>Renter:</strong> {{ $receipt->ContractData->renter->UserData->name ?? 'N/A' }}</p>
+                        <p><strong>@lang('Beneficiary Name'):</strong> {{ $receipt->ContractData->renter->UserData->name ?? 'N/A' }}</p>
                         <p><strong>Pay Method:</strong> {{ $receipt->payment_method }}</p>
                         <p><strong>Total:</strong> {{ $receipt->total_price }} SR</p>
                         <p><strong>Mobile:</strong> {{ $receipt->mobile }}</p>
