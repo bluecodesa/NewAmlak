@@ -637,7 +637,7 @@
                                                                     <div class="dropdown-menu" style="">
                                                                         @if (Auth::user()->hasPermission('read-unit'))
                                                                             <a class="dropdown-item receipt-link" href="#" data-bs-toggle="modal"
-                                                                            data-bs-target="#receiptModal" data-id="{{ $receipt->id }}">@lang('Show')</a>
+                                                                            data-bs-target="#receiptModal{{ $receipt->id }}">@lang('Show')</a>
                                                                         @endif
                                                                     </div>
                                                                 </div>
@@ -660,6 +660,7 @@
                                             </table>
                                         </div>
 
+                                        @include('Office.Contract.ReceiptBills.inc.receipt_modal')
 
                                     </div>
                                 </div>
@@ -675,7 +676,6 @@
         <div class="content-backdrop fade"></div>
     </div>
     @include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
-    @include('Office.Contract.ReceiptBills.inc.receipt_modal')
 
 
     @push('scripts')

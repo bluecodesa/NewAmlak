@@ -118,84 +118,80 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
-    $validatedData = $request->validate([
-        // 'voucher_number' => 'required|string|unique:receipts,voucher_number',
-        'release_date' => 'required|date',
-        'payment_date' => 'required|date',
-        // 'contract_id' => 'required|exists:contracts,id',
-        'payment_method' => 'required|string',
-        'total_price' => 'required|numeric|min:0',
-        'notes' => 'nullable|string',
-        'installments' => 'required|array',
-        'installments.*' => 'numeric|min:0'
-    ], [
-        // 'voucher_number.required' => 'The voucher number is required.',
-        'voucher_number.string' => 'The voucher number must be a string.',
-        'voucher_number.unique' => 'The voucher number has already been taken.',
-        'release_date.required' => 'The release date is required.',
-        'release_date.date' => 'The release date is not a valid date.',
-        'payment_date.required' => 'The payment date is required.',
-        'payment_date.date' => 'The payment date is not a valid date.',
-        'contract_id.required' => 'The contract ID is required.',
-        'contract_id.exists' => 'The selected contract ID is invalid.',
-        'payment_method.required' => 'The payment method is required.',
-        'payment_method.string' => 'The payment method must be a string.',
-        'total_price.required' => 'The total price is required.',
-        'total_price.numeric' => 'The total price must be a number.',
-        'total_price.min' => 'The total price must be at least 0.',
-        'notes.string' => 'The notes must be a string.',
-        'installments.required' => 'The installments are required.',
-        'installments.array' => 'The installments must be an array.',
-        'installments.*.numeric' => 'Each installment must be a number.',
-        'installments.*.min' => 'Each installment must be at least 0.'
-    ]);
-        $installmentIds = $validatedData['installments'];
-
-        $installmentNumbers = Installment::whereIn('id', $installmentIds)->pluck('installment_number')->toArray();
-        $Contract_id = $request->contract_id;
-
-            $contract = Contract::find($Contract_id);
-
-            if ($contract) {
-                $contractNumber = $contract->contract_number;
-            }
-
-    // Create the receipt
-    $receipt = Receipt::create([
-        'voucher_number' => $request->voucher_number ?? null,
-        'release_date' => $request->release_date,
-        'payment_date' => $request->payment_date,
-        'office_id' => Auth::user()->UserOfficeData->id,
-        'contract_id' => $request->contract_id,
-        'project_id' => $request->project_id,
-        'property_id' => $request->property_id,
-        'unit_id' => $request->unit_id,
-        'renter_id' => $request->renter_id,
-        'payment_method' => $request->payment_method,
-        'total_price' => $request->total_price,
-        'notes' => $request->notes,
-        'mobile' => $request->mobile,
-        'type' => 'receipt_voucher',
-        'reference_number' => $request->reference_number,
-        'transaction_number' => $request->transaction_number,
-    ]);
-
-    $installmentNumbers = Installment::whereIn('id', $validatedData['installments'])->pluck('installment_number')->toArray();
-    $voucherNumber = $contractNumber . '-' . $receipt->id;
-    $receipt->update(['voucher_number' => $voucherNumber]);
-
-    foreach ($validatedData['installments'] as $installmentId) {
-        $receipt->installments()->attach($installmentId);
-
-        $installment = Installment::find($installmentId);
-        if ($installment) {
-            $installment->update(['status' => 'collected']);
+        $validatedData = $request->validate([
+            'release_date' => 'required|date',
+            'payment_date' => 'required|date',
+            'payment_method' => 'required|string',
+            'total_price' => 'required|numeric|min:0',
+            'notes' => 'nullable|string',
+            'installments' => 'required|array',
+            'installments.*' => 'numeric|min:0'
+        ], [
+            'release_date.required' => 'The release date is required.',
+            'release_date.date' => 'The release date is not a valid date.',
+            'payment_date.required' => 'The payment date is required.',
+            'payment_date.date' => 'The payment date is not a valid date.',
+            'contract_id.required' => 'The contract ID is required.',
+            'contract_id.exists' => 'The selected contract ID is invalid.',
+            'payment_method.required' => 'The payment method is required.',
+            'payment_method.string' => 'The payment method must be a string.',
+            'total_price.required' => 'The total price is required.',
+            'total_price.numeric' => 'The total price must be a number.',
+            'total_price.min' => 'The total price must be at least 0.',
+            'notes.string' => 'The notes must be a string.',
+            'installments.required' => 'The installments are required.',
+            'installments.array' => 'The installments must be an array.',
+            'installments.*.numeric' => 'Each installment must be a number.',
+            'installments.*.min' => 'Each installment must be at least 0.'
+        ]);
+    
+        $contract = Contract::find($request->contract_id);
+    
+        if (!$contract) {
+            return redirect()->back()->withErrors(['contract_id' => 'The selected contract ID is invalid.']);
         }
+    
+        $installmentIds = $validatedData['installments'];
+        $installmentNumbers = Installment::whereIn('id', $installmentIds)->pluck('installment_number')->toArray();
+    
+        // Count existing receipts for the contract
+        $receiptCount = $contract->ReceiptData()->count();
+    
+        // Generate voucher number using the receipt count as index
+        $voucherNumber = 'V-' . $contract->contract_number . '-' . ($receiptCount + 1);
+    
+        // Create the receipt
+        $receipt = Receipt::create([
+            'voucher_number' => $voucherNumber,
+            'release_date' => $request->release_date,
+            'payment_date' => $request->payment_date,
+            'office_id' => Auth::user()->UserOfficeData->id,
+            'contract_id' => $request->contract_id,
+            'project_id' => $request->project_id,
+            'property_id' => $request->property_id,
+            'unit_id' => $request->unit_id,
+            'renter_id' => $request->renter_id,
+            'payment_method' => $request->payment_method,
+            'total_price' => $request->total_price,
+            'notes' => $request->notes,
+            'mobile' => $request->mobile,
+            'type' => 'receipt_voucher',
+            'reference_number' => $request->reference_number,
+            'transaction_number' => $request->transaction_number,
+        ]);
+    
+        foreach ($validatedData['installments'] as $installmentId) {
+            $receipt->installments()->attach($installmentId);
+    
+            $installment = Installment::find($installmentId);
+            if ($installment) {
+                $installment->update(['status' => 'collected']);
+            }
+        }
+    
+        return redirect()->back()->with('success', 'Receipt created successfully.');
     }
-    return redirect()->back()->with('success', 'Receipt created successfully.');
-
-    }
-
+    
 
 
     /**

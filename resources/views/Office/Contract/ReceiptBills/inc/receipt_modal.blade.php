@@ -1,7 +1,8 @@
-<div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
+@foreach ($contract->ReceiptData as $receipt)
+<div class="modal fade" id="receiptModal{{$receipt->id }}" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" id="receiptModalHeader">
                 <h5 class="modal-title" id="receiptModalLabel">@lang('Receipt Voucher')</h5>
                 <img src="{{ url($setting->icon) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -12,23 +13,21 @@
                     <div class="col-md-6">
                         <p><strong>@lang('Voucher Number'):</strong> {{ $receipt->voucher_number }}</p>
                         <p><strong>@lang('Payment Date'):</strong> {{ $receipt->payment_date }}</p>
-                        <p><strong>Account Name:</strong> {{ $receipt->ContractData->office->UserData->name ?? 'N/A' }}</p>
-                        <p><strong>Prop Parent:</strong> {{ $receipt->contract->property->parent ?? 'N/A' }}</p>
-                        <p><strong>#Property:</strong> {{ $receipt->contract->property->name ?? 'N/A' }}</p>
-                        <p><strong>Note:</strong> {{ $receipt->notes }}</p>
-                        <p><strong>#Code:</strong> {{ $receipt->contract->code ?? 'N/A' }}</p>
+                        <p><strong>@lang('Account Name'):</strong> {{ $receipt->ContractData->office->UserData->name ?? 'N/A' }}</p>
+                        <p><strong>@lang('Unit'):</strong> {{ $receipt->ContractData->unit->number_unit ?? 'N/A' }}</p>
+                        <p><strong>@lang('Note'):</strong> {{ $receipt->notes }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Issue Date:</strong> {{ $receipt->release_date }}</p>
+                        <p><strong>@lang('Release Date')</strong> {{ $receipt->release_date }}</p>
                         <p><strong>@lang('Beneficiary Name'):</strong> {{ $receipt->ContractData->renter->UserData->name ?? 'N/A' }}</p>
-                        <p><strong>Pay Method:</strong> {{ $receipt->payment_method }}</p>
-                        <p><strong>Total:</strong> {{ $receipt->total_price }} SR</p>
-                        <p><strong>Mobile:</strong> {{ $receipt->mobile }}</p>
-                        <p><strong>#Ejar/REF:</strong> {{ $receipt->reference_number }}</p>
-                        <p><strong>Transid:</strong> {{ $receipt->transaction_number }}</p>
+                        <p><strong>@lang('Pay Method'):</strong> {{ $receipt->payment_method }}</p>
+                        <p><strong>@lang('total')</strong> {{ $receipt->total_price }} SR</p>
+                        <p><strong>@lang('mobile')</strong> {{ $receipt->mobile }}</p>
+                        <p><strong>@lang('#Ejar/REF:'):</strong> {{ $receipt->reference_number }}</p>
+                        <p><strong>@lang('Transaction Id'):</strong> {{ $receipt->transaction_number }}</p>
                     </div>
                 </div>
-                <h5 class="mt-4">Installments:</h5>
+                <h5 class="mt-4">@lang('Installments'):</h5>
                 <table class="table">
                     <thead>
                         <tr>
@@ -36,7 +35,7 @@
                             <th>@lang('price')</th>
                             <th>@lang('status')</th>
                             <th>@lang('Contract Start Date')</th>
-                            <th>@lang('end Contract End Date')</th>
+                            <th>@lang('Contract End Date')</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,11 +65,12 @@
         </div>
     </div>
 </div>
+@endforeach
 
 <script>
     function printReceipt() {
         var originalContent = document.body.innerHTML;
-        var printContent = document.getElementById('receiptModalBody').innerHTML;
+        var printContent = document.getElementById('receiptModalBody','receiptModalHeader').innerHTML;
         document.body.innerHTML = printContent;
         window.print();
         document.body.innerHTML = originalContent;

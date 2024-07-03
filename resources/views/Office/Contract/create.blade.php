@@ -269,7 +269,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-profile">
+                                        {{ __('Next') }}
+                                    </button>
+                                </div>
 
                         </div>
                         <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
@@ -283,6 +287,12 @@
                             <div id="contractDetails" style="display: none;">
                                 <!-- Contract details will be dynamically added here -->
                             </div>
+                            <div class="col-12">
+                                <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-messages">
+                                    {{ __('Next') }}
+                                </button>
+                            </div>
+                        
 
                         </div>
                         <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
@@ -305,13 +315,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary me-1">
-
-                                {{ __('save') }}
-                            </button>
-
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary me-1">
+    
+                                    {{ __('save') }}
+                                </button>
+    
+                            </div>
                         </div>
                         </form>
                     </div>
@@ -326,7 +336,7 @@
 
 
 
-    @push('scripts')
+@push('scripts')
 
     <script>
         document.getElementById('projectSelect').addEventListener('change', function() {
@@ -405,35 +415,35 @@
         }
 
 
-    function addFeature() {
-    const featuresContainer = document.getElementById('features');
-    const newRow = document.createElement('div');
-    newRow.classList.add('row', 'mb-3');
+            function addFeature() {
+            const featuresContainer = document.getElementById('features');
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3');
 
-    newRow.innerHTML = `
-        <div class="mb-3 col-4">
-            <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-        </div>
-        <div class="mb-3 col-4">
-            <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
-        </div>
-        <div class="col-4">
-            <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-        </div>
-    `;
+            newRow.innerHTML = `
+                <div class="mb-3 col-4">
+                    <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+                </div>
+                <div class="mb-3 col-4">
+                    <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+                </div>
+            `;
 
-    featuresContainer.appendChild(newRow);
-}
+            featuresContainer.appendChild(newRow);
+        }
 
 
-function removeFeature(button) {
-    const rowToRemove = button.parentNode.parentNode;
-    rowToRemove.remove();
-}
+        function removeFeature(button) {
+            const rowToRemove = button.parentNode.parentNode;
+            rowToRemove.remove();
+        }
 
     </script>
 
-        <script>
+    <script>
             $('#txtHijriDate').calendarsPicker({
                 calendar: $.calendars.instance('islamic', 'Ar'),
                 // monthsToShow: [1, 2],
@@ -484,9 +494,9 @@ function removeFeature(button) {
                     },
                 });
             });
-        </script>
+    </script>
 
-        <script>
+    <script>
             $(document).ready(function() {
                 $('#serviceTypeSelect').on('change', function() {
                     var selectedValue = $(this).val();
@@ -518,29 +528,36 @@ function removeFeature(button) {
                 });
 
             });
-        </script>
+    </script>
 
-        <script>
+    <script>
 
             $(document).ready(function() {
-                    $('select[name="duration_unit"]').change(function() {
-                        var durationUnit = $(this).val();
-                        var paymentCycleSelect = $('select[name="payment_cycle"]');
-                        paymentCycleSelect.empty(); // Clear existing options
+                $('select[name="duration_unit"]').change(function() {
+                    var durationUnit = $(this).val();
+                    var paymentCycleSelect = $('select[name="payment_cycle"]');
+                    paymentCycleSelect.empty(); // Clear existing options
 
-                        var options = ['annual', 'semi-annual', 'quarterly', 'monthly'];
+                    var options = {
+                        'annual': '@lang('annual')',
+                        'semi-annual': '@lang('semi-annual')',
+                        'quarterly': '@lang('quarterly')',
+                        'monthly': '@lang('monthly')'
+                    };
 
-                        if (durationUnit === 'month') {
-                            options = ['quarterly', 'monthly'];
-                        }
+                    var filteredOptions = ['annual', 'semi-annual', 'quarterly', 'monthly'];
+                    if (durationUnit === 'month') {
+                        filteredOptions = ['quarterly', 'monthly'];
+                    }
 
-                        options.forEach(function(option) {
-                            paymentCycleSelect.append('<option value="' + option + '">' + option + '</option>');
-                        });
+                    filteredOptions.forEach(function(option) {
+                        paymentCycleSelect.append('<option value="' + option + '">' + options[option] + '</option>');
                     });
-
-                    $('select[name="duration_unit"]').trigger('change');
                 });
+
+                $('select[name="duration_unit"]').trigger('change');
+            });
+
 
 
             $(document).ready(function() {
@@ -704,9 +721,9 @@ function removeFeature(button) {
                     $('#contractDetails').show();
                 });
             });
-        </script>
+    </script>
 
-        <script>
+    <script>
         $(document).ready(function() {
 
         // Function to handle unit selection
@@ -750,65 +767,86 @@ function removeFeature(button) {
 
         });
 
-        </script>
+    </script>
 
-<script>
-    $(document).ready(function() {
-
-        // Function to handle unit selection
-        $('#unitSelect').on('change', function() {
-            var unitId = $(this).val();
-
-            // Fetch unit details via AJAX
-            if (unitId) {
-                fetchUnitDetails(unitId);
-            } else {
-                resetUnitDetails();
-            }
-        });
-
-        function fetchUnitDetails(unitId) {
-            // AJAX request to get unit details
-            $.ajax({
-                url: '/get-unit-details/' + unitId,
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Populate owner ID and disable the input
-                    $('#OwnersDiv').val(data.owner_id);
-                    $('#OwnersDiv').prop('disabled', true);
-
-                    // Update salary display (yearly)
-                    var yearlySalary = data.unit_rental_price.yearly;
-                    $('#unitSalary').val(yearlySalary);
-
-                    // Optionally, update hidden input for owner_id
-                    $('#hiddenOwnerId').val(data.owner_id);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching unit details:', error);
+    <script>
+        $(document).ready(function() {
+            $('#unitSelect').on('change', function() {
+                var unitId = $(this).val();
+                if (unitId) {
+                    fetchUnitDetails(unitId);
+                } else {
+                    resetUnitDetails();
                 }
             });
-        }
 
-        function resetUnitDetails() {
-            // Clear owner ID and enable the input
-            $('#OwnersDiv').val('');
-            $('#OwnersDiv').prop('disabled', false);
+            function fetchUnitDetails(unitId) {
+                // AJAX request to get unit details
+                $.ajax({
+                    url: '/get-unit-details/' + unitId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // Populate owner ID and disable the input
+                        $('#OwnersDiv').val(data.owner_id);
+                        $('#OwnersDiv').prop('disabled', true);
 
-            // Clear salary display (yearly)
-            $('#unitSalary').val('');
+                        // Update salary display (yearly)
+                        var yearlySalary = data.unit_rental_price.yearly;
+                        $('#unitSalary').val(yearlySalary);
 
-            // Clear hidden input values if needed
-            $('#hiddenOwnerId').val('');
-        }
+                        // Update hidden input for owner_id
+                        $('#hiddenOwnerId').val(data.owner_id);
 
-        // Trigger change event on page load
-        $('#unitSelect').trigger('change');
+                        // Populate service type ID and disable the input
+                        $('#serviceTypeSelect').val(data.service_type_id);
+                        $('#serviceTypeSelect').prop('disabled', true);
 
-    });
-</script>
+                        // Optionally, update hidden input for service_type_id
+                        $('#hiddenServiceTypeId').val(data.service_type_id);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching unit details:', error);
+                    }
+                });
+            }
 
-    @endpush
+            function resetUnitDetails() {
+                // Clear owner ID and enable the input
+                $('#OwnersDiv').val('');
+                $('#OwnersDiv').prop('disabled', false);
+
+                // Clear salary display (yearly)
+                $('#unitSalary').val('');
+
+                // Clear hidden input values if needed
+                $('#hiddenOwnerId').val('');
+
+                // Clear service type ID and enable the input
+                $('#serviceTypeSelect').val('');
+                $('#serviceTypeSelect').prop('disabled', false);
+
+                // Clear hidden input for service_type_id
+                $('#hiddenServiceTypeId').val('');
+            }
+
+            // Trigger change event on page load
+            $('#unitSelect').trigger('change');
+        });
+
+
+    </script>
+
+    <script>
+        document.querySelectorAll('.next-tab').forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTab = this.getAttribute('data-next');
+                const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+                nextTabButton.click();
+            });
+        });
+    </script>
+
+@endpush
 
 @endsection

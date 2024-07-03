@@ -502,11 +502,12 @@ public function updateValidity(Request $request)
     $unit = Unit::findOrFail($unitId);
 
     // Load related data
-    $unit->load('OwnerData', 'UnitRentPrice');
+    $unit->load('OwnerData', 'UnitRentPrice','ServiceTypeData');
 
     // Prepare response data
     $responseData = [
         'owner_id' => $unit->owner_id,
+        'service_type_id' => $unit->service_type_id,
         'unit_rental_price' => $unit->UnitRentPrice,
     ];
 
