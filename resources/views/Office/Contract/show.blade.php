@@ -18,13 +18,13 @@
 
                 <div class="nav-align-top nav-tabs-shadow mb-4">
                     <div class="row">
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-2 col-12 mb-3">
                             <label class="form-label">
                                 {{ __('Contract Number') }} <span class="required-color"></span></label>
                             <input disabled type="text" required id="modalRoleName" name="number_unit"
                                 class="form-control" placeholder="{{ $contract->contract_number }}">
                         </div>
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-2 col-12 mb-3">
                             <label class="form-label">
                                 {{ __('status') }} <span class="required-color"></span></label>
                             @if ($contract->status == 'draft')
@@ -38,20 +38,29 @@
                                     class="form-control" placeholder="{{ __('Executed') }}">
                             @endif
                         </div>
-                        <div class="col-md-4 col-12 mb-3">
-                            @if($contract->status == 'draft')
-                            <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
-                            @elseif ($contract->status == 'Approved')
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
-                            @endif
-                        </div>
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-2 col-12 mb-3">
                             <label class="form-label">
                                 {{ __('Contract validity') }} <span class="required-color"></span></label>
                             <input disabled type="text" required id="modalRoleName" name="number_unit"
                                 class="form-control" placeholder="{{ __($contract->contract_validity) }}">
                         </div>
+                        <div class="col-md-4 col-12 mb-3">
+                            @if($contract->status == 'draft')
+                            <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
+                            @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
+                            <a class="btn btn-info"
+                                href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
+                            @endif
+                            @elseif ($contract->status == 'Approved')
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
+                            @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
+                            <a class="btn btn-info"
+                                href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
+                            @endif
+                            @endif
+                        </div>
+                     
                     </div>
 
                     <ul class="nav nav-tabs nav-fill" role="tablist">
