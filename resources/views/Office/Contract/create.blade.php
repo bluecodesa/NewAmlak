@@ -220,19 +220,19 @@
 
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
                                     <label class="form-label">@lang('Date of concluding the contract') <span class="required-color">*</span></label>
-                                    <input class="form-control" required type="date"  name="date_concluding_contract" />
+                                    <input class="form-control"  type="date" value="{{ now()->format('Y-m-d H:i') }}" name="date_concluding_contract" />
                                 </div>
                                     <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
                                         <label class="form-label">@lang('Contract start date (Gregorian)') <span class="required-color">*</span></label>
-                                        <input class="form-control" required type="date" name="gregorian_contract_date" />
+                                        <input class="form-control"  type="date" name="gregorian_contract_date" />
                                     </div>
                                     <div class="col-md-4 mb-3 col-12" id="hijriDate2" style="display: none;">
                                         <label class="form-label">@lang('Date of concluding the contract') <span class="required-color">*</span></label>
-                                        <input class="form-control" required type="text" id="txtHijriDate" name="date_concluding_contract" placeholder="@lang('Hijri Date')" />
+                                        <input class="form-control"  type="text"  id="txtHijriDate" value="{{ now()->format('Y-m-d H:i') }}" name="date_concluding_contract" placeholder="@lang('Hijri Date')" />
                                     </div>
                                     <div class="col-md-4 mb-3 col-12" id="hijriDate" style="display: none;">
                                         <label class="form-label">@lang('Contract start date (Higri)') <span class="required-color">*</span></label>
-                                        <input class="form-control" required id="txtHijriDate2" type="text" name="hijri_contract_date" placeholder="@lang('Hijri Date')" />
+                                        <input class="form-control"  id="txtHijriDate2" type="text" name="hijri_contract_date" placeholder="@lang('Hijri Date')" />
                                     </div>
 
 
