@@ -21,7 +21,7 @@
                         <label class="form-label">
                             {{ __('Contract Number') }} <span class="required-color"></span></label>
                         <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
-                            placeholder="{{ __('يحدد أليا') }}">
+                            placeholder="{{ __('Automatic Selected') }}">
 
                     </div>
                     <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -45,7 +45,7 @@
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
                                 aria-selected="false">
-                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> مرفقات
+                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Attachments')
                             </button>
                         </li>
                     </ul>
@@ -127,11 +127,11 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="price" class="form-label">@lang('price') <span
+                                    <label for="price" class="form-label">@lang('yearly rental price') <span
                                             class="required-color">*</span></label>
                                     <div class="input-group">
-                                        <input type="number" name="price" id="unitSalary" class="form-control" placeholder="@lang('price')"
-                                            aria-label="@lang('price')" aria-describedby="button-addon2" required>
+                                        <input type="number" name="price" id="unitSalary" class="form-control" placeholder="@lang('yearly rental price')"
+                                            aria-label="@lang('yearly rental price')" aria-describedby="button-addon2" required>
                                         <button class="btn btn-outline-primary waves-effect" type="button"
                                             id="button-addon2">@lang('SAR')</button>
                                     </div>
@@ -395,7 +395,7 @@
 
         function populateDropdown(dropdownId, items, valueField, textField) {
             var dropdown = document.getElementById(dropdownId);
-            dropdown.innerHTML = '<option disabled selected value="">@lang('Choose')</option>';
+            dropdown.innerHTML = ' <option  selected value="">@lang('without')</option>';
             items.forEach(item => {
                 var option = document.createElement('option');
                 option.value = item[valueField];
@@ -404,16 +404,49 @@
             });
         }
 
+
+        function fetchAllPropertiesAndUnits() {
+        fetch(`/get-all-properties-and-units`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                populateDropdown('propertySelect', data.properties, 'id', 'name');
+                populateDropdown('unitSelect', data.units, 'id', 'number_unit');
+            })
+            .catch(error => {
+                console.error('Error fetching all properties and units:', error);
+                alert('An error occurred while fetching all properties and units. Please try again.');
+            });
+    }
+
+    function fetchAllUnits() {
+        fetch(`/get-all-units`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                populateDropdown('unitSelect', data.units, 'id', 'number_unit');
+            })
+            .catch(error => {
+                console.error('Error fetching all units:', error);
+                alert('An error occurred while fetching all units. Please try again.');
+            });
+    }
+
         function clearDropdowns() {
-            document.getElementById('propertySelect').innerHTML = '<option disabled selected value="">@lang('property')</option>';
-            document.getElementById('unitSelect').innerHTML = '<option disabled selected value="">@lang('Unit')</option>';
-            clearUnitDropdown();
-        }
+        fetchAllPropertiesAndUnits();
+    }
 
-        function clearUnitDropdown() {
-            document.getElementById('unitSelect').innerHTML = '<option disabled selected value="">@lang('Unit')</option>';
-        }
-
+    function clearUnitDropdown() {
+        fetchAllUnits();
+    }
 
             function addFeature() {
             const featuresContainer = document.getElementById('features');
@@ -677,22 +710,27 @@
                         contractsHTML += '<div class="card mb-3">';
                         contractsHTML += '<div class="card-body">';
 
-                        contractsHTML += '<h5 class="card-title">@lang('Installment') ' + contract
-                            .contractNumber + '</h5>';
+                        // contractsHTML += '<h5 class="card-title">@lang('Installment') ' + contract
+                        //     .contractNumber + '</h5>';
 
                         contractsHTML += '<div class="row">';
-                        contractsHTML += '<div class="col-md-4">';
+                            contractsHTML += '<div class="col-md-2">';
+                        contractsHTML += '<label class="form-label">@lang('Installment'):</label>';
+                        contractsHTML += '<input type="text" class="form-control" value="' + contract
+                            .contractNumber + '" disabled>';
+                        contractsHTML += '</div>';
+                        contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('Start Date'):</label>';
                         contractsHTML += '<input type="text" class="form-control" value="' + contract
                             .startDate + '" disabled>';
                         contractsHTML += '</div>';
-                        contractsHTML += '<div class="col-md-4">';
+                        contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('End Date'):</label>';
                         contractsHTML += '<input type="text" class="form-control" value="' + contract
                             .endDate + '" disabled>';
                         contractsHTML += '</div>';
 
-                        contractsHTML += '<div class="col-md-4">';
+                        contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('Price'):</label>';
                         contractsHTML += '<input type="text" class="form-control" value="' + contract
                             .price + '" disabled>';
@@ -726,36 +764,30 @@
     <script>
         $(document).ready(function() {
 
-        // Function to handle unit selection
         $('#unitSelect').on('change', function() {
             var unitId = $(this).val();
             var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
 
-            // Set service type and disable select
             if (serviceTypeId) {
                 $('#serviceTypeSelect').val(serviceTypeId);
-                $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
+                $('#serviceTypeSelect').prop('disabled', true); 
             } else {
                 $('#serviceTypeSelect').val('');
-                $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
+                $('#serviceTypeSelect').prop('disabled', false); 
             }
 
-            // Show property management fields if service type is 3
             if (serviceTypeId == 3) {
                 $('#propertyManagementFields').show();
             } else {
                 $('#propertyManagementFields').hide();
             }
 
-            // Optionally, update hidden input for service_type_id
-            $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
+            $('#hiddenServiceTypeId').val(serviceTypeId); 
 
         });
 
-        // Trigger change event on page load
         $('#unitSelect').trigger('change');
 
-        // Function to handle service type change
         $('#serviceTypeSelect').on('change', function() {
             var selectedValue = $(this).val();
             if (selectedValue == 3) {
@@ -781,29 +813,28 @@
             });
 
             function fetchUnitDetails(unitId) {
-                // AJAX request to get unit details
                 $.ajax({
                     url: '/get-unit-details/' + unitId,
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        // Populate owner ID and disable the input
                         $('#OwnersDiv').val(data.owner_id);
                         $('#OwnersDiv').prop('disabled', true);
 
-                        // Update salary display (yearly)
                         var yearlySalary = data.unit_rental_price.yearly;
                         $('#unitSalary').val(yearlySalary);
 
-                        // Update hidden input for owner_id
                         $('#hiddenOwnerId').val(data.owner_id);
 
-                        // Populate service type ID and disable the input
                         $('#serviceTypeSelect').val(data.service_type_id);
                         $('#serviceTypeSelect').prop('disabled', true);
 
-                        // Optionally, update hidden input for service_type_id
                         $('#hiddenServiceTypeId').val(data.service_type_id);
+                        if (data.service_type_id == 3) {
+                        $('#propertyManagementFields').show();
+                    } else {
+                        $('#propertyManagementFields').hide();
+                    }
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching unit details:', error);
@@ -812,25 +843,21 @@
             }
 
             function resetUnitDetails() {
-                // Clear owner ID and enable the input
                 $('#OwnersDiv').val('');
                 $('#OwnersDiv').prop('disabled', false);
 
-                // Clear salary display (yearly)
                 $('#unitSalary').val('');
 
-                // Clear hidden input values if needed
                 $('#hiddenOwnerId').val('');
 
-                // Clear service type ID and enable the input
                 $('#serviceTypeSelect').val('');
                 $('#serviceTypeSelect').prop('disabled', false);
 
-                // Clear hidden input for service_type_id
                 $('#hiddenServiceTypeId').val('');
+                $('#propertyManagementFields').hide();
+
             }
 
-            // Trigger change event on page load
             $('#unitSelect').trigger('change');
         });
 

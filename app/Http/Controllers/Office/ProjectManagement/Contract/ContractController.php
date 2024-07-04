@@ -207,22 +207,6 @@ class ContractController extends Controller
         return redirect()->route('Office.Contract.index')->with('success', __('Deleted successfully'));
     }
 
-    public function getProjectDetails(Project $project)
-    {
-        $properties = $project->PropertiesProject;
-        $units = $project->UnitsProject;
-        return response()->json([
-            'properties' => $properties,
-            'units' => $units
-        ]);
-    }
-    public function getUnitsByProperty(Property $property)
-    {
-        $units = $property->PropertyUnits;
-        return response()->json([
-            'units' => $units
-        ]);
-    }
 
 
     public function update(Request $request, $id)
@@ -514,5 +498,46 @@ public function updateValidity(Request $request)
     return response()->json($responseData);
     }
 
+    public function getProjectDetails(Project $project)
+    {
+        $properties = $project->PropertiesProject;
+        $units = $project->UnitsProject;
+        return response()->json([
+            'properties' => $properties,
+            'units' => $units
+        ]);
+    }
+
+    public function getUnitsByProperty(Property $property)
+    {
+        $units = $property->PropertyUnits;
+        return response()->json([
+            'units' => $units
+        ]);
+    }
+public function getAllPropertiesAndUnits()
+{
+    $office_id = auth()->user()->UserOfficeData->id;
+
+    $projects=Project::where('office_id',$office_id)->get();
+    $properties=Property::where('office_id',$office_id)->get();
+    $units=Unit::where('office_id',$office_id)->get();
+
+    return response()->json([
+        'properties' => $properties,
+        'units' => $units,
+    ]);
+}
+
+public function getAllUnits()
+{
+    $office_id = auth()->user()->UserOfficeData->id;
+    $projects=Project::where('office_id',$office_id)->get();
+    $properties=Property::where('office_id',$office_id)->get();
+    $units=Unit::where('office_id',$office_id)->get();
+    return response()->json([
+        'units' => $units,
+    ]);
+}
 
 }

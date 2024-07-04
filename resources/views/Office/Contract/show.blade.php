@@ -774,7 +774,7 @@
         $('#restoreButton').click(function() {
             var contractId = $(this).data('contract-id');
                 $.ajax({
-                    url: '{{ route('contracts.destroy', ['contract' => ':id']) }}'.replace(':id', contractId),
+                    url: '{{ route('contracts.reset', ['contract' => ':id']) }}'.replace(':id', contractId),
                     method: 'DELETE',
                     data: {
                         _token: '{{ csrf_token() }}'

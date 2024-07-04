@@ -38,7 +38,7 @@
                         @endif
                     </div>
                     <div class="col-md-4 col-12 mb-3">
-                    <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
+                    <button class="btn btn-danger" id="restoreButton" onclick="handleReset('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
                     </div>
                 </div>
 
@@ -391,7 +391,7 @@
 
 @push('scripts')
 
-    <script>
+<script>
         document.getElementById('projectSelect').addEventListener('change', function() {
             var projectId = this.value;
             if (projectId) {
@@ -496,7 +496,7 @@
 
     </script>
 
-        <script>
+    <script>
             $('#txtHijriDate').calendarsPicker({
                 calendar: $.calendars.instance('islamic', 'Ar'),
                 // monthsToShow: [1, 2],
@@ -547,7 +547,7 @@
                     },
                 });
             });
-        </script>
+    </script>
 
         <script>
             $(document).ready(function() {
@@ -583,7 +583,7 @@
             });
         </script>
 
-        <script>
+    <script>
             $(document).ready(function() {
                 // Event listener for the Calculate button
                 $('#calculateButton').on('click', function() {
@@ -749,54 +749,54 @@
                     $('#installmentsTable').hide();
                 });
             });
-        </script>
+    </script>
 
 
 <script>
-   $(document).ready(function() {
+        $(document).ready(function() {
 
-// Function to handle unit selection
-$('#unitSelect').on('change', function() {
-    var unitId = $(this).val();
-    var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
+        // Function to handle unit selection
+        $('#unitSelect').on('change', function() {
+            var unitId = $(this).val();
+            var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
 
-    // Set service type and disable select
-    if (serviceTypeId) {
-        $('#serviceTypeSelect').val(serviceTypeId);
-        $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
-    } else {
-        $('#serviceTypeSelect').val('');
-        $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
-    }
+            // Set service type and disable select
+            if (serviceTypeId) {
+                $('#serviceTypeSelect').val(serviceTypeId);
+                $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
+            } else {
+                $('#serviceTypeSelect').val('');
+                $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
+            }
 
-    // Show property management fields if service type is 3
-    if (serviceTypeId == 3) {
-        $('#propertyManagementFields').show();
-    } else {
-        $('#propertyManagementFields').hide();
-    }
+            // Show property management fields if service type is 3
+            if (serviceTypeId == 3) {
+                $('#propertyManagementFields').show();
+            } else {
+                $('#propertyManagementFields').hide();
+            }
 
-    // Optionally, update hidden input for service_type_id
-    $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
+            // Optionally, update hidden input for service_type_id
+            $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
 
-});
+        });
 
-// Trigger change event on page load
-$('#unitSelect').trigger('change');
+        // Trigger change event on page load
+        $('#unitSelect').trigger('change');
 
-// Function to handle service type change
-$('#serviceTypeSelect').on('change', function() {
-    var selectedValue = $(this).val();
-    if (selectedValue == 3) {
-        $('#propertyManagementFields').show();
-    } else {
-        $('#propertyManagementFields').hide();
-    }
-});
+        // Function to handle service type change
+        $('#serviceTypeSelect').on('change', function() {
+            var selectedValue = $(this).val();
+            if (selectedValue == 3) {
+                $('#propertyManagementFields').show();
+            } else {
+                $('#propertyManagementFields').hide();
+            }
+        });
 
-});
+        });
 
-    </script>
+</script>
 
 <script>
     $(document).ready(function() {
@@ -849,7 +849,53 @@ $('#serviceTypeSelect').on('change', function() {
     });
 </script>
 
- 
+ <script>
+
+
+    function resteContract(contractId) {
+        $.ajax({
+            url: '{{ route('contracts.reset', ['contract' => ':id']) }}'.replace(':id', contractId),
+            method: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    window.location.href = '{{ route('Office.Contract.create') }}';
+                    // window.location.href = '{{ route('Office.Contract.index') }}';
+                } else {
+                    toastr.error('Failed to reset contract.');
+                }
+            },
+            error: function() {
+                toastr.error('An error occurred. Please try again.');
+            }
+        });
+    }
+
+    function handleReset(id) {
+        Swal.fire({
+            title: "@lang('Are you sure')",
+            text: "@lang('You cannot revert this action!')",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "@lang('Yes, Reset it!')",
+            cancelButtonText: "@lang('Cancel')",
+            customClass: {
+                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                // Perform the deportation action via AJAX
+                resteContract(id);
+            }
+        });
+    }
+
+
+ </script>
 
     @endpush
 
