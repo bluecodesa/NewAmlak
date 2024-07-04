@@ -68,7 +68,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Project') <span class="required-color"></span></label>
                                     <select class="form-select" name="project_id" id="projectSelect">
-                                        <option  selected value="">@lang('without')</option>
+                                        <option  selected value="">@lang('Choose')</option>
                                         @foreach ($projects as $project)
                                             <option value="{{ $project->id }}">
                                                 {{ $project->name }}</option>
@@ -79,7 +79,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                     <select class="form-select" name="property_id" id="propertySelect">
-                                        <option  selected value="">@lang('without')</option>
+                                        <option  selected value="">@lang('Choose')</option>
                                         @foreach ($properties as $property)
                                         <option value="{{ $property->id }}">{{ $property->name }}</option>
 
@@ -401,7 +401,7 @@
 
         function populateDropdown(dropdownId, items, valueField, textField) {
             var dropdown = document.getElementById(dropdownId);
-            dropdown.innerHTML = ' <option  selected value="">@lang('without')</option>';
+            dropdown.innerHTML = ' <option  selected value="">@lang('Choose')</option>';
             items.forEach(item => {
                 var option = document.createElement('option');
                 option.value = item[valueField];
