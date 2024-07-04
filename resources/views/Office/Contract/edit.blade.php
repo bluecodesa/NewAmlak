@@ -197,7 +197,7 @@
                                             class="required-color"></span></label>
                                     <select class="form-select" name="collection_type" id="type" >
                                         <option disabled selected value="">@lang('Collection Type')</option>
-                                        @foreach (['once', 'divided'] as $type)
+                                        @foreach (['once with frist installment', 'divided with all installments'] as $type)
                                         <option value="{{ $type }}" {{ $contract->collection_type == $type ? 'selected' : '' }}>
                                             {{ __($type) }}</option>
                                         @endforeach
@@ -310,7 +310,8 @@
                                         <thead>
                                             <tr>
                                                 <th>@lang('Installment Number')</th>
-                                                <th>@lang('Amount')</th>
+                                                <th>@lang('price')</th>
+                                                <th>@lang('Commission')</th>
                                                 <th>@lang('status')</th>
                                                 <th>@lang('Start Date')</th>
                                                 <th>@lang('End Date')</th>
@@ -321,6 +322,7 @@
                                                 <tr>
                                                     <td>{{ $installment->Installment_number }}</td>
                                                     <td>{{ $installment->price }}</td>
+                                                    <td>{{ $installment->commission }}</td>
                                                     <td>{{ __($installment->status) }}</td>
                                                     <td>{{ $installment->start_date }}</td>
                                                     <td>{{ $installment->end_date }}</td>
@@ -637,11 +639,11 @@
                     var commissionPerContract = 0;
                     if (formData.service_type_id ==
                         3) { // Assuming serviceTypeSelect = 3 means additional fields are relevant
-                        if (formData.collection_type == 'once') {
+                        if (formData.collection_type == 'once with frist installment') {
                             // Calculate commission once-off
                             commissionPerContract = (formData.commissions_rate / 100) * formData
                                 .price; // Commission for the first contract
-                        } else if (formData.collection_type == 'divided') {
+                        } else if (formData.collection_type == 'divided with all installments') {
                             // Calculate commission divided
                             commissionPerContract = (formData.commissions_rate / 100) * (formData.price /
                                 numberOfContracts); // Equal commission for each contract
@@ -665,12 +667,12 @@
                         // Adjust price for commission if applicable
                         var finalPrice = pricePerContract;
                         if (commissionPerContract !== 0) {
-                            if (formData.collection_type === 'once') {
+                            if (formData.collection_type === 'once with frist installment') {
                                 // Add commission only for the first installment
                                 if (i === 0) {
                                     finalPrice += commissionPerContract;
                                 }
-                            } else if (formData.collection_type === 'divided') {
+                            } else if (formData.collection_type === 'divided with all installments') {
                                 // Add equal commission for each installment
                                 finalPrice += commissionPerContract;
                             }

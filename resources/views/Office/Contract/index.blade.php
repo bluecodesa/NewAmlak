@@ -66,6 +66,7 @@
                                 <th scope="col">@lang('Contract Number')</th>
                                 <th scope="col">@lang('Unit')</th>
                                 <th scope="col">@lang('Renter')</th>
+                                <th scope="col">@lang('Total Commission')</th>
                                 <th scope="col">@lang('status')</th>
                                 <th scope="col">@lang('Contract validity')</th>
                                 <th scope="col">@lang('Contract Start Date')</th>
@@ -81,6 +82,7 @@
                                     <td>{{ $contract->contract_number }}</td>
                                     <td>{{ $contract->unit->number_unit }}</td>
                                     <td>{{ $contract->renter->UserData->name }}</td>
+                                    <td>{{ $contract->total_commission }}</td>
                                     <td>{{ __($contract->status) }}</td>
                                     <td>{{ __($contract->contract_validity) }}</td>
                                     <td>{{ $contract->start_contract_date }}</td>

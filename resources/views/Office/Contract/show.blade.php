@@ -254,7 +254,7 @@
                                                 class="required-color"></span></label>
                                         <select disabled class="form-select" name="collection_type" id="type" >
                                             <option disabled selected value="">@lang('Collection Type')</option>
-                                            @foreach (['once', 'divided'] as $type)
+                                            @foreach (['once with frist installment', 'divided with all installments'] as $type)
                                             <option value="{{ $type }}" {{ $contract->collection_type == $type ? 'selected' : '' }}>
                                                 {{ __($type) }}</option>
                                             @endforeach

@@ -275,54 +275,54 @@
                                     </button>
                                 </div>
 
-                        </div>
-                        <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                            <div class="col-md-4 mb-3 col-12">
-                                <button type="button" id="calculateButton" class="btn btn-primary me-1"
-                                    role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
-                                    aria-controls="navs-justified-profile">
-                                    @lang('Calculate Installments')
-                                </button>
-                            </div>
-                            <div id="contractDetails" style="display: none;">
-                                <!-- Contract details will be dynamically added here -->
-                            </div>
-                            <div class="col-12">
-                                <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-messages">
-                                    {{ __('Next') }}
-                                </button>
-                            </div>
-                        
-
-                        </div>
-                        <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
-                            <div class="col-12 mb-3">
-                                <label class="form-label">@lang('Attachments')</label>
-                                <div id="features" class="row">
-                                    <div class="mb-3 col-4">
-                                        <input type="text" name="name[]" class="form-control search"
-                                            placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-
+                                </div>
+                                <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <button type="button" id="calculateButton" class="btn btn-primary me-1"
+                                            role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
+                                            aria-controls="navs-justified-profile">
+                                            @lang('Calculate Installments')
+                                        </button>
                                     </div>
-                                    <div class="mb-3 col-4">
-                                        <input class="form-control" type="file" name="attachment[]"
-                                            id="projectMasterplan" accept="image/*,application/pdf">
+                                    <div id="contractDetails" style="display: none;">
+                                        <!-- Contract details will be dynamically added here -->
                                     </div>
-                                    <div class="col">
-                                        <button type="button" class="btn btn-primary w-100"
-                                            onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                class="d-none d-sm-inline-block">@lang('Add Attachment')</span></button>
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-messages">
+                                            {{ __('Next') }}
+                                        </button>
+                                    </div>
+                                
+
+                                </div>
+                                <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label">@lang('Attachments')</label>
+                                        <div id="features" class="row">
+                                            <div class="mb-3 col-4">
+                                                <input type="text" name="name[]" class="form-control search"
+                                                    placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+
+                                            </div>
+                                            <div class="mb-3 col-4">
+                                                <input class="form-control" type="file" name="attachment[]"
+                                                    id="projectMasterplan" accept="image/*,application/pdf">
+                                            </div>
+                                            <div class="col">
+                                                <button type="button" class="btn btn-primary w-100"
+                                                    onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                        class="d-none d-sm-inline-block">@lang('Add Attachment')</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary me-1">
+            
+                                            {{ __('save') }}
+                                        </button>
+            
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary me-1">
-    
-                                    {{ __('save') }}
-                                </button>
-    
-                            </div>
-                        </div>
                         </form>
                     </div>
 
@@ -649,11 +649,11 @@
 
                     var commissionPerContract = 0;
                     if (formData.service_type_id == 3) {
-                        if (formData.collection_type == 'once') {
+                        if (formData.collection_type == 'once with frist installment') {
 
                             commissionPerContract = (formData.commissions_rate / 100) * formData
                                 .price;
-                        } else if (formData.collection_type == 'divided') {
+                        } else if (formData.collection_type == 'divided with all installments') {
 
                             commissionPerContract = (formData.commissions_rate / 100) * (formData.price /
                                 numberOfContracts);
@@ -675,12 +675,12 @@
 
                         var finalPrice = pricePerContract;
                         if (commissionPerContract !== 0) {
-                            if (formData.collection_type === 'once') {
+                            if (formData.collection_type === 'once with frist installment') {
 
                                 if (i === 0) {
                                     finalPrice += commissionPerContract;
                                 }
-                            } else if (formData.collection_type === 'divided') {
+                            } else if (formData.collection_type === 'divided with all installments') {
 
                                 finalPrice += commissionPerContract;
                             }
