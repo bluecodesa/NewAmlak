@@ -51,8 +51,8 @@
                             </a></li>
                         <li class="mb-3"><a href="{{ route('Privacy') }}" class="footer-link">
                                 سياسة الخصوصية</a></li>
-                        <li class="mb-3"><a href="#" class="footer-link">
-                                ملفات التوثيق</a></li>
+                        {{-- <li class="mb-3"><a href="#" class="footer-link">
+                                ملفات التوثيق</a></li> --}}
 
 
 
@@ -72,7 +72,7 @@
                                 {{ $sitting->email }}</a>
                         </li>
                         <li class="mb-3">
-                            <a href="tel:+{{ $sitting->key_phone }}{{ $sitting->phone }}" class="footer-link"><span
+                            <a href="tel:+{{ $sitting->full_phone }}" class="footer-link"><span
                                     class="ti ti-phone"></span> {{ $sitting->full_phone }}</a>
                         </li>
 

@@ -580,8 +580,8 @@
     "The new password confirmation does not match.": "تأكيد كلمة المرور الجديدة غير متطابق.",
     "The current password is incorrect.": "كلمة المرور الحالية غير صحيحة.",
     "Password updated successfully.": "تم تحديث كلمة المرور بنجاح.",
-    "once": "مرة واحدة",
-    "divided": "مقسمة",
+    "once with frist installment": " مع أول قسط",
+    "divided with all installments": "مقسمة على الأقساط",
     "without": "بدون",
     "Choose": "اختر",
     "Add Attachment": "اضافة مرفق",
@@ -589,5 +589,25 @@
     "Date of concluding the contract": "تاريخ ابرام العقد",
     "Contract start date (Gregorian)": "تاريخ بدأ العقد (ميلادي)",
     "Contract start date (Higri)": "تاريخ بدأ العقد (هجري)",
-    "Receipts": "السندات"
+    "Receipts": "السندات",
+    "Installment Number": "رقم القسط",
+    "Voucher and Payment Receipts": "سندات القبض والصرف",
+    "Financial Managment": "إدارة المالية",
+    "Installment Start Date": " بداية استحقاق القسط",
+    "Installment End Date": "نهاية استحقاق القسط",
+    "Receipt Voucher": "سند قبض",
+    "Voucher Number": "رقم السند",
+    "Beneficiary Name": "اسم المستفيد",
+    "Next": "التالي",
+    "Payment Date": "تاريخ الدفع",
+    "Account Name": "اسم المسئول",
+    "Note": "الملاحظات",
+    "Release Date": " تاريخ الاصدار",
+    "Pay Method": "طريقة الدفع",
+    "#Ejar/REF:": "الرقم المرجعي",
+    "Transaction Id": "رقم التحويل",
+    "Automatic Selected": "يحدد أليا",
+    "Commission": "العمولة"
+
+
 }

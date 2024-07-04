@@ -10,6 +10,7 @@ use App\Models\ContractAttachment;
 use App\Models\Installment;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Receipt;
 use App\Models\Setting;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -130,8 +131,8 @@ class ContractController extends Controller
 
     public function store(Request $request)
     {
-        $this->ContractService->createContract($request->all());
-        return redirect()->route('Office.Contract.index')->with('success', __('added successfully'));
+        $contract = $this->ContractService->createContract($request->all());
+        return redirect()->route('Office.Contract.show', $contract->id)->with('success', 'Contract created successfully.');
     }
 
     /**
@@ -161,6 +162,7 @@ class ContractController extends Controller
         $renters = $this->RenterService->getAllByOfficeId($office_id);
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $contract =  $this->ContractService->getContractById($id);
+        $receipt = null;
         $setting =   Setting::first();
         return view('Office.Contract.show', get_defined_vars());
 
@@ -190,9 +192,6 @@ class ContractController extends Controller
         $renters = $this->RenterService->getAllByOfficeId($office_id);
         $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $contract =  $this->ContractService->getContractById($id);
-
-
-
         return view('Office.Contract.edit', get_defined_vars());
     }
 
@@ -208,22 +207,6 @@ class ContractController extends Controller
         return redirect()->route('Office.Contract.index')->with('success', __('Deleted successfully'));
     }
 
-    public function getProjectDetails(Project $project)
-    {
-        $properties = $project->PropertiesProject;
-        $units = $project->UnitsProject;
-        return response()->json([
-            'properties' => $properties,
-            'units' => $units
-        ]);
-    }
-    public function getUnitsByProperty(Property $property)
-    {
-        $units = $property->PropertyUnits;
-        return response()->json([
-            'units' => $units
-        ]);
-    }
 
 
     public function update(Request $request, $id)
@@ -503,16 +486,58 @@ public function updateValidity(Request $request)
     $unit = Unit::findOrFail($unitId);
 
     // Load related data
-    $unit->load('OwnerData', 'UnitRentPrice');
+    $unit->load('OwnerData', 'UnitRentPrice','ServiceTypeData');
 
     // Prepare response data
     $responseData = [
         'owner_id' => $unit->owner_id,
+        'service_type_id' => $unit->service_type_id,
         'unit_rental_price' => $unit->UnitRentPrice,
     ];
 
     return response()->json($responseData);
     }
 
+    public function getProjectDetails(Project $project)
+    {
+        $properties = $project->PropertiesProject;
+        $units = $project->UnitsProject;
+        return response()->json([
+            'properties' => $properties,
+            'units' => $units
+        ]);
+    }
+
+    public function getUnitsByProperty(Property $property)
+    {
+        $units = $property->PropertyUnits;
+        return response()->json([
+            'units' => $units
+        ]);
+    }
+public function getAllPropertiesAndUnits()
+{
+    $office_id = auth()->user()->UserOfficeData->id;
+
+    $projects=Project::where('office_id',$office_id)->get();
+    $properties=Property::where('office_id',$office_id)->get();
+    $units=Unit::where('office_id',$office_id)->get();
+
+    return response()->json([
+        'properties' => $properties,
+        'units' => $units,
+    ]);
+}
+
+public function getAllUnits()
+{
+    $office_id = auth()->user()->UserOfficeData->id;
+    $projects=Project::where('office_id',$office_id)->get();
+    $properties=Property::where('office_id',$office_id)->get();
+    $units=Unit::where('office_id',$office_id)->get();
+    return response()->json([
+        'units' => $units,
+    ]);
+}
 
 }

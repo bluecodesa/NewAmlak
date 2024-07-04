@@ -1,4 +1,4 @@
-@foreach ($contract->ReceiptData as $receipt)
+@foreach ($receipts as $receipt)
 <div class="modal fade" id="receiptModal{{$receipt->id }}" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

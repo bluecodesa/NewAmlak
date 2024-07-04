@@ -18,13 +18,13 @@
 
                 <div class="nav-align-top nav-tabs-shadow mb-4">
                     <div class="row">
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-2 col-12 mb-3">
                             <label class="form-label">
                                 {{ __('Contract Number') }} <span class="required-color"></span></label>
                             <input disabled type="text" required id="modalRoleName" name="number_unit"
                                 class="form-control" placeholder="{{ $contract->contract_number }}">
                         </div>
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-2 col-12 mb-3">
                             <label class="form-label">
                                 {{ __('status') }} <span class="required-color"></span></label>
                             @if ($contract->status == 'draft')
@@ -38,22 +38,51 @@
                                     class="form-control" placeholder="{{ __('Executed') }}">
                             @endif
                         </div>
-                        <div class="col-md-4 col-12 mb-3">
-                            @if($contract->status == 'draft')
-                            <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
-                            <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
-                            @elseif ($contract->status == 'Approved')
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
-                            <button class="btn btn-danger" id="restoreButton" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
-                            @endif
-                        </div>
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-2 col-12 mb-3">
                             <label class="form-label">
                                 {{ __('Contract validity') }} <span class="required-color"></span></label>
                             <input disabled type="text" required id="modalRoleName" name="number_unit"
                                 class="form-control" placeholder="{{ __($contract->contract_validity) }}">
                         </div>
+                        <div class="col-md-5 col-12 mb-3">
+                            @if($contract->status == 'draft')
+                            @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
+                            <a class="btn btn-info"
+                                href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
+                            @endif
+                            <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>  
+                            @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
+                            <a href="javascript:void(0);"
+                                onclick="handleDelete('{{ $contract->id }}')"
+                                class="btn btn-danger delete-btn">@lang('Delete')</a>
+                            <form id="delete-form-{{ $contract->id }}"
+                                action="{{ route('Office.Contract.destroy', $contract->id) }}"
+                                method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            @endif         
+                            @elseif ($contract->status == 'Approved')
+                            @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
+                            <a class="btn btn-info"
+                                href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
+                            @endif
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
+                            @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
+                            <a href="javascript:void(0);"
+                            onclick="handleDelete('{{ $contract->id }}')"
+                            class="btn btn-danger delete-btn">@lang('Delete')</a>
+                            <form id="delete-form-{{ $contract->id }}"
+                                action="{{ route('Office.Contract.destroy', $contract->id) }}"
+                                method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            @endif
+                            @endif
+                        </div>
+                     
                     </div>
 
                     <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -79,6 +108,7 @@
                                 <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> مرفقات
                             </button>
                         </li>
+                        @if($contract->status == "Executed")
                         <li class="nav-item">
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-payments" aria-controls="navs-justified-payments"
@@ -86,6 +116,7 @@
                                 <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Receipts')
                             </button>
                         </li>
+                        @endif
                     </ul>
 
                     <div class="tab-content">
@@ -213,20 +244,19 @@
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Commissions Rate') <span
                                                 class="required-color"></span></label>
-                                        <input disabled type="number" name="commissions_rate" class="form-control"
-                                            value="{{ $contract->commissions_rate }}" placeholder="@lang('Commissions Rate')">
+                                        <input disabled type="number" name="commissions_rate" class="form-control" value="{{ $contract->commissions_rate }}"
+                                            placeholder="@lang('Commissions Rate')">
                                     </div>
-
+    
                                     <!-- Collection Type -->
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Collection Type') <span
                                                 class="required-color"></span></label>
-                                        <select disabled class="form-select" name="collection_type" id="type">
+                                        <select disabled class="form-select" name="collection_type" id="type" >
                                             <option disabled selected value="">@lang('Collection Type')</option>
-                                            @foreach (['once', 'divided'] as $type)
-                                                <option disabled value="{{ $type }}"
-                                                    {{ $contract->collection_type == $type ? 'selected' : '' }}>
-                                                    {{ __($type) }}</option>
+                                            @foreach (['once with frist installment', 'divided with all installments'] as $type)
+                                            <option value="{{ $type }}" {{ $contract->collection_type == $type ? 'selected' : '' }}>
+                                                {{ __($type) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -402,11 +432,13 @@
                                                     <tr>
 
                                                         <th>@lang('Installment Number')</th>
-                                                        <th>@lang('Amount')</th>
+                                                        <th>@lang('price')</th>
+                                                        <th>@lang('Commission')</th>
+                                                        <th>@lang('total')</th>
                                                         <th>@lang('status')</th>
-                                                        <th>@lang('Start Date')</th>
-                                                        <th>@lang('End Date')</th>
-                                                        <th>@lang('Action')</th>
+                                                        <th>@lang('Installment Start Date')</th>
+                                                        <th>@lang('Installment End Date')</th>
+                                                        {{-- <th>@lang('Action')</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-border-bottom-0">
@@ -415,10 +447,12 @@
 
                                                             <td>{{ $installment->Installment_number }}</td>
                                                             <td>{{ $installment->price }}</td>
+                                                            <td>{{ $installment->commission }}</td>
+                                                            <td>{{ $installment->final_price }}</td>
                                                             <td>{{ __($installment->status) }}</td>
                                                             <td>{{ $installment->start_date }}</td>
                                                             <td>{{ $installment->end_date }}</td>
-                                                            <td>
+                                                            {{-- <td>
 
                                                                 <div class="dropdown">
                                                                     <button type="button"
@@ -434,7 +468,7 @@
                                                                         @endif
                                                                     </div>
                                                                 </div>
-                                                            </td>
+                                                            </td> --}}
                                                         </tr>
                                                     @empty
                                                         <td colspan="6">
@@ -467,25 +501,23 @@
 
                             <div class="col-12 mb-3" id="installmentsTable">
                                 <div class="card">
-                                    <h5 class="card-header"> @lang('Installments') </h5>
+                                    <h5 class="card-header"> @lang('Attachments') </h5>
                                     <div class="table-responsive text-nowrap">
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th>@lang('#')</th>
                                                     <th>@lang('Name')</th>
-                                                    <th>@lang('Attachments')</th>
                                                     <th>@lang('Show')</th>
 
 
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($contract->ContractAttachmentData as $attachment)
+                                                @forelse ($contract->ContractAttachmentData as $attachment)
                                                     <tr>
                                                         <td></td>
                                                         <td>{{ $attachment->AttachmentData->name }}</td>
-                                                        <td>{{ $attachment->attachment }}</td>
                                                         @if ($attachment->attachment)
                                                             <td>
 
@@ -495,7 +527,17 @@
                                                             </td>
                                                         @endif
                                                     </tr>
-                                                @endforeach
+                                                @empty
+                                                <td colspan="4">
+                                                    <div class="alert alert-danger d-flex align-items-center"
+                                                        role="alert">
+                                                        <span class="alert-icon text-danger me-2">
+                                                            <i class="ti ti-ban ti-xs"></i>
+                                                        </span>
+                                                        @lang('No Data Found!')
+                                                    </div>
+                                                </td>
+                                            @endforelse
                                             </tbody>
                                         </table>
                                     </div>
@@ -506,25 +548,9 @@
                         </div>
 
                         <div class="tab-pane fade" id="navs-justified-payments" role="tabpanel">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                            class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#basicModal">@lang('إصدار سند قبض')</a>
-                                    </li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
-                                    </li>
-                                </ul>
-                            </div>
-
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">@lang('Installments')</h5>
+                                    <h5 class="card-title mb-0">@lang('Receipts')</h5>
                                 </div>
                                 <div class="card-datatable table-responsive">
                                     <div id="DataTables_Table_0_wrapper"
@@ -558,8 +584,24 @@
                                                                             <i
                                                                                 class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                                 </div>
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                                class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a class="dropdown-item" class="btn btn-primary" data-bs-toggle="modal"
+                                                                                data-bs-target="#basicModal">@lang('إصدار سند قبض')</a>
+                                                                        </li>
+                                                                        <li><a class="dropdown-item"
+                                                                                href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
@@ -570,11 +612,11 @@
                                                 <thead class="table-dark">
                                                     <tr>
 
-                                                        <th>@lang('Installment Number')</th>
-                                                        <th>@lang('Amount')</th>
+                                                        <th>@lang('Receipt Number')</th>
+                                                        <th>@lang('Total price')</th>
                                                         <th>@lang('type')</th>
-                                                        <th>@lang('Start Date')</th>
-                                                        <th>@lang('End Date')</th>
+                                                        <th>@lang('Release Date')</th>
+                                                        <th>@lang('Payment Date')</th>
                                                         <th>@lang('Action')</th>
                                                     </tr>
                                                 </thead>
@@ -598,7 +640,7 @@
                                                                     <div class="dropdown-menu" style="">
                                                                         @if (Auth::user()->hasPermission('read-unit'))
                                                                             <a class="dropdown-item receipt-link" href="#" data-bs-toggle="modal"
-                                                                            data-bs-target="#receiptModal" data-id="{{ $receipt->id }}">@lang('Show')</a>
+                                                                            data-bs-target="#receiptModal{{ $receipt->id }}">@lang('Show')</a>
                                                                         @endif
                                                                     </div>
                                                                 </div>
@@ -621,6 +663,7 @@
                                             </table>
                                         </div>
 
+                                        @include('Office.Contract.ReceiptBills.inc.receipt_modal')
 
                                     </div>
                                 </div>
@@ -636,7 +679,6 @@
         <div class="content-backdrop fade"></div>
     </div>
     @include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
-    @include('Office.Contract.ReceiptBills.inc.receipt_modal')
 
 
     @push('scripts')
@@ -736,7 +778,7 @@
         $('#restoreButton').click(function() {
             var contractId = $(this).data('contract-id');
                 $.ajax({
-                    url: '{{ route('contracts.destroy', ['contract' => ':id']) }}'.replace(':id', contractId),
+                    url: '{{ route('contracts.reset', ['contract' => ':id']) }}'.replace(':id', contractId),
                     method: 'DELETE',
                     data: {
                         _token: '{{ csrf_token() }}'
@@ -779,6 +821,103 @@
 
 
     </script>
+
+<script>
+    $(document).ready(function() {
+ 
+ // Function to handle unit selection
+ $('#unitSelect').on('change', function() {
+     var unitId = $(this).val();
+     var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
+ 
+     // Set service type and disable select
+     if (serviceTypeId) {
+         $('#serviceTypeSelect').val(serviceTypeId);
+         $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
+     } else {
+         $('#serviceTypeSelect').val('');
+         $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
+     }
+ 
+     // Show property management fields if service type is 3
+     if (serviceTypeId == 3) {
+         $('#propertyManagementFields').show();
+     } else {
+         $('#propertyManagementFields').hide();
+     }
+ 
+     // Optionally, update hidden input for service_type_id
+     $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
+ 
+ });
+ 
+ // Trigger change event on page load
+ $('#unitSelect').trigger('change');
+ 
+ // Function to handle service type change
+ $('#serviceTypeSelect').on('change', function() {
+     var selectedValue = $(this).val();
+     if (selectedValue == 3) {
+         $('#propertyManagementFields').show();
+     } else {
+         $('#propertyManagementFields').hide();
+     }
+ });
+ 
+ });
+ 
+     </script>
+ 
+ <script>
+     $(document).ready(function() {
+ 
+         // Function to handle unit selection
+         $('#unitSelect').on('change', function() {
+             var unitId = $(this).val();
+ 
+             // Fetch unit details via AJAX
+             if (unitId) {
+                 fetchUnitDetails(unitId);
+             } else {
+                 resetUnitDetails();
+             }
+         });
+ 
+         function fetchUnitDetails(unitId) {
+             // AJAX request to get unit details
+             $.ajax({
+                 url: '/get-unit-details/' + unitId,
+                 type: 'GET',
+                 dataType: 'json',
+                 success: function(data) {
+                     // Populate owner ID and disable the input
+                     $('#OwnersDiv').val(data.owner_id);
+                     $('#OwnersDiv').prop('disabled', true);
+ 
+                     // Update salary display (yearly)
+                     var yearlySalary = data.unit_rental_price.yearly;
+                     $('#unitSalary').val(yearlySalary);
+ 
+                     // Optionally, update hidden input for owner_id
+                     $('#hiddenOwnerId').val(data.owner_id);
+                 },
+                 error: function(xhr, status, error) {
+                     console.error('Error fetching unit details:', error);
+                 }
+             });
+         }
+ 
+         function resetUnitDetails() {
+             $('#OwnersDiv').val('');
+             $('#OwnersDiv').prop('disabled', false);
+             $('#unitSalary').val('');
+             $('#hiddenOwnerId').val('');
+         }
+ 
+         $('#unitSelect').trigger('change');
+ 
+     });
+ </script>
 
 @endpush
 @endsection

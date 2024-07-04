@@ -47,7 +47,7 @@
                     </div>
                     <div class="row g-3">
                         <div class="col-md-6 mb-3">
-                            <label for="renterName" class="form-label">@lang('Renter Name')</label>
+                            <label for="renterName" class="form-label">@lang('Beneficiary Name')</label>
                             <input type="text" id="renterName" class="form-control" value="{{ $contract->renter->UserData->name ?? '' }}" readonly disabled />
                             <input type="hidden" name="renter_id" value="{{ $contract->renter->id ?? '' }}">
                         </div>
@@ -60,13 +60,13 @@
                         </div>
                     </div>
                     <div class="row g-3">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label for="installment" class="form-label">@lang('Select Installment')</label>
                             <select id="installment" name="installments[]" class="form-select" multiple>
                                 <option disabled>@lang('Select Installment')</option>
                                 @foreach ($contract->installments as $installment)
                                 @if ($installment->status === 'not_collected')
-                                <option value="{{ $installment->id }}" data-price="{{ $installment->price }}">{{ $installment->id }} - {{ $installment->start_date }}</option>
+                                <option value="{{ $installment->id }}" data-price="{{ $installment->price }}">{{ $installment->Installment_number }} - {{ $installment->start_date }}</option>
                                 @endif
                             @endforeach
                             </select>
@@ -79,7 +79,7 @@
                     <div class="row g-3">
                         <div class="col-md-6 mb-3">
                             <label for="reference_number" class="form-label">@lang('Reference Number')</label>
-                            <input type="text"  name="reference_number" class="form-control" readonly />
+                            <input type="text"  name="reference_number" class="form-control"  />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="transaction_number" class="form-label">@lang('Transaction Number')</label>

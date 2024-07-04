@@ -37,7 +37,9 @@
                         placeholder="{{ __('Executed') }}">
                         @endif
                     </div>
-               
+                    <div class="col-md-4 col-12 mb-3">
+                    <button class="btn btn-danger" id="restoreButton" onclick="handleReset('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}" data-contract-id="{{ $contract->id }}">@lang('Reset')</button>
+                    </div>
                 </div>
 
                 <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -195,7 +197,7 @@
                                             class="required-color"></span></label>
                                     <select class="form-select" name="collection_type" id="type" >
                                         <option disabled selected value="">@lang('Collection Type')</option>
-                                        @foreach (['once', 'divided'] as $type)
+                                        @foreach (['once with frist installment', 'divided with all installments'] as $type)
                                         <option value="{{ $type }}" {{ $contract->collection_type == $type ? 'selected' : '' }}>
                                             {{ __($type) }}</option>
                                         @endforeach
@@ -231,20 +233,20 @@
                             <!-- Contract Date -->
 
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="{{ $contract->calendarTypeSelect == 'gregorian' ? '' : 'display: none;' }}">
-                                    <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
+                                    <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color">*</span></label>
                                     <input class="form-control" type="date" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
                                 </div>
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="{{ $contract->calendarTypeSelect == 'gregorian' ? '' : 'display: none;' }}">
-                                    <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color"></span></label>
-                                    <input class="form-control" type="date" name="gregorian_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}"/>
+                                    <label class="form-label">@lang('تاريخ بدأ العقد (ميلادي)') <span class="required-color">*</span></label>
+                                    <input class="form-control"  type="date" name="gregorian_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}"/>
                                 </div>
                                 <div class="col-md-4 mb-3 col-12" id="hijriDate2" style="{{ $contract->calendarTypeSelect == 'hijri' ? '' : 'display: none;' }}">
-                                    <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span></label>
-                                    <input class="form-control" type="text" id="txtHijriDate" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
+                                    <label class="form-label">@lang('تاريخ ابرام العقد') <span class="required-color"></span>*</label>
+                                    <input class="form-control"  type="text" id="txtHijriDate" name="date_concluding_contract" value="{{ old('date_concluding_contract', $contract->date_concluding_contract ?? '') }}" />
                                 </div>
                                 <div class="col-md-4 mb-3 col-12" id="hijriDate" style="{{ $contract->calendarTypeSelect == 'hijri' ? '' : 'display: none;' }}">
-                                    <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color"></span></label>
-                                    <input class="form-control" id="txtHijriDate2" type="text" name="hijri_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}" />
+                                    <label class="form-label">@lang('تاريخ بدأ العقد (هجري)') <span class="required-color">*</span></label>
+                                    <input class="form-control"  id="txtHijriDate2" type="text" name="hijri_contract_date" value="{{ old('start_contract_date', $contract->start_contract_date ?? '') }}" />
                                 </div>
 
 
@@ -308,7 +310,8 @@
                                         <thead>
                                             <tr>
                                                 <th>@lang('Installment Number')</th>
-                                                <th>@lang('Amount')</th>
+                                                <th>@lang('price')</th>
+                                                <th>@lang('Commission')</th>
                                                 <th>@lang('status')</th>
                                                 <th>@lang('Start Date')</th>
                                                 <th>@lang('End Date')</th>
@@ -319,6 +322,7 @@
                                                 <tr>
                                                     <td>{{ $installment->Installment_number }}</td>
                                                     <td>{{ $installment->price }}</td>
+                                                    <td>{{ $installment->commission }}</td>
                                                     <td>{{ __($installment->status) }}</td>
                                                     <td>{{ $installment->start_date }}</td>
                                                     <td>{{ $installment->end_date }}</td>
@@ -389,7 +393,7 @@
 
 @push('scripts')
 
-    <script>
+<script>
         document.getElementById('projectSelect').addEventListener('change', function() {
             var projectId = this.value;
             if (projectId) {
@@ -494,7 +498,7 @@
 
     </script>
 
-        <script>
+    <script>
             $('#txtHijriDate').calendarsPicker({
                 calendar: $.calendars.instance('islamic', 'Ar'),
                 // monthsToShow: [1, 2],
@@ -545,7 +549,7 @@
                     },
                 });
             });
-        </script>
+    </script>
 
         <script>
             $(document).ready(function() {
@@ -581,7 +585,7 @@
             });
         </script>
 
-        <script>
+    <script>
             $(document).ready(function() {
                 // Event listener for the Calculate button
                 $('#calculateButton').on('click', function() {
@@ -635,11 +639,11 @@
                     var commissionPerContract = 0;
                     if (formData.service_type_id ==
                         3) { // Assuming serviceTypeSelect = 3 means additional fields are relevant
-                        if (formData.collection_type == 'once') {
+                        if (formData.collection_type == 'once with frist installment') {
                             // Calculate commission once-off
                             commissionPerContract = (formData.commissions_rate / 100) * formData
                                 .price; // Commission for the first contract
-                        } else if (formData.collection_type == 'divided') {
+                        } else if (formData.collection_type == 'divided with all installments') {
                             // Calculate commission divided
                             commissionPerContract = (formData.commissions_rate / 100) * (formData.price /
                                 numberOfContracts); // Equal commission for each contract
@@ -663,12 +667,12 @@
                         // Adjust price for commission if applicable
                         var finalPrice = pricePerContract;
                         if (commissionPerContract !== 0) {
-                            if (formData.collection_type === 'once') {
+                            if (formData.collection_type === 'once with frist installment') {
                                 // Add commission only for the first installment
                                 if (i === 0) {
                                     finalPrice += commissionPerContract;
                                 }
-                            } else if (formData.collection_type === 'divided') {
+                            } else if (formData.collection_type === 'divided with all installments') {
                                 // Add equal commission for each installment
                                 finalPrice += commissionPerContract;
                             }
@@ -747,54 +751,54 @@
                     $('#installmentsTable').hide();
                 });
             });
-        </script>
+    </script>
 
 
 <script>
-   $(document).ready(function() {
+        $(document).ready(function() {
 
-// Function to handle unit selection
-$('#unitSelect').on('change', function() {
-    var unitId = $(this).val();
-    var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
+        // Function to handle unit selection
+        $('#unitSelect').on('change', function() {
+            var unitId = $(this).val();
+            var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
 
-    // Set service type and disable select
-    if (serviceTypeId) {
-        $('#serviceTypeSelect').val(serviceTypeId);
-        $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
-    } else {
-        $('#serviceTypeSelect').val('');
-        $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
-    }
+            // Set service type and disable select
+            if (serviceTypeId) {
+                $('#serviceTypeSelect').val(serviceTypeId);
+                $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
+            } else {
+                $('#serviceTypeSelect').val('');
+                $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
+            }
 
-    // Show property management fields if service type is 3
-    if (serviceTypeId == 3) {
-        $('#propertyManagementFields').show();
-    } else {
-        $('#propertyManagementFields').hide();
-    }
+            // Show property management fields if service type is 3
+            if (serviceTypeId == 3) {
+                $('#propertyManagementFields').show();
+            } else {
+                $('#propertyManagementFields').hide();
+            }
 
-    // Optionally, update hidden input for service_type_id
-    $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
+            // Optionally, update hidden input for service_type_id
+            $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
 
-});
+        });
 
-// Trigger change event on page load
-$('#unitSelect').trigger('change');
+        // Trigger change event on page load
+        $('#unitSelect').trigger('change');
 
-// Function to handle service type change
-$('#serviceTypeSelect').on('change', function() {
-    var selectedValue = $(this).val();
-    if (selectedValue == 3) {
-        $('#propertyManagementFields').show();
-    } else {
-        $('#propertyManagementFields').hide();
-    }
-});
+        // Function to handle service type change
+        $('#serviceTypeSelect').on('change', function() {
+            var selectedValue = $(this).val();
+            if (selectedValue == 3) {
+                $('#propertyManagementFields').show();
+            } else {
+                $('#propertyManagementFields').hide();
+            }
+        });
 
-});
+        });
 
-    </script>
+</script>
 
 <script>
     $(document).ready(function() {
@@ -847,7 +851,53 @@ $('#serviceTypeSelect').on('change', function() {
     });
 </script>
 
- 
+ <script>
+
+
+    function resteContract(contractId) {
+        $.ajax({
+            url: '{{ route('contracts.reset', ['contract' => ':id']) }}'.replace(':id', contractId),
+            method: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    window.location.href = '{{ route('Office.Contract.create') }}';
+                    // window.location.href = '{{ route('Office.Contract.index') }}';
+                } else {
+                    toastr.error('Failed to reset contract.');
+                }
+            },
+            error: function() {
+                toastr.error('An error occurred. Please try again.');
+            }
+        });
+    }
+
+    function handleReset(id) {
+        Swal.fire({
+            title: "@lang('Are you sure')",
+            text: "@lang('You cannot revert this action!')",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "@lang('Yes, Reset it!')",
+            cancelButtonText: "@lang('Cancel')",
+            customClass: {
+                confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+            },
+            buttonsStyling: false
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                // Perform the deportation action via AJAX
+                resteContract(id);
+            }
+        });
+    }
+
+
+ </script>
 
     @endpush
 

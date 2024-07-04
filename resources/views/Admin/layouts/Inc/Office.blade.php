@@ -128,6 +128,22 @@
             </li>
         @endif
 
+        @if (in_array(30, $sectionsIds))
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
+                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <div data-i18n="@lang('Financial Managment')">@lang('Financial Managment')</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Receipt.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Voucher and Payment Receipts')">@lang('Voucher and Payment Receipts')</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
 
         @if (in_array(18, $sectionsIds))
             <li class="menu-item">

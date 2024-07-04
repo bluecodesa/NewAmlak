@@ -12,7 +12,7 @@ class Receipt extends Model
 
     public function ContractData()
     {
-        return $this->belongsTo(Contract::class);
+        return $this->belongsTo(Contract::class, 'contract_id');
     }
     public function OfficeData()
     {
@@ -36,7 +36,7 @@ class Receipt extends Model
 
     public function RenterData()
     {
-        return $this->belongsTo(Renter::class);
+        return $this->belongsTo(Renter::class ,'renter_id');
     }
     public function installmentsData()
     {

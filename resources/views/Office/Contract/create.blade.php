@@ -21,7 +21,7 @@
                         <label class="form-label">
                             {{ __('Contract Number') }} <span class="required-color"></span></label>
                         <input disabled type="text" required id="modalRoleName" name="number_unit" class="form-control"
-                            placeholder="{{ __('يحدد أليا') }}">
+                            placeholder="{{ __('Automatic Selected') }}">
 
                     </div>
                     <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -45,7 +45,7 @@
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
                                 aria-selected="false">
-                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> مرفقات
+                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Attachments')
                             </button>
                         </li>
                     </ul>
@@ -68,7 +68,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('Project') <span class="required-color"></span></label>
                                     <select class="form-select" name="project_id" id="projectSelect">
-                                        <option  selected value="">@lang('without')</option>
+                                        <option  selected value="">@lang('Choose')</option>
                                         @foreach ($projects as $project)
                                             <option value="{{ $project->id }}">
                                                 {{ $project->name }}</option>
@@ -79,7 +79,7 @@
                                 <div class="col-md-4 mb-3 col-12">
                                     <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                     <select class="form-select" name="property_id" id="propertySelect">
-                                        <option  selected value="">@lang('without')</option>
+                                        <option  selected value="">@lang('Choose')</option>
                                         @foreach ($properties as $property)
                                         <option value="{{ $property->id }}">{{ $property->name }}</option>
 
@@ -111,27 +111,13 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="owner_id" id="hiddenOwnerId" />
-                                <div class="col-12 col-md-4 mb-3">
-                                    <label class="col-md-6 form-label">@lang('Employee Name') <span
-                                            class="required-color"></span>
-                                    </label>
-                                    <div class="input-group">
-                                        <select class="form-select"
-                                            aria-label="Example select with button addon" name="employee_id">
-                                            <option disabled selected value="{{ auth()->user()->UserOfficeData->id }}">@lang('Employee Name')</option>
-                                            @foreach ($employees as $employee)
-                                                <option value="{{ $employee->id }}">
-                                                    {{ $employee->UserData->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                             
                                 <div class="col-md-4 mb-3">
-                                    <label for="price" class="form-label">@lang('price') <span
+                                    <label for="price" class="form-label">@lang('yearly rental price') <span
                                             class="required-color">*</span></label>
                                     <div class="input-group">
-                                        <input type="number" name="price" id="unitSalary" class="form-control" placeholder="@lang('price')"
-                                            aria-label="@lang('price')" aria-describedby="button-addon2" required>
+                                        <input type="number" name="price" id="unitSalary" class="form-control" placeholder="@lang('yearly rental price')"
+                                            aria-label="@lang('yearly rental price')" aria-describedby="button-addon2" required>
                                         <button class="btn btn-outline-primary waves-effect" type="button"
                                             id="button-addon2">@lang('SAR')</button>
                                     </div>
@@ -142,68 +128,28 @@
                                     <label class="form-label">@lang('Contract Type') <span
                                             class="required-color">*</span></label>
                                     <select class="form-select" name="type" id="type" required>
-                                        <option disabled selected value="">@lang('Contract Type')</option>
-                                        @foreach (['rent', 'sale'] as $type)
+                                        {{-- <option disabled selected value="">@lang('Contract Type')</option> --}}
+                                        @foreach (['rent'] as $type)
                                             <option value="{{ $type }}">
                                                 {{ __($type) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
-                                <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('offered service') <span
-                                            class="required-color">*</span></label>
-                                    <select class="form-select" name="service_type_id" id="serviceTypeSelect" required>
-                                        <option disabled selected value="">@lang('offered service')</option>
-                                        @foreach ($servicesTypes as $service)
-                                            <option value="{{ $service->id }}">{{ $service->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <input type="hidden" name="service_type_id" id="hiddenServiceTypeId" />
-
-
-                                <div id="propertyManagementFields" class="row" style="display: none;">
-
-                                    <!-- Commissions Rate -->
-                                    <div class="col-md-4 mb-3 col-12">
-                                        <label class="form-label">@lang('Commissions Rate') <span
-                                                class="required-color"></span></label>
-                                            <div class="input-group">
-                                                <input type="number" name="commissions_rate" class="form-control"
-                                                placeholder="@lang('Commissions Rate')">
-                                                <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('%')</button>
-                                            </div>
-                                    </div>
-
-                                    <!-- Collection Type -->
-                                    <div class="col-md-4 mb-3 col-12">
-                                        <label class="form-label">@lang('Collection Type') <span
-                                                class="required-color"></span></label>
-                                        <select class="form-select" name="collection_type" id="type" >
-                                            <option disabled selected value="">@lang('Collection Type')</option>
-                                            @foreach (['once', 'divided'] as $type)
-                                                <option value="{{ $type }}">
-                                                    {{ __($type) }}</option>
+                                      <!-- Renters -->
+                                      <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Renter') <span
+                                                class="required-color">*</span></label>
+                                        <select class="form-select" id="RenterDiv"
+                                            aria-label="Example select with button addon" name="renter_id" required>
+                                            <option disabled selected value="">@lang('Renter name')</option>
+                                            @foreach ($renters as $renter)
+                                                <option value="{{ $renter->id }}">
+                                                    {{ $renter->UserData->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
 
-                                <!-- Renters -->
-                                <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('Renter') <span
-                                            class="required-color">*</span></label>
-                                    <select class="form-select" id="RenterDiv"
-                                        aria-label="Example select with button addon" name="renter_id" required>
-                                        <option disabled selected value="">@lang('Renter name')</option>
-                                        @foreach ($renters as $renter)
-                                            <option value="{{ $renter->id }}">
-                                                {{ $renter->UserData->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
 
                                 <!-- Calendar Type -->
                                 <div class="col-md-4 mb-3 col-12">
@@ -219,20 +165,20 @@
                                 <!-- Contract Date -->
 
                                 <div class="col-md-4 mb-3 col-12" id="gregorianDate2" style="display: none;">
-                                    <label class="form-label">@lang('Date of concluding the contract') <span class="required-color"></span></label>
-                                    <input class="form-control" type="date"  name="date_concluding_contract" />
+                                    <label class="form-label">@lang('Date of concluding the contract') <span class="required-color">*</span></label>
+                                    <input class="form-control"  type="date" value="{{ now()->format('Y-m-d H:i') }}" name="date_concluding_contract" />
                                 </div>
                                     <div class="col-md-4 mb-3 col-12" id="gregorianDate" style="display: none;">
-                                        <label class="form-label">@lang('Contract start date (Gregorian)') <span class="required-color"></span></label>
-                                        <input class="form-control" type="date" name="gregorian_contract_date" />
+                                        <label class="form-label">@lang('Contract start date (Gregorian)') <span class="required-color">*</span></label>
+                                        <input class="form-control"  type="date" name="gregorian_contract_date" />
                                     </div>
                                     <div class="col-md-4 mb-3 col-12" id="hijriDate2" style="display: none;">
-                                        <label class="form-label">@lang('Date of concluding the contract') <span class="required-color"></span></label>
-                                        <input class="form-control" type="text" id="txtHijriDate" name="date_concluding_contract" placeholder="@lang('Hijri Date')" />
+                                        <label class="form-label">@lang('Date of concluding the contract') <span class="required-color">*</span></label>
+                                        <input class="form-control"  type="text"  id="txtHijriDate" value="{{ now()->format('Y-m-d H:i') }}" name="date_concluding_contract" placeholder="@lang('Hijri Date')" />
                                     </div>
                                     <div class="col-md-4 mb-3 col-12" id="hijriDate" style="display: none;">
-                                        <label class="form-label">@lang('Contract start date (Higri)') <span class="required-color"></span></label>
-                                        <input class="form-control" id="txtHijriDate2" type="text" name="hijri_contract_date" placeholder="@lang('Hijri Date')" />
+                                        <label class="form-label">@lang('Contract start date (Higri)') <span class="required-color">*</span></label>
+                                        <input class="form-control"  id="txtHijriDate2" type="text" name="hijri_contract_date" placeholder="@lang('Hijri Date')" />
                                     </div>
 
 
@@ -270,49 +216,119 @@
                                     </select>
                                 </div>
 
-
-                        </div>
-                        <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                            <div class="col-md-4 mb-3 col-12">
-                                <button type="button" id="calculateButton" class="btn btn-primary me-1"
-                                    role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
-                                    aria-controls="navs-justified-profile">
-                                    @lang('Calculate Installments')
-                                </button>
-                            </div>
-                            <div id="contractDetails" style="display: none;">
-                                <!-- Contract details will be dynamically added here -->
-                            </div>
-
-                        </div>
-                        <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
-                            <div class="col-12 mb-3">
-                                <label class="form-label">@lang('Attachments')</label>
-                                <div id="features" class="row">
-                                    <div class="mb-3 col-4">
-                                        <input type="text" name="name[]" class="form-control search"
-                                            placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-
-                                    </div>
-                                    <div class="mb-3 col-4">
-                                        <input class="form-control" type="file" name="attachment[]"
-                                            id="projectMasterplan" accept="image/*,application/pdf">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" class="btn btn-primary w-100"
-                                            onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                class="d-none d-sm-inline-block">@lang('Add Attachment')</span></button>
+                                           <div class="col-12 col-md-4 mb-3">
+                                    <label class="col-md-6 form-label">@lang('Employee Name') <span
+                                            class="required-color"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <select class="form-select"
+                                            aria-label="Example select with button addon" name="employee_id">
+                                            <option disabled selected value="{{ auth()->user()->UserOfficeData->id }}">@lang('Employee Name')</option>
+                                            @foreach ($employees as $employee)
+                                                <option value="{{ $employee->id }}">
+                                                    {{ $employee->UserData->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary me-1">
 
-                                {{ __('save') }}
-                            </button>
+                                <div class="col-md-4 mb-3 col-12">
+                                    <label class="form-label">@lang('offered service') <span
+                                            class="required-color">*</span></label>
+                                    <select class="form-select" name="service_type_id" id="serviceTypeSelect" required>
+                                        <option disabled selected value="">@lang('offered service')</option>
+                                        @foreach ($servicesTypes as $service)
+                                            <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="hidden" name="service_type_id" id="hiddenServiceTypeId" />
 
-                        </div>
+
+                                <div id="propertyManagementFields" class="row" style="display: none;">
+
+                                    <!-- Commissions Rate -->
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Commissions Rate') <span
+                                                class="required-color"></span></label>
+                                            <div class="input-group">
+                                                <input type="number" name="commissions_rate" class="form-control"
+                                                placeholder="@lang('Commissions Rate')">
+                                                <button class="btn btn-outline-primary waves-effect" type="button"
+                                                    id="button-addon2">@lang('%')</button>
+                                            </div>
+                                    </div>
+
+                                    <!-- Collection Type -->
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Collection Type') <span
+                                                class="required-color"></span></label>
+                                        <select class="form-select" name="collection_type" id="type" >
+                                            <option disabled selected value="">@lang('Collection Type')</option>
+                                            @foreach (['once with frist installment', 'divided with all installments'] as $type)
+                                                <option value="{{ $type }}">
+                                                    {{ __($type) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                     
+
+                          
+                                <div style="text-align: left;">
+                                    <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-profile">
+                                        {{ __('Next') }}
+                                    </button>
+                                </div>
+
+                                </div>
+                                <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <button type="button" id="calculateButton" class="btn btn-primary me-1"
+                                            role="tab" data-bs-toggle="tab" data-bs-target="#navs-justified-profile"
+                                            aria-controls="navs-justified-profile">
+                                            @lang('Calculate Installments')
+                                        </button>
+                                    </div>
+                                    <div id="contractDetails" style="display: none;">
+                                        <!-- Contract details will be dynamically added here -->
+                                    </div>
+                                    <div style="text-align: left;">
+                                        <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-messages">
+                                            {{ __('Next') }}
+                                        </button>
+                                    </div>
+                                
+
+                                </div>
+                                <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label">@lang('Attachments')</label>
+                                        <div id="features" class="row">
+                                            <div class="mb-3 col-4">
+                                                <input type="text" name="name[]" class="form-control search"
+                                                    placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+
+                                            </div>
+                                            <div class="mb-3 col-4">
+                                                <input class="form-control" type="file" name="attachment[]"
+                                                    id="projectMasterplan" accept="image/*,application/pdf">
+                                            </div>
+                                            <div class="col">
+                                                <button type="button" class="btn btn-primary w-100"
+                                                    onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                        class="d-none d-sm-inline-block">@lang('Add Attachment')</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: left;">
+                                        <button type="submit" class="btn btn-primary me-1">
+            
+                                            {{ __('save') }}
+                                        </button>
+            
+                                    </div>
+                                </div>
                         </form>
                     </div>
 
@@ -326,7 +342,7 @@
 
 
 
-    @push('scripts')
+@push('scripts')
 
     <script>
         document.getElementById('projectSelect').addEventListener('change', function() {
@@ -385,7 +401,7 @@
 
         function populateDropdown(dropdownId, items, valueField, textField) {
             var dropdown = document.getElementById(dropdownId);
-            dropdown.innerHTML = '<option disabled selected value="">@lang('Choose')</option>';
+            dropdown.innerHTML = ' <option  selected value="">@lang('Choose')</option>';
             items.forEach(item => {
                 var option = document.createElement('option');
                 option.value = item[valueField];
@@ -394,46 +410,79 @@
             });
         }
 
+
+        function fetchAllPropertiesAndUnits() {
+        fetch(`/get-all-properties-and-units`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                populateDropdown('propertySelect', data.properties, 'id', 'name');
+                populateDropdown('unitSelect', data.units, 'id', 'number_unit');
+            })
+            .catch(error => {
+                console.error('Error fetching all properties and units:', error);
+                alert('An error occurred while fetching all properties and units. Please try again.');
+            });
+    }
+
+    function fetchAllUnits() {
+        fetch(`/get-all-units`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                populateDropdown('unitSelect', data.units, 'id', 'number_unit');
+            })
+            .catch(error => {
+                console.error('Error fetching all units:', error);
+                alert('An error occurred while fetching all units. Please try again.');
+            });
+    }
+
         function clearDropdowns() {
-            document.getElementById('propertySelect').innerHTML = '<option disabled selected value="">@lang('property')</option>';
-            document.getElementById('unitSelect').innerHTML = '<option disabled selected value="">@lang('Unit')</option>';
-            clearUnitDropdown();
+        fetchAllPropertiesAndUnits();
+    }
+
+    function clearUnitDropdown() {
+        fetchAllUnits();
+    }
+
+            function addFeature() {
+            const featuresContainer = document.getElementById('features');
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3');
+
+            newRow.innerHTML = `
+                <div class="mb-3 col-4">
+                    <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+                </div>
+                <div class="mb-3 col-4">
+                    <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+                </div>
+            `;
+
+            featuresContainer.appendChild(newRow);
         }
 
-        function clearUnitDropdown() {
-            document.getElementById('unitSelect').innerHTML = '<option disabled selected value="">@lang('Unit')</option>';
+
+        function removeFeature(button) {
+            const rowToRemove = button.parentNode.parentNode;
+            rowToRemove.remove();
         }
-
-
-    function addFeature() {
-    const featuresContainer = document.getElementById('features');
-    const newRow = document.createElement('div');
-    newRow.classList.add('row', 'mb-3');
-
-    newRow.innerHTML = `
-        <div class="mb-3 col-4">
-            <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-        </div>
-        <div class="mb-3 col-4">
-            <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
-        </div>
-        <div class="col-4">
-            <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-        </div>
-    `;
-
-    featuresContainer.appendChild(newRow);
-}
-
-
-function removeFeature(button) {
-    const rowToRemove = button.parentNode.parentNode;
-    rowToRemove.remove();
-}
 
     </script>
 
-        <script>
+    <script>
             $('#txtHijriDate').calendarsPicker({
                 calendar: $.calendars.instance('islamic', 'Ar'),
                 // monthsToShow: [1, 2],
@@ -484,9 +533,9 @@ function removeFeature(button) {
                     },
                 });
             });
-        </script>
+    </script>
 
-        <script>
+    <script>
             $(document).ready(function() {
                 $('#serviceTypeSelect').on('change', function() {
                     var selectedValue = $(this).val();
@@ -518,29 +567,36 @@ function removeFeature(button) {
                 });
 
             });
-        </script>
+    </script>
 
-        <script>
+    <script>
 
             $(document).ready(function() {
-                    $('select[name="duration_unit"]').change(function() {
-                        var durationUnit = $(this).val();
-                        var paymentCycleSelect = $('select[name="payment_cycle"]');
-                        paymentCycleSelect.empty(); // Clear existing options
+                $('select[name="duration_unit"]').change(function() {
+                    var durationUnit = $(this).val();
+                    var paymentCycleSelect = $('select[name="payment_cycle"]');
+                    paymentCycleSelect.empty(); // Clear existing options
 
-                        var options = ['annual', 'semi-annual', 'quarterly', 'monthly'];
+                    var options = {
+                        'annual': '@lang('annual')',
+                        'semi-annual': '@lang('semi-annual')',
+                        'quarterly': '@lang('quarterly')',
+                        'monthly': '@lang('monthly')'
+                    };
 
-                        if (durationUnit === 'month') {
-                            options = ['quarterly', 'monthly'];
-                        }
+                    var filteredOptions = ['annual', 'semi-annual', 'quarterly', 'monthly'];
+                    if (durationUnit === 'month') {
+                        filteredOptions = ['quarterly', 'monthly'];
+                    }
 
-                        options.forEach(function(option) {
-                            paymentCycleSelect.append('<option value="' + option + '">' + option + '</option>');
-                        });
+                    filteredOptions.forEach(function(option) {
+                        paymentCycleSelect.append('<option value="' + option + '">' + options[option] + '</option>');
                     });
-
-                    $('select[name="duration_unit"]').trigger('change');
                 });
+
+                $('select[name="duration_unit"]').trigger('change');
+            });
+
 
 
             $(document).ready(function() {
@@ -599,11 +655,11 @@ function removeFeature(button) {
 
                     var commissionPerContract = 0;
                     if (formData.service_type_id == 3) {
-                        if (formData.collection_type == 'once') {
+                        if (formData.collection_type == 'once with frist installment') {
 
                             commissionPerContract = (formData.commissions_rate / 100) * formData
                                 .price;
-                        } else if (formData.collection_type == 'divided') {
+                        } else if (formData.collection_type == 'divided with all installments') {
 
                             commissionPerContract = (formData.commissions_rate / 100) * (formData.price /
                                 numberOfContracts);
@@ -625,12 +681,12 @@ function removeFeature(button) {
 
                         var finalPrice = pricePerContract;
                         if (commissionPerContract !== 0) {
-                            if (formData.collection_type === 'once') {
+                            if (formData.collection_type === 'once with frist installment') {
 
                                 if (i === 0) {
                                     finalPrice += commissionPerContract;
                                 }
-                            } else if (formData.collection_type === 'divided') {
+                            } else if (formData.collection_type === 'divided with all installments') {
 
                                 finalPrice += commissionPerContract;
                             }
@@ -660,22 +716,27 @@ function removeFeature(button) {
                         contractsHTML += '<div class="card mb-3">';
                         contractsHTML += '<div class="card-body">';
 
-                        contractsHTML += '<h5 class="card-title">@lang('Installment') ' + contract
-                            .contractNumber + '</h5>';
+                        // contractsHTML += '<h5 class="card-title">@lang('Installment') ' + contract
+                        //     .contractNumber + '</h5>';
 
                         contractsHTML += '<div class="row">';
-                        contractsHTML += '<div class="col-md-4">';
+                            contractsHTML += '<div class="col-md-2">';
+                        contractsHTML += '<label class="form-label">@lang('Installment'):</label>';
+                        contractsHTML += '<input type="text" class="form-control" value="' + contract
+                            .contractNumber + '" disabled>';
+                        contractsHTML += '</div>';
+                        contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('Start Date'):</label>';
                         contractsHTML += '<input type="text" class="form-control" value="' + contract
                             .startDate + '" disabled>';
                         contractsHTML += '</div>';
-                        contractsHTML += '<div class="col-md-4">';
+                        contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('End Date'):</label>';
                         contractsHTML += '<input type="text" class="form-control" value="' + contract
                             .endDate + '" disabled>';
                         contractsHTML += '</div>';
 
-                        contractsHTML += '<div class="col-md-4">';
+                        contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('Price'):</label>';
                         contractsHTML += '<input type="text" class="form-control" value="' + contract
                             .price + '" disabled>';
@@ -704,41 +765,35 @@ function removeFeature(button) {
                     $('#contractDetails').show();
                 });
             });
-        </script>
+    </script>
 
-        <script>
+    <script>
         $(document).ready(function() {
 
-        // Function to handle unit selection
         $('#unitSelect').on('change', function() {
             var unitId = $(this).val();
             var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
 
-            // Set service type and disable select
             if (serviceTypeId) {
                 $('#serviceTypeSelect').val(serviceTypeId);
-                $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
+                $('#serviceTypeSelect').prop('disabled', true); 
             } else {
                 $('#serviceTypeSelect').val('');
-                $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
+                $('#serviceTypeSelect').prop('disabled', false); 
             }
 
-            // Show property management fields if service type is 3
             if (serviceTypeId == 3) {
                 $('#propertyManagementFields').show();
             } else {
                 $('#propertyManagementFields').hide();
             }
 
-            // Optionally, update hidden input for service_type_id
-            $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
+            $('#hiddenServiceTypeId').val(serviceTypeId); 
 
         });
 
-        // Trigger change event on page load
         $('#unitSelect').trigger('change');
 
-        // Function to handle service type change
         $('#serviceTypeSelect').on('change', function() {
             var selectedValue = $(this).val();
             if (selectedValue == 3) {
@@ -750,65 +805,81 @@ function removeFeature(button) {
 
         });
 
-        </script>
+    </script>
 
-<script>
-    $(document).ready(function() {
-
-        // Function to handle unit selection
-        $('#unitSelect').on('change', function() {
-            var unitId = $(this).val();
-
-            // Fetch unit details via AJAX
-            if (unitId) {
-                fetchUnitDetails(unitId);
-            } else {
-                resetUnitDetails();
-            }
-        });
-
-        function fetchUnitDetails(unitId) {
-            // AJAX request to get unit details
-            $.ajax({
-                url: '/get-unit-details/' + unitId,
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Populate owner ID and disable the input
-                    $('#OwnersDiv').val(data.owner_id);
-                    $('#OwnersDiv').prop('disabled', true);
-
-                    // Update salary display (yearly)
-                    var yearlySalary = data.unit_rental_price.yearly;
-                    $('#unitSalary').val(yearlySalary);
-
-                    // Optionally, update hidden input for owner_id
-                    $('#hiddenOwnerId').val(data.owner_id);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching unit details:', error);
+    <script>
+        $(document).ready(function() {
+            $('#unitSelect').on('change', function() {
+                var unitId = $(this).val();
+                if (unitId) {
+                    fetchUnitDetails(unitId);
+                } else {
+                    resetUnitDetails();
                 }
             });
-        }
 
-        function resetUnitDetails() {
-            // Clear owner ID and enable the input
-            $('#OwnersDiv').val('');
-            $('#OwnersDiv').prop('disabled', false);
+            function fetchUnitDetails(unitId) {
+                $.ajax({
+                    url: '/get-unit-details/' + unitId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#OwnersDiv').val(data.owner_id);
+                        $('#OwnersDiv').prop('disabled', true);
 
-            // Clear salary display (yearly)
-            $('#unitSalary').val('');
+                        var yearlySalary = data.unit_rental_price.yearly;
+                        $('#unitSalary').val(yearlySalary);
 
-            // Clear hidden input values if needed
-            $('#hiddenOwnerId').val('');
-        }
+                        $('#hiddenOwnerId').val(data.owner_id);
 
-        // Trigger change event on page load
-        $('#unitSelect').trigger('change');
+                        $('#serviceTypeSelect').val(data.service_type_id);
+                        $('#serviceTypeSelect').prop('disabled', true);
 
-    });
-</script>
+                        $('#hiddenServiceTypeId').val(data.service_type_id);
+                        if (data.service_type_id == 3) {
+                        $('#propertyManagementFields').show();
+                    } else {
+                        $('#propertyManagementFields').hide();
+                    }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching unit details:', error);
+                    }
+                });
+            }
 
-    @endpush
+            function resetUnitDetails() {
+                $('#OwnersDiv').val('');
+                $('#OwnersDiv').prop('disabled', false);
+
+                $('#unitSalary').val('');
+
+                $('#hiddenOwnerId').val('');
+
+                $('#serviceTypeSelect').val('');
+                $('#serviceTypeSelect').prop('disabled', false);
+
+                $('#hiddenServiceTypeId').val('');
+                $('#propertyManagementFields').hide();
+
+            }
+
+            $('#unitSelect').trigger('change');
+        });
+
+
+    </script>
+
+    <script>
+        document.querySelectorAll('.next-tab').forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTab = this.getAttribute('data-next');
+                const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+                nextTabButton.click();
+            });
+        });
+    </script>
+
+@endpush
 
 @endsection

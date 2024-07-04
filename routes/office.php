@@ -102,10 +102,11 @@ Route::group(
         Route::get('/get-units-by-property/{property}', [ContractController::class, 'getUnitsByProperty']);
         Route::post('/contracts/{contract}/certify', [ContractController::class, 'certify'])->name('contracts.certify');
         Route::post('/contracts/{contract}/deportation', [ContractController::class, 'deportation'])->name('contracts.deportation');
-        Route::delete('/contracts/{contract}', [ContractController::class, 'reset'])->name('contracts.destroy');
+        Route::delete('/contracts/{contract}', [ContractController::class, 'reset'])->name('contracts.reset');
         Route::post('/contracts/update-validity', [ContractController::class, 'updateValidity'])->name('contracts.updateValidity');
         Route::get('/get-unit-details/{unitId}', [ContractController::class, 'getUnitDetails']);
-
+        Route::get('/get-all-properties-and-units', [ContractController::class, 'getAllPropertiesAndUnits']);
+        Route::get('/get-all-units', [ContractController::class, 'getAllUnits']);
 
     }
 );
