@@ -606,7 +606,8 @@
     "Pay Method": "طريقة الدفع",
     "#Ejar/REF:": "الرقم المرجعي",
     "Transaction Id": "رقم التحويل",
-    "Automatic Selected": "يحدد أليا"
+    "Automatic Selected": "يحدد أليا",
+    "Commission": "العمولة"
 
 
 }
