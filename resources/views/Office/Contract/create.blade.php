@@ -111,21 +111,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="owner_id" id="hiddenOwnerId" />
-                                <div class="col-12 col-md-4 mb-3">
-                                    <label class="col-md-6 form-label">@lang('Employee Name') <span
-                                            class="required-color"></span>
-                                    </label>
-                                    <div class="input-group">
-                                        <select class="form-select"
-                                            aria-label="Example select with button addon" name="employee_id">
-                                            <option disabled selected value="{{ auth()->user()->UserOfficeData->id }}">@lang('Employee Name')</option>
-                                            @foreach ($employees as $employee)
-                                                <option value="{{ $employee->id }}">
-                                                    {{ $employee->UserData->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+                             
                                 <div class="col-md-4 mb-3">
                                     <label for="price" class="form-label">@lang('yearly rental price') <span
                                             class="required-color">*</span></label>
@@ -142,68 +128,28 @@
                                     <label class="form-label">@lang('Contract Type') <span
                                             class="required-color">*</span></label>
                                     <select class="form-select" name="type" id="type" required>
-                                        <option disabled selected value="">@lang('Contract Type')</option>
-                                        @foreach (['rent', 'sale'] as $type)
+                                        {{-- <option disabled selected value="">@lang('Contract Type')</option> --}}
+                                        @foreach (['rent'] as $type)
                                             <option value="{{ $type }}">
                                                 {{ __($type) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
-                                <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('offered service') <span
-                                            class="required-color">*</span></label>
-                                    <select class="form-select" name="service_type_id" id="serviceTypeSelect" required>
-                                        <option disabled selected value="">@lang('offered service')</option>
-                                        @foreach ($servicesTypes as $service)
-                                            <option value="{{ $service->id }}">{{ $service->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <input type="hidden" name="service_type_id" id="hiddenServiceTypeId" />
-
-
-                                <div id="propertyManagementFields" class="row" style="display: none;">
-
-                                    <!-- Commissions Rate -->
-                                    <div class="col-md-4 mb-3 col-12">
-                                        <label class="form-label">@lang('Commissions Rate') <span
-                                                class="required-color"></span></label>
-                                            <div class="input-group">
-                                                <input type="number" name="commissions_rate" class="form-control"
-                                                placeholder="@lang('Commissions Rate')">
-                                                <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('%')</button>
-                                            </div>
-                                    </div>
-
-                                    <!-- Collection Type -->
-                                    <div class="col-md-4 mb-3 col-12">
-                                        <label class="form-label">@lang('Collection Type') <span
-                                                class="required-color"></span></label>
-                                        <select class="form-select" name="collection_type" id="type" >
-                                            <option disabled selected value="">@lang('Collection Type')</option>
-                                            @foreach (['once with frist installment', 'divided with all installments'] as $type)
-                                                <option value="{{ $type }}">
-                                                    {{ __($type) }}</option>
+                                      <!-- Renters -->
+                                      <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Renter') <span
+                                                class="required-color">*</span></label>
+                                        <select class="form-select" id="RenterDiv"
+                                            aria-label="Example select with button addon" name="renter_id" required>
+                                            <option disabled selected value="">@lang('Renter name')</option>
+                                            @foreach ($renters as $renter)
+                                                <option value="{{ $renter->id }}">
+                                                    {{ $renter->UserData->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
 
-                                <!-- Renters -->
-                                <div class="col-md-4 mb-3 col-12">
-                                    <label class="form-label">@lang('Renter') <span
-                                            class="required-color">*</span></label>
-                                    <select class="form-select" id="RenterDiv"
-                                        aria-label="Example select with button addon" name="renter_id" required>
-                                        <option disabled selected value="">@lang('Renter name')</option>
-                                        @foreach ($renters as $renter)
-                                            <option value="{{ $renter->id }}">
-                                                {{ $renter->UserData->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
 
                                 <!-- Calendar Type -->
                                 <div class="col-md-4 mb-3 col-12">
@@ -269,6 +215,66 @@
                                         @endforeach
                                     </select>
                                 </div>
+
+                                           <div class="col-12 col-md-4 mb-3">
+                                    <label class="col-md-6 form-label">@lang('Employee Name') <span
+                                            class="required-color"></span>
+                                    </label>
+                                    <div class="input-group">
+                                        <select class="form-select"
+                                            aria-label="Example select with button addon" name="employee_id">
+                                            <option disabled selected value="{{ auth()->user()->UserOfficeData->id }}">@lang('Employee Name')</option>
+                                            @foreach ($employees as $employee)
+                                                <option value="{{ $employee->id }}">
+                                                    {{ $employee->UserData->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3 col-12">
+                                    <label class="form-label">@lang('offered service') <span
+                                            class="required-color">*</span></label>
+                                    <select class="form-select" name="service_type_id" id="serviceTypeSelect" required>
+                                        <option disabled selected value="">@lang('offered service')</option>
+                                        @foreach ($servicesTypes as $service)
+                                            <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="hidden" name="service_type_id" id="hiddenServiceTypeId" />
+
+
+                                <div id="propertyManagementFields" class="row" style="display: none;">
+
+                                    <!-- Commissions Rate -->
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Commissions Rate') <span
+                                                class="required-color"></span></label>
+                                            <div class="input-group">
+                                                <input type="number" name="commissions_rate" class="form-control"
+                                                placeholder="@lang('Commissions Rate')">
+                                                <button class="btn btn-outline-primary waves-effect" type="button"
+                                                    id="button-addon2">@lang('%')</button>
+                                            </div>
+                                    </div>
+
+                                    <!-- Collection Type -->
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Collection Type') <span
+                                                class="required-color"></span></label>
+                                        <select class="form-select" name="collection_type" id="type" >
+                                            <option disabled selected value="">@lang('Collection Type')</option>
+                                            @foreach (['once with frist installment', 'divided with all installments'] as $type)
+                                                <option value="{{ $type }}">
+                                                    {{ __($type) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                     
+
+                          
                                 <div class="col-12">
                                     <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-profile">
                                         {{ __('Next') }}
