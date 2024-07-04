@@ -170,6 +170,15 @@
                                         <div class="card h-100">
                                             <div
                                                 class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                <img src="{{ url('HOME_PAGE/images/new/partners/10.png') }}"
+                                                    alt="client logo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card h-100">
+                                            <div
+                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
                                                 <img src="{{ url('HOME_PAGE/images/new/partners/1.png') }}"
                                                     alt="client logo" />
                                             </div>
