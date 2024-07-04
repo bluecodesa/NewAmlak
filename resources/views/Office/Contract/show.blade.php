@@ -434,6 +434,7 @@
                                                         <th>@lang('Installment Number')</th>
                                                         <th>@lang('price')</th>
                                                         <th>@lang('Commission')</th>
+                                                        <th>@lang('total')</th>
                                                         <th>@lang('status')</th>
                                                         <th>@lang('Installment Start Date')</th>
                                                         <th>@lang('Installment End Date')</th>
@@ -447,6 +448,7 @@
                                                             <td>{{ $installment->Installment_number }}</td>
                                                             <td>{{ $installment->price }}</td>
                                                             <td>{{ $installment->commission }}</td>
+                                                            <td>{{ $installment->final_price }}</td>
                                                             <td>{{ __($installment->status) }}</td>
                                                             <td>{{ $installment->start_date }}</td>
                                                             <td>{{ $installment->end_date }}</td>

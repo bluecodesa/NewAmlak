@@ -216,6 +216,7 @@ class ContractRepository implements ContractRepositoryInterface
             } else if ($data['duration_unit'] === 'year') {
                 $endDate->modify('+1 year');
             }
+            $price = $pricePerContract;
 
             $finalPrice = $pricePerContract;
             if ($commissionPerContract !== 0) {
@@ -230,7 +231,8 @@ class ContractRepository implements ContractRepositoryInterface
 
             $installments[] = [
                 'contract_id' => $contract->id,
-                'price' => $finalPrice,
+                'price' => $price,
+                'final_price' => $finalPrice,
                 'start_date' => $startDate->format('Y-m-d'),
                 'end_date' => $endDate->format('Y-m-d'),
                 'Installment_number' => $contract->contract_number . '-' . ($i + 1),

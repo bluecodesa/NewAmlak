@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('installments', function (Blueprint $table) {
             //
             $table->decimal('commission', 10, 2)->default(0)->nullable()->after('price');
+            $table->decimal('final_price', 10, 2)->default(0)->nullable()->after('commission');
+
 
         });
     }
