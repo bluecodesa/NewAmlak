@@ -321,7 +321,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div style="text-align: left;">
                                         <button type="submit" class="btn btn-primary me-1">
             
                                             {{ __('save') }}
