@@ -171,7 +171,7 @@ class ContractRepository implements ContractRepositoryInterface
 
         $this->createInstallments($contract, $data);
 
-        return redirect()->route('Office.Contract.index')->with('success', 'Contract created successfully.');
+        return $contract;
     }
 
     private function createInstallments(Contract $contract, array $data)

@@ -244,20 +244,19 @@
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Commissions Rate') <span
                                                 class="required-color"></span></label>
-                                        <input disabled type="number" name="commissions_rate" class="form-control"
-                                            value="{{ $contract->commissions_rate }}" placeholder="@lang('Commissions Rate')">
+                                        <input disabled type="number" name="commissions_rate" class="form-control" value="{{ $contract->commissions_rate }}"
+                                            placeholder="@lang('Commissions Rate')">
                                     </div>
-
+    
                                     <!-- Collection Type -->
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Collection Type') <span
                                                 class="required-color"></span></label>
-                                        <select disabled class="form-select" name="collection_type" id="type">
+                                        <select disabled class="form-select" name="collection_type" id="type" >
                                             <option disabled selected value="">@lang('Collection Type')</option>
                                             @foreach (['once', 'divided'] as $type)
-                                                <option disabled value="{{ $type }}"
-                                                    {{ $contract->collection_type == $type ? 'selected' : '' }}>
-                                                    {{ __($type) }}</option>
+                                            <option value="{{ $type }}" {{ $contract->collection_type == $type ? 'selected' : '' }}>
+                                                {{ __($type) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -818,6 +817,103 @@
 
 
     </script>
+
+<script>
+    $(document).ready(function() {
+ 
+ // Function to handle unit selection
+ $('#unitSelect').on('change', function() {
+     var unitId = $(this).val();
+     var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
+ 
+     // Set service type and disable select
+     if (serviceTypeId) {
+         $('#serviceTypeSelect').val(serviceTypeId);
+         $('#serviceTypeSelect').prop('disabled', true); // Disable the select field
+     } else {
+         $('#serviceTypeSelect').val('');
+         $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
+     }
+ 
+     // Show property management fields if service type is 3
+     if (serviceTypeId == 3) {
+         $('#propertyManagementFields').show();
+     } else {
+         $('#propertyManagementFields').hide();
+     }
+ 
+     // Optionally, update hidden input for service_type_id
+     $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
+ 
+ });
+ 
+ // Trigger change event on page load
+ $('#unitSelect').trigger('change');
+ 
+ // Function to handle service type change
+ $('#serviceTypeSelect').on('change', function() {
+     var selectedValue = $(this).val();
+     if (selectedValue == 3) {
+         $('#propertyManagementFields').show();
+     } else {
+         $('#propertyManagementFields').hide();
+     }
+ });
+ 
+ });
+ 
+     </script>
+ 
+ <script>
+     $(document).ready(function() {
+ 
+         // Function to handle unit selection
+         $('#unitSelect').on('change', function() {
+             var unitId = $(this).val();
+ 
+             // Fetch unit details via AJAX
+             if (unitId) {
+                 fetchUnitDetails(unitId);
+             } else {
+                 resetUnitDetails();
+             }
+         });
+ 
+         function fetchUnitDetails(unitId) {
+             // AJAX request to get unit details
+             $.ajax({
+                 url: '/get-unit-details/' + unitId,
+                 type: 'GET',
+                 dataType: 'json',
+                 success: function(data) {
+                     // Populate owner ID and disable the input
+                     $('#OwnersDiv').val(data.owner_id);
+                     $('#OwnersDiv').prop('disabled', true);
+ 
+                     // Update salary display (yearly)
+                     var yearlySalary = data.unit_rental_price.yearly;
+                     $('#unitSalary').val(yearlySalary);
+ 
+                     // Optionally, update hidden input for owner_id
+                     $('#hiddenOwnerId').val(data.owner_id);
+                 },
+                 error: function(xhr, status, error) {
+                     console.error('Error fetching unit details:', error);
+                 }
+             });
+         }
+ 
+         function resetUnitDetails() {
+             $('#OwnersDiv').val('');
+             $('#OwnersDiv').prop('disabled', false);
+             $('#unitSalary').val('');
+             $('#hiddenOwnerId').val('');
+         }
+ 
+         $('#unitSelect').trigger('change');
+ 
+     });
+ </script>
 
 @endpush
 @endsection

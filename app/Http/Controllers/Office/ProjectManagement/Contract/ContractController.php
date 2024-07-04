@@ -131,8 +131,8 @@ class ContractController extends Controller
 
     public function store(Request $request)
     {
-        $this->ContractService->createContract($request->all());
-        return redirect()->route('Office.Contract.index')->with('success', __('added successfully'));
+        $contract = $this->ContractService->createContract($request->all());
+        return redirect()->route('Office.Contract.show', $contract->id)->with('success', 'Contract created successfully.');
     }
 
     /**
