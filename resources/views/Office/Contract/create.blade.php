@@ -275,7 +275,7 @@
                      
 
                           
-                                <div class="col-12">
+                                <div style="text-align: left;">
                                     <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-profile">
                                         {{ __('Next') }}
                                     </button>
@@ -293,7 +293,7 @@
                                     <div id="contractDetails" style="display: none;">
                                         <!-- Contract details will be dynamically added here -->
                                     </div>
-                                    <div class="col-12">
+                                    <div style="text-align: left;">
                                         <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-messages">
                                             {{ __('Next') }}
                                         </button>
