@@ -607,7 +607,10 @@
     "#Ejar/REF:": "الرقم المرجعي",
     "Transaction Id": "رقم التحويل",
     "Automatic Selected": "يحدد أليا",
-    "Commission": "العمولة"
+    "Commission": "العمولة",
+    "Wallets": "الخزائن",
+    "Add New Wallet": "اضافة خزنة جديده",
+    "Total Commission": "اجمالي العمولة"
 
 
 }

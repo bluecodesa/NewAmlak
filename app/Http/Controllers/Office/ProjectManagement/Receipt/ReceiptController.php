@@ -15,6 +15,7 @@ use App\Models\Project;
 use App\Models\Property;
 use App\Models\Setting;
 use App\Models\Unit;
+use App\Models\Wallet;
 use App\Services\CityService;
 use App\Services\Office\OwnerService;
 use App\Services\RegionService;
@@ -125,7 +126,8 @@ class ReceiptController extends Controller
             'total_price' => 'required|numeric|min:0',
             'notes' => 'nullable|string',
             'installments' => 'required|array',
-            'installments.*' => 'numeric|min:0'
+            'installments.*' => 'numeric|min:0',
+            'wallet_id' => 'required|exists:wallets,id',
         ], [
             'release_date.required' => 'The release date is required.',
             'release_date.date' => 'The release date is not a valid date.',
@@ -142,24 +144,26 @@ class ReceiptController extends Controller
             'installments.required' => 'The installments are required.',
             'installments.array' => 'The installments must be an array.',
             'installments.*.numeric' => 'Each installment must be a number.',
-            'installments.*.min' => 'Each installment must be at least 0.'
+            'installments.*.min' => 'Each installment must be at least 0.',
+            'wallet_id.required' => 'The wallet selection is required.',
+            'wallet_id.exists' => 'The selected wallet is invalid.',
         ]);
-    
+
         $contract = Contract::find($request->contract_id);
-    
+
         if (!$contract) {
             return redirect()->back()->withErrors(['contract_id' => 'The selected contract ID is invalid.']);
         }
-    
+
         $installmentIds = $validatedData['installments'];
         $installmentNumbers = Installment::whereIn('id', $installmentIds)->pluck('installment_number')->toArray();
-    
+
         // Count existing receipts for the contract
         $receiptCount = $contract->ReceiptData()->count();
-    
+
         // Generate voucher number using the receipt count as index
         $voucherNumber = 'V-' . $contract->contract_number . '-' . ($receiptCount + 1);
-    
+
         // Create the receipt
         $receipt = Receipt::create([
             'voucher_number' => $voucherNumber,
@@ -178,20 +182,29 @@ class ReceiptController extends Controller
             'type' => 'receipt_voucher',
             'reference_number' => $request->reference_number,
             'transaction_number' => $request->transaction_number,
+            'wallet_id' => $request->wallet_id,
         ]);
-    
+
         foreach ($validatedData['installments'] as $installmentId) {
             $receipt->installments()->attach($installmentId);
-    
+
             $installment = Installment::find($installmentId);
             if ($installment) {
                 $installment->update(['status' => 'collected']);
             }
         }
-    
+
+        // Update wallet balance
+        $wallet = Wallet::find($request->wallet_id);
+        if ($wallet) {
+            $wallet->balance += $request->total_price;
+            $wallet->save();
+        }
+
         return redirect()->back()->with('success', 'Receipt created successfully.');
     }
-    
+
+
 
 
     /**

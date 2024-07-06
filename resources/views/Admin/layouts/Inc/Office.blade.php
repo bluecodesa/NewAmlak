@@ -141,6 +141,11 @@
                             <div data-i18n="@lang('Voucher and Payment Receipts')">@lang('Voucher and Payment Receipts')</div>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Wallet.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Wallets')">@lang('Wallets')</div>
+                        </a>
+                    </li>
                 </ul>
             </li>
         @endif
@@ -181,16 +186,16 @@
         @endif
 
         @if (in_array(12, $sectionsIds))
-            <li class="menu-item">
-                <a href="{{ route('Broker.ShowSubscription') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
-                    <div data-i18n="@lang('Subscription Management')">@lang('Subscription Management')</div>
-                </a>
-            </li>
-        @endif
+        <li class="menu-item">
+            <a href="{{ route('Office.ShowSubscription') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                <div data-i18n="@lang('Subscription Management')">@lang('Subscription Management')</div>
+            </a>
+        </li>
+    @endif
         @if (in_array(11, $sectionsIds))
             <li class="menu-item">
-                <a href="{{ route('Broker.Tickets.index') }}" class="menu-link">
+                <a href="{{ route('Office.Tickets.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
                     <div data-i18n="@lang('technical support')">@lang('technical support')</div>
                 </a>

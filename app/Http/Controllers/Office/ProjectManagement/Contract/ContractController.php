@@ -11,8 +11,10 @@ use App\Models\Installment;
 use App\Models\Project;
 use App\Models\Property;
 use App\Models\Receipt;
+use App\Models\Renter;
 use App\Models\Setting;
 use App\Models\Unit;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\Office\OwnerService;
@@ -164,6 +166,7 @@ class ContractController extends Controller
         $contract =  $this->ContractService->getContractById($id);
         $receipt = null;
         $setting =   Setting::first();
+        $wallets = Wallet::where('office_id', $office_id)->get();
         return view('Office.Contract.show', get_defined_vars());
 
 
@@ -426,6 +429,11 @@ class ContractController extends Controller
 public function deportation(Contract $contract)
 {
     $contract->update(['status' => 'Executed']);
+    $renter = Renter::find($contract->renter_id);
+    if ($renter) {
+        $renter->balance -= $contract->price;
+        $renter->save();
+    }
     return response()->json(['success' => true]);
 }
 

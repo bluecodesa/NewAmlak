@@ -60,13 +60,25 @@
                         </div>
                     </div>
                     <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="wallet" class="form-label">@lang('Select Wallet')</label>
+                            <select id="wallet" name="wallet_id" class="form-select">
+                                <option disabled selected>@lang('Select Wallet')</option>
+                                @foreach ($wallets as $wallet)
+                                    <option value="{{ $wallet->id }}">{{ $wallet->name }} - {{ $wallet->walletType->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
                         <div class="col-md-12 mb-3">
                             <label for="installment" class="form-label">@lang('Select Installment')</label>
                             <select id="installment" name="installments[]" class="form-select" multiple>
                                 <option disabled>@lang('Select Installment')</option>
                                 @foreach ($contract->installments as $installment)
                                 @if ($installment->status === 'not_collected')
-                                <option value="{{ $installment->id }}" data-price="{{ $installment->price }}">{{ $installment->Installment_number }} - {{ $installment->start_date }}</option>
+                                <option value="{{ $installment->id }}" data-price="{{ $installment->final_price }}">{{ $installment->Installment_number }} - {{ $installment->start_date }}</option>
                                 @endif
                             @endforeach
                             </select>

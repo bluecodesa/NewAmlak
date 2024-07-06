@@ -1,6 +1,6 @@
 @extends('Admin.layouts.app')
 
-@section('title', __('Contracts'))
+@section('title', __('Wallets'))
 
 @section('content')
     <div class="content-wrapper">
@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Contract')</h4>
+                        @lang('Wallets')</h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
@@ -17,7 +17,7 @@
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('Contracts') </h5>
+                        <h5 class="card-header">@lang('Wallets') </h5>
                     </div>
                     <div class="col-12">
                         <hr>
@@ -40,11 +40,11 @@
                                                     type="button"><span><i
                                                             class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
-                                            @if (Auth::user()->hasPermission('add-new-contract'))
+                                            @if (Auth::user()->hasPermission('create-owner'))
                                                 <div class="btn-group">
-                                                    <a href="{{ route('Office.Contract.create') }}" class="btn btn-primary">
+                                                    <a href="{{ route('Office.Wallet.create') }}" class="btn btn-primary">
                                                         <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add New Contract')</span></span>
+                                                                class="d-none d-sm-inline-block">@lang('Add New Wallet')</span></span>
                                                     </a>
 
                                                 </div>
@@ -63,31 +63,21 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col">@lang('Contract Number')</th>
-                                <th scope="col">@lang('Unit')</th>
-                                <th scope="col">@lang('Renter')</th>
-                                <th scope="col">@lang('Total Commission')</th>
-                                <th scope="col">@lang('status')</th>
-                                <th scope="col">@lang('Contract validity')</th>
-                                <th scope="col">@lang('Contract Start Date')</th>
-                                <th scope="col">@lang('Contract End Date')</th>
-
+                                <th scope="col">@lang('Name')</th>
+                                <th scope="col">@lang('type')</th>
+                                <th scope="col">@lang('balance')</th>
+                                <th scope="col">@lang('is default')</th>
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @forelse ($contracts as $contract)
+                            @forelse ($wallets as $Wallet)
                                 <tr>
 
-                                    <td>{{ $contract->contract_number }}</td>
-                                    <td>{{ $contract->unit->number_unit }}</td>
-                                    <td>{{ $contract->renter->UserData->name }}</td>
-                                    <td>{{ $contract->total_commission }}</td>
-                                    <td>{{ __($contract->status) }}</td>
-                                    <td>{{ __($contract->contract_validity) }}</td>
-                                    <td>{{ $contract->start_contract_date }}</td>
-                                    <td>{{ $contract->end_contract_date }}</td>
-
+                                    <td>{{ $Wallet->name }}</td>
+                                    <td>{{ $Wallet->walletType->name }}</td>
+                                    <td>{{ $Wallet->balance	 }}</td>
+                                    <td>{{ $Wallet->is_default == 1 ? __('Yes') : __('No') }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -95,20 +85,18 @@
                                                 <i class="ti ti-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu" style="">
+                                                @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
-                                                @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
+                                                        href="{{ route('Office.Wallet.edit', $Wallet->id) }}">@lang('Edit')</a>
                                                 @endif
 
 
-                                                @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
+                                                @if (Auth::user()->hasPermission('delete-owner'))
                                                     <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $contract->id }}')"
+                                                        onclick="handleDelete('{{ $Wallet->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $contract->id }}"
-                                                        action="{{ route('Office.Contract.destroy', $contract->id) }}"
+                                                    <form id="delete-form-{{ $Wallet->id }}"
+                                                        action="{{ route('Office.Wallet.destroy', $Wallet->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
@@ -123,7 +111,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <td colspan="8">
+                                <td colspan="6">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <span class="alert-icon text-danger me-2">
                                             <i class="ti ti-ban ti-xs"></i>
@@ -161,37 +149,9 @@
                 });
 
                 // Save the workbook as an Excel file
-                XLSX.writeFile(wb, @json(__('Contracts')) + '.xlsx');
+                XLSX.writeFile(wb, @json(__('Wallets')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
-        </script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                function checkAndUpdateContracts() {
-                    $.ajax({
-                        url: '{{ route('contracts.updateValidity') }}',
-                        method: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                toastr.success(response.message);
-                            } else {
-                                toastr.error('Failed to update contract validity.');
-                            }
-                        },
-                        error: function() {
-                            toastr.error('An error occurred. Please try again.');
-                        }
-                    });
-                }
-
-                // Run the function periodically (e.g., every 5 minutes)
-                setInterval(checkAndUpdateContracts, 3000000); // 300000 milliseconds = 5 minutes
-            });
         </script>
     @endpush
 @endsection
