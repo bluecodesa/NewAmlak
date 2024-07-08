@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,9 +8,9 @@
     <p>Your OTP for Property Finder Registration is: <strong>{{ $code }}</strong></p>
     <p>Please use this OTP to verify your email address.</p>
 </body>
-</html>
+</html> --}}
 
-{{--
+
 
 <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -74,7 +74,7 @@
 
                                             {!! $content !!}
 
-                                            <p>Your OTP for Property Finder Registration is: <strong>{{ $code }}</strong></p>
+                                            <p>Your OTP  is: <strong>{{ $code }}</strong></p>
 
                                         </td>
                                     </tr>
@@ -127,4 +127,4 @@
     </table>
 </body>
 
-</html> --}}
+</html>
