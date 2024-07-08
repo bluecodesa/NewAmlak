@@ -74,7 +74,7 @@
 
                                             {!! $content !!}
 
-                                            <p>Your OTP  is: <strong>{{ $code }}</strong></p>
+                                            <p>ركز التحقق :  <strong>{{ $code }}</strong></p>
 
                                         </td>
                                     </tr>
