@@ -27,7 +27,7 @@
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                                         data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
                                         aria-selected="true">
-                                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
+                                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Basic Details')
                                         <span
                                             class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">10</span>
                                     </button>
@@ -263,7 +263,7 @@
                                                         placeholder="@lang('value')" value="{{ old('qty*') }}" />
                                                 </div>
                                                 <div class="col">
-                                                    <button type="button" class="btn btn-primary w-100"
+                                                    <button type="button" class="btn btn-outline-primary w-100"
                                                         onclick="addFeature()"><i
                                                             class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
                                                             class="d-none d-sm-inline-block">@lang('Add details')</span></button>
@@ -404,7 +404,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12" style="text-align: center;" >
-                                    <button class="btn btn-primary waves-effect waves-light"
+                                    <button class="btn btn-primary col-4 waves-effect waves-light"
                                         type="submit">@lang('save')</button>
                                 </div>
 

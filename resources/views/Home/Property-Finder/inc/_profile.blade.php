@@ -19,7 +19,7 @@
             </li>
 
             <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">@lang('Email'):</span>
+              <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">@lang('البريد'):</span>
               <span>{{ $finder->email }}</span>
             </li>
           </ul>
@@ -142,8 +142,7 @@
                                 </label>
                                 <button type="button" id="account-image-reset"
                                     class="btn btn-label-secondary account-image-reset mb-3">
-                                    <i class="ti ti-refresh-dot d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
+                                    <i class="ti ti-refresh d-block d-sm-none"></i>
                                 </button>
 
                                 <div class="text-muted">Allowed JPG,PNG. Max size 800K</div>
