@@ -142,7 +142,7 @@
                                 </label>
                                 <button type="button" id="account-image-reset"
                                     class="btn btn-label-secondary account-image-reset mb-3">
-                                    <i class="ti ti-refresh d-block d-sm-none"></i>
+                                    <i class="ti ti-refresh"></i>
                                 </button>
 
                                 <div class="text-muted">Allowed JPG,PNG. Max size 800K</div>
