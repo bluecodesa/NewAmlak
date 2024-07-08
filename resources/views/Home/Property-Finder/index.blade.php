@@ -1,4 +1,5 @@
 @extends('Home.layouts.home.app')
+@section('title', __('حسابي'))
 
 @section('content')
     {{-- <section class="section-py bg-body first-section-pt">
@@ -34,7 +35,7 @@
                                         class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" alt="user image"
                                         height="150" width="100" />
                                 @else
-                                    <img src="../../assets/img/avatars/14.png" alt="user image"
+                                    <img src="asset('HOME_PAGE/img/avatars/14.png')" alt="user image"
                                         class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
                                 @endif
 

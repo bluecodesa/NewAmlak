@@ -4,15 +4,14 @@
       <!-- About User -->
       <div class="card mb-4">
         <div class="card-body">
-          <small class="card-text text-uppercase">About</small>
+          <small class="card-text text-uppercase">معلوماتي</small>
           <ul class="list-unstyled mb-4 mt-3">
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-user text-heading"></i
-              ><span class="fw-medium mx-2 text-heading">@lang('Name'):</span> <span>{{ $finder->name }}</span>
+              ><span class="fw-medium mx-2 text-heading">@lang('id number'):</span> <span>{{ $finder->id_number }}</span>
             </li>
 
-          </ul>
-          <small class="card-text text-uppercase">Contacts</small>
+
           <ul class="list-unstyled mb-4 mt-3">
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading">@lang('phone'):</span>
@@ -54,7 +53,7 @@
       <div class="card card-action mb-4">
         <div class="card-header align-items-center">
           <h5 class="card-action-title mb-0">تعديل البيانات الشخصية</h5>
-          <div class="card-action-element">
+          {{-- <div class="card-action-element">
             <div class="dropdown">
               <button
                 type="button"
@@ -72,7 +71,7 @@
                 <li><a class="dropdown-item" href="javascript:void(0);">Report bug</a></li>
               </ul>
             </div>
-          </div>
+          </div> --}}
         </div>
         @if (Auth::user()->hasPermission('update-user-profile'))
         <div class="card-body pb-0">
