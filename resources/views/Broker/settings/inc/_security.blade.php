@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary me-2">@lang('Save')</button>
+                <button type="submit" class="btn btn-primary me-2">@lang('save')</button>
                 <button type="reset" class="btn btn-label-secondary">@lang('Cancel')</button>
             </div>
         </form>
