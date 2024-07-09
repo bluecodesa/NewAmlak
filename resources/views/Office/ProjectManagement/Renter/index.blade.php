@@ -52,8 +52,8 @@
                             <th scope="col">@lang('Name')</th>
                             <th scope="col">@lang('Email')</th>
                             <th scope="col">@lang('phone')</th>
+                            <th scope="col">@lang('Entitlements')</th>
                             <th scope="col">@lang('status')</th>
-                            <th scope="col">@lang('balance')</th>
                             <th scope="col">@lang('Number Of Contracts')</th>
                             <th scope="col">@lang('Action')</th>
                         </tr>

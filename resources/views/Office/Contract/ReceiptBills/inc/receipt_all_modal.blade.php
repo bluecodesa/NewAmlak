@@ -51,7 +51,7 @@
                     </tbody>
                 </table>
                 <h5 class="mt-4">Total: {{ $receipt->total_price }} SR</h5>
-            </div>            
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="printReceipt()">Print</button>
@@ -61,7 +61,7 @@
             <div class="modal-body" id="receiptModalBody">
             </div>
             @endif
-            
+
         </div>
     </div>
 </div>

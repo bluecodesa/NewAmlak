@@ -68,6 +68,7 @@
                                 <th scope="col">@lang('phone')</th>
                                 <th scope="col">@lang('city')</th>
                                 <th scope="col">@lang('Office')</th>
+                                <th scope="col">@lang('Entitlements')</th>
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>
@@ -80,6 +81,8 @@
                                     <td>{{ $owner->full_phone }}</td>
                                     <td>{{ $owner->CityData->name }}</td>
                                     <td>{{ $owner->OfficeData->UserData->name }}</td>
+                                    <td>{{ $owner->balance }}</td>
+
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

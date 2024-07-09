@@ -65,8 +65,8 @@
                             <tr>
                                 <th scope="col">@lang('Name')</th>
                                 <th scope="col">@lang('type')</th>
-                                <th scope="col">@lang('balance')</th>
-                                <th scope="col">@lang('is default')</th>
+                                <th scope="col">@lang('Balance')</th>
+                                <th scope="col">@lang('The Main Wallet')</th>
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>

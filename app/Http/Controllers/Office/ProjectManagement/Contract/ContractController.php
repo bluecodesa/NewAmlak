@@ -8,6 +8,7 @@ use App\Models\AttachmentContract;
 use App\Models\Contract;
 use App\Models\ContractAttachment;
 use App\Models\Installment;
+use App\Models\Owner;
 use App\Models\Project;
 use App\Models\Property;
 use App\Models\Receipt;
@@ -430,9 +431,14 @@ public function deportation(Contract $contract)
 {
     $contract->update(['status' => 'Executed']);
     $renter = Renter::find($contract->renter_id);
+    $owner = Owner::find($contract->owner_id);
     if ($renter) {
-        $renter->balance -= $contract->price;
+        $renter->balance -= $contract->price + $contract->total_commission;
         $renter->save();
+    }
+    if ($owner) {
+        $owner->balance += $contract->price;
+        $owner->save();
     }
     return response()->json(['success' => true]);
 }
