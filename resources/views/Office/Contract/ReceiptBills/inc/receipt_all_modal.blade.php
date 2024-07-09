@@ -2,7 +2,7 @@
 <div class="modal fade" id="receiptModal{{$receipt->id }}" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header" id="receiptModalHeader{{$receipt->id }}">
+            <div class="modal-header" id="receiptModalHeader">
                 <h5 class="modal-title" id="receiptModalLabel">@lang('Receipt Voucher')</h5>
                 <img src="{{ url($setting->icon) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -21,7 +21,7 @@
                         <p><strong>@lang('Release Date')</strong> {{ $receipt->release_date }}</p>
                         <p><strong>@lang('Beneficiary Name'):</strong> {{ $receipt->ContractData->renter->UserData->name ?? 'N/A' }}</p>
                         <p><strong>@lang('Pay Method'):</strong> {{ $receipt->payment_method }}</p>
-                        <p><strong>@lang('total')</strong> {{ $receipt->total_price }} ر.س</p>
+                        <p><strong>@lang('total')</strong> {{ $receipt->total_price }} SR</p>
                         <p><strong>@lang('mobile')</strong> {{ $receipt->mobile }}</p>
                         <p><strong>@lang('#Ejar/REF:'):</strong> {{ $receipt->reference_number }}</p>
                         <p><strong>@lang('Transaction Id'):</strong> {{ $receipt->transaction_number }}</p>
@@ -50,7 +50,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <h5 class="mt-4">@lang('total'): {{ $receipt->total_price }} ر.س</h5>
+                <h5 class="mt-4">Total: {{ $receipt->total_price }} SR</h5>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -70,8 +70,7 @@
 <script>
     function printReceipt() {
         var originalContent = document.body.innerHTML;
-        var printContent = document.getElementById('receiptModalHeader' + receiptId).outerHTML +
-        document.getElementById('receiptModalBody' + receiptId).outerHTML;
+        var printContent = document.getElementById('receiptModalBody','receiptModalHeader').innerHTML;
         document.body.innerHTML = printContent;
         window.print();
         document.body.innerHTML = originalContent;
