@@ -12,11 +12,11 @@
                     <p>لانشاء حسابك علي منصة أملاك يرجي ادخال بريدك الالكتروني</p>
                     <div class="col-12">
                         <label for="email" class="form-label">@lang('Email')</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="@lang('Email')" required autofocus />
+                        <input type="email" required class="form-control" id="email" name="email" placeholder="@lang('Email')" required autofocus />
                     </div>
                     <div class="col-12 mb-3">
                         <div class="form-check mb-0 ms-2">
-                            <input class="form-check-input" required type="checkbox" id="terms-conditions">
+                            <input class="form-check-input" required checked type="checkbox" id="terms-conditions">
                             <label class="form-check-label" for="terms-conditions"> @lang('By registering')
                                 @lang('you accept our')
                                 <a href="{{ route('Terms') }}" target="_blank">
@@ -160,6 +160,12 @@ $(document).ready(function() {
 
     $('#sendOtpButton').click(function() {
         var email = $('#email').val();
+        var termsChecked = $('#terms-conditions').prop('checked');
+
+        if (!email || !termsChecked) {
+            displayMessage('الرجاء ادخال البريد والموافقة علي الشروط و الاحكام', 'danger');
+            return;
+        }
         $.ajax({
             type: 'POST',
             url: '{{ route("send-otp") }}',
