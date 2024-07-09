@@ -4,15 +4,14 @@
       <!-- About User -->
       <div class="card mb-4">
         <div class="card-body">
-          <small class="card-text text-uppercase">About</small>
+          <small class="card-text text-uppercase">معلوماتي</small>
           <ul class="list-unstyled mb-4 mt-3">
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-user text-heading"></i
-              ><span class="fw-medium mx-2 text-heading">@lang('Name'):</span> <span>{{ $finder->name }}</span>
+              ><span class="fw-medium mx-2 text-heading">@lang('id number'):</span> <span>{{ $finder->id_number }}</span>
             </li>
 
-          </ul>
-          <small class="card-text text-uppercase">Contacts</small>
+
           <ul class="list-unstyled mb-4 mt-3">
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading">@lang('phone'):</span>
@@ -20,7 +19,7 @@
             </li>
 
             <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">@lang('Email'):</span>
+              <i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">@lang('البريد'):</span>
               <span>{{ $finder->email }}</span>
             </li>
           </ul>
@@ -54,7 +53,7 @@
       <div class="card card-action mb-4">
         <div class="card-header align-items-center">
           <h5 class="card-action-title mb-0">تعديل البيانات الشخصية</h5>
-          <div class="card-action-element">
+          {{-- <div class="card-action-element">
             <div class="dropdown">
               <button
                 type="button"
@@ -72,7 +71,7 @@
                 <li><a class="dropdown-item" href="javascript:void(0);">Report bug</a></li>
               </ul>
             </div>
-          </div>
+          </div> --}}
         </div>
         @if (Auth::user()->hasPermission('update-user-profile'))
         <div class="card-body pb-0">
@@ -143,8 +142,7 @@
                                 </label>
                                 <button type="button" id="account-image-reset"
                                     class="btn btn-label-secondary account-image-reset mb-3">
-                                    <i class="ti ti-refresh-dot d-block d-sm-none"></i>
-                                    <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
+                                    <i class="ti ti-refresh"></i>
                                 </button>
 
                                 <div class="text-muted">Allowed JPG,PNG. Max size 800K</div>

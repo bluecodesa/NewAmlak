@@ -27,7 +27,7 @@
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                                         data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
                                         aria-selected="true">
-                                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
+                                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Basic Details')
                                         <span
                                             class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">10</span>
                                     </button>
@@ -36,7 +36,7 @@
                                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                         data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
                                         aria-selected="false">
-                                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Gallery')
+                                        <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
                                         <span
                                             class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
                                     </button>
@@ -45,7 +45,7 @@
                                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                         data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
                                         aria-selected="false">
-                                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('price')
+                                        <i class="tf-icons ti ti-droplet-dollar ti-xs me-1"></i> @lang('price')
                                         <span
                                             class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
                                     </button>
@@ -263,29 +263,20 @@
                                                         placeholder="@lang('value')" value="{{ old('qty*') }}" />
                                                 </div>
                                                 <div class="col">
-                                                    <button type="button" class="btn btn-primary w-100"
+                                                    <button type="button" class="btn btn-outline-primary w-100"
                                                         onclick="addFeature()"><i
                                                             class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
                                                             class="d-none d-sm-inline-block">@lang('Add details')</span></button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Description')</label>
-                                            <div>
-                                                {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
-                                                <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
 
-                                                    </textarea>
-                                            </div>
+
+                                        <div class="col-12" style="text-align: center;">
+                                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
+                                                {{ __('Next') }}
+                                            </button>
                                         </div>
-                                        <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Unit Images') </label>
-                                            <input type="file" name="images[]" multiple class="dropify"
-                                                accept="image/jpeg, image/png" />
-                                        </div>
-
-
 
 
 
@@ -338,9 +329,26 @@
                                             </label>
                                         </div>
 
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label mb-2">@lang('Description')</label>
+                                            <div>
+                                                {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
+                                                <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
 
+                                                    </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 mb-3">
+                                            <label class="form-label mb-2">@lang('Unit Images') </label>
+                                            <input type="file" name="images[]" multiple class="dropify"
+                                                accept="image/jpeg, image/png" />
+                                        </div>
                                     </div>
-
+                                    <div class="col-12" style="text-align: center;">
+                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
+                                            {{ __('Next') }}
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                                     <div class="row">
@@ -391,7 +399,11 @@
                                         </div>
 
                                     </div>
-
+                                    <div class="col-12" style="text-align: center;">
+                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-messages">
+                                            {{ __('Next') }}
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                                     <div class="row">
@@ -402,11 +414,12 @@
                                         </div>
 
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary waves-effect waves-light"
+                                   <div class="col-12" style="text-align: center;" >
+                                    <button class="btn btn-primary col-4 waves-effect waves-light"
                                         type="submit">@lang('save')</button>
+                                    </div>
                                 </div>
+
 
 
                                 </form>
@@ -605,5 +618,14 @@
                 });
             });
         </script>
+            <script>
+                document.querySelectorAll('.next-tab').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const nextTab = this.getAttribute('data-next');
+                        const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+                        nextTabButton.click();
+                    });
+                });
+            </script>
     @endpush
 @endsection

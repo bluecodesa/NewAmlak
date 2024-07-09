@@ -126,7 +126,7 @@
         <!-- Page -->
         <li class="menu-item ">
             <a href="{{ route('Admin.home') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <i class="menu-icon tf-icons ti ti-home"></i>
                 <div data-i18n="Page 1">@lang('dashboard')</div>
             </a>
         </li>
@@ -134,7 +134,7 @@
             <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
-                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <i class="menu-icon tf-icons ti ti-building"></i>
                     <div data-i18n="@lang('project management')">@lang('project management')</div>
                 </a>
                 <ul class="menu-sub">
@@ -178,7 +178,7 @@
             <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
-                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <i class="menu-icon tf-icons ti ti-camera"></i>
                     <div data-i18n="@lang('Gallary Mange')">@lang('Gallary Mange')</div>
                 </a>
                 <ul class="menu-sub">
@@ -203,7 +203,7 @@
         @if (in_array(16, $sectionsIds))
             <li class="menu-item">
                 <a href="{{ route('Broker.Owner.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <i class="menu-icon tf-icons ti ti-users"></i>
                     <div data-i18n="@lang('Owners Management')">@lang('Owners Management')</div>
                 </a>
             </li>
@@ -212,7 +212,7 @@
         @if (in_array(12, $sectionsIds))
             <li class="menu-item">
                 <a href="{{ route('Broker.ShowSubscription') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <i class="menu-icon tf-icons ti ti-file-invoice"></i>
                     <div data-i18n="@lang('Subscription Management')">@lang('Subscription Management')</div>
                 </a>
             </li>
@@ -220,7 +220,7 @@
         @if (in_array(11, $sectionsIds))
             <li class="menu-item">
                 <a href="{{ route('Broker.Tickets.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <i class="menu-icon tf-icons ti ti-ticket"></i>
                     <div data-i18n="@lang('technical support')">@lang('technical support')</div>
                 </a>
             </li>
@@ -228,7 +228,7 @@
         @if (in_array(9, $sectionsIds))
             <li class="menu-item">
                 <a href="{{ route('Broker.Setting.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-app-window"></i>
+                    <i class="menu-icon tf-icons ti ti-settings"></i>
                     <div data-i18n="@lang('Settings')">@lang('Settings')</div>
                 </a>
             </li>

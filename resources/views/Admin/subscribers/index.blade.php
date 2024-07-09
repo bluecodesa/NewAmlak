@@ -8,220 +8,367 @@
 
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="card">
-                {{-- header --}}
-                <div class="row p-1 mb-1">
-                    <div class="col-12">
-                        <h5 class="card-header">@lang('Subscribers') </h5>
-                    </div>
-                    <hr>
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-6">
-                                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
-                                        <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
-                                            aria-controls="DataTables_Table_0"></label></div>
-                            </div>
+            <div class="row">
+                <div class="col-12">
 
-                            <div class="col-6">
-                                <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
-                                    <div
-                                        class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
-                                        <div class="dt-buttons btn-group flex-wrap d-flex">
-                                            <div class="btn-group">
-                                                <button onclick="exportToExcel()"
-                                                    class="btn btn-outline-primary btn-sm waves-effect me-2"
-                                                    type="button"><span><i
-                                                            class="ti ti-download me-1 ti-xs"></i>Export</span></button>
-                                            </div>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                            class="d-none d-sm-inline-block">@lang('Add')</span></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
-                                                        <li><a class="dropdown-item"
-                                                                href="{{ route('Admin.Subscribers.create') }}">@lang('Add')
-                                                                @lang('Office')</a>
-                                                        </li>
+                    <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        <a href="{{ route('Admin.Subscribers.index') }}" class="text-muted fw-light">@lang('Subscriber management') </a> /
+                        @lang('Subscribers')
+                    </h4>
+                </div>
 
-                                                        <li><a class="dropdown-item"
-                                                                href="{{ route('Admin.Subscribers.CreateBroker') }}">@lang('Add')
-                                                                @lang('Broker')</a>
-                                                        </li>
-                                                    @endif
-                                                </ul>
+            </div>
+            <div class="nav-align-top nav-tabs-shadow mb-4">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                  <li class="nav-item">
+                    <button
+                      type="button"
+                      class="nav-link active"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#navs-justified-home"
+                      aria-controls="navs-justified-home"
+                      aria-selected="true">
+                      <i class="tf-icons ti ti-users ti-xs me-1"></i> @lang('Real Estate Brokers')
+                      <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button
+                      type="button"
+                      class="nav-link"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#navs-justified-profile"
+                      aria-controls="navs-justified-profile"
+                      aria-selected="false">
+                      <i class="tf-icons ti ti-users ti-xs me-1"></i> @lang('Clients')
+                    </button>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                        {{-- header --}}
+                        <div class="row p-1 mb-1">
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                                <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
+                                                    aria-controls="DataTables_Table_0"></label></div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                            <div
+                                                class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                                <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                    <div class="btn-group">
+                                                        <button onclick="exportToExcel()"
+                                                            class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                            type="button"><span><i
+                                                                    class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                    class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            @if (Auth::user()->hasPermission('create-SubscriptionTypes'))
+                                                                <li><a class="dropdown-item"
+                                                                        href="{{ route('Admin.Subscribers.create') }}">@lang('Add')
+                                                                        @lang('Office')</a>
+                                                                </li>
+
+                                                                <li><a class="dropdown-item"
+                                                                        href="{{ route('Admin.Subscribers.CreateBroker') }}">@lang('Add')
+                                                                        @lang('Broker')</a>
+                                                                </li>
+                                                            @endif
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
 
+
                         </div>
+
+                        {{-- table --}}
+                        <div class="table-responsive text-nowrap">
+                            <table class="table" id="table">
+                                <thead class="table-dark">
+                                    <tr>
+                                        {{-- <th>#</th> --}}
+                                        <th>@lang('Customer ID')</th>
+                                        <th>@lang('Subscriber Name')</th>
+                                        <th>@lang('Account Type')</th>
+                                        {{-- <th>@lang('Subscription Type')</th> --}}
+                                        {{-- <th>@lang('Subscription Time')</th> --}}
+                                        <th>@lang('Subscription Status')</th>
+                                        {{-- <th>@lang('Number of Clients')</th> --}}
+                                        <th>@lang('Subscriber City')</th>
+                                        <th>@lang('Subscription Start')</th>
+                                        {{-- <th>@lang('Subscription End')</th> --}}
+                                        <th>@lang('Action')</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0 sortable">
+
+                                    @forelse ($subscribers as $index => $subscriber)
+                                        <tr>
+                                            {{-- <td>{{ $index + 1 }}</td> --}}
+
+
+                                            <td>
+                                                @if ($subscriber->office_id)
+                                                    {{ $subscriber->OfficeData->UserData->customer_id ?? '-' }}
+                                                @elseif ($subscriber->broker_id)
+                                                    {{ $subscriber->BrokerData->UserData->customer_id ?? '-' }}
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                @if ($subscriber->office_id)
+                                                    {{ $subscriber->OfficeData->UserData->name ?? '' }}
+                                                @elseif ($subscriber->broker_id)
+                                                    {{ $subscriber->BrokerData->UserData->name ?? '' }}
+                                                @endif
+                                            </td>
+
+
+                                            <td>
+                                                @if ($subscriber->office_id)
+                                                    @lang('Office')
+                                                @elseif ($subscriber->broker_id)
+                                                    @lang('Broker')
+                                                @endif
+                                            </td>
+                                            {{-- <td>
+                                                @if ($subscriber->SubscriptionTypeData->price > 0)
+                                                    <span class="badge rounded-pill bg-success">@lang('paid')</span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-secondary">@lang('free')</span>
+                                                @endif
+                                            </td> --}}
+                                            {{-- <td> {{ $subscriber->SubscriptionTypeData->period }}
+                                                {{ __($subscriber->SubscriptionTypeData->period_type) }}
+                                            </td> --}}
+                                            <td>
+
+                                                <span
+                                                    class=" badge bg-{{ $subscriber->is_suspend == 1 || $subscriber->status == 'pending' ? 'danger' : 'primary' }}">
+                                                    {{ $subscriber->is_suspend == 1 ? __('Subscription suspend') : __($subscriber->status) }}
+                                                </span>
+
+                                            </td>
+                                            {{-- <td>{{ $subscriber->number_of_clients }}</td> --}}
+                                            <td>
+                                                @if ($subscriber->office_id)
+                                                    {{ $subscriber->OfficeData->CityData->name ?? '' }}
+                                                @endif
+                                                @if ($subscriber->broker_id)
+                                                    {{ $subscriber->BrokerData->CityData->name ?? '' }}
+                                                @endif
+                                            </td>
+
+                                            <td>{{ $subscriber->start_date }}</td>
+                                            {{-- <td>{{ $subscriber->end_date }}</td> --}}
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ti ti-dots-vertical"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu" style="">
+                                                        @if (Auth::user()->hasPermission('log-in-as-user'))
+                                                            @if ($subscriber->office_id)
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->OfficeData->UserData->id) }}">@lang('login')</a>
+                                                            @elseif ($subscriber->broker_id)
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->BrokerData->UserData->id) }}">@lang('login')</a>
+                                                            @endif
+                                                        @endif
+
+                                                        @if (Auth::user()->hasPermission('suspend-user-subscriber'))
+                                                            @if ($subscriber->is_suspend)
+                                                                <form
+                                                                    action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    <input type="text" hidden value="{{ 0 }}"
+                                                                        name="is_suspend">
+                                                                    <button class="dropdown-item">@lang('re active')</button>
+                                                                </form>
+                                                            @else
+                                                                <form
+                                                                    action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    <input type="text" hidden value="{{ 1 }}"
+                                                                        name="is_suspend">
+                                                                    <button class="dropdown-item">@lang('suspend')</button>
+                                                                </form>
+                                                            @endif
+                                                        @endif
+
+
+                                                        @if (Auth::user()->hasPermission('read-subscriber-file'))
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('Admin.Subscribers.show', $subscriber->id) }}">@lang('Show')</a>
+                                                        @endif
+
+                                                        @if (Auth::user()->hasPermission('delete-subscriber'))
+                                                            <a href="javascript:void(0);"
+                                                                onclick="handleDelete('{{ $subscriber->id }}')"
+                                                                class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                            <form id="delete-form-{{ $subscriber->id }}"
+                                                                action="{{ route('Admin.Subscribers.destroy', $subscriber->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <td colspan="7">
+                                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                                <span class="alert-icon text-danger me-2">
+                                                    <i class="ti ti-ban ti-xs"></i>
+                                                </span>
+                                                @lang('No Data Found!')
+                                            </div>
+                                        </td>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {{ $subscribers->links() }}
                     </div>
+                  <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                              {{-- header --}}
+                              <div class="row p-1 mb-1">
 
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                                    <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
+                                                        aria-controls="DataTables_Table_0"></label></div>
+                                        </div>
 
-                </div>
-
-                {{-- table --}}
-                <div class="table-responsive text-nowrap">
-                    <table class="table" id="table">
-                        <thead class="table-dark">
-                            <tr>
-                                {{-- <th>#</th> --}}
-                                <th>@lang('Customer ID')</th>
-                                <th>@lang('Subscriber Name')</th>
-                                <th>@lang('Account Type')</th>
-                                {{-- <th>@lang('Subscription Type')</th> --}}
-                                {{-- <th>@lang('Subscription Time')</th> --}}
-                                <th>@lang('Subscription Status')</th>
-                                {{-- <th>@lang('Number of Clients')</th> --}}
-                                <th>@lang('Subscriber City')</th>
-                                <th>@lang('Subscription Start')</th>
-                                {{-- <th>@lang('Subscription End')</th> --}}
-                                <th>@lang('Action')</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0 sortable">
-
-                            @forelse ($subscribers as $index => $subscriber)
-                                <tr>
-                                    {{-- <td>{{ $index + 1 }}</td> --}}
-
-
-                                    <td>
-                                        @if ($subscriber->office_id)
-                                            {{ $subscriber->OfficeData->UserData->customer_id ?? '-' }}
-                                        @elseif ($subscriber->broker_id)
-                                            {{ $subscriber->BrokerData->UserData->customer_id ?? '-' }}
-                                        @endif
-                                    </td>
-
-                                    <td>
-                                        @if ($subscriber->office_id)
-                                            {{ $subscriber->OfficeData->UserData->name ?? '' }}
-                                        @elseif ($subscriber->broker_id)
-                                            {{ $subscriber->BrokerData->UserData->name ?? '' }}
-                                        @endif
-                                    </td>
-
-
-                                    <td>
-                                        @if ($subscriber->office_id)
-                                            @lang('Office')
-                                        @elseif ($subscriber->broker_id)
-                                            @lang('Broker')
-                                        @endif
-                                    </td>
-                                    {{-- <td>
-                                        @if ($subscriber->SubscriptionTypeData->price > 0)
-                                            <span class="badge rounded-pill bg-success">@lang('paid')</span>
-                                        @else
-                                            <span class="badge rounded-pill bg-secondary">@lang('free')</span>
-                                        @endif
-                                    </td> --}}
-                                    {{-- <td> {{ $subscriber->SubscriptionTypeData->period }}
-                                        {{ __($subscriber->SubscriptionTypeData->period_type) }}
-                                    </td> --}}
-                                    <td>
-
-                                        <span
-                                            class=" badge bg-{{ $subscriber->is_suspend == 1 || $subscriber->status == 'pending' ? 'danger' : 'primary' }}">
-                                            {{ $subscriber->is_suspend == 1 ? __('Subscription suspend') : __($subscriber->status) }}
-                                        </span>
-
-                                    </td>
-                                    {{-- <td>{{ $subscriber->number_of_clients }}</td> --}}
-                                    <td>
-                                        @if ($subscriber->office_id)
-                                            {{ $subscriber->OfficeData->CityData->name ?? '' }}
-                                        @endif
-                                        @if ($subscriber->broker_id)
-                                            {{ $subscriber->BrokerData->CityData->name ?? '' }}
-                                        @endif
-                                    </td>
-
-                                    <td>{{ $subscriber->start_date }}</td>
-                                    {{-- <td>{{ $subscriber->end_date }}</td> --}}
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ti ti-dots-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu" style="">
-                                                @if (Auth::user()->hasPermission('log-in-as-user'))
-                                                    @if ($subscriber->office_id)
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->OfficeData->UserData->id) }}">@lang('login')</a>
-                                                    @elseif ($subscriber->broker_id)
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->BrokerData->UserData->id) }}">@lang('login')</a>
-                                                    @endif
-                                                @endif
-
-                                                @if (Auth::user()->hasPermission('suspend-user-subscriber'))
-                                                    @if ($subscriber->is_suspend)
-                                                        <form
-                                                            action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            <input type="text" hidden value="{{ 0 }}"
-                                                                name="is_suspend">
-                                                            <button class="dropdown-item">@lang('re active')</button>
-                                                        </form>
-                                                    @else
-                                                        <form
-                                                            action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            <input type="text" hidden value="{{ 1 }}"
-                                                                name="is_suspend">
-                                                            <button class="dropdown-item">@lang('suspend')</button>
-                                                        </form>
-                                                    @endif
-                                                @endif
-
-
-                                                @if (Auth::user()->hasPermission('read-subscriber-file'))
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('Admin.Subscribers.show', $subscriber->id) }}">@lang('Show')</a>
-                                                @endif
-
-                                                @if (Auth::user()->hasPermission('delete-subscriber'))
-                                                    <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $subscriber->id }}')"
-                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $subscriber->id }}"
-                                                        action="{{ route('Admin.Subscribers.destroy', $subscriber->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                @endif
-
+                                        <div class="col-6">
+                                            <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                                <div
+                                                    class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                                    <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                        <div class="btn-group">
+                                                            <button onclick="exportToExcel()"
+                                                                class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                                type="button"><span><i
+                                                                        class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <td colspan="7">
-                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                        <span class="alert-icon text-danger me-2">
-                                            <i class="ti ti-ban ti-xs"></i>
-                                        </span>
-                                        @lang('No Data Found!')
-                                    </div>
-                                </td>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
 
-                {{ $subscribers->links() }}
-            </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            {{-- table --}}
+                            <div class="table-responsive text-nowrap">
+                                <table class="table" id="table">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            {{-- <th>#</th> --}}
+                                            <th>@lang('#')</th>
+                                            <th>@lang('Subscriber Name')</th>
+                                            <th>@lang('Email')</th>
+                                            <th>@lang('id number')</th>
+                                            <th>@lang('Subscription Start')</th>
+                                            <th>@lang('Action')</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0 sortable">
+
+                                        @forelse ($clients as $index => $client)
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ $client->name }}</td>
+                                                <td>{{ $client->email }}</td>
+                                                <td>{{ $client->id_number }}</td>
+                                                <td>{{ $client->created_at }}</td>
+
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="ti ti-dots-vertical"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu" style="">
+                                                            @if (Auth::user()->hasPermission('log-in-as-user'))
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('Admin.Subscribers.LoginByUser', $client->id) }}">@lang('login')</a>
+
+                                                            @endif
+
+                                                            {{-- @if (Auth::user()->hasPermission('read-subscriber-file'))
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('Admin.Subscribers.show', $subscriber->id) }}">@lang('Show')</a>
+                                                            @endif --}}
+
+                                                            @if (Auth::user()->hasPermission('delete-subscriber'))
+                                                                <a href="javascript:void(0);"
+                                                                    onclick="handleDelete('{{ $client->id }}')"
+                                                                    class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                                <form id="delete-form-{{ $client->id }}"
+                                                                    action="{{ route('Admin.Subscribers.destroy', $client->id) }}"
+                                                                    method="POST" style="display: none;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                </form>
+                                                            @endif
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <td colspan="7">
+                                                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                                    <span class="alert-icon text-danger me-2">
+                                                        <i class="ti ti-ban ti-xs"></i>
+                                                    </span>
+                                                    @lang('No Data Found!')
+                                                </div>
+                                            </td>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {{ $subscribers->links() }}
+                  </div>
+
+                </div>
+              </div>
 
         </div>
         <div class="content-backdrop fade"></div>

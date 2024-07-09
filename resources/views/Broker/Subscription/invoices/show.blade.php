@@ -35,11 +35,15 @@
                                                 class="badge badge-{{ $invoice->status == 'pending' ? 'danger' : 'success' }}">
                                                 {{ __('_' . $invoice->status) }}</span>
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-4">
+                                                    <h5>رقم العميل</h5>
+                                                    <b> {{ $invoice->BrokerData->UserData->customer_id }} </b>
+                                                </div>
+                                                <div class="col-4">
                                                     <h5>الرقم التسلسلي</h5>
                                                     <b> {{ $invoice->invoice_ID }} </b>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <h5>التاريخ</h5>
                                                     <b> {{ $invoice->created_at->format('h:i:m - Y/m/d') }} </b>
                                                 </div>
@@ -47,7 +51,7 @@
                                         </div>
 
                                         <div class="col-4 text-end">
-                                            {{ \QrCode::size(200)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route('Admin.SystemInvoice.show', $invoice->id)) }}
+                                            {{ \QrCode::size(200)->style('dot')->eye('circle')->color(0, 148, 144)->margin(1)->generate(route('Admin.SystemInvoice.show', $invoice->id)) }}
 
 
                                         </div>
@@ -63,7 +67,7 @@
                                                             <b>
                                                                 أسم البائع </b>
                                                             <br>
-                                                            <span class="text-success" style="font-size: 13px;">
+                                                            <span class="text-primary" style="font-size: 13px;">
                                                                 {{ $sitting->title }}</span>
                                                         </div>
 
@@ -72,7 +76,7 @@
                                                                 عنوان البائع </b>
                                                             <br>
 
-                                                            <span class="text-success" style="font-size: 13px;">
+                                                            <span class="text-primary" style="font-size: 13px;">
                                                                 الرياض - السعودية
                                                             </span>
                                                         </div>
@@ -89,7 +93,7 @@
                                                                 رقم تسجيل ضريبة القيمه المضافة للبائع
                                                             </b>
                                                             <br>
-                                                            <span class="text-success" style="font-size: 13px;">
+                                                            <span class="text-primary" style="font-size: 13px;">
                                                                 {{ $sitting->trn }}</span>
                                                         </div>
 
@@ -99,7 +103,7 @@
                                                             </b>
                                                             <br>
 
-                                                            <span class="text-success" style="font-size: 13px;">
+                                                            <span class="text-primary" style="font-size: 13px;">
                                                                 {{ $sitting->crn }}
                                                             </span>
                                                         </div>
@@ -114,11 +118,11 @@
                                     <hr style="border: 2px solid #2F3C49 !important;">
 
                                     @php
-                                        if ($invoice->OfficeData != null) {
-                                            $name = $invoice->OfficeData->company_name ?? '-';
-                                            $presenter_number = $invoice->OfficeData->presenter_number ?? '-';
-                                            $city = $invoice->OfficeData->CityData->name ?? '-';
-                                            $CRN = $invoice->OfficeData->CRN ?? '-';
+                                        if ($invoice->BrokerData != null) {
+                                            $name = $invoice->BrokerData->UserData->name ?? '-';
+                                            $presenter_number = $invoice->BrokerData->presenter_number ?? '-';
+                                            $city = $invoice->BrokerData->CityData->name ?? '-';
+                                            $CRN = $invoice->BrokerData->CRN ?? '-';
                                         } else {
                                             $name = $invoice->BrokerData->UserData->name ?? '-';
                                             $presenter_number = $invoice->BrokerData->mobile ?? '-';
@@ -137,7 +141,7 @@
                                                                 اسم المشتري
                                                             </b>
                                                             <br>
-                                                            <span class="text-success" style="font-size: 13px;">
+                                                            <span class="text-primary" style="font-size: 13px;">
                                                                 {{ $name }}</span>
                                                         </div>
 
@@ -146,8 +150,8 @@
                                                                 عنوان المشتري </b>
                                                             <br>
 
-                                                            <span class="text-success" style="font-size: 13px;">
-                                                                {{ $city }}
+                                                            <span class="text-primary" style="font-size: 13px;">
+                                                               السعودية - {{ $city }}
                                                             </span>
                                                         </div>
 
@@ -163,7 +167,7 @@
                                                                 رقم السجل التجاري
                                                             </b>
                                                             <br>
-                                                            <span class="text-success" style="font-size: 13px;">
+                                                            <span class="text-primary" style="font-size: 13px;">
                                                                 {{ $CRN }}
                                                             </span>
                                                         </div>
@@ -174,7 +178,7 @@
                                                             </b>
                                                             <br>
 
-                                                            <span class="text-success" style="font-size: 13px;">
+                                                            <span class="text-primary" style="font-size: 13px;">
                                                                 {{ $presenter_number }}
                                                             </span>
                                                         </div>

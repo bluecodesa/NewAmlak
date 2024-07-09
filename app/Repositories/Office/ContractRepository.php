@@ -7,6 +7,7 @@ use App\Models\Attachment;
 use App\Models\Contract;
 use App\Models\ContractAttachment;
 use App\Models\Installment;
+use App\Models\Renter;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -94,6 +95,7 @@ class ContractRepository implements ContractRepositoryInterface
         // if (empty($data['employee_id'])) {
         //     $data['employee_id'] = auth()->user()->UserOfficeData->id;
         // }
+        $totalcommission = $data['price'] * ($data['commissions_rate'] / 100);
 
 
         $contractData = [
@@ -107,6 +109,7 @@ class ContractRepository implements ContractRepositoryInterface
             'type' => $data['type'],
             'service_type_id' => $data['service_type_id'],
             'commissions_rate' => $data['commissions_rate'],
+            'total_commission' => $totalcommission, // Add commission total here
             'collection_type' => $data['collection_type'] ?? null,
             'renter_id' => $data['renter_id'],
             'contract_duration' => $data['contract_duration'],
@@ -139,6 +142,10 @@ class ContractRepository implements ContractRepositoryInterface
         $contractData['end_contract_date'] = $endDate;
 
         $contract = Contract::create($contractData);
+        // // Update renter balance
+        // $renter = Renter::find($data['renter_id']);
+        // $renter->balance -= $data['price'];
+        // $renter->save();
 
         if (isset($data['name']) && isset($data['attachment'])) {
             foreach ($data['name'] as $index => $attachment_name) {
@@ -171,7 +178,7 @@ class ContractRepository implements ContractRepositoryInterface
 
         $this->createInstallments($contract, $data);
 
-        return redirect()->route('Office.Contract.index')->with('success', 'Contract created successfully.');
+        return $contract;
     }
 
     private function createInstallments(Contract $contract, array $data)
@@ -200,9 +207,9 @@ class ContractRepository implements ContractRepositoryInterface
         $commissionPerContract = 0;
 
         if ($data['service_type_id'] == 3) {
-            if ($data['collection_type'] == 'once') {
+            if ($data['collection_type'] == 'once with frist installment') {
                 $commissionPerContract = ($data['commissions_rate'] / 100) * $data['price'];
-            } else if ($data['collection_type'] == 'divided') {
+            } else if ($data['collection_type'] == 'divided with all installments') {
                 $commissionPerContract = ($data['commissions_rate'] / 100) * ($data['price'] / $numberOfContracts);
             }
         }
@@ -214,24 +221,28 @@ class ContractRepository implements ContractRepositoryInterface
             } else if ($data['duration_unit'] === 'year') {
                 $endDate->modify('+1 year');
             }
+            $price = $pricePerContract;
 
             $finalPrice = $pricePerContract;
             if ($commissionPerContract !== 0) {
-                if ($data['collection_type'] === 'once') {
+                if ($data['collection_type'] === 'once with frist installment') {
                     if ($i === 0) {
                         $finalPrice += $commissionPerContract;
                     }
-                } else if ($data['collection_type'] === 'divided') {
+                } else if ($data['collection_type'] === 'divided with all installments') {
                     $finalPrice += $commissionPerContract;
                 }
             }
 
             $installments[] = [
                 'contract_id' => $contract->id,
-                'price' => $finalPrice,
+                'price' => $price,
+                'final_price' => $finalPrice,
                 'start_date' => $startDate->format('Y-m-d'),
                 'end_date' => $endDate->format('Y-m-d'),
-                'Installment_number' => $contract->contract_number . '-' . ($i + 1)
+                'Installment_number' => $contract->contract_number . '-' . ($i + 1),
+                'commission' => ($data['collection_type'] === 'once with frist installment' && $i === 0) ? $commissionPerContract : ($data['collection_type'] === 'divided with all installments' ? $commissionPerContract  : 0),
+
 
             ];
 

@@ -3,6 +3,15 @@
 
 @section('content')
 
+<style>
+    a.card:hover {
+        /* background-color: #5c5c5c; */
+        scale: 1.06 ;
+        /* transition: background-color 0.3s; */
+    }
+
+</style>
+
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <!-- DataTable with Buttons -->
@@ -71,9 +80,9 @@
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
                                     <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-users ti-md"></i></span>
+                                            class="ti ti-building  ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('vacant')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Units') @lang('vacant')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -119,9 +128,9 @@
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
                                     <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-users ti-md"></i></span>
+                                            class="ti ti-building ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('rented')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Units') @lang('rented')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -166,10 +175,10 @@
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-info"><i
-                                            class="ti ti-users ti-md"></i></span>
+                                    <span class="avatar-initial rounded bg-label-success"><i
+                                            class="ti ti-building ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Number units') @lang('NonResidential')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Units') @lang('NonResidential')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -215,10 +224,10 @@
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-info"><i
-                                            class="ti ti-users ti-md"></i></span>
+                                    <span class="avatar-initial rounded bg-label-success"><i
+                                            class="ti ti-building ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Number units') @lang('Residential')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Units') @lang('Residential')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -264,7 +273,7 @@
                                     <span class="avatar-initial rounded bg-label-primary"><i
                                             class="ti ti-users ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Number Of Owners')</h4>
+                                <h4 class="ms-1 mb-0">@lang('owners')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -360,7 +369,7 @@
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
                                     <span class="avatar-initial rounded bg-label-primary"><i
-                                            class="ti ti-layout-kanban ti-md"></i></span>
+                                            class="ti ti-ticket ti-md"></i></span>
                                 </div>
                                 <h4 class="ms-1 mb-0">@lang('technical support')</h4>
                             </div>

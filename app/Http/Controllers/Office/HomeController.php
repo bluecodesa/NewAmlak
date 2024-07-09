@@ -168,4 +168,47 @@ class HomeController extends Controller
         return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
 
+    public function showSubscription()
+    {
+        $officeId = auth()->user()->UserOfficeData->id;
+        $subscriber = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
+        $user = Auth::user();
+        $start_date = \Carbon\Carbon::parse($subscriber->start_date);
+        $end_date = \Carbon\Carbon::parse($subscriber->end_date);
+        $now = now();
+        if ($user && $user->is_office && $user->UserOfficeData) {
+            $subscription = $user->UserOfficeData->UserSubscriptionPending;
+            $pendingPayment = $subscription && $subscription->status === 'pending';
+        }
+        $numOfDays = $end_date->diffInDays($start_date);
+        $elapsed_days = $now->diffInDays($start_date);
+        $daysUntilEnd = $numOfDays - $elapsed_days;
+
+        $hoursUntilEnd = $now->diffInHours($end_date->copy()->subDays($daysUntilEnd), false);
+        $minutesUntilEnd = $now->diffInMinutes($end_date, false);
+
+        if ($numOfDays == 0) {
+            $prec = 100;
+        } else {
+
+            $prec = ($daysUntilEnd / $numOfDays) * 100;
+            $prec = round($prec, 1);
+        }
+
+        $officeId = auth()->user()->UserOfficeData->id;
+
+        $subscription = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
+        if ($officeId)
+            $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
+        $sections = $this->SectionService->getAll();
+        return view('Office.SubscriptionManagement.show', get_defined_vars());
+    }
+
+    public function ShowInvoice($id)
+    {
+        $invoice = $this->systemInvoiceRepository->find($id);
+
+        return view('Office.SubscriptionManagement.invoices.show', get_defined_vars());
+    }
 }

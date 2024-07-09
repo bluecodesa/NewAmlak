@@ -120,7 +120,7 @@
                             @endif
 
                             <div class="mb-3 col-12">
-                                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                <div class="d-flex align-items-start align-items-sm-center justify-content-center gap-4">
                                     <img src="{{ asset('HOME_PAGE/img/avatars/14.png') }}" alt="user-avatar"
                                         class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
                                     <div class="button-wrapper">
@@ -132,8 +132,8 @@
                                         </label>
                                         <button type="button" id="account-image-reset"
                                             class="btn btn-label-secondary account-image-reset mb-3">
-                                            <i class="ti ti-refresh-dot d-block d-sm-none"></i>
-                                            <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
+                                            <i class="ti ti-refresh"></i>
+                                            {{-- <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span> --}}
                                         </button>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-check mb-0 ms-2">
-                                    <input class="form-check-input" required type="checkbox" id="terms-conditions">
+                                    <input class="form-check-input" required checked type="checkbox" id="terms-conditions">
                                     <label class="form-check-label" for="terms-conditions"> @lang('By registering')
                                         @lang('you accept our')
                                         <a href="{{ route('Terms') }}" target="_blank">
@@ -276,7 +276,7 @@
                                         </a>
                                         &amp;
                                         <a href="{{ route('Privacy') }}" target="_blank">
-                                            @lang('our privacy policy')
+                                            @lang('privacy policy')
                                         </a>
                                     </label>
                                 </div>

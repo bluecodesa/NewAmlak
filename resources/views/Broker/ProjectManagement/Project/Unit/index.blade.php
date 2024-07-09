@@ -22,6 +22,82 @@
                 </div>
 
             </div>
+             <!-- Filter Dropdowns -->
+        <div class="card mb-4">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ route('Broker.Unit.index') }}">
+                    <div class="row">
+                        <div class="col-md-2 mb-3">
+                            <select class="form-control" name="status">
+                                <option value="">@lang('Status of Unit')</option>
+                                @foreach ($statuses as  $status)
+                                    {{-- <option value="{{ $status }}">{{ __($status) }}</option> --}}
+                                    <option value="{{ $status }}" @if(request('status') == $status) selected
+                                        @endif>
+                                        {{ __($status) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <select class="form-control" name="project">
+                                <option value="">@lang('Project')</option>
+                                @foreach ($projects as $project)
+                                <option value="{{ $project->id }}" @if(request('project') == $project->id) selected
+                                    @endif>
+                                    {{ $project->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <select class="form-control" name="property">
+                                <option value="">@lang('property')</option>
+                                @foreach ($properties as $property)
+                                <option value="{{ $property->id }}" @if(request('property') == $property->id) selected
+                                    @endif>
+                                    {{ $property->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <select class="form-control" name="property_type">
+                                <option value="">@lang('Property type')</option>
+                                @foreach ($propertyTypes as $type)
+                                <option value="{{ $type->id }}" @if(request('property_type') == $type->id) selected
+                                    @endif>
+                                    {{ __($type->name) }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <select class="form-control" name="usage">
+                                <option value="">@lang('property usages')</option>
+                                @foreach ($usages as $usage)
+                                <option value="{{ $usage->id }}" @if(request('usage') == $usage->id) selected @endif>
+                                    {{ __($usage->name) }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 mb-3" style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">@lang('Filter')</button>
+                        <a href="{{ route('Broker.Unit.index') }}" type="button" id="account-image-reset"
+                        class="btn btn-label-secondary">
+                        <i class="ti ti-refresh"></i>
+                    </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- End Filter Dropdowns -->
+
 
             <div class="card">
                 <div class="card-header">

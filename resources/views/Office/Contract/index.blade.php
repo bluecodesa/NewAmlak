@@ -66,6 +66,7 @@
                                 <th scope="col">@lang('Contract Number')</th>
                                 <th scope="col">@lang('Unit')</th>
                                 <th scope="col">@lang('Renter')</th>
+                                <th scope="col">@lang('Total Commission')</th>
                                 <th scope="col">@lang('status')</th>
                                 <th scope="col">@lang('Contract validity')</th>
                                 <th scope="col">@lang('Contract Start Date')</th>
@@ -81,6 +82,7 @@
                                     <td>{{ $contract->contract_number }}</td>
                                     <td>{{ $contract->unit->number_unit }}</td>
                                     <td>{{ $contract->renter->UserData->name }}</td>
+                                    <td>{{ $contract->total_commission }}</td>
                                     <td>{{ __($contract->status) }}</td>
                                     <td>{{ __($contract->contract_validity) }}</td>
                                     <td>{{ $contract->start_contract_date }}</td>
@@ -101,7 +103,7 @@
                                                 @endif
 
 
-                                                @if (Auth::user()->hasPermission('delete-contract'))
+                                                @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
                                                     <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $contract->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
@@ -159,7 +161,7 @@
                 });
 
                 // Save the workbook as an Excel file
-                XLSX.writeFile(wb, @json(__('owners')) + '.xlsx');
+                XLSX.writeFile(wb, @json(__('Contracts')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
         </script>

@@ -52,6 +52,7 @@
                             <th scope="col">@lang('Name')</th>
                             <th scope="col">@lang('Email')</th>
                             <th scope="col">@lang('phone')</th>
+                            <th scope="col">@lang('Entitlements')</th>
                             <th scope="col">@lang('status')</th>
                             <th scope="col">@lang('Number Of Contracts')</th>
                             <th scope="col">@lang('Action')</th>
@@ -63,6 +64,7 @@
                             <td>{{ $renter->UserData->name }}</td>
                             <td>{{ $renter->UserData->email }}</td>
                             <td>{{ $renter->UserData->full_phone }}</td>
+                            <td>{{ $renter->balance }}</td>
                             <td> {{ __( $renter->latestOfficeRenter->renter_status )}} </td>
                             <td></td>
                             <td>

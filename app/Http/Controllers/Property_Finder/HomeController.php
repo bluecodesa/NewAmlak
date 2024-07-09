@@ -287,8 +287,14 @@ public function registerPropertyFinder(Request $request)
     ]);
 
     $this->notifyAdmins2($user);
+    auth()->loginUsingId($user->id);
 
-    return response()->json(['message' => 'Property Finder created successfully']);
+    return response()->json([
+        'message' => 'Property Finder registered successfully.',
+        'redirect' => route('PropertyFinder.home')
+    ]);
+
+    // return response()->json(['message' => 'Property Finder created successfully']);
 }
 
 protected function notifyAdmins2(User $user)

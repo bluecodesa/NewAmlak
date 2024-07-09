@@ -64,4 +64,9 @@ class Office extends Model
     {
         return $this->hasOne(SystemInvoice::class, 'office_id')->latest();
     }
+
+    public function wallets()
+    {
+        return $this->hasMany(Wallet::class);
+    }
 }

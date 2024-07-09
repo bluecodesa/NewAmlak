@@ -246,7 +246,16 @@ class HomeController extends Controller
             'end_date' => $endDate,
             'total' => '200'
         ]);
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
 
+        $delimiter = '-';
+        if (!$Last_invoice_ID) {
+            $new_invoice_ID = '00001';
+        } else {
+            $result = explode($delimiter, $Last_invoice_ID);
+            $number = (int)$result[1] + 1;
+            $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+        }
         $Invoice = SystemInvoice::create([
             'office_id' => $office->id,
             'subscription_name' => $subscriptionType->name,
@@ -336,7 +345,9 @@ class HomeController extends Controller
             $request_data['broker_logo'] = '/Brokers/' . 'Logos/' . $ext;
         }
 
+
         $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
+
         $delimiter = '-';
         $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
 
@@ -404,6 +415,16 @@ class HomeController extends Controller
                 'subscription_id' => $subscription->id,
             ]);
         }
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+
+        $delimiter = '-';
+        if (!$Last_invoice_ID) {
+            $new_invoice_ID = '00001';
+        } else {
+            $result = explode($delimiter, $Last_invoice_ID);
+            $number = (int)$result[1] + 1;
+            $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+        }
         $Invoice =   SystemInvoice::create([
             'broker_id' => $broker->id,
             'subscription_name' => $subscriptionType->name,
@@ -412,7 +433,7 @@ class HomeController extends Controller
             'period' => $subscriptionType->period,
             'period_type' => $subscriptionType->period_type,
             'status' => $status,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
 
         $galleryName = explode('@', $request->email)[0];

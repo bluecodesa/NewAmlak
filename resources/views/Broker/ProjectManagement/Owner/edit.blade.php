@@ -23,7 +23,7 @@
                         @method('PUT')
                         <input type="text" name="key_phone" hidden value="{{ $Owner->key_phone ?? '966' }}"
                             id="key_phone">
-                        <input type="text" name="full_phone" id="full_phone" value="{{ $Owner->full_phone }}">
+                        {{-- <input type="text" name="full_phone" id="full_phone" value="{{ $Owner->full_phone }}"> --}}
                         <div class="col-md-6 mb-3 col-12">
                             <label class="form-label">
                                 {{ __('Name') }} <span class="required-color">*</span></label>
