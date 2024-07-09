@@ -35,7 +35,7 @@
                     </div>
                     <div class="row g-3">
                         <div class="col-md-6 mb-3">
-                            <label for="propertyName" class="form-label">@lang('Property')</label>
+                            <label for="propertyName" class="form-label">@lang('property')</label>
                             <input type="text" id="propertyName" class="form-control" value="{{ $contract->property->name ?? '' }}" readonly disabled />
                             <input type="hidden" name="property_id" value="{{ $contract->property->id ?? '' }}">
                         </div>

@@ -13,6 +13,7 @@ use App\Models\Contract;
 use App\Models\ContractAttachment;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Renter;
 use App\Models\Setting;
 use App\Models\Unit;
 use App\Models\Wallet;
@@ -199,6 +200,11 @@ class ReceiptController extends Controller
         if ($wallet) {
             $wallet->balance += $request->total_price;
             $wallet->save();
+        }
+        $renter = Renter::find($contract->renter_id);
+        if ($renter) {
+            $renter->balance += $request->total_price;
+            $renter->save();
         }
 
         return redirect()->back()->with('success', 'Receipt created successfully.');
