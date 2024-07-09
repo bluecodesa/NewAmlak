@@ -268,7 +268,7 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-check mb-0 ms-2">
-                                    <input class="form-check-input" required type="checkbox" id="terms-conditions">
+                                    <input class="form-check-input" required checked type="checkbox" id="terms-conditions">
                                     <label class="form-check-label" for="terms-conditions"> @lang('By registering')
                                         @lang('you accept our')
                                         <a href="{{ route('Terms') }}" target="_blank">
