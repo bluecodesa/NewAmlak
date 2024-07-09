@@ -14,22 +14,38 @@
                         <label for="email" class="form-label">@lang('Email')</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="@lang('Email')" required autofocus />
                     </div>
+                    <div class="col-12 mb-3">
+                        <div class="form-check mb-0 ms-2">
+                            <input class="form-check-input" required type="checkbox" id="terms-conditions">
+                            <label class="form-check-label" for="terms-conditions"> @lang('By registering')
+                                @lang('you accept our')
+                                <a href="{{ route('Terms') }}" target="_blank">
+                                    @lang('Conditions') @lang('and') @lang('Terms')
+                                </a>
+                                &amp;
+                                <a href="{{ route('Privacy') }}" target="_blank">
+                                    @lang('privacy policy')
+                                </a>
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-12">
                         <button type="button" class="btn btn-primary me-sm-3 me-1" id="sendOtpButton">@lang('ارسال')</button>
                         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">@lang('Cancel')</button>
                     </div>
                 </form>
                 <div id="otpVerification" class="mt-4 d-none">
+                    <input disabled class="form-control mb-2" type="text" id="email_hidden">
                     <p>@lang('Enter OTP received on your email:')</p>
                     <form id="otpForm" class="row g-3">
                         @csrf
                         <div class="col-12">
-                            <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required />
+                            <input type="text" class="form-control" id="otp" name="otp" placeholder="ادخل رمز التحقق" required />
                             <input type="hidden" id="email_hidden" name="email_hidden"> <!-- Hidden input for storing the email -->
                         </div>
                         <div class="col-12">
                             <button type="button" class="btn btn-primary me-sm-3 me-1" id="verifyOtpButton">@lang('Verify OTP')</button>
-                            <button type="button" class="btn btn-label-secondary" id="resendOtpButton">@lang('Resend OTP') </button>
+                            <button type="button" class="btn btn-label-secondary" id="resendOtpButton" disabled>@lang('Resend OTP')</button>
                         </div>
                     </form>
                 </div>
@@ -145,7 +161,9 @@ $(document).ready(function() {
                 $('#emailForm').addClass('d-none');
                 $('#otpVerification').removeClass('d-none');
                 $('#email_hidden').val(email);
-                displayMessage('OTP has been sent to your email.', 'success');
+                displayMessage('تم ارسال رمز التحقق الي هذا الايميل', 'success');
+                setTimeout(enableResendButton, 60000); // 60000 ms = 60 seconds
+
             },
             error: function(xhr, status, error) {
                 if (xhr.status === 400) {
