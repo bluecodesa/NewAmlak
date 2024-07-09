@@ -77,7 +77,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <h5 class="modal-title text-center" id="exampleModalLabel">@lang('Subscription upgrade')</h5>
                     @if (Auth::check())
-                        @if (Auth::user()->is_broker)
+                        @if (Auth::user()->is_office)
                             <h2 class="text-center mb-2">@lang('Welcome') {{ Auth::user()->name }}</h2>
                         @elseif (Auth::user()->is_office)
                             <h2 class="text-center mb-2">@lang('Welcome') {{ Auth::user()->company_name }}</h2>

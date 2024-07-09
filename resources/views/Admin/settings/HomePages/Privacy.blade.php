@@ -9,7 +9,7 @@
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <span class="text-muted fw-light"> @lang('Settings') / <a class="text-muted fw-light"
                                 href="{{ route('Admin.settings.index') }}">@lang('Privacy') & @lang('Terms')</a> /
-                            {{ __('Edit') . ' ' . __('Privacy') }}
+                            {{ __('Edit') . ' ' . __('privacy policy') }}
                         </span>
                     </h4>
                 </div>

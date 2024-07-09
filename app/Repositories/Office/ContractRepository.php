@@ -7,6 +7,7 @@ use App\Models\Attachment;
 use App\Models\Contract;
 use App\Models\ContractAttachment;
 use App\Models\Installment;
+use App\Models\Renter;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -141,6 +142,10 @@ class ContractRepository implements ContractRepositoryInterface
         $contractData['end_contract_date'] = $endDate;
 
         $contract = Contract::create($contractData);
+        // // Update renter balance
+        // $renter = Renter::find($data['renter_id']);
+        // $renter->balance -= $data['price'];
+        // $renter->save();
 
         if (isset($data['name']) && isset($data['attachment'])) {
             foreach ($data['name'] as $index => $attachment_name) {

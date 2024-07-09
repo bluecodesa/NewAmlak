@@ -19,6 +19,7 @@ trait MailSendCode
             $subject =  $EmailTemplate->subject;
 
             $data['otp'] = $code;
+            // $data['variable_subscriber_name'] = $user->name != null ? $user->name : "";
             $content = $EmailTemplate->content;
             foreach ($data as $key => $value) {
                 $placeholder = '$data[' . $key . ']';

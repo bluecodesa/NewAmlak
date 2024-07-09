@@ -53,7 +53,7 @@
     "Add New permission": "اضافة صلاحية جديدة",
     "Are you sure?": "هل أنت متأكد ؟",
     "You can not be able to revert this!": "لن تتمكن من التراجع عن هذا !",
-    "Yes, delete it!": "نعم، احذفه !",
+    "Yes, delete it!": "نعم، احذف !",
     "Yes, Close it!": "نعم، اغلقها !",
     "Add New Permission": "إضافة صلاحية جديد",
     "Model": "القسم",
@@ -334,7 +334,7 @@
     "Welcome": "أهلا ومرحبا",
     "Submit": " تسجيل",
     "By registering": "بالتسجيل، ",
-    "our privacy policy": " سياسة الخصوصية الخاصة بنا",
+    "privacy policy": " سياسة الخصوصية  ",
     "you accept our": "فأنت توافق على",
     "Conditions": "الشروط ",
     "Terms": "الأحكام",
@@ -382,7 +382,7 @@
     "Interests": "الاهتمامات",
     "Tickets List": "قائمة التذاكر",
     "Add New Ticket": "اضافة تذكرة جديده",
-    "No, keep it": "لا، احتفظ بها",
+    "No, keep it": "لا، احتفظ به",
     "Add New Interest": "اضافة حالة طلب اهتمام جديد",
     "Edit Ticket": "تعديل تذكرة ",
     "Edit Interest": "تعديل حالة طلب اهتمام ",
@@ -607,7 +607,11 @@
     "#Ejar/REF:": "الرقم المرجعي",
     "Transaction Id": "رقم التحويل",
     "Automatic Selected": "يحدد أليا",
-    "Commission": "العمولة"
-
+    "Commission": "العمولة",
+    "Wallets": "الخزائن",
+    "Add New Wallet": "اضافة خزنة جديده",
+    "Total Commission": "اجمالي العمولة",
+    "Basic Details": "تفاصيل اساسية",
+    "Clients": "العملاء"
 
 }

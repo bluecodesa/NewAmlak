@@ -5,6 +5,7 @@ use App\Http\Controllers\Office\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Office\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Office\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
+use App\Http\Controllers\Office\FinancialManagment\WalletController;
 use App\Http\Controllers\Office\HomeController;
 use App\Http\Controllers\Office\ProjectManagement\Contract\ContractController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Office\ProjectManagement\Receipt\ReceiptController;
 use App\Http\Controllers\Office\ProjectManagement\Renter\RenterController;
 use App\Http\Controllers\Office\ProjectManagement\UnitController;
 use App\Http\Controllers\Office\SettingController;
+use App\Http\Controllers\Office\TicketController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,17 +40,22 @@ Route::group(
         Route::prefix('office')->name('Office.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('ViewInvoice', 'HomeController@ViewInvoice')->name('ViewInvoice');
+            Route::get('ShowSubscription', 'HomeController@showSubscription')->name('ShowSubscription')->middleware('CheckSubscription');
+            Route::get('ShowInvoice/{id}', 'HomeController@ShowInvoice')->name('ShowInvoice');
 
        //resources
        Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
        Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+       Route::resource('Wallet', WalletController::class)->middleware('CheckSubscription');
+
        //contract
        Route::resource('Contract', ContractController::class)->middleware('CheckSubscription');
 
-
+       //Ticket
+       route::resource('Tickets', TicketController::class);
+       Route::post('tickets/{ticketId}/add-response', [TicketController::class, 'addResponse'])->name('tickets.addResponse');
        //
-
        //renter
        Route::resource('Renter', RenterController::class)->middleware('CheckSubscription');
        Route::post('/renter-search', [RenterController::class, 'searchByIdNumber'])->name('Renter.searchByIdNumber');

@@ -18,6 +18,7 @@ use App\Interfaces\Admin\SettingRepositoryInterface;
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
 use App\Interfaces\Admin\SubscriptionTypeRepositoryInterface;
 use App\Interfaces\Admin\SupportRepositoryInterface;
+use App\Interfaces\Office\WalletRepositoryInterface;
 use App\Repositories\Admin\SupportRepository;
 use App\Repositories\Broker\TicketRepository;
 use App\Repositories\Office\RenterRepository;
@@ -77,6 +78,7 @@ use App\Repositories\Office\ProjectRepository as OfficeProjectRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use App\Interfaces\Admin\ProjectRepositoryInterface;
+use App\Interfaces\Admin\WalletTypeRepositoryInterface;
 use App\Interfaces\Employee\ProjectRepositoryInterface as EmployeeProjectRepositoryInterface;
 use App\Interfaces\Employee\SettingRepositoryInterface as EmployeeSettingRepositoryInterface;
 use App\Interfaces\Employee\UnitRepositoryInterface as EmployeeUnitRepositoryInterface;
@@ -87,6 +89,8 @@ use App\Interfaces\Office\SettingRepositoryInterface as OfficeSettingRepositoryI
 use App\Interfaces\Office\UnitInterestRepositoryInterface as OfficeUnitInterestRepositoryInterface;
 use App\Interfaces\Office\UnitRepositoryInterface as OfficeUnitRepositoryInterface;
 use App\Repositories\Admin\ProjectRepository;
+use App\Repositories\Office\WalletRepository;
+use App\Repositories\Admin\WalletTypeRepository;
 use App\Repositories\Employee\ProjectRepository as EmployeeProjectRepository;
 use App\Repositories\Employee\SettingRepository as EmployeeSettingRepository;
 use App\Repositories\Employee\UnitRepository as EmployeeUnitRepository;
@@ -256,6 +260,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             SectionRepositoryInterface::class,
             SectionRepository::class
+        );
+
+
+        $this->app->bind(
+            WalletTypeRepositoryInterface::class,
+            WalletTypeRepository::class
+        );
+
+        $this->app->bind(
+            WalletRepositoryInterface::class,
+            WalletRepository::class
         );
 
         $this->app->bind(

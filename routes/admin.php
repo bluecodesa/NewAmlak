@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\Subscribers\SystemInvoiceController;
 use App\Http\Controllers\Admin\SubUserController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WalletTypeController;
 use App\Http\Controllers\Broker\TicketController;
 use App\Models\City;
 use App\Models\Subscription;
@@ -124,12 +125,13 @@ Route::group(
             Route::resources([
                 'roles' => RoleController::class,
                 'users' => UserController::class,
-              
+
                 'SubscriptionTypes' => SubscriptionTypesController::class,
                 'Subscribers' => SubscriptionController::class,
                 'Permissions' => PermissionController::class,
                 'settings' => SettingController::class,
                 'Sections' => SectionController::class,
+                'WalletTypes' => WalletTypeController::class,
                 'Region' => RegionController::class,
                 'City' => CityController::class,
                 'District' => DistrictController::class,

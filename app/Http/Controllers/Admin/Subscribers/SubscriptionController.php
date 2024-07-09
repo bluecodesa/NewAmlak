@@ -62,12 +62,10 @@ class SubscriptionController extends Controller
     public function index()
     {
 
-
-
-
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $subscribers = $this->subscriptionService->getAllSubscribers();
+        $clients = User::where('is_property_finder', 1)->get();
         return view('Admin.subscribers.index', get_defined_vars());
     }
 

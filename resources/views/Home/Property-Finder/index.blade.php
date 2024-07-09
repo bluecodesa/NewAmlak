@@ -1,4 +1,5 @@
 @extends('Home.layouts.home.app')
+@section('title', __('حسابي'))
 
 @section('content')
     {{-- <section class="section-py bg-body first-section-pt">
@@ -29,14 +30,15 @@
 
                         <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                             <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                @if ($finder->avatar)
-                                    <img src="{{ $finder->avatar }}" alt="user image"
+                                {{-- @if ($finder->avatar) --}}
+                                <img src="{{ $finder->avatar ? asset($finder->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
+                                alt="user image"
                                         class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" alt="user image"
                                         height="150" width="100" />
-                                @else
-                                    <img src="../../assets/img/avatars/14.png" alt="user image"
+                                {{-- @else
+                                    <img src="asset('HOME_PAGE/img/avatars/14.png')" alt="user image"
                                         class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
-                                @endif
+                                @endif --}}
 
                             </div>
                             <div class="flex-grow-1 mt-3 mt-sm-5">

@@ -28,17 +28,16 @@
                     </form>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <h6 class="footer-title mb-4">عن بلوكود</h6>
+                    <h6 class="footer-title mb-4">أملاك</h6>
                     <ul class="list-unstyled">
 
-                        <li class="mb-3"><a href="https://bluecode.sa/about" target="_blank" class="footer-link">من
-                                نحن</a></li>
-                        <li class="mb-3"><a href="https://bluecode.sa/services" target="_blank"
-                                class="footer-link">خدماتنا</a></li>
-                        <li class="mb-3"><a href="https://bluecode.sa/products" target="_blank"
-                                class="footer-link">منتجاتنا</a></li>
-                        <li class="mb-3"><a href="https://bluecode.sa/projects" target="_blank"
-                                class="footer-link">مشاريعنا</a></li>
+                        <li class="mb-3"><a href="{{ route('welcome') }}#landingFeatures"  class="footer-link">المميزات</a></li>
+                        <li class="mb-3"><a href="{{ route('welcome') }}#landingPricing"
+                                class="footer-link">الباقات</a></li>
+                        <li class="mb-3"><a href="{{ route('gallery.showAllGalleries') }}"
+                                class="footer-link">المعرض</a></li>
+                        <li class="mb-3"><a href="{{ route('brokers') }}"
+                                class="footer-link">الوسطاء العقاريين</a></li>
 
                     </ul>
                 </div>

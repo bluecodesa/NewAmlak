@@ -1,0 +1,164 @@
+<?php
+
+namespace App\Http\Controllers\Office;
+
+use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use App\Models\Ticket;
+use App\Models\TicketResponse;
+use App\Models\TicketType;
+use App\Models\User;
+use App\Notifications\Admin\AdminResponseTicketNotification;
+use App\Notifications\Admin\NewTicketNotification;
+use App\Notifications\Admin\ResponseTicketNotification;
+use App\Services\Admin\TicketTypeService;
+use App\Services\Office\SettingService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use App\Services\Office\TicketService;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+
+class TicketController extends Controller
+{
+    protected $ticketService;
+    protected $settingService;
+    protected $ticketTypeService;
+
+
+    public function __construct(
+        TicketService $ticketService,
+        SettingService $settingService,
+        TicketTypeService $ticketTypeService
+    ) {
+        $this->ticketService = $ticketService;
+        $this->settingService =  $settingService;
+        $this->ticketTypeService =  $ticketTypeService;
+    }
+
+    public function index()
+    {
+        $tickets = $this->ticketService->getUserTickets(auth()->id());
+        // $settings = Setting::first();
+        $settings = $this->settingService->getSettings();
+        $tickets->transform(function ($ticket) {
+            $ticket->formatted_id = "100{$ticket->id}";
+            return $ticket;
+        });
+        return view('Office.Support.index', get_defined_vars());
+    }
+
+    public function create()
+    {
+        // $ticketTypes = TicketType::all();
+        $ticketTypes = $this->ticketTypeService->getAllTicketTypes();
+        return view('Office.Support.Ticket.create', compact('ticketTypes'));
+    }
+
+    public function store(Request $request)
+    {
+        //
+        // Validate the form data
+        $validatedData = $request->validate([
+            'type' => 'required',
+            'subject' => 'required',
+            'content' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
+        ], [
+            'type.required' => 'The type field is required.',
+            'subject.required' => 'The subject field is required.',
+            'content.required' => 'The content field is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'Only JPEG, PNG, JPG, and GIF formats are allowed for the image.',
+            'image.max' => 'The image size must not exceed 2048 kilobytes.',
+        ]);
+
+        // Handle file upload if an image is provided
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = uniqid() . '.' . $ext;
+            $file->move(public_path('Offices/Tickets'), $fileName);
+            $validatedData['image'] = '/Offices/Tickets/' . $fileName;
+        }
+
+        $ticket = new Ticket();
+        $user_id = auth()->user()->id;
+        $ticket->user_id = $user_id;
+
+        $ticket->subject = $validatedData['subject'];
+        $ticket->content = $validatedData['content'];
+        $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null
+        $ticket->ticket_type_id = $validatedData['type'];
+        $ticket->save();
+        $this->notifyAdmins($ticket);
+
+        return redirect()->route('Office.Tickets.index')->with('success', 'Ticket created successfully');
+    }
+
+    public function show(string $id)
+    {
+        $ticket = $this->ticketService->findTicketById($id);
+        $formatted_id  = "100{$ticket->id}";
+        $user = auth()->user();
+
+        // Check if the ticket belongs to the authenticated user
+        if ($ticket->user_id !== $user->id) {
+            return redirect()->route('Office.home');
+        }
+
+        $ticketResponses = $this->ticketService->getTicketResponses($id);
+
+        $url = URL::current();
+        if (isset(auth()->user()->unreadNotifications)) {
+            $notifications = auth()->user()->unreadNotifications
+                ->filter(function ($notification) use ($url) {
+                    return data_get($notification->data, 'url') == $url;
+                });
+            $notifications->each(function ($notification) {
+                $notification->markAsRead();
+            });
+        }
+
+        return view('Office.Support.Ticket.show', get_defined_vars());
+    }
+
+    public function addResponse(Request $request, $ticketId)
+    {
+        $request->validate([
+            'response' => 'required|string',
+            'response_attachment' => 'nullable|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+        ], [
+            'response.required' => 'The response field is required.',
+            'response.string' => 'The response must be a string.',
+            'response_attachment.mimes' => 'The response attachment must be a valid image (jpg, jpeg, png, gif) or PDF file.',
+            'response_attachment.max' => 'The response attachment may not be greater than :max kilobytes.',
+        ]);
+        $ticketData = [
+            'user_id' => auth()->user()->id,
+            'response' => $request->input('response'),
+            'response_attachment' => $request->file('response_attachment'),
+        ];
+
+        $this->ticketService->addResponseToTicket($ticketId, $ticketData);
+
+        return redirect()->back()->with('success', __('Response added successfully'));
+    }
+
+
+    public function closeTicket(Request $request, $id)
+    {
+        $this->ticketService->closeTicket($id);
+        return redirect()->back()->with('success', __('Ticket closed successfully'));
+    }
+
+    protected function notifyAdmins(Ticket $ticket)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewTicketNotification($ticket));
+        }
+    }
+}
