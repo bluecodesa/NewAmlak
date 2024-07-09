@@ -28,7 +28,7 @@
 
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">{{ __('Initial Balance') }}</label>
-                        <input type="number" name="initial_balance" class="form-control" placeholder="{{ __('Initial Balance') }}">
+                        <input type="number" name="balance" class="form-control" placeholder="{{ __('Initial Balance') }}">
                     </div>
 
                     <div class="col-md-6 col-12 mb-3">

@@ -433,8 +433,9 @@ public function deportation(Contract $contract)
     $renter = Renter::find($contract->renter_id);
     $owner = Owner::find($contract->owner_id);
     if ($renter) {
-        $renter->balance -= $contract->price + $contract->total_commission;
-        $renter->save();
+        $latestOfficeRenter = $renter->latestOfficeRenter;
+        $latestOfficeRenter->financial_Due -= $contract->price + $contract->total_commission;
+        $latestOfficeRenter->save();
     }
     if ($owner) {
         $owner->balance += $contract->price;

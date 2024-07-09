@@ -68,7 +68,7 @@
                                 <th scope="col">@lang('phone')</th>
                                 <th scope="col">@lang('city')</th>
                                 <th scope="col">@lang('Office')</th>
-                                <th scope="col">@lang('Entitlements')</th>
+                                <th scope="col">@lang('Financial Dues')</th>
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>

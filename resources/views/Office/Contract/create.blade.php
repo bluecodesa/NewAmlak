@@ -727,18 +727,18 @@
                         contractsHTML += '</div>';
                         contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('Start Date'):</label>';
-                        contractsHTML += '<input type="text" class="form-control" value="' + contract
+                        contractsHTML += '<input type="text" required class="form-control" value="' + contract
                             .startDate + '" disabled>';
                         contractsHTML += '</div>';
                         contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('End Date'):</label>';
-                        contractsHTML += '<input type="text" class="form-control" value="' + contract
+                        contractsHTML += '<input type="text" required class="form-control" value="' + contract
                             .endDate + '" disabled>';
                         contractsHTML += '</div>';
 
                         contractsHTML += '<div class="col-md-3">';
                         contractsHTML += '<label class="form-label">@lang('Price'):</label>';
-                        contractsHTML += '<input type="text" class="form-control" value="' + contract
+                        contractsHTML += '<input type="text" required class="form-control" value="' + contract
                             .price + '" disabled>';
                         contractsHTML += '</div>';
                         contractsHTML += '</div>';
