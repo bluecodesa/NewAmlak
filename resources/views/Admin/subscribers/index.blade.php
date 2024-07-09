@@ -333,19 +333,17 @@
                                                                 <a class="dropdown-item"
                                                                     href="{{ route('Admin.Subscribers.show', $subscriber->id) }}">@lang('Show')</a>
                                                             @endif --}}
-
-                                                            @if (Auth::user()->hasPermission('delete-subscriber'))
-                                                                <a href="javascript:void(0);"
-                                                                    onclick="handleDelete('{{ $client->id }}')"
-                                                                    class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                                <form id="delete-form-{{ $client->id }}"
-                                                                    action="{{ route('Admin.Subscribers.destroy', $client->id) }}"
-                                                                    method="POST" style="display: none;">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </form>
-                                                            @endif
-
+                                                            @if (Auth::user()->hasPermission('delete-users'))
+                                                            <a href="javascript:void(0);"
+                                                                onclick="handleDelete('{{ $client->id }}')"
+                                                                class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                            <form id="delete-form-{{ $client->id }}"
+                                                                action="{{ route('Admin.delete-client', $client->id) }}"
+                                                                method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                            </form>
+                                                        @endif
                                                         </div>
                                                     </div>
                                                 </td>
