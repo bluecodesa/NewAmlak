@@ -118,6 +118,12 @@ class UnitController extends Controller
     function IndexByStatus($type)
     {
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+
+        $projects = $units->pluck('ProjectData')->filter()->unique();
+        $properties = $units->pluck('PropertyData')->filter()->unique();
+        $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
+        $usages = $units->pluck('PropertyUsageData')->filter()->unique();
+        $statuses = $units->pluck('status')->unique()->filter();
         $units = $units->where('status', $type);
 
         return view('Broker.ProjectManagement.Project.Unit.index', get_defined_vars());
@@ -132,6 +138,13 @@ class UnitController extends Controller
 
             $units = $units->where('property_usage_id', $usage);
         }
+
+        $projects = $units->pluck('ProjectData')->filter()->unique();
+        $properties = $units->pluck('PropertyData')->filter()->unique();
+        $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
+        $usages = $units->pluck('PropertyUsageData')->filter()->unique();
+        $statuses = $units->pluck('status')->unique()->filter();
+
         $usage = PropertyUsage::find($usage);
         return view('Broker.ProjectManagement.Project.Unit.index', get_defined_vars());
     }
