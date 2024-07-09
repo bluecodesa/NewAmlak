@@ -51,7 +51,7 @@
                                 href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
                             @endif
                             <button class="btn btn-secondary" id="certifyButton" onclick="handleCertify('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Approve')</button>
-                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>  
+                            <button class="btn btn-primary" id="deportationButton" onclick="handleDeportation('{{ $contract->id }}')" data-contract-id="{{ $contract->id }}">@lang('Execute')</button>
                             @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
                             <a href="javascript:void(0);"
                                 onclick="handleDelete('{{ $contract->id }}')"
@@ -62,7 +62,7 @@
                                 @csrf
                                 @method('DELETE')
                             </form>
-                            @endif         
+                            @endif
                             @elseif ($contract->status == 'Approved')
                             @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
                             <a class="btn btn-info"
@@ -82,7 +82,7 @@
                             @endif
                             @endif
                         </div>
-                     
+
                     </div>
 
                     <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -105,7 +105,7 @@
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
                                 aria-selected="false">
-                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> مرفقات
+                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang("Attachments")
                             </button>
                         </li>
                         @if($contract->status == "Executed")
@@ -247,7 +247,7 @@
                                         <input disabled type="number" name="commissions_rate" class="form-control" value="{{ $contract->commissions_rate }}"
                                             placeholder="@lang('Commissions Rate')">
                                     </div>
-    
+
                                     <!-- Collection Type -->
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Collection Type') <span
@@ -591,7 +591,7 @@
                                                                                 class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
                                                                     </button>
                                                                     <ul class="dropdown-menu">
-                                                                        <li><a class="dropdown-item" class="btn btn-primary" data-bs-toggle="modal"
+                                                                        <li><a href="" class="dropdown-item"  data-bs-toggle="modal"
                                                                                 data-bs-target="#basicModal">@lang('إصدار سند قبض')</a>
                                                                         </li>
                                                                         <li><a class="dropdown-item"
@@ -601,7 +601,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                       
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -824,12 +824,12 @@
 
 <script>
     $(document).ready(function() {
- 
+
  // Function to handle unit selection
  $('#unitSelect').on('change', function() {
      var unitId = $(this).val();
      var serviceTypeId = $('#unitSelect option:selected').data('service-type-id');
- 
+
      // Set service type and disable select
      if (serviceTypeId) {
          $('#serviceTypeSelect').val(serviceTypeId);
@@ -838,22 +838,22 @@
          $('#serviceTypeSelect').val('');
          $('#serviceTypeSelect').prop('disabled', false); // Enable the select field
      }
- 
+
      // Show property management fields if service type is 3
      if (serviceTypeId == 3) {
          $('#propertyManagementFields').show();
      } else {
          $('#propertyManagementFields').hide();
      }
- 
+
      // Optionally, update hidden input for service_type_id
      $('#hiddenServiceTypeId').val(serviceTypeId); // Update hidden input value
- 
+
  });
- 
+
  // Trigger change event on page load
  $('#unitSelect').trigger('change');
- 
+
  // Function to handle service type change
  $('#serviceTypeSelect').on('change', function() {
      var selectedValue = $(this).val();
@@ -863,18 +863,18 @@
          $('#propertyManagementFields').hide();
      }
  });
- 
+
  });
- 
+
      </script>
- 
+
  <script>
      $(document).ready(function() {
- 
+
          // Function to handle unit selection
          $('#unitSelect').on('change', function() {
              var unitId = $(this).val();
- 
+
              // Fetch unit details via AJAX
              if (unitId) {
                  fetchUnitDetails(unitId);
@@ -882,7 +882,7 @@
                  resetUnitDetails();
              }
          });
- 
+
          function fetchUnitDetails(unitId) {
              // AJAX request to get unit details
              $.ajax({
@@ -893,11 +893,11 @@
                      // Populate owner ID and disable the input
                      $('#OwnersDiv').val(data.owner_id);
                      $('#OwnersDiv').prop('disabled', true);
- 
+
                      // Update salary display (yearly)
                      var yearlySalary = data.unit_rental_price.yearly;
                      $('#unitSalary').val(yearlySalary);
- 
+
                      // Optionally, update hidden input for owner_id
                      $('#hiddenOwnerId').val(data.owner_id);
                  },
@@ -906,16 +906,16 @@
                  }
              });
          }
- 
+
          function resetUnitDetails() {
              $('#OwnersDiv').val('');
              $('#OwnersDiv').prop('disabled', false);
              $('#unitSalary').val('');
              $('#hiddenOwnerId').val('');
          }
- 
+
          $('#unitSelect').trigger('change');
- 
+
      });
  </script>
 

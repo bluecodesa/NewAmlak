@@ -148,6 +148,24 @@ class SubscriptionController extends Controller
         return redirect()->route('Admin.Subscribers.index')->with('success', __('Deleted successfully'));
     }
 
+    public function deleteClient($id)
+    {
+        $authenticatedUser = auth()->user();
+        $user =  User::findOrFail($id);
+
+        if ($authenticatedUser->id === 1) {
+
+            $user->syncRoles([]);
+            $user->delete();
+
+            return redirect()->route('Admin.Subscribers.index')->with('success', __('Deleted successfully'));
+        }
+
+
+        abort(403, 'You are not authorized to delete this user.');
+
+    }
+
 
     public function createBroker()
     {
