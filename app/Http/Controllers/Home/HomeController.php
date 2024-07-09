@@ -246,7 +246,16 @@ class HomeController extends Controller
             'end_date' => $endDate,
             'total' => '200'
         ]);
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
 
+        $delimiter = '-';
+        if (!$Last_invoice_ID) {
+            $new_invoice_ID = '00001';
+        } else {
+            $result = explode($delimiter, $Last_invoice_ID);
+            $number = (int)$result[1] + 1;
+            $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+        }
         $Invoice = SystemInvoice::create([
             'office_id' => $office->id,
             'subscription_name' => $subscriptionType->name,
