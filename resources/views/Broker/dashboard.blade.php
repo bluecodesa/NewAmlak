@@ -4,11 +4,12 @@
 @section('content')
 
 <style>
-    /* Change the background color of the card on hover */
     a.card:hover {
-        background-color: #f0f0f0; /* Change this to your desired color */
-        transition: background-color 0.3s; /* Optional: adds a smooth transition */
+        /* background-color: #5c5c5c; */
+        scale: 1.06 ;
+        /* transition: background-color 0.3s; */
     }
+
 </style>
 
     <div class="content-wrapper">
