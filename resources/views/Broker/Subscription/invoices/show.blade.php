@@ -35,11 +35,15 @@
                                                 class="badge badge-{{ $invoice->status == 'pending' ? 'danger' : 'success' }}">
                                                 {{ __('_' . $invoice->status) }}</span>
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-4">
+                                                    <h5>رقم العميل</h5>
+                                                    <b> {{ $invoice->BrokerData->UserData->customer_id }} </b>
+                                                </div>
+                                                <div class="col-4">
                                                     <h5>الرقم التسلسلي</h5>
                                                     <b> {{ $invoice->invoice_ID }} </b>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <h5>التاريخ</h5>
                                                     <b> {{ $invoice->created_at->format('h:i:m - Y/m/d') }} </b>
                                                 </div>

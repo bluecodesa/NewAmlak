@@ -74,7 +74,7 @@
 
                                             {!! $content !!}
 
-                                            <p>ركز التحقق :  <strong>{{ $code }}</strong></p>
+                                            <p>رمز التحقق :  <strong>{{ $code }}</strong></p>
 
                                         </td>
                                     </tr>

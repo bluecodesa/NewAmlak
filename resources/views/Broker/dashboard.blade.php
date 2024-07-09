@@ -174,8 +174,8 @@
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-info"><i
-                                            class="ti ti-building-arch ti-md"></i></span>
+                                    <span class="avatar-initial rounded bg-label-success"><i
+                                            class="ti ti-building ti-md"></i></span>
                                 </div>
                                 <h4 class="ms-1 mb-0">@lang('Units') @lang('NonResidential')</h4>
                             </div>
@@ -223,8 +223,8 @@
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-info"><i
-                                            class="ti ti-building-arch ti-md"></i></span>
+                                    <span class="avatar-initial rounded bg-label-success"><i
+                                            class="ti ti-building ti-md"></i></span>
                                 </div>
                                 <h4 class="ms-1 mb-0">@lang('Units') @lang('Residential')</h4>
                             </div>
@@ -368,7 +368,7 @@
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
                                     <span class="avatar-initial rounded bg-label-primary"><i
-                                            class="ti ti-layout-kanban ti-md"></i></span>
+                                            class="ti ti-ticket ti-md"></i></span>
                                 </div>
                                 <h4 class="ms-1 mb-0">@lang('technical support')</h4>
                             </div>
