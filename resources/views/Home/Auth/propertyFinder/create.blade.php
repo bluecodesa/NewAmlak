@@ -4,12 +4,12 @@
             <div class="modal-body">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="text-center mb-4">
-                    <h3 class="mb-2">تسجيل الدخول</h3>
+                    <h3 class="mb-2">انشاء حساب</h3>
                 </div>
                 <div id="messageContainer" class="mb-3"></div>
                 <form id="emailForm" class="row g-3">
                     @csrf
-                    <p>للتواصل مع املاك للتطوير العقاري, يرجى إدخال ايميلك</p>
+                    <p>لانشاء حسابك علي منصة أملاك يرجي ادخال بريدك الالكتروني</p>
                     <div class="col-12">
                         <label for="email" class="form-label">@lang('Email')</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="@lang('Email')" required autofocus />
@@ -252,7 +252,7 @@ $(document).ready(function() {
         data: formData,
         success: function(response) {
             displayMessage(response.message, 'success');
-            toastr.success(response.message);
+            // toastr.success(response.message);
 
             // Redirect to the specified route
             window.location.replace(response.redirect);
