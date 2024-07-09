@@ -56,7 +56,7 @@
                         <div class="mb-3 row">
                             <div class="col-md-6">
                                 <label class="form-label" for="name">@lang('Name')<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="@lang('Finder name')" required>
+                                <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="@lang('Name')" required>
                                 <div class="invalid-feedback"></div>
                             </div>
                             <div class="col-md-6">
@@ -148,6 +148,16 @@ $(document).ready(function() {
         $('#messageContainer').html('');
     }
 
+    function enableResendButton() {
+        clearInterval(countdownTimer); // Stop countdown if still running
+        $('#resendOtpButton').prop('disabled', false).text('@lang('Resend OTP')');
+    }
+
+    // Function to update countdown message
+    function updateCountdownMessage(seconds) {
+        $('#resendOtpButton').text(seconds + ' ثانية لاعادة الارسال');
+    }
+
     $('#sendOtpButton').click(function() {
         var email = $('#email').val();
         $.ajax({
@@ -161,9 +171,18 @@ $(document).ready(function() {
                 $('#emailForm').addClass('d-none');
                 $('#otpVerification').removeClass('d-none');
                 $('#email_hidden').val(email);
-                displayMessage('تم ارسال رمز التحقق الي هذا الايميل', 'success');
-                setTimeout(enableResendButton, 60000); // 60000 ms = 60 seconds
+                displayMessage('تم ارسال رمز التحقق الي هذا البريد.', 'success');
+                var secondsRemaining = 60;
+                updateCountdownMessage(secondsRemaining);
+                $('#resendOtpButton').prop('disabled', true); // Disable button during countdown
 
+                countdownTimer = setInterval(function() {
+                    secondsRemaining--;
+                    updateCountdownMessage(secondsRemaining);
+                    if (secondsRemaining <= 0) {
+                        enableResendButton();
+                    }
+                }, 1000); // Update every second (1000 ms)
             },
             error: function(xhr, status, error) {
                 if (xhr.status === 400) {
@@ -192,7 +211,7 @@ $(document).ready(function() {
                 $('#otpVerification').addClass('d-none');
                 $('#newPropertyFinderForm').removeClass('d-none');
                 $('#registerForm #register_email').val(email);
-                displayMessage('OTP verified successfully.', 'success');
+                displayMessage('تم التأكد من رمز التحقق.', 'success');
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
@@ -211,7 +230,7 @@ $(document).ready(function() {
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                displayMessage('OTP has been resent to your email.', 'success');
+                displayMessage('تم اعادة ارسال رمز التحقق الي هذا البريد', 'success');
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
@@ -232,8 +251,11 @@ $(document).ready(function() {
         url: '{{ route("register-property-finder") }}',
         data: formData,
         success: function(response) {
-            displayMessage('Property Finder registered successfully.', 'success');
-            toastr.success('Property Finder registered successfully.');
+            displayMessage(response.message, 'success');
+            toastr.success(response.message);
+
+            // Redirect to the specified route
+            window.location.replace(response.redirect);
             resetModal();
             $('#modalToggle').modal('hide');
         },
