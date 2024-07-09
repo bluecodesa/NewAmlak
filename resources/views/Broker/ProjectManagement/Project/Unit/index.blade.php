@@ -33,7 +33,11 @@
                             <select class="form-control" name="status">
                                 <option value="">@lang('Status of Unit')</option>
                                 @foreach ($statuses as  $status)
-                                    <option value="{{ $status }}">{{ __($status) }}</option>
+                                    {{-- <option value="{{ $status }}">{{ __($status) }}</option> --}}
+                                    <option value="{{ $status }}" @if(request('status') == $status) selected
+                                        @endif>
+                                        {{ __($status) }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -70,7 +74,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <select class="form-control" name="usage">
                                 <option value="">@lang('property usages')</option>
                                 @foreach ($usages as $usage)
