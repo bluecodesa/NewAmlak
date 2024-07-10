@@ -77,9 +77,9 @@
                                         @if (Auth::user()->hasPermission('view-renter-data'))
                                         <a class="dropdown-item" href="{{ route('Office.Renter.show', $renter->id) }}">@lang('Show')</a>
                                         @endif
-                                        @if (Auth::user()->hasPermission('Update-renter-data'))
+                                        {{-- @if (Auth::user()->hasPermission('Update-renter-data'))
                                         <a class="dropdown-item" href="{{ route('Office.Renter.edit', $renter->id) }}">@lang('Edit')</a>
-                                        @endif
+                                        @endif --}}
                                         @if (Auth::user()->hasPermission('delete-renter'))
                                         <a href="javascript:void(0);" onclick="handleDelete('{{ $renter->id }}')" class="dropdown-item delete-btn">@lang('Delete')</a>
                                         <form id="delete-form-{{ $renter->id }}" action="{{ route('Office.Renter.destroy', $renter->id) }}" method="POST" style="display: none;">
