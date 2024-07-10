@@ -30,8 +30,10 @@
                                 <div class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
                                     <div class="dt-buttons btn-group flex-wrap d-flex">
                                         <div class="btn-group">
-                                            <button onclick="exportToExcel()" class="btn btn-success buttons-collection btn-label-secondary me-3 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false"><span>
-                                                    <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                            <button onclick="exportToExcel()"
+                                                class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                type="button"><span><i
+                                                        class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                         </div>
                                         @if (Auth::user()->hasPermission('add-renter'))
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
