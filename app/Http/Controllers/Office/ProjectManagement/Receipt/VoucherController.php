@@ -288,7 +288,7 @@ class VoucherController extends Controller
             $wallet->balance -= $request->total_price;
             $wallet->save();
         }
-        $owner = Owner::find($contract->renter_id);
+        $owner = Owner::find($contract->owner_id);
         if ($owner) {
             $owner->balance -= $request->total_price;
             $owner->save();
