@@ -58,7 +58,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="printReceipt()">Print</button>
-                <a href="{{ route('Office.Receipt.download', $voucher->id) }}" class="btn btn-success">Download</a>
             </div>
             @else
             <div class="modal-body" id="receiptModalBody">
