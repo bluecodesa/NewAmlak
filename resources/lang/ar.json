@@ -589,7 +589,7 @@
     "Date of concluding the contract": "تاريخ ابرام العقد",
     "Contract start date (Gregorian)": "تاريخ بدأ العقد (ميلادي)",
     "Contract start date (Higri)": "تاريخ بدأ العقد (هجري)",
-    "Receipts": "السندات",
+    "Vouchers": "السندات",
     "Installment Number": "رقم القسط",
     "Voucher and Payment Receipts": "سندات القبض والصرف",
     "Financial Managment": "إدارة المالية",
@@ -615,6 +615,10 @@
     "Clients": "العملاء",
     "Financial Dues": "المستحقات",
     "Balance": "الرصيد",
-    "The Main Wallet": "الخزنة الرئيسية"
+    "The Main Wallet": "الخزنة الرئيسية",
+    "Export Receipt Voucher": "اصدار سند قبض",
+    "Export Payment Voucher": "اصدار سند صرف",
+    "Export Voucher": "اصدار سند",
+    "Type": "النوع"
 
 }

@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('installment_receipt', function (Blueprint $table) {
+        Schema::create('installment_voucher', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('installment_id');
-            $table->unsignedBigInteger('receipt_id');
+            $table->unsignedBigInteger('voucher_id');
             $table->timestamps();
 
             $table->foreign('installment_id')->references('id')->on('installments')->onDelete('cascade');
-            $table->foreign('receipt_id')->references('id')->on('receipts')->onDelete('cascade');
+            $table->foreign('voucher_id')->references('id')->on('vouchers')->onDelete('cascade');
         
         });
     }

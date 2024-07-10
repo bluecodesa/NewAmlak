@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Office\ProjectManagement\Receipt;
 
 use App\Http\Controllers\Controller;
 use App\Models\Installment;
-use App\Models\Receipt;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attachment;
@@ -36,7 +36,7 @@ use Carbon\Carbon;
 use PDF;
 use Illuminate\Validation\Rule;
 
-class ReceiptController extends Controller
+class VoucherController extends Controller
 {
 
 
@@ -101,7 +101,7 @@ class ReceiptController extends Controller
     {
         //
         $officeId=auth()->user()->UserOfficeData->id;
-        $receipts = Receipt::all()->where('office_id',$officeId);
+        $vouchers = Voucher::all()->where('office_id',$officeId);
         $setting =   Setting::first();
         return view('Office.FinancialManagment.index',get_defined_vars());
     }
@@ -159,14 +159,11 @@ class ReceiptController extends Controller
         $installmentIds = $validatedData['installments'];
         $installmentNumbers = Installment::whereIn('id', $installmentIds)->pluck('installment_number')->toArray();
 
-        // Count existing receipts for the contract
         $receiptCount = $contract->ReceiptData()->count();
 
-        // Generate voucher number using the receipt count as index
-        $voucherNumber = 'V-' . $contract->contract_number . '-' . ($receiptCount + 1);
+        $voucherNumber =  $contract->contract_number . 'V-' . ($receiptCount + 1);
 
-        // Create the receipt
-        $receipt = Receipt::create([
+        $voucher = Voucher::create([
             'voucher_number' => $voucherNumber,
             'release_date' => $request->release_date,
             'payment_date' => $request->payment_date,
@@ -187,7 +184,7 @@ class ReceiptController extends Controller
         ]);
 
         foreach ($validatedData['installments'] as $installmentId) {
-            $receipt->installments()->attach($installmentId);
+            $voucher->installments()->attach($installmentId);
 
             $installment = Installment::find($installmentId);
             if ($installment) {
@@ -218,8 +215,8 @@ class ReceiptController extends Controller
      */
     public function show(string $id)
     {
-        $receipt = Receipt::with('installments')->findOrFail($id);
-        return response()->json($receipt);
+        $voucher = Voucher::with('installments')->findOrFail($id);
+        return response()->json($voucher);
 
     }
 
@@ -250,9 +247,9 @@ class ReceiptController extends Controller
 
 public function download($id)
 {
-    $receipt = Receipt::with('installments', 'contract', 'contract.property', 'contract.unit', 'contract.renter')->findOrFail($id);
+    $voucher = Voucher::with('installments', 'contract', 'contract.property', 'contract.unit', 'contract.renter')->findOrFail($id);
     $pdf = PDF::loadView('receipt_pdf', compact('receipt'));
-    return $pdf->download('receipt_' . $receipt->voucher_number . '.pdf');
+    return $pdf->download('receipt_' . $voucher->voucher_number . '.pdf');
 }
 
 }

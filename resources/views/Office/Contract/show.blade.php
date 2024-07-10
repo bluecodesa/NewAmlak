@@ -113,7 +113,7 @@
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#navs-justified-payments" aria-controls="navs-justified-payments"
                                 aria-selected="false">
-                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Receipts')
+                                <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('Vouchers')
                             </button>
                         </li>
                         @endif
@@ -550,7 +550,7 @@
                         <div class="tab-pane fade" id="navs-justified-payments" role="tabpanel">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">@lang('Receipts')</h5>
+                                    <h5 class="card-title mb-0">@lang('Vouchers')</h5>
                                 </div>
                                 <div class="card-datatable table-responsive">
                                     <div id="DataTables_Table_0_wrapper"
@@ -588,14 +588,15 @@
                                                                     <button type="button" class="btn btn-primary dropdown-toggle"
                                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                                         <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                                class="d-none d-sm-inline-block">@lang('إصدار سند')</span></span>
+                                                                                class="d-none d-sm-inline-block">@lang('Export Voucher')</span></span>
                                                                     </button>
                                                                     <ul class="dropdown-menu">
                                                                         <li><a href="" class="dropdown-item"  data-bs-toggle="modal"
-                                                                                data-bs-target="#basicModal">@lang('إصدار سند قبض')</a>
+                                                                                data-bs-target="#basicModal">@lang('Export Receipt Voucher')</a>
                                                                         </li>
                                                                         <li><a class="dropdown-item"
-                                                                                href="{{ route('Office.Property.create') }}">@lang('إصدار سند صرف')</a>
+                                                                                href="" data-bs-toggle="modal"
+                                                                                data-bs-target="#PaymentVoucher">@lang('Export Payment Voucher')</a>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -612,9 +613,9 @@
                                                 <thead class="table-dark">
                                                     <tr>
 
-                                                        <th>@lang('Receipt Number')</th>
-                                                        <th>@lang('Total price')</th>
-                                                        <th>@lang('type')</th>
+                                                        <th>@lang('Voucher Number')</th>
+                                                        <th>@lang('Total')</th>
+                                                        <th>@lang('Type')</th>
                                                         <th>@lang('Release Date')</th>
                                                         <th>@lang('Payment Date')</th>
                                                         <th>@lang('Action')</th>
@@ -664,6 +665,8 @@
                                         </div>
 
                                         @include('Office.Contract.ReceiptBills.inc.receipt_modal')
+                                        @include('Office.Contract.ReceiptBills.inc.payment_modal')
+
 
                                     </div>
                                 </div>

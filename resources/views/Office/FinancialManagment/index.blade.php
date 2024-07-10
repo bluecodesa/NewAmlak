@@ -1,6 +1,6 @@
 @extends('Admin.layouts.app')
 
-@section('title', __('Receipts'))
+@section('title', __('Vouchers'))
 
 @section('content')
     <div class="content-wrapper">
@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-6">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Receipts')</h4>
+                        @lang('Vouchers')</h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
@@ -17,7 +17,7 @@
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('Receipts') </h5>
+                        <h5 class="card-header">@lang('Vouchers') </h5>
                     </div>
                     <div class="col-12">
                         <hr>
@@ -73,14 +73,14 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @forelse ($receipts as $receipt)
+                            @forelse ($vouchers as $voucher)
                                 <tr>
 
-                                    <td>{{ $receipt->voucher_number }}</td>
-                                    <td>{{ $receipt->total_price }}</td>
-                                    <td>{{ __($receipt->type) }}</td>
-                                    <td>{{ $receipt->release_date }}</td>
-                                    <td>{{ $receipt->payment_date }}</td>
+                                    <td>{{ $voucher->voucher_number }}</td>
+                                    <td>{{ $voucher->total_price }}</td>
+                                    <td>{{ __($voucher->type) }}</td>
+                                    <td>{{ $voucher->release_date }}</td>
+                                    <td>{{ $voucher->payment_date }}</td>
 
                                     <td>
 
@@ -93,7 +93,7 @@
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('read-unit'))
                                                     <a class="dropdown-item receipt-link" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#receiptModal{{ $receipt->id }}" data-id="{{ $receipt->id }}">@lang('Show')</a>
+                                                    data-bs-target="#receiptModal{{ $voucher->id }}" data-id="{{ $voucher->id }}">@lang('Show')</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -140,7 +140,7 @@
                 });
 
                 // Save the workbook as an Excel file
-                XLSX.writeFile(wb, @json(__('Receipts')) + '.xlsx');
+                XLSX.writeFile(wb, @json(__('Vouchers')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
         </script>
