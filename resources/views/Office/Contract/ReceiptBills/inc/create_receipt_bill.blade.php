@@ -52,7 +52,7 @@
                             <input type="hidden" name="renter_id" value="{{ $contract->renter->id ?? '' }}">
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="paymentMethod" class="form-label">@lang('Payment Method')</label>
+                            <label for="paymentMethod" class="form-label">@lang('Pay Method')</label>
                             <select id="paymentMethod" name="payment_method" class="form-select">
                                 <option value="cash">@lang('Cash')</option>
                                 <!-- Add other payment methods here if available -->
