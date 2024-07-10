@@ -619,6 +619,7 @@
     "Export Receipt Voucher": "اصدار سند قبض",
     "Export Payment Voucher": "اصدار سند صرف",
     "Export Voucher": "اصدار سند",
-    "Type": "النوع"
+    "Type": "النوع",
+    "Total Value (SAR)": "القيمية الاجمالية (ر.س)"
 
 }

@@ -91,6 +91,8 @@ Route::group(
        Route::resource('Receipt', VoucherController::class)->middleware('CheckSubscription');
         // Route::post('/Receipt', [ReceiptController::class, 'store'])->name('Receipt.store');
         Route::get('receipt/download/{id}', [VoucherController::class, 'download'])->name('Receipt.download');
+        Route::post('create-payment-voucher', [VoucherController::class, 'creatPaymentVoucher'])->name('create-payment-voucher')->middleware('CheckSubscription');
+
 
        Route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
 

@@ -682,6 +682,8 @@
         <div class="content-backdrop fade"></div>
     </div>
     @include('Office.Contract.ReceiptBills.inc.create_receipt_bill')
+    @include('Office.Contract.ReceiptBills.inc.create_payment_bill')
+
 
 
     @push('scripts')
