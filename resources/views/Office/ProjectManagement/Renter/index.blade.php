@@ -52,7 +52,7 @@
                             <th scope="col">@lang('Name')</th>
                             <th scope="col">@lang('Email')</th>
                             <th scope="col">@lang('phone')</th>
-                            <th scope="col">@lang('Entitlements')</th>
+                            <th scope="col">@lang('Financial Dues')</th>
                             <th scope="col">@lang('status')</th>
                             <th scope="col">@lang('Number Of Contracts')</th>
                             <th scope="col">@lang('Action')</th>
@@ -60,11 +60,12 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                         @forelse ($Renters as $renter)
+
                         <tr>
                             <td>{{ $renter->UserData->name }}</td>
                             <td>{{ $renter->UserData->email }}</td>
                             <td>{{ $renter->UserData->full_phone }}</td>
-                            <td>{{ $renter->balance }}</td>
+                            <td>{{ $renter->latestOfficeRenter->financial_Due }}</td>
                             <td> {{ __( $renter->latestOfficeRenter->renter_status )}} </td>
                             <td></td>
                             <td>

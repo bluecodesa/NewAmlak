@@ -123,4 +123,9 @@ class Unit extends Model
         return $this->hasMany(FavoriteUnit::class);
     }
 
+    public function contract()
+    {
+        return $this->hasOne(Contract::class)->latest();
+    }
+
 }

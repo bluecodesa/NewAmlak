@@ -32,7 +32,7 @@ class WalletService
             'name' => 'required|string|max:255',
             'bank_name' => 'nullable|string|max:255',
             'bank_account' => 'nullable|string|max:255',
-            'initial_balance' => 'nullable|numeric',
+            'balance' => 'nullable|numeric',
             'is_default' => [
                 'required',
                 Rule::in(['0', '1'])
