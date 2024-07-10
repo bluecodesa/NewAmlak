@@ -116,6 +116,8 @@ Route::group(
         Route::get('/get-unit-details/{unitId}', [ContractController::class, 'getUnitDetails']);
         Route::get('/get-all-properties-and-units', [ContractController::class, 'getAllPropertiesAndUnits']);
         Route::get('/get-all-units', [ContractController::class, 'getAllUnits']);
+        Route::get('/units/{id}/status', [ContractController::class, 'getStatus']);
+
 
     }
 );

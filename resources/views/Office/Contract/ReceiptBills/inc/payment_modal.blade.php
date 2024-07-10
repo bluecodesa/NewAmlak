@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="receiptModalHeader{{$receipt->id }}">
-                <h5 class="modal-title" id="receiptModalLabel">@lang('Receipt Voucher')</h5>
+                <h5 class="modal-title" id="receiptModalLabel">@lang('Payment Voucher')</h5>
                 <img src="{{ url($setting->icon) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

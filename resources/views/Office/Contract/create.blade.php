@@ -94,6 +94,7 @@
                                             <option value="{{ $unit->id }}" data-service-type-id="{{ $unit->service_type_id }}">{{ $unit->number_unit }}</option>
                                             @endforeach
                                         </select>
+                                        <span class="required-color" id="unitStatus"></span>
                                 </div>
                                 <div class="col-12 col-md-4 mb-3">
                                     <label class="col-md-6 form-label">@lang('owner name') <span
@@ -250,7 +251,7 @@
                                     <!-- Commissions Rate -->
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Commissions Rate') <span
-                                                class="required-color"></span></label>
+                                                class="required-color">*</span></label>
                                             <div class="input-group">
                                                 <input type="number" name="commissions_rate" class="form-control"
                                                 placeholder="@lang('Commissions Rate')">
@@ -262,8 +263,8 @@
                                     <!-- Collection Type -->
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Collection Type') <span
-                                                class="required-color"></span></label>
-                                        <select class="form-select" name="collection_type" id="type" >
+                                                class="required-color">*</span></label>
+                                        <select class="form-select" required name="collection_type" id="type" >
                                             <option disabled selected value="">@lang('Collection Type')</option>
                                             @foreach (['once with frist installment', 'divided with all installments'] as $type)
                                                 <option value="{{ $type }}">
@@ -345,26 +346,74 @@
 @push('scripts')
 
     <script>
-        document.getElementById('projectSelect').addEventListener('change', function() {
-            var projectId = this.value;
-            if (projectId) {
-                fetchPropertiesAndUnits(projectId);
-            } else {
-                clearDropdowns();
-            }
-        });
+            document.getElementById('projectSelect').addEventListener('change', function() {
+                var projectId = this.value;
+                if (projectId) {
+                    fetchPropertiesAndUnits(projectId);
+                } else {
+                    clearDropdowns();
+                }
+            });
 
-        document.getElementById('propertySelect').addEventListener('change', function() {
-            var propertyId = this.value;
-            if (propertyId) {
-                fetchUnitsByProperty(propertyId);
-            } else {
-                clearUnitDropdown();
-            }
-        });
+            document.getElementById('propertySelect').addEventListener('change', function() {
+                var propertyId = this.value;
+                if (propertyId) {
+                    fetchUnitsByProperty(propertyId);
+                } else {
+                    clearUnitDropdown();
+                }
+            });
 
-        function fetchPropertiesAndUnits(projectId) {
-            fetch(`/get-project-details/${projectId}`)
+            function fetchPropertiesAndUnits(projectId) {
+                fetch(`/get-project-details/${projectId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        populateDropdown('propertySelect', data.properties, 'id', 'name');
+                        populateDropdown('unitSelect', data.units, 'id', 'number_unit');
+
+                    })
+                    .catch(error => {
+                        console.error('Error fetching project details:', error);
+                        alert('An error occurred while fetching project details. Please try again.');
+                    });
+            }
+
+            function fetchUnitsByProperty(propertyId) {
+                fetch(`/get-units-by-property/${propertyId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        populateDropdown('unitSelect', data.units, 'id', 'number_unit');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching units:', error);
+                        alert('An error occurred while fetching units. Please try again.');
+                    });
+            }
+
+            function populateDropdown(dropdownId, items, valueField, textField) {
+                var dropdown = document.getElementById(dropdownId);
+                dropdown.innerHTML = ' <option  selected value="">@lang('Choose')</option>';
+                items.forEach(item => {
+                    var option = document.createElement('option');
+                    option.value = item[valueField];
+                    option.textContent = item[textField];
+                    dropdown.appendChild(option);
+                });
+            }
+
+
+            function fetchAllPropertiesAndUnits() {
+            fetch(`/get-all-properties-and-units`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -374,16 +423,15 @@
                 .then(data => {
                     populateDropdown('propertySelect', data.properties, 'id', 'name');
                     populateDropdown('unitSelect', data.units, 'id', 'number_unit');
-
                 })
                 .catch(error => {
-                    console.error('Error fetching project details:', error);
-                    alert('An error occurred while fetching project details. Please try again.');
+                    console.error('Error fetching all properties and units:', error);
+                    alert('An error occurred while fetching all properties and units. Please try again.');
                 });
         }
 
-        function fetchUnitsByProperty(propertyId) {
-            fetch(`/get-units-by-property/${propertyId}`)
+        function fetchAllUnits() {
+            fetch(`/get-all-units`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -394,91 +442,44 @@
                     populateDropdown('unitSelect', data.units, 'id', 'number_unit');
                 })
                 .catch(error => {
-                    console.error('Error fetching units:', error);
-                    alert('An error occurred while fetching units. Please try again.');
+                    console.error('Error fetching all units:', error);
+                    alert('An error occurred while fetching all units. Please try again.');
                 });
         }
 
-        function populateDropdown(dropdownId, items, valueField, textField) {
-            var dropdown = document.getElementById(dropdownId);
-            dropdown.innerHTML = ' <option  selected value="">@lang('Choose')</option>';
-            items.forEach(item => {
-                var option = document.createElement('option');
-                option.value = item[valueField];
-                option.textContent = item[textField];
-                dropdown.appendChild(option);
-            });
+            function clearDropdowns() {
+            fetchAllPropertiesAndUnits();
         }
 
-
-        function fetchAllPropertiesAndUnits() {
-        fetch(`/get-all-properties-and-units`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                populateDropdown('propertySelect', data.properties, 'id', 'name');
-                populateDropdown('unitSelect', data.units, 'id', 'number_unit');
-            })
-            .catch(error => {
-                console.error('Error fetching all properties and units:', error);
-                alert('An error occurred while fetching all properties and units. Please try again.');
-            });
-    }
-
-    function fetchAllUnits() {
-        fetch(`/get-all-units`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                populateDropdown('unitSelect', data.units, 'id', 'number_unit');
-            })
-            .catch(error => {
-                console.error('Error fetching all units:', error);
-                alert('An error occurred while fetching all units. Please try again.');
-            });
-    }
-
-        function clearDropdowns() {
-        fetchAllPropertiesAndUnits();
-    }
-
-    function clearUnitDropdown() {
-        fetchAllUnits();
-    }
-
-            function addFeature() {
-            const featuresContainer = document.getElementById('features');
-            const newRow = document.createElement('div');
-            newRow.classList.add('row', 'mb-3');
-
-            newRow.innerHTML = `
-                <div class="mb-3 col-4">
-                    <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-                </div>
-                <div class="mb-3 col-4">
-                    <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
-                </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-                </div>
-            `;
-
-            featuresContainer.appendChild(newRow);
+        function clearUnitDropdown() {
+            fetchAllUnits();
         }
 
+                function addFeature() {
+                const featuresContainer = document.getElementById('features');
+                const newRow = document.createElement('div');
+                newRow.classList.add('row', 'mb-3');
 
-        function removeFeature(button) {
-            const rowToRemove = button.parentNode.parentNode;
-            rowToRemove.remove();
-        }
+                newRow.innerHTML = `
+                    <div class="mb-3 col-4">
+                        <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+                    </div>
+                    <div class="mb-3 col-4">
+                        <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+                    </div>
+                `;
+
+                featuresContainer.appendChild(newRow);
+            }
+
+
+            function removeFeature(button) {
+                const rowToRemove = button.parentNode.parentNode;
+                rowToRemove.remove();
+            }
 
     </script>
 
@@ -877,6 +878,27 @@
                 const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
                 nextTabButton.click();
             });
+        });
+    </script>
+    <script>
+        document.getElementById('unitSelect').addEventListener('change', function() {
+            var unitId = this.value;
+            var unitStatusSpan = document.getElementById('unitStatus');
+    
+            if (unitId) {
+                fetch(`/units/${unitId}/status`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'rented') {
+                            unitStatusSpan.innerHTML = `This unit is rented. Start date: ${data.start_date}`;
+                        } else {
+                            unitStatusSpan.innerHTML = '';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching unit status:', error));
+            } else {
+                unitStatusSpan.innerHTML = '';
+            }
         });
     </script>
 

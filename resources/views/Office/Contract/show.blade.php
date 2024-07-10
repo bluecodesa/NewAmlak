@@ -627,7 +627,7 @@
 
                                                             <td>{{ $receipt->voucher_number }}</td>
                                                             <td>{{ $receipt->total_price }}</td>
-                                                            <td>{{ __($receipt->type) }}</td>
+                                                            <td>{{ $receipt->type == 'receipt_voucher' ? __('Receipt Voucher') : __('Payment Voucher') }}</td>
                                                             <td>{{ $receipt->release_date }}</td>
                                                             <td>{{ $receipt->payment_date }}</td>
                                                             <td>
