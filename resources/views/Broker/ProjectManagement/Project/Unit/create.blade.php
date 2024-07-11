@@ -669,7 +669,64 @@
                 });
             });
         </script>
-        <script>
+
+<script>
+    $(document).ready(function() {
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            if (projectId) {
+                $.ajax({
+                    url: '{{ route('Broker.GetProjectDetails', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        var project = response.project;
+
+                        $('#myAddressBar').val(project.location);
+                        $('select[name="property_type_id"]').val(project.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(project.property_usage_id).change();
+                        $('select[name="owner_id"]').val(project.owner_id).change();
+                        $('input[name="instrument_number"]').val(project.instrument_number);
+                        $('select[name="service_type_id"]').val(project.service_type_id).change();
+                        // $('#Region_id').val(project.CityData->RegionData->id).change();
+                        $('#CityDiv').val(project.city_id).change();
+                        $('#DistrictDiv').val(project.district_id).change();
+
+                    },
+                    error: function(error) {
+                        console.error('Error fetching project details:', error);
+                    }
+                });
+            }
+        });
+
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (propertyId) {
+                $.ajax({
+                    url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
+                    type: 'GET',
+                    success: function(response) {
+                        var property = response.property;
+                        // $('#Region_id').val(property.CityData.RegionData.id).change();
+                        $('#CityDiv').val(property.city_id).change();
+                        $('#myAddressBar').val(property.location);
+                        $('select[name="property_type_id"]').val(property.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(property.property_usage_id).change();
+                        $('select[name="owner_id"]').val(property.owner_id).change();
+                        $('input[name="instrument_number"]').val(property.instrument_number);
+                        $('select[name="service_type_id"]').val(property.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching property details:', error);
+                    }
+                });
+            }
+        });
+    });
+    </script>
+
+
+        {{-- <script>
             $(document).ready(function() {
                 $('.projectSelect').on('change', function() {
                     var selectedOption = $(this).find(':selected');
@@ -731,6 +788,6 @@
                     }
                 });
             });
-        </script>
+        </script> --}}
     @endpush
 @endsection
