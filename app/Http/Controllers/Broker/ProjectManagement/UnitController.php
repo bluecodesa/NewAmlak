@@ -303,7 +303,6 @@ class UnitController extends Controller
     public function getProjectDetails($projectId)
     {
         $project = Project::findOrFail($projectId);
-        // dd($project->CityData->RegionData->id);
         if ($project) {
             return response()->json(['project' => $project]);
         } else {
