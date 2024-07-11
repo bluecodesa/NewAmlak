@@ -517,6 +517,19 @@ class HomeController extends Controller
             })
             ->paginate(9);
 
+        foreach ($users as $key => $user) {
+            $broker =  $user->UserBrokerData;
+            if ($broker->license_date > now()->format('Y-m-d')) {
+                $broker->update(['license_validity' => 'valid']);
+            } else {
+                $broker->update(['license_validity' => 'expired']);
+                $check_gallary = Gallery::where('broker_id', $broker->id)->first();
+                if ($check_gallary) {
+                    $check_gallary->update(['gallery_status' => '0']);
+                }
+            }
+        }
+
 
         return view('Home.Brokers.index', get_defined_vars());
     }
