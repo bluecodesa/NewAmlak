@@ -4,6 +4,8 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
+use App\Models\Property;
 use App\Models\PropertyUsage;
 use App\Models\Unit;
 use App\Models\UnitInterest;
@@ -161,6 +163,8 @@ class UnitController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $projects = $this->brokerDataService->getProjects();
+        $properties = $this->brokerDataService->getProperties();
         return view('Broker.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 
@@ -243,6 +247,8 @@ class UnitController extends Controller
         $advisors = $this->brokerDataService->getAdvisors();
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
+        $projects = $this->brokerDataService->getProjects();
+        $properties = $this->brokerDataService->getProperties();
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
@@ -287,4 +293,35 @@ class UnitController extends Controller
             'rent_type_show' => $request->rent_type_show
         ]);
     }
+
+    public function getPropertiesByProject($projectId)
+    {
+        $properties = Property::where('project_id', $projectId)->get();
+        return response()->json(['properties' => $properties]);
+    }
+
+    public function getProjectDetails($projectId)
+    {
+        $project = Project::findOrFail($projectId);
+        // dd($project->CityData->RegionData->id);
+        if ($project) {
+            return response()->json(['project' => $project]);
+        } else {
+            return response()->json(['error' => 'Project not found'], 404);
+        }
+    }
+
+    // Function to get property details
+    public function getPropertyDetails($propertyId)
+    {
+
+        $property = Property::findOrFail($propertyId); // Adjust the model and conditions as per your structure
+
+        if ($property) {
+            return response()->json(['property' => $property]);
+        } else {
+            return response()->json(['error' => 'Property not found'], 404);
+        }
+    }
+
 }

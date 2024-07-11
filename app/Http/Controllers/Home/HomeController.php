@@ -264,7 +264,7 @@ class HomeController extends Controller
             'period' => $subscriptionType->period,
             'period_type' => $subscriptionType->period_type,
             'status' => $status,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
         $galleryName = explode('@', $request->email)[0];
         $defaultCoverImage = '/Gallery/cover/cover.png';
