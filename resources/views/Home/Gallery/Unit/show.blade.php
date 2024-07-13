@@ -31,35 +31,91 @@
                                 @php
                                     $i = 0;
                                 @endphp
-                                @if ($Unit->UnitImages->isEmpty())
-                                    <div class="carousel-item active">
-                                        <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}"
-                                            alt="Default slide" style="height: 350px; object-fit: contain">
+                                @foreach ($Unit->UnitImages as $media)
+                                    <div class="carousel-item @if ($i == 0) active @endif">
+                                        @if (Str::startsWith($media->image, '/Brokers/Projects/Unit/Images'))
+                                            <!-- Image -->
+                                            <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
+                                                src="{{ asset($media->image) }}"
+                                                alt="Slide {{ $i + 1 }}"
+                                                style="height: 350px; object-fit: contain"
+                                            >
+                                        @else
+                                            <!-- Video -->
+                                            <video controls class="d-block w-100" controls style="height: 350px; object-fit: contain">
+                                                <source src="{{ asset($media->image) }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        @endif
                                     </div>
-                                @else
-                                    @foreach ($Unit->UnitImages as $img)
-                                        <div class="carousel-item @if ($i == 0) active @endif">
-                                            <img class="d-block w-100" src="{{ asset($img['image']) }}"
-                                                alt="Slide {{ $i + 1 }}" style="height: 350px; object-fit: contain">
-                                        </div>
-                                        @php
-                                            $i++;
-                                        @endphp
-                                    @endforeach
-                                @endif
+                                    @php
+                                        $i++;
+                                    @endphp
+                                @endforeach
                             </div>
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                                data-slide="prev">
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only"></span>
+                                <span class="sr-only">Previous</span>
                             </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                data-slide="next">
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only"></span>
+                                <span class="sr-only">Next</span>
                             </a>
                         </div>
                     </div>
+
+                 
+                    <!-- Modal -->
+                    <div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel1"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="carouselModal" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @php
+                                                $j = 0;
+                                            @endphp
+                                            @foreach ($Unit->UnitImages as $media)
+                                                <div class="carousel-item @if ($j == 0) active @endif">
+                                                    @if (Str::startsWith($media->image, '/Brokers/Projects/Unit/Images'))
+                                                        <!-- Image -->
+                                                        <img class="d-block w-100"
+                                                            src="{{ asset($media->image) }}"
+                                                            alt="Slide {{ $j + 1 }}"
+                                                            style="height: 600px; object-fit: contain"
+                                                        >
+                                                    @else
+                                                        <!-- Video -->
+                                                        <video controls class="d-block w-100" style="height: 600px; object-fit: contain">
+                                                            <source src="{{ asset($media->image) }}" type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    @endif
+                                                </div>
+                                                @php
+                                                    $j++;
+                                                @endphp
+                                            @endforeach
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselModal" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselModal" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        
                     <!-- /Image Slider -->
 
 
@@ -129,6 +185,20 @@
                             @endif
                         </div>
                     </div>
+                    <div class="card card-action mb-4">
+                        <div class="card-header align-items-center">
+                            <h5 class="card-action-title mb-0">مخطط الوحدة</h5>
+                        </div>
+                    
+                        <div class="card-body pb-0">
+                            @if (Str::endsWith($Unit->unit_masterplan, '.pdf'))
+                                <embed src="{{ $Unit->unit_masterplan }}" type="application/pdf" width="100%" height="500px" />
+                            @else
+                                <img src="{{ $Unit->unit_masterplan }}" class="img-fluid" alt="Unit Masterplan">
+                            @endif
+                        </div>
+                    </div>
+                    
 
                     <!-- Projects table -->
                     {{-- <div class="card mb-4">

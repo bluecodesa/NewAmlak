@@ -279,6 +279,10 @@
                                                             class="d-none d-sm-inline-block">@lang('Add details')</span></button>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-12 col-md-12 mb-3">
+                                                <label class="form-label mb-2">@lang('Unit Images') </label>
+                                                <input type="file" name="images[]" multiple class="dropify" accept="image/jpeg, image/png" />
+                                            </div>
                                         </div>
 
 
@@ -346,13 +350,14 @@
                                                 {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
                                                 <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
 
-                                                        </textarea>
+                                                </textarea>
                                             </div>
                                         </div>
+                                   
+                                    
                                         <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Unit Images') </label>
-                                            <input type="file" name="images[]" multiple class="dropify"
-                                                accept="image/jpeg, image/png" />
+                                            <label class="form-label mb-2">@lang('Unit Videos')</label>
+                                            <input type="file" name="videos[]" multiple accept="video/mp4, video/webm, video/ogg" />
                                         </div>
                                     </div>
                                     <div class="col-12" style="text-align: center;">
@@ -671,58 +676,70 @@
         </script>
 
 <script>
-    $(document).ready(function() {
-        $('#projectSelect').on('change', function() {
-            var projectId = $(this).val();
-            if (projectId) {
-                $.ajax({
-                    url: '{{ route('Broker.GetProjectDetails', '') }}/' + projectId,
-                    type: 'GET',
-                    success: function(response) {
-                        var project = response.project;
+  $(document).ready(function() {
+    function populateFields(data) {
+        // Populate region select
+        $('#Region_id').val(data.city_data.region_data.id).change();
 
-                        $('#myAddressBar').val(project.location);
-                        $('select[name="property_type_id"]').val(project.property_type_id).change();
-                        $('select[name="property_usage_id"]').val(project.property_usage_id).change();
-                        $('select[name="owner_id"]').val(project.owner_id).change();
-                        $('input[name="instrument_number"]').val(project.instrument_number);
-                        $('select[name="service_type_id"]').val(project.service_type_id).change();
-                        // $('#Region_id').val(project.CityData->RegionData->id).change();
-                        $('#CityDiv').val(project.city_id).change();
-                        $('#DistrictDiv').val(project.district_id).change();
+        // Populate city select
+        $('#CityDiv').empty();
+        $.each(data.city_data, function(index, city) {
+                $('#CityDiv').append('<option value="' + city.id + '">' + city.name + '</option>');
 
-                    },
-                    error: function(error) {
-                        console.error('Error fetching project details:', error);
-                    }
-                });
-            }
         });
 
-        $('#propertySelect').on('change', function() {
-            var propertyId = $(this).val();
-            if (propertyId) {
-                $.ajax({
-                    url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
-                    type: 'GET',
-                    success: function(response) {
-                        var property = response.property;
-                        // $('#Region_id').val(property.CityData.RegionData.id).change();
-                        $('#CityDiv').val(property.city_id).change();
-                        $('#myAddressBar').val(property.location);
-                        $('select[name="property_type_id"]').val(property.property_type_id).change();
-                        $('select[name="property_usage_id"]').val(property.property_usage_id).change();
-                        $('select[name="owner_id"]').val(property.owner_id).change();
-                        $('input[name="instrument_number"]').val(property.instrument_number);
-                        $('select[name="service_type_id"]').val(property.service_type_id).change();
-                    },
-                    error: function(error) {
-                        console.error('Error fetching property details:', error);
-                    }
-                });
-            }
+        // Populate district select
+        $('#DistrictDiv').empty();
+        $.each(data.city_data.districts_city, function(index, district) {
+            $('#DistrictDiv').append('<option value="' + district.id + '">' + district.translations.find(t => t.locale === 'ar').name + '</option>');
         });
+    }
+
+    $('#projectSelect').on('change', function() {
+        var projectId = $(this).val();
+        if (projectId) {
+            $.ajax({
+                url: '{{ route('Broker.GetProjectDetails', '') }}/' + projectId,
+                type: 'GET',
+                success: function(response) {
+                    populateFields(response.project);
+                    $('#myAddressBar').val(response.project.location);
+                    $('select[name="property_type_id"]').val(response.project.property_type_id).change();
+                    $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
+                    $('select[name="owner_id"]').val(response.project.owner_id).change();
+                    $('input[name="instrument_number"]').val(response.project.instrument_number);
+                    $('select[name="service_type_id"]').val(response.project.service_type_id).change();
+                },
+                error: function(error) {
+                    console.error('Error fetching project details:', error);
+                }
+            });
+        }
     });
+
+    $('#propertySelect').on('change', function() {
+        var propertyId = $(this).val();
+        if (propertyId) {
+            $.ajax({
+                url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
+                type: 'GET',
+                success: function(response) {
+                    populateFields(response.property);
+                    $('#myAddressBar').val(response.property.location);
+                    $('select[name="property_type_id"]').val(response.property.property_type_id).change();
+                    $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
+                    $('select[name="owner_id"]').val(response.property.owner_id).change();
+                    $('input[name="instrument_number"]').val(response.property.instrument_number);
+                    $('select[name="service_type_id"]').val(response.property.service_type_id).change();
+                },
+                error: function(error) {
+                    console.error('Error fetching property details:', error);
+                }
+            });
+        }
+    });
+
+});
     </script>
 
 

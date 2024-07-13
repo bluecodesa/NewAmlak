@@ -304,19 +304,21 @@ class UnitController extends Controller
     {
         $project = Project::findOrFail($projectId);
         if ($project) {
+            $project->load('CityData.RegionData', 'CityData.DistrictsCity');
             return response()->json(['project' => $project]);
         } else {
             return response()->json(['error' => 'Project not found'], 404);
         }
     }
 
-    // Function to get property details
     public function getPropertyDetails($propertyId)
     {
 
-        $property = Property::findOrFail($propertyId); // Adjust the model and conditions as per your structure
+        $property = Property::findOrFail($propertyId); 
 
         if ($property) {
+            $property->load('CityData.RegionData', 'CityData.DistrictsCity');
+
             return response()->json(['property' => $property]);
         } else {
             return response()->json(['error' => 'Property not found'], 404);

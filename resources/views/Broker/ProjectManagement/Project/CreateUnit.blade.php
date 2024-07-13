@@ -266,6 +266,11 @@
                                                             class="d-none d-sm-inline-block">@lang('Add details')</span></button>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-12 col-md-12 mb-3">
+                                                <label class="form-label mb-2">@lang('Pictures property') </label>
+                                                <input type="file" name="images[]" multiple class="dropify"
+                                                    accept="image/jpeg, image/png" />
+                                            </div>
                                         </div>
 
 
@@ -332,11 +337,7 @@
                                                     </textarea>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Pictures property') </label>
-                                            <input type="file" name="images[]" multiple class="dropify"
-                                                accept="image/jpeg, image/png" />
-                                        </div>
+                                 
 
 
 

@@ -24,6 +24,11 @@ class ProjectService
         return $this->projectRepository->getAllByBrokerId($brokerId);
     }
 
+    public function getAllProjects()
+    {
+        return Project::all();
+    }
+
    
     public function createProject($data, $files)
     {

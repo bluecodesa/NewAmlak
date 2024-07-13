@@ -52,6 +52,9 @@
                             <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link  fw-medium" href="{{ route('Home.showAllProjects') }}">المشاريع</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('brokers') }}">الوسطاء العقاريين</a>
                         </li>
                         <li class="nav-item">

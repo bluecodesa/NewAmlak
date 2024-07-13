@@ -56,6 +56,7 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['name']);
         unset($unit_data['qty']);
         unset($unit_data['images']);
+        unset($unit_data['videos']);
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
@@ -107,15 +108,32 @@ class UnitRepository implements UnitRepositoryInterface
             $images = $data['images'];
             if ($images) {
                 foreach ($images as $image) {
-                    $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() .  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/', $ext);
+                    $ext = $image->getClientOriginalExtension(); 
+                    $filename = uniqid() . '.' . $ext;
+                    $image->move(public_path() . '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/', $filename);
                     UnitImage::create([
-                        'image' =>  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/' . $ext,
+                        'image' => '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/' . $filename,
                         'unit_id' => $unit->id,
                     ]);
                 }
             }
         }
+        
+        if (isset($data['videos'])) {
+            $videos = $data['videos'];
+            if ($videos) {
+                foreach ($videos as $video) {
+                    $ext = $video->getClientOriginalExtension(); 
+                    $filename = uniqid() . '.' . $ext;
+                    $video->move(public_path() . '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/', $filename);
+                    UnitImage::create([
+                        'image' => '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/' . $filename,
+                        'unit_id' => $unit->id,
+                    ]);
+                }
+            }
+        }
+        
     }
 
     public function update($id, $data)
