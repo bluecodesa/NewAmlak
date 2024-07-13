@@ -31,6 +31,11 @@
                                 @php
                                     $i = 0;
                                 @endphp
+                                    @if($Unit->UnitImages->isEmpty())
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
+                                    </div>
+                                @else
                                 @foreach ($Unit->UnitImages as $media)
                                     <div class="carousel-item @if ($i == 0) active @endif">
                                         @if (Str::startsWith($media->image, '/Brokers/Projects/Unit/Images'))
@@ -52,6 +57,7 @@
                                         $i++;
                                     @endphp
                                 @endforeach
+                                @endif
                             </div>
                             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>

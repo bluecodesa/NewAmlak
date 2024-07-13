@@ -229,8 +229,8 @@
                                                             </thead>
                                                             <tbody>
                                                                 @foreach ($units as $index => $unit)
-                                                                    <tr>
-                                                                        <td>{{ $index + 1 }}</td>
+                                                                <tr class="clickable-row" data-href="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}">
+                                                                    <td>{{ $index + 1 }}</td>
                                                                         <td>{{ $unit->number_unit ?? '' }}</td>
                                                                         <td>{{ $unit->space ?? '' }}</td>
                                                                         <td>
@@ -389,6 +389,22 @@
                 fullDesc.style.display = 'block';
             }
         }
+    </script>
+    <style>
+        .clickable-row {
+            cursor: pointer;
+        }
+    </style>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var rows = document.querySelectorAll('.clickable-row');
+            rows.forEach(function(row) {
+                row.addEventListener('click', function() {
+                    window.location.href = row.getAttribute('data-href');
+                });
+            });
+        });
     </script>
     
     <!-- Content wrapper -->
