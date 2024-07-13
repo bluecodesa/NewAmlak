@@ -257,7 +257,7 @@
                                         </div>
 
                                         <div class="col-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('services')</label>
+                                            <label class="form-label">@lang('Amenities')</label>
                                             <select class="select2 form-select" name="service_id[]" multiple="multiple">
                                                 <option disabled value="">@lang('services')</option>
                                                 @foreach ($services as $service)

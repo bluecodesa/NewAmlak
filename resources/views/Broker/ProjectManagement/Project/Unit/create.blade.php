@@ -240,7 +240,7 @@
                                         </div>
 
                                         <div class="col-12 col-md-4 mb-3">
-                                            <label>@lang('services') </label>
+                                            <label>@lang('Amenities') </label>
                                             <select class="select2 form-select" id="exampleFormControlSelect1"
                                                 name="service_id[]" multiple="multiple">
                                                 <option disabled value="">@lang('services')</option>
