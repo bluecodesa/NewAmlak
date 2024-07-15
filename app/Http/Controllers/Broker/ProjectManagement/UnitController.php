@@ -178,7 +178,6 @@ class UnitController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
         // return $request;
         $rules = [];
         $rules = [
@@ -316,7 +315,7 @@ class UnitController extends Controller
     public function getPropertyDetails($propertyId)
     {
 
-        $property = Property::findOrFail($propertyId); 
+        $property = Property::findOrFail($propertyId);
 
         if ($property) {
             $property->load('CityData','CityData.RegionData', 'CityData.DistrictsCity');
