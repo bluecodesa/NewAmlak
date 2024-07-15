@@ -32,6 +32,7 @@ class UnitRepository implements UnitRepositoryInterface
 
     public function store($data)
     {
+
         $rules = [
             'monthly' => 'digits_between:0,8',
             'daily' => 'digits_between:0,8',

@@ -177,6 +177,7 @@ class UnitController extends Controller
 
     public function store(Request $request)
     {
+        dd($request);
         // return $request;
         $rules = [];
         $rules = [
