@@ -111,7 +111,7 @@ class UnitRepository implements UnitRepositoryInterface
             $images = $data['images'];
             if ($images) {
                 foreach ($images as $image) {
-                    $ext = $image->getClientOriginalExtension(); 
+                    $ext = $image->getClientOriginalExtension();
                     $filename = uniqid() . '.' . $ext;
                     $image->move(public_path() . '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/', $filename);
                     UnitImage::create([
@@ -121,12 +121,12 @@ class UnitRepository implements UnitRepositoryInterface
                 }
             }
         }
-        
+
         if (isset($data['videos'])) {
             $videos = $data['videos'];
             if ($videos) {
                 foreach ($videos as $video) {
-                    $ext = $video->getClientOriginalExtension(); 
+                    $ext = $video->getClientOriginalExtension();
                     $filename = uniqid() . '.' . $ext;
                     $video->move(public_path() . '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/', $filename);
                     UnitImage::create([
@@ -136,7 +136,7 @@ class UnitRepository implements UnitRepositoryInterface
                 }
             }
         }
-        
+
     }
 
     public function update($id, $data)
@@ -193,7 +193,7 @@ class UnitRepository implements UnitRepositoryInterface
         if (isset($unit_data['unit_masterplan'])) {
             if (!empty($unit->project_brochure) && File::exists(public_path($unit->project_brochure))) {
                 File::delete(public_path($unit->project_brochure));
-            }  
+            }
             $unitMasterplan = $unit_data['unit_masterplan'];
             $ext = $unitMasterplan->getClientOriginalExtension();
             $masterplanName = uniqid() . '.' . $ext;
@@ -236,6 +236,20 @@ class UnitRepository implements UnitRepositoryInterface
                     $image->move(public_path() .  '/Brokers/Projects/Unit/Images' . $unit->number_unit . '/', $ext);
                     UnitImage::create([
                         'image' =>  '/Brokers/Projects/Unit/Images' . $unit->number_unit . '/' . $ext,
+                        'unit_id' => $unit->id,
+                    ]);
+                }
+            }
+        }
+        if (isset($data['videos'])) {
+            $videos = $data['videos'];
+            if ($videos) {
+                foreach ($videos as $video) {
+                    $ext = $video->getClientOriginalExtension();
+                    $filename = uniqid() . '.' . $ext;
+                    $video->move(public_path() . '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/', $filename);
+                    UnitImage::create([
+                        'image' => '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/' . $filename,
                         'unit_id' => $unit->id,
                     ]);
                 }
