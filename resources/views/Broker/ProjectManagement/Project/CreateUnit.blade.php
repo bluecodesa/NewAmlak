@@ -338,7 +338,10 @@
                                             </div>
                                         </div>
                                  
-
+                                        <div class="col-sm-12 col-md-12 mb-3">
+                                            <label class="form-label mb-2">@lang('Unit Video')</label>
+                                            <input type="file" name="videos[]" class="dropify"  accept="video/mp4, video/webm, video/ogg" />
+                                        </div>
 
 
 

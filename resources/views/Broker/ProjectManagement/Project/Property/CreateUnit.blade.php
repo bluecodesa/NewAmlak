@@ -269,7 +269,11 @@
                                             </div>
                                         </div>
 
-
+                                        <div class="col-sm-12 col-md-12 mb-3">
+                                            <label class="form-label mb-2">@lang('Pictures property') </label>
+                                            <input type="file" name="images[]" multiple class="dropify"
+                                                accept="image/jpeg, image/png" />
+                                        </div>
 
                                         <div class="col-12" style="text-align: center;">
                                             <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
@@ -336,12 +340,12 @@
                                                     </textarea>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Pictures property') </label>
-                                            <input type="file" name="images[]" multiple class="dropify"
-                                                accept="image/jpeg, image/png" />
-                                        </div>
 
+
+                                        <div class="col-sm-12 col-md-12 mb-3">
+                                            <label class="form-label mb-2">@lang('Unit Video')</label>
+                                            <input type="file" name="videos[]" class="dropify"  accept="video/mp4, video/webm, video/ogg" />
+                                        </div>
                                     </div>
 
                                     <div class="col-12" style="text-align: center;">
