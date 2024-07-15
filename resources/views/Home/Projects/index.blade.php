@@ -48,7 +48,7 @@
 
                                                 @endguest
 
-                                                @auth
+                                                {{-- @auth
 
                                                     @if (auth()->user())
                                                         @php
@@ -95,7 +95,7 @@
                                                             <i class="ti ti-heart ti-sm"></i>
                                                         </a>
                                                     @endif
-                                                @endauth
+                                                @endauth --}}
 
                                             </div>
                                             <div class="mx-auto my-3">

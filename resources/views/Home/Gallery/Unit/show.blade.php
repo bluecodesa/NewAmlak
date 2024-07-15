@@ -131,9 +131,19 @@
                             <h5 class="card-action-title mb-0">تفاصيل الوحدة</h5>
 
                         </div>
+                        @if($Unit->note)
+
                         <div class="card-body pb-0">
-                            {!! $Unit->note ?? '' !!}
+                            <div id="project-description-short">
+                                {!! Str::limit(strip_tags($Unit->note ?? ''), 500, '...') !!}
+                                <a href="javascript:void(0);" id="read-more-btn" onclick="toggleReadMore()">Read More</a>
+                            </div>
+                            <div id="project-description-full" style="display: none;">
+                                {!! $Unit->note ?? '' !!}
+                                <a href="javascript:void(0);" id="read-less-btn" onclick="toggleReadMore()">Read Less</a>
+                            </div>
                         </div>
+                        @endif
                         <div class="card-body pb-0">
 
 
@@ -180,7 +190,7 @@
 
                             @if ($Unit->UnitServicesData->isNotEmpty())
                                 <ul class="list-unstyled mb-4 mt-3">
-                                    <h5 class="card-action-title mb-0">@lang('services')</h5>
+                                    <h5 class="card-action-title mb-0">@lang('Amenities')</h5>
                                     <div class="demo-inline-spacing">
                                         @foreach ($Unit->UnitServicesData as $service)
                                             <span
@@ -191,6 +201,8 @@
                             @endif
                         </div>
                     </div>
+                    @if($Unit->unit_masterplan)
+
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
                             <h5 class="card-action-title mb-0">مخطط الوحدة</h5>
@@ -204,7 +216,8 @@
                             @endif
                         </div>
                     </div>
-                    
+                    @endif
+
 
                     <!-- Projects table -->
                     {{-- <div class="card mb-4">
@@ -481,5 +494,20 @@
             });
         });
     </script>
+
+<script>
+    function toggleReadMore() {
+        var shortDesc = document.getElementById('project-description-short');
+        var fullDesc = document.getElementById('project-description-full');
+
+        if (shortDesc.style.display === 'none') {
+            shortDesc.style.display = 'block';
+            fullDesc.style.display = 'none';
+        } else {
+            shortDesc.style.display = 'none';
+            fullDesc.style.display = 'block';
+        }
+    }
+</script>
     <!-- Content wrapper -->
 @endsection

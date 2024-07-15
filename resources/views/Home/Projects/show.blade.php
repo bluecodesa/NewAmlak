@@ -16,7 +16,7 @@
                 </span>
             </h4>
             <input hidden type="text" name="project_idd" value="{{ $project->id }}" />
-    
+
             <!-- Image Slider -->
             <div class="row">
                 <div class="col-xl-7 col-lg-7 col-md-7">
@@ -52,7 +52,7 @@
                                         $i++;
                                     @endphp
                                 @endforeach
-                             
+
                                 @endif
                             </div>
                             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -65,7 +65,7 @@
                             </a>
                         </div>
                     </div>
-    
+
                     <!-- Modal -->
                     <div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
@@ -117,15 +117,16 @@
                         </div>
                     </div>
                     <!-- /Image Slider -->
-    
+
                     <!-- description of project -->
+                    @if($project->note)
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
                             <h5 class="card-action-title mb-0">وصف المشروع</h5>
                         </div>
                         <div class="card-body pb-0">
                             <div id="project-description-short">
-                                {!! Str::limit(strip_tags($project->note ?? ''), 100, '...') !!}
+                                {!! Str::limit(strip_tags($project->note ?? ''), 500, '...') !!}
                                 <a href="javascript:void(0);" id="read-more-btn" onclick="toggleReadMore()">Read More</a>
                             </div>
                             <div id="project-description-full" style="display: none;">
@@ -134,46 +135,15 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                  <!-- description of project -->
 
                   <!-- time line -->
-                  <div class="card card-action mb-4">
-                    <div class="card-header align-items-center">
-                        <h5 class="card-action-title mb-0">@lang('Time Line')</h5>
-                    </div>
-                    <div class="card-body pb-0">
-                        <div class="col-xl-12 mb-4 mb-xl-0">
-                                <ul class="timeline mb-0">
-                                    @forelse ($project->ProjectTimeLineData as $index => $timeLine)
-
-                                  <li class="timeline-item timeline-item-transparent">
-                                    <span class="timeline-point timeline-point-primary"></span>
-                                    <div class="timeline-event">
-                                      <div class="timeline-header border-bottom mb-3">
-                                        <h6 class="mb-0">{{ $timeLine->StatusData->name }}</h6>
-                                        <span class="text-muted">{{ $timeLine->date }}</span>
-                                      </div>
-                                      <div class="d-flex justify-content-between flex-wrap mb-2">
-                                        <div class="d-flex align-items-center">
-                                          <span>{{ $timeLine->date }}</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  @empty
-                                  <tr>
-                                      <td colspan="6">@lang('No units found')</td>
-                                  </tr>
-                              @endforelse
-
-                                </ul>
-                          </div>
-                    </div>
-                </div>
+              
              <!-- time line -->
 
                            <!-- unit card -->
-
+                            
                            <div class="card card-action mb-4">
                             <div class="card-header align-items-center">
                                 <h5 class="card-action-title mb-0">الوحدات</h5>
@@ -183,12 +153,12 @@
                                     @php
                                         $propertyTypes = $project->UnitsProject->pluck('property_type_id')->unique();
                                     @endphp
-                        
+
                                     @foreach ($propertyTypes as $propertyTypeId)
                                         @php
                                             $units = $project->UnitsProject->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
                                         @endphp
-                        
+
                                         @if ($units->count() > 0)
                                             @php
                                                 $propertyTypeName = $units->first()->PropertyTypeData->name ?? '';
@@ -196,7 +166,7 @@
                                                 $headingId = 'heading' . $propertyTypeId;
                                                 $collapseId = 'collapse' . $propertyTypeId;
                                             @endphp
-                        
+
                                             <div class="card accordion-item {{ $loop->first ? 'active' : '' }}">
                                                 <h2 class="accordion-header" id="{{ $headingId }}">
                                                     <button
@@ -209,7 +179,7 @@
                                                         {{ $propertyTypeName }}
                                                     </button>
                                                 </h2>
-                        
+
                                                 <div
                                                     id="{{ $collapseId }}"
                                                     class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
@@ -222,8 +192,7 @@
                                                                     <th>@lang('#')</th>
                                                                     <th>@lang('Residential number')</th>
                                                                     <th>@lang('Area (square metres)')</th>
-                                                                    <th>@lang('property')</th>
-                                                                    <th>@lang('Property type')</th>
+                                                                    <th>@lang('number rooms')</th>
                                                                     <th>@lang('Ad type')</th>
                                                                 </tr>
                                                             </thead>
@@ -233,12 +202,7 @@
                                                                     <td>{{ $index + 1 }}</td>
                                                                         <td>{{ $unit->number_unit ?? '' }}</td>
                                                                         <td>{{ $unit->space ?? '' }}</td>
-                                                                        <td>
-                                                                            <span class="badge badge-pill bg-{{ $unit->PropertyData != null ? 'success' : 'warning' }}" style="font-size: 13px;">
-                                                                                {{ $unit->PropertyData->name ?? __('nothing') }}
-                                                                            </span>
-                                                                        </td>
-                                                                        <td>{{ $unit->PropertyTypeData->name ?? '' }}</td>
+                                                                        <td>{{ $unit->rooms ?? '' }}</td>                                                                     
                                                                         <td>{{ __($unit->type) ?? '' }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -252,10 +216,11 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- /unit table -->
 
                     <!-- Project Masterplan -->
+                    @if($project->project_masterplan)
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
                             <h5 class="card-action-title mb-0">مخطط المشروع</h5>
@@ -268,6 +233,8 @@
                             @endif
                         </div>
                     </div>
+                    @endif
+                    @if($project->project_brochure)
 
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
@@ -281,9 +248,10 @@
                             @endif
                         </div>
                     </div>
+                    @endif
                     <!-- /Project Masterplan -->
                 </div>
-    
+
                 <!-- About User -->
                 <div class="col-xl-5 col-lg-5 col-md-5">
                     <div class="card mb-4">
@@ -317,7 +285,42 @@
                         </div>
                     </div>
                     <!-- /About User -->
+                    @if($project->ProjectTimeLineData)
+                    <div class="card card-action mb-4">
+                        <div class="card-header align-items-center">
+                            <h5 class="card-action-title mb-0">@lang('Time Line')</h5>
+                        </div>
+                        <div class="card-body pb-0">
+                            <div class="col-xl-12 mb-4 mb-xl-0">
+                                    <ul class="timeline mb-0">
+                                        @forelse ($project->ProjectTimeLineData as $index => $timeLine)
     
+                                      <li class="timeline-item timeline-item-transparent">
+                                        <span class="timeline-point timeline-point-primary"></span>
+                                        <div class="timeline-event">
+                                          <div class="timeline-header border-bottom mb-3">
+                                            <h6 class="mb-0">{{ $timeLine->StatusData->name }}</h6>
+                                            <span class="text-muted">{{ $timeLine->date }}</span>
+                                          </div>
+                                          {{-- <div class="d-flex justify-content-between flex-wrap mb-2">
+                                            <div class="d-flex align-items-center">
+                                              <span>{{ $timeLine->date }}</span>
+                                            </div>
+                                          </div> --}}
+                                        </div>
+                                      </li>
+                                      @empty
+                                      <tr>
+                                          <td colspan="6">@lang('No timeline found')</td>
+                                      </tr>
+                                  @endforelse
+    
+                                    </ul>
+                              </div>
+                        </div>
+                    </div>
+                    @endif
+
                     <!-- Profile Overview -->
                     <div class="card mb-4">
                         <div class="card-body">
@@ -328,13 +331,14 @@
                         </div>
                     </div>
                     <!-- /Profile Overview -->
+                    
                 </div>
             </div>
             <!-- /User Profile Content -->
         </div>
         <!-- /Container -->
     </section>
-    
+
     {{-- @include('Home.layouts.inc.__addSubscriberModal')
 
 
@@ -380,7 +384,7 @@
         function toggleReadMore() {
             var shortDesc = document.getElementById('project-description-short');
             var fullDesc = document.getElementById('project-description-full');
-            
+
             if (shortDesc.style.display === 'none') {
                 shortDesc.style.display = 'block';
                 fullDesc.style.display = 'none';
@@ -394,8 +398,11 @@
         .clickable-row {
             cursor: pointer;
         }
+        .clickable-row:hover {
+        background-color: #f0f0f0; /* Change this color to the shade of gray you prefer */
+    }
     </style>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var rows = document.querySelectorAll('.clickable-row');
@@ -406,6 +413,6 @@
             });
         });
     </script>
-    
+
     <!-- Content wrapper -->
 @endsection

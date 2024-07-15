@@ -17,6 +17,8 @@ use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -86,8 +88,31 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
 
         $project_data = $data;
-
         $project = Project::findOrFail($id);
+          // Handle project_masterplan upload
+          if (isset($project_data['project_masterplan'])) {
+            if (!empty($project->project_masterplan) && File::exists(public_path($project->project_masterplan))) {
+                File::delete(public_path($project->project_masterplan));
+            }            
+            $projectMasterplan = $project_data['project_masterplan'];
+            $ext = $projectMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $projectMasterplan->move(public_path('/Brokers/Projects/pdfs'), $masterplanName);
+            $project_data['project_masterplan'] = '/Brokers/Projects/pdfs/' . $masterplanName;
+        }
+
+        // Handle project_brochure upload
+        if (isset($project_data['project_brochure'])) {
+            if (!empty($project->project_brochure) && File::exists(public_path($project->project_brochure))) {
+                File::delete(public_path($project->project_brochure));
+            }              
+            $projectBrochure = $project_data['project_brochure'];
+            $ext = $projectBrochure->getClientOriginalExtension();
+            $brochureName = uniqid() . '.' . $ext;
+            $projectBrochure->move(public_path('/Brokers/Projects/pdfs'), $brochureName);
+            $project_data['project_brochure'] = '/Brokers/Projects/pdfs/' . $brochureName;
+        }
+
         // if ($images) {
         //     $ext = $images->getClientOriginalExtension();
         //     $imageName = uniqid() . '.' . $ext;

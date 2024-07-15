@@ -356,8 +356,8 @@
                                    
                                     
                                         <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Unit Videos')</label>
-                                            <input type="file" name="videos[]" multiple accept="video/mp4, video/webm, video/ogg" />
+                                            <label class="form-label mb-2">@lang('Unit Video')</label>
+                                            <input type="file" name="videos[]" class="dropify"  accept="video/mp4, video/webm, video/ogg" />
                                         </div>
                                     </div>
                                     <div class="col-12" style="text-align: center;">

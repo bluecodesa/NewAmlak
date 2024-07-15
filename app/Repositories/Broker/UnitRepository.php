@@ -14,6 +14,8 @@ use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
 
 
 class UnitRepository implements UnitRepositoryInterface
@@ -186,6 +188,18 @@ class UnitRepository implements UnitRepositoryInterface
         }
 
         $unit = Unit::find($id);
+
+        if (isset($unit_data['unit_masterplan'])) {
+            if (!empty($unit->project_brochure) && File::exists(public_path($unit->project_brochure))) {
+                File::delete(public_path($unit->project_brochure));
+            }  
+            $unitMasterplan = $unit_data['unit_masterplan'];
+            $ext = $unitMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $unitMasterplan->move(public_path('/Brokers/Projects/Units/'), $masterplanName);
+            $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
+        }
+
         $unit->update($unit_data);
         if (isset($data['service_id'])) {
             $unit->UnitServicesData()->delete();
@@ -218,9 +232,9 @@ class UnitRepository implements UnitRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() .  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/', $ext);
+                    $image->move(public_path() .  '/Brokers/Projects/Unit/Images' . $unit->number_unit . '/', $ext);
                     UnitImage::create([
-                        'image' =>  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/' . $ext,
+                        'image' =>  '/Brokers/Projects/Unit/Images' . $unit->number_unit . '/' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }

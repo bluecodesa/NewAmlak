@@ -305,6 +305,14 @@
 
                                             </div>
                                         </div>
+                                        
+                                        <div class="col-sm-12 col-md-12 mb-3">
+                                            <label class="form-label mb-2">@lang('Unit Images') </label>
+                                            <input type="file" name="images[]"
+                                                data-url="{{ route('Broker.Unit.deleteImage', $Unit->id) }}"
+                                                @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif
+                                                multiple class="dropify" accept="image/jpeg, image/png" />
+                                        </div>
 
 
                                         <div class="col-12" style="text-align: center;">
@@ -370,12 +378,13 @@
                                         </div>
 
                                         <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Pictures property') </label>
+                                            <label class="form-label mb-2">@lang('Unit Video') </label>
                                             <input type="file" name="images[]"
                                                 data-url="{{ route('Broker.Unit.deleteImage', $Unit->id) }}"
                                                 @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif
-                                                multiple class="dropify" accept="image/jpeg, image/png" />
+                                                multiple class="dropify" accept="video/mp4, video/webm, video/ogg"  />
                                         </div>
+
 
                                     </div>
 
