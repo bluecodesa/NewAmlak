@@ -6,7 +6,14 @@
     data-assets-path="{{ url('HOME_PAGE') }}/" data-template="vertical-menu-template-starter">
 
 @include('Home.layouts.home.head')
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XGN6LJTBQ2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-XGN6LJTBQ2');
+</script>
 <body>
     <script src="{{ url('HOME_PAGE/vendor/js/dropdown-hover.js') }}"></script>
     <script src="{{ url('HOME_PAGE/vendor/js/mega-dropdown.js') }}"></script>
