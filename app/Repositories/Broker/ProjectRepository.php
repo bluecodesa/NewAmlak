@@ -26,7 +26,7 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         return Project::where('broker_id', $brokerId)->get();
     }
-  
+
     public function create($data, $files)
     {
         $project_data = $data;
@@ -93,7 +93,7 @@ class ProjectRepository implements ProjectRepositoryInterface
           if (isset($project_data['project_masterplan'])) {
             if (!empty($project->project_masterplan) && File::exists(public_path($project->project_masterplan))) {
                 File::delete(public_path($project->project_masterplan));
-            }            
+            }
             $projectMasterplan = $project_data['project_masterplan'];
             $ext = $projectMasterplan->getClientOriginalExtension();
             $masterplanName = uniqid() . '.' . $ext;
@@ -105,7 +105,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         if (isset($project_data['project_brochure'])) {
             if (!empty($project->project_brochure) && File::exists(public_path($project->project_brochure))) {
                 File::delete(public_path($project->project_brochure));
-            }              
+            }
             $projectBrochure = $project_data['project_brochure'];
             $ext = $projectBrochure->getClientOriginalExtension();
             $brochureName = uniqid() . '.' . $ext;
@@ -243,9 +243,24 @@ class ProjectRepository implements ProjectRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() . '/Brokers/Projects/Property/Unit', $ext);
+                    $image->move(public_path() . '/Brokers/Projects/Unit', $ext);
                     UnitImage::create([
-                        'image' => '/Brokers/Projects/Property/Unit/' . $ext,
+                        'image' => '/Brokers/Projects/Unit/Images' . $ext,
+                        'unit_id' => $unit->id,
+                    ]);
+                }
+            }
+        }
+
+        if (isset($data['videos'])) {
+            $videos = $data['videos'];
+            if ($videos) {
+                foreach ($videos as $video) {
+                    $ext = $video->getClientOriginalExtension();
+                    $filename = uniqid() . '.' . $ext;
+                    $video->move(public_path() . '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/', $filename);
+                    UnitImage::create([
+                        'image' => '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/' . $filename,
                         'unit_id' => $unit->id,
                     ]);
                 }

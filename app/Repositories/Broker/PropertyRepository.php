@@ -141,14 +141,30 @@ class PropertyRepository implements PropertyRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() . '/Brokers/Projects/Property/Unit', $ext);
+                    $image->move(public_path() . '/Brokers/Projects/Unit', $ext);
                     UnitImage::create([
-                        'image' => '/Brokers/Projects/Property/Unit/' . $ext,
+                        'image' => '/Brokers/Projects/Unit/Images' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }
             }
         }
+
+        if (isset($data['videos'])) {
+            $videos = $data['videos'];
+            if ($videos) {
+                foreach ($videos as $video) {
+                    $ext = $video->getClientOriginalExtension();
+                    $filename = uniqid() . '.' . $ext;
+                    $video->move(public_path() . '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/', $filename);
+                    UnitImage::create([
+                        'image' => '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/' . $filename,
+                        'unit_id' => $unit->id,
+                    ]);
+                }
+            }
+        }
+
 
         return redirect()->route('Broker.Property.index')->with('success', __('added successfully'));
     }
