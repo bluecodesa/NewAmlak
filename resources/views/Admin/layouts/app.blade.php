@@ -149,7 +149,14 @@
     </style>
 
 </head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XGN6LJTBQ2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-XGN6LJTBQ2');
+</script>
 <body>
 
     <!-- Begin page -->
