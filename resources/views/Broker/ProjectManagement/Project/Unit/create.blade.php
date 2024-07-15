@@ -679,20 +679,23 @@
 <script>
   $(document).ready(function() {
     function populateFields(data) {
+        // console.log(data);
         // Populate region select
         $('#Region_id').val(data.city_data.region_data.id).change();
 
         // Populate city select
         $('#CityDiv').empty();
-        $.each(data.city_data, function(index, city) {
-                $('#CityDiv').append('<option value="' + city.id + '">' + city.name + '</option>');
 
-        });
+        // Append default option
+        $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
+        // Append each city option
+        $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
+
 
         // Populate district select
         $('#DistrictDiv').empty();
         $.each(data.city_data.districts_city, function(index, district) {
-            $('#DistrictDiv').append('<option value="' + district.id + '">' + district.translations.find(t => t.locale === 'ar').name + '</option>');
+            $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
         });
     }
 
@@ -708,7 +711,7 @@
                     $('select[name="property_type_id"]').val(response.project.property_type_id).change();
                     $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
                     $('select[name="owner_id"]').val(response.project.owner_id).change();
-                    $('input[name="instrument_number"]').val(response.project.instrument_number);
+                    // $('input[name="instrument_number"]').val(response.project.instrument_number);
                     $('select[name="service_type_id"]').val(response.project.service_type_id).change();
                 },
                 error: function(error) {
@@ -730,7 +733,7 @@
                     $('select[name="property_type_id"]').val(response.property.property_type_id).change();
                     $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
                     $('select[name="owner_id"]').val(response.property.owner_id).change();
-                    $('input[name="instrument_number"]').val(response.property.instrument_number);
+                    // $('input[name="instrument_number"]').val(response.property.instrument_number);
                     $('select[name="service_type_id"]').val(response.property.service_type_id).change();
                 },
                 error: function(error) {

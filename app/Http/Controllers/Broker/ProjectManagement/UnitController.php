@@ -165,6 +165,7 @@ class UnitController extends Controller
         $features = $this->FeatureService->getAllFeature();
         $projects = $this->brokerDataService->getProjects();
         $properties = $this->brokerDataService->getProperties();
+        $project = Project::findOrFail(58);
         return view('Broker.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 
@@ -305,7 +306,7 @@ class UnitController extends Controller
     {
         $project = Project::findOrFail($projectId);
         if ($project) {
-            $project->load('CityData.RegionData', 'CityData.DistrictsCity');
+            $project->load('CityData','CityData.RegionData', 'CityData.DistrictsCity');
             return response()->json(['project' => $project]);
         } else {
             return response()->json(['error' => 'Project not found'], 404);
@@ -318,7 +319,7 @@ class UnitController extends Controller
         $property = Property::findOrFail($propertyId); 
 
         if ($property) {
-            $property->load('CityData.RegionData', 'CityData.DistrictsCity');
+            $property->load('CityData','CityData.RegionData', 'CityData.DistrictsCity');
 
             return response()->json(['property' => $property]);
         } else {
