@@ -27,4 +27,6 @@ interface SettingRepositoryInterface
     public function getInterestTypeById($data);
     public function updateInterestType($id, $data);
     public function deleteInterestType($id);
+    public function createAds($data);
+
 }

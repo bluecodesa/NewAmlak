@@ -52,10 +52,18 @@ class HomeController extends Controller
     public function index()
     {
         //subscrptions
-        $subscriptionTypes = $this->subscriptionTypeService->getAll()
-            ->where('is_deleted', 0)
-            ->where('is_show', 1)
-            ->where('status', 1);
+        // $subscriptionTypes = $this->subscriptionTypeService->getAll()
+        //     ->where('is_deleted', 0)
+        //     ->where('is_show', 1)
+        //     ->where('status', 1);
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
+        ->where('is_show', 1)
+        ->where('status', 1)
+        ->whereHas('roles', function ($query) {
+            $query->where('type', 'user');
+        })
+        ->with('sections') // Eager load sections relationship
+        ->get();
         $sections = $this->SectionService->getAll();
         ////
         $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();

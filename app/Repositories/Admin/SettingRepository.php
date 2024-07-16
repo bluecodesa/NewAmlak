@@ -55,7 +55,20 @@ class SettingRepository implements SettingRepositoryInterface
     {
     }
 
-
+    public function createAds($request)
+    {
+        $validatedData = $request->validate([
+            'google_tag' => 'nullable|string',
+            'zoho_salesiq' => 'nullable|string',
+        ]);
+    
+        $setting = Setting::first();
+    
+        $setting->update([
+            'google_tag' => $validatedData['google_tag'],
+            'zoho_salesiq' => $validatedData['zoho_salesiq'],
+        ]);
+    }
 
     public function ChangeActiveHomePage($request)
     {
