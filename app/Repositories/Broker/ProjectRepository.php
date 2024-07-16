@@ -17,6 +17,8 @@ use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -24,10 +26,11 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         return Project::where('broker_id', $brokerId)->get();
     }
-  
+
     public function create($data, $files)
     {
         $project_data = $data;
+
 
         // Handle project_masterplan upload
         if (isset($files['project_masterplan'])) {
@@ -47,8 +50,14 @@ class ProjectRepository implements ProjectRepositoryInterface
             $project_data['project_brochure'] = '/Brokers/Projects/pdfs/' . $brochureName;
         }
 
+
         $project_data['broker_id'] = Auth::user()->UserBrokerData->id;
 
+        if (isset($data['show_in_gallery'])) {
+            $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+        } else {
+            $project_data['show_in_gallery'] = 0;
+        }
         unset($project_data['time_line']);
         unset($project_data['date']);
         unset($project_data['images']);
@@ -86,8 +95,38 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
 
         $project_data = $data;
-
         $project = Project::findOrFail($id);
+
+        if (isset($data['show_in_gallery'])) {
+            $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+        } else {
+            $project_data['show_in_gallery'] = 0;
+        }
+
+          // Handle project_masterplan upload
+          if (isset($project_data['project_masterplan'])) {
+            if (!empty($project->project_masterplan) && File::exists(public_path($project->project_masterplan))) {
+                File::delete(public_path($project->project_masterplan));
+            }
+            $projectMasterplan = $project_data['project_masterplan'];
+            $ext = $projectMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $projectMasterplan->move(public_path('/Brokers/Projects/pdfs'), $masterplanName);
+            $project_data['project_masterplan'] = '/Brokers/Projects/pdfs/' . $masterplanName;
+        }
+
+        // Handle project_brochure upload
+        if (isset($project_data['project_brochure'])) {
+            if (!empty($project->project_brochure) && File::exists(public_path($project->project_brochure))) {
+                File::delete(public_path($project->project_brochure));
+            }
+            $projectBrochure = $project_data['project_brochure'];
+            $ext = $projectBrochure->getClientOriginalExtension();
+            $brochureName = uniqid() . '.' . $ext;
+            $projectBrochure->move(public_path('/Brokers/Projects/pdfs'), $brochureName);
+            $project_data['project_brochure'] = '/Brokers/Projects/pdfs/' . $brochureName;
+        }
+
         // if ($images) {
         //     $ext = $images->getClientOriginalExtension();
         //     $imageName = uniqid() . '.' . $ext;
@@ -133,6 +172,10 @@ class ProjectRepository implements ProjectRepositoryInterface
         return Project::find($id);
     }
 
+    function ShowPublicProject($id)
+    {
+        return Project::where('show_in_gallery', 1)->find($id);
+    }
     public function delete($id)
     {
         return Project::destroy($id);
@@ -187,6 +230,13 @@ class ProjectRepository implements ProjectRepositoryInterface
             $unitMasterplan->move(public_path('/Brokers/Projects/Units/'), $masterplanName);
             $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
         }
+        if (isset($unit_data['video'])) {
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Brokers/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Brokers/Projects/Unit/Video/' . $videoName;
+        }
 
         $unit = Unit::create($unit_data);
 
@@ -218,14 +268,29 @@ class ProjectRepository implements ProjectRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() . '/Brokers/Projects/Property/Unit', $ext);
+                    $image->move(public_path() . '/Brokers/Projects/Unit', $ext);
                     UnitImage::create([
-                        'image' => '/Brokers/Projects/Property/Unit/' . $ext,
+                        'image' => '/Brokers/Projects/Unit/Images' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }
             }
         }
+
+        // if (isset($data['videos'])) {
+        //     $videos = $data['videos'];
+        //     if ($videos) {
+        //         foreach ($videos as $video) {
+        //             $ext = $video->getClientOriginalExtension();
+        //             $filename = uniqid() . '.' . $ext;
+        //             $video->move(public_path() . '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/', $filename);
+        //             UnitImage::create([
+        //                 'image' => '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/' . $filename,
+        //                 'unit_id' => $unit->id,
+        //             ]);
+        //         }
+        //     }
+        // }
 
         return redirect()->route('Broker.Project.index')->with('success', __('added successfully'));
     }

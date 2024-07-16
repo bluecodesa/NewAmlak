@@ -259,4 +259,87 @@
             });
         });
     </script>
+
+<script>
+
+    $(document).ready(function() {
+            $('#textarea').summernote({
+                height: 100, // set editor height
+                minHeight: null, // set minimum height of editor
+                maxHeight: null, // set maximum height of editor
+                focus: true, // set focus to editable area after initializing summernote
+                toolbar: [
+                    // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                    ['style', ['bold', 'underline']],
+                    ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                    ['para', ['ul', 'ol']],
+                    ['misc', ['fullscreen', 'undo', 'redo']],
+                    // Any other toolbar groups and options you want to include...
+                ],
+                // Explicitly remove table and font name options by not including them in the toolbar
+            });
+            $('.card-body .badge').click(function() {
+                var variableValue = $(this).attr('data-variable');
+                var $textarea = $('#textarea');
+                var summernoteEditor = $textarea.summernote('code');
+    
+                // Check if Summernote editor is focused
+                if ($('.note-editable').is(':focus')) {
+                    var node = document.createElement("span");
+                    node.innerHTML = variableValue;
+                    $('.note-editable').append(
+                        node); // This line appends the variable as a new node to the editor
+                    var range = document.createRange();
+                    var sel = window.getSelection();
+                    range.setStartAfter(node);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                } else {
+                    var currentContent = $textarea.summernote('code');
+                    $textarea.summernote('code', currentContent + variableValue);
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('#textarea2').summernote({
+                height: 100, // set editor height
+                minHeight: null, // set minimum height of editor
+                maxHeight: null, // set maximum height of editor
+                focus: true, // set focus to editable area after initializing summernote
+                toolbar: [
+                    // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                    ['style', ['bold', 'underline']],
+                    ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                    ['para', ['ul', 'ol']],
+                    ['misc', ['fullscreen', 'undo', 'redo']],
+                    // Any other toolbar groups and options you want to include...
+                ],
+                // Explicitly remove table and font name options by not including them in the toolbar
+            });
+            $('.card-body .badge').click(function() {
+                var variableValue = $(this).attr('data-variable');
+                var $textarea = $('#textarea2');
+                var summernoteEditor = $textarea.summernote('code');
+    
+                // Check if Summernote editor is focused
+                if ($('.note-editable').is(':focus')) {
+                    var node = document.createElement("span");
+                    node.innerHTML = variableValue;
+                    $('.note-editable').append(
+                        node); // This line appends the variable as a new node to the editor
+                    var range = document.createRange();
+                    var sel = window.getSelection();
+                    range.setStartAfter(node);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                } else {
+                    var currentContent = $textarea.summernote('code');
+                    $textarea.summernote('code', currentContent + variableValue);
+                }
+            });
+        });
+    </script>
 @endsection

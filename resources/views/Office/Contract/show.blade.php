@@ -164,16 +164,12 @@
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label class="col-md-6 form-label">@lang('owner name') <span
-                                            class="required-color">*</span>
-                                    </label>
+                                    <label class="col-md-6 form-label">@lang('owner name') <span class="required-color">*</span></label>
                                     <div class="input-group">
-                                        <select disabled class="form-select" id="OwnersDiv"
-                                            aria-label="Example select with button addon" name="owner_id" required>
+                                        <select class="form-select" disabled aria-label="Example select with button addon" name="owner_id" required disabled>
                                             <option disabled selected value="">@lang('owner name')</option>
                                             @foreach ($owners as $owner)
-                                                <option disabled value="{{ $owner->id }}"
-                                                    {{ $contract->owner_id == $owner->id ? 'selected' : '' }}>
+                                                <option disabled value="{{ $owner->id }}" {{ $contract->owner_id == $owner->id ? 'selected' : '' }}>
                                                     {{ $owner->name }}
                                                 </option>
                                             @endforeach

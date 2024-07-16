@@ -14,6 +14,8 @@ use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
 
 
 class UnitRepository implements UnitRepositoryInterface
@@ -30,6 +32,7 @@ class UnitRepository implements UnitRepositoryInterface
 
     public function store($data)
     {
+
         $rules = [
             'monthly' => 'digits_between:0,8',
             'daily' => 'digits_between:0,8',
@@ -56,6 +59,7 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['name']);
         unset($unit_data['qty']);
         unset($unit_data['images']);
+        // unset($unit_data['videos']);
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
@@ -79,6 +83,13 @@ class UnitRepository implements UnitRepositoryInterface
             $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
         }
 
+        if (isset($unit_data['video'])) {
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Brokers/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Brokers/Projects/Unit/Video/' . $videoName;
+        }
 
         $unit = Unit::create($unit_data);
         if (isset($data['service_id'])) {
@@ -107,19 +118,38 @@ class UnitRepository implements UnitRepositoryInterface
             $images = $data['images'];
             if ($images) {
                 foreach ($images as $image) {
-                    $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() .  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/', $ext);
+                    $ext = $image->getClientOriginalExtension();
+                    $filename = uniqid() . '.' . $ext;
+                    $image->move(public_path() . '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/', $filename);
                     UnitImage::create([
-                        'image' =>  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/' . $ext,
+                        'image' => '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/' . $filename,
                         'unit_id' => $unit->id,
                     ]);
                 }
             }
         }
+
+
+        // if (isset($unit_data['videos'])) {
+        //     $videos = $data['videos'];
+        //     if ($videos) {
+        //         foreach ($videos as $video) {
+        //             $ext = $video->getClientOriginalExtension();
+        //             $filename = uniqid() . '.' . $ext;
+        //             $video->move(public_path() . '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/', $filename);
+        //             UnitImage::create([
+        //                 'image' => '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/' . $filename,
+        //                 'unit_id' => $unit->id,
+        //             ]);
+        //         }
+        //     }
+        // }
+
     }
 
     public function update($id, $data)
     {
+
         $rules = [
             'monthly' => 'digits_between:0,8',
             'daily' => 'digits_between:0,8',
@@ -168,6 +198,29 @@ class UnitRepository implements UnitRepositoryInterface
         }
 
         $unit = Unit::find($id);
+
+        if (isset($unit_data['unit_masterplan'])) {
+            if (!empty($unit->project_brochure) && File::exists(public_path($unit->project_brochure))) {
+                File::delete(public_path($unit->project_brochure));
+            }
+            $unitMasterplan = $unit_data['unit_masterplan'];
+            $ext = $unitMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $unitMasterplan->move(public_path('/Brokers/Projects/Units/'), $masterplanName);
+            $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
+        }
+
+        if (isset($unit_data['video'])) {
+            if (!empty($unit->video) && File::exists(public_path($unit->video))) {
+                File::delete(public_path($unit->video));
+            }
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Brokers/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Brokers/Projects/Unit/Video/' . $videoName;
+        }
+
         $unit->update($unit_data);
         if (isset($data['service_id'])) {
             $unit->UnitServicesData()->delete();
@@ -200,14 +253,28 @@ class UnitRepository implements UnitRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() .  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/', $ext);
+                    $image->move(public_path() .  '/Brokers/Projects/Unit/Images' . $unit->number_unit . '/', $ext);
                     UnitImage::create([
-                        'image' =>  '/Brokers/Projects/Property/Unit/' . $unit->number_unit . '/' . $ext,
+                        'image' =>  '/Brokers/Projects/Unit/Images' . $unit->number_unit . '/' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }
             }
         }
+        // if (isset($data['videos'])) {
+        //     $videos = $data['videos'];
+        //     if ($videos) {
+        //         foreach ($videos as $video) {
+        //             $ext = $video->getClientOriginalExtension();
+        //             $filename = uniqid() . '.' . $ext;
+        //             $video->move(public_path() . '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/', $filename);
+        //             UnitImage::create([
+        //                 'image' => '/Brokers/Projects/Unit/Videos/' . $unit->number_unit . '/' . $filename,
+        //                 'unit_id' => $unit->id,
+        //             ]);
+        //         }
+        //     }
+        // }
     }
 
 

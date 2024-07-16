@@ -6,6 +6,8 @@ namespace App\Services\Broker;
 use App\Models\Advisor;
 use App\Models\Developer;
 use App\Models\Owner;
+use App\Models\Project;
+use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
 
 class BrokerDataService
@@ -23,6 +25,15 @@ class BrokerDataService
     public function getOwners()
     {
         return Owner::where('broker_id', Auth::user()->UserBrokerData->id)->get();
+    }
+    public function getProjects()
+    {
+        return Project::where('broker_id', Auth::user()->UserBrokerData->id)->get();
+    }
+
+    public function getProperties()
+    {
+        return Property::where('broker_id', Auth::user()->UserBrokerData->id)->get();
     }
 
 

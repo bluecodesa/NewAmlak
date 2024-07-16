@@ -201,8 +201,11 @@ class VoucherController extends Controller
         }
         $renter = Renter::find($contract->renter_id);
         if ($renter) {
-            $renter->balance += $request->total_price;
-            $renter->save();
+            $latestOfficeRenter = $renter->latestOfficeRenter;
+            $latestOfficeRenter->financial_Due += $request->total_price;
+            $latestOfficeRenter->save();
+            // $renter->balance += $request->total_price;
+            // $renter->save();
         }
 
         return redirect()->back()->with('success', 'Receipt created successfully.');
@@ -333,11 +336,6 @@ class VoucherController extends Controller
     }
 
 
-public function download($id)
-{
-    $voucher = Voucher::with('installments', 'contract', 'contract.property', 'contract.unit', 'contract.renter')->findOrFail($id);
-    $pdf = PDF::loadView('receipt_pdf', compact('receipt'));
-    return $pdf->download('receipt_' . $voucher->voucher_number . '.pdf');
-}
+
 
 }

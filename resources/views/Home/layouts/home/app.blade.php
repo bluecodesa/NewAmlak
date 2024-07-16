@@ -7,6 +7,7 @@
 
 @include('Home.layouts.home.head')
 
+
 <body>
     <script src="{{ url('HOME_PAGE/vendor/js/dropdown-hover.js') }}"></script>
     <script src="{{ url('HOME_PAGE/vendor/js/mega-dropdown.js') }}"></script>
@@ -50,6 +51,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link  fw-medium" href="{{ route('Home.showAllProjects') }}">المشاريع</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('brokers') }}">الوسطاء العقاريين</a>

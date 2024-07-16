@@ -72,5 +72,6 @@
 
         });
     </script>
+    {!! $sitting->zoho_salesiq !!}
 
     @stack('scripts')

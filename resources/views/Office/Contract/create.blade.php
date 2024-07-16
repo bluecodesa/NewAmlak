@@ -265,7 +265,6 @@
                                         <label class="form-label">@lang('Collection Type') <span
                                                 class="required-color">*</span></label>
                                         <select class="form-select" required name="collection_type" id="type" >
-                                            <option disabled selected value="">@lang('Collection Type')</option>
                                             @foreach (['once with frist installment', 'divided with all installments'] as $type)
                                                 <option value="{{ $type }}">
                                                     {{ __($type) }}</option>
@@ -585,9 +584,9 @@
                         'monthly': '@lang('monthly')'
                     };
 
-                    var filteredOptions = ['annual', 'semi-annual', 'quarterly', 'monthly'];
+                    var filteredOptions = ['monthly','quarterly', 'semi-annual','annual'];
                     if (durationUnit === 'month') {
-                        filteredOptions = ['quarterly', 'monthly'];
+                        filteredOptions = ['monthly','quarterly'];
                     }
 
                     filteredOptions.forEach(function(option) {

@@ -36,7 +36,7 @@
                     <thead>
                         <tr>
                             <th>@lang('Installment Number')</th>
-                            <th>@lang('price')</th>
+                            <th>@lang('Total')</th>
                             <th>@lang('status')</th>
                             <th>@lang('Contract Start Date')</th>
                             <th>@lang('Contract End Date')</th>
@@ -46,7 +46,7 @@
                         @foreach($receipt->installments as $installment)
                             <tr>
                                 <td>{{ $installment->Installment_number }}</td>
-                                <td>{{ $installment->price }}</td>
+                                <td>{{ $installment->total_price }}</td>
                                 <td>{{ __($installment->status) }}</td>
                                 <td>{{ $installment->start_date }}</td>
                                 <td>{{ $installment->end_date }}</td>
@@ -59,7 +59,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="printReceipt({{ $receipt->id }})">Print</button>
-                <a href="{{ route('Office.Receipt.download', $receipt->id) }}" class="btn btn-success">Download</a>
             </div>
             @else
             <div class="modal-body" id="receiptModalBody">

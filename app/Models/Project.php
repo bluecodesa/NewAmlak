@@ -78,4 +78,14 @@ class Project extends Model
     {
         return $this->hasMany(ProjectTimeLine::class, 'project_id');
     }
+    public function BrokerData()
+    {
+        return $this->belongsTo(Broker::class, 'broker_id');
+    }
+ 
+
+    public function OfficeData()
+    {
+        return $this->belongsTo(Office::class, 'office_id');
+    }
 }

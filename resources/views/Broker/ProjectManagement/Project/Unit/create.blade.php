@@ -71,7 +71,32 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
-                                        <div class="col-md-3 col-12 mb-3">
+                                     
+
+                                        <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('Project') <span
+                                                    class="required-color"></span></label>
+                                            <select class="form-select projectSelect" name="project_id" id="projectSelect">
+                                                <option disabled selected value="">@lang('Project')</option>
+                                                @foreach ($projects as $project)
+                                                    <option value="{{ $project->id }}"
+                                                        data-url="{{ route('Broker.GetProjectDetails', $project->id) }}">
+                                                        {{ $project->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('property') <span
+                                                    class="required-color"></span></label>
+                                            <select class="form-select" name="property_id" id="propertySelect">
+                                                <option disabled selected value="">@lang('property')</option>
+                                                @foreach ($properties as $property)
+                                                    <option value="{{ $property->id }}">{{ $property->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-12 mb-3">
 
                                             <label class="form-label">
                                                 {{ __('Residential number') }} <span class="required-color">*</span></label>
@@ -80,45 +105,40 @@
 
                                         </div>
 
-                                        <div class="col-md-3 mb-3 col-12">
+                                        <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Region') <span
-                                                    class="required-color">*</span>
-                                            </label>
+                                                    class="required-color">*</span></label>
                                             <select class="form-select" id="Region_id" required>
-                                                <option disabled value="">@lang('Region') </option>
+                                                <option disabled value="">@lang('Region')</option>
                                                 @foreach ($Regions as $Region)
                                                     <option value="{{ $Region->id }}"
                                                         data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
-                                                        {{ $Region->name }}</option>
+                                                        {{ $Region->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="col-md-3 mb-3 col-12">
+                                        <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('city') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select " id="CityDiv" name="city_id" required>
-                                                <option disabled value="" selected>@lang('city') </option>
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" id="CityDiv" name="city_id" required>
+                                                <option disabled value="" selected>@lang('city')</option>
                                                 @foreach ($cities as $city)
                                                     <option value="{{ $city->id }}"
                                                         data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}">
-                                                        {{ $city->name }}</option>
+                                                        {{ $city->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="col-md-3 mb-3 col-12">
+                                        <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('district') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="district_id" id="DistrictDiv" required>
-
-                                            </select>
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" name="district_id" id="DistrictDiv"
+                                                required></select>
                                         </div>
-
-
-
 
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label">@lang('location') <span
@@ -128,44 +148,38 @@
                                                 value="{{ old('location') }}" />
                                         </div>
 
-
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Property type') <span
-                                                    class="required-color">*</span>
-                                            </label>
+                                                    class="required-color">*</span></label>
                                             <select class="form-select" name="property_type_id" required>
                                                 <option disabled selected value="">@lang('Property type')</option>
                                                 @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}">
-                                                        {{ $type->name }}</option>
+                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Type use') <span
-                                                    class="required-color">*</span>
-                                            </label>
+                                                    class="required-color">*</span></label>
                                             <select class="form-select" name="property_usage_id" required>
                                                 <option disabled selected value="">@lang('Type use')</option>
                                                 @foreach ($usages as $usage)
-                                                    <option value="{{ $usage->id }}">
-                                                        {{ $usage->name }}</option>
+                                                    <option value="{{ $usage->id }}">{{ $usage->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
+
                                         <div class="col-12 col-md-4 mb-3">
                                             <label class="col-md-6 form-label">@lang('owner name') <span
-                                                    class="required-color">*</span>
-                                            </label>
+                                                    class="required-color">*</span></label>
                                             <div class="input-group">
                                                 <select class="form-select" id="OwnersDiv"
                                                     aria-label="Example select with button addon" name="owner_id"
                                                     required>
                                                     <option disabled selected value="">@lang('owner name')</option>
                                                     @foreach ($owners as $owner)
-                                                        <option value="{{ $owner->id }}">
-                                                            {{ $owner->name }}</option>
+                                                        <option value="{{ $owner->id }}">{{ $owner->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 <button class="btn btn-outline-primary" data-bs-toggle="modal"
@@ -173,6 +187,7 @@
                                                     type="button">@lang('Add New Owner')</button>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label">@lang('Instrument number')</label>
                                             <input type="number" name="instrument_number" class="form-control"
@@ -180,20 +195,16 @@
                                                 value="{{ old('Instrument number') }}" />
                                         </div>
 
-
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('offered service') <span
-                                                    class="required-color">*</span>
-                                            </label>
+                                                    class="required-color">*</span></label>
                                             <select class="form-select" name="service_type_id" required>
                                                 <option disabled selected value="">@lang('offered service')</option>
                                                 @foreach ($servicesTypes as $service)
-                                                    <option value="{{ $service->id }}">
-                                                        {{ $service->name }}</option>
+                                                    <option value="{{ $service->id }}">{{ $service->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-
 
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label">@lang('Area (square metres)')</label>
@@ -230,7 +241,7 @@
                                         </div>
 
                                         <div class="col-12 col-md-4 mb-3">
-                                            <label>@lang('services') </label>
+                                            <label>@lang('Amenities') </label>
                                             <select class="select2 form-select" id="exampleFormControlSelect1"
                                                 name="service_id[]" multiple="multiple">
                                                 <option disabled value="">@lang('services')</option>
@@ -269,11 +280,13 @@
                                                             class="d-none d-sm-inline-block">@lang('Add details')</span></button>
                                                 </div>
                                             </div>
+
                                         </div>
 
 
                                         <div class="col-12" style="text-align: center;">
-                                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
+                                            <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                                data-next="#navs-justified-gallery">
                                                 {{ __('Next') }}
                                             </button>
                                         </div>
@@ -335,17 +348,31 @@
                                                 {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
                                                 <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
 
-                                                    </textarea>
+                                                </textarea>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-12 col-md-12 mb-3">
                                             <label class="form-label mb-2">@lang('Unit Images') </label>
-                                            <input type="file" name="images[]" multiple class="dropify"
-                                                accept="image/jpeg, image/png" />
+                                            <div class="input-group">
+                                            <input class="form-control" id="upload" type="file" name="images[]" multiple accept="image/jpeg, image/png" />
+                                            <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon1"><i class="ti ti-refresh"></i></button>
+                                            </div>
                                         </div>
+
+                                        <div class="col-sm-12 col-md-12 mb-3">
+                                            <label class="form-label mb-2">@lang('Unit Video')</label>
+                                            <div class="input-group">
+                                            <input class="form-control" id="uploadVideo" type="file" name="video"  accept="video/mp4, video/webm, video/ogg" />
+                                            <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon2"><i class="ti ti-refresh"></i></button>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                     <div class="col-12" style="text-align: center;">
-                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
+                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                            data-next="#navs-justified-profile">
                                             {{ __('Next') }}
                                         </button>
                                     </div>
@@ -357,7 +384,7 @@
                                                 style="display: block !important;">@lang('Daily Rent')
                                             </label>
                                             {{-- <input type="checkbox"  name="daily_rent" class="toggleHomePage"
-                                        data-toggle="toggle" data-onstyle="primary"> --}}
+                                                    data-toggle="toggle" data-onstyle="primary"> --}}
                                             <label class="switch switch-lg">
                                                 <input type="checkbox" name="daily_rent" class="switch-input" />
                                                 <span class="switch-toggle-slider">
@@ -400,7 +427,8 @@
 
                                     </div>
                                     <div class="col-12" style="text-align: center;">
-                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-messages">
+                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                            data-next="#navs-justified-messages">
                                             {{ __('Next') }}
                                         </button>
                                     </div>
@@ -409,14 +437,17 @@
                                     <div class="row">
                                         <div class=" col-6 mb-3">
                                             <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
+                                            <div class="input-group">
                                             <input class="form-control" type="file" name="unit_masterplan"
                                                 id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                            </div>
                                         </div>
-
+                            
                                     </div>
-                                   <div class="col-12" style="text-align: center;" >
-                                    <button class="btn btn-primary col-4 waves-effect waves-light"
-                                        type="submit">@lang('save')</button>
+                                    <div class="col-12" style="text-align: center;">
+                                        <button class="btn btn-primary col-4 waves-effect waves-light"
+                                            type="submit">@lang('save')</button>
                                     </div>
                                 </div>
 
@@ -618,14 +649,192 @@
                 });
             });
         </script>
-            <script>
-                document.querySelectorAll('.next-tab').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const nextTab = this.getAttribute('data-next');
-                        const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
-                        nextTabButton.click();
-                    });
+        <script>
+            document.querySelectorAll('.next-tab').forEach(button => {
+                button.addEventListener('click', function() {
+                    const nextTab = this.getAttribute('data-next');
+                    const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+                    nextTabButton.click();
                 });
-            </script>
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('#projectSelect').on('change', function() {
+                    var projectId = $(this).val();
+                    var propertySelect = $('#propertySelect');
+
+                    // Clear previous options
+                    propertySelect.empty();
+                    propertySelect.append('<option disabled selected value="">@lang('property')</option>');
+
+                    if (projectId) {
+                        $.ajax({
+                            url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
+                            type: 'GET',
+                            success: function(response) {
+                                $.each(response.properties, function(key, property) {
+                                    propertySelect.append('<option value="' + property.id +
+                                        '">' + property.name + '</option>');
+                                });
+                            },
+                            error: function(error) {
+                                console.error('Error fetching properties:', error);
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+
+<script>
+    $(document).ready(function() {
+        function populateFields(data) {
+            // console.log(data);
+            // Populate region select
+            $('#Region_id').val(data.city_data.region_data.id).change();
+
+            // Populate city select
+            $('#CityDiv').empty();
+            // $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
+            // $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
+
+
+            // Populate district select
+            $('#DistrictDiv').empty();
+            // $.each(data.city_data.districts_city, function(index, district) {
+            //     $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
+            // });
+        }
+
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            if (projectId) {
+                $.ajax({
+                    url: '{{ route('Broker.GetProjectDetails', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        populateFields(response.project);
+                        $('#myAddressBar').val(response.project.location);
+                        $('select[name="property_type_id"]').val(response.project.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
+                        $('select[name="owner_id"]').val(response.project.owner_id).change();
+                        // $('input[name="instrument_number"]').val(response.project.instrument_number);
+                        $('select[name="service_type_id"]').val(response.project.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching project details:', error);
+                    }
+                });
+            }
+        });
+
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (propertyId) {
+                $.ajax({
+                    url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
+                    type: 'GET',
+                    success: function(response) {
+                        populateFields(response.property);
+                        $('#myAddressBar').val(response.property.location);
+                        $('select[name="property_type_id"]').val(response.property.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
+                        $('select[name="owner_id"]').val(response.property.owner_id).change();
+                        // $('input[name="instrument_number"]').val(response.property.instrument_number);
+                        $('select[name="service_type_id"]').val(response.property.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching property details:', error);
+                    }
+                });
+            }
+        });
+
+    });
+</script>
+
+
+        {{-- <script>
+            $(document).ready(function() {
+                $('.projectSelect').on('change', function() {
+                    var selectedOption = $(this).find(':selected');
+                    var url = selectedOption.data('url');
+                    var projectId = $(this).val();
+                    alert(projectId);
+                    if (projectId) {
+                        $.ajax({
+                            url: url,
+                            type: 'GET',
+                            success: function(response) {
+                                var project = response.project;
+                                $('#myAddressBar').val(project.location);
+                                $('select[name="property_type_id"]').val(project.property_type_id)
+                                    .change();
+                                $('select[name="property_usage_id"]').val(project.property_usage_id)
+                                    .change();
+                                $('select[name="owner_id"]').val(project.owner_id).change();
+                                $('input[name="instrument_number"]').val(project.instrument_number);
+                                $('select[name="service_type_id"]').val(project.service_type_id)
+                                    .change();
+                                $('#Region_id').val(project.CityData - > RegionData - > id)
+                                    .change();
+                                $('#CityDiv').val(project.city_id).change();
+
+                            },
+                            error: function(error) {
+                                console.error('Error fetching project details:', error);
+                            }
+                        });
+                    }
+                });
+
+                $('#propertySelect').on('change', function() {
+                    var propertyId = $(this).val();
+                    if (propertyId) {
+                        $.ajax({
+                            url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
+                            type: 'GET',
+                            success: function(response) {
+                                var property = response.property;
+                                // $('#Region_id').val(property.CityData.RegionData.id).change();
+                                $('#CityDiv').val(property.city_id).change();
+                                $('#myAddressBar').val(property.location);
+                                $('select[name="property_type_id"]').val(property.property_type_id)
+                                    .change();
+                                $('select[name="property_usage_id"]').val(property
+                                    .property_usage_id).change();
+                                $('select[name="owner_id"]').val(property.owner_id).change();
+                                $('input[name="instrument_number"]').val(property
+                                    .instrument_number);
+                                $('select[name="service_type_id"]').val(property.service_type_id)
+                                    .change();
+                            },
+                            error: function(error) {
+                                console.error('Error fetching property details:', error);
+                            }
+                        });
+                    }
+                });
+            });
+        </script> --}}
+
+        <script>
+            $('#button-addon1').click(function() {
+                $('#upload').val('');
+
+            });
+        </script>
+         <script>
+            $('#button-addon2').click(function() {
+                $('#uploadVideo').val('');
+            });
+        </script>
+          <script>
+            $('#button-addon3').click(function() {
+                $('#projectMasterplan').val('');
+            });
+        </script>
     @endpush
 @endsection
