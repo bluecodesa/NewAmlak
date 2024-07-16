@@ -15,6 +15,7 @@ use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\Broker;
 use App\Models\ContactUs;
+use App\Models\PartnerSuccess;
 use App\Models\Setting;
 use App\Models\SystemInvoice;
 use App\Models\User;
@@ -74,6 +75,7 @@ class HomeController extends Controller
 
         ///
         $sitting =   Setting::first();
+        $partnerSuccesses = PartnerSuccess::all();
         if ($sitting->active_home_page == 1) {
             return view('Home.home', get_defined_vars());
         } else {

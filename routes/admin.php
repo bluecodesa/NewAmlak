@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\General\ServiceController;
 use App\Http\Controllers\Admin\General\ServiceTypeController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\OfficeController;
+use App\Http\Controllers\Admin\PartnerSuccessController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
 use App\Http\Controllers\Admin\ProjectManagement\DeveloperController;
@@ -122,6 +123,7 @@ Route::group(
             Route::put('/project-DelviryCases/{id}/update', [ProjectController::class, 'updateDeliveryCase'])->name('ProjectSettings.updateDelivery-case');
             Route::delete('/project-DelviryCases/{id}/destroy', [ProjectController::class, 'deleteDeliveryCase'])->name('ProjectSettings.destroyDelivery-case');
 
+            Route::resource('PartnerSuccess', PartnerSuccessController::class);
 
 
 
@@ -149,7 +151,6 @@ Route::group(
                 'Service' => ServiceController::class,
                 'SupportTickets' => SupportController::class,
                 'ProjectSettings' => ProjectController::class,
-
 
 
             ]);

@@ -133,31 +133,25 @@
                 <div class="row align-items-center gx-0 gy-4 g-lg-5">
                     <div class="col-md-6 col-lg-5 col-xl-3">
                         <div class="mb-3 pb-1">
-                            <span class="badge bg-label-primary">شركاء النجاح
-                            </span>
+                            <span class="badge bg-label-primary">شركاء النجاح</span>
                         </div>
                         <h3 class="mb-1">
                             <span class="position-relative fw-bold z-1">شركاء النجاح
-
                                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
-                                    style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
-                                    alt="laptop charging"
-                                    class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                                     style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                                     alt="laptop charging"
+                                     class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                             </span>
                         </h3>
                         <p class="mb-3 mb-md-5">
                             نتشرف بثقة و دعم العديد من المؤسسات حول المملكة
-
                             <br class="d-none d-xl-block" />
-
                         </p>
                         <div class="landing-reviews-btns">
-                            <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
-                                type="button">
+                            <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl" type="button">
                                 <i class="ti ti-chevron-left ti-sm"></i>
                             </button>
-                            <button id="reviews-next-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl"
-                                type="button">
+                            <button id="reviews-next-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl" type="button">
                                 <i class="ti ti-chevron-right ti-sm"></i>
                             </button>
                         </div>
@@ -166,78 +160,15 @@
                         <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
                             <div class="swiper" id="swiper-reviews">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/10.png') }}"
-                                                    alt="client logo" />
+                                    @foreach ($partnerSuccesses as $partner)
+                                        <div class="swiper-slide">
+                                            <div class="card h-100">
+                                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                    <img src="{{ url($partner->image) }}" alt="{{ $partner->name }}" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/1.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/2.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/3.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/4.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/5.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/6.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/7.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
@@ -247,9 +178,8 @@
                 </div>
             </div>
             <!-- What people say slider: End -->
-
-            <!-- Logo slider: End -->
         </section>
+        
 
 
         {{-- <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">

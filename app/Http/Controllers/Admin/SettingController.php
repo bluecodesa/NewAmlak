@@ -279,4 +279,6 @@ class SettingController extends Controller
         $setting->update($request_data);
         return back()->withSuccess(__('Update successfully'));
     }
+
+
 }

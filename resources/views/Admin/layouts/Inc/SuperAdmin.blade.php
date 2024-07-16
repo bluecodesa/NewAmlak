@@ -259,6 +259,38 @@
             </li>
         @endif
 
+        @if (Auth::user()->hasPermission('read-support-ticket-admin'))
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-users"></i>
+                <div data-i18n="@lang('Landing Page')">@lang('Landing Page')</div>
+            </a>
+            <ul class="menu-sub">
+           
+                    @if (Auth::user()->hasPermission('read-role'))
+                        <li class="menu-item">
+                            <a href="{{ route('Admin.PartnerSuccess.index') }}" class="menu-link">
+                                <div data-i18n="@lang('Partners Success')">@lang('Partners Success')</div>
+                            </a>
+                        </li>
+                    @endif
+
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.PrivacyPage') }}" class="menu-link">
+                                    <div data-i18n="@lang('privacy policy')">@lang('privacy policy')</div>
+                                </a>
+                            </li>
+    
+                            <li class="menu-item">
+                                <a href="{{ route('Admin.TermsPage') }}" class="menu-link">
+                                    <div data-i18n="@lang('Terms')">@lang('Conditions & Terms')</div>
+                                </a>
+                            </li>
+                
+            </ul>
+        </li>
+        @endif
+
 
         <li class="menu-item" style="">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -272,27 +304,7 @@
                     </a>
                 </li>
 
-                <li class="menu-item" style="">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <div data-i18n="@lang('districts')"> @lang('Privacy') & @lang('Terms')</div>
-                    </a>
-                    <ul class="menu-sub">
-
-                        <li class="menu-item">
-                            <a href="{{ route('Admin.PrivacyPage') }}" class="menu-link">
-                                <div data-i18n="@lang('Privacy')">@lang('Privacy')</div>
-                            </a>
-                        </li>
-
-                        <li class="menu-item">
-                            <a href="{{ route('Admin.TermsPage') }}" class="menu-link">
-                                <div data-i18n="@lang('Terms')">@lang('Terms')</div>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
+               
 
 
                 <li class="menu-item" style="">
