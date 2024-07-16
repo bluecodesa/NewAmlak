@@ -174,7 +174,9 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     function ShowPublicProject($id)
     {
-        return Project::where('show_in_gallery', 1)->find($id);
+        $project = Project::where('show_in_gallery', 1)->find($id);
+        return $project;                    
+
     }
     public function delete($id)
     {
