@@ -6,6 +6,8 @@
     data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
 
 <head>
+    {!! $sitting->google_tag !!}
+
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
@@ -106,6 +108,7 @@
 
     <!-- Main JS -->
     <script src="{{ url('assets/js/main.js') }}"></script>
+    {!! $sitting->zoho_salesiq !!}
 
     <!-- Page JS -->
 </body>
