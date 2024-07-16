@@ -28,22 +28,22 @@ class RenterService
 
     public function createRenter($data)
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('users'),
-                'max:255'
-            ],
-            'phone' => [
-                'required',
-                Rule::unique('users'),
-                'max:25'
-            ],
-        ];
+        // $rules = [
+        //     'name' => 'required|string|max:255',
+        //     'email' => [
+        //         'required',
+        //         'email',
+        //         Rule::unique('users'),
+        //         'max:255'
+        //     ],
+        //     'phone' => [
+        //         'required',
+        //         Rule::unique('users'),
+        //         'max:25'
+        //     ],
+        // ];
 
-        validator($data, $rules)->validate();
+        // validator($data, $rules)->validate();
         // $data['office_id'] = Auth::user()->UserOfficeData->id;
         $Renter = $this->RenterRepository->create($data);
 

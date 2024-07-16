@@ -52,10 +52,18 @@ class HomeController extends Controller
     public function index()
     {
         //subscrptions
-        $subscriptionTypes = $this->subscriptionTypeService->getAll()
-            ->where('is_deleted', 0)
-            ->where('is_show', 1)
-            ->where('status', 1);
+        // $subscriptionTypes = $this->subscriptionTypeService->getAll()
+        //     ->where('is_deleted', 0)
+        //     ->where('is_show', 1)
+        //     ->where('status', 1);
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
+        ->where('is_show', 1)
+        ->where('status', 1)
+        ->whereHas('roles', function ($query) {
+            $query->where('type', 'user');
+        })
+        ->with('sections') // Eager load sections relationship
+        ->get();
         $sections = $this->SectionService->getAll();
         ////
         $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
@@ -264,7 +272,7 @@ class HomeController extends Controller
             'period' => $subscriptionType->period,
             'period_type' => $subscriptionType->period_type,
             'status' => $status,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
         $galleryName = explode('@', $request->email)[0];
         $defaultCoverImage = '/Gallery/cover/cover.png';
@@ -516,6 +524,19 @@ class HomeController extends Controller
                 $query->where('license_validity', 'valid');
             })
             ->paginate(9);
+
+        foreach ($users as $key => $user) {
+            $broker =  $user->UserBrokerData;
+            if ($broker->license_date > now()->format('Y-m-d')) {
+                $broker->update(['license_validity' => 'valid']);
+            } else {
+                $broker->update(['license_validity' => 'expired']);
+                $check_gallary = Gallery::where('broker_id', $broker->id)->first();
+                if ($check_gallary) {
+                    $check_gallary->update(['gallery_status' => '0']);
+                }
+            }
+        }
 
 
         return view('Home.Brokers.index', get_defined_vars());

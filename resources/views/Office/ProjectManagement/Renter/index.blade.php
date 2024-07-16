@@ -30,8 +30,10 @@
                                 <div class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
                                     <div class="dt-buttons btn-group flex-wrap d-flex">
                                         <div class="btn-group">
-                                            <button onclick="exportToExcel()" class="btn btn-success buttons-collection btn-label-secondary me-3 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false"><span>
-                                                    <i class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                            <button onclick="exportToExcel()"
+                                                class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                type="button"><span><i
+                                                        class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                         </div>
                                         @if (Auth::user()->hasPermission('add-renter'))
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
@@ -52,7 +54,7 @@
                             <th scope="col">@lang('Name')</th>
                             <th scope="col">@lang('Email')</th>
                             <th scope="col">@lang('phone')</th>
-                            <th scope="col">@lang('Entitlements')</th>
+                            <th scope="col">@lang('Financial Dues')</th>
                             <th scope="col">@lang('status')</th>
                             <th scope="col">@lang('Number Of Contracts')</th>
                             <th scope="col">@lang('Action')</th>
@@ -60,11 +62,12 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                         @forelse ($Renters as $renter)
+
                         <tr>
                             <td>{{ $renter->UserData->name }}</td>
                             <td>{{ $renter->UserData->email }}</td>
                             <td>{{ $renter->UserData->full_phone }}</td>
-                            <td>{{ $renter->balance }}</td>
+                            <td>{{ $renter->latestOfficeRenter->financial_Due }}</td>
                             <td> {{ __( $renter->latestOfficeRenter->renter_status )}} </td>
                             <td></td>
                             <td>
@@ -76,9 +79,9 @@
                                         @if (Auth::user()->hasPermission('view-renter-data'))
                                         <a class="dropdown-item" href="{{ route('Office.Renter.show', $renter->id) }}">@lang('Show')</a>
                                         @endif
-                                        @if (Auth::user()->hasPermission('Update-renter-data'))
+                                        {{-- @if (Auth::user()->hasPermission('Update-renter-data'))
                                         <a class="dropdown-item" href="{{ route('Office.Renter.edit', $renter->id) }}">@lang('Edit')</a>
-                                        @endif
+                                        @endif --}}
                                         @if (Auth::user()->hasPermission('delete-renter'))
                                         <a href="javascript:void(0);" onclick="handleDelete('{{ $renter->id }}')" class="dropdown-item delete-btn">@lang('Delete')</a>
                                         <form id="delete-form-{{ $renter->id }}" action="{{ route('Office.Renter.destroy', $renter->id) }}" method="POST" style="display: none;">

@@ -60,7 +60,7 @@ class Contract extends Model
 
     public function ReceiptData()
     {
-        return $this->hasMany(Receipt::class);
+        return $this->hasMany(Voucher::class);
     }
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subscription;
+use App\Models\User;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
 use App\Services\Broker\ProjectService;
@@ -204,5 +205,21 @@ class ProjectController extends Controller
     {
         $data = $this->projectService->autocomplete($request->all());
         return response()->json($data);
+    }
+
+    // public function showAllProjetcs()
+    // {
+    //     $projects = $this->projectService->getAllProjects();
+    //     return view('Home.Projects.index',  get_defined_vars());
+    // }
+    public function showAllProjetcs()
+    {
+        $projects = $this->projectService->getAllProjectsValidForBrokers();
+        return view('Home.Projects.index',  get_defined_vars());
+    }
+    public function showPubllicProject($id)
+    {
+        $project = $this->projectService->ShowPublicProject($id);
+        return view('Home.Projects.show',  get_defined_vars());
     }
 }

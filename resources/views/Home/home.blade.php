@@ -701,8 +701,8 @@
                                     </div>
                                     <div class="card-body">
                                         <ul class="list-unstyled">
-                                            @foreach ($sections as $section)
-                                                <li>
+                                            @foreach ($subscriptionType->sections as $section)
+                                            <li>
                                                     <h5>
 
                                                         @if ($subscriptionType->SectionData->contains('section_id', $section->id))

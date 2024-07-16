@@ -66,6 +66,31 @@
                 {{ $settings->active_property_finder == 1 ? 'checked' : '' }}>
         </div>
     </div>
-
+    <hr>
+    <form action="{{ route('Admin.Setting.updateAds') }}" method="POST">
+        @csrf
+        @method('PUT')
+    
+        <div class="row">
+            <div class="mb-3 col-6">
+                <h6>@lang('Google Tag')</h6>
+                <div>
+                    <textarea class="form-control" name="google_tag" cols="30" rows="10">{{ $settings->google_tag ?? '' }}</textarea>
+                </div>
+            </div>
+    
+            <div class="mb-3 col-6">
+                <h6>@lang('Zoho SalesIQ')</h6>
+                <div>
+                    <textarea  class="form-control" name="zoho_salesiq" cols="30" rows="10">{{ $settings->zoho_salesiq ?? '' }}</textarea>
+                </div>
+            </div>
+        </div>
+    
+        <button type="submit" class="btn btn-primary">@lang('save')</button>
+    </form>
+    
 
 </div>
+
+

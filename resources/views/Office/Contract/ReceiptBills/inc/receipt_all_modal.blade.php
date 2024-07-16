@@ -1,30 +1,33 @@
-@foreach ($receipts as $receipt)
-<div class="modal fade" id="receiptModal{{$receipt->id }}" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
+@foreach ($vouchers as $voucher)
+<div class="modal fade" id="receiptModal{{$voucher->id }}" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" id="receiptModalHeader">
+                @if ($voucher->type == 'receipt_voucher')
                 <h5 class="modal-title" id="receiptModalLabel">@lang('Receipt Voucher')</h5>
-                <img src="{{ url($setting->icon) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
+                @else
+                <h5 class="modal-title" id="receiptModalLabel">@lang('Payment Voucher')</h5>
+                @endif                <img src="{{ url($setting->icon) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            @if(!empty($receipt))
+            @if(!empty($voucher))
             <div class="modal-body" id="receiptModalBody">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>@lang('Voucher Number'):</strong> {{ $receipt->voucher_number }}</p>
-                        <p><strong>@lang('Payment Date'):</strong> {{ $receipt->payment_date }}</p>
-                        <p><strong>@lang('Account Name'):</strong> {{ $receipt->ContractData->office->UserData->name ?? 'N/A' }}</p>
-                        <p><strong>@lang('Unit'):</strong> {{ $receipt->ContractData->unit->number_unit ?? 'N/A' }}</p>
-                        <p><strong>@lang('Note'):</strong> {{ $receipt->notes }}</p>
+                        <p><strong>@lang('Voucher Number'):</strong> {{ $voucher->voucher_number }}</p>
+                        <p><strong>@lang('Payment Date'):</strong> {{ $voucher->payment_date }}</p>
+                        <p><strong>@lang('Account Name'):</strong> {{ $voucher->ContractData->office->UserData->name ?? 'N/A' }}</p>
+                        <p><strong>@lang('Unit'):</strong> {{ $voucher->ContractData->unit->number_unit ?? 'N/A' }}</p>
+                        <p><strong>@lang('Note'):</strong> {{ $voucher->notes }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>@lang('Release Date')</strong> {{ $receipt->release_date }}</p>
-                        <p><strong>@lang('Beneficiary Name'):</strong> {{ $receipt->ContractData->renter->UserData->name ?? 'N/A' }}</p>
-                        <p><strong>@lang('Pay Method'):</strong> {{ $receipt->payment_method }}</p>
-                        <p><strong>@lang('total')</strong> {{ $receipt->total_price }} SR</p>
-                        <p><strong>@lang('mobile')</strong> {{ $receipt->mobile }}</p>
-                        <p><strong>@lang('#Ejar/REF:'):</strong> {{ $receipt->reference_number }}</p>
-                        <p><strong>@lang('Transaction Id'):</strong> {{ $receipt->transaction_number }}</p>
+                        <p><strong>@lang('Release Date')</strong> {{ $voucher->release_date }}</p>
+                        <p><strong>@lang('Beneficiary Name'):</strong> {{ $voucher->ContractData->renter->UserData->name ?? 'N/A' }}</p>
+                        <p><strong>@lang('Pay Method'):</strong> {{ $voucher->payment_method }}</p>
+                        <p><strong>@lang('total')</strong> {{ $voucher->total_price }} SR</p>
+                        <p><strong>@lang('mobile')</strong> {{ $voucher->mobile }}</p>
+                        <p><strong>@lang('#Ejar/REF:'):</strong> {{ $voucher->reference_number }}</p>
+                        <p><strong>@lang('Transaction Id'):</strong> {{ $voucher->transaction_number }}</p>
                     </div>
                 </div>
                 <h5 class="mt-4">@lang('Installments'):</h5>
@@ -39,7 +42,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($receipt->installments as $installment)
+                        @foreach($voucher->installments as $installment)
                             <tr>
                                 <td>{{ $installment->Installment_number }}</td>
                                 <td>{{ $installment->price }}</td>
@@ -50,12 +53,11 @@
                         @endforeach
                     </tbody>
                 </table>
-                <h5 class="mt-4">Total: {{ $receipt->total_price }} SR</h5>
+                <h5 class="mt-4">Total: {{ $voucher->total_price }} SR</h5>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" onclick="printReceipt()">Print</button>
-                <a href="{{ route('Office.Receipt.download', $receipt->id) }}" class="btn btn-success">Download</a>
             </div>
             @else
             <div class="modal-body" id="receiptModalBody">

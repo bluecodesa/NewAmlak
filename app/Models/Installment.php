@@ -16,6 +16,6 @@ class Installment extends Model
     }
     public function ReceiptData()
     {
-        return $this->belongsToMany(Receipt::class, 'installment_receipt');
+        return $this->belongsToMany(Voucher::class, 'installment_voucher');
     }
 }

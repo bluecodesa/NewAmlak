@@ -21,45 +21,110 @@
             <!-- User Profile Content -->
             <div class="row">
 
-                <div class="col-xl-7 col-lg-7 col-md-7">
+                <div class="col-xl-8 col-lg-8 col-md-8">
 
 
                     <!-- Image Slider -->
                     <div class="card mb-4">
                         <div id="carouselExampleIndicators" class="carousel slide shadow-sm" data-ride="carousel">
                             <div class="carousel-inner">
-                                @php
-                                    $i = 0;
-                                @endphp
-                                @if ($Unit->UnitImages->isEmpty())
+                                @php $i = 0; @endphp
+
+                                @if($Unit->UnitImages->isEmpty() && !$Unit->video)
                                     <div class="carousel-item active">
-                                        <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}"
-                                            alt="Default slide" style="height: 350px; object-fit: contain">
+                                        <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
                                     </div>
                                 @else
-                                    @foreach ($Unit->UnitImages as $img)
+                                    @foreach ($Unit->UnitImages as $media)
                                         <div class="carousel-item @if ($i == 0) active @endif">
-                                            <img class="d-block w-100" src="{{ asset($img['image']) }}"
-                                                alt="Slide {{ $i + 1 }}" style="height: 350px; object-fit: contain">
+                                            <!-- Image -->
+                                            <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
+                                                 src="{{ asset($media->image) }}"
+                                                 alt="Slide {{ $i + 1 }}"
+                                                 style="height: 350px; object-fit: contain">
                                         </div>
-                                        @php
-                                            $i++;
-                                        @endphp
+                                        @php $i++; @endphp
                                     @endforeach
+
+                                    @if ($Unit->video)
+                                        <div class="carousel-item @if ($i == 0) active @endif">
+                                            <video controls class="d-block w-100" style="height: 350px; object-fit: contain">
+                                                <source src="{{ asset($Unit->video) }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                        @php $i++; @endphp
+                                    @endif
                                 @endif
                             </div>
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                                data-slide="prev">
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only"></span>
+                                <span class="sr-only">Previous</span>
                             </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                data-slide="next">
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only"></span>
+                                <span class="sr-only">Next</span>
                             </a>
                         </div>
+
                     </div>
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel1"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="carouselModal" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @php $i = 0; @endphp
+
+                                            @if($Unit->UnitImages->isEmpty() && !$Unit->video)
+                                                <div class="carousel-item active">
+                                                    <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
+                                                </div>
+                                            @else
+                                                @foreach ($Unit->UnitImages as $media)
+                                                    <div class="carousel-item @if ($i == 0) active @endif">
+                                                        <!-- Image -->
+                                                        <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
+                                                             src="{{ asset($media->image) }}"
+                                                             alt="Slide {{ $i + 1 }}"
+                                                             style="height: 350px; object-fit: contain">
+                                                    </div>
+                                                    @php $i++; @endphp
+                                                @endforeach
+
+                                                @if ($Unit->video)
+                                                    <div class="carousel-item @if ($i == 0) active @endif">
+                                                        <video controls class="d-block w-100" style="height: 350px; object-fit: contain">
+                                                            <source src="{{ asset($Unit->video) }}" type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                    @php $i++; @endphp
+                                                @endif
+                                            @endif
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselModal" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselModal" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- /Image Slider -->
 
 
@@ -69,9 +134,19 @@
                             <h5 class="card-action-title mb-0">تفاصيل الوحدة</h5>
 
                         </div>
+                        @if($Unit->note)
+
                         <div class="card-body pb-0">
-                            {!! $Unit->note ?? '' !!}
+                            <div id="project-description-short">
+                                {!! Str::limit(strip_tags($Unit->note ?? ''), 500, '...') !!}
+                                <a href="javascript:void(0);" id="read-more-btn" onclick="toggleReadMore()">Read More</a>
+                            </div>
+                            <div id="project-description-full" style="display: none;">
+                                {!! $Unit->note ?? '' !!}
+                                <a href="javascript:void(0);" id="read-less-btn" onclick="toggleReadMore()">Read Less</a>
+                            </div>
                         </div>
+                        @endif
                         <div class="card-body pb-0">
 
 
@@ -118,7 +193,7 @@
 
                             @if ($Unit->UnitServicesData->isNotEmpty())
                                 <ul class="list-unstyled mb-4 mt-3">
-                                    <h5 class="card-action-title mb-0">@lang('services')</h5>
+                                    <h5 class="card-action-title mb-0">@lang('Amenities')</h5>
                                     <div class="demo-inline-spacing">
                                         @foreach ($Unit->UnitServicesData as $service)
                                             <span
@@ -129,6 +204,23 @@
                             @endif
                         </div>
                     </div>
+                    @if($Unit->unit_masterplan)
+
+                    <div class="card card-action mb-4">
+                        <div class="card-header align-items-center">
+                            <h5 class="card-action-title mb-0">مخطط الوحدة</h5>
+                        </div>
+
+                        <div class="card-body pb-0">
+                            @if (Str::endsWith($Unit->unit_masterplan, '.pdf'))
+                                <embed src="{{ $Unit->unit_masterplan }}" type="application/pdf" width="100%" height="500px" />
+                            @else
+                                <img src="{{ $Unit->unit_masterplan }}" class="img-fluid" alt="Unit Masterplan">
+                            @endif
+                        </div>
+                    </div>
+                    @endif
+
 
                     <!-- Projects table -->
                     {{-- <div class="card mb-4">
@@ -151,7 +243,7 @@
                     <!--/ Projects table -->
                 </div>
 
-                <div class="col-xl-5 col-lg-5 col-md-5">
+                <div class="col-xl-4 col-lg-4 col-md-4">
                     <!-- About User -->
                     <div class="card mb-4">
                         <div class="card-body">
@@ -405,5 +497,20 @@
             });
         });
     </script>
+
+<script>
+    function toggleReadMore() {
+        var shortDesc = document.getElementById('project-description-short');
+        var fullDesc = document.getElementById('project-description-full');
+
+        if (shortDesc.style.display === 'none') {
+            shortDesc.style.display = 'block';
+            fullDesc.style.display = 'none';
+        } else {
+            shortDesc.style.display = 'none';
+            fullDesc.style.display = 'block';
+        }
+    }
+</script>
     <!-- Content wrapper -->
 @endsection

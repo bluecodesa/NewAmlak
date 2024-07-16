@@ -84,7 +84,14 @@
                                     <td>{{ $contract->renter->UserData->name }}</td>
                                     <td>{{ $contract->total_commission }}</td>
                                     <td>{{ __($contract->status) }}</td>
-                                    <td>{{ __($contract->contract_validity) }}</td>
+                                    {{-- <td>{{ __($contract->contract_validity) }}</td> --}}
+                                    <td>
+                                        <span
+                                                    class="badge badge-pill bg-{{ $contract->contract_validity == 'active' ? 'success' : 'warning' }}"
+                                                    style="font-size: 13px;">
+                                                    {{ __($contract->contract_validity) ?? __('nothing') }}
+                                                </span>
+                                        </td>
                                     <td>{{ $contract->start_contract_date }}</td>
                                     <td>{{ $contract->end_contract_date }}</td>
 
@@ -190,7 +197,7 @@
                 }
 
                 // Run the function periodically (e.g., every 5 minutes)
-                setInterval(checkAndUpdateContracts, 3000000); // 300000 milliseconds = 5 minutes
+                setInterval(checkAndUpdateContracts, 300000); // 300000 milliseconds = 5 minutes
             });
         </script>
     @endpush

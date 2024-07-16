@@ -302,7 +302,7 @@
                                         class="card-hover-border-default">
                                         @if ($unit->UnitImages->isNotEmpty())
                                             <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Avatar Image"
-                                                class="rounded-square" width="140" height="140" />
+                                                class="rounded-square" width="100%" height="100%" />
                                         @else
                                             <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
                                                 class="rounded-square" width="140" height="140" />

@@ -75,6 +75,15 @@ class SettingController extends Controller
         ]);
     }
 
+    function updateAds(Request $request)
+    {
+       $this->settingRepo->createAds($request);
+
+       return redirect()->back()->with('success', 'Settings updated successfully');
+
+
+    }
+
 
     public function create()
     {

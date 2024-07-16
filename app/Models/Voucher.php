@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Receipt extends Model
+class Voucher extends Model
 {
     use HasFactory;
     protected $guarded = [];
@@ -40,7 +40,7 @@ class Receipt extends Model
     }
     public function installmentsData()
     {
-        return $this->belongsToMany(Installment::class, 'installment_receipt');
+        return $this->belongsToMany(Installment::class, 'installment_voucher');
     }
 
     public function installments()

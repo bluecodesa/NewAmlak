@@ -208,6 +208,23 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
+                                <label class="switch switch-primary">
+                                    <input type="checkbox" name="show_in_gallery"
+                                        class="switch-input toggleHomePage"
+                                        {{ $project->show_in_gallery == 1 ? 'checked' : '' }}>
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on">
+                                            <i class="ti ti-check"></i>
+                                        </span>
+                                        <span class="switch-off">
+                                            <i class="ti ti-x"></i>
+                                        </span>
+                                    </span>
+
+                                </label>
+                            </div>
 
                             {{-- <div class="col-md-6 col-12 mb-3">
                                 <label class="form-label">@lang('Delivery Case') <span class="required-color"></span></label>

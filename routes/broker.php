@@ -81,6 +81,9 @@ Route::group(
             Route::get('/IndexByStatus/{id}', 'ProjectManagement\UnitController@IndexByStatus')->name('Unit.IndexByStatus')->middleware('CheckSubscription');
             Route::get('/IndexByUsage/{id}', 'ProjectManagement\UnitController@IndexByUsage')->name('Unit.IndexByUsage')->middleware('CheckSubscription');
             Route::delete('/gallery/unit/{id}', [UnitController::class, 'destroyUnitGallery'])->name('gallery.unit.destroy');
+            Route::delete('/unit-image/{id}', [UnitController::class, 'deleteImage'])->name('UnitImage.destroy');
+            Route::delete('/unit-video/{id}', [UnitController::class, 'deleteVideo'])->name('UnitVideo.destroy');
+
             //
             route::resource('Tickets', TicketController::class);
             Route::post('tickets/{ticketId}/add-response', [TicketController::class, 'addResponse'])->name('tickets.addResponse');
@@ -98,6 +101,11 @@ Route::group(
             //
             Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Broker.GetCitiesByRegion')->middleware('CheckSubscription');
             Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('Broker.GetDistrictsByCity')->middleware('CheckSubscription');
+            Route::get('GetPropertiesByProject/{projectId}', [UnitController::class, 'getPropertiesByProject'])->name('GetPropertiesByProject');
+            Route::get('GetProjectDetails/{projectId}', [UnitController::class, 'getProjectDetails'])->name('GetProjectDetails');
+            Route::get('GetPropertyDetails/{propertyId}', [UnitController::class, 'getPropertyDetails'])->name('GetPropertyDetails');
+
+
         });
     }
 );

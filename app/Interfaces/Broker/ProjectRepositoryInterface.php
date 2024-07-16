@@ -12,6 +12,8 @@ interface ProjectRepositoryInterface
     public function update($id, $data, $images);
 
     public function ShowProject($id);
+    public function ShowPublicProject($id);
+
 
     public function delete($id);
 

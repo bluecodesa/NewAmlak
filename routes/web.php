@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Property_Finder\HomeController as Property_FinderHomeController;
 use App\Http\Middleware\PendingPaymentPopup;
@@ -55,6 +56,11 @@ Route::group(
             Route::post('create-prperty-finder', [HomeController::class, 'storePropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
 
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
+              //projects
+            Route::get('/publicProjects', [ProjectController::class, 'showAllProjetcs'])->name('showAllProjects');
+            Route::get('/publicProject/{id}',  [ProjectController::class, 'showPubllicProject'])->name('showPublicProject');
+
+        //
         });
         // Route::post('/send-otp', [Property_FinderHomeController::class, 'sendVerificationCode'])->name('send-otp');
 
@@ -87,7 +93,7 @@ Route::group(
         Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity');
 
         Route::post('StoreContactUs',  [HomeController::class, 'StoreContactUs'])->name('home.StoreContactUs');
-
+      
 
         // Route::get('/loadMoreBrokers', 'HomeController@loadMoreBrokers')->name('loadMoreBrokers');
 

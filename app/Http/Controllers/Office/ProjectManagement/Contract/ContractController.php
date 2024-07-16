@@ -427,47 +427,50 @@ class ContractController extends Controller
         return response()->json(['success' => true]);
     }
 
-public function deportation(Contract $contract)
-{
-    $contract->update(['status' => 'Executed']);
-    $renter = Renter::find($contract->renter_id);
-    $owner = Owner::find($contract->owner_id);
-    if ($renter) {
-        $renter->balance -= $contract->price + $contract->total_commission;
-        $renter->save();
-    }
-    if ($owner) {
-        $owner->balance += $contract->price;
-        $owner->save();
-    }
-    return response()->json(['success' => true]);
-}
-
-
-public function reset(Contract $contract)
-{
-    try {
-        $contract->delete();
-        return response()->json(['success' => true]);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => $e->getMessage()]);
-    }
-}
-
-public function updateValidity(Request $request)
+    public function deportation(Contract $contract)
     {
-        $contracts = Contract::where('status', 'Relay')
-            ->where('start_contract_date', '<', Carbon::now())
-            ->where('contract_validity', '!=', 'active')
-            ->get();
-
-        foreach ($contracts as $contract) {
-            $contract->contract_validity = 'active';
-            $contract->unit->status = 'rented';
-            $contract->save();
+        $contract->update(['status' => 'Executed']);
+        $renter = Renter::find($contract->renter_id);
+        $owner = Owner::find($contract->owner_id);
+        if ($renter) {
+            $latestOfficeRenter = $renter->latestOfficeRenter;
+            $latestOfficeRenter->financial_Due -= $contract->price + $contract->total_commission;
+            $latestOfficeRenter->save();
         }
+        if ($owner) {
+            $owner->balance += $contract->price;
+            $owner->save();
+        }
+        return response()->json(['success' => true]);
+    }
 
-        return response()->json(['success' => true, 'message' => 'Contract validity updated successfully.']);
+
+    public function reset(Contract $contract)
+    {
+        try {
+            $contract->delete();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function updateValidity(Request $request)
+        {
+            $contracts = Contract::where('status', 'Executed')
+                ->where('start_contract_date', '<=', Carbon::now())
+                ->where('contract_validity', '!=', 'active')
+                ->get();
+
+                foreach ($contracts as $contract) {
+                    $contract->contract_validity = 'active';
+                    $contract->save();
+                
+                    $contract->unit->status = 'rented';
+                    $contract->unit->save();
+                }
+
+            return response()->json(['success' => true, 'message' => 'Contract validity updated successfully.']);
     }
 
     // public function updateValidity(Request $request)
@@ -529,29 +532,45 @@ public function updateValidity(Request $request)
             'units' => $units
         ]);
     }
-public function getAllPropertiesAndUnits()
-{
-    $office_id = auth()->user()->UserOfficeData->id;
+    public function getAllPropertiesAndUnits()
+    {
+        $office_id = auth()->user()->UserOfficeData->id;
 
-    $projects=Project::where('office_id',$office_id)->get();
-    $properties=Property::where('office_id',$office_id)->get();
-    $units=Unit::where('office_id',$office_id)->get();
+        $projects=Project::where('office_id',$office_id)->get();
+        $properties=Property::where('office_id',$office_id)->get();
+        $units=Unit::where('office_id',$office_id)->get();
 
-    return response()->json([
-        'properties' => $properties,
-        'units' => $units,
-    ]);
-}
+        return response()->json([
+            'properties' => $properties,
+            'units' => $units,
+        ]);
+    }
 
-public function getAllUnits()
-{
-    $office_id = auth()->user()->UserOfficeData->id;
-    $projects=Project::where('office_id',$office_id)->get();
-    $properties=Property::where('office_id',$office_id)->get();
-    $units=Unit::where('office_id',$office_id)->get();
-    return response()->json([
-        'units' => $units,
-    ]);
-}
+    public function getAllUnits()
+    {
+        $office_id = auth()->user()->UserOfficeData->id;
+        $projects=Project::where('office_id',$office_id)->get();
+        $properties=Property::where('office_id',$office_id)->get();
+        $units=Unit::where('office_id',$office_id)->get();
+        return response()->json([
+            'units' => $units,
+        ]);
+    }
+    public function getStatus($id)
+    {
+        $unit = Unit::with('contract')->find($id);
+        
+        if ($unit->status == 'rented') {
+            return response()->json([
+                'status' => 'rented',
+                'start_date' => $unit->contract ? $unit->contract->start_contract_date : null
+            ]);
+        }
+
+        $contracts = Contract::where('unit_id', $id)->select('start_contract_date', 'end_contract_date')->get();
+
+
+        return response()->json(['status' => 'available', 'contracts' => $contracts]);
+    }
 
 }
