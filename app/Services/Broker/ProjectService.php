@@ -29,14 +29,16 @@ class ProjectService
     {
         $validBrokers = Broker::where('license_validity', 'valid')->get();
 
+        // $projects = Project::where('show_in_gallery', 1)->get();
+        // foreach( $projects as $project){
+        //     dd($project->BrokerData->GalleryData);
+
+        // }
+
     $projects = Project::where('show_in_gallery', 1)
         ->whereHas('brokerData', function ($query) use ($validBrokers) {
             $query->whereIn('id', $validBrokers->pluck('id')->toArray());
-        })
-        ->whereHas('brokerData.GalleryData', function ($query) {
-            $query->where('gallery_status', '!=', 0);
-        })
-        ->get();
+        })->get();
         
     return $projects;
     }

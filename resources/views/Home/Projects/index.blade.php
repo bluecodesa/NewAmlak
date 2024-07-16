@@ -29,7 +29,7 @@
                     <div class="row g-4">
 
                         @foreach ($projects as $project)
-                            {{-- @if ($project->BrokerData->license_validity == 'valid') --}}
+                            @if ($project->BrokerData->license_validity == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 )
                                 <div class="col-xl-4 col-lg-6 col-md-6">
                                     <div class="card">
                                         <div class="card-body text-center">
@@ -177,7 +177,7 @@
                                 </div>
                                 {{-- @include('Home.Gallery.inc.share')
                                 @include('Home.Gallery.inc.unitInterest') --}}
-                            {{-- @endif --}}
+                            @endif
                         @endforeach
 
                     </div>
