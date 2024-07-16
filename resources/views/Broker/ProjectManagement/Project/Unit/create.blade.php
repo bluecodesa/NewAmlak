@@ -71,14 +71,7 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
-                                        <div class="col-md-4 col-12 mb-3">
-
-                                            <label class="form-label">
-                                                {{ __('Residential number') }} <span class="required-color">*</span></label>
-                                            <input type="text" required id="modalRoleName" name="number_unit"
-                                                class="form-control" placeholder="{{ __('Residential number') }}">
-
-                                        </div>
+                                     
 
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Project') <span
@@ -102,6 +95,14 @@
                                                     <option value="{{ $property->id }}">{{ $property->name }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="col-md-4 col-12 mb-3">
+
+                                            <label class="form-label">
+                                                {{ __('Residential number') }} <span class="required-color">*</span></label>
+                                            <input type="text" required id="modalRoleName" name="number_unit"
+                                                class="form-control" placeholder="{{ __('Residential number') }}">
+
                                         </div>
 
                                         <div class="col-md-4 mb-3 col-12">
@@ -279,7 +280,7 @@
                                                             class="d-none d-sm-inline-block">@lang('Add details')</span></button>
                                                 </div>
                                             </div>
-                                     
+
                                         </div>
 
 
@@ -350,16 +351,24 @@
                                                 </textarea>
                                             </div>
                                         </div>
-                                   
+
                                         <div class="col-sm-12 col-md-12 mb-3">
                                             <label class="form-label mb-2">@lang('Unit Images') </label>
-                                            <input class="form-control" type="file" name="images[]" multiple accept="image/jpeg, image/png" />
+                                            <div class="input-group">
+                                            <input class="form-control" id="upload" type="file" name="images[]" multiple accept="image/jpeg, image/png" />
+                                            <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon1"><i class="ti ti-refresh"></i></button>
+                                            </div>
                                         </div>
-                                    
+
                                         <div class="col-sm-12 col-md-12 mb-3">
                                             <label class="form-label mb-2">@lang('Unit Video')</label>
-                                            <input class="form-control" type="file" name="videos[]"  accept="video/mp4, video/webm, video/ogg" />
+                                            <div class="input-group">
+                                            <input class="form-control" id="uploadVideo" type="file" name="video"  accept="video/mp4, video/webm, video/ogg" />
+                                            <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon2"><i class="ti ti-refresh"></i></button>
+                                            </div>
                                         </div>
+
+
                                     </div>
                                     <div class="col-12" style="text-align: center;">
                                         <button type="button" class="btn btn-primary col-4 me-1 next-tab"
@@ -428,10 +437,13 @@
                                     <div class="row">
                                         <div class=" col-6 mb-3">
                                             <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
+                                            <div class="input-group">
                                             <input class="form-control" type="file" name="unit_masterplan"
                                                 id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                            </div>
                                         </div>
-
+                            
                                     </div>
                                     <div class="col-12" style="text-align: center;">
                                         <button class="btn btn-primary col-4 waves-effect waves-light"
@@ -677,74 +689,71 @@
         </script>
 
 <script>
-  $(document).ready(function() {
-    function populateFields(data) {
-        // console.log(data);
-        // Populate region select
-        $('#Region_id').val(data.city_data.region_data.id).change();
+    $(document).ready(function() {
+        function populateFields(data) {
+            // console.log(data);
+            // Populate region select
+            $('#Region_id').val(data.city_data.region_data.id).change();
 
-        // Populate city select
-        $('#CityDiv').empty();
-
-        // Append default option
-        $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
-        // Append each city option
-        $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
+            // Populate city select
+            $('#CityDiv').empty();
+            // $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
+            // $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
 
 
-        // Populate district select
-        $('#DistrictDiv').empty();
-        $.each(data.city_data.districts_city, function(index, district) {
-            $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
+            // Populate district select
+            $('#DistrictDiv').empty();
+            // $.each(data.city_data.districts_city, function(index, district) {
+            //     $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
+            // });
+        }
+
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            if (projectId) {
+                $.ajax({
+                    url: '{{ route('Broker.GetProjectDetails', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        populateFields(response.project);
+                        $('#myAddressBar').val(response.project.location);
+                        $('select[name="property_type_id"]').val(response.project.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
+                        $('select[name="owner_id"]').val(response.project.owner_id).change();
+                        // $('input[name="instrument_number"]').val(response.project.instrument_number);
+                        $('select[name="service_type_id"]').val(response.project.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching project details:', error);
+                    }
+                });
+            }
         });
-    }
 
-    $('#projectSelect').on('change', function() {
-        var projectId = $(this).val();
-        if (projectId) {
-            $.ajax({
-                url: '{{ route('Broker.GetProjectDetails', '') }}/' + projectId,
-                type: 'GET',
-                success: function(response) {
-                    populateFields(response.project);
-                    $('#myAddressBar').val(response.project.location);
-                    $('select[name="property_type_id"]').val(response.project.property_type_id).change();
-                    $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
-                    $('select[name="owner_id"]').val(response.project.owner_id).change();
-                    // $('input[name="instrument_number"]').val(response.project.instrument_number);
-                    $('select[name="service_type_id"]').val(response.project.service_type_id).change();
-                },
-                error: function(error) {
-                    console.error('Error fetching project details:', error);
-                }
-            });
-        }
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (propertyId) {
+                $.ajax({
+                    url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
+                    type: 'GET',
+                    success: function(response) {
+                        populateFields(response.property);
+                        $('#myAddressBar').val(response.property.location);
+                        $('select[name="property_type_id"]').val(response.property.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
+                        $('select[name="owner_id"]').val(response.property.owner_id).change();
+                        // $('input[name="instrument_number"]').val(response.property.instrument_number);
+                        $('select[name="service_type_id"]').val(response.property.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching property details:', error);
+                    }
+                });
+            }
+        });
+
     });
-
-    $('#propertySelect').on('change', function() {
-        var propertyId = $(this).val();
-        if (propertyId) {
-            $.ajax({
-                url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
-                type: 'GET',
-                success: function(response) {
-                    populateFields(response.property);
-                    $('#myAddressBar').val(response.property.location);
-                    $('select[name="property_type_id"]').val(response.property.property_type_id).change();
-                    $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
-                    $('select[name="owner_id"]').val(response.property.owner_id).change();
-                    // $('input[name="instrument_number"]').val(response.property.instrument_number);
-                    $('select[name="service_type_id"]').val(response.property.service_type_id).change();
-                },
-                error: function(error) {
-                    console.error('Error fetching property details:', error);
-                }
-            });
-        }
-    });
-
-});
-    </script>
+</script>
 
 
         {{-- <script>
@@ -810,5 +819,22 @@
                 });
             });
         </script> --}}
+
+        <script>
+            $('#button-addon1').click(function() {
+                $('#upload').val('');
+
+            });
+        </script>
+         <script>
+            $('#button-addon2').click(function() {
+                $('#uploadVideo').val('');
+            });
+        </script>
+          <script>
+            $('#button-addon3').click(function() {
+                $('#projectMasterplan').val('');
+            });
+        </script>
     @endpush
 @endsection

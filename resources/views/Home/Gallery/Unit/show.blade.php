@@ -28,35 +28,33 @@
                     <div class="card mb-4">
                         <div id="carouselExampleIndicators" class="carousel slide shadow-sm" data-ride="carousel">
                             <div class="carousel-inner">
-                                @php
-                                    $i = 0;
-                                @endphp
-                                    @if($Unit->UnitImages->isEmpty())
+                                @php $i = 0; @endphp
+
+                                @if($Unit->UnitImages->isEmpty() && !$Unit->video)
                                     <div class="carousel-item active">
                                         <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
                                     </div>
                                 @else
-                                @foreach ($Unit->UnitImages as $media)
-                                    <div class="carousel-item @if ($i == 0) active @endif">
-                                        @if (Str::startsWith($media->image, '/Brokers/Projects/Unit/Images'))
+                                    @foreach ($Unit->UnitImages as $media)
+                                        <div class="carousel-item @if ($i == 0) active @endif">
                                             <!-- Image -->
                                             <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
-                                                src="{{ asset($media->image) }}"
-                                                alt="Slide {{ $i + 1 }}"
-                                                style="height: 350px; object-fit: contain"
-                                            >
-                                        @else
-                                            <!-- Video -->
-                                            <video controls class="d-block w-100" controls style="height: 350px; object-fit: contain">
-                                                <source src="{{ asset($media->image) }}" type="video/mp4">
+                                                 src="{{ asset($media->image) }}"
+                                                 alt="Slide {{ $i + 1 }}"
+                                                 style="height: 350px; object-fit: contain">
+                                        </div>
+                                        @php $i++; @endphp
+                                    @endforeach
+
+                                    @if ($Unit->video)
+                                        <div class="carousel-item @if ($i == 0) active @endif">
+                                            <video controls class="d-block w-100" style="height: 350px; object-fit: contain">
+                                                <source src="{{ asset($Unit->video) }}" type="video/mp4">
                                                 Your browser does not support the video tag.
                                             </video>
-                                        @endif
-                                    </div>
-                                    @php
-                                        $i++;
-                                    @endphp
-                                @endforeach
+                                        </div>
+                                        @php $i++; @endphp
+                                    @endif
                                 @endif
                             </div>
                             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -68,9 +66,10 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
+
                     </div>
 
-                 
+
                     <!-- Modal -->
                     <div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
@@ -83,30 +82,34 @@
                                 <div class="modal-body">
                                     <div id="carouselModal" class="carousel slide" data-ride="carousel">
                                         <div class="carousel-inner">
-                                            @php
-                                                $j = 0;
-                                            @endphp
-                                            @foreach ($Unit->UnitImages as $media)
-                                                <div class="carousel-item @if ($j == 0) active @endif">
-                                                    @if (Str::startsWith($media->image, '/Brokers/Projects/Unit/Images'))
+                                            @php $i = 0; @endphp
+
+                                            @if($Unit->UnitImages->isEmpty() && !$Unit->video)
+                                                <div class="carousel-item active">
+                                                    <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
+                                                </div>
+                                            @else
+                                                @foreach ($Unit->UnitImages as $media)
+                                                    <div class="carousel-item @if ($i == 0) active @endif">
                                                         <!-- Image -->
-                                                        <img class="d-block w-100"
-                                                            src="{{ asset($media->image) }}"
-                                                            alt="Slide {{ $j + 1 }}"
-                                                            style="height: 600px; object-fit: contain"
-                                                        >
-                                                    @else
-                                                        <!-- Video -->
-                                                        <video controls class="d-block w-100" style="height: 600px; object-fit: contain">
-                                                            <source src="{{ asset($media->image) }}" type="video/mp4">
+                                                        <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
+                                                             src="{{ asset($media->image) }}"
+                                                             alt="Slide {{ $i + 1 }}"
+                                                             style="height: 350px; object-fit: contain">
+                                                    </div>
+                                                    @php $i++; @endphp
+                                                @endforeach
+
+                                                @if ($Unit->video)
+                                                    <div class="carousel-item @if ($i == 0) active @endif">
+                                                        <video controls class="d-block w-100" style="height: 350px; object-fit: contain">
+                                                            <source src="{{ asset($Unit->video) }}" type="video/mp4">
                                                             Your browser does not support the video tag.
                                                         </video>
-                                                    @endif
-                                                </div>
-                                                @php
-                                                    $j++;
-                                                @endphp
-                                            @endforeach
+                                                    </div>
+                                                    @php $i++; @endphp
+                                                @endif
+                                            @endif
                                         </div>
                                         <a class="carousel-control-prev" href="#carouselModal" role="button" data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -121,7 +124,7 @@
                             </div>
                         </div>
                     </div>
-                                        
+
                     <!-- /Image Slider -->
 
 
@@ -207,7 +210,7 @@
                         <div class="card-header align-items-center">
                             <h5 class="card-action-title mb-0">مخطط الوحدة</h5>
                         </div>
-                    
+
                         <div class="card-body pb-0">
                             @if (Str::endsWith($Unit->unit_masterplan, '.pdf'))
                                 <embed src="{{ $Unit->unit_masterplan }}" type="application/pdf" width="100%" height="500px" />

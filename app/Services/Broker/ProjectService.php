@@ -7,6 +7,7 @@ use App\Models\PropertyImage;
 use App\Models\User;
 use App\Repositories\Broker\ProjectRepository;
 use App\Interfaces\Broker\ProjectRepositoryInterface;
+use App\Models\Broker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -24,12 +25,24 @@ class ProjectService
         return $this->projectRepository->getAllByBrokerId($brokerId);
     }
 
-    public function getAllProjects()
+    public function getAllProjectsValidForBrokers()
     {
-        return Project::all();
+        $validBrokers = Broker::where('license_validity', 'valid')->get();
+
+        $projects = Project::where('show_in_gallery', 1)
+            ->whereHas('BrokerData', function ($query) use ($validBrokers) {
+                $query->whereIn('id', $validBrokers->pluck('id')->toArray());
+            })->get();
+            
+        return $projects;
     }
 
-   
+    public function getAllProjects()
+    {
+        return Project::where('show_in_gallery',1)->get();
+    }
+
+
     public function createProject($data, $files)
     {
         // Validation rules
@@ -110,6 +123,11 @@ class ProjectService
     function ShowProject($id)
     {
         return   $this->projectRepository->ShowProject($id);
+    }
+
+    function ShowPublicProject($id)
+    {
+        return   $this->projectRepository->ShowPublicProject($id);
     }
 
     public function deleteProject($id)

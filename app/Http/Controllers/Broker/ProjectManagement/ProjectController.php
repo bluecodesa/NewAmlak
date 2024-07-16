@@ -207,15 +207,19 @@ class ProjectController extends Controller
         return response()->json($data);
     }
 
+    // public function showAllProjetcs()
+    // {
+    //     $projects = $this->projectService->getAllProjects();
+    //     return view('Home.Projects.index',  get_defined_vars());
+    // }
     public function showAllProjetcs()
     {
-        $projects = $this->projectService->getAllProjects();
+        $projects = $this->projectService->getAllProjectsValidForBrokers();
         return view('Home.Projects.index',  get_defined_vars());
     }
     public function showPubllicProject($id)
     {
-        $customers= User::all();
-        $project = $this->projectService->ShowProject($id);
+        $project = $this->projectService->ShowPublicProject($id);
         return view('Home.Projects.show',  get_defined_vars());
     }
 }

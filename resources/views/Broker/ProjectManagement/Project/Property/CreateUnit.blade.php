@@ -343,12 +343,18 @@
 
                                         <div class="col-sm-12 col-md-12 mb-3">
                                             <label class="form-label mb-2">@lang('Unit Images') </label>
-                                            <input class="form-control" type="file" name="images[]" multiple accept="image/jpeg, image/png" />
+                                            <div class="input-group">
+                                            <input class="form-control" id="upload" type="file" name="images[]" multiple accept="image/jpeg, image/png" />
+                                            <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon1"><i class="ti ti-refresh"></i></button>
+                                            </div>
                                         </div>
-                                    
+
                                         <div class="col-sm-12 col-md-12 mb-3">
                                             <label class="form-label mb-2">@lang('Unit Video')</label>
-                                            <input class="form-control" type="file" name="videos[]"  accept="video/mp4, video/webm, video/ogg" />
+                                            <div class="input-group">
+                                            <input class="form-control" id="uploadVideo" type="file" name="video"  accept="video/mp4, video/webm, video/ogg" />
+                                            <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon2"><i class="ti ti-refresh"></i></button>
+                                            </div>
                                         </div>
 
                                
@@ -421,8 +427,11 @@
                                     <div class="row">
                                         <div class=" col-6 mb-3">
                                             <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
+                                            <div class="input-group">
                                             <input class="form-control" type="file" name="unit_masterplan"
                                                 id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -606,14 +615,30 @@
                 });
             });
         </script>
-                    <script>
-                        document.querySelectorAll('.next-tab').forEach(button => {
-                            button.addEventListener('click', function() {
-                                const nextTab = this.getAttribute('data-next');
-                                const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
-                                nextTabButton.click();
-                            });
-                        });
-                    </script>
+        <script>
+            document.querySelectorAll('.next-tab').forEach(button => {
+                button.addEventListener('click', function() {
+                    const nextTab = this.getAttribute('data-next');
+                    const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+                    nextTabButton.click();
+                });
+            });
+        </script>
+        <script>
+            $('#button-addon1').click(function() {
+                $('#upload').val('');
+
+            });
+        </script>
+         <script>
+            $('#button-addon2').click(function() {
+                $('#uploadVideo').val('');
+            });
+        </script>
+          <script>
+            $('#button-addon3').click(function() {
+                $('#projectMasterplan').val('');
+            });
+        </script>
     @endpush
 @endsection

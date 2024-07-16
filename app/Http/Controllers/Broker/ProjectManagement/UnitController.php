@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Property;
 use App\Models\PropertyUsage;
 use App\Models\Unit;
+use App\Models\UnitImage;
 use App\Models\UnitInterest;
 use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
@@ -25,6 +26,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
+use Illuminate\Support\Facades\Storage;
 
 class UnitController extends Controller
 {
@@ -165,7 +167,6 @@ class UnitController extends Controller
         $features = $this->FeatureService->getAllFeature();
         $projects = $this->brokerDataService->getProjects();
         $properties = $this->brokerDataService->getProperties();
-        $project = Project::findOrFail(58);
         return view('Broker.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 
@@ -324,6 +325,27 @@ class UnitController extends Controller
         } else {
             return response()->json(['error' => 'Property not found'], 404);
         }
+    }
+
+    public function destroyImage($id)
+    {
+        $image = UnitImage::find($id);
+        if ($image) {
+            $image->delete();
+            return response()->json(['success' => 'Image deleted']);
+        }
+        return response()->json(['error' => 'Image not found'], 404);
+    }
+    
+    public function destroyVideo($id)
+    {
+        $unit = Unit::find($id);
+        if ($unit && $unit->video) {
+            $unit->video = null;
+            $unit->save();
+            return response()->json(['success' => 'Video deleted']);
+        }
+        return response()->json(['error' => 'Video not found'], 404);
     }
 
 }
