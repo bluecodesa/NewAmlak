@@ -5,6 +5,8 @@
     dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
     data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
   <head>
+    {!! $sitting->google_tag !!}
+
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -155,5 +157,7 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {!! $sitting->zoho_salesiq !!}
+
   </body>
 </html>
