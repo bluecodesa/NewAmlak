@@ -74,23 +74,20 @@
                                      
 
                                         <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('Project') <span
-                                                    class="required-color"></span></label>
+                                            <label class="form-label">@lang('Project') <span class="required-color"></span></label>
                                             <select class="form-select projectSelect" name="project_id" id="projectSelect">
-                                                <option disabled selected value="">@lang('Project')</option>
+                                                <option selected value="">@lang('without')</option>
                                                 @foreach ($projects as $project)
-                                                    <option value="{{ $project->id }}"
-                                                        data-url="{{ route('Broker.GetProjectDetails', $project->id) }}">
+                                                    <option value="{{ $project->id }}" data-url="{{ route('Broker.GetProjectDetails', $project->id) }}">
                                                         {{ $project->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                        
                                         <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('property') <span
-                                                    class="required-color"></span></label>
+                                            <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                             <select class="form-select" name="property_id" id="propertySelect">
-                                                <option disabled selected value="">@lang('property')</option>
+                                                <option selected value="">@lang('without')</option>
                                                 @foreach ($properties as $property)
                                                     <option value="{{ $property->id }}">{{ $property->name }}</option>
                                                 @endforeach
@@ -659,39 +656,60 @@
             });
         </script>
 
-        <script>
-            $(document).ready(function() {
-                $('#projectSelect').on('change', function() {
-                    var projectId = $(this).val();
-                    var propertySelect = $('#propertySelect');
+<script>
+    $(document).ready(function() {
+        function populateAllProperties() {
+            var propertySelect = $('#propertySelect');
+            propertySelect.empty();
+            propertySelect.append('<option selected value="">@lang('without')</option>');
+            @foreach ($properties as $property)
+                propertySelect.append('<option value="{{ $property->id }}">{{ $property->name }}</option>');
+            @endforeach
+        }
 
-                    // Clear previous options
-                    propertySelect.empty();
-                    propertySelect.append('<option disabled selected value="">@lang('property')</option>');
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            var propertySelect = $('#propertySelect');
 
-                    if (projectId) {
-                        $.ajax({
-                            url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
-                            type: 'GET',
-                            success: function(response) {
-                                $.each(response.properties, function(key, property) {
-                                    propertySelect.append('<option value="' + property.id +
-                                        '">' + property.name + '</option>');
-                                });
-                            },
-                            error: function(error) {
-                                console.error('Error fetching properties:', error);
-                            }
+            if (projectId) {
+                // Clear previous options
+                propertySelect.empty();
+                propertySelect.append('<option selected value="">@lang('without')</option>');
+
+                $.ajax({
+                    url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        $.each(response.properties, function(key, property) {
+                            propertySelect.append('<option value="' + property.id + '">' + property.name + '</option>');
                         });
+                    },
+                    error: function(error) {
+                        console.error('Error fetching properties:', error);
                     }
                 });
-            });
-        </script>
+            } else {
+                // Reset to show all properties when "without" is selected
+                populateAllProperties();
+            }
+        });
+
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (!propertyId) {
+                // Reset to show all properties when "without" is selected
+                populateAllProperties();
+            }
+        });
+
+        // Initial population of properties
+        populateAllProperties();
+    });
+</script>
 
 <script>
     $(document).ready(function() {
         function populateFields(data) {
-            // console.log(data);
             // Populate region select
             $('#Region_id').val(data.city_data.region_data.id).change();
 
@@ -700,12 +718,23 @@
             // $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
             // $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
 
-
             // Populate district select
             $('#DistrictDiv').empty();
             // $.each(data.city_data.districts_city, function(index, district) {
             //     $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
             // });
+        }
+
+        function resetFields() {
+            // $('#Region_id').val('').change();
+            $('#CityDiv').empty();
+            $('#DistrictDiv').empty();
+            $('#myAddressBar').val('');
+            $('select[name="property_type_id"]').val('').change();
+            $('select[name="property_usage_id"]').val('').change();
+            $('select[name="owner_id"]').val('').change();
+            // $('input[name="instrument_number"]').val('');
+            $('select[name="service_type_id"]').val('').change();
         }
 
         $('#projectSelect').on('change', function() {
@@ -727,6 +756,8 @@
                         console.error('Error fetching project details:', error);
                     }
                 });
+            } else {
+                resetFields();
             }
         });
 
@@ -749,11 +780,13 @@
                         console.error('Error fetching property details:', error);
                     }
                 });
+            } else {
+                resetFields();
             }
         });
-
     });
 </script>
+
 
 
         {{-- <script>
