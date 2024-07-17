@@ -65,7 +65,10 @@ class SubscriptionController extends Controller
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $subscribers = $this->subscriptionService->getAllSubscribers();
-        $clients = User::where('is_property_finder', 1)->get();
+        $clients = User::where('is_admin', 0)
+        ->where('is_broker', 0)
+        ->where('is_office', 0)
+        ->get();
         return view('Admin.subscribers.index', get_defined_vars());
     }
 
@@ -111,6 +114,9 @@ class SubscriptionController extends Controller
             $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
             $employees = $this->EmployeeService->getAllByOfficeId($officeId);
 
+            return view('Admin.subscribers.show', get_defined_vars());
+        }else{
+            
             return view('Admin.subscribers.show', get_defined_vars());
         }
     }
