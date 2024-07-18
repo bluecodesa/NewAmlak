@@ -814,7 +814,7 @@
                 $('#projectMasterplan').val('');
             });
         </script>
-        <script>
+        {{-- <script>
             $(document).ready(function() {
                 function populateFields(data) {
                     // console.log(data);
@@ -879,7 +879,7 @@
                 });
 
             });
-        </script>
+        </script> --}}
 <script>
     $(document).ready(function() {
         var allProperties = {!! json_encode($properties) !!};
