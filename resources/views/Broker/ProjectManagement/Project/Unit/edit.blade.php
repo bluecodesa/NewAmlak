@@ -67,7 +67,7 @@
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Project') <span class="required-color"></span></label>
                                             <select class="form-select" name="project_id" id="projectSelect">
-                                                <option selected value="">@lang('without')</option>
+                                                <option disabled selected value="">@lang('Project')</option>
                                                 @foreach ($projects as $project)
                                                     <option value="{{ $project->id }}" {{ $Unit->project_id == $project->id ? 'selected' : '' }}>
                                                         {{ $project->name }}
@@ -79,7 +79,7 @@
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                             <select class="form-select" name="property_id" id="propertySelect">
-                                                <option selected value="">@lang('without')</option>
+                                                <option disabled selected value="">@lang('property')</option>
                                                 @foreach ($properties as $property)
                                                     <option value="{{ $property->id }}" {{ $Unit->property_id == $property->id ? 'selected' : '' }}>
                                                         {{ $property->name }}
