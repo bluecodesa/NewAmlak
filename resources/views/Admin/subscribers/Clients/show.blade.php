@@ -48,7 +48,7 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
-                <div class="col-xl-9 col-lg-9 col-md-9 order-1 order-md-0 justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 order-1 order-md-0 justify-content-center">
                     <!-- User Card -->
                     <div class="card mb-4">
                       <div class="card-body">
@@ -82,7 +82,7 @@
                             </div>
                           </div>
                         </div>
-                        <p class="mt-4 small text-uppercase text-muted">Details</p>
+                        <p class="mt-4 small text-uppercase text-muted">@lang('Details')</p>
                         <div class="info-container">
                           <ul class="list-unstyled">
                             <li class="mb-2">
@@ -173,15 +173,92 @@
                   </div>
               </div>
               <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                <p>
-                  Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
-                  cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream
-                  cheesecake fruitcake.
-                </p>
-                <p class="mb-0">
-                  Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah
-                  cotton candy liquorice caramels.
-                </p>
+                <div class="row g-4 mb-4">
+                    <div class="col-sm-6 col-xl-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="d-flex align-items-start justify-content-between">
+                            <div class="content-left">
+                              <span>Session</span>
+                              <div class="d-flex align-items-center my-2">
+                                <h3 class="mb-0 me-2">21,459</h3>
+                                <p class="text-success mb-0">(+29%)</p>
+                              </div>
+                              <p class="mb-0">Total Users</p>
+                            </div>
+                            <div class="avatar">
+                              <span class="avatar-initial rounded bg-label-primary">
+                                <i class="ti ti-user ti-sm"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="d-flex align-items-start justify-content-between">
+                            <div class="content-left">
+                              <span>Paid Users</span>
+                              <div class="d-flex align-items-center my-2">
+                                <h3 class="mb-0 me-2">4,567</h3>
+                                <p class="text-success mb-0">(+18%)</p>
+                              </div>
+                              <p class="mb-0">Last week analytics</p>
+                            </div>
+                            <div class="avatar">
+                              <span class="avatar-initial rounded bg-label-danger">
+                                <i class="ti ti-user-plus ti-sm"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="d-flex align-items-start justify-content-between">
+                            <div class="content-left">
+                              <span>Active Users</span>
+                              <div class="d-flex align-items-center my-2">
+                                <h3 class="mb-0 me-2">19,860</h3>
+                                <p class="text-danger mb-0">(-14%)</p>
+                              </div>
+                              <p class="mb-0">Last week analytics</p>
+                            </div>
+                            <div class="avatar">
+                              <span class="avatar-initial rounded bg-label-success">
+                                <i class="ti ti-user-check ti-sm"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="d-flex align-items-start justify-content-between">
+                            <div class="content-left">
+                              <span>Pending Users</span>
+                              <div class="d-flex align-items-center my-2">
+                                <h3 class="mb-0 me-2">237</h3>
+                                <p class="text-success mb-0">(+42%)</p>
+                              </div>
+                              <p class="mb-0">Last week analytics</p>
+                            </div>
+                            <div class="avatar">
+                              <span class="avatar-initial rounded bg-label-warning">
+                                <i class="ti ti-user-exclamation ti-sm"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
               </div>
           
             </div>

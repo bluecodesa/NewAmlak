@@ -203,6 +203,12 @@
 
 
                             </div>
+                            <div class="col-12" style="text-align: center;">
+                                <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                    data-next="#navs-justified-gallery">
+                                    {{ __('Next') }}
+                                </button>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                             <div class="col-sm-12 col-md-4 mb-3">
@@ -251,6 +257,12 @@
                                 accept="image/jpeg, image/png" />
 
                             </div>
+                            <div class="col-12" style="text-align: center;">
+                                <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                    data-next="#navs-justified-timeLine">
+                                    {{ __('Next') }}
+                                </button>
+                            </div>
                         </div>
                             <div class="tab-pane fade" id="navs-justified-timeLine" role="tabpanel">
                                 <label class="form-label">@lang('قم بإضافة مراحل المشروع هنا')</label>
@@ -274,6 +286,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12" style="text-align: center;">
+                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                        data-next="#navs-justified-profile">
+                                        {{ __('Next') }}
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
@@ -287,13 +305,13 @@
                                         <input class="form-control" type="file" name="project_brochure" id="projectBrochure" accept="image/*,application/pdf" multiple>
                                     </div>
                                 </div>
-
+                                <div class="col-12" style="text-align: center;">
+                                    <button class="btn btn-primary col-4 waves-effect waves-light"
+                                        type="submit">@lang('save')</button>
+                                </div>
                             </div>
 
-                            <div class="col-12">
-                                <button class="btn btn-primary waves-effect waves-light"
-                                    type="submit">@lang('save')</button>
-                            </div>
+                         
                         </div>
 
                     </form>
@@ -515,5 +533,14 @@
 // });
 
 
+</script>
+<script>
+    document.querySelectorAll('.next-tab').forEach(button => {
+        button.addEventListener('click', function() {
+            const nextTab = this.getAttribute('data-next');
+            const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+            nextTabButton.click();
+        });
+    });
 </script>
 @endpush
