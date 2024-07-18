@@ -118,9 +118,16 @@
                             </li>
                             <li class="mb-2 pt-1">
                                 <span class="fw-medium me-1">@lang('Created By'):</span>
-                                @foreach ($client->UserRenterData->OfficeData as $office)
+                                @if(empty($client->UserRenterData->OfficeData))
+                                    <span></span>
+                                @else
+                                    @foreach ($client->UserRenterData->OfficeData as $office)
                                     <span>{{ $office->UserData->customer_id }}</span>
-                                @endforeach
+                                    @if (!$loop->last)
+                                    ,
+                                    @endif
+                                    @endforeach
+                                @endif
                               </li>
                             <li class="mb-2 pt-1">
                               <span class="fw-medium me-1">@lang('Created Date'):</span>
@@ -175,7 +182,11 @@
                             <div class="content-left">
                               <span>@lang('Contracts')</span>
                               <div class="d-flex align-items-center my-2">
-                                <h3 class="mb-0 me-2">{{ $client->UserRenterData->ContractData()->count() }}</h3>
+                                <h3 class="mb-0 me-2">@if(!empty($client->UserRenterData->ContractData))
+                                    {{ $client->UserRenterData->ContractData()->count() }}
+                                    @else 0
+                                @endif
+                                </h3>
                               </div>
                             </div>
                             <div class="avatar">
