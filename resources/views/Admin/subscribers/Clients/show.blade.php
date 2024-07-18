@@ -101,12 +101,14 @@
                             </li>
                             <li class="mb-2 pt-1">
                               <span class="fw-medium me-1">@lang('Account Type'):</span>
-                              <span class="badge bg-label-secondary mt-1">  @foreach ($client->roles as $role)
-                                {{ __($role->name) ?? '' }}
+                               @foreach ($client->roles as $role)
+                               <span class="badge bg-label-secondary mt-1">  {{ __($role->name) ?? '' }}
                                 @if (!$loop->last)
                                     ,
                                 @endif
-                            @endforeach</span>
+                            </span>
+                            @endforeach
+                        
                             </li>
                             <li class="mb-2 pt-1">
                               <span class="fw-medium me-1">@lang('id number'):</span>
