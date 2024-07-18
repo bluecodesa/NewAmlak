@@ -86,37 +86,30 @@
                         <div class="info-container">
                           <ul class="list-unstyled">
                             <li class="mb-2">
-                              <span class="fw-medium me-1">Username:</span>
-                              <span>violet.dev</span>
+                              <span class="fw-medium me-1">@lang('Name'):</span>
+                              <span>{{ $client->name }}</span>
                             </li>
                             <li class="mb-2 pt-1">
-                              <span class="fw-medium me-1">Email:</span>
-                              <span>vafgot@vultukir.org</span>
+                              <span class="fw-medium me-1">@lang('Email'):</span>
+                              <span>{{ $client->email }}</span>
                             </li>
                             <li class="mb-2 pt-1">
-                              <span class="fw-medium me-1">Status:</span>
-                              <span class="badge bg-label-success">Active</span>
+                              <span class="fw-medium me-1">@lang('Account Type'):</span>
+                              <span class="badge bg-label-success">{{ __($client->roles->pluck('name')->implode(', ')) }}</span>
                             </li>
                             <li class="mb-2 pt-1">
-                              <span class="fw-medium me-1">Role:</span>
-                              <span>Author</span>
+                              <span class="fw-medium me-1">@lang('id number'):</span>
+                              <span>{{ $client->id_number }}</span>
                             </li>
                             <li class="mb-2 pt-1">
-                              <span class="fw-medium me-1">Tax id:</span>
-                              <span>Tax-8965</span>
+                              <span class="fw-medium me-1">@lang('mobile') :</span>
+                              <span>{{ $client->full_phone }}</span>
                             </li>
                             <li class="mb-2 pt-1">
-                              <span class="fw-medium me-1">Contact:</span>
-                              <span>(123) 456-7890</span>
+                              <span class="fw-medium me-1">@lang('Created Date'):</span>
+                              <span>{{ $client->created_at }}</span>
                             </li>
-                            <li class="mb-2 pt-1">
-                              <span class="fw-medium me-1">Languages:</span>
-                              <span>French</span>
-                            </li>
-                            <li class="pt-1">
-                              <span class="fw-medium me-1">Country:</span>
-                              <span>England</span>
-                            </li>
+                        
                           </ul>
                           <div class="d-flex justify-content-center">
                             <a
@@ -133,42 +126,7 @@
                     </div>
                     <!-- /User Card -->
                     <!-- Plan Card -->
-                    <div class="card mb-4">
-                      <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                          <span class="badge bg-label-primary">Standard</span>
-                          <div class="d-flex justify-content-center">
-                            <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary fw-normal">$</sup>
-                            <h1 class="mb-0 text-primary">99</h1>
-                            <sub class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">/month</sub>
-                          </div>
-                        </div>
-                        <ul class="ps-3 g-2 my-3">
-                          <li class="mb-2">10 Users</li>
-                          <li class="mb-2">Up to 10 GB storage</li>
-                          <li>Basic Support</li>
-                        </ul>
-                        <div class="d-flex justify-content-between align-items-center mb-1 fw-medium text-heading">
-                          <span>Days</span>
-                          <span>65% Completed</span>
-                        </div>
-                        <div class="progress mb-1" style="height: 8px">
-                          <div
-                            class="progress-bar"
-                            role="progressbar"
-                            style="width: 65%"
-                            aria-valuenow="65"
-                            aria-valuemin="0"
-                            aria-valuemax="100"></div>
-                        </div>
-                        <span>4 days remaining</span>
-                        <div class="d-grid w-100 mt-4">
-                          <button class="btn btn-primary" data-bs-target="#upgradePlanModal" data-bs-toggle="modal">
-                            Upgrade Plan
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+              
                     <!-- /Plan Card -->
                   </div>
               </div>

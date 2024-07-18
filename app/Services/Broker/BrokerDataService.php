@@ -33,7 +33,10 @@ class BrokerDataService
 
     public function getProperties()
     {
-        return Property::where('broker_id', Auth::user()->UserBrokerData->id)->get();
+    
+        return Property::where('broker_id', Auth::user()->UserBrokerData->id)
+        ->whereNull('project_id')
+        ->get();
     }
 
 
