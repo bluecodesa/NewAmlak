@@ -41,7 +41,7 @@
                     <th>@lang('Subscriber Name')</th>
                     <th>@lang('Email')</th>
                     <th>@lang('id number')</th>
-                    <th>@lang('role name')</th>
+                    <th>@lang('Account Type')</th>
                     <th>@lang('Subscription Start')</th>
                     <th>@lang('Action')</th>
                 </tr>

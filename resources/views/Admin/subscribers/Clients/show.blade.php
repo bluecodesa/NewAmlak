@@ -63,7 +63,7 @@
                             <div class="user-info text-center">
                               <h4 class="mb-2">{{ $client->name }}</h4>
                                 @foreach ($client->roles as $role)
-                                <span class="badge bg-label-secondary mt-1">  {{ __($role->name) ?? '' }}
+                                <span class="badge bg-primary mt-1">  {{ __($role->name) ?? '' }}
                                 </span>
                                 @endforeach
                             </div>
@@ -99,7 +99,7 @@
                             <li class="mb-2 pt-1">
                               <span class="fw-medium me-1">@lang('Account Type'):</span>
                                @foreach ($client->roles as $role)
-                               <span class="badge bg-label-secondary mt-1">  {{ __($role->name) ?? '' }}
+                               <span class="badge bg-primary mt-1">  {{ __($role->name) ?? '' }}
                             </span>
                             @endforeach
                         
