@@ -72,7 +72,7 @@
 
                                     @if (Auth::user()->hasPermission('read-subscriber-file'))
                                         <a class="dropdown-item"
-                                            href="{{ route('Admin.Subscribers.show', $subscriber->id) }}">@lang('Show')</a>
+                                            href="{{ route('Admin.show-client', $client->id) }}">@lang('Show')</a>
                                     @endif
                                     @if (Auth::user()->hasPermission('delete-users'))
                                     <a href="javascript:void(0);"

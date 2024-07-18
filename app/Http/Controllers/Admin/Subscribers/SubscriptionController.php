@@ -115,9 +115,6 @@ class SubscriptionController extends Controller
             $employees = $this->EmployeeService->getAllByOfficeId($officeId);
 
             return view('Admin.subscribers.show', get_defined_vars());
-        }else{
-            
-            return view('Admin.subscribers.show', get_defined_vars());
         }
     }
 
@@ -219,5 +216,21 @@ class SubscriptionController extends Controller
         $office->save();
 
         return redirect()->back()->with('success', __('Max number of employees updated successfully.'));
+    }
+    public function showClient(string $id)
+    {
+        $client = User::where('is_admin', 0)
+        ->where('is_broker', 0)
+        ->where('is_office', 0)
+        ->findOrFail($id);
+        $client_id=$client->id;
+        $numberOfowners = $this->ownerService->getNumberOfOwners($client_id);
+        $numberOfUnits = $this->UnitService->getAllByOffice($client_id)->count();
+        $numberOfProjects = $this->UnitService->getAllByOffice($client_id)->count();
+        $numberOfProperties = $this->UnitService->getAll($client_id)->count();
+        $invoices = $this->systemInvoiceRepository->findByOfficeId($client_id);
+        $employees = $this->EmployeeService->getAllByOfficeId($client_id);
+
+        return view('Admin.subscribers.Clients.show', get_defined_vars());
     }
 }

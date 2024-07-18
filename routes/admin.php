@@ -68,6 +68,7 @@ Route::group(
             Route::put('/update-broker-subscribers/{id}', [SubUserController::class, 'updatebroker'])->name('update-broker-subscribers');
             Route::delete('delete-broker-subscribers/{id}', [SubUserController::class, 'deletebroker'])->name('delete-broker-subscribers');
             Route::delete('delete-client/{id}', [SubscriptionController::class, 'deleteClient'])->name('delete-client');
+            Route::get('show-client/{id}', [SubscriptionController::class, 'showClient'])->name('show-client');
             Route::put('/ChangeAds', [SettingController::class, 'updateAds'])->name('Setting.updateAds');
 
             Route::put('/taxs/{setting}', [SettingController::class, 'updateTax'])->name('update-tax');

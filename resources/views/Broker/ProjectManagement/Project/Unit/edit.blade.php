@@ -67,7 +67,8 @@
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Project') <span class="required-color"></span></label>
                                             <select class="form-select" name="project_id" id="projectSelect">
-                                                <option disabled selected value="">@lang('Project')</option>
+                                                <option disabled selected value="">@lang('Choose')</option>
+                                                <option  value="">@lang('without')</option>
                                                 @foreach ($projects as $project)
                                                     <option value="{{ $project->id }}" {{ $Unit->project_id == $project->id ? 'selected' : '' }}>
                                                         {{ $project->name }}
@@ -79,7 +80,8 @@
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                             <select class="form-select" name="property_id" id="propertySelect">
-                                                <option disabled selected value="">@lang('property')</option>
+                                                <option disabled selected value="">@lang('Choose')</option>
+                                                <option  value="">@lang('without')</option>
                                                 @foreach ($properties as $property)
                                                     <option value="{{ $property->id }}" {{ $Unit->property_id == $property->id ? 'selected' : '' }}>
                                                         {{ $property->name }}
@@ -879,34 +881,45 @@
 
             });
         </script>
-            <script>
-                $(document).ready(function() {
-                    $('#projectSelect').on('change', function() {
-                        var projectId = $(this).val();
-                        var propertySelect = $('#propertySelect');
-    
-                        // Clear previous options
-                        propertySelect.empty();
-                        propertySelect.append('<option disabled selected value="">@lang('property')</option>');
-    
-                        if (projectId) {
-                            $.ajax({
-                                url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
-                                type: 'GET',
-                                success: function(response) {
-                                    $.each(response.properties, function(key, property) {
-                                        propertySelect.append('<option value="' + property.id +
-                                            '">' + property.name + '</option>');
-                                    });
-                                },
-                                error: function(error) {
-                                    console.error('Error fetching properties:', error);
-                                }
-                            });
-                        }
-                    });
+<script>
+    $(document).ready(function() {
+        // Store the initial list of properties in a variable
+        var allProperties = {!! json_encode($properties) !!};
+
+        function refreshProperties(properties) {
+            var propertySelect = $('#propertySelect');
+            propertySelect.empty();
+            propertySelect.append('<option disabled selected value="">@lang('Choose')</option>');
+            propertySelect.append('<option value="">@lang('without')</option>');
+
+            $.each(properties, function(key, property) {
+                propertySelect.append('<option value="' + property.id + '">' + property.name + '</option>');
+            });
+        }
+
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+
+            if (projectId) {
+                $.ajax({
+                    url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        refreshProperties(response.properties);
+                    },
+                    error: function(error) {
+                        console.error('Error fetching properties:', error);
+                    }
                 });
-            </script>
+            } else {
+                // When 'without' is selected, refresh properties with all properties
+                refreshProperties(allProperties);
+            }
+        });
+    });
+</script>
+
+            
             <script>
                document.addEventListener('DOMContentLoaded', function () {
                 document.querySelectorAll('.remove-image').forEach(button => {
