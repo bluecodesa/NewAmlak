@@ -67,20 +67,20 @@
                           </div>
                         </div>
                         <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
-                          <div class="d-flex align-items-start me-4 mt-3 gap-2">
+                          {{-- <div class="d-flex align-items-start me-4 mt-3 gap-2">
                             <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
                             <div>
                               <p class="mb-0 fw-medium">1.23k</p>
                               <small>Tasks Done</small>
                             </div>
-                          </div>
-                          <div class="d-flex align-items-start mt-3 gap-2">
+                          </div> --}}
+                          {{-- <div class="d-flex align-items-start mt-3 gap-2">
                             <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-briefcase ti-sm"></i></span>
                             <div>
                               <p class="mb-0 fw-medium">568</p>
                               <small>Projects Done</small>
                             </div>
-                          </div>
+                          </div> --}}
                         </div>
                         <p class="mt-4 small text-uppercase text-muted">@lang('Details')</p>
                         <div class="info-container">
@@ -111,7 +111,7 @@
                             </li>
                         
                           </ul>
-                          <div class="d-flex justify-content-center">
+                          {{-- <div class="d-flex justify-content-center">
                             <a
                               href="javascript:;"
                               class="btn btn-primary me-3"
@@ -120,7 +120,7 @@
                               >Edit</a
                             >
                             <a href="javascript:;" class="btn btn-label-danger suspend-user">Suspended</a>
-                          </div>
+                          </div> --}}
                         </div>
                       </div>
                     </div>
