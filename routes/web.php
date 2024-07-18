@@ -57,8 +57,8 @@ Route::group(
 
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
               //projects
-            Route::get('/publicProjects', [ProjectController::class, 'showAllProjetcs'])->name('showAllProjects');
-            Route::get('/publicProject/{id}',  [ProjectController::class, 'showPubllicProject'])->name('showPublicProject');
+            Route::get('gallery/projects', [ProjectController::class, 'showAllProjetcs'])->name('showAllProjects');
+            Route::get('gallery/{gallery_name}/project/{id}', [ProjectController::class, 'showPubllicProject'])->name('showPublicProject');
 
         //
         });

@@ -102,8 +102,10 @@
                                                 {{-- @php
                                                     $gallery_name = $unit->gallery->gallery_name;
                                                 @endphp --}}
-                                                <a href="{{ route('Home.showPublicProject', $project->id) }}"
-                                                    class="card-hover-border-default">
+                                                <a href="{{ route('Home.showPublicProject', [
+                                                    'gallery_name' => $project->BrokerData->GalleryData->gallery_name,
+                                                    'id' => $project->id
+                                                        ]) }}" class="card-hover-border-default">
                                                     @if ($project->ProjectImages->isNotEmpty())
                                                         <img src="{{ url($project->ProjectImages->first()->image) }}"
                                                             alt="Avatar Image" class="rounded-square" width="100%"

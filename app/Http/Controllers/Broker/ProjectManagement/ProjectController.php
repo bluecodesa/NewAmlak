@@ -217,7 +217,7 @@ class ProjectController extends Controller
         $projects = $this->projectService->getAllProjectsValidForBrokers();
         return view('Home.Projects.index',  get_defined_vars());
     }
-    public function showPubllicProject($id)
+    public function showPubllicProject($gallery_name, $id)
     {
         $project = $this->projectService->ShowPublicProject($id);
         if($project->BrokerData->license_validity == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 ){
