@@ -80,7 +80,6 @@
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                             <select class="form-select" name="property_id" id="propertySelect">
-                                                <option disabled selected value="">@lang('Choose')</option>
                                                 <option  value="">@lang('without')</option>
                                                 @foreach ($properties as $property)
                                                     <option value="{{ $property->id }}" {{ $Unit->property_id == $property->id ? 'selected' : '' }}>
@@ -886,14 +885,13 @@
         // Store the initial list of properties in a variable
         var allProperties = {!! json_encode($properties) !!};
 
-        function refreshProperties(properties) {
+        function refreshProperties(properties, selectedPropertyId = null) {
             var propertySelect = $('#propertySelect');
             propertySelect.empty();
-            propertySelect.append('<option disabled selected value="">@lang('Choose')</option>');
             propertySelect.append('<option value="">@lang('without')</option>');
 
             $.each(properties, function(key, property) {
-                propertySelect.append('<option value="' + property.id + '">' + property.name + '</option>');
+                propertySelect.append('<option value="' + property.id + '"' + (property.id == selectedPropertyId ? ' selected' : '') + '>' + property.name + '</option>');
             });
         }
 
@@ -916,6 +914,15 @@
                 refreshProperties(allProperties);
             }
         });
+
+        // On page load, if a project is selected, load its properties
+        var initialProjectId = $('#projectSelect').val();
+        if (initialProjectId) {
+            $('#projectSelect').trigger('change');
+        } else {
+            // Otherwise, just refresh with all properties
+            refreshProperties(allProperties, '{{ $Unit->property_id }}');
+        }
     });
 </script>
 
