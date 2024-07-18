@@ -62,13 +62,10 @@
                               alt="User avatar" />
                             <div class="user-info text-center">
                               <h4 class="mb-2">{{ $client->name }}</h4>
-                              <span class="badge bg-label-secondary mt-1">
                                 @foreach ($client->roles as $role)
-                                {{ __($role->name) ?? '' }}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
+                                <span class="badge bg-label-secondary mt-1">  {{ __($role->name) ?? '' }}
+                                </span>
+                                @endforeach
                             </div>
                           </div>
                         </div>
@@ -103,9 +100,6 @@
                               <span class="fw-medium me-1">@lang('Account Type'):</span>
                                @foreach ($client->roles as $role)
                                <span class="badge bg-label-secondary mt-1">  {{ __($role->name) ?? '' }}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
                             </span>
                             @endforeach
                         
