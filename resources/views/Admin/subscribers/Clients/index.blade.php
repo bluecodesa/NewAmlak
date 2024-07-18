@@ -54,7 +54,15 @@
                         <td>{{ $client->name }}</td>
                         <td>{{ $client->email }}</td>
                         <td>{{ $client->id_number }}</td>
-                        <td>{{ __($client->roles->pluck('name')->implode(', ')) }}</td>
+                        <td class="align-middle">
+                            @foreach ($client->roles as $role)
+                                <span class="badge bg-primary">{{ __($role->name) ?? '' }}</span>
+                                @if (!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach
+                        </td>
+                        {{-- <td>{{ __($client->roles->pluck('name')->implode(', ')) }}</td> --}}
                         <td>{{ $client->created_at }}</td>
 
                         <td>

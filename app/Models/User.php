@@ -134,7 +134,7 @@ class User extends Authenticatable
 
     public function unitInterests()
     {
-        return $this->hasMany(UnitInterest::class);
+        return $this->hasMany(UnitInterest::class, 'interested_id');
     }
 
     public function FavFinders()

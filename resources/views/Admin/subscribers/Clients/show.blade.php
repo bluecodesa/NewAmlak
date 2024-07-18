@@ -30,7 +30,7 @@
                   aria-controls="navs-justified-home"
                   aria-selected="true">
                   <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Basic Details')
-                  <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                  <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
                 </button>
               </li>
               <li class="nav-item">
@@ -42,7 +42,7 @@
                   data-bs-target="#navs-justified-profile"
                   aria-controls="navs-justified-profile"
                   aria-selected="false">
-                  <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('statistics')
+                  <i class="tf-icons ti ti-presentation-analytics ti-xs me-1"></i> @lang('statistics')
                 </button>
               </li>
             </ul>
@@ -62,7 +62,13 @@
                               alt="User avatar" />
                             <div class="user-info text-center">
                               <h4 class="mb-2">{{ $client->name }}</h4>
-                              <span class="badge bg-label-secondary mt-1">{{ __($client->roles->pluck('name')->implode(', ')) }}</span>
+                              <span class="badge bg-label-secondary mt-1">
+                                @foreach ($client->roles as $role)
+                                {{ __($role->name) ?? '' }}
+                                @if (!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach
                             </div>
                           </div>
                         </div>
@@ -95,7 +101,12 @@
                             </li>
                             <li class="mb-2 pt-1">
                               <span class="fw-medium me-1">@lang('Account Type'):</span>
-                              <span class="badge bg-label-success">{{ __($client->roles->pluck('name')->implode(', ')) }}</span>
+                              <span class="badge bg-label-success">  @foreach ($client->roles as $role)
+                                {{ __($role->name) ?? '' }}
+                                @if (!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach</span>
                             </li>
                             <li class="mb-2 pt-1">
                               <span class="fw-medium me-1">@lang('id number'):</span>
@@ -105,6 +116,12 @@
                               <span class="fw-medium me-1">@lang('mobile') :</span>
                               <span>{{ $client->full_phone }}</span>
                             </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-medium me-1">@lang('Created By'):</span>
+                                @foreach ($client->UserRenterData->OfficeData as $office)
+                                    <span>{{ $office->UserData->customer_id }}</span>
+                                @endforeach
+                              </li>
                             <li class="mb-2 pt-1">
                               <span class="fw-medium me-1">@lang('Created Date'):</span>
                               <span>{{ $client->created_at }}</span>
@@ -137,16 +154,14 @@
                         <div class="card-body">
                           <div class="d-flex align-items-start justify-content-between">
                             <div class="content-left">
-                              <span>Session</span>
+                              <span>@lang('Units')</span>
                               <div class="d-flex align-items-center my-2">
-                                <h3 class="mb-0 me-2">21,459</h3>
-                                <p class="text-success mb-0">(+29%)</p>
+                                <h3 class="mb-0 me-2">0</h3>
                               </div>
-                              <p class="mb-0">Total Users</p>
                             </div>
                             <div class="avatar">
                               <span class="avatar-initial rounded bg-label-primary">
-                                <i class="ti ti-user ti-sm"></i>
+                                <i class="ti ti-building-arch ti-sm"></i>
                               </span>
                             </div>
                           </div>
@@ -158,16 +173,14 @@
                         <div class="card-body">
                           <div class="d-flex align-items-start justify-content-between">
                             <div class="content-left">
-                              <span>Paid Users</span>
+                              <span>@lang('Contracts')</span>
                               <div class="d-flex align-items-center my-2">
-                                <h3 class="mb-0 me-2">4,567</h3>
-                                <p class="text-success mb-0">(+18%)</p>
+                                <h3 class="mb-0 me-2">{{ $client->UserRenterData->ContractData()->count() }}</h3>
                               </div>
-                              <p class="mb-0">Last week analytics</p>
                             </div>
                             <div class="avatar">
                               <span class="avatar-initial rounded bg-label-danger">
-                                <i class="ti ti-user-plus ti-sm"></i>
+                                <i class="ti ti-page-break ti-sm"></i>
                               </span>
                             </div>
                           </div>
@@ -179,16 +192,14 @@
                         <div class="card-body">
                           <div class="d-flex align-items-start justify-content-between">
                             <div class="content-left">
-                              <span>Active Users</span>
+                              <span>@lang('Interests Order')</span>
                               <div class="d-flex align-items-center my-2">
-                                <h3 class="mb-0 me-2">19,860</h3>
-                                <p class="text-danger mb-0">(-14%)</p>
+                                <h3 class="mb-0 me-2">{{ $client->unitInterests()->count() }}</h3>
                               </div>
-                              <p class="mb-0">Last week analytics</p>
                             </div>
                             <div class="avatar">
                               <span class="avatar-initial rounded bg-label-success">
-                                <i class="ti ti-user-check ti-sm"></i>
+                                <i class="ti ti-heart ti-sm"></i>
                               </span>
                             </div>
                           </div>
@@ -200,16 +211,14 @@
                         <div class="card-body">
                           <div class="d-flex align-items-start justify-content-between">
                             <div class="content-left">
-                              <span>Pending Users</span>
+                              <span>طلبات عقارية</span>
                               <div class="d-flex align-items-center my-2">
-                                <h3 class="mb-0 me-2">237</h3>
-                                <p class="text-success mb-0">(+42%)</p>
+                                <h3 class="mb-0 me-2">0</h3>
                               </div>
-                              <p class="mb-0">Last week analytics</p>
                             </div>
                             <div class="avatar">
                               <span class="avatar-initial rounded bg-label-warning">
-                                <i class="ti ti-user-exclamation ti-sm"></i>
+                                <i class="ti ti-menu-order ti-sm"></i>
                               </span>
                             </div>
                           </div>
