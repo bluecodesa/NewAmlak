@@ -102,6 +102,7 @@ Route::group(
             Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('Broker.GetCitiesByRegion')->middleware('CheckSubscription');
             Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('Broker.GetDistrictsByCity')->middleware('CheckSubscription');
             Route::get('GetPropertiesByProject/{projectId}', [UnitController::class, 'getPropertiesByProject'])->name('GetPropertiesByProject');
+            Route::get('property/details/{id}', [UnitController::class, 'getPropertyDetail'])->name('GetPropertyDetail');
             Route::get('GetProjectDetails/{projectId}', [UnitController::class, 'getProjectDetails'])->name('GetProjectDetails');
             Route::get('GetPropertyDetails/{propertyId}', [UnitController::class, 'getPropertyDetails'])->name('GetPropertyDetails');
 

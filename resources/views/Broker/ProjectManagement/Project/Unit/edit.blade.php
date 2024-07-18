@@ -882,9 +882,7 @@
         </script>
 <script>
     $(document).ready(function() {
-        // Store the initial list of properties in a variable
         var allProperties = {!! json_encode($properties) !!};
-
         function refreshProperties(properties, selectedPropertyId = null) {
             var propertySelect = $('#propertySelect');
             propertySelect.empty();
@@ -903,31 +901,28 @@
                     url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
                     type: 'GET',
                     success: function(response) {
-                        refreshProperties(response.properties);
-                    },
+                    refreshProperties(response.properties, '{{ $Unit->property_id }}');
+                },
                     error: function(error) {
                         console.error('Error fetching properties:', error);
                     }
                 });
             } else {
-                // When 'without' is selected, refresh properties with all properties
                 refreshProperties(allProperties);
             }
         });
 
-        // On page load, if a project is selected, load its properties
         var initialProjectId = $('#projectSelect').val();
         if (initialProjectId) {
             $('#projectSelect').trigger('change');
         } else {
-            // Otherwise, just refresh with all properties
             refreshProperties(allProperties, '{{ $Unit->property_id }}');
         }
     });
 </script>
 
             
-            <script>
+    <script>
                document.addEventListener('DOMContentLoaded', function () {
                 document.querySelectorAll('.remove-image').forEach(button => {
                     button.addEventListener('click', function () {
@@ -973,6 +968,6 @@
                 });
             });
 
-            </script>
+    </script>
     @endpush
 @endsection

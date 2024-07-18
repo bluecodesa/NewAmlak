@@ -66,6 +66,7 @@
                                         @csrf
                                         @method('post')
                                         <input type="text" hidden name="lat_long" value="{{ $Property->lat_long }}">
+                                        <input type="text" hidden name="project_id" value="{{ $Property->project_id }}">
                                         <div class="col-md-3 col-12 mb-3">
 
                                             <label class="form-label">

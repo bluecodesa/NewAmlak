@@ -301,6 +301,13 @@ class UnitController extends Controller
         $properties = Property::where('project_id', $projectId)->get();
         return response()->json(['properties' => $properties]);
     }
+    public function getPropertyDetail($id)
+    {
+        $property = Property::findOrFail($id); // Example assuming Property model exists
+
+        return response()->json(['property' => $property]);
+    }
+
 
     public function getProjectDetails($projectId)
     {
