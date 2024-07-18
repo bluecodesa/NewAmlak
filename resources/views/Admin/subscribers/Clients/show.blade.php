@@ -7,7 +7,7 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
 
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Admin.Subscribers.index') }}" class="text-muted fw-light">@lang('Subscribers') </a> /
@@ -101,7 +101,7 @@
                             </li>
                             <li class="mb-2 pt-1">
                               <span class="fw-medium me-1">@lang('Account Type'):</span>
-                              <span class="badge bg-label-success">  @foreach ($client->roles as $role)
+                              <span class="badge bg-label-secondary mt-1">  @foreach ($client->roles as $role)
                                 {{ __($role->name) ?? '' }}
                                 @if (!$loop->last)
                                     ,
