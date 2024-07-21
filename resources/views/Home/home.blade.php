@@ -1027,8 +1027,7 @@
                                     إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
                                         class="d-none d-lg-block" />
                                     الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح. </p>
-                                <form action="" method="POST">
-                                    @csrf
+                                <form>
 
                                     <div class="row g-3">
                                         <div class="col-md-4 mb-3 col-12">
