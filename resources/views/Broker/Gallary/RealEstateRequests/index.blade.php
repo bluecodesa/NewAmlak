@@ -183,11 +183,11 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>@lang('Residential number')</th>
-                                <th>@lang('property')</th>
+                                <th>@lang('Request Number')</th>
                                 <th>@lang('Client Name')</th>
-                                <th>@lang('phone')</th>
-                                <th>@lang('status')</th>
+                                <th>@lang('Property type')</th>
+                                <th>@lang('city / district')</th>
+                                <th>@lang('Validation')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -196,11 +196,44 @@
                                 <tr>
 
 
-                                    <td>{{ $client->unit->number_unit ?? '' }}</td>
-                                    <td>{{ $client->unit->PropertyData->name ?? __('nothing') }}</td>
-                                    <td> {{ $client->name }}</td>
-                                    <td>{{ $client->full_phone }}</td>
+                                    <td>{{ $client->number_of_requests ?? '' }}</td>
+                                    <td> {{ $client->user->name }}</td>
+                                    <td>{{ $client->propertyType->name ?? '' }}</td>
+                                    <td>{{ $client->city->name }} / {{ $client->district->name ?? '' }}</td>
+                                    <td>{{ __($client->request_valid ?? '') }}</td>
                                     <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+                                                @if (Auth::user()->hasPermission('update-owner'))
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('PropertyFinder.RealEstateRequest.show', $client->id) }}">@lang('Show')</a>
+                                                @endif
+
+
+                                                @if (Auth::user()->hasPermission('delete-owner'))
+                                                    <a href="javascript:void(0);"
+                                                        onclick="handleDelete('{{ $client->id }}')"
+                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                    <form id="delete-form-{{ $client->id }}"
+                                                        action="{{ route('Broker.Owner.destroy', $client->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                @endif
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </td>
+                                   
+                                    {{-- <td>
                                         @if (Auth::user()->hasPermission('update-requests-interest'))
                                             <form method="POST"
                                                 action="{{ route('Broker.Interest.status.update', $client->id) }}">
@@ -220,9 +253,9 @@
                                         @endif
 
 
-                                    </td>
+                                    </td> --}}
 
-                                    <td>
+                                    {{-- <td>
                                         <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light"
                                             target="_blank" data-toggle="modal"
                                             data-target="#shareLinkUnit{{ $client->id }}"
@@ -234,7 +267,7 @@
                                             target="_blank">@lang('محادثة(شات)')</a>
 
 
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @empty
                                 <td colspan="6">

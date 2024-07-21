@@ -197,5 +197,37 @@
                 });
             });
         </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.dropdown-menu .dropdown-item').on('click', function() {
+            var status = $(this).data('status');
+            var requestId = $(this).closest('.card').data('id'); 
+
+            if (requestId && status) {
+                $.ajax({
+                    url: '{{ route('PropertyFinder.updateRequestStatus', '') }}/' + requestId,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload(); 
+                        } else {
+                            alert('Failed to update request status');
+                        }
+                    },
+                    error: function() {
+                        alert('Error occurred while updating status');
+                    }
+                });
+            }
+        });
+    });
+</script>
+
     @endpush
 @endsection

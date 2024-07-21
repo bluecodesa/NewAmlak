@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Property_Finder;
 
 use App\Http\Controllers\Controller;
+use App\Models\RealEstateRequest;
 use App\Services\RealEstateRequestService;
 use Illuminate\Http\Request;
 use App\Services\Admin\SettingService;
@@ -43,8 +44,7 @@ class RealEstateRequestController extends Controller
         $cities = $this->cityService->getAllCities();
         $types = $this->propertyTypeService->getAllPropertyTypes();
         $requests = $this->RealEstateRequestService->getAll();
-        return view('Home.Property-Finder.inc._requests', get_defined_vars());
-        // return view('Broker.Gallary.RealEstateRequests.index', get_defined_vars());
+        return view('Broker.Gallary.RealEstateRequests.index', get_defined_vars());
 
     }
 
@@ -71,6 +71,9 @@ class RealEstateRequestController extends Controller
     public function show(string $id)
     {
         //
+        $request = $this->RealEstateRequestService->getRequestById($id);
+        $interestsTypes = $this->settingService->getAllInterestTypes();
+        return view('Broker.Gallary.RealEstateRequests.show', get_defined_vars());
     }
 
     /**
@@ -95,5 +98,18 @@ class RealEstateRequestController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:active,canceled',
+        ]);
+
+        $realEstateRequest = RealEstateRequest::findOrFail($id);
+        $realEstateRequest->request_valid = $request->input('status');
+        $realEstateRequest->save();
+
+        return response()->json(['success' => true, 'status' => $realEstateRequest->request_valid]);
     }
 }

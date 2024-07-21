@@ -7,6 +7,7 @@ use App\Http\Controllers\Office\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
 use App\Http\Controllers\Property_Finder\HomeController;
+use App\Http\Controllers\Property_Finder\RealEstateRequestController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -37,12 +38,15 @@ Route::group(
                 'Owner' => OwnerController::class,
                 'Employee' => EmployeeController::class,
                 'Project' => ProjectController::class,
+                'RealEstateRequest' => RealEstateRequestController::class,
+
             ]);
             Route::put('/update-property-finder/{finder}', [HomeController::class, 'updatePropertyFinder'])->name('updatePropertyFinder');
             Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
             Route::post('/PropertyFinder/verify-code-finder', [HomeController::class, 'verifyCode'])->name('verify-code-finder');
             Route::post('/PropertyFinder/complete-registration-finder', [HomeController::class, 'register'])->name('complete-registration-finder');
             Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('GetDistrictsByCity')->middleware('CheckSubscription');
+            Route::post('/update-request-status/{id}', [RealEstateRequestController::class, 'updateStatus'])->name('updateRequestStatus');
 
 
 

@@ -21,9 +21,9 @@ class RealEstateRequestService
         return $this->RealEstateRequestRepository->getAll();
     }
 
-    public function getOwnerById($id)
+    public function getRequestById($id)
     {
-        return $this->RealEstateRequestRepository->getOwnerById($id);
+        return $this->RealEstateRequestRepository->getRequestById($id);
     }
 
     public function createOwner($data)

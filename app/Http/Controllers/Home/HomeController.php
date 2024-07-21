@@ -694,6 +694,7 @@ class HomeController extends Controller
             'property_type_id' => 'required|exists:property_types,id',
             'city_id' => 'required|exists:cities,id',
             'district_id' => 'nullable|exists:districts,id',
+            'ad_type' => 'nullable|string',
             'area' => 'nullable|integer',
             'rooms' => 'nullable|integer',
             'description' => 'nullable|string',
@@ -706,7 +707,7 @@ class HomeController extends Controller
 
         $prefix = 'RS-';
         $delimiter = '-';
-        $startNumber = 1; 
+        $startNumber = 1;
 
         if ($lastRequest) {
             $lastNumber = explode($delimiter, $lastRequest->number_of_requests)[1];
@@ -714,13 +715,13 @@ class HomeController extends Controller
         }
 
         $numberOfRequests = $prefix . str_pad($startNumber, 4, '0', STR_PAD_LEFT);
-
         $realEstateRequest = RealEstateRequest::create([
             'number_of_requests' => $numberOfRequests,
             'user_id' => Auth::id(),
             'property_type_id' => $request->input('property_type_id'),
             'city_id' => $request->input('city_id'),
             'district_id' => $request->input('district_id'),
+            'ad_type' => $request->input('ad_type'),
             'area' => $request->input('area'),
             'rooms' => $request->input('rooms'),
             'description' => $request->input('description'),

@@ -115,11 +115,13 @@ Route::group(
 
         // Route for registering property finder
         Route::post('/register-property-finder', [Property_FinderHomeController::class, 'registerPropertyFinder'])->name('register-property-finder');
+        
+        Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('GetDistrictsByCity');
+
     }
 
 );
-// NotificationController
-// Route::get('reset', [ForgotPasswordController::class, 'showresetform']);
+
 
 Route::post('/fcm-token', 'Home\HomeController@UpdateToken')->name('fcmToken');
 Route::post('/send-notification', [HomeController::class, 'notification'])->name('notification');

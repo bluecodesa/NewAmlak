@@ -633,6 +633,9 @@
     "Partners Success": "شركاء النجاح",
     "Add New Partner Success": "اضافة شريك نجاح جديد",
     "Interests Order": "طلبات الاهتمام",
-    "Real Estate Requests": "الطلبات العقارية"
+    "Real Estate Requests": "الطلبات العقارية",
+    "Validation": "الصلاحية",
+    "canceled": "ملغى",
+    "Request Number": "رقم الطلب"
 
 }

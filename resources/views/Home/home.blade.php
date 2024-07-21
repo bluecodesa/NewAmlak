@@ -975,7 +975,7 @@
                             alt="laptop charging"
                             class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                     </span>
-                    
+
                 </h3>
                 <p class="text-center mb-4 mb-lg-5 pb-md-3">أي سؤال أو ملاحظة؟ فقط اكتب لنا رسالة</p>
                 <div class="row gy-4">
@@ -1018,6 +1018,7 @@
                             </div>
                         </div>
                     </div>
+                    @guest
                     <div class="col-lg-7">
                         <div class="card">
                             <div class="card-body">
@@ -1026,9 +1027,95 @@
                                     إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
                                         class="d-none d-lg-block" />
                                     الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح. </p>
+                                <form action="" method="POST">
+                                    @csrf
+
+                                    <div class="row g-3">
+                                        <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('Property type') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" name="property_type_id" required>
+                                                <option disabled selected value="">@lang('Property type')</option>
+                                                @foreach ($types as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('city') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" id="CityDiv" name="city_id" required>
+                                                <option disabled value="" selected>@lang('city')</option>
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}"
+                                                        data-url="{{ route('GetDistrictsByCity', $city->id) }}">
+                                                        {{ $city->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('district') <span
+                                                    class="required-color"></span></label>
+                                            <select class="form-select" name="district_id" id="DistrictDiv"
+                                                ></select>
+                                        </div>
+                                        <div class="col-12 mb-2 col-md-4">
+                                            <label class="form-label">@lang('Ad type') <span
+                                                    class="required-color">*</span>
+                                            </label>
+                                            <select class="form-select" name="ad_type" id="type" required>
+                                                <option disabled value="">@lang('Ad type') </option>
+                                                @foreach (['rent', 'sale'] as $type)
+                                                    <option value="{{ $type }}">
+                                                        {{ __($type) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 mb-3">
+                                            <label class="form-label">@lang('Area (square metres)')</label>
+                                            <input type="number" name="area" class="form-control"
+                                                placeholder="@lang('Area (square metres)')"
+                                                value="{{ old('Area (square metres)') }}" />
+                                        </div>
+
+
+                                        <div class="col-sm-12 col-md-4 mb-3">
+                                            <label class="form-label">@lang('number rooms') </label>
+                                            <input type="number" name="rooms" class="form-control"
+                                                placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <label class="form-label" for="contact-form-message">@lang('Description') <span
+                                                    class="required-color"></span></label>
+                                            <textarea id="contact-form-message" name="description" class="form-control"  rows="8"
+                                                placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">ارسال</button>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @endguest
+                    @auth
+                    <div class="col-lg-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mb-1">اطلب عقارك</h4>
+                                <p class="mb-4">
+                               قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك<br
+                                        class="d-none d-lg-block" />
+                                    </p>
                                 <form action="{{ route('Home.createRequest') }}" method="POST">
                                     @csrf
-                                 
+
                                     <div class="row g-3">
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Property type') <span
@@ -1060,7 +1147,19 @@
                                             <select class="form-select" name="district_id" id="DistrictDiv"
                                                 ></select>
                                         </div>
-                                        <div class="col-sm-12 col-md-6 mb-3">
+                                        <div class="col-12 mb-2 col-md-4">
+                                            <label class="form-label">@lang('Ad type') <span
+                                                    class="required-color">*</span>
+                                            </label>
+                                            <select class="form-select" name="ad_type" id="type" required>
+                                                <option disabled value="">@lang('Ad type') </option>
+                                                @foreach (['rent', 'sale'] as $type)
+                                                    <option value="{{ $type }}">
+                                                        {{ __($type) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label">@lang('Area (square metres)')</label>
                                             <input type="number" name="area" class="form-control"
                                                 placeholder="@lang('Area (square metres)')"
@@ -1068,13 +1167,13 @@
                                         </div>
 
 
-                                        <div class="col-sm-12 col-md-6 mb-3">
+                                        <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label">@lang('number rooms') </label>
                                             <input type="number" name="rooms" class="form-control"
                                                 placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
                                         </div>
 
-                                    
+
                                         <div class="col-12">
                                             <label class="form-label" for="contact-form-message">@lang('Description') <span
                                                     class="required-color"></span></label>
@@ -1082,20 +1181,18 @@
                                                 placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
                                         </div>
                                         <div class="col-12">
-                                            @guest
-                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">ارسال</button>
-                                            @endguest
-                                            @auth
+
                                             @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
                                             <button type="submit" class="btn btn-primary">ارسال</button>
                                             @endif
-                                            @endauth
+
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    @endauth
                 </div>
             </div>
         </section>
