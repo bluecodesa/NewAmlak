@@ -196,6 +196,14 @@
                         </li>
                     @endif
 
+                    @if (Auth::user()->hasPermission('read-requests-interest'))
+                    <li class="menu-item">
+                        <a href="{{ route('Home.Real-Estate-Requests.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Real Estate Requests')">@lang('Real Estate Requests')</div>
+                        </a>
+                    </li>
+                @endif
+
                 </ul>
             </li>
         @endif

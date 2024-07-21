@@ -42,6 +42,7 @@ Route::group(
             Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
             Route::post('/PropertyFinder/verify-code-finder', [HomeController::class, 'verifyCode'])->name('verify-code-finder');
             Route::post('/PropertyFinder/complete-registration-finder', [HomeController::class, 'register'])->name('complete-registration-finder');
+            Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('GetDistrictsByCity')->middleware('CheckSubscription');
 
 
 

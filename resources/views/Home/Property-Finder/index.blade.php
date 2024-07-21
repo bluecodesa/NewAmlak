@@ -93,6 +93,16 @@
                         </button>
                     </li>
                 @endif
+                @if (Auth::user()->hasPermission('Read-favorite-properties') ||
+                Auth::user()->hasPermission('Read-favorite-properties-admin'))
+            <li class="nav-item" role="presentation">
+                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                    data-bs-target="#navs-justified-requests" aria-controls="navs-justified-requests"
+                    aria-selected="false" tabindex="-1">
+                    <i class="tf-icons ti ti-heart ti-xs me-1"></i>الطلبات العقارية
+                </button>
+            </li>
+        @endif
                 @if (Auth::user()->hasPermission('update-user-profile'))
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
@@ -112,6 +122,10 @@
                 </div>
                 <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                     @include('Home.Property-Finder.inc._favorite')
+
+                </div>
+                <div class="tab-pane fade" id="navs-justified-requests" role="tabpanel">
+                    @include('Home.Property-Finder.inc._requests')
 
                 </div>
                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">

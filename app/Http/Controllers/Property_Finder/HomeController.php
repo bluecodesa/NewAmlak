@@ -13,17 +13,29 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use App\Http\Traits\Email\MailSendCode;
 use  App\Email\Admin\SendOtpMail;
+use App\Models\RealEstateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Admin\NewPropertyFinderNotification;
+use App\Services\Admin\DistrictService;
+
 
 
 
 class HomeController extends Controller
 {
+    
 
     use MailSendCode;
+    protected $districtService;
+
+    public function __construct(DistrictService $districtService)
+    {
+
+        $this->districtService = $districtService;
+
+    }
 
     public function index()
     {
@@ -38,6 +50,8 @@ class HomeController extends Controller
         $units = Unit::with('Unitfavorites')
             ->whereIn('id', $favorites->pluck('unit_id'))
             ->get();
+            $user = auth()->user();
+            $requests = RealEstateRequest::where('user_id', $user->id)->get();
         return view('Home.Property-Finder.index', get_defined_vars());
     }
 
@@ -305,6 +319,12 @@ protected function notifyAdmins2(User $user)
     }
 }
 
+public function GetDistrictsByCity($id)
+{
+    // $districts = District::where('city_id', $id)->get();
+    $districts = $this->districtService->getDistrictsByCity($id);
 
+    return view('Admin.settings.Region.inc._district', get_defined_vars());
+}
 
 }

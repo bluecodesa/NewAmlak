@@ -16,6 +16,7 @@ use App\Models\SubscriptionType;
 use App\Models\Broker;
 use App\Models\ContactUs;
 use App\Models\PartnerSuccess;
+use App\Models\RealEstateRequest;
 use App\Models\Setting;
 use App\Models\SystemInvoice;
 use App\Models\User;
@@ -26,12 +27,17 @@ use App\Models\SubscriptionTypeRole;
 use App\Models\Unit;
 use App\Notifications\Admin\NewContactUsNotification;
 use App\Notifications\Admin\NewPropertyFinderNotification;
+use App\Notifications\Admin\NewRealEstateRequestNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\Admin\SectionService;
+use App\Services\CityService;
+use App\Services\PropertyTypeService;
+use App\Services\Admin\DistrictService;
+
 
 
 class HomeController extends Controller
@@ -41,11 +47,24 @@ class HomeController extends Controller
 
     protected $subscriptionTypeService;
     protected $SectionService;
+    protected $cityService;
+    protected $propertyTypeService;
+    protected $districtService;
 
-    public function __construct(SubscriptionTypeService $subscriptionTypeService, SectionService $SectionService)
+
+    public function __construct(SubscriptionTypeService $subscriptionTypeService
+    , SectionService $SectionService,
+    CityService $cityService,
+    PropertyTypeService $propertyTypeService,
+    DistrictService $districtService
+    )
     {
         $this->subscriptionTypeService = $subscriptionTypeService;
         $this->SectionService = $SectionService;
+        $this->cityService = $cityService;
+        $this->propertyTypeService = $propertyTypeService;
+        $this->districtService = $districtService;
+
     }
 
 
@@ -76,6 +95,8 @@ class HomeController extends Controller
         ///
         $sitting =   Setting::first();
         $partnerSuccesses = PartnerSuccess::all();
+        $cities = $this->cityService->getAllCities();
+        $types = $this->propertyTypeService->getAllPropertyTypes();
         if ($sitting->active_home_page == 1) {
             return view('Home.home', get_defined_vars());
         } else {
@@ -665,5 +686,64 @@ class HomeController extends Controller
     {
         $setting = Setting::first();
         return view('Home.Terms', get_defined_vars());
+    }
+    public function createRequest(Request $request)
+    {
+
+        $request->validate([
+            'property_type_id' => 'required|exists:property_types,id',
+            'city_id' => 'required|exists:cities,id',
+            'district_id' => 'nullable|exists:districts,id',
+            'area' => 'nullable|integer',
+            'rooms' => 'nullable|integer',
+            'description' => 'nullable|string',
+            // 'request_valid' => 'required|in:active,canceled',
+        ]);
+
+        $lastRequest = RealEstateRequest::where('number_of_requests', 'LIKE', 'RS-%')
+            ->latest('created_at')
+            ->first();
+
+        $prefix = 'RS-';
+        $delimiter = '-';
+        $startNumber = 1; 
+
+        if ($lastRequest) {
+            $lastNumber = explode($delimiter, $lastRequest->number_of_requests)[1];
+            $startNumber = (int)$lastNumber + 1;
+        }
+
+        $numberOfRequests = $prefix . str_pad($startNumber, 4, '0', STR_PAD_LEFT);
+
+        $realEstateRequest = RealEstateRequest::create([
+            'number_of_requests' => $numberOfRequests,
+            'user_id' => Auth::id(),
+            'property_type_id' => $request->input('property_type_id'),
+            'city_id' => $request->input('city_id'),
+            'district_id' => $request->input('district_id'),
+            'area' => $request->input('area'),
+            'rooms' => $request->input('rooms'),
+            'description' => $request->input('description'),
+            // 'request_valid' => $request->input('request_valid'),
+        ]);
+        $this->notifyAllBrokers($realEstateRequest);
+
+        return redirect()->back()->with('success', 'Real estate request created successfully!');
+
+    }
+    protected function notifyAllBrokers(RealEstateRequest $realEstateRequest)
+{
+    $users = User::where('is_broker', true)
+    ->orWhere('is_office', true)
+    ->get();
+    foreach ($users as $user) {
+        Notification::send($user, new NewRealEstateRequestNotification($realEstateRequest));
+    }
+}
+    public function GetDistrictsByCity($id)
+    {
+        $districts = $this->districtService->getDistrictsByCity($id);
+
+        return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
 }

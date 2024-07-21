@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
+use App\Http\Controllers\Property_Finder\RealEstateRequestController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Property_Finder\HomeController as Property_FinderHomeController;
 use App\Http\Middleware\PendingPaymentPopup;
@@ -59,6 +60,8 @@ Route::group(
               //projects
             Route::get('gallery/projects', [ProjectController::class, 'showAllProjetcs'])->name('showAllProjects');
             Route::get('gallery/{gallery_name}/project/{id}', [ProjectController::class, 'showPubllicProject'])->name('showPublicProject');
+            route::resource('Real-Estate-Requests', RealEstateRequestController::class)->middleware('CheckSubscription');
+            Route::post('/store-request', [HomeController::class, 'createRequest'])->name('createRequest');
 
         //
         });
@@ -93,7 +96,7 @@ Route::group(
         Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity');
 
         Route::post('StoreContactUs',  [HomeController::class, 'StoreContactUs'])->name('home.StoreContactUs');
-      
+
 
         // Route::get('/loadMoreBrokers', 'HomeController@loadMoreBrokers')->name('loadMoreBrokers');
 
@@ -139,6 +142,7 @@ Route::group(
 
         Route::get('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
         Route::post('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
+
     }
 
 );

@@ -179,7 +179,7 @@
             </div>
             <!-- What people say slider: End -->
         </section>
-        
+
 
 
         {{-- <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
@@ -962,6 +962,145 @@
         </section>
         <!-- CTA: End -->
 
+         <!-- Real Estat Requests: Start -->
+         <section id="landingContact" class="section-py bg-body landing-contact">
+            <div class="container">
+                <div class="text-center mb-3 pb-1">
+                    <span class="badge bg-label-primary">الطلبات العقارية</span>
+                </div>
+                <h3 class="text-center mb-1">
+                    <span class="position-relative fw-bold z-1">لطلب طلب عقاري
+                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                            alt="laptop charging"
+                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                    
+                </h3>
+                <p class="text-center mb-4 mb-lg-5 pb-md-3">أي سؤال أو ملاحظة؟ فقط اكتب لنا رسالة</p>
+                <div class="row gy-4">
+                    <div class="col-lg-5">
+                        <div class="contact-img-box position-relative border p-2 h-100">
+                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png') }}"
+                                alt="contact border"
+                                class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl"
+                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);" />
+                            <img src="{{ url('HOME_PAGE/img/front-pages/4.png') }}" style="max-height: 420px;"
+                                alt="contact customer service" class="contact-img w-100" />
+                            <div class="pt-3 px-4 pb-1">
+                                <div class="row gy-3 gx-md-4">
+                                    <div class="col-md-6 col-lg-12 col-xl-6">
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge bg-label-primary rounded p-2 me-2"><i
+                                                    class="ti ti-mail ti-sm"></i></div>
+                                            <div>
+                                                <p class="mb-0">@lang('Email')</p>
+                                                <h5 class="mb-0">
+                                                    <a href="mailto:{{ $sitting->support_email }}"
+                                                        class="text-heading">{{ $sitting->support_email }}</a>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-12 col-xl-6">
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge bg-label-success rounded p-2 me-2">
+                                                <i class="ti ti-phone-call ti-sm"></i>
+                                            </div>
+                                            <div>
+                                                <p class="mb-0">@lang('phone')</p>
+                                                <h6 class="mb-0"><a href="tel:+{{ $sitting->full_phone }}"
+                                                        class="text-heading">{{ $sitting->full_phone }}</a></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mb-1">طلب عقاري</h4>
+                                <p class="mb-4">
+                                    إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
+                                        class="d-none d-lg-block" />
+                                    الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح. </p>
+                                <form action="{{ route('Home.createRequest') }}" method="POST">
+                                    @csrf
+                                 
+                                    <div class="row g-3">
+                                        <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('Property type') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" name="property_type_id" required>
+                                                <option disabled selected value="">@lang('Property type')</option>
+                                                @foreach ($types as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('city') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" id="CityDiv" name="city_id" required>
+                                                <option disabled value="" selected>@lang('city')</option>
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}"
+                                                        data-url="{{ route('PropertyFinder.GetDistrictsByCity', $city->id) }}">
+                                                        {{ $city->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('district') <span
+                                                    class="required-color"></span></label>
+                                            <select class="form-select" name="district_id" id="DistrictDiv"
+                                                ></select>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 mb-3">
+                                            <label class="form-label">@lang('Area (square metres)')</label>
+                                            <input type="number" name="area" class="form-control"
+                                                placeholder="@lang('Area (square metres)')"
+                                                value="{{ old('Area (square metres)') }}" />
+                                        </div>
+
+
+                                        <div class="col-sm-12 col-md-6 mb-3">
+                                            <label class="form-label">@lang('number rooms') </label>
+                                            <input type="number" name="rooms" class="form-control"
+                                                placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                        </div>
+
+                                    
+                                        <div class="col-12">
+                                            <label class="form-label" for="contact-form-message">@lang('Description') <span
+                                                    class="required-color"></span></label>
+                                            <textarea id="contact-form-message" name="description" class="form-control"  rows="8"
+                                                placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            @guest
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">ارسال</button>
+                                            @endguest
+                                            @auth
+                                            @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
+                                            <button type="submit" class="btn btn-primary">ارسال</button>
+                                            @endif
+                                            @endauth
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  Real Estat Requests: End -->
+
         <!-- Contact Us: Start -->
         <section id="landingContact" class="section-py bg-body landing-contact">
             <div class="container">
@@ -1124,5 +1263,25 @@
                 $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
             });
         });
+
+
+            $('#CityDiv').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#DistrictDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#DistrictDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
+            //
     </script>
 @endsection
