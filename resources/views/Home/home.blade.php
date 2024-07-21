@@ -1027,8 +1027,6 @@
                                     إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
                                         class="d-none d-lg-block" />
                                     الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح. </p>
-                                <form>
-
                                     <div class="row g-3">
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Property type') <span
@@ -1095,10 +1093,8 @@
                                         </div>
                                         <div class="col-12">
                                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">ارسال</button>
-
                                         </div>
                                     </div>
-                                </form>
                             </div>
                         </div>
                     </div>
