@@ -37,13 +37,22 @@
                       </button>
                     </li>
                     <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                            aria-selected="false">
+                            <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
+                            <span
+                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
                         <button
                           type="button"
                           class="nav-link"
                           role="tab"
                           data-bs-toggle="tab"
-                          data-bs-target="#navs-justified-gallery"
-                          aria-controls="navs-justified-gallery"
+                          data-bs-target="#navs-justified-timeLine"
+                          aria-controls="navs-justified-timeLine"
                           aria-selected="false">
                           <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i>  @lang('Time Line')
                           <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
@@ -72,7 +81,7 @@
 
                         <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
 
-                        {{-- الوصف --}}
+                            {{-- الوصف --}}
                             <div class="row">
 
                                 <div class="col-md-3 col-12 mb-3">
@@ -183,34 +192,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-{{--
-                                <div class="col-md-6 col-12 mb-3">
-                                    <label class="form-label">@lang('Delivery Case') <span class="required-color"></span></label>
-                                    <select class="form-select" name="delivery_case_id">
-                                        <option disabled selected value="">@lang('Delivery Case')</option>
-                                        @foreach ($deliveryCases as $case)
-                                            <option value="{{ $case->id }}">{{ $case->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div> --}}
-
-
-                                <div class="mb-3 col-12">
-                                    <label class="form-label mb-2">@lang('Description')</label>
-                                    <div>
-                                        {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
-                                        <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""
-                                        ></textarea>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-sm-12 col-md-12 mb-3">
-                                    <label class="form-label mb-2">@lang('Project images') </label>
-                                    <input type="file" name="images[]" multiple class="dropify"
-                                    accept="image/jpeg, image/png" />
-
-                                </div>
 
                                 <div class="col-md-6 col-12 mb-3" hidden>
                                     <label class="form-label">@lang('lat&long')</label>
@@ -221,8 +202,61 @@
 
 
                             </div>
+                            <div class="col-12" style="text-align: center;">
+                                <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                    data-next="#navs-justified-gallery">
+                                    {{ __('Next') }}
+                                </button>
+                            </div>
                         </div>
-                            <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+
+                        <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label"
+                                    style="display: block !important;">@lang('Show in Gallery')
+                                </label>
+
+                                <label class="switch switch-lg">
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input"
+                                        checked />
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on">
+                                            <i class="ti ti-check"></i>
+                                        </span>
+                                        <span class="switch-off">
+                                            <i class="ti ti-x"></i>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+
+
+
+                            <div class="mb-3 col-12">
+                                <label class="form-label mb-2">@lang('Description')</label>
+                                <div>
+                                    {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
+                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""
+                                    ></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Project images') </label>
+                                <input type="file" name="images[]" multiple class="dropify"
+                                accept="image/jpeg, image/png" />
+
+                            </div>
+                            <div class="col-12" style="text-align: center;">
+                                <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                    data-next="#navs-justified-timeLine">
+                                    {{ __('Next') }}
+                                </button>
+                            </div>
+                        </div>
+
+                            <div class="tab-pane fade" id="navs-justified-timeLine" role="tabpanel">
                                 <label class="form-label">@lang('قم بإضافة مراحل المشروع هنا')</label>
                                 <div id="features" class="row">
                                     <div class="row mb-3 stage-row">
@@ -244,6 +278,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12" style="text-align: center;">
+                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                        data-next="#navs-justified-profile">
+                                        {{ __('Next') }}
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
@@ -257,13 +297,13 @@
                                         <input class="form-control" type="file" name="project_brochure" id="projectBrochure" accept="image/*,application/pdf" multiple>
                                     </div>
                                 </div>
-
+                                <div class="col-12" style="text-align: center;">
+                                    <button class="btn btn-primary col-4 waves-effect waves-light"
+                                        type="submit">@lang('save')</button>
+                                </div>
                             </div>
 
-                            <div class="col-12">
-                                <button class="btn btn-primary waves-effect waves-light"
-                                    type="submit">@lang('save')</button>
-                            </div>
+                      
                         </div>
 
                     </form>
@@ -485,5 +525,14 @@
 // });
 
 
+</script>
+<script>
+    document.querySelectorAll('.next-tab').forEach(button => {
+        button.addEventListener('click', function() {
+            const nextTab = this.getAttribute('data-next');
+            const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+            nextTabButton.click();
+        });
+    });
 </script>
 @endpush

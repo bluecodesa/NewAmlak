@@ -229,16 +229,7 @@
                                     </span>
                                 </label>
                             </div>
-{{--
-                            <div class="col-md-6 col-12 mb-3">
-                                <label class="form-label">@lang('Delivery Case') <span class="required-color"></span></label>
-                                <select class="form-select" name="delivery_case_id">
-                                    <option disabled selected value="">@lang('Delivery Case')</option>
-                                    @foreach ($deliveryCases as $case)
-                                        <option value="{{ $case->id }}">{{ $case->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
+
 
 
                             <div class="mb-3 col-12">

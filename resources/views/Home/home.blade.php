@@ -946,9 +946,9 @@
                     <div class="col-lg-5 text-center text-lg-start" style="    padding: 16px 0px;">
                         <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
                         </h6>
-                        <h6 class="h2 text-primary fw-bold mb-1">انضم لنا الآن
+                        <h6 class="h2 text-primary fw-bold mb-1">اطلب عقارك الآن
                         </h6>
-                        <p class="fw-medium mb-4">واجهة سهلة الإستخدام بمميزات متعددة
+                        <p class="fw-medium mb-4">قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك
 
                         </p>
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addSubscriberModal"
@@ -956,15 +956,10 @@
                     </div>
                     <div class="col-lg-7 pt-lg-7 text-center text-lg-start">
                         @guest
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="padding: 10px">
                                 <div class="card-body">
-                                    <h4 class="mb-1">اطلب عقارك</h4>
-                                    <p class="mb-4">
-                                        قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك<br
-                                        class="d-none d-lg-block" />
-                                        </p>
                                         <div class="row g-3">
-                                            <div class="col-md-4 mb-3 col-12">
+                                            <div class="col-md-4 mb-2 col-12">
                                                 <label class="form-label">@lang('Property type') <span
                                                         class="required-color">*</span></label>
                                                 <select class="form-select" name="property_type_id" required>
@@ -974,7 +969,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-4 mb-3 col-12">
+                                            <div class="col-md-4 mb-2 col-12">
                                                 <label class="form-label">@lang('city') <span
                                                         class="required-color">*</span></label>
                                                 <select class="form-select" id="CityDiv" name="city_id" required>
@@ -988,7 +983,7 @@
                                                 </select>
                                             </div>
     
-                                            <div class="col-md-4 mb-3 col-12">
+                                            <div class="col-md-4 mb-2 col-12">
                                                 <label class="form-label">@lang('district') <span
                                                         class="required-color"></span></label>
                                                 <select class="form-select" name="district_id" id="DistrictDiv"
@@ -1006,7 +1001,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-sm-12 col-md-4 mb-3">
+                                            <div class="col-sm-12 col-md-4 mb-2">
                                                 <label class="form-label">@lang('Area (square metres)')</label>
                                                 <input type="number" name="area" class="form-control"
                                                     placeholder="@lang('Area (square metres)')"
@@ -1014,7 +1009,7 @@
                                             </div>
     
     
-                                            <div class="col-sm-12 col-md-4 mb-3">
+                                            <div class="col-sm-12 col-md-4 mb-2">
                                                 <label class="form-label">@lang('number rooms') </label>
                                                 <input type="number" name="rooms" class="form-control"
                                                     placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
@@ -1024,7 +1019,7 @@
                                             <div class="col-12">
                                                 <label class="form-label" for="contact-form-message">@lang('Description') <span
                                                         class="required-color"></span></label>
-                                                <textarea id="contact-form-message" name="description" class="form-control"  rows="8"
+                                                <textarea name="description" class="form-control"  rows="4"
                                                     placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
                                             </div>
                                             <div class="col-12">
@@ -1035,8 +1030,8 @@
                         </div>
                         @endguest
                         @auth
-                        <div class="col-lg-12">
-                                <div class="card-body">
+                        <div class="col-lg-12" style="padding: 10px">
+                            <div class="card-body">
                                     <h4 class="mb-1">اطلب عقارك</h4>
                                     <p class="mb-4">
                                    قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك<br
@@ -1046,7 +1041,7 @@
                                         @csrf
     
                                         <div class="row g-3">
-                                            <div class="col-md-4 mb-3 col-12">
+                                            <div class="col-md-4 mb-2 col-12">
                                                 <label class="form-label">@lang('Property type') <span
                                                         class="required-color">*</span></label>
                                                 <select class="form-select" name="property_type_id" required>
@@ -1056,7 +1051,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-4 mb-3 col-12">
+                                            <div class="col-md-4 mb-2 col-12">
                                                 <label class="form-label">@lang('city') <span
                                                         class="required-color">*</span></label>
                                                 <select class="form-select" id="CityDiv" name="city_id" required>
@@ -1070,7 +1065,7 @@
                                                 </select>
                                             </div>
     
-                                            <div class="col-md-4 mb-3 col-12">
+                                            <div class="col-md-4 mb-2 col-12">
                                                 <label class="form-label">@lang('district') <span
                                                         class="required-color"></span></label>
                                                 <select class="form-select" name="district_id" id="DistrictDiv"
@@ -1088,7 +1083,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-sm-12 col-md-4 mb-3">
+                                            <div class="col-sm-12 col-md-4 mb-2">
                                                 <label class="form-label">@lang('Area (square metres)')</label>
                                                 <input type="number" name="area" class="form-control"
                                                     placeholder="@lang('Area (square metres)')"
@@ -1096,7 +1091,7 @@
                                             </div>
     
     
-                                            <div class="col-sm-12 col-md-4 mb-3">
+                                            <div class="col-sm-12 col-md-4 mb-2">
                                                 <label class="form-label">@lang('number rooms') </label>
                                                 <input type="number" name="rooms" class="form-control"
                                                     placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
@@ -1106,7 +1101,7 @@
                                             <div class="col-12">
                                                 <label class="form-label" for="contact-form-message">@lang('Description') <span
                                                         class="required-color"></span></label>
-                                                <textarea id="contact-form-message" name="description" class="form-control"  rows="8"
+                                                <textarea id="contact-form-message" name="description" class="form-control"  rows="4"
                                                     placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
                                             </div>
                                             <div class="col-12">

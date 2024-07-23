@@ -29,7 +29,7 @@
                                         aria-selected="true">
                                         <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Basic Details')
                                         <span
-                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">10</span>
                                     </button>
                                 </li>
                                 <li class="nav-item">
@@ -37,6 +37,8 @@
                                         data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
                                         aria-selected="false">
                                         <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Gallery')
+                                        <span
+                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">2</span>
                                     </button>
                                 </li>
                                 <li class="nav-item">
