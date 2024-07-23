@@ -943,17 +943,7 @@
                 data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
             <div class="container">
                 <div class="row align-items-center gy-5 gy-lg-0" >
-                    <div class="col-lg-5 text-center text-lg-start" style="    padding: 16px 0px;">
-                        <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
-                        </h6>
-                        <h6 class="h2 text-primary fw-bold mb-1">اطلب عقارك الآن
-                        </h6>
-                        <p class="fw-medium mb-4">قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك
 
-                        </p>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#addSubscriberModal"
-                            class="btn btn-lg btn-primary">سجل معنا الأن</a>
-                    </div>
                     <div class="col-lg-7 pt-lg-7 text-center text-lg-start">
                         @guest
                         <div class="col-lg-12" style="padding: 10px">
@@ -1022,9 +1012,9 @@
                                                 <textarea name="description" class="form-control"  rows="4"
                                                     placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
                                             </div>
-                                            <div class="col-12">
+                                            {{-- <div class="col-12">
                                                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">ارسال</button>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                 </div>
                         </div>
@@ -1037,7 +1027,7 @@
                                    قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك<br
                                             class="d-none d-lg-block" />
                                         </p>
-                                    <form action="{{ route('Home.createRequest') }}" method="POST">
+                                    <form id="a-form" action="{{ route('Home.createRequest') }}" method="POST">
                                         @csrf
     
                                         <div class="row g-3">
@@ -1106,9 +1096,9 @@
                                             </div>
                                             <div class="col-12">
     
-                                                @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
+                                                {{-- @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
                                                 <button type="submit" class="btn btn-primary">ارسال</button>
-                                                @endif
+                                                @endif --}}
     
                                             </div>
                                         </div>
@@ -1117,6 +1107,22 @@
                         </div>
                         @endauth
                     </div>
+
+                    <div class="col-lg-5 text-center text-lg-start" style="    padding: 16px 0px;">
+                        <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
+                        </h6>
+                        <h6 class="h2 text-primary fw-bold mb-1">اطلب عقارك الآن
+                        </h6>
+                        <p class="fw-medium mb-4">قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك
+
+                        </p>
+                            @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
+                            <button form="a-form" type="submit" class="btn btn-lg btn-primary">@lang('Send Request')</button>
+                            @else
+                            <button form="a-form" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">@lang('Send Request')</button>
+                            @endif
+                    </div>
+                 
                 </div>
             </div>
         </section>
