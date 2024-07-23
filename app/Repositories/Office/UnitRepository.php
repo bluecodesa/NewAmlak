@@ -13,6 +13,7 @@ use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 
 class UnitRepository implements UnitRepositoryInterface
@@ -76,6 +77,14 @@ class UnitRepository implements UnitRepositoryInterface
             $masterplanName = uniqid() . '.' . $ext;
             $unitMasterplan->move(public_path('/Offices/Projects/Units/'), $masterplanName);
             $unit_data['unit_masterplan'] = '/Offices/Projects/Units/' . $masterplanName;
+        }
+
+        if (isset($unit_data['video'])) {
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Offices/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Offices/Projects/Unit/Video/' . $videoName;
         }
 
 
@@ -168,6 +177,31 @@ class UnitRepository implements UnitRepositoryInterface
         }
 
         $unit = Unit::find($id);
+
+
+        if (isset($unit_data['unit_masterplan'])) {
+            if (!empty($unit->project_brochure) && File::exists(public_path($unit->project_brochure))) {
+                File::delete(public_path($unit->project_brochure));
+            }
+            $unitMasterplan = $unit_data['unit_masterplan'];
+            $ext = $unitMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $unitMasterplan->move(public_path('/Brokers/Projects/Units/'), $masterplanName);
+            $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
+        }
+
+        if (isset($unit_data['video'])) {
+            if (!empty($unit->video) && File::exists(public_path($unit->video))) {
+                File::delete(public_path($unit->video));
+            }
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Brokers/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Brokers/Projects/Unit/Video/' . $videoName;
+        }
+
+
         $unit->update($unit_data);
         if (isset($data['service_id'])) {
             $unit->UnitServicesData()->delete();

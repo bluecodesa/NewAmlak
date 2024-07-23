@@ -108,6 +108,8 @@ class UnitController extends Controller
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $projects = $this->officeDataService->getProjects();
+        $properties = $this->officeDataService->getProperties();
         return view('Office.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 

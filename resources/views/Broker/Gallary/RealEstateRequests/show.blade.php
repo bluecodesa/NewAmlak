@@ -29,7 +29,7 @@
                         </div>
                         <div class="d-flex flex-column">
                             <h6 class="mb-0">{{ $request->number_of_requests }}</h6>
-                            {{-- <small class="text-muted">Request ID: #{{ $request->id }}</small> --}}
+                            <small class="text-muted">@lang('Created Date') : # {{ $request->created_at }}</small>
                         </div>
                     </div>
                     <div class="d-flex justify-content-start align-items-center mb-4">
@@ -42,6 +42,7 @@
                         <h6>@lang('Details')</h6>
                     </div>
                     <p class="mb-1">@lang('Property type'): {{ $request->propertyType->name }}</p>
+                    <p class="mb-1">@lang('Ad type'): {{ __($request->ad_type) }}</p>
                     <p class="mb-1">@lang('city'): {{ $request->city->name }}</p>
                     <p class="mb-1">@lang('district'): {{ $request->district->name ?? ''}}</p>
                     <p class="mb-1">@lang('Area (square metres)'): {{ $request->area }}</p>
