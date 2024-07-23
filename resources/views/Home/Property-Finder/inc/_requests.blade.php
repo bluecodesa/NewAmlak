@@ -14,6 +14,7 @@
                         <div class="me-2 ms-1">
                             <h5 class="mb-0">
                                 <a href="javascript:;" class="stretched-link text-body">{{ $request->propertyType->name ?? '' }}</a>
+                                <span>({{ __($request->ad_type) }})</span>
                             </h5>
                             <div class="client-info">
                                 <span class="fw-medium"></span><span class="text-muted">{{ $request->city->name }}</span>/
@@ -66,7 +67,7 @@
                    @else
                    <h6 class="mb-1">@lang('Validation'): <span class="badge bg-danger mt-1">{{ __($request->request_valid) }}</span></h6>
                    @endif
-                    <h6 class="mb-1">@lang('Ad type'): <span class="badge bg-primary mt-1">{{ __($request->ad_type) }}</span></h6>
+                    <h6 class="mb-1">@lang('Request Number'): <span class="badge bg-primary mt-1">{{ $request->number_of_requests }}</span></h6>
                   
                 </div>
             </div>
