@@ -571,7 +571,7 @@
                                     <div class="col-12" style="text-align: center;" >
                                         <button class="btn btn-primary col-4 waves-effect waves-light"
                                             type="submit">@lang('save')</button>
-                                        </div>
+                                    </div>
                                 </div>
 
 
