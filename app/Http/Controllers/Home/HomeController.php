@@ -730,7 +730,7 @@ class HomeController extends Controller
         ]);
         $this->notifyAllBrokers($realEstateRequest);
 
-        return redirect()->back()->with('success', 'Real estate request created successfully!');
+        return redirect()->back()->with('success', 'added successfully');
 
     }
     protected function notifyAllBrokers(RealEstateRequest $realEstateRequest)
@@ -745,7 +745,7 @@ class HomeController extends Controller
         RequestStatus::create([
             'user_id' => $user->id,
             'request_id' => $realEstateRequest->id,
-            'request_status_id' => 2 // Assuming you have a default interest type ID or you need to pass the correct interest type ID here
+            'request_status_id' => 2 
         ]);
 
     }

@@ -633,23 +633,14 @@
                                         <ul class="list-unstyled">
                                             @foreach ($subscriptionType->sections as $section)
                                             <li>
-                                                    <h5>
-
-                                                        @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                                                            <span
-                                                                class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                                                <i class="ti ti-check ti-xs"></i>
-                                                            </span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-center rounded-pill bg-label-danger p-0 me-2">
-                                                                <i class="ti ti-minus ti-xs"></i>
-                                                        @endif
-                                                        </span>
-                                                        {{ $section->name }}
-                                                    </h5>
-                                                </li>
-                                            @endforeach
+                                                <h5>
+                                                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                                        <i class="ti ti-check ti-xs"></i>
+                                                    </span>
+                                                    {{ $section->name }}
+                                                </h5>
+                                            </li>
+                                        @endforeach
 
                                         </ul>
                                         <div class="d-grid mt-4 pt-3">
@@ -713,25 +704,16 @@
                                     </div>
                                     <div class="card-body">
                                         <ul class="list-unstyled">
-                                            @foreach ($sections as $section)
-                                                <li>
-                                                    <h5>
-
-                                                        @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                                                            <span
-                                                                class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                                                <i class="ti ti-check ti-xs"></i>
-                                                            </span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-center rounded-pill bg-label-danger p-0 me-2">
-                                                                <i class="ti ti-minus ti-xs"></i>
-                                                        @endif
-                                                        </span>
-                                                        {{ $section->name }}
-                                                    </h5>
-                                                </li>
-                                            @endforeach
+                                            @foreach ($subscriptionType->sections as $section)
+                                            <li>
+                                                <h5>
+                                                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                                        <i class="ti ti-check ti-xs"></i>
+                                                    </span>
+                                                    {{ $section->name }}
+                                                </h5>
+                                            </li>
+                                        @endforeach
 
                                         </ul>
                                         <div class="d-grid mt-4 pt-3">

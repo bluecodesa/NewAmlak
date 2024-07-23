@@ -57,10 +57,10 @@
                 <p class="mb-0">{{ $request->description }}</p>
             </div>
             <div class="card-body border-top">
-                <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center mb-1">
                     <h6 class="mb-1">@lang('Create Date') <span class="text-body fw-normal">{{ $request->created_at }}</span></h6>
                   </div>
-                <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center mb-1">
                  </span>
                     @if($request->request_valid == 'active')
                     <h6 class="mb-1">@lang('Validation'): <span class="badge bg-primary mt-1">{{ __($request->request_valid) }}</span></h6>

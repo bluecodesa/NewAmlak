@@ -106,6 +106,13 @@ Route::group(
             Route::get('GetCitiesByRegion/{id}', [HomeController::class, 'GetCitiesByRegion'])->name('Office.GetCitiesByRegion')->middleware('CheckSubscription');
             Route::get('GetDistrictsByCity/{id}', [HomeController::class, 'GetDistrictsByCity'])->name('Office.GetDistrictsByCity')->middleware('CheckSubscription');
 
+            Route::get('GetPropertiesByProject/{projectId}', [UnitController::class, 'getPropertiesByProject'])->name('GetPropertiesByProject');
+            Route::get('property/details/{id}', [UnitController::class, 'getPropertyDetail'])->name('GetPropertyDetail');
+            Route::get('GetProjectDetails/{projectId}', [UnitController::class, 'getProjectDetails'])->name('GetProjectDetails');
+            Route::get('GetPropertyDetails/{propertyId}', [UnitController::class, 'getPropertyDetails'])->name('GetPropertyDetails');
+    
+
+
         });
         Route::get('/get-project-details/{project}', [ContractController::class, 'getProjectDetails']);
         Route::get('/get-units-by-property/{property}', [ContractController::class, 'getUnitsByProperty']);
@@ -118,6 +125,7 @@ Route::group(
         Route::get('/get-all-units', [ContractController::class, 'getAllUnits']);
         Route::get('/units/{id}/status', [ContractController::class, 'getStatus']);
 
+     
 
     }
 );

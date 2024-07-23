@@ -130,7 +130,7 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-3 mb-4 col-12">
+                                            <div class="col-md-4 mb-3 col-12">
                                                 <label class="form-label">@lang('city') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select " id="CityDiv" name="city_id" required>
@@ -695,5 +695,138 @@
         });
     });
 </script>
+
+
+<script>
+    $(document).ready(function() {
+        function populateAllProperties() {
+            var propertySelect = $('#propertySelect');
+            propertySelect.empty();
+            propertySelect.append('<option selected value="">@lang('without')</option>');
+            @foreach ($properties as $property)
+                propertySelect.append('<option value="{{ $property->id }}">{{ $property->name }}</option>');
+            @endforeach
+        }
+
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            var propertySelect = $('#propertySelect');
+
+            if (projectId) {
+                // Clear previous options
+                propertySelect.empty();
+                propertySelect.append('<option selected value="">@lang('without')</option>');
+
+                $.ajax({
+                    url: '{{ route('Office.GetPropertiesByProject', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        $.each(response.properties, function(key, property) {
+                            propertySelect.append('<option value="' + property.id + '">' + property.name + '</option>');
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error fetching properties:', error);
+                    }
+                });
+            } else {
+                // Reset to show all properties when "without" is selected
+                populateAllProperties();
+            }
+        });
+
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (!propertyId) {
+                // Reset to show all properties when "without" is selected
+                populateAllProperties();
+            }
+        });
+
+        // Initial population of properties
+        populateAllProperties();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        function populateFields(data) {
+            // Populate region select
+            $('#Region_id').val(data.city_data.region_data.id).change();
+
+            // Populate city select
+            $('#CityDiv').empty();
+            // $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
+            // $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
+
+            // Populate district select
+            $('#DistrictDiv').empty();
+            // $.each(data.city_data.districts_city, function(index, district) {
+            //     $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
+            // });
+        }
+
+        function resetFields() {
+            // $('#Region_id').val('').change();
+            $('#CityDiv').empty();
+            $('#DistrictDiv').empty();
+            $('#myAddressBar').val('');
+            $('select[name="property_type_id"]').val('').change();
+            $('select[name="property_usage_id"]').val('').change();
+            $('select[name="owner_id"]').val('').change();
+            // $('input[name="instrument_number"]').val('');
+            $('select[name="service_type_id"]').val('').change();
+        }
+
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            if (projectId) {
+                $.ajax({
+                    url: '{{ route('Office.GetProjectDetails', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        populateFields(response.project);
+                        $('#myAddressBar').val(response.project.location);
+                        $('select[name="property_type_id"]').val(response.project.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
+                        $('select[name="owner_id"]').val(response.project.owner_id).change();
+                        // $('input[name="instrument_number"]').val(response.project.instrument_number);
+                        $('select[name="service_type_id"]').val(response.project.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching project details:', error);
+                    }
+                });
+            } else {
+                resetFields();
+            }
+        });
+
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (propertyId) {
+                $.ajax({
+                    url: '{{ route('Office.GetPropertyDetails', '') }}/' + propertyId,
+                    type: 'GET',
+                    success: function(response) {
+                        populateFields(response.property);
+                        $('#myAddressBar').val(response.property.location);
+                        $('select[name="property_type_id"]').val(response.property.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
+                        $('select[name="owner_id"]').val(response.property.owner_id).change();
+                        // $('input[name="instrument_number"]').val(response.property.instrument_number);
+                        $('select[name="service_type_id"]').val(response.property.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching property details:', error);
+                    }
+                });
+            } else {
+                resetFields();
+            }
+        });
+    });
+</script>
+
     @endpush
 @endsection

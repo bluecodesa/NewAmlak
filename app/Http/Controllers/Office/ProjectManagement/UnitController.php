@@ -4,7 +4,10 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
+use App\Models\Property;
 use App\Models\Unit;
+use App\Models\UnitImage;
 use App\Models\UnitInterest;
 use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
@@ -237,5 +240,64 @@ class UnitController extends Controller
         $this->UnitService->findById($id)->update([
             'rent_type_show' => $request->rent_type_show
         ]);
+    }
+
+    public function getPropertiesByProject($projectId)
+    {
+        $properties = Property::where('project_id', $projectId)->get();
+        return response()->json(['properties' => $properties]);
+    }
+    public function getPropertyDetail($id)
+    {
+        $property = Property::findOrFail($id); // Example assuming Property model exists
+
+        return response()->json(['property' => $property]);
+    }
+
+
+    public function getProjectDetails($projectId)
+    {
+        $project = Project::findOrFail($projectId);
+        if ($project) {
+            $project->load('CityData','CityData.RegionData', 'CityData.DistrictsCity');
+            return response()->json(['project' => $project]);
+        } else {
+            return response()->json(['error' => 'Project not found'], 404);
+        }
+    }
+
+    public function getPropertyDetails($propertyId)
+    {
+
+        $property = Property::findOrFail($propertyId);
+
+        if ($property) {
+            $property->load('CityData','CityData.RegionData', 'CityData.DistrictsCity');
+
+            return response()->json(['property' => $property]);
+        } else {
+            return response()->json(['error' => 'Property not found'], 404);
+        }
+    }
+
+    public function destroyImage($id)
+    {
+        $image = UnitImage::find($id);
+        if ($image) {
+            $image->delete();
+            return response()->json(['success' => 'Image deleted']);
+        }
+        return response()->json(['error' => 'Image not found'], 404);
+    }
+    
+    public function destroyVideo($id)
+    {
+        $unit = Unit::find($id);
+        if ($unit && $unit->video) {
+            $unit->video = null;
+            $unit->save();
+            return response()->json(['success' => 'Video deleted']);
+        }
+        return response()->json(['error' => 'Video not found'], 404);
     }
 }

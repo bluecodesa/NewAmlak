@@ -99,7 +99,7 @@ class RealEstateRequestController extends Controller
         $requestStatus->request_status_id = $request->input('status');
         $requestStatus->save();
     
-        return redirect()->back()->with('success', 'Interest type updated successfully!');
+        return redirect()->back()->with('success', 'Update successfully');
     }
     
     /**
