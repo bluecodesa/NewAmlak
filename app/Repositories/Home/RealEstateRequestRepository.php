@@ -18,7 +18,7 @@ class RealEstateRequestRepository
 
     function getRequestById($id)
     {
-        return RealEstateRequest::where('request_valid','active')->find($id);
+        return RealEstateRequest::findOrFail($id);
     }
 
     public function updateOwner($id, $data)

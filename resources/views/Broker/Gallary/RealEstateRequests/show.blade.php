@@ -8,9 +8,9 @@
         <div class="row">
             <div class="col-6">
                 <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                    <a href="{{ route('PropertyFinder.RealEstateRequest.index') }}" class="text-muted fw-light">@lang('Real Estate Request') </a> /
+                    <a href="{{ route('PropertyFinder.RealEstateRequest.index') }}" class="text-muted fw-light">@lang('Real Estate Requests') </a> /
                     @lang('Show') 
-                </h4>>
+                </h4>
 
             </div>
         </div>
@@ -44,7 +44,7 @@
                     <p class="mb-1">@lang('Property type'): {{ $request->propertyType->name }}</p>
                     <p class="mb-1">@lang('city'): {{ $request->city->name }}</p>
                     <p class="mb-1">@lang('district'): {{ $request->district->name ?? ''}}</p>
-                    <p class="mb-1">@lang('Area (square metres)'): {{ $request->area }} @lang('sq.m') </p>
+                    <p class="mb-1">@lang('Area (square metres)'): {{ $request->area }}</p>
                     <p class="mb-1">@lang('number rooms'): {{ $request->rooms }}</p>
                     <p class="mb-0">@lang('Description'): {{ $request->description }}</p>
                 </div>
@@ -66,12 +66,17 @@
                             {{-- <small class="text-muted">Request ID: #{{ $request->id }}</small> --}}
                         </div>
                     </div>
+                    
+                    <p class="mb-1">@lang('Email'): {{ $request->user->email }}</p>
+                    <p class="mb-1">@lang('mobile'): {{ $request->user->full_phone }}</p>
+
                     <div class="d-flex justify-content-between">
                         <h6>@lang('تغيير حالة الطلب')</h6>
-                        @if (Auth::user()->hasPermission('update-requests-interest'))
+                        @if (Auth::user()->hasPermission('update-requests-interest') )
                         <!-- Dropdown Form for Status Update -->
                         <form method="POST" action="{{ route('PropertyFinder.updateInterestType', $request->id) }}">
                             @csrf
+                            @if($request->request_valid == 'active')
                             <select class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
                                 @foreach ($interestsTypes as $interestsType)
                                     <option value="{{ $interestsType->id }}"
@@ -79,16 +84,25 @@
                                         {{ __($interestsType->name) }}
                                     </option>
                                 @endforeach
+
                             </select>
+                            @else
+                            <select disabled class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
+                                @foreach ($interestsTypes as $interestsType)
+                                    <option value="{{ $interestsType->id }}"
+                                        {{ $requestStatus && $requestStatus->request_status_id == $interestsType->id ? 'selected' : '' }}>
+                                        {{ __($interestsType->name) }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                            @endif
                             <button type="submit" class="submit-from" hidden=""></button>
                         </form>
                     @endif
                     
                     
                     </div>
-                    <p class="mb-1">@lang('Email'): {{ $request->user->email }}</p>
-                    <p class="mb-1">@lang('mobile'): {{ $request->user->full_phone }}</p>
-
                 </div>
             </div>
         </div>

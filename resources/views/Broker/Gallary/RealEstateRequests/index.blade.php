@@ -213,19 +213,6 @@
                                                         href="{{ route('PropertyFinder.RealEstateRequest.show', $client->id) }}">@lang('Show')</a>
                                                 @endif
 
-
-                                                @if (Auth::user()->hasPermission('delete-owner'))
-                                                    <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $client->id }}')"
-                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $client->id }}"
-                                                        action="{{ route('Broker.Owner.destroy', $client->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                @endif
-
                                             </div>
                                         </div>
 
