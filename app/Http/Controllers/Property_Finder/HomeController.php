@@ -51,7 +51,14 @@ class HomeController extends Controller
             ->whereIn('id', $favorites->pluck('unit_id'))
             ->get();
             $user = auth()->user();
-            $requests = RealEstateRequest::where('user_id', $user->id)->get();
+            // $requests = RealEstateRequest::where('user_id', $user->id)->get();
+            $requests = RealEstateRequest::where('user_id', $user->id)
+            ->withCount(['requestStatuses as status_count_3' => function ($query) {
+                $query->where('request_status_id', 3);
+            }, 'requestStatuses as status_count_8' => function ($query) {
+                $query->where('request_status_id', 8);
+            }])
+            ->get();
         return view('Home.Property-Finder.index', get_defined_vars());
     }
 

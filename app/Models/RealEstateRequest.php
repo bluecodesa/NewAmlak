@@ -36,4 +36,8 @@ class RealEstateRequest extends Model
     {
         return $this->belongsTo(District::class, 'district_id');
     }
+    public function requestStatuses()
+    {
+        return $this->hasMany(RequestStatus::class, 'request_id');
+    }
 }

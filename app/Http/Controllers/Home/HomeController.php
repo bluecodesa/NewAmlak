@@ -17,6 +17,7 @@ use App\Models\Broker;
 use App\Models\ContactUs;
 use App\Models\PartnerSuccess;
 use App\Models\RealEstateRequest;
+use App\Models\RequestStatus;
 use App\Models\Setting;
 use App\Models\SystemInvoice;
 use App\Models\User;
@@ -739,6 +740,14 @@ class HomeController extends Controller
     ->get();
     foreach ($users as $user) {
         Notification::send($user, new NewRealEstateRequestNotification($realEstateRequest));
+                
+        // Create a record in the pivot table
+        RequestStatus::create([
+            'user_id' => $user->id,
+            'request_id' => $realEstateRequest->id,
+            'request_status_id' => 2 // Assuming you have a default interest type ID or you need to pass the correct interest type ID here
+        ]);
+
     }
 }
     public function GetDistrictsByCity($id)

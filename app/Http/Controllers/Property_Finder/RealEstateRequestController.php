@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Property_Finder;
 
 use App\Http\Controllers\Controller;
 use App\Models\RealEstateRequest;
+use App\Models\RequestStatus;
 use App\Services\RealEstateRequestService;
 use Illuminate\Http\Request;
 use App\Services\Admin\SettingService;
 use App\Services\CityService;
 use App\Services\PropertyTypeService;
-
-
+use Illuminate\Support\Facades\Auth;
 
 class RealEstateRequestController extends Controller
 {
@@ -73,9 +73,35 @@ class RealEstateRequestController extends Controller
         //
         $request = $this->RealEstateRequestService->getRequestById($id);
         $interestsTypes = $this->settingService->getAllInterestTypes();
+        $requestStatus = RequestStatus::where('request_id', $id)
+        ->where('user_id', Auth::id())
+        ->first();
+
         return view('Broker.Gallary.RealEstateRequests.show', get_defined_vars());
     }
 
+    public function updateInterestType(Request $request, $requestId)
+    {
+        $request->validate([
+            'status' => 'required|exists:interest_types,id',
+        ]);
+    
+        $requestStatus = RequestStatus::where('request_id', $requestId)
+            ->where('user_id', Auth::id())
+            ->first();
+    
+        if (!$requestStatus) {
+            $requestStatus = new RequestStatus();
+            $requestStatus->user_id = Auth::id();
+            $requestStatus->request_id = $requestId;
+        }
+    
+        $requestStatus->request_status_id = $request->input('status');
+        $requestStatus->save();
+    
+        return redirect()->back()->with('success', 'Interest type updated successfully!');
+    }
+    
     /**
      * Show the form for editing the specified resource.
      */
@@ -112,4 +138,7 @@ class RealEstateRequestController extends Controller
 
         return response()->json(['success' => true, 'status' => $realEstateRequest->request_valid]);
     }
+
+
+
 }

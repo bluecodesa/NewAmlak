@@ -147,4 +147,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(FavoriteUnit::class, 'owner_id');
     }
+    public function requestStatuses()
+    {
+        return $this->hasMany(RequestStatus::class);
+    }
 }

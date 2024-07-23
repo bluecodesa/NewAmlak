@@ -636,6 +636,10 @@
     "Real Estate Requests": "الطلبات العقارية",
     "Validation": "الصلاحية",
     "canceled": "ملغى",
-    "Request Number": "رقم الطلب"
+    "Request Number": "رقم الطلب",
+    "New Real Estate Request": "طلب عقاري جديد",
+    "sq.m": "متر مربع",
+    "Request Details": "تفاصيل الطلب",
+    "Client Details": "تفاصيل العميل"
 
 }

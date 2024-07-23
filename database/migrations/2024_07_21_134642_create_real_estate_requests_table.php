@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('property_type_id')->constrained()->onDelete('cascade');
             $table->foreignId('city_id')->constrained()->onDelete('cascade');
             $table->foreignId('district_id')->constrained()->onDelete('cascade');
+            $table->string('ad_type')->default('rent');
             $table->integer('area')->nullable();
             $table->integer('rooms')->nullable();
             $table->text('description');

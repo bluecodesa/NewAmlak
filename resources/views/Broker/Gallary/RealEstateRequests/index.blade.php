@@ -7,7 +7,7 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-6 py-3">
-                    <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         @lang('Real Estate Requests')</h4>
                 </div>
             </div>
