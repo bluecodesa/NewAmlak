@@ -66,10 +66,11 @@
                             {{-- <small class="text-muted">Request ID: #{{ $request->id }}</small> --}}
                         </div>
                     </div>
-                    
+                    <div class="d-flex flex-column mb-4">
+
                     <p class="mb-1">@lang('Email'): {{ $request->user->email }}</p>
                     <p class="mb-1">@lang('mobile'): {{ $request->user->full_phone }}</p>
-
+                    </div>
                     <div class="d-flex justify-content-between">
                         <h6>@lang('تغيير حالة الطلب')</h6>
                         @if (Auth::user()->hasPermission('update-requests-interest') )
@@ -105,6 +106,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

@@ -942,8 +942,8 @@
                 data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
                 data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
             <div class="container">
-                <div class="row align-items-center gy-5 gy-lg-0">
-                    <div class="col-lg-6 text-center text-lg-start" style="    padding: 16px 0px;">
+                <div class="row align-items-center gy-5 gy-lg-0" >
+                    <div class="col-lg-5 text-center text-lg-start" style="    padding: 16px 0px;">
                         <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
                         </h6>
                         <h6 class="h2 text-primary fw-bold mb-1">انضم لنا الآن
@@ -954,8 +954,173 @@
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addSubscriberModal"
                             class="btn btn-lg btn-primary">سجل معنا الأن</a>
                     </div>
-                    <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
-
+                    <div class="col-lg-7 pt-lg-7 text-center text-lg-start">
+                        @guest
+                        <div class="col-lg-12">
+                                <div class="card-body">
+                                    <h4 class="mb-1">اطلب عقارك</h4>
+                                    <p class="mb-4">
+                                        قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك<br
+                                        class="d-none d-lg-block" />
+                                        </p>
+                                        <div class="row g-3">
+                                            <div class="col-md-4 mb-3 col-12">
+                                                <label class="form-label">@lang('Property type') <span
+                                                        class="required-color">*</span></label>
+                                                <select class="form-select" name="property_type_id" required>
+                                                    <option disabled selected value="">@lang('Property type')</option>
+                                                    @foreach ($types as $type)
+                                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 mb-3 col-12">
+                                                <label class="form-label">@lang('city') <span
+                                                        class="required-color">*</span></label>
+                                                <select class="form-select" id="CityDiv" name="city_id" required>
+                                                    <option disabled value="" selected>@lang('city')</option>
+                                                    @foreach ($cities as $city)
+                                                        <option value="{{ $city->id }}"
+                                                            data-url="{{ route('GetDistrictsByCity', $city->id) }}">
+                                                            {{ $city->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+    
+                                            <div class="col-md-4 mb-3 col-12">
+                                                <label class="form-label">@lang('district') <span
+                                                        class="required-color"></span></label>
+                                                <select class="form-select" name="district_id" id="DistrictDiv"
+                                                    ></select>
+                                            </div>
+                                            <div class="col-12 mb-2 col-md-4">
+                                                <label class="form-label">@lang('Ad type') <span
+                                                        class="required-color">*</span>
+                                                </label>
+                                                <select class="form-select" name="ad_type" id="type" required>
+                                                    <option disabled value="">@lang('Ad type') </option>
+                                                    @foreach (['rent', 'sale'] as $type)
+                                                        <option value="{{ $type }}">
+                                                            {{ __($type) }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4 mb-3">
+                                                <label class="form-label">@lang('Area (square metres)')</label>
+                                                <input type="number" name="area" class="form-control"
+                                                    placeholder="@lang('Area (square metres)')"
+                                                    value="{{ old('Area (square metres)') }}" />
+                                            </div>
+    
+    
+                                            <div class="col-sm-12 col-md-4 mb-3">
+                                                <label class="form-label">@lang('number rooms') </label>
+                                                <input type="number" name="rooms" class="form-control"
+                                                    placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                            </div>
+    
+    
+                                            <div class="col-12">
+                                                <label class="form-label" for="contact-form-message">@lang('Description') <span
+                                                        class="required-color"></span></label>
+                                                <textarea id="contact-form-message" name="description" class="form-control"  rows="8"
+                                                    placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">ارسال</button>
+                                            </div>
+                                        </div>
+                                </div>
+                        </div>
+                        @endguest
+                        @auth
+                        <div class="col-lg-12">
+                                <div class="card-body">
+                                    <h4 class="mb-1">اطلب عقارك</h4>
+                                    <p class="mb-4">
+                                   قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك<br
+                                            class="d-none d-lg-block" />
+                                        </p>
+                                    <form action="{{ route('Home.createRequest') }}" method="POST">
+                                        @csrf
+    
+                                        <div class="row g-3">
+                                            <div class="col-md-4 mb-3 col-12">
+                                                <label class="form-label">@lang('Property type') <span
+                                                        class="required-color">*</span></label>
+                                                <select class="form-select" name="property_type_id" required>
+                                                    <option disabled selected value="">@lang('Property type')</option>
+                                                    @foreach ($types as $type)
+                                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4 mb-3 col-12">
+                                                <label class="form-label">@lang('city') <span
+                                                        class="required-color">*</span></label>
+                                                <select class="form-select" id="CityDiv" name="city_id" required>
+                                                    <option disabled value="" selected>@lang('city')</option>
+                                                    @foreach ($cities as $city)
+                                                        <option value="{{ $city->id }}"
+                                                            data-url="{{ route('PropertyFinder.GetDistrictsByCity', $city->id) }}">
+                                                            {{ $city->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+    
+                                            <div class="col-md-4 mb-3 col-12">
+                                                <label class="form-label">@lang('district') <span
+                                                        class="required-color"></span></label>
+                                                <select class="form-select" name="district_id" id="DistrictDiv"
+                                                    ></select>
+                                            </div>
+                                            <div class="col-12 mb-2 col-md-4">
+                                                <label class="form-label">@lang('Ad type') <span
+                                                        class="required-color">*</span>
+                                                </label>
+                                                <select class="form-select" name="ad_type" id="type" required>
+                                                    <option disabled value="">@lang('Ad type') </option>
+                                                    @foreach (['rent', 'sale'] as $type)
+                                                        <option value="{{ $type }}">
+                                                            {{ __($type) }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4 mb-3">
+                                                <label class="form-label">@lang('Area (square metres)')</label>
+                                                <input type="number" name="area" class="form-control"
+                                                    placeholder="@lang('Area (square metres)')"
+                                                    value="{{ old('Area (square metres)') }}" />
+                                            </div>
+    
+    
+                                            <div class="col-sm-12 col-md-4 mb-3">
+                                                <label class="form-label">@lang('number rooms') </label>
+                                                <input type="number" name="rooms" class="form-control"
+                                                    placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                            </div>
+    
+    
+                                            <div class="col-12">
+                                                <label class="form-label" for="contact-form-message">@lang('Description') <span
+                                                        class="required-color"></span></label>
+                                                <textarea id="contact-form-message" name="description" class="form-control"  rows="8"
+                                                    placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
+                                            </div>
+                                            <div class="col-12">
+    
+                                                @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
+                                                <button type="submit" class="btn btn-primary">ارسال</button>
+                                                @endif
+    
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                        </div>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -963,234 +1128,7 @@
         <!-- CTA: End -->
 
          <!-- Real Estat Requests: Start -->
-         <section id="landingContact" class="section-py bg-body landing-contact">
-            <div class="container">
-                <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">الطلبات العقارية</span>
-                </div>
-                <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">لطلب طلب عقاري
-                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
-                            style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
-                            alt="laptop charging"
-                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
-                    </span>
-
-                </h3>
-                <p class="text-center mb-4 mb-lg-5 pb-md-3">أي سؤال أو ملاحظة؟ فقط اكتب لنا رسالة</p>
-                <div class="row gy-4">
-                    <div class="col-lg-5">
-                        <div class="contact-img-box position-relative border p-2 h-100">
-                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png') }}"
-                                alt="contact border"
-                                class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl"
-                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);" />
-                            <img src="{{ url('HOME_PAGE/img/front-pages/4.png') }}" style="max-height: 420px;"
-                                alt="contact customer service" class="contact-img w-100" />
-                            <div class="pt-3 px-4 pb-1">
-                                <div class="row gy-3 gx-md-4">
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="d-flex align-items-center">
-                                            <div class="badge bg-label-primary rounded p-2 me-2"><i
-                                                    class="ti ti-mail ti-sm"></i></div>
-                                            <div>
-                                                <p class="mb-0">@lang('Email')</p>
-                                                <h5 class="mb-0">
-                                                    <a href="mailto:{{ $sitting->support_email }}"
-                                                        class="text-heading">{{ $sitting->support_email }}</a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="d-flex align-items-center">
-                                            <div class="badge bg-label-success rounded p-2 me-2">
-                                                <i class="ti ti-phone-call ti-sm"></i>
-                                            </div>
-                                            <div>
-                                                <p class="mb-0">@lang('phone')</p>
-                                                <h6 class="mb-0"><a href="tel:+{{ $sitting->full_phone }}"
-                                                        class="text-heading">{{ $sitting->full_phone }}</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @guest
-                    <div class="col-lg-7">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-1">طلب عقاري</h4>
-                                <p class="mb-4">
-                                    إذا كنت ترغب في مناقشة أي شيء متعلق بالدفع والحساب والترخيص<br
-                                        class="d-none d-lg-block" />
-                                    الشراكات، أو لديك أسئلة ما قبل البيع، فأنت في المكان الصحيح. </p>
-                                    <div class="row g-3">
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('Property type') <span
-                                                    class="required-color">*</span></label>
-                                            <select class="form-select" name="property_type_id" required>
-                                                <option disabled selected value="">@lang('Property type')</option>
-                                                @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('city') <span
-                                                    class="required-color">*</span></label>
-                                            <select class="form-select" id="CityDiv" name="city_id" required>
-                                                <option disabled value="" selected>@lang('city')</option>
-                                                @foreach ($cities as $city)
-                                                    <option value="{{ $city->id }}"
-                                                        data-url="{{ route('GetDistrictsByCity', $city->id) }}">
-                                                        {{ $city->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('district') <span
-                                                    class="required-color"></span></label>
-                                            <select class="form-select" name="district_id" id="DistrictDiv"
-                                                ></select>
-                                        </div>
-                                        <div class="col-12 mb-2 col-md-4">
-                                            <label class="form-label">@lang('Ad type') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="ad_type" id="type" required>
-                                                <option disabled value="">@lang('Ad type') </option>
-                                                @foreach (['rent', 'sale'] as $type)
-                                                    <option value="{{ $type }}">
-                                                        {{ __($type) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Area (square metres)')</label>
-                                            <input type="number" name="area" class="form-control"
-                                                placeholder="@lang('Area (square metres)')"
-                                                value="{{ old('Area (square metres)') }}" />
-                                        </div>
-
-
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('number rooms') </label>
-                                            <input type="number" name="rooms" class="form-control"
-                                                placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
-                                        </div>
-
-
-                                        <div class="col-12">
-                                            <label class="form-label" for="contact-form-message">@lang('Description') <span
-                                                    class="required-color"></span></label>
-                                            <textarea id="contact-form-message" name="description" class="form-control"  rows="8"
-                                                placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">ارسال</button>
-                                        </div>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endguest
-                    @auth
-                    <div class="col-lg-7">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="mb-1">اطلب عقارك</h4>
-                                <p class="mb-4">
-                               قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك<br
-                                        class="d-none d-lg-block" />
-                                    </p>
-                                <form action="{{ route('Home.createRequest') }}" method="POST">
-                                    @csrf
-
-                                    <div class="row g-3">
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('Property type') <span
-                                                    class="required-color">*</span></label>
-                                            <select class="form-select" name="property_type_id" required>
-                                                <option disabled selected value="">@lang('Property type')</option>
-                                                @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('city') <span
-                                                    class="required-color">*</span></label>
-                                            <select class="form-select" id="CityDiv" name="city_id" required>
-                                                <option disabled value="" selected>@lang('city')</option>
-                                                @foreach ($cities as $city)
-                                                    <option value="{{ $city->id }}"
-                                                        data-url="{{ route('PropertyFinder.GetDistrictsByCity', $city->id) }}">
-                                                        {{ $city->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('district') <span
-                                                    class="required-color"></span></label>
-                                            <select class="form-select" name="district_id" id="DistrictDiv"
-                                                ></select>
-                                        </div>
-                                        <div class="col-12 mb-2 col-md-4">
-                                            <label class="form-label">@lang('Ad type') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="ad_type" id="type" required>
-                                                <option disabled value="">@lang('Ad type') </option>
-                                                @foreach (['rent', 'sale'] as $type)
-                                                    <option value="{{ $type }}">
-                                                        {{ __($type) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Area (square metres)')</label>
-                                            <input type="number" name="area" class="form-control"
-                                                placeholder="@lang('Area (square metres)')"
-                                                value="{{ old('Area (square metres)') }}" />
-                                        </div>
-
-
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('number rooms') </label>
-                                            <input type="number" name="rooms" class="form-control"
-                                                placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
-                                        </div>
-
-
-                                        <div class="col-12">
-                                            <label class="form-label" for="contact-form-message">@lang('Description') <span
-                                                    class="required-color"></span></label>
-                                            <textarea id="contact-form-message" name="description" class="form-control"  rows="8"
-                                                placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
-                                        </div>
-                                        <div class="col-12">
-
-                                            @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
-                                            <button type="submit" class="btn btn-primary">ارسال</button>
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    @endauth
-                </div>
-            </div>
-        </section>
+     
         <!--  Real Estat Requests: End -->
 
         <!-- Contact Us: Start -->
