@@ -185,9 +185,9 @@
                             <tr>
                                 <th>@lang('Request Number')</th>
                                 <th>@lang('Client Name')</th>
-                                <th>@lang('Property type')</th>
+                                {{-- <th>@lang('Property type')</th> --}}
                                 <th>@lang('city / district')</th>
-                                <th>@lang('Validation')</th>
+                                <th>@lang('status')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -198,9 +198,15 @@
 
                                     <td>{{ $client->number_of_requests ?? '' }}</td>
                                     <td> {{ $client->user->name }}</td>
-                                    <td>{{ $client->propertyType->name ?? '' }}</td>
+                                    {{-- <td>{{ $client->propertyType->name ?? '' }}</td> --}}
                                     <td>{{ $client->city->name }} / {{ $client->district->name ?? '' }}</td>
-                                    <td>{{ __($client->request_valid ?? '') }}</td>
+                                    <td>
+                                        @foreach ($client->requestStatuses as $status)
+                                            @if ($status->request_status_id)
+                                                {{ __($status->interestType->name) }}<br>
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

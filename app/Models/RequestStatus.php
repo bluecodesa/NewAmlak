@@ -24,6 +24,6 @@ class RequestStatus extends Model
     // Relationship with InterestType
     public function interestType()
     {
-        return $this->belongsTo(InterestType::class);
+        return $this->belongsTo(InterestType::class ,'request_status_id');
     }
 }

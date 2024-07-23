@@ -40,4 +40,6 @@ class RealEstateRequest extends Model
     {
         return $this->hasMany(RequestStatus::class, 'request_id');
     }
+
+  
 }

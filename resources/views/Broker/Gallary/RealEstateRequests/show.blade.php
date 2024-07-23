@@ -9,7 +9,7 @@
             <div class="col-6">
                 <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                     <a href="{{ route('PropertyFinder.RealEstateRequest.index') }}" class="text-muted fw-light">@lang('Real Estate Requests') </a> /
-                    @lang('Show') 
+                    @lang('Show') {{ $request->number_of_requests }}
                 </h4>
 
             </div>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="d-flex justify-content-start align-items-center mb-4">
                         <!-- Status Badge -->
-                        @lang('Validation'):<span class="badge bg-label-{{ $request->request_valid == 'active' ? 'success' : 'danger' }} me-2">
+                        @lang('Validation'):<span class="badge bg-{{ $request->request_valid == 'active' ? 'primary' : 'danger' }} me-2">
                           {{ __($request->request_valid) }}
                         </span>
                     </div>

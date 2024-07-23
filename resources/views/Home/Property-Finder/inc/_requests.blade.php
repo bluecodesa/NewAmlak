@@ -35,8 +35,11 @@
                                 <i class="ti ti-dots-vertical text-muted"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="javascript:void(0);" data-status="active">@lang('active')</a></li>
-                                <li><a class="dropdown-item text-danger" href="javascript:void(0);" data-status="canceled">@lang('canceled')</a></li>
+                                @if ($request->request_valid == 'canceled')
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-status="active">@lang('تفعيل الطلب')</a></li>
+                                @else
+                                <li><a class="dropdown-item text-danger" href="javascript:void(0);" data-status="canceled">@lang('الغاء الطلب')</a></li>
+                                @endif
                             </ul>                            
                         </div>
                     </div>
@@ -48,10 +51,7 @@
                         <h6 class="mb-0">{{ $request->area ?? '' }}<span class="text-body fw-normal"> @lang('sq.m')</span></h6>
                         <span>{{ $request->rooms ?? '' }} @lang('number rooms')</span>
                     </div>
-                    {{-- <div class="text-end mb-3">
-                        <h6 class="mb-0">@lang('City'): <span class="text-body fw-normal">{{ $request->city->name ?? 'N/A' }}</span></h6>
-                        <h6 class="mb-1">@lang('district'): <span class="text-body fw-normal">{{ $request->district->name ?? 'N/A' }}</span></h6>
-                    </div> --}}
+
                 </div>
                 <p class="mb-0">{{ $request->description }}</p>
             </div>
