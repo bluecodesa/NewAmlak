@@ -25,9 +25,6 @@
                     </div>
                     <div class="ms-auto">
                         <div class="dropdown z-2">
-                            <a href="javascript:void(0);" class="text-body"
-                            ><i class="ti ti-eye ti-sm"></i>0</a
-                          >
                             <button
                               type="button"
                               class="btn dropdown-toggle hide-arrow p-0"
@@ -71,7 +68,8 @@
                   
                 </div>
             </div>
-            <div class="card-body border-top">
+            <div class="card-body border-top"  style="text-align: center;">
+                <h6><i class="ti ti-eye ti-sm"></i>0</h6>
                 <div class="d-flex align-items-center mb-3">
                     <h6 class="mb-1">
                         @lang('جاري التواصل'): <span class="badge bg-primary mt-1">{{ $request->status_count_3 }}</span>
