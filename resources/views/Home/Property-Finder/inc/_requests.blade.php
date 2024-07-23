@@ -60,22 +60,26 @@
                     <h6 class="mb-1">@lang('Create Date') <span class="text-body fw-normal">{{ $request->created_at }}</span></h6>
                   </div>
                 <div class="d-flex align-items-center mb-3">
+                    <span class="fw-medium me-1">@lang('Account Type'):</span>
+                    @foreach ($client->roles as $role)
+                    <span class="badge bg-primary mt-1">  {{ __($role->name) ?? '' }}
+                 </span>
                     @if($request->request_valid == 'active')
-                    <h6 class="mb-1">@lang('Validation'): <span class="badge bg-label-success ms-auto">{{ __($request->request_valid) }}</span></h6>
+                    <h6 class="mb-1">@lang('Validation'): <span class="badge bg-primary mt-1">{{ __($request->request_valid) }}</span></h6>
                    @else
-                   <h6 class="mb-1">@lang('Validation'): <span class="badge bg-label-danger ms-auto">{{ __($request->request_valid) }}</span></h6>
+                   <h6 class="mb-1">@lang('Validation'): <span class="badge bg-danger mt-1">{{ __($request->request_valid) }}</span></h6>
                    @endif
-                    <h6 class="mb-1">@lang('Ad type'): <span class="badge bg-label-success ms-auto">{{ __($request->ad_type) }}</span></h6>
+                    <h6 class="mb-1">@lang('Ad type'): <span class="badge bg-primary mt-1">{{ __($request->ad_type) }}</span></h6>
                   
                 </div>
             </div>
             <div class="card-body border-top">
                 <div class="d-flex align-items-center mb-3">
                     <h6 class="mb-1">
-                        @lang('جاري التواصل'): <span class="badge bg-label-success ms-auto">{{ $request->status_count_3 }}</span>
+                        @lang('جاري التواصل'): <span class="badge bg-primary mt-1">{{ $request->status_count_3 }}</span>
                     </h6>
                     <h6 class="mb-1">
-                        @lang('تحديد موعد للمعاينة'): <span class="badge bg-label-success ms-auto">{{ $request->status_count_8 }}</span>
+                        @lang('تحديد موعد للمعاينة'): <span class="badge bg-primary mt-1">{{ $request->status_count_8 }}</span>
                   
                 </div>
             </div>
