@@ -33,7 +33,7 @@ class NewRealEstateRequestNotification extends Notification
         $realEstateRequest_id=$this->realEstateRequest->id;
         $realEstateRequest=RealEstateRequest::where('id',$realEstateRequest_id)->first();
         return [
-            'msg' => __('') . ' ' . 'مطلوب '.($realEstateRequest->propertyType->name).' بمدينة '.($realEstateRequest->city->name).'  رقم الطلب '.($realEstateRequest->number_of_requests) ,
+            'msg' => __('') . ' ' . 'مطلوب '.($realEstateRequest->propertyType->name).' بمدينة '.($realEstateRequest->city->name).'-'.'  رقم الطلب '.($realEstateRequest->number_of_requests) ,
             'url' => route('PropertyFinder.RealEstateRequest.show', $realEstateRequest->id),
             'type_noty' => 'New Real Estate Request',
             'service_name' => 'NewRealEstateRequest',
