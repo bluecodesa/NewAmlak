@@ -74,18 +74,25 @@
             <div class="card-body border-top">
                 <div class="d-flex align-items-center mb-3">
                     <h6 class="mb-1">
-                        @foreach ($request->requestStatuses as $status) 
-                            @if ($status->interestType->id == 3)
-                            {{ $status->interestType->name }} : <span class="badge bg-primary mt-1">{{ $request->status_count_3 }}</span>
-                             </h6>
-                            @elseif ($status->interestType->id == 8)
-                            <h6 class="mb-1">
-                                {{ $status->interestType->name }}: <span class="badge bg-primary mt-1">{{ $request->status_count_8 }}</span>
-                            </h6>
-                            @endif
-                         @endforeach
+                        @lang('جاري التواصل'): <span class="badge bg-primary mt-1">{{ $request->status_count_3 }}</span>
+                    </h6>
+                    <h6 class="mb-1">
+                        @lang('تحديد موعد للمعاينة'): <span class="badge bg-primary mt-1">{{ $request->status_count_8 }}</span>
+                  
                 </div>
             </div>
+
+            {{-- @foreach ($request->requestStatuses as $status) 
+            @if ($status->interestType->id == 3)
+            {{ $status->interestType->name }} : <span class="badge bg-primary mt-1">{{ $request->status_count_3 }}</span>
+             </h6>
+            @elseif ($status->interestType->id == 8)
+            <h6 class="mb-1">
+                {{ $status->interestType->name }}: <span class="badge bg-primary mt-1">{{ $request->status_count_8 }}</span>
+            </h6>
+            @endif
+         @endforeach --}}
+
         </div>
     </div>
     @endforeach
