@@ -159,17 +159,24 @@
                 </a>
                 <ul class="menu-sub">
                     <li class="menu-item">
-                        <a href="{{ route('Broker.Gallery.index') }}" class="menu-link">
+                        <a href="{{ route('Office.Gallery.index') }}" class="menu-link">
                             <div data-i18n="@lang('Properties Gallary')">@lang('Properties Gallary')</div>
                         </a>
                     </li>
 
                     @if (Auth::user()->hasPermission('read-requests-interest'))
                         <li class="menu-item">
-                            <a href="{{ route('Broker.Gallary.showInterests') }}" class="menu-link">
+                            <a href="{{ route('Office.Gallary.showInterests') }}" class="menu-link">
                                 <div data-i18n="@lang('Requests for interest')">@lang('Requests for interest')</div>
                             </a>
                         </li>
+                    @endif
+                    @if (Auth::user()->hasPermission('read-requests-interest'))
+                    <li class="menu-item">
+                        <a href="{{ route('Office.RealEstateRequest.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Real Estate Requests')">@lang('Real Estate Requests')</div>
+                        </a>
+                    </li>
                     @endif
 
                 </ul>

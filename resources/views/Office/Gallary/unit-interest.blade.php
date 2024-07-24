@@ -1,14 +1,14 @@
 @extends('Admin.layouts.app')
 
-@section('title', __('Real Estate Requests'))
+@section('title', __('Requests for interest'))
 
 @section('content')
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <div class="col-6 py-3">
-                    <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Real Estate Requests')</h4>
+                    <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        @lang('Requests for interest')</h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
@@ -21,7 +21,7 @@
                     </ul>
                 </div>
             @endif
-            {{-- <div class="card">
+            <div class="card">
                 <div class="card-body">
                     <form action="{{ route('Broker.Gallary.showInterests') }}" class="row" method="GET"
                         id="interestsForm">
@@ -47,7 +47,7 @@
                                 style="width:95%!important" onchange="reloadInterests()">
                                 <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>
                                     @lang('All')</option>
-                                @foreach ($requests as $unitInterest)
+                                @foreach ($unitInterests as $unitInterest)
                                     @if ($unitInterest->PropertyData && $unitInterest->PropertyData->ProjectData)
                                         <option value="{{ $unitInterest->PropertyData->ProjectData->id }}"
                                             {{ $projectFilter == $unitInterest->PropertyData->ProjectData->id ? 'selected' : '' }}>
@@ -121,13 +121,13 @@
 
                     </form>
                 </div>
-            </div> --}}
+            </div>
             <hr>
             <div class="card">
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('Real Estate Requests') </h5>
+                        <h5 class="card-header">@lang('Requests for interest') </h5>
                     </div>
 
                     <div class="col-12">
@@ -140,6 +140,7 @@
                             </div>
 
                             <div class="col-8">
+                                @if (Auth::user()->hasPermission('create-role'))
                                     <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                         <div
                                             class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
@@ -150,10 +151,28 @@
                                                         type="button"><span><i
                                                                 class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                 </div>
-                                           
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                                class="d-none d-sm-inline-block">@lang('Add')</span></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        @if (Auth::user()->hasPermission('create-role'))
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('Admin.roles.CreateUser') }}">@lang('Add New Role User')</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('Admin.roles.create') }}">@lang('Add New Role Admin')</a>
+                                                            </li>
+                                                        @endif
+
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                @endif
                             </div>
 
                         </div>
@@ -164,50 +183,24 @@
                     <table class="table" id="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>@lang('Request Number')</th>
+                                <th>@lang('Residential number')</th>
+                                <th>@lang('property')</th>
                                 <th>@lang('Client Name')</th>
-                                {{-- <th>@lang('Property type')</th> --}}
-                                <th>@lang('city / district')</th>
+                                <th>@lang('phone')</th>
                                 <th>@lang('status')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @forelse ($requests as $index => $client)
+                            @forelse ($unitInterests as $index => $client)
                                 <tr>
 
 
-                                    <td>{{ $client->number_of_requests ?? '' }}</td>
-                                    <td> {{ $client->user->name }}</td>
-                                    {{-- <td>{{ $client->propertyType->name ?? '' }}</td> --}}
-                                    <td>{{ $client->city->name }} / {{ $client->district->name ?? '' }}</td>
+                                    <td>{{ $client->unit->number_unit ?? '' }}</td>
+                                    <td>{{ $client->unit->PropertyData->name ?? __('nothing') }}</td>
+                                    <td> {{ $client->name }}</td>
+                                    <td>{{ $client->full_phone }}</td>
                                     <td>
-                                        @foreach ($client->requestStatuses as $status)
-                                            @if ($status->request_status_id)
-                                                {{ __($status->interestType->name) }}<br>
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ti ti-dots-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu" style="">
-                                                @if (Auth::user()->hasPermission('update-owner'))
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('Broker.RealEstateRequest.show', $client->id) }}">@lang('Show')</a>
-                                                @endif
-
-                                            </div>
-                                        </div>
-
-
-
-                                    </td>
-                                   
-                                    {{-- <td>
                                         @if (Auth::user()->hasPermission('update-requests-interest'))
                                             <form method="POST"
                                                 action="{{ route('Broker.Interest.status.update', $client->id) }}">
@@ -227,9 +220,9 @@
                                         @endif
 
 
-                                    </td> --}}
+                                    </td>
 
-                                    {{-- <td>
+                                    <td>
                                         <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light"
                                             target="_blank" data-toggle="modal"
                                             data-target="#shareLinkUnit{{ $client->id }}"
@@ -241,7 +234,7 @@
                                             target="_blank">@lang('محادثة(شات)')</a>
 
 
-                                    </td> --}}
+                                    </td>
                                 </tr>
                             @empty
                                 <td colspan="6">

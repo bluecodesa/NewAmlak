@@ -91,9 +91,32 @@ class UnitController extends Controller
         $this->middleware(['role_or_permission:delete-unit'])->only(['destroy']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
+             // Apply filters
+             if ($request->status) {
+                $units = $units->where('status', $request->status);
+            }
+            if ($request->project) {
+                $units = $units->where('project_id', $request->project);
+            }
+            if ($request->property) {
+                $propertyId = (int) $request->property;
+                $units = $units->where('property_id', $propertyId);
+            }
+            if ($request->property_type) {
+                $units = $units->where('property_type_id', $request->property_type);
+            }
+            if ($request->usage) {
+                $units = $units->where('property_usage_id', $request->usage);
+            }
+    
+            $projects = $units->pluck('ProjectData')->filter()->unique();
+            $properties = $units->pluck('PropertyData')->filter()->unique();
+            $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
+            $usages = $units->pluck('PropertyUsageData')->filter()->unique();
+            $statuses = $units->pluck('status')->unique()->filter();
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         return view('Office.ProjectManagement.Project.Unit.index',  get_defined_vars());
     }

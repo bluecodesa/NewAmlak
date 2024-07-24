@@ -69,4 +69,10 @@ class Office extends Model
     {
         return $this->hasMany(Wallet::class);
     }
+
+    public function OfficeHasUnits()
+    {
+
+        return $this->hasMany(Unit::class, 'office_id');
+    }
 }

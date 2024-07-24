@@ -84,6 +84,7 @@ use App\Interfaces\Employee\SettingRepositoryInterface as EmployeeSettingReposit
 use App\Interfaces\Employee\UnitRepositoryInterface as EmployeeUnitRepositoryInterface;
 use App\Interfaces\Home\RealEstateRequestRepositoryInterface;
 use App\Interfaces\Office\ContractRepositoryInterface;
+use App\Interfaces\Office\GalleryRepositoryInterface as OfficeGalleryRepositoryInterface;
 use App\Interfaces\Office\PropertyRepositoryInterface as OfficePropertyRepositoryInterface;
 use App\Interfaces\Office\RenterRepositoryInterface;
 use App\Interfaces\Office\SettingRepositoryInterface as OfficeSettingRepositoryInterface;
@@ -97,6 +98,7 @@ use App\Repositories\Employee\SettingRepository as EmployeeSettingRepository;
 use App\Repositories\Employee\UnitRepository as EmployeeUnitRepository;
 use App\Repositories\Home\RealEstateRequestRepository;
 use App\Repositories\Office\ContractRepository;
+use App\Repositories\Office\GalleryRepository as OfficeGalleryRepository;
 use App\Repositories\Office\PropertyRepository as OfficePropertyRepository;
 use App\Repositories\Office\SettingRepository as OfficeSettingRepository;
 use App\Repositories\Office\UnitInterestRepository as OfficeUnitInterestRepository;
@@ -178,7 +180,10 @@ class AppServiceProvider extends ServiceProvider
             GalleryRepository::class
         );
 
-
+        $this->app->bind(
+            OfficeGalleryRepositoryInterface::class,
+            OfficeGalleryRepository::class
+        );
 
 
         $this->app->bind(

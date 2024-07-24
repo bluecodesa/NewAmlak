@@ -13,6 +13,7 @@ use App\Http\Controllers\Broker\ProjectManagement\PropertyController;
 use App\Http\Controllers\Broker\ProjectManagement\UnitController;
 use App\Http\Controllers\Broker\TicketController;
 use App\Http\Controllers\Home\UnitInterestController;
+use App\Http\Controllers\Broker\Gallary\RealEstateRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PendingPaymentPopup;
 
@@ -47,6 +48,9 @@ Route::group(
             route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
             route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
             route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+            route::resource('RealEstateRequest', RealEstateRequestController::class)->middleware('CheckSubscription');
+            Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
+
             //
             route::resource('Project', ProjectController::class)->middleware('CheckSubscription');
             Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty')->middleware('CheckSubscription');

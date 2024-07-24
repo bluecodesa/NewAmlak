@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-6">
                 <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                    <a href="{{ route('Broker.RealEstateRequest.index') }}" class="text-muted fw-light">@lang('Real Estate Requests') </a> /
+                    <a href="{{ route('Office.RealEstateRequest.index') }}" class="text-muted fw-light">@lang('Real Estate Requests') </a> /
                     @lang('Show') {{ $request->number_of_requests }}
                 </h4>
 
@@ -76,7 +76,7 @@
                         <h6>@lang('تغيير حالة الطلب')</h6>
                         @if (Auth::user()->hasPermission('update-requests-interest') )
                         <!-- Dropdown Form for Status Update -->
-                        <form method="POST" action="{{ route('Broker.updateInterestType', $request->id) }}">
+                        <form method="POST" action="{{ route('Office.updateInterestType', $request->id) }}">
                             @csrf
                             @if($request->request_valid == 'active')
                             <select class="form-control select-input w-auto" name="status" onchange="this.form.submit()">
