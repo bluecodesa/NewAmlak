@@ -15,6 +15,7 @@ use App\Models\Subscription;
 use App\Models\SubscriptionType;
 use App\Models\Broker;
 use App\Models\ContactUs;
+use App\Models\InterestType;
 use App\Models\PartnerSuccess;
 use App\Models\RealEstateRequest;
 use App\Models\RequestStatus;
@@ -740,13 +741,17 @@ class HomeController extends Controller
     ->get();
     foreach ($users as $user) {
         Notification::send($user, new NewRealEstateRequestNotification($realEstateRequest));
-                
-        // Create a record in the pivot table
-        RequestStatus::create([
-            'user_id' => $user->id,
-            'request_id' => $realEstateRequest->id,
-            'request_status_id' => 2 
-        ]);
+        $defaultInterestType = InterestType::where('default', 1)->first();
+
+        if ($defaultInterestType) {
+            RequestStatus::create([
+                'user_id' => $user->id,
+                'request_id' => $realEstateRequest->id,
+                'request_status_id' => $defaultInterestType->id
+            ]);
+        } else {
+            return redirect()->back()->withErrors(['default' => __('No default interest type found.')]);
+        }
 
     }
 }
