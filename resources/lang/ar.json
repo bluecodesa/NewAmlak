@@ -643,6 +643,8 @@
     "Client Details": "تفاصيل العميل",
     "Send Request": "ارسال الطلب",
     "Default": "تعيين كحالة رئيسية",
-    "Show For Real Estate": "تظهر فقط للوسطاء العقاريين"
+    "Show For Real Estate": "تظهر فقط للوسطاء العقاريين",
+    "This interest type cannot be deleted as it is set as default.": "لا يمكن حذف نوع الاهتمام هذا لأنه تم تعيينه كحالة رئيسية."
+
 
 }
