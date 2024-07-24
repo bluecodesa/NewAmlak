@@ -91,6 +91,8 @@ Route::group(
         Route::get('/UnitdeleteImage/{id}', 'ProjectManagement\UnitController@deleteImage')->name('Unit.deleteImage')->middleware('CheckSubscription');
         Route::get('/UpdateRentPriceByType/{id}', 'ProjectManagement\UnitController@UpdateRentPriceByType')->name('Unit.UpdateRentPriceByType')->middleware('CheckSubscription');
         Route::delete('/gallery/unit/{id}', [UnitController::class, 'destroyUnitGallery'])->name('gallery.unit.destroy');
+        Route::get('/IndexByStatus/{id}', [UnitController::class, 'IndexByStatus'])->name('Unit.IndexByStatus')->middleware('CheckSubscription');
+        Route::get('/IndexByUsage/{id}', [UnitController::class, 'IndexByUsage'])->name('Unit.IndexByUsage')->middleware('CheckSubscription');
        //end of Unit routes
 
        Route::resource('Receipt', VoucherController::class)->middleware('CheckSubscription');

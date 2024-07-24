@@ -22,12 +22,12 @@
 
 
                     <!--Gallery cover-->
-                    @include('Broker.Gallary.inc._GalleryCover')
+                    @include('Office.Gallary.inc._GalleryCover')
 
                     <!--End of gallery cover-->
 
                     <!--Filter-->
-                    @include('Broker.Gallary.inc._FilterGallery')
+                    @include('Office.Gallary.inc._FilterGallery')
                     <!--End of filter-->
 
                     <div class="nav-align-top nav-tabs-shadow mb-4">
@@ -52,12 +52,12 @@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade active show" id="navs-justified-home" role="tabpanel">
-                                @include('Broker.Gallary.inc._MenuGallery')
+                                @include('Office.Gallary.inc._MenuGallery')
                             </div>
                             <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                                 <div class="col-12">
                                     <div class="row">
-                                        @include('Broker.Gallary.inc._ListGallery')
+                                        @include('Office.Gallary.inc._ListGallery')
                                     </div>
                                 </div>
 

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Office\ProjectManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\PropertyUsage;
 use App\Models\Unit;
 use App\Models\UnitImage;
 use App\Models\UnitInterest;
@@ -324,4 +325,39 @@ class UnitController extends Controller
         }
         return response()->json(['error' => 'Video not found'], 404);
     }
+
+    function IndexByStatus($type)
+    {
+        $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
+
+        $projects = $units->pluck('ProjectData')->filter()->unique();
+        $properties = $units->pluck('PropertyData')->filter()->unique();
+        $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
+        $usages = $units->pluck('PropertyUsageData')->filter()->unique();
+        $statuses = $units->pluck('status')->unique()->filter();
+        $units = $units->where('status', $type);
+
+        return view('Office.ProjectManagement.Project.Unit.index', get_defined_vars());
+    }
+
+    function IndexByUsage($usage)
+    {
+        $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
+        if ($usage == '5') {
+            $units = $units->where('property_usage_id', '!=', $usage);
+        } else {
+
+            $units = $units->where('property_usage_id', $usage);
+        }
+
+        $projects = $units->pluck('ProjectData')->filter()->unique();
+        $properties = $units->pluck('PropertyData')->filter()->unique();
+        $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
+        $usages = $units->pluck('PropertyUsageData')->filter()->unique();
+        $statuses = $units->pluck('status')->unique()->filter();
+
+        $usage = PropertyUsage::find($usage);
+        return view('Office.ProjectManagement.Project.Unit.index', get_defined_vars());
+    }
+
 }

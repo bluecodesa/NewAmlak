@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Office\Gallary;
 
 use App\Models\Gallery;
-use App\Services\Broker\UnitService;
+use App\Services\Office\UnitService;
 use App\Services\RegionService;
 use App\Services\CityService;
 use App\Services\AllServiceService;
@@ -133,7 +133,7 @@ class GallaryController extends Controller
         }
 
 
-        return view('Broker.Gallary.index', get_defined_vars());
+        return view('Office.Gallary.index', get_defined_vars());
     }
 
 
@@ -141,7 +141,7 @@ class GallaryController extends Controller
     public function showGallery($galleryId)
     {
         $gallery = $this->galleryService->findById($galleryId);
-        return view('Broker.Gallery.show', compact('gallery'));
+        return view('Office.Gallery.show', compact('gallery'));
     }
 
     public function create(Request $request)
@@ -177,7 +177,7 @@ class GallaryController extends Controller
             }
         }
 
-        return view('Broker.Gallary.show',  get_defined_vars());
+        return view('Office.Gallary.show',  get_defined_vars());
     }
 
 

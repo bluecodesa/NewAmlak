@@ -22,13 +22,14 @@ use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\RegionService;
 use App\Services\CityService;
-use App\Services\Broker\OwnerService;
-use App\Services\Broker\UnitService;
-use App\Services\Broker\GalleryService;
-use App\Services\Broker\UnitInterestService;
+use App\Services\Office\OwnerService;
+use App\Services\Office\UnitService;
+use App\Services\Office\GalleryService;
+use App\Services\Office\UnitInterestService;
 use App\Services\PropertyUsageService;
 use App\Services\Admin\SectionService;
-
+use App\Services\Broker\TicketService;
+use App\Services\RealEstateRequestService;
 
 
 
@@ -49,7 +50,9 @@ class HomeController extends Controller
     protected $systemInvoiceRepository;
     protected $unitInterestService;
     protected $SectionService;
+    protected $RealEstateRequestService;
 
+    protected $ticketService;
 
 
 
@@ -67,7 +70,10 @@ class HomeController extends Controller
         GalleryService $galleryService,
         PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
-        SectionService $SectionService
+        SectionService $SectionService,
+        TicketService $ticketService,
+        RealEstateRequestService $RealEstateRequestService
+
     ) {
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
@@ -82,7 +88,8 @@ class HomeController extends Controller
         $this->systemInvoiceRepository = $systemInvoiceRepository;
         $this->unitInterestService = $unitInterestService;
         $this->SectionService = $SectionService;
-
+        $this->ticketService = $ticketService;
+        $this->RealEstateRequestService = $RealEstateRequestService;
         $this->middleware('auth');
     }
 
@@ -90,10 +97,10 @@ class HomeController extends Controller
     {
         $user = $request->user();
         $officeId = auth()->user()->UserOfficeData->id;
-        // $numberOfowners = $this->ownerService->getAllByofficeId($officeId)->count();
+        $numberOfowners = $this->ownerService->getAllByofficeId($officeId)->count();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $numberOfUnits = $this->UnitService->getAll($officeId)->count();
-        $counts = $this->UnitService->countUnitsForBroker($officeId);
+        $counts = $this->UnitService->countUnitsForOffice($officeId);
         $residentialCount = $counts['residential'];
         $nonResidentialCount = $counts['non_residential'];
         $numberOfInterests = $this->unitInterestService->getNumberOfInterests();
@@ -139,12 +146,15 @@ class HomeController extends Controller
         }
 
 
-        // $gallery = $this->galleryService->findByofficeId($officeId);
-        // $visitorCount = 0;
+        $gallery = $this->galleryService->findByofficeId($officeId);
+        $visitorCount = 0;
 
-        // if ($gallery !== null) {
-        //     $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
-        // }
+        if ($gallery !== null) {
+            $visitorCount += $gallery->visitors()->distinct('ip_address')->count('ip_address');
+        }
+
+        $tickets = $this->ticketService->getUserTickets(auth()->id());
+        $requests = $this->RealEstateRequestService->getAll();
         Auth::user()->assignRole('Office-Admin');
         return view('Office.dashboard',  get_defined_vars());
     }

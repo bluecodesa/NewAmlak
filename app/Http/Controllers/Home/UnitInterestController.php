@@ -86,7 +86,7 @@ class UnitInterestController extends Controller
         $projectFilter = $request->input('prj_filter', 'all');
         $clientFilter = $request->input('client_filter', 'all');
 
-        $userId = auth()->user()->UserBrokerData->user_id;
+        $userId = auth()->user()->id;
         $unitInterests = UnitInterest::with('unit', 'user')
             ->where('user_id', $userId)
             ->get();

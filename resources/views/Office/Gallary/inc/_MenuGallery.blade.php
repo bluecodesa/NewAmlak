@@ -44,11 +44,11 @@
 
                                 @if (Auth::user()->hasPermission('update-unit'))
                                     <a class="dropdown-item"
-                                        href="{{ route('Broker.Unit.edit', $unit->id) }}">@lang('Edit')</a>
+                                        href="{{ route('Office.Unit.edit', $unit->id) }}">@lang('Edit')</a>
                                 @endif
 
                                 @if (Auth::user()->hasPermission('read-unit'))
-                                    <a class="dropdown-item" href="{{ route('Broker.Unit.show', $unit->id) }}"
+                                    <a class="dropdown-item" href="{{ route('Office.Unit.show', $unit->id) }}"
                                         target="_blank">@lang('Show')</a>
                                 @endif
 
@@ -56,7 +56,7 @@
                                     <a href="javascript:void(0);" onclick="handleDelete('{{ $unit->id }}')"
                                         class="dropdown-item delete-btn">@lang('Delete')</a>
                                     <form id="delete-form-{{ $unit->id }}"
-                                        action="{{ route('Broker.Unit.destroy', $unit->id) }}" method="POST"
+                                        action="{{ route('Office.Unit.destroy', $unit->id) }}" method="POST"
                                         style="display: none;">
                                         @csrf
                                         @method('DELETE')

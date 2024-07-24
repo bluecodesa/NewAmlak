@@ -89,12 +89,12 @@
                 </div>
                 <div class="justify-content-center">
                     @if (Auth::user()->hasPermission('read-unit'))
-                        <a href="{{ route('Broker.Unit.show', $unit->id) }}" class="btn btn-secondary">
+                        <a href="{{ route('Office.Unit.show', $unit->id) }}" class="btn btn-secondary">
                             <i class="ti ti-eye"></i>
                         </a>
                     @endif
                     @if (Auth::user()->hasPermission('update-unit'))
-                        <a href="{{ route('Broker.Unit.edit', $unit->id) }}" class="btn btn-primary">
+                        <a href="{{ route('Office.Unit.edit', $unit->id) }}" class="btn btn-primary">
                             <i class="ti ti-highlight"></i>
                         </a>
                     @endif
@@ -105,7 +105,7 @@
                         </a>
 
                         <form id="delete-form-{{ $unit->id }}"
-                            action="{{ route('Broker.Unit.destroy', $unit->id) }}" method="POST"
+                            action="{{ route('Office.Unit.destroy', $unit->id) }}" method="POST"
                             style="display: none;">
                             @csrf
                             @method('DELETE')

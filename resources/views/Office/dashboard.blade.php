@@ -2,11 +2,19 @@
 @section('title', __('dashboard'))
 
 @section('content')
+<style>
+    a.card:hover {
+        /* background-color: #5c5c5c; */
+        scale: 1.06 ;
+        /* transition: background-color 0.3s; */
+    }
+
+</style>
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
 
             <!-- DataTable with Buttons -->
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-body">
                     <h4 class="mt-0 header-title">
                         <h4 class="mt-0 header-title">
@@ -61,19 +69,19 @@
                         @endif
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <hr>
             <div class="row">
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Office.Unit.IndexByStatus', 'vacant') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
                                     <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-users ti-md"></i></span>
+                                            class="ti ti-building  ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('vacant')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Units') @lang('vacant')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -110,18 +118,18 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Office.Unit.IndexByStatus', 'rented') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
                                     <span class="avatar-initial rounded bg-label-success"><i
-                                            class="ti ti-users ti-md"></i></span>
+                                            class="ti ti-building ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('rented')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Units') @lang('rented')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -141,8 +149,8 @@
                                 <div class="d-flex align-items-center mt-1">
                                     <div class="progress w-100" style="height: 8px">
                                         <div class="progress-bar bg-primary" style="width: {{ $occupiedPercentage }}%"
-                                            role="progressbar" aria-valuenow="{{ $occupiedPercentage }}"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                            role="progressbar" aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
+                                            aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             @else
@@ -158,18 +166,18 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Office.Unit.IndexByUsage', '5') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-info"><i
-                                            class="ti ti-users ti-md"></i></span>
+                                    <span class="avatar-initial rounded bg-label-success"><i
+                                            class="ti ti-building ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Number units') @lang('NonResidential')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Units') @lang('NonResidential')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -190,8 +198,8 @@
                                 <div class="d-flex align-items-center mt-1">
                                     <div class="progress w-100" style="height: 8px">
                                         <div class="progress-bar bg-primary" style="width: {{ $occupiedPercentage }}%"
-                                            role="progressbar" aria-valuenow="{{ $occupiedPercentage }}"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                            role="progressbar" aria-valuenow="{{ $occupiedPercentage }}" aria-valuemin="0"
+                                            aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             @else
@@ -207,18 +215,18 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Office.Unit.IndexByUsage', '4') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-info"><i
-                                            class="ti ti-users ti-md"></i></span>
+                                    <span class="avatar-initial rounded bg-label-success"><i
+                                            class="ti ti-building ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Number units') @lang('Residential')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Units') @lang('Residential')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
@@ -253,29 +261,29 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </a>
                 </div>
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
-                      <div class="card-header pb-3">
-                        <div class="d-flex align-items-center mb-2 pb-1">
-                            <div class="avatar me-2">
-                              <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-users ti-md"></i></span>
-                            </div>
-                            <h4 class="ms-1 mb-0">@lang('Number Of Owners')</h4>
-                          </div>
-                        <small class="text-muted"></small>
-                      </div>
-                      <div class="card-body">
-                        <div id="ordersLastWeek"></div>
-                        <div class="d-flex justify-content-between align-items-center gap-3">
-                          {{-- <h4 class="mb-0">{{ $numberOfowners }}</h4> --}}
-                          <h4 class="mb-0"></h4>
 
-                          <span class="text-success"></span>
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <a href="{{ route('Office.Owner.index') }}" class="card h-100">
+                        <div class="card-header pb-3">
+                            <div class="d-flex align-items-center mb-2 pb-1">
+                                <div class="avatar me-2">
+                                    <span class="avatar-initial rounded bg-label-primary"><i
+                                            class="ti ti-users ti-md"></i></span>
+                                </div>
+                                <h4 class="ms-1 mb-0">@lang('owners')</h4>
+                            </div>
+                            <small class="text-muted"></small>
                         </div>
-                        <div class="d-flex align-items-center mt-1">
-                            {{-- <div class="progress w-100" style="height: 8px">
+                        <div class="card-body">
+                            <div id="ordersLastWeek"></div>
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                <h4 class="mb-0">{{ $numberOfowners }}</h4>
+                                <span class="text-success"></span>
+                            </div>
+                            <div class="d-flex align-items-center mt-1">
+                                {{-- <div class="progress w-100" style="height: 8px">
                               <div
                                 class="progress-bar bg-primary"
                                 style="width: 85%"
@@ -284,12 +292,12 @@
                                 aria-valuemin="0"
                                 aria-valuemax="100"></div>
                             </div> --}}
-                      </div>
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Office.Gallary.showInterests') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -318,11 +326,11 @@
                             </div> --}}
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <div class="card h-100">
+                    <a href="{{ route('Office.Gallery.index') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
@@ -336,8 +344,7 @@
                         <div class="card-body">
                             <div id="ordersLastWeek"></div>
                             <div class="d-flex justify-content-between align-items-center gap-3">
-                                {{-- <h4 class="mb-0">{{ $visitorCount }}</h4> --}}
-                                <h4 class="mb-0"></h4>
+                                <h4 class="mb-0">{{ $visitorCount }}</h4>
                                 <span class="text-success"></span>
                             </div>
                             <div class="d-flex align-items-center mt-1">
@@ -352,8 +359,75 @@
                             </div> --}}
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <a href="{{ route('Office.RealEstateRequest.index') }}" class="card h-100">
+                        <div class="card-header pb-3">
+                            <div class="d-flex align-items-center mb-2 pb-1">
+                                <div class="avatar me-2">
+                                    <span class="avatar-initial rounded bg-label-primary"><i
+                                            class="ti ti-ticket ti-md"></i></span>
+                                </div>
+                                <h4 class="ms-1 mb-0">@lang('Real Estate Requests')</h4>
+                            </div>
+                            <small class="text-muted"></small>
+                        </div>
+                        <div class="card-body">
+                            <div id="ordersLastWeek"></div>
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                    @php
+                                        $count = 0;
+                                    @endphp
+                                    
+                                    @foreach($requests as $request)
+                                        @foreach($request->requestStatuses as $status)
+                                            @if ($status->interestType && $status->interestType->default === 1)
+                                                @php
+                                                    $count++;
+                                                    break; 
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                            
+                                <h4 class="mb-0">{{ $count }}</h4>
+                                <span class="text-success"></span>
+                            </div>
+                            <div class="d-flex align-items-center mt-1">
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <a href="{{ route('Office.Tickets.index') }}" class="card h-100">
+                        <div class="card-header pb-3">
+                            <div class="d-flex align-items-center mb-2 pb-1">
+                                <div class="avatar me-2">
+                                    <span class="avatar-initial rounded bg-label-primary"><i
+                                            class="ti ti-ticket ti-md"></i></span>
+                                </div>
+                                <h4 class="ms-1 mb-0">@lang('technical support')</h4>
+                            </div>
+                            <small class="text-muted"></small>
+                        </div>
+                        <div class="card-body">
+                            <div id="ordersLastWeek"></div>
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                <h4 class="mb-0">{{ $tickets->count() }}</h4>
+                                <span class="text-success"></span>
+                            </div>
+                            <div class="d-flex align-items-center mt-1">
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
 
             </div>
             {{-- analytics --}}
