@@ -240,7 +240,14 @@ class SettingController extends Controller
 
     public function destroyInterestType($id)
     {
-        $this->settingService->deleteInterestType($id);
+        $deleted = $this->settingService->deleteInterestType($id);
+
+        if (!$deleted) {
+            // Redirect back with an error message if deletion was not allowed
+            return redirect()->back()->withSuccess(__('This interest type cannot be deleted as it is set as default.'));
+        }
+    
+        // Redirect to index with success message if deletion was successful
         return redirect()->route('Admin.settings.index')
             ->withSuccess(__('Deleted successfully'));
     }

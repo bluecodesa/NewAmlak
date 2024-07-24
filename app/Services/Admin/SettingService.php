@@ -120,7 +120,6 @@ class SettingService
         ];
 
         validator($data, $rules, $messages)->validate();
-    
         if (isset($data['default']) && $data['default'] === 'on') {
             $existingDefault = InterestType::where('default', 1)->first();
             if ($existingDefault) {
@@ -130,7 +129,11 @@ class SettingService
         } else {
             $data['default'] = 0;
         }
-    
+        if (isset($data['show_for_realEaste']) && $data['show_for_realEaste'] === 'on') {
+            $data['show_for_realEaste'] = 1;
+        } else {
+            $data['show_for_realEaste'] = 0;
+        }
         return $this->settingRepository->createInterestType($data);
 
     
