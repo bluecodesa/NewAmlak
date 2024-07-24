@@ -364,21 +364,36 @@
                 </div>
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <a href="{{ route('Broker.Tickets.index') }}" class="card h-100">
+                    <a href="{{ route('PropertyFinder.RealEstateRequest.index') }}" class="card h-100">
                         <div class="card-header pb-3">
                             <div class="d-flex align-items-center mb-2 pb-1">
                                 <div class="avatar me-2">
                                     <span class="avatar-initial rounded bg-label-primary"><i
                                             class="ti ti-ticket ti-md"></i></span>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Real Real Estate Requests')</h4>
+                                <h4 class="ms-1 mb-0">@lang('Real Estate Requests')</h4>
                             </div>
                             <small class="text-muted"></small>
                         </div>
                         <div class="card-body">
                             <div id="ordersLastWeek"></div>
                             <div class="d-flex justify-content-between align-items-center gap-3">
-                                <h4 class="mb-0">{{ $tickets->count() }}</h4>
+                                    @php
+                                        $count = 0;
+                                    @endphp
+                                    
+                                    @foreach($requests as $request)
+                                        @foreach($request->requestStatuses as $status)
+                                            @if ($status->interestType && $status->interestType->default === 1)
+                                                @php
+                                                    $count++;
+                                                    break; 
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                            
+                                <h4 class="mb-0">{{ $count }}</h4>
                                 <span class="text-success"></span>
                             </div>
                             <div class="d-flex align-items-center mt-1">

@@ -29,6 +29,7 @@ use App\Services\Broker\UnitInterestService;
 use App\Services\PropertyUsageService;
 use App\Services\Admin\SectionService;
 use App\Services\Broker\TicketService;
+use App\Services\RealEstateRequestService;
 
 class HomeController extends Controller
 {
@@ -47,6 +48,7 @@ class HomeController extends Controller
     protected $unitInterestService;
     protected $SectionService;
 
+    protected $RealEstateRequestService;
 
     protected $ticketService;
 
@@ -66,6 +68,7 @@ class HomeController extends Controller
         PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
         SectionService $SectionService,
+        RealEstateRequestService $RealEstateRequestService,
 
     ) {
         $this->subscriptionService = $subscriptionService;
@@ -82,6 +85,8 @@ class HomeController extends Controller
         $this->unitInterestService = $unitInterestService;
         $this->SectionService = $SectionService;
         $this->ticketService = $ticketService;
+        $this->RealEstateRequestService = $RealEstateRequestService;
+
         $this->middleware('auth');
     }
 
@@ -165,6 +170,7 @@ class HomeController extends Controller
         }
 
         $tickets = $this->ticketService->getUserTickets(auth()->id());
+        $requests = $this->RealEstateRequestService->getAll();
         Auth::user()->assignRole('RS-Broker');
         return view('Broker.dashboard',  get_defined_vars());
     }

@@ -641,6 +641,8 @@
     "sq.m": "متر مربع",
     "Request Details": "تفاصيل الطلب",
     "Client Details": "تفاصيل العميل",
-    "Send Request": "ارسال الطلب"
+    "Send Request": "ارسال الطلب",
+    "Default": "تعيين كحالة رئيسية",
+    "Show For Real Estate": "تظهر فقط للوسطاء العقاريين"
 
 }

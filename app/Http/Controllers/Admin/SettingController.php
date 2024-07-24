@@ -207,9 +207,17 @@ class SettingController extends Controller
 
     public function storeInterestType(Request $request)
     {
-        $this->settingService->createInterestType($request->all());
+        $result =$this->settingService->createInterestType($request->all());
+        if ($result['status'] === 'error') {
+            return redirect()->back()
+            ->withErrors($result['errors'])
+            ->withInput();
+    } else {
+        return redirect()->route('Admin.settings.index')
+        ->withSuccess(__('added successfully'));
+    }
 
-        return redirect()->route('Admin.settings.index')->withSuccess(__('added successfully'));
+        // return redirect()->route('Admin.settings.index')->withSuccess(__('added successfully'));
     }
     public function editInterestType($id)
     {
@@ -219,9 +227,15 @@ class SettingController extends Controller
 
     public function updateInterestType(Request $request, $id)
     {
-        $this->settingService->updateInterestType($id, $request->all());
-        return redirect()->route('Admin.settings.index')
+       $result = $this->settingService->updateInterestType( $request->all(),$id);
+        if ($result['status'] === 'error') {
+                return redirect()->back()
+                ->withErrors($result['errors'])
+                ->withInput();
+        } else {
+            return redirect()->route('Admin.settings.index')
             ->withSuccess(__('Update successfully'));
+        }
     }
 
     public function destroyInterestType($id)

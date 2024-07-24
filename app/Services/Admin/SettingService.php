@@ -5,6 +5,7 @@ namespace App\Services\Admin;
 
 use App\Models\Setting;
 use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Models\InterestType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -107,34 +108,70 @@ class SettingService
 
     public function createInterestType($data)
     {
-
+    
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')]];
         }
+    
         $messages = [
             '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
             '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
         ];
 
         validator($data, $rules, $messages)->validate();
-        return $this->settingRepository->createInterestType($data);
-    }
-
-    public function updateInterestType($id, $data)
-    {
-        $rules = [];
-        foreach (config('translatable.locales') as $locale) {
-            $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')->ignore($id, 'interest_type_id')]];
+    
+        if (isset($data['default']) && $data['default'] === 'on') {
+            $existingDefault = InterestType::where('default', 1)->first();
+            if ($existingDefault) {
+                return ['status' => 'error', 'errors' => ['default' => __('A default interest type already exists.')]];
+            }
+            $data['default'] = 1;
+        } else {
+            $data['default'] = 0;
         }
-        $messages = [
-            '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
-            '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
-        ];
+    
+        return $this->settingRepository->createInterestType($data);
 
-        validator($data, $rules, $messages)->validate();
-        return $this->settingRepository->updateInterestType($id, $data);
+    
     }
+    
+    
+
+    public function updateInterestType($data, $id)
+{
+    $rules = [];
+    foreach (config('translatable.locales') as $locale) {
+        $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')->ignore($id, 'interest_type_id')]];
+    }
+    $rules += [
+        'show_for_realEaste' => 'boolean',
+        'default' => 'boolean',
+    ];
+
+    $messages = [
+        '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+        '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
+    ];
+
+    validator($data, $rules, $messages)->validate();
+    if (isset($data['default']) && $data['default'] === '1') {
+        $existingDefault = InterestType::where('default', 1)->where('id', '!=', $id)->first();
+        if ($existingDefault) {
+            return ['status' => 'error', 'errors' => ['default' => __('A default interest type already exists.')]];
+        }
+        $data['default'] = 1;
+    } else {
+        $data['default'] = 0;
+    }
+    if (isset($data['show_for_realEaste']) && $data['show_for_realEaste'] === '1') {
+        $data['show_for_realEaste'] = 1;
+    } else {
+        $data['show_for_realEaste'] = 0;
+    }
+    return $this->settingRepository->updateInterestType($id, $data);
+}
+
 
     public function deleteInterestType($id)
     {

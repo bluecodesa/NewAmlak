@@ -71,26 +71,31 @@
             <div class="card-body border-top"  style="text-align: center;">
                 <h6><i class="ti ti-eye ti-sm"></i>0</h6>
                 <div class="d-flex align-items-center mb-3">
-                    <h6 class="mb-1">
-                        @lang('جاري التواصل'): <span class="badge bg-primary mt-1">{{ $request->status_count_3 }}</span>
-                    </h6>
-                    <h6 class="mb-1">
-                        @lang('تحديد موعد للمعاينة'): <span class="badge bg-primary mt-1">{{ $request->status_count_8 }}</span>
-                  
+                            @php
+                                $counts = [];
+                            @endphp
+                            
+                            @foreach($request->requestStatuses as $status)
+                                @if ($status->interestType && $status->interestType->show_for_realEaste === 0)
+                                    @php
+                                        $interestTypeName = $status->interestType->name;
+                            
+                                        if (!isset($counts[$interestTypeName])) {
+                                            $counts[$interestTypeName] = 0;
+                                        }
+                            
+                                        $counts[$interestTypeName]++;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        
+                        @foreach($counts as $name => $count)
+                            <h6 class="mb-1">
+                                {{ $name }}: <span class="badge bg-primary mt-1">{{ $count }}</span>
+                            </h6>
+                        @endforeach
                 </div>
             </div>
-
-            {{-- @foreach ($request->requestStatuses as $status) 
-            @if ($status->interestType->id == 3)
-            {{ $status->interestType->name }} : <span class="badge bg-primary mt-1">{{ $request->status_count_3 }}</span>
-             </h6>
-            @elseif ($status->interestType->id == 8)
-            <h6 class="mb-1">
-                {{ $status->interestType->name }}: <span class="badge bg-primary mt-1">{{ $request->status_count_8 }}</span>
-            </h6>
-            @endif
-         @endforeach --}}
-
         </div>
     </div>
     @endforeach
