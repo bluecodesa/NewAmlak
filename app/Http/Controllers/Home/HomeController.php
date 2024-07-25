@@ -39,12 +39,15 @@ use App\Services\Admin\SectionService;
 use App\Services\CityService;
 use App\Services\PropertyTypeService;
 use App\Services\Admin\DistrictService;
+use App\Http\Traits\Email\MailSendCode;
 
 
 
 class HomeController extends Controller
 {
     use MailWelcomeBroker;
+
+    use MailSendCode;
 
 
     protected $subscriptionTypeService;
@@ -104,6 +107,27 @@ class HomeController extends Controller
         } else {
             return redirect()->route('Admin.home', get_defined_vars());
         }
+    }
+
+    public function sendOtp(Request $request)
+    {
+        $email = $request->input('email');
+
+        $userExists = User::where('email', $email)->exists();
+        if (!$userExists) {
+            $otp = mt_rand(100000, 999999);
+            session(['otp' => $otp]);
+            $this->MailSendCode($request->email, $otp);
+            return redirect()->route('Home.auth.verifyLogin')->with('message', 'OTP sent successfully');
+        } else {
+            return redirect()->back()->withErrors(['email' => 'This email is already registered.']);
+        }
+    }
+
+    public function verifyLogin()
+    {
+
+        return view('auth.verifyLogin');
     }
 
     public function showRegion($id)

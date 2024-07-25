@@ -284,10 +284,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-12" style="text-align: center;">
+                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
                                 <a href="{{ route('welcome') }}" type="button"
                                     class="btn btn-secondary">@lang('Cancel')</a>
-                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
 
                             </div>
 

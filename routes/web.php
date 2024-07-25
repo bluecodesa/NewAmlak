@@ -62,10 +62,12 @@ Route::group(
             Route::get('gallery/{gallery_name}/project/{id}', [ProjectController::class, 'showPubllicProject'])->name('showPublicProject');
             route::resource('Real-Estate-Requests', RealEstateRequestController::class)->middleware('CheckSubscription');
             Route::post('/store-request', [HomeController::class, 'createRequest'])->name('createRequest');
+            Route::post('send-otp', [HomeController::class, 'sendOtp'])->name('sendOtp');
+            Route::get('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin');
+            Route::post('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin');
 
         //
         });
-        // Route::post('/send-otp', [Property_FinderHomeController::class, 'sendVerificationCode'])->name('send-otp');
 
         //fav
         Route::post('/add-to-favorites', [UnitInterestController::class, 'addToFav'])->name('add-to-favorites');
@@ -77,6 +79,7 @@ Route::group(
         Route::get('/Privacy', 'Home\HomeController@Privacy')->name('Privacy');
         Route::get('/Terms&Conditions', 'Home\HomeController@Terms')->name('Terms');
         Auth::routes();
+
         Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
         Route::get('/gallery', [GallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
         Route::get('gallery/{gallery_name}/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
