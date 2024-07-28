@@ -88,7 +88,7 @@ public function login(Request $request)
 
     if (!$user) {
         // Redirect to the registration page if user does not exist
-        return redirect()->route('Home.Brokers.CreateBroker')->withInput($request->only('user_name'));
+        return view('auth.chooseAcount');
     }
 
     // If OTP is provided, verify it

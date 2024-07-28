@@ -1,383 +1,289 @@
-<!doctype html>
-
-<html lang="{{ LaravelLocalization::getCurrentLocale() }}"
-    class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
-    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
-    data-assets-path="{{ url('HOME_PAGE') }}/" data-template="vertical-menu-template-starter">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>{{ $sitting->title }} @lang('register')</title>
-
-    <meta name="description" content="" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('HOME_PAGE/img/favicon/favicon.ico') }}" />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
-        rel="stylesheet" />
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/fontawesome.css') }}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/tabler-icons.css') }}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/flag-icons.css') }}" />
-
-    <!-- Core CSS -->
-    <link rel="stylesheet"
-        href="{{ asset('HOME_PAGE/vendor/css/rtl/core.css" class="template-customizer-core-css') }}" />
-    <link rel="stylesheet"
-        href="{{ asset('HOME_PAGE/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css') }}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/css/demo.css') }}" />
-
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/node-waves/node-waves.css') }}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/typeahead-js/typeahead.css') }}" />
-    <!-- Vendor -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/@form-validation/form-validation.css') }}" />
-
-    <!-- Page CSS -->
-    <!-- Page -->
-    <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/css/pages/page-auth.css') }}" />
-
-    <!-- Helpers -->
-    <script src="{{ asset('HOME_PAGE/vendor/js/helpers.js') }}"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <script src="{{ asset('HOME_PAGE/vendor/js/template-customizer.js') }}"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{ asset('HOME_PAGE/js/config.js') }}"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
-
-    <style>
-        body,
-        h4,
-        h1,
-        h2,
-        h5,
-        h6,
-        h3,
-        span,
-        .dropify-clear,
-        small,
-        b,
-        strong,
-        label,
-
-        * {
-            font-family: "Noto Kufi Arabic", sans-serif !important;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Content -->
-
-    <div class="container-xxl">
-        <div class="authentication-wrapper authentication-basic container-p-y">
-            <div class="authentication-inner py-4">
-                <!-- Register Card -->
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Logo -->
-                        <div class="app-brand justify-content-center mb-4 mt-2">
-                            <a href="index.html" class="app-brand-link gap-2">
-                                <span class="app-brand-logo demo">
-                                    <a href="{{ route('welcome') }}" class="logo logo-admin"><img
-                                            src="{{ url($sitting->icon) }}" alt="" height="50"></a>
-                                </span>
-                            </a>
-                        </div>
-                        <!-- /Logo -->
-                        <h4 class="mb-1 pt-2 text-center">سجل الأن</h4>
-                        <h4 class="mb-1 pt-2 text-center">باحث عن عقار</h4>
-
-
-                        <form id="formAuthentication" class="mb-3" action="{{ route('Home.PropertyFinders.CreatePropertyFinder') }}"
-                            method="POST" enctype="multipart/form-data">
-                            @csrf
-
-                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
-                            <input type="text" name="full_phone" hidden id="full_phone" value="966">
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-
-                            <div class="mb-3 row">
-                                <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                    <img src="{{ asset('HOME_PAGE/img/avatars/14.png') }}" alt="user-avatar"
-                                        class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
-                                    <div class="button-wrapper">
-                                        <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
-                                            <span class="d-none d-sm-block">اختر صورة شخصيه</span>
-                                            <i class="ti ti-upload d-block d-sm-none"></i>
-                                            <input type="file" id="upload" class="account-file-input"
-                                                name="avatar" hidden accept="image/png, image/jpeg" />
-                                        </label>
-                                        <button type="button" id="account-image-reset"
-                                            class="btn btn-label-secondary account-image-reset mb-3">
-                                            <i class="ti ti-refresh-dot d-block d-sm-none"></i>
-                                            <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
-                                        </button>
-
-                                        <div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="mb-3 row">
-
-                                <div class="col-md-6">
-                                    <label class="form-label" for="name"> @lang('Finder name')<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="basic-default-name"
-                                        name="name" placeholder="@lang('Finder name')" required="">
-                                </div>
-
-                            </div>
-                            <div class="mb-3 row">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="email">@lang('Email')<span
-                                            class="text-danger">*</span></label>
-
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        required>
-
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="form-label" for="mobile">@lang('Company Mobile')<span
-                                            class="text-danger">*</span></label>
-
-                                    <div class="input-group">
-                                        <input type="text" placeholder="123456789" id="phone" name="phone"
-                                            value="" class="form-control" maxlength="9" pattern="\d{1,9}"
-                                            oninput="updateFullPhone(this)"
-                                            aria-label="Text input with dropdown button">
-                                        <button class="btn btn-outline-primary dropdown-toggle waves-effect"
-                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            966
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" style="">
-                                            <li><a class="dropdown-item" data-key="971"
-                                                    href="javascript:void(0);">971</a></li>
-                                            <li><a class="dropdown-item" data-key="966"
-                                                    href="javascript:void(0);">966</a></li>
-                                        </ul>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-                            <div class="mb-3 row">
-
-                                <div class="col-md-6">
-                                    {{-- <label for="password"> @lang('password') <span class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="password" name="password" required> --}}
-                                    <div class="mb-3 form-password-toggle">
-                                        <label class="form-label" for="password">@lang('password') <span
-                                                class="text-danger">*</span></label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="password" id="password" class="form-control"
-                                                name="password"
-                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                aria-describedby="password" required />
-                                            <span class="input-group-text cursor-pointer"><i
-                                                    class="ti ti-eye-off"></i></span>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-6">
-                                    {{-- <label for="password_confirmation"> @lang('Confirm Password') <span
-                                    class="text-danger">*</span></label> <input type="password" class="form-control"
-                                id="password_confirmation" name="password_confirmation" required> --}}
-
-                                    <div class="mb-3 form-password-toggle">
-                                        <label class="form-label" for="password">@lang('Confirm Password') <span
-                                                class="text-danger">*</span></label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="password" id="password_confirmation" class="form-control"
-                                                name="password_confirmation"
-                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                                aria-describedby="password" required />
-                                            <span class="input-group-text cursor-pointer"><i
-                                                    class="ti ti-eye-off"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-3">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-8">
-                                    <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">@lang('Cancel')</a>
-
-                                    <button type="submit" class="btn btn-primary">@lang('Submit')</button>
-                                </div>
-                            </div>
-
-                        </form>
-
-
-                        <div class="divider my-4">
-                            <div class="divider-text"></div>
-                        </div>
-
-                        {{-- <div class="d-flex justify-content-center">
-                            <div class="form-group mb-0 row">
-                                <div class="col-12 m-t-10 text-center">
-                                    @lang('By registering') @lang('you accept our')
-                                    <a href="{{ asset($termsAndConditionsUrl) }}" target="_blank" download>
-                                        @lang('Conditions') &amp; @lang('Terms')
-                                    </a>
-                                    <a href="{{ asset($privacyPolicyUrl) }}" target="_blank" download>
-                                        @lang('and') @lang('our privacy policy')
-                                    </a>
-                                </div>
-                            </div>
-                        </div> --}}
-                    </div>
+<div class="modal fade" id="modalToggle" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
+        <div class="modal-content p-3 p-md-5">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="text-center mb-4">
+                    <h3 class="mb-2">انشاء حساب</h3>
                 </div>
-                <!-- Register Card -->
+                <div id="messageContainer" class="mb-3"></div>
+                <form id="emailForm" class="row g-3">
+                    @csrf
+                    <p>لانشاء حسابك علي منصة أملاك يرجي ادخال بريدك الالكتروني</p>
+                    <div class="col-12">
+                        <label for="email" class="form-label">@lang('Email')</label>
+                        <input type="email" required class="form-control" id="email" name="email" placeholder="@lang('Email')" required autofocus />
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="form-check mb-0 ms-2">
+                            <input class="form-check-input" required checked type="checkbox" id="terms-conditions">
+                            <label class="form-check-label" for="terms-conditions"> @lang('By registering')
+                                @lang('you accept our')
+                                <a href="{{ route('Terms') }}" target="_blank">
+                                    @lang('Conditions') @lang('and') @lang('Terms')
+                                </a>
+                                &amp;
+                                <a href="{{ route('Privacy') }}" target="_blank">
+                                    @lang('privacy policy')
+                                </a>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary me-sm-3 me-1" id="sendOtpButton">@lang('ارسال')</button>
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">@lang('Cancel')</button>
+                    </div>
+                </form>
+                <div id="otpVerification" class="mt-4 d-none">
+                    <input disabled class="form-control mb-2" type="text" id="email_hidden">
+                    <p>@lang('Enter OTP received on your email:')</p>
+                    <form id="otpForm" class="row g-3">
+                        @csrf
+                        <div class="col-12">
+                            <input type="text" class="form-control" id="otp" name="otp" placeholder="ادخل رمز التحقق" required />
+                            <input type="hidden" id="email_hidden" name="email_hidden"> <!-- Hidden input for storing the email -->
+                        </div>
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary me-sm-3 me-1" id="verifyOtpButton">@lang('Verify OTP')</button>
+                            <button type="button" class="btn btn-label-secondary" id="resendOtpButton" disabled>@lang('Resend OTP')</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="newPropertyFinderForm" class="mt-4 d-none">
+                    <p>@lang('Complete registration')</p>
+                    <form id="registerForm" class="row g-3">
+                        @csrf
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label class="form-label" for="name">@lang('Name')<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="@lang('Name')" required>
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="email">@lang('Email')<span class="text-danger">*</span></label>
+                                <input type="email" value="" class="form-control" id="register_email" name="email" disabled required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+
+                            <div class="col-md-6">
+                                {{-- <label for="password"> @lang('password') <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="password" name="password" required> --}}
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password">@lang('password') <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password" class="form-control"
+                                            name="password"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="password" required />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                {{-- <label for="password_confirmation"> @lang('Confirm Password') <span
+                                class="text-danger">*</span></label> <input type="password" class="form-control"
+                            id="password_confirmation" name="password_confirmation" required> --}}
+
+                                <div class="mb-3 form-password-toggle">
+                                    <label class="form-label" for="password">@lang('Confirm Password') <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password_confirmation" class="form-control"
+                                            name="password_confirmation"
+                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                            aria-describedby="password" required />
+                                        <span class="input-group-text cursor-pointer"><i
+                                                class="ti ti-eye-off"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8">
+                                <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</a>
+                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- / Content -->
-
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-
-    <script src="{{ asset('HOME_PAGE/vendor/libs/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/node-waves/node-waves.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/hammer/hammer.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/i18n/i18n.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/typeahead-js/typeahead.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/js/menu.js') }}"></script>
-
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/popular.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/auto-focus.js') }}"></script>
-
-    <!-- Main JS -->
-    <script src="{{ asset('HOME_PAGE/js/main.js') }}"></script>
-
-    <!-- Page JS -->
-    <script src="{{ asset('HOME_PAGE/js/pages-auth.js') }}"></script>
-    <script src="{{ asset('HOME_PAGE/js/pages-account-settings-account.js') }}"></script>
-
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#Region_id').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    beforeSend: function() {
-                        $('#CityDiv').fadeOut('fast');
-                    },
-                    success: function(data) {
-                        $('#CityDiv').fadeOut('fast', function() {
-                            // Empty the city select element
-                            $(this).empty();
-                            // Append the new options based on the received data
-                            $.each(data, function(key, city) {
-                                $('#CityDiv').append($('<option>', {
-                                    value: city.id,
-                                    text: city.name
-                                }));
-                            });
-                            // Fade in the city select element with new options
-                            $(this).fadeIn('fast');
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        });
-
-        // $('#broker_logo_preview').click(function() {
-        //     $('#broker_logo').click(); // Trigger file input click on image click
-        // });
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#uploadedAvatar').attr('src', e.target.result); // Update the preview image
-                };
-
-                reader.readAsDataURL(input.files[0]); // Convert image to base64 string
-            }
-        }
-
-        $("#upload").change(function() {
-            readURL(this); // Call readURL function when a file is selected
-        });
-    </script>
-    <script>
-        // JavaScript to handle the reset button functionality
-        $('#account-image-reset').click(function() {
-            // Reset the file input by clearing its value
-            $('#upload').val('');
-
-            // Reset the preview image to the default avatar
-            $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
-        });
-    </script>
+</div>
 
 <script>
-    function updateFullPhone(input) {
-        input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
-        var key_phone = $('#key_phone').val();
-        var fullPhone = key_phone + input.value;
-        document.getElementById('full_phone').value = fullPhone;
+$(document).ready(function() {
+    function displayMessage(message, type) {
+        $('#messageContainer').html('<div class="alert alert-' + type + '">' + message + '</div>');
     }
-    $(document).ready(function() {
-        $('.dropdown-item').on('click', function() {
-            var key = $(this).data('key');
-            var phone = $('#phone').val();
-            $('#key_phone').val(key);
-            $('#full_phone').val(key + phone);
-            $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+
+    function displayValidationErrors(errors) {
+        // Clear previous errors
+        $('.invalid-feedback').remove();
+        $('.form-control').removeClass('is-invalid');
+
+        for (const key in errors) {
+            if (errors.hasOwnProperty(key)) {
+                const errorMessage = errors[key][0];
+                const inputElement = $('[name="' + key + '"]');
+                inputElement.addClass('is-invalid');
+                inputElement.after('<div class="invalid-feedback">' + errorMessage + '</div>');
+            }
+        }
+    }
+
+    function resetModal() {
+        $('#emailForm')[0].reset();
+        $('#otpForm')[0].reset();
+        $('#registerForm')[0].reset();
+        $('#emailForm').removeClass('d-none');
+        $('#otpVerification').addClass('d-none');
+        $('#newPropertyFinderForm').addClass('d-none');
+        $('#messageContainer').html('');
+    }
+
+    function enableResendButton() {
+        clearInterval(countdownTimer); // Stop countdown if still running
+        $('#resendOtpButton').prop('disabled', false).text('@lang('Resend OTP')');
+    }
+
+    // Function to update countdown message
+    function updateCountdownMessage(seconds) {
+        $('#resendOtpButton').text(seconds + ' ثانية لاعادة الارسال');
+    }
+
+    $('#sendOtpButton').click(function() {
+        var email = $('#email').val();
+        var termsChecked = $('#terms-conditions').prop('checked');
+
+        if (!email || !termsChecked) {
+            displayMessage('الرجاء ادخال البريد والموافقة علي الشروط و الاحكام', 'danger');
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("send-otp") }}',
+            data: {
+                email: email,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $('#emailForm').addClass('d-none');
+                $('#otpVerification').removeClass('d-none');
+                $('#email_hidden').val(email);
+                displayMessage('تم ارسال رمز التحقق الي هذا البريد.', 'success');
+                var secondsRemaining = 60;
+                updateCountdownMessage(secondsRemaining);
+                $('#resendOtpButton').prop('disabled', true); // Disable button during countdown
+
+                countdownTimer = setInterval(function() {
+                    secondsRemaining--;
+                    updateCountdownMessage(secondsRemaining);
+                    if (secondsRemaining <= 0) {
+                        enableResendButton();
+                    }
+                }, 1000); // Update every second (1000 ms)
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 400) {
+                    var response = JSON.parse(xhr.responseText);
+                    displayMessage(response.message, 'danger');
+                } else {
+                    console.error(xhr.responseText);
+                    displayMessage('Failed to send OTP. Please try again later.', 'danger');
+                }
+            }
         });
     });
+
+    $('#verifyOtpButton').click(function() {
+        var otp = $('#otp').val();
+        var email = $('#email_hidden').val();
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("verify-otp") }}',
+            data: {
+                email: email,
+                otp: otp,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $('#otpVerification').addClass('d-none');
+                $('#newPropertyFinderForm').removeClass('d-none');
+                $('#registerForm #register_email').val(email);
+                displayMessage('تم التأكد من رمز التحقق.', 'success');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                displayMessage('Failed to verify OTP. Please try again.', 'danger');
+            }
+        });
+    });
+
+    $('#resendOtpButton').click(function() {
+        var email = $('#email_hidden').val();
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("resend-otp") }}',
+            data: {
+                email: email,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                displayMessage('تم اعادة ارسال رمز التحقق الي هذا البريد', 'success');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                displayMessage('Failed to resend OTP. Please try again later.', 'danger');
+            }
+        });
+    });
+
+    $('#registerForm').submit(function(e) {
+    e.preventDefault();
+
+    // Enable the email field temporarily for submission
+    $('#register_email').prop('disabled', false);
+
+    var formData = $(this).serialize();
+    $.ajax({
+        type: 'POST',
+        url: '{{ route("register-property-finder") }}',
+        data: formData,
+        success: function(response) {
+            displayMessage(response.message, 'success');
+            // toastr.success(response.message);
+
+            // Redirect to the specified route
+            window.location.replace(response.redirect);
+            resetModal();
+            $('#modalToggle').modal('hide');
+        },
+        error: function(xhr, status, error) {
+            if (xhr.status === 422) {
+                var errors = xhr.responseJSON.errors;
+                displayValidationErrors(errors);
+            } else {
+                displayMessage('Failed to register Property Finder. Please try again.', 'danger');
+            }
+            console.error(xhr.responseText);
+        },
+        complete: function() {
+            // Disable the email field again after submission
+            $('#register_email').prop('disabled', true);
+        }
+    });
+});
+
+
+    $('#modalToggle').on('hidden.bs.modal', function () {
+        resetModal();
+    });
+});
 </script>
-
-</body>
-
-</html>

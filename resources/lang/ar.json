@@ -644,7 +644,8 @@
     "Send Request": "ارسال الطلب",
     "Default": "تعيين كحالة رئيسية",
     "Show For Real Estate": "تظهر فقط للوسطاء العقاريين",
-    "This interest type cannot be deleted as it is set as default.": "لا يمكن حذف نوع الاهتمام هذا لأنه تم تعيينه كحالة رئيسية."
+    "This interest type cannot be deleted as it is set as default.": "لا يمكن حذف نوع الاهتمام هذا لأنه تم تعيينه كحالة رئيسية.",
+    "Login by Password": "الدخول عن طريق كلمة السر"
 
 
 }

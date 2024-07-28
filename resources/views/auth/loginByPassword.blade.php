@@ -112,7 +112,7 @@
 
                                 <label for="email" class="form-label">@lang('Email')</label>
                                 <input type="text" class="form-control" id="email" name="user_name" required
-                                    placeholder="@lang('Email')" autofocus />
+                                  value="{{ $email }}"  placeholder="@lang('Email')" autofocus />
 
                             </div>
                             <div class="mb-3 form-password-toggle">

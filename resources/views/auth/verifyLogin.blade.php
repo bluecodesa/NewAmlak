@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="{{ LaravelLocalization::getCurrentLocale() }}"
     class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
     dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
@@ -12,12 +11,12 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{{ $sitting->title }} @lang('Forgot your password?')</title>
+    <title>{{ $sitting->title }} @lang('login')</title>
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -59,78 +58,74 @@
 
 <body>
     <!-- Content -->
-     <!-- Content -->
-
-     <div class="authentication-wrapper authentication-basic px-4">
+    <div class="authentication-wrapper authentication-basic px-4">
         <div class="authentication-inner py-4">
-          <!--  Two Steps Verification -->
-          <div class="card">
-            <div class="card-body">
-              <!-- Logo -->
-              <div class="app-brand justify-content-center mb-4 mt-2">
-                <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-logo demo">
-                    <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
-                        fill="#7367F0" />
-                      <path
-                        opacity="0.06"
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
-                        fill="#161616" />
-                      <path
-                        opacity="0.06"
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
-                        fill="#161616" />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
-                        fill="#7367F0" />
-                    </svg>
-                  </span>
-                  <span class="app-brand-text demo text-body fw-bold ms-1">أملاك</span>
-                </a>
-              </div>
-              <!-- /Logo -->
-          
-              <p class="mb-0 fw-medium">Type your 6 digit security code</p>
-              @if ($errors->any())
+            <!--  Two Steps Verification -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center mb-4 mt-2">
+                                <a href="index.html" class="app-brand-link gap-2">
+                                    <span class="app-brand-logo demo">
+                                        <a href="{{ route('welcome') }}" class="logo logo-admin"><img
+                                                src="{{ url($sitting->icon) }}" alt="" height="50"></a>
+                                    </span>
+                            <span class="app-brand-text demo text-body fw-bold ms-1">أملاك</span>
+                    </div>
+                    <!-- /Logo -->
+
+                    <p class="mb-0 fw-medium">@lang('Enter OTP received on your email:')</p>
+                    @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                            <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
-              @endif
+                    @endif
 
-              <form id="loginForm" method="POST" action="{{ route('login') }}">
-                @csrf
-                <div class="mb-3">
-                    <label for="user_name" class="form-label">@lang('Username or Email')</label>
-                    <input type="text" class="form-control" id="user_name" name="user_name" placeholder="@lang('Username or Email')" autofocus />
+                    <form id="loginForm" method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="mb-1">
+                            <label for="user_name" class="form-label">@lang('Email')</label>
+                            <input type="text" class="form-control" id="user_name" name="user_name"
+                            value="{{ $email }}" autofocus disabled />
+                            <input type="hidden" id="hidden_email" name="user_name" value="{{ $email }}" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="otp" class="form-label">@lang('OTP')</label>
+                            <input type="text" class="form-control" id="otp" name="otp" placeholder="@lang('OTP')" />
+                        </div>
+                        <button type="submit" class="btn btn-primary d-grid w-100 mb-3">@lang('Verify')</button>
+                    </form>
+                    <div class="row">
+                        <!-- Countdown Timer and Buttons -->
+                <div class="mt-3" id="countdown-timer">
+                    <p>@lang('You can resend the OTP in') <span id="countdown">60</span> @lang('seconds')</p>
                 </div>
-                <div class="mb-3">
-                    <label for="otp" class="form-label">@lang('OTP')</label>
-                    <input type="text" class="form-control" id="otp" name="otp" placeholder="@lang('OTP')" />
+                <div class="col-md-6 col-12 mb-1" id="resend-otp-button" style="display: none;">
+                    <form method="POST" action="{{ route('Home.sendOtp') }}">
+                        @csrf
+                        <input type="hidden" name="email" value="{{ $email }}" />
+                        <button type="submit" class="btn btn-secondary">@lang('Resend OTP')</button>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-primary d-grid w-100">@lang('Login')</button>
-            </form>
-            
+                <div class="col-md-6 col-12 mb-1" id="login-by-password-button" style="display: none;">
+                    <form action="{{ route('Home.auth.loginByPassword') }}" method="GET">
+                        @csrf
+                        <input type="hidden" name="email" value="{{ $email }}" />
+                        <button type="submit" class="btn btn-secondary">@lang('Login by Password')</button>
+                    </form>
+                </div>
             </div>
-          </div>
-          <!-- / Two Steps Verification -->
+                </div>
+
+            </div>
+            <!-- / Two Steps Verification -->
         </div>
-      </div>
-  
-      <!-- / Content -->
+    </div>
 
     <!-- / Content -->
 
@@ -163,6 +158,22 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {!! $sitting->zoho_salesiq !!}
+
+    <script>
+        $(document).ready(function() {
+            var countdown = 60;
+            var countdownTimer = setInterval(function() {
+                countdown--;
+                $("#countdown").text(countdown);
+                if (countdown <= 0) {
+                    clearInterval(countdownTimer);
+                    $("#countdown-timer").hide();
+                    $("#resend-otp-button").show();
+                    $("#login-by-password-button").show();
+                }
+            }, 1000);
+        });
+    </script>
 
 </body>
 

@@ -65,6 +65,10 @@ Route::group(
             Route::post('send-otp', [HomeController::class, 'sendOtp'])->name('sendOtp');
             Route::get('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin');
             Route::post('verifyLogin', [HomeController::class, 'verifyLogin'])->name('auth.verifyLogin');
+            Route::get('chooseAccount', [HomeController::class, 'chooseAccount'])->name('auth.chooseAccount');
+            Route::get('Login', [HomeController::class, 'loginByPassword'])->name('auth.loginByPassword');
+
+
 
         //
         });
@@ -118,7 +122,7 @@ Route::group(
 
         // Route for registering property finder
         Route::post('/register-property-finder', [Property_FinderHomeController::class, 'registerPropertyFinder'])->name('register-property-finder');
-        
+
         Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('GetDistrictsByCity');
 
     }

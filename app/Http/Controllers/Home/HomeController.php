@@ -111,24 +111,34 @@ class HomeController extends Controller
 
     public function sendOtp(Request $request)
     {
-        $email = $request->input('email');
+        $email = $request->input('user_name');
 
-        $userExists = User::where('email', $email)->exists();
-        if (!$userExists) {
             $otp = mt_rand(100000, 999999);
-            session(['otp' => $otp]);
-            $this->MailSendCode($request->email, $otp);
+            session(['otp' => $otp, 'email' => $email]);
+            $this->MailSendCode($request->user_name, $otp);
             return redirect()->route('Home.auth.verifyLogin')->with('message', 'OTP sent successfully');
-        } else {
-            return redirect()->back()->withErrors(['email' => 'This email is already registered.']);
-        }
+
+    }
+    public function loginByPassword()
+    {
+        $email = session('email');
+
+        return view('auth.loginByPassword', get_defined_vars());
     }
 
     public function verifyLogin()
     {
+        $email = session('email');
+
+        return view('auth.verifyLogin', get_defined_vars());
+    }
+
+    public function chooseAccount()
+    {
 
         return view('auth.verifyLogin');
     }
+
 
     public function showRegion($id)
     {
