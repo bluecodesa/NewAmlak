@@ -77,18 +77,16 @@ public function login(Request $request)
 
     $this->validate($request, [
         'user_name' => 'required',
-        'password' => 'nullable', // Password is optional if OTP is provided
-        'otp' => 'nullable', // OTP is optional if password is provided
+        'password' => 'nullable',
+        'otp' => 'nullable',
     ]);
 
     $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
 
-    // Check if the user exists in the database
     $user = User::where($fieldType, $input['user_name'])->first();
 
     if (!$user) {
-        // Redirect to the registration page if user does not exist
-        return view('auth.chooseAcount');
+        return view('auth.chooseAcount')->with('error', 'User does not exist. Please register.');
     }
 
     // If OTP is provided, verify it
@@ -97,7 +95,7 @@ public function login(Request $request)
         if ($input['otp'] == $sessionOtp) {
             Auth::login($user);
             session()->forget('otp'); // clear OTP session
-            return redirect()->route('Admin.home')->with('success', 'Logged in successfully with OTP');
+            return redirect()->route('Admin.home')->withSuccess('success', 'Logged in successfully with OTP');
         } else {
             return back()->withInput()->withErrors(['otp' => 'The provided OTP is incorrect.']);
         }
@@ -107,7 +105,7 @@ public function login(Request $request)
     if (!empty($input['password'])) {
         $credentials = array($fieldType => $input['user_name'], 'password' => $input['password']);
         if (auth()->attempt($credentials)) {
-            return redirect()->route('Admin.home');
+            return redirect()->route('Admin.home')->withSuccess(__('Login successfully'));
         } else {
             return back()->withInput()->withErrors(['password' => __('The provided password is incorrect.')]);
         }

@@ -116,7 +116,7 @@ class HomeController extends Controller
             $otp = mt_rand(100000, 999999);
             session(['otp' => $otp, 'email' => $email]);
             $this->MailSendCode($request->user_name, $otp);
-            return redirect()->route('Home.auth.verifyLogin')->with('message', 'OTP sent successfully');
+            return redirect()->route('Home.auth.verifyLogin')->withSuccess(__('OTP sent successfully'));
 
     }
     public function loginByPassword()
@@ -151,6 +151,8 @@ class HomeController extends Controller
 
     public function createBroker()
     {
+        $email = session('email');
+
         $setting =   Setting::first();
         if ($setting->active_broker == 0) {
             return back()->with('sorry', __('Soon'));
@@ -171,6 +173,8 @@ class HomeController extends Controller
     }
     public function createOffice()
     {
+        $email = session('email');
+
         $setting =   Setting::first();
         if ($setting->active_office == 0) {
             return back()->with('sorry', __('Soon'));
@@ -610,6 +614,8 @@ class HomeController extends Controller
 
     public function createPropertyFinder()
     {
+        $email = session('email');
+
         $setting =   Setting::first();
 
         $termsAndConditionsUrl = $setting->terms_pdf;

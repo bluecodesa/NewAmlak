@@ -126,7 +126,7 @@
         </section>
         <!-- Useful features: End -->
 
-  
+
 
         <!-- Real customers reviews: Start -->
         <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
@@ -741,7 +741,7 @@
 
         <!-- Our great team: End -->
 
-   
+
 
         <!-- Fun facts: Start -->
         {{-- <section id="landingFunFacts" class="section-py landing-fun-facts">
@@ -982,7 +982,7 @@
                         <button form="a-form" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">@lang('Send Request')</button>
                         @endif
                 </div>
-             
+
             </div>
         </div>
     </section>
@@ -1106,10 +1106,10 @@
         </section>
         <!-- FAQ: End -->
 
-    
+
 
          <!-- Real Estat Requests: Start -->
-     
+
         <!--  Real Estat Requests: End -->
 
         <!-- Contact Us: Start -->
@@ -1251,9 +1251,9 @@
         function redirectToCreateBroker() {
             window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
         }
-        // function redirectToCreatePropertyFinder() {
-        //     window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
-        // }
+        function redirectToCreatePropertyFinder() {
+            window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+        }
         function redirectToCreateOffice() {
             window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 

@@ -115,15 +115,15 @@
      </div>
  </div>
  <!--/ Add New user -->
- @include('Home.Auth.propertyFinder.create')
+ {{-- @include('Home.Auth.propertyFinder.create') --}}
 
  <script>
      function redirectToCreateBroker() {
          window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
      }
-     // function redirectToCreatePropertyFinder() {
-     //     window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
-     // }
+     function redirectToCreatePropertyFinder() {
+         window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+     }
      function redirectToCreateOffice() {
          window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 

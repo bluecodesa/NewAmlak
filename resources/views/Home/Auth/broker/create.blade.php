@@ -92,6 +92,9 @@
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
                 <!-- Register Card -->
+                <div class="text-left">
+                    <button class="btn btn-secondary" onclick="history.back()">عودة</button>
+                </div>
                 <div class="card">
                     <div class="card-body">
                         <!-- Logo -->
@@ -172,7 +175,7 @@
                                 <label class="form-label" for="email">@lang('Email')<span
                                         class="text-danger">*</span></label>
 
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ $email }}" required>
 
                             </div>
 
