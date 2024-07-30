@@ -109,16 +109,41 @@ class HomeController extends Controller
         }
     }
 
+    // public function sendOtp(Request $request)
+    // {
+    //     $email = $request->input('user_name');
+
+    //         $otp = mt_rand(100000, 999999);
+    //         session(['otp' => $otp, 'email' => $email]);
+    //         $this->MailSendCode($request->user_name, $otp);
+    //         return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
+
+    // }
+
     public function sendOtp(Request $request)
     {
-        $email = $request->input('user_name');
+        // $otp = mt_rand(100000, 999999);
+        $otp=555555;
+        // Clear the previous session data
+        session()->forget(['otp', 'email', 'phone']);
 
-            $otp = mt_rand(100000, 999999);
-            session(['otp' => $otp, 'email' => $email]);
-            $this->MailSendCode($request->user_name, $otp);
-            return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
+        // Store the new OTP in the session
+        session(['otp' => $otp]);
 
+        if ($request->input('otp_type') === 'email') {
+            $email = $request->input('user_name');
+            session(['email' => $email]);
+            $this->MailSendCode($email, $otp);
+        } else if ($request->input('otp_type') === 'phone') {
+            $fullPhone = $request->input('full_phone');
+            session(['phone' => $fullPhone]);
+            // $this->SmsSendCode($fullPhone, $otp);
+        }
+
+        return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
     }
+
+
     public function loginByPassword()
     {
         $email = session('email');
@@ -129,6 +154,8 @@ class HomeController extends Controller
     public function verifyLogin()
     {
         $email = session('email');
+        $fullPhone = session('phone');
+
 
         return view('auth.verifyLogin', get_defined_vars());
     }

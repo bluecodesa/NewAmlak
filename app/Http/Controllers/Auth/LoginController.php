@@ -81,14 +81,20 @@ public function login(Request $request)
         'otp' => 'nullable',
     ]);
 
-    $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
+    // $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
+    $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'full_phone';
+
 
     $user = User::where($fieldType, $input['user_name'])->first();
 
-    if (!$user) {
-        return view('auth.chooseAcount')->with('error', 'User does not exist. Please register.');
+    if (!$user && !empty($input['otp'])) {
+        $sessionOtp = session('otp');
+        if ($input['otp'] == $sessionOtp) {
+            return view('auth.chooseAcount')->with('success', 'OTP is correct, but user does not exist. Please register.');
+        } else {
+            return back()->withInput()->withErrors(['otp' => 'The provided OTP is incorrect.']);
+        }
     }
-
     // If OTP is provided, verify it
     if (!empty($input['otp'])) {
         $sessionOtp = session('otp');

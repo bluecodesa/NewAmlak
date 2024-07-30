@@ -18,7 +18,7 @@
                     </div>
                     <!-- /Logo -->
 
-                    <p class="mb-0 fw-medium">@lang('Enter OTP received on your email:')</p>
+                    <p class="mb-2 fw-medium">@lang('Enter OTP received on your email:')</p>
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -31,11 +31,11 @@
 
                     <form id="loginForm" method="POST" action="{{ route('login') }}">
                         @csrf
-                        <div class="mb-1">
-                            <label for="user_name" class="form-label">@lang('Email')</label>
+                          <div class="mb-1">
+                            <label for="user_name" class="form-label">@lang('Email')/@lang('mobile')</label>
                             <input type="text" class="form-control" id="user_name" name="user_name"
-                            value="{{ $email }}" autofocus disabled />
-                            <input type="hidden" id="hidden_email" name="user_name" value="{{ $email }}" />
+                                   value="{{ isset($email) ? $email : $fullPhone }}" autofocus disabled />
+                            <input type="hidden" id="hidden_user_name" name="user_name" value="{{ isset($email) ? $email : $fullPhone }}" />
                         </div>
 
                         <div class="mb-2">

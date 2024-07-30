@@ -3,8 +3,10 @@
 @section('content')
 
 
-    <div class="container mt-5">
-        <div class="col-12">
+    <div class="container">
+            <div class="authentication-wrapper authentication-basic container-p-y">
+                    <div class="card">
+                        <div class="card-body">
             <div class="text-center mb-4">
                 <h3 class="address-title mb-2">تسجيل حساب جديد</h3>
             </div>
