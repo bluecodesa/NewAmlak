@@ -273,16 +273,16 @@
 
                                                 @if ($unit->UnitImages && $unit->UnitImages->isNotEmpty())
                                                     <img src="{{ url($unit->UnitImages->first()->image) }}"
-                                                         alt="Avatar Image" class="rounded-square" width="200" height="200" />
+                                                         alt="Avatar Image" class="rounded-square" width="100%" height="200" />
                                                 @elseif ($unit->ProjectImages && $unit->ProjectImages->isNotEmpty())
                                                     <img src="{{ url($unit->ProjectImages->first()->image) }}"
-                                                         alt="Avatar Image" class="rounded-square" width="200" height="200" />
+                                                         alt="Avatar Image" class="rounded-square" width="100%" height="200" />
                                                 @elseif ($unit->PropertyImages && $unit->PropertyImages->isNotEmpty())
                                                     <img src="{{ url($unit->PropertyImages->first()->image) }}"
-                                                         alt="Avatar Image" class="rounded-square" width="200" height="200" />
+                                                         alt="Avatar Image" class="rounded-square" width="100%" height="200" />
                                                 @else
                                                     <img src="{{ url('Offices/Projects/default.svg') }}"
-                                                         alt="Avatar Image" class="rounded-square" width="200" height="200" />
+                                                         alt="Avatar Image" class="rounded-square" width="100%" height="200" />
                                                 @endif
 
                                             </a>

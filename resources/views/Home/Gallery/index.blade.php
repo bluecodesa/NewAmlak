@@ -311,7 +311,7 @@
                                                 class="rounded-square" width="100%" height="100%" />
                                         @else
                                             <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
-                                                class="rounded-square" width="140" height="140" />
+                                                class="rounded-square" width="100%" height="100%" />
                                         @endif
                                     </a>
                                 </div>
