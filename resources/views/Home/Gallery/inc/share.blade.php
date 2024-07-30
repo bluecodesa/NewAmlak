@@ -37,13 +37,13 @@
                                     @lang('Download the code so that you can share it with your friends so that they can access this property’s data via mobile phone')
                                 </div>
                                 <div class="col-12">
-                                    {{ \QrCode::size(150)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id])) }}
+                                    {{ \QrCode::size(150)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route('gallery.showUnitPublic', ['gallery_name' => $unit->BrokerData->GalleryData->gallery_name, 'id' => $unit->id])) }}
                                 </div>
                                 <div class="col-12" style="">
 
 
                                     @php
-                                        $gallery_name = $unit->gallery->gallery_name;
+                                        $gallery_name = $unit->BrokerData->GalleryData->gallery_name;
                                         $url = "route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id])";
                                     @endphp
                                     <br>

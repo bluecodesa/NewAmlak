@@ -7,7 +7,7 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
 
                     <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
@@ -19,180 +19,287 @@
 
             </div>
 
-
             <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        @include('Admin.layouts.Inc._errors')
-                        <div class="card-body">
-                            <div class="card-body p-0">
-                                <form action="{{ route('Broker.Project.StoreProperty', $project->id) }}" method="POST"
-                                    class="row" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('post')
-                                    <input type="text" hidden name="lat_long" value="{{ $project->lat_long }}">
-                                    <div class="col-md-3 col-12 mb-3">
+                <div class="card">
+                    @include('Admin.layouts.Inc._errors')
+                <div class="nav-align-top nav-tabs-shadow mb-4">
+                  <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link active"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-home"
+                        aria-controls="navs-justified-home"
+                        aria-selected="true">
+                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">9</span>
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                            aria-selected="false">
+                            <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
+                            <span
+                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-profile"
+                        aria-controls="navs-justified-profile"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Attachments')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
+                      </button>
+                    </li>
 
-                                        <label class="form-label">
-                                            {{ __('property name') }} <span class="required-color">*</span></label>
-                                        <input type="text" required id="modalRoleName" name="name"
-                                            class="form-control" placeholder="{{ __('property name') }}">
+                  </ul>
+                  <form action="{{ route('Broker.Project.StoreProperty', $project->id) }}" method="POST"
+                        class="row" enctype="multipart/form-data">
+                            @csrf
+                            @method('post')
 
-                                    </div>
+                        <div class="tab-content">
 
-                                    <div class="col-md-3 col-12 mb-3">
-                                        <label class="form-label">@lang('Region') <span class="required-color">*</span>
-                                        </label>
-                                        <select class="form-select" id="Region_id" required>
-                                            <option disabled value="">@lang('Region') </option>
-                                            @foreach ($Regions as $Region)
-                                                <option value="{{ $Region->id }}"
-                                                    data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}"
-                                                    {{ $project->CityData->RegionData->id == $Region->id ? 'selected' : '' }}>
-                                                    {{ $Region->name }}</option>
+                        <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                            <div class="row">
+
+                                <input type="text" hidden value="{{ 1 }}" name="is_divided">
+                                <input type="text" hidden name="lat_long" value="{{ $project->lat_long }}">
+                                <div class="col-md-3 col-12 mb-3">
+
+                                    <label class="form-label">
+                                        {{ __('property name') }} <span class="required-color">*</span></label>
+                                    <input type="text" required id="modalRoleName" name="name"
+                                        class="form-control" placeholder="{{ __('property name') }}">
+
+                                </div>
+
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label class="form-label">@lang('Region') <span class="required-color">*</span>
+                                    </label>
+                                    <select class="form-select" id="Region_id" required>
+                                        <option disabled value="">@lang('Region') </option>
+                                        @foreach ($Regions as $Region)
+                                            <option value="{{ $Region->id }}"
+                                                data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}"
+                                                {{ $project->CityData->RegionData->id == $Region->id ? 'selected' : '' }}>
+                                                {{ $Region->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label class="form-label">@lang('city') <span class="required-color">*</span>
+                                    </label>
+                                    <select class="form-select" name="city_id" id="CityDiv" required>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}"
+                                                data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}"
+                                                {{ $project->city_id == $city->id ? 'selected' : '' }}>
+                                                {{ $city->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-3 col-12 mb-3">
+                                    <label class="form-label">@lang('district') <span class="required-color">*</span>
+                                    </label>
+                                    <select class="form-select" name="district_id" id="DistrictDiv" required>
+                                        @foreach ($project->CityData->DistrictsCity as $district)
+                                            <option value="{{ $district->id }}"
+                                                {{ $district->id == $project->district_id ? 'selected' : '' }}>
+                                                {{ $district->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('location') <span
+                                            class="required-color">*</span></label>
+                                    <input type="text" required name="location" id="myAddressBar"
+                                        class="form-control" placeholder="@lang('location name')"
+                                        value="{{ $project->location }}" />
+                                </div>
+
+
+                                <div class="col-md-4 col-12 mb-3">
+                                    <label class="form-label">@lang('Property type') <span class="required-color">*</span>
+                                    </label>
+                                    <select class="form-select" name="property_type_id" required>
+                                        <option disabled selected value="">@lang('Property type')</option>
+                                        @foreach ($types as $type)
+                                            <option value="{{ $type->id }}">
+                                                {{ $type->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 col-12 mb-3">
+                                    <label class="form-label">@lang('Type use') <span class="required-color">*</span>
+                                    </label>
+                                    <select class="form-select" name="property_usage_id" required>
+                                        <option disabled value="">@lang('Type use')</option>
+                                        @foreach ($usages as $usage)
+                                            <option value="{{ $usage->id }}"
+                                                {{ $usage->id == $project->property_usage_id ? 'selected' : '' }}>
+                                                {{ $usage->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 col-12 mb-3">
+                                    <label class="col-md-6 form-label">@lang('owner name') <span
+                                            class="required-color">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <select class="form-select" id="inputGroupSelect04"
+                                            aria-label="Example select with button addon" name="owner_id" required>
+                                            <option disabled selected value="">@lang('owner name')</option>
+                                            @foreach ($owners as $owner)
+                                                <option value="{{ $owner->id }}"
+                                                    {{ $owner->id == $project->owner_id ? 'selected' : '' }}>
+                                                    {{ $owner->name }}</option>
                                             @endforeach
                                         </select>
+                                        <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
                                     </div>
-
-                                    <div class="col-md-3 col-12 mb-3">
-                                        <label class="form-label">@lang('city') <span class="required-color">*</span>
-                                        </label>
-                                        <select class="form-select" name="city_id" id="CityDiv" required>
-                                            @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}"
-                                                    data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}"
-                                                    {{ $project->city_id == $city->id ? 'selected' : '' }}>
-                                                    {{ $city->name }}</option>
+                                </div>
+                                {{-- @php
+                                        $typeunits = [1 => 'Divides', 0 => 'Not divided'];
+                                    @endphp
+                                    <div class="form-group col-md-3">
+                                        <label>@lang('Divided into units') <span class="required-color">*</span> </label>
+                                        <select class="form-control" name="is_divided" required>
+                                            <option disabled selected value="">@lang('Divided into units')</option>
+                                            @foreach ($typeunits as $index => $item)
+                                                <option value="{{ $index }}">
+                                                    {{ __($item) }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
+
+                                <div class="col-md-4 col-12 mb-3">
+                                    <label class="form-label">@lang('Instrument number')</label>
+                                    <input type="text" name="instrument_number" class="form-control"
+                                        placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
+                                </div>
 
 
-                                    <div class="col-md-3 col-12 mb-3">
-                                        <label class="form-label">@lang('district') <span class="required-color">*</span>
-                                        </label>
-                                        <select class="form-select" name="district_id" id="DistrictDiv" required>
-                                            @foreach ($project->CityData->DistrictsCity as $district)
-                                                <option value="{{ $district->id }}"
-                                                    {{ $district->id == $project->district_id ? 'selected' : '' }}>
-                                                    {{ $district->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('location') <span
-                                                class="required-color">*</span></label>
-                                        <input type="text" required name="location" id="myAddressBar"
-                                            class="form-control" placeholder="@lang('location name')"
-                                            value="{{ $project->location }}" />
-                                    </div>
-
-
-                                    <div class="col-md-4 col-12 mb-3">
-                                        <label class="form-label">@lang('Property type') <span class="required-color">*</span>
-                                        </label>
-                                        <select class="form-select" name="property_type_id" required>
-                                            <option disabled selected value="">@lang('Property type')</option>
-                                            @foreach ($types as $type)
-                                                <option value="{{ $type->id }}">
-                                                    {{ $type->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-4 col-12 mb-3">
-                                        <label class="form-label">@lang('Type use') <span class="required-color">*</span>
-                                        </label>
-                                        <select class="form-select" name="property_usage_id" required>
-                                            <option disabled value="">@lang('Type use')</option>
-                                            @foreach ($usages as $usage)
-                                                <option value="{{ $usage->id }}"
-                                                    {{ $usage->id == $project->property_usage_id ? 'selected' : '' }}>
-                                                    {{ $usage->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-4 col-12 mb-3">
-                                        <label class="col-md-6 form-label">@lang('owner name') <span
-                                                class="required-color">*</span>
-                                        </label>
-                                        <div class="input-group">
-                                            <select class="form-select" id="inputGroupSelect04"
-                                                aria-label="Example select with button addon" name="owner_id" required>
-                                                <option disabled selected value="">@lang('owner name')</option>
-                                                @foreach ($owners as $owner)
-                                                    <option value="{{ $owner->id }}"
-                                                        {{ $owner->id == $project->owner_id ? 'selected' : '' }}>
-                                                        {{ $owner->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                                data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
-                                        </div>
-                                    </div>
-                                    {{-- @php
-                                            $typeunits = [1 => 'Divides', 0 => 'Not divided'];
-                                        @endphp
-                                        <div class="form-group col-md-3">
-                                            <label>@lang('Divided into units') <span class="required-color">*</span> </label>
-                                            <select class="form-control" name="is_divided" required>
-                                                <option disabled selected value="">@lang('Divided into units')</option>
-                                                @foreach ($typeunits as $index => $item)
-                                                    <option value="{{ $index }}">
-                                                        {{ __($item) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div> --}}
-
-                                    <div class="col-md-4 col-12 mb-3">
-                                        <label class="form-label">@lang('Instrument number')</label>
-                                        <input type="text" name="instrument_number" class="form-control"
-                                            placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
-                                    </div>
-
-
-                                    <div class="col-md-4 col-12 mb-3">
-                                        <label class="form-label">@lang('service type') <span class="required-color">*</span>
-                                        </label>
-                                        <select class="form-select" name="service_type_id" required>
-                                            <option disabled value="">@lang('service type')</option>
-                                            @foreach ($services as $service)
-                                                <option value="{{ $service->id }}"
-                                                    {{ $project->service_type_id == $service->id ? 'selected' : '' }}>
-                                                    {{ $service->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
-                                    <div class="col-12 mb-3">
-                                        <label class="form-label">@lang('Pictures property') </label>
-                                        <input type="file" name="images[]" multiple class="dropify"
-                                            accept="image/jpeg, image/png" />
-
-                                    </div>
-
-
-                                    <div class="col-12">
-                                        <button class="btn btn-primary waves-effect waves-light"
-                                            type="submit">@lang('save')</button>
-                                    </div>
-
-
-                                </form>
+                                <div class="col-md-4 col-12 mb-3">
+                                    <label class="form-label">@lang('service type') <span class="required-color">*</span>
+                                    </label>
+                                    <select class="form-select" name="service_type_id" required>
+                                        <option disabled value="">@lang('service type')</option>
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ $project->service_type_id == $service->id ? 'selected' : '' }}>
+                                                {{ $service->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                             </div>
+                            <div class="col-12" style="text-align: center;">
+                                <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                    data-next="#navs-justified-gallery">
+                                    {{ __('Next') }}
+                                </button>
+                            </div>
                         </div>
+
+                        <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label"
+                                    style="display: block !important;">@lang('Show in Gallery')
+                                </label>
+
+                                <label class="switch switch-lg">
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input"
+                                        checked />
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on">
+                                            <i class="ti ti-check"></i>
+                                        </span>
+                                        <span class="switch-off">
+                                            <i class="ti ti-x"></i>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+
+
+
+                            <div class="mb-3 col-12">
+                                <label class="form-label mb-2">@lang('Description')</label>
+                                <div>
+                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                                <div class="col-sm-12 col-md-12 mb-3">
+                                    <label class="form-label">@lang('Pictures property') </label>
+                                    <input type="file" name="images[]" multiple class="dropify"
+                                        accept="image/jpeg, image/png" />
+
+                                </div>
+
+
+
+                                <div class="col-sm-12 col-md-6 mb-3" hidden>
+                                    <label class="form-label">@lang('lat&long')</label>
+                                    <input type="text" required readonly name="lat_long" id="location_tag"
+                                        class="form-control" placeholder="@lang('lat&long')"
+                                        value="{{ old('location_tag') }}" />
+                                </div>
+                                <div class="col-12" style="text-align: center;">
+                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                        data-next="#navs-justified-profile">
+                                        {{ __('Next') }}
+                                    </button>
+                                </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                            <div class="row">
+                                <div class=" col-6 mb-3">
+                                    <label for="formFileMultiple" class="form-label">@lang('Property Masterplan')</label>
+                                    <input class="form-control" type="file" name="property_masterplan" id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                </div>
+                                <div class=" col-6 mb-3">
+                                    <label for="formFileMultiple" class="form-label">@lang('Property Brochure')</label>
+                                    <input class="form-control" type="file" name="property_brochure" id="projectBrochure" accept="image/*,application/pdf" multiple>
+                                </div>
+                            </div>
+                            <div class="col-12" style="text-align: center;">
+                                <button class="btn btn-primary col-4 waves-effect waves-light"
+                                    type="submit">@lang('save')</button>
+                            </div>
+                        </div>
+
+                                </div>
+                            </form>
                     </div>
-                </div> <!-- end col -->
-            </div> <!-- end col -->
-        </div> <!-- end row -->
+                </div>
+            </div>
+        </div>
+    </div>
         @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
 
-    </div>
     <!-- container-fluid -->
+
     @push('scripts')
         <script>
             $(document).ready(function() {
@@ -293,6 +400,61 @@
                     // Log the details to the console (or do something else with them)
                 });
             });
+
+
+
+            $(document).ready(function() {
+        $('#textarea').summernote({
+            height: 100, // set editor height
+            minHeight: null, // set minimum height of editor
+            maxHeight: null, // set maximum height of editor
+            focus: true, // set focus to editable area after initializing summernote
+            toolbar: [
+                // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                ['style', ['bold', 'underline']],
+                ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                ['para', ['ul', 'ol']],
+                ['misc', ['fullscreen', 'undo', 'redo']],
+                // Any other toolbar groups and options you want to include...
+            ],
+            // Explicitly remove table and font name options by not including them in the toolbar
+        });
+        $('.card-body .badge').click(function() {
+            var variableValue = $(this).attr('data-variable');
+            var $textarea = $('#textarea');
+            var summernoteEditor = $textarea.summernote('code');
+
+            // Check if Summernote editor is focused
+            if ($('.note-editable').is(':focus')) {
+                var node = document.createElement("span");
+                node.innerHTML = variableValue;
+                $('.note-editable').append(
+                    node); // This line appends the variable as a new node to the editor
+                var range = document.createRange();
+                var sel = window.getSelection();
+                range.setStartAfter(node);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else {
+                var currentContent = $textarea.summernote('code');
+                $textarea.summernote('code', currentContent + variableValue);
+            }
+        });
+    });
+
+
         </script>
+
+<script>
+    document.querySelectorAll('.next-tab').forEach(button => {
+        button.addEventListener('click', function() {
+            const nextTab = this.getAttribute('data-next');
+            const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+            nextTabButton.click();
+        });
+    });
+</script>
+
     @endpush
 @endsection

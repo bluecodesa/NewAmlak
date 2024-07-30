@@ -170,14 +170,20 @@
                     <!-- Connection Cards -->
                     <div class="row g-4">
 
-                        @foreach ($units as $unit)
+                        @foreach ($allItems as $unit)
                             @if ($unit->BrokerData->license_validity == 'valid')
                                 <div class="col-xl-4 col-lg-6 col-md-6">
-                                    <div class="card">
+                                    <div class="card h-200">
                                         <div class="card-body text-center">
                                             <div class="dropdown btn-pinned">
-                                                <span class="pb-1">{{ $unit->getRentPriceByType() }}
-                                                    @lang('SAR') / {{ __($unit->rent_type_show) }}</span>
+                                                @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
+                                                    <span class="pb-1">
+                                                        {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                                    </span>
+                                                @else
+
+                                                @endif
+
 
                                             </div>
                                             <div class="d-flex align-items-center justify-content-start">
@@ -192,47 +198,42 @@
                                                         <i class="ti ti-heart ti-sm"></i>
 
                                                     </a> --}}
+
                                                     <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-                                                    href={{ route('login') }}>
+                                                     href="{{ route('login') }}">
                                                     <i class="ti ti-heart ti-sm"></i>
 
                                                 </a>
+
                                                 @endguest
 
                                                 @auth
 
                                                     @if (auth()->user())
                                                         @php
-                                                            $isFavorite = App\Models\FavoriteUnit::where(
-                                                                'unit_id',
-                                                                $unit->id,
-                                                            )
+                                                            $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)
                                                                 ->where('finder_id', auth()->user()->id)
                                                                 ->exists();
                                                         @endphp
                                                         @if (Auth::user()->hasPermission('Add-property-as-favorite') ||
                                                                 Auth::user()->hasPermission('Add-property-as-favorite-admin'))
                                                             @if ($isFavorite)
-                                                                <form method="POST"
-                                                                    action="{{ route('remove-from-favorites') }}">
+                                                                <form method="POST" action="{{ route('remove-from-favorites') }}">
                                                                     @csrf
                                                                     <button type="submit"
                                                                         class="btn btn-label-danger btn-icon d-flex align-items-center me-3">
                                                                         <i class="ti ti-heart ti-sm"></i>
                                                                     </button>
-                                                                    <input type="hidden" name="unit_id"
-                                                                        value="{{ $unit->id }}">
+                                                                    <input type="hidden" name="unit_id" value="{{ $unit->id }}">
                                                                 </form>
                                                             @else
-                                                                <form method="POST"
-                                                                    action="{{ route('add-to-favorites') }}">
+                                                                <form method="POST" action="{{ route('add-to-favorites') }}">
                                                                     @csrf
                                                                     <button type="submit"
                                                                         class="btn btn-label-secondary btn-icon d-flex align-items-center me-3">
                                                                         <i class="ti ti-heart ti-sm"></i>
                                                                     </button>
-                                                                    <input type="hidden" name="unit_id"
-                                                                        value="{{ $unit->id }}">
+                                                                    <input type="hidden" name="unit_id" value="{{ $unit->id }}">
                                                                     <input type="hidden" name="owner_id"
                                                                         value="{{ $unit->BrokerData->user_id }}">
                                                                 </form>
@@ -250,21 +251,44 @@
 
                                             </div>
                                             <div class="mx-auto my-3">
+
+
                                                 @php
-                                                    $gallery_name = $unit->gallery->gallery_name;
+                                                $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
+                                                $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
                                                 @endphp
-                                                <a href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery_name, 'id' => $unit->id]) }}"
-                                                    class="card-hover-border-default">
-                                                    @if ($unit->UnitImages->isNotEmpty())
-                                                        <img src="{{ url($unit->UnitImages->first()->image) }}"
-                                                            alt="Avatar Image" class="rounded-square" width="200"
-                                                            height="200" />
-                                                    @else
-                                                        <img src="{{ url('Offices/Projects/default.svg') }}"
-                                                            alt="Avatar Image" class="rounded-square" width="200"
-                                                            height="140" />
-                                                    @endif
-                                                </a>
+
+                                            @if ($isGalleryUnit)
+                                                <a href="{{ route('gallery.showUnitPublic', [
+                                                        'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                        'id' => $unit->id
+                                                    ]) }}" class="card-hover-border-default">
+                                            @elseif ($isGalleryProject)
+                                                <a href="{{ route('Home.showPublicProject', [
+                                                        'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                        'id' => $unit->id
+                                                    ]) }}" class="card-hover-border-default">
+
+                                            @endif
+
+                                                @if ($unit->UnitImages && $unit->UnitImages->isNotEmpty())
+                                                    <img src="{{ url($unit->UnitImages->first()->image) }}"
+                                                         alt="Avatar Image" class="rounded-square" width="200" height="200" />
+                                                @elseif ($unit->ProjectImages && $unit->ProjectImages->isNotEmpty())
+                                                    <img src="{{ url($unit->ProjectImages->first()->image) }}"
+                                                         alt="Avatar Image" class="rounded-square" width="200" height="200" />
+                                                @elseif ($unit->PropertyImages && $unit->PropertyImages->isNotEmpty())
+                                                    <img src="{{ url($unit->PropertyImages->first()->image) }}"
+                                                         alt="Avatar Image" class="rounded-square" width="200" height="200" />
+                                                @else
+                                                    <img src="{{ url('Offices/Projects/default.svg') }}"
+                                                         alt="Avatar Image" class="rounded-square" width="200" height="200" />
+                                                @endif
+
+                                            </a>
+
+
+
                                             </div>
                                             <h4 class="mb-1 card-title">{{ $unit->ad_name ?? ($unit->number_unit ?? '') }}
                                             </h4>
@@ -273,6 +297,8 @@
                                                 <span class="pb-1"><i
                                                         class="ti ti-map-pin"></i>{{ $unit->CityData->name ?? '' }}</span>
                                             </div>
+                                            @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
+
                                             <div class=" align-items-center my-3 gap-2 text-end">
 
                                                 <a href="javascript:;"><span class="badge bg-label-primary">
@@ -314,6 +340,7 @@
                                                     <span>@lang('Views')</span>
                                                 </div>
                                             </div>
+                                            @endif
                                             @auth
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
@@ -349,6 +376,8 @@
                         @endforeach
 
                     </div>
+
+
 
                 </div>
             </div>

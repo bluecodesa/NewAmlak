@@ -13,6 +13,8 @@ use App\Models\UnitImage;
 use App\Models\User;
 use App\Models\Visitor;
 use App\Repositories\Broker\UnitRepository;
+use App\Repositories\Broker\ProjectRepository;
+use App\Repositories\Broker\PropertyRepository;
 use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 
@@ -20,6 +22,10 @@ class GalleryService
 {
     protected $galleryRepository;
     protected $UnitRepository;
+    protected $ProjectRepository;
+
+    protected $PropertyRepository;
+
     protected $unitRepository;
 
     protected $propertyUsageService;
@@ -29,6 +35,8 @@ class GalleryService
     public function __construct(
         UnitRepositoryInterface $UnitRepository,
         UnitRepository $unitRepository,
+        PropertyRepository $PropertyRepository,
+        ProjectRepository $ProjectRepository,
         GalleryRepositoryInterface $galleryRepository,
         PropertyUsageService  $propertyUsageService
 
@@ -36,6 +44,8 @@ class GalleryService
         $this->galleryRepository = $galleryRepository;
         $this->UnitRepository = $UnitRepository;
         $this->unitRepository = $unitRepository;
+        $this->ProjectRepository = $ProjectRepository;
+        $this->PropertyRepository = $PropertyRepository;
         $this->propertyUsageService = $propertyUsageService;
     }
 
@@ -196,7 +206,6 @@ class GalleryService
                 $broker = Broker::findOrFail($brokerId);
             }
 
-
             return get_defined_vars();
         }
     }
@@ -210,10 +219,23 @@ class GalleryService
         $districts = collect();
         $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
         foreach ($galleries as $gallery) {
+            $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
+            $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
                 ->where('show_gallery', 1)
                 ->get();
-            $units = $units->merge($galleryUnits);
+            // $units = $units->merge($galleryUnits);
+            $galleryUnits->each(function ($unit) {
+                $unit->isGalleryUnit = true;
+            });
+            $projects->each(function ($project) {
+                $project->isGalleryProject = true;
+            });
+            $properties->each(function ($propertie) {
+                $propertie->isGalleryProperty = true;
+            });
+            $allItems = $projects->merge($properties)->merge($galleryUnits);
+
         }
 
         $uniqueIds = $units->pluck('CityData.id')->unique();

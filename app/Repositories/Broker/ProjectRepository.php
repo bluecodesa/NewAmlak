@@ -175,7 +175,7 @@ class ProjectRepository implements ProjectRepositoryInterface
     function ShowPublicProject($id)
     {
         $project = Project::where('show_in_gallery', 1)->find($id);
-        return $project;                    
+        return $project;
 
     }
     public function delete($id)
@@ -185,18 +185,48 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function storeProperty($data, $id, $images)
     {
-        $property =  Property::create($data);
-        if ($images) {
-            foreach ($images as $image) {
-                $ext = uniqid() . '.' . $image->clientExtension();
-                $image->move(public_path() .  '/Brokers/Projects/Property/', $ext);
-                PropertyImage::create([
-                    'image' =>  '/Brokers/Projects/Property/' . $ext,
-                    'property_id' => $property->id,
-                ]);
-            }
-        }
-        return $property;
+        $property_data = $data;
+
+        // Handle project_masterplan upload
+        if (isset($property_data['property_masterplan'])) {
+          $propertyMasterplan = $property_data['property_masterplan'];
+          $ext = $propertyMasterplan->getClientOriginalExtension();
+          $masterplanName = uniqid() . '.' . $ext;
+          $propertyMasterplan->move(public_path('/Brokers/Properties/pdfs'), $masterplanName);
+          $property_data['property_masterplan'] = '/Brokers/Properties/pdfs/' . $masterplanName;
+      }
+
+      // Handle project_brochure upload
+      if (isset($property_data['property_brochure'])) {
+          $propertyBrochure = $property_data['property_brochure'];
+          $ext = $propertyBrochure->getClientOriginalExtension();
+          $brochureName = uniqid() . '.' . $ext;
+          $propertyBrochure->move(public_path('/Brokers/Properties/pdfs'), $brochureName);
+          $property_data['property_brochure'] = '/Brokers/Properties/pdfs/' . $brochureName;
+      }
+
+
+      $property_data['broker_id'] = Auth::user()->UserBrokerData->id;
+
+      if (isset($data['show_in_gallery'])) {
+          $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+      } else {
+          $property_data['show_in_gallery'] = 0;
+      }
+
+      $property =  Property::create($property_data);
+      if ($images) {
+          foreach ($images as $image) {
+              $ext = uniqid() . '.' . $image->clientExtension();
+              $image->move(public_path() . '/Brokers/Projects/Property/', $ext);
+              PropertyImage::create([
+                  'image' => '/Brokers/Projects/Property/' . $ext,
+                  'property_id' => $property->id,
+              ]);
+          }
+      }
+
+      return $property;
     }
 
     function StoreUnit($id, $data)

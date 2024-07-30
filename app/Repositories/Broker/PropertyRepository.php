@@ -13,6 +13,7 @@ use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class PropertyRepository implements PropertyRepositoryInterface
 {
@@ -23,7 +24,36 @@ class PropertyRepository implements PropertyRepositoryInterface
 
     public function store($data, $images)
     {
-        $property =  Property::create($data);
+        $property_data = $data;
+
+          // Handle project_masterplan upload
+          if (isset($property_data['property_masterplan'])) {
+            $propertyMasterplan = $property_data['property_masterplan'];
+            $ext = $propertyMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $propertyMasterplan->move(public_path('/Brokers/Properties/pdfs'), $masterplanName);
+            $property_data['property_masterplan'] = '/Brokers/Properties/pdfs/' . $masterplanName;
+        }
+
+        // Handle project_brochure upload
+        if (isset($property_data['property_brochure'])) {
+            $propertyBrochure = $property_data['property_brochure'];
+            $ext = $propertyBrochure->getClientOriginalExtension();
+            $brochureName = uniqid() . '.' . $ext;
+            $propertyBrochure->move(public_path('/Brokers/Properties/pdfs'), $brochureName);
+            $property_data['property_brochure'] = '/Brokers/Properties/pdfs/' . $brochureName;
+        }
+
+
+        $property_data['broker_id'] = Auth::user()->UserBrokerData->id;
+
+        if (isset($data['show_in_gallery'])) {
+            $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+        } else {
+            $property_data['show_in_gallery'] = 0;
+        }
+
+        $property =  Property::create($property_data);
         if ($images) {
             foreach ($images as $image) {
                 $ext = uniqid() . '.' . $image->clientExtension();
@@ -40,10 +70,43 @@ class PropertyRepository implements PropertyRepositoryInterface
 
     public function update($id, $data, $images)
     {
+
         $property = Property::findOrFail($id);
+        $property_data = $data;
+
+        // Handle project_masterplan upload
+        if (isset($property_data['property_masterplan'])) {
+            if (!empty($property->property_masterplan) && File::exists(public_path($property->property_masterplan))) {
+                File::delete(public_path($property->property_masterplan));
+            }
+          $propertyMasterplan = $property_data['property_masterplan'];
+          $ext = $propertyMasterplan->getClientOriginalExtension();
+          $masterplanName = uniqid() . '.' . $ext;
+          $propertyMasterplan->move(public_path('/Brokers/Properties/pdfs'), $masterplanName);
+          $property_data['property_masterplan'] = '/Brokers/Properties/pdfs/' . $masterplanName;
+      }
+
+      // Handle project_brochure upload
+      if (isset($property_data['property_brochure'])) {
+        if (!empty($property->property_brochure) && File::exists(public_path($property->property_brochure))) {
+            File::delete(public_path($property->property_brochure));
+        }
+          $propertyBrochure = $property_data['property_brochure'];
+          $ext = $propertyBrochure->getClientOriginalExtension();
+          $brochureName = uniqid() . '.' . $ext;
+          $propertyBrochure->move(public_path('/Brokers/Properties/pdfs'), $brochureName);
+          $property_data['property_brochure'] = '/Brokers/Properties/pdfs/' . $brochureName;
+      }
+
+      if (isset($data['show_in_gallery']) ) {
+          $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+      } else {
+          $property_data['show_in_gallery'] = 0;
+      }
 
         if ($images) {
             foreach ($images as $image) {
+                $property->PropertyImages()->delete();
                 $ext = uniqid() . '.' . $image->clientExtension();
                 $image->move(public_path() . '/Brokers/Projects/Property/', $ext);
                 PropertyImage::create([
@@ -52,7 +115,7 @@ class PropertyRepository implements PropertyRepositoryInterface
                 ]);
             }
         };
-        $property->update($data);
+        $property->update($property_data);
         return $property;
     }
 

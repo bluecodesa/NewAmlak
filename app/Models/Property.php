@@ -54,4 +54,9 @@ class Property extends Model
     {
         return $this->hasMany(Unit::class, 'property_id');
     }
+    public function BrokerData()
+    {
+        return $this->belongsTo(Broker::class, 'broker_id');
+    }
+ 
 }

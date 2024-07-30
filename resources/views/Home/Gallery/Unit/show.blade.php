@@ -460,7 +460,6 @@
 
 
     @include('Home.Gallery.Unit.share')
-    @include('Home.Auth.propertyFinder.create')
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
