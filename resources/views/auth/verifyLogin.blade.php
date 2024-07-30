@@ -38,9 +38,12 @@
                             <input type="hidden" id="hidden_email" name="user_name" value="{{ $email }}" />
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <label for="otp" class="form-label">@lang('OTP')</label>
                             <input type="text" class="form-control" id="otp" name="otp" placeholder="@lang('OTP')" />
+                        </div>
+                        <div class="mb-2">
+                        <a href="{{ route('Home.auth.loginByPassword') }}" type="submit" >@lang('Login by Password?')</a>
                         </div>
                         <button type="submit" class="btn btn-primary d-grid w-100 mb-3">@lang('Verify')</button>
                     </form>
@@ -56,13 +59,7 @@
                         <button type="submit" class="btn btn-secondary">@lang('Resend OTP')</button>
                     </form>
                 </div>
-                <div class="col-md-6 col-12 mb-1" id="login-by-password-button" style="display: none;">
-                    <form action="{{ route('Home.auth.loginByPassword') }}" method="GET">
-                        @csrf
-                        <input type="hidden" name="email" value="{{ $email }}" />
-                        <button type="submit" class="btn btn-secondary">@lang('Login by Password')</button>
-                    </form>
-                </div>
+
             </div>
                 </div>
 

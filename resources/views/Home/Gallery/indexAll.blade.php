@@ -187,12 +187,16 @@
                                                         class="ti ti-share ti-sm"></i></a>
                                                 @guest
 
-                                                    <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+                                                    {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                                                         data-bs-toggle="modal" data-bs-target="#modalToggle">
                                                         <i class="ti ti-heart ti-sm"></i>
 
-                                                    </a>
+                                                    </a> --}}
+                                                    <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+                                                    href={{ route('login') }}>
+                                                    <i class="ti ti-heart ti-sm"></i>
 
+                                                </a>
                                                 @endguest
 
                                                 @auth

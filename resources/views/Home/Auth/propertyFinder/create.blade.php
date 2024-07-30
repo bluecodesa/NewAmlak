@@ -10,7 +10,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{{ $sitting->title }} @lang('register')</title>
+        <title>{{ $sitting->title }} @lang('register')/ @lang('Property Finder')</title>
 
     <meta name="description" content="" />
 
@@ -86,7 +86,7 @@
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
                 <!-- Register Card -->
-                <div class="text-left">
+                <div class="text-left mb-2">
                     <button class="btn btn-secondary" onclick="history.back()">عودة</button>
                 </div>
                 <div class="card">

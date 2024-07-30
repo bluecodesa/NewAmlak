@@ -116,7 +116,7 @@ class HomeController extends Controller
             $otp = mt_rand(100000, 999999);
             session(['otp' => $otp, 'email' => $email]);
             $this->MailSendCode($request->user_name, $otp);
-            return redirect()->route('Home.auth.verifyLogin')->withSuccess(__('OTP sent successfully'));
+            return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
 
     }
     public function loginByPassword()
@@ -299,7 +299,7 @@ class HomeController extends Controller
         ]);
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
         $startDate = Carbon::now();
-        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d');
+        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d H:i:s');
         if ($subscriptionType->price > 0) {
             $SubType = 'paid';
             $status = 'pending';
@@ -313,7 +313,7 @@ class HomeController extends Controller
             'status' => $status,
             'is_start' => $status == 'pending' ? 0 : 1,
             'is_new' => 1,
-            'start_date' => now()->format('Y-m-d'),
+            'start_date' => now()->format('Y-m-d H:i:s'),
             'end_date' => $endDate,
             'total' => '200'
         ]);

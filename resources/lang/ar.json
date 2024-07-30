@@ -645,7 +645,7 @@
     "Default": "تعيين كحالة رئيسية",
     "Show For Real Estate": "تظهر فقط للوسطاء العقاريين",
     "This interest type cannot be deleted as it is set as default.": "لا يمكن حذف نوع الاهتمام هذا لأنه تم تعيينه كحالة رئيسية.",
-    "Login by Password": "الدخول عن طريق كلمة السر",
+    "Login by Password?": "الدخول عن طريق كلمة السر؟",
     "OTP": "رمز التحقق",
     "You can resend the OTP in": "تستطيع ان تقوم باعادة ارسال رمز التحقق بعد",
     "second": "ثانية"

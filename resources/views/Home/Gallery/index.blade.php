@@ -246,11 +246,17 @@
                                             class="ti ti-share ti-sm"></i></a>
                                     @guest
 
-                                        <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+                                        {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                                             data-bs-toggle="modal" data-bs-target="#modalToggle">
                                             <i class="ti ti-heart ti-sm"></i>
 
-                                        </a>
+                                        </a> --}}
+
+                                        <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
+                                         href="{{ route('login') }}">
+                                        <i class="ti ti-heart ti-sm"></i>
+
+                                    </a>
 
                                     @endguest
 
@@ -385,11 +391,15 @@
                                 @endauth
                                 @guest
                                     <div class="d-flex align-items-center justify-content-center">
-                                        <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+                                        {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                             style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
                                                 class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                         <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
-                                            data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a>
+                                            data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
+                                            <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+                                            style="color: white;" href="{{ route('login') }}"><i
+                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                        <a target="_blank" class="btn btn-label-secondary btn-icon" href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                     </div>
                                 @endguest
 
