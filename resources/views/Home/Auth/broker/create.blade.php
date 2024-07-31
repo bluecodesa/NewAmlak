@@ -175,7 +175,7 @@
                                 <label class="form-label" for="email">@lang('Email')<span
                                         class="text-danger">*</span></label>
 
-                                <input type="email" class="form-control" id="email" name="email" value="{{ $email }}" required>
+                                <input type="email" class="form-control" id="email" readonly name="email" value="{{ $email }}" required>
 
                             </div>
 
@@ -184,7 +184,7 @@
                                         class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="text" placeholder="123456789" id="phone" name="mobile"
-                                        value="" class="form-control" required maxlength="9"
+                                        value="{{ $phone }}" class="form-control" required maxlength="9"
                                         pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                         aria-label="Text input with dropdown button">
                                     <button class="btn btn-outline-primary dropdown-toggle waves-effect"

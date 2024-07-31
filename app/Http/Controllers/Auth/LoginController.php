@@ -76,11 +76,14 @@ public function login(Request $request)
     $input = $request->all();
 
     $this->validate($request, [
-        'user_name' => 'required',
+        'user_name' => 'required|email',
         'password' => 'nullable',
         'otp' => 'nullable',
+    ], [
+        'user_name.required' => 'The email field is required.',
+        'user_name.email' => 'The email must be a valid email address.',
     ]);
-
+    
     // $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
     $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'full_phone';
 

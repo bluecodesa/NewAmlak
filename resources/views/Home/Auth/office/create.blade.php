@@ -129,7 +129,7 @@
                             @endif
 
                             <div class="mb-3 row">
-                                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                <div class="d-flex align-items-start align-items-sm-center justify-content-center gap-4">
                                     <img src="{{ asset('HOME_PAGE/img/avatars/14.png') }}" alt="user-avatar"
                                         class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
                                     <div class="button-wrapper">
@@ -173,7 +173,7 @@
                                     <label class="form-label" for="email">@lang('Company email')<span
                                             class="text-danger">*</span></label>
 
-                                    <input type="email" class="form-control" id="email" name="email" value="{{ $email }}"
+                                    <input type="email" readonly class="form-control" id="email" name="email" value="{{ $email }}"
                                         required>
 
                                 </div>
@@ -192,7 +192,7 @@
 
                                     <div class="input-group">
                                         <input type="text" placeholder="123456789" id="phone" name="phone"
-                                            value="" class="form-control" maxlength="9" pattern="\d{1,9}"
+                                            value="{{ $phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
                                             oninput="updateFullPhone(this)"
                                             aria-label="Text input with dropdown button">
                                         <button class="btn btn-outline-primary dropdown-toggle waves-effect"
@@ -287,38 +287,32 @@
                                 </div>
                             </div>
 
+                            <div class="col-12 mb-3">
+                                <div class="form-check mb-0 ms-2">
+                                    <input class="form-check-input" required checked type="checkbox" id="terms-conditions">
+                                    <label class="form-check-label" for="terms-conditions"> @lang('By registering')
+                                        @lang('you accept our')
+                                        <a href="{{ route('Terms') }}" target="_blank">
+                                            @lang('Conditions') @lang('and') @lang('Terms')
+                                        </a>
+                                        &amp;
+                                        <a href="{{ route('Privacy') }}" target="_blank">
+                                            @lang('privacy policy')
+                                        </a>
+                                    </label>
+                                </div>
+                            </div>
 
-
-                            <div class="row mb-3">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-8">
-                                    <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary"
+                     
+                            <div class="col-12" style="text-align: center;">
+                                <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary"
                                         data-dismiss="modal">@lang('Cancel')</a>
 
                                     <button type="submit" class="btn btn-primary">@lang('Submit')</button>
                                 </div>
-                            </div>
 
                         </form>
-
-
-                        <div class="divider my-4">
-                            <div class="divider-text"></div>
-                        </div>
-
-                        <div class="d-flex justify-content-center">
-                            <div class="form-group mb-0 row">
-                                <div class="col-12 m-t-10 text-center">
-                                    @lang('By registering') @lang('you accept our')
-                                    <a href="{{ asset($termsAndConditionsUrl) }}" target="_blank" download>
-                                        @lang('Conditions') &amp; @lang('Terms')
-                                    </a>
-                                    <a href="{{ asset($privacyPolicyUrl) }}" target="_blank" download>
-                                        @lang('and') @lang('our privacy policy')
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                
                     </div>
                 </div>
                 <!-- Register Card -->

@@ -122,12 +122,11 @@ class HomeController extends Controller
 
     public function sendOtp(Request $request)
     {
+        
         // $otp = mt_rand(100000, 999999);
         $otp=555555;
-        // Clear the previous session data
         session()->forget(['otp', 'email', 'phone']);
 
-        // Store the new OTP in the session
         session(['otp' => $otp]);
 
         if ($request->input('otp_type') === 'email') {
@@ -136,7 +135,9 @@ class HomeController extends Controller
             $this->MailSendCode($email, $otp);
         } else if ($request->input('otp_type') === 'phone') {
             $fullPhone = $request->input('full_phone');
-            session(['phone' => $fullPhone]);
+            $phone = $request->input('mobile');
+
+            session(['phone' => $fullPhone ,'mobile'=>$phone]);
             // $this->SmsSendCode($fullPhone, $otp);
         }
 
@@ -179,6 +180,9 @@ class HomeController extends Controller
     public function createBroker()
     {
         $email = session('email');
+        $fullPhone = session('phone');
+        $phone = session('mobile');
+
 
         $setting =   Setting::first();
         if ($setting->active_broker == 0) {
@@ -201,6 +205,8 @@ class HomeController extends Controller
     public function createOffice()
     {
         $email = session('email');
+        $fullPhone = session('phone');
+        $phone = session('mobile');
 
         $setting =   Setting::first();
         if ($setting->active_office == 0) {

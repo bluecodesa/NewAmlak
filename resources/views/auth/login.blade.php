@@ -21,7 +21,7 @@
                         @include('Admin.layouts.Inc._errors')
 
                         <div class="nav-align-top mb-4">
-                            <ul class="nav nav-pills mb-3" role="tablist">
+                            <ul class="nav nav-pills mb-3 justify-content-center" role="tablist">
                                 <li class="nav-item">
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                                             data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
@@ -35,18 +35,18 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
-                                    <form id="formAuthentication" class="mb-3" method="POST"
-                                          action="{{ route('Home.sendOtp') }}">
+                                    <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('Home.sendOtp') }}">
                                         @csrf
                                         <input type="hidden" name="otp_type" value="email">
                                         <div class="mb-3">
-                                            <label for="email" class="form-label">@lang('Email')</label>
-                                            <input type="text" class="form-control" id="email" name="user_name"
-                                                   placeholder="@lang('Email')" autofocus />
+                                            <label for="email" class="form-label">
+                                                @lang('Email')<span class="text-danger">*</span>
+                                            </label>
+                                            <input type="email" class="form-control" id="email" name="user_name" placeholder="@lang('Email')" required autofocus />
                                         </div>
                                         <button type="submit" class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
                                     </form>
-                                </div>
+                                </div>                                
                                 <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                                     <form id="formAuthentication" class="mb-3" method="POST"
                                           action="{{ route('Home.sendOtp') }}">
@@ -58,7 +58,7 @@
                                             <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
                                                     class="text-danger">*</span></label>
                                             <div class="input-group">
-                                                <input type="text" placeholder="123456789" id="phone" name="user_name"
+                                                <input type="text" placeholder="123456789" id="phone" name="mobile"
                                                        class="form-control" required maxlength="9"
                                                        pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                                        aria-label="Text input with dropdown button">

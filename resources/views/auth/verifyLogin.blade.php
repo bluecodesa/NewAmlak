@@ -43,7 +43,9 @@
                             <input type="text" class="form-control" id="otp" name="otp" placeholder="@lang('OTP')" />
                         </div>
                         <div class="mb-2">
-                        <a href="{{ route('Home.auth.loginByPassword') }}" type="submit" >@lang('Login by Password?')</a>
+                            <label class="form-label">   
+                             <a href="{{ route('Home.auth.loginByPassword') }}" type="submit" >@lang('Login by Password?')</a>
+                            </label>
                         </div>
                         <button type="submit" class="btn btn-primary d-grid w-100 mb-3">@lang('Verify')</button>
                     </form>
