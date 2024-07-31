@@ -24,6 +24,8 @@ use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Broker\GalleryService;
+use App\Services\Broker\ProjectService;
+use App\Services\Broker\PropertyService;
 use App\Services\Admin\SettingService;
 use App\Services\Broker\UnitInterestService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -48,6 +50,9 @@ class GallaryController extends Controller
     protected $SubscriptionTypeService;
 
     protected $subscriptionService;
+    protected $ProjectService;
+    protected $PropertyService;
+
 
 
 
@@ -57,6 +62,9 @@ class GallaryController extends Controller
     public function __construct(
         SettingService $settingService,
         GalleryService $galleryService,
+        ProjectService $ProjectService,
+        PropertyService $PropertyService,
+
         UnitService $UnitService,
         RegionService $regionService,
         DistrictService $districtService,
@@ -88,6 +96,9 @@ class GallaryController extends Controller
         $this->unitInterestService = $unitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
+        $this->ProjectService = $ProjectService;
+        $this->PropertyService = $PropertyService;
+
     }
     public function index()
     {
@@ -106,7 +117,21 @@ class GallaryController extends Controller
         $brokerId = auth()->user()->UserBrokerData->id;
 
         // Get all units for the broker
+        $allItems = collect();
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        $projects = $this->ProjectService->getAllProjectsByBrokerId(auth()->user()->UserBrokerData->id);
+        $properties = $this->PropertyService->getAll(auth()->user()->UserBrokerData->id);
+        $units->each(function ($unit) {
+            $unit->isGalleryUnit = true;
+        });
+        $projects->each(function ($project) {
+            $project->isGalleryProject = true;
+        });
+        $properties->each(function ($propertie) {
+            $propertie->isGalleryProperty = true;
+        });
+        $galleryItems = $projects->merge($properties)->merge($units);
+        $allItems = $allItems->merge($galleryItems);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();

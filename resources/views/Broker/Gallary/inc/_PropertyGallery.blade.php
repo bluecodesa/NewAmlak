@@ -3,38 +3,21 @@
         <thead class="table-dark">
             <tr>
 
-                <th>@lang('ad name') / @lang('Name')</th>
-                <th>@lang('Type')</th>
+                <th>@lang('Residential number')</th>
                 <th>@lang('Occupancy')</th>
                 <th>@lang('Ad type')</th>
                 <th>@lang('city')</th>
                 <th>@lang('Show in Gallery')</th>
                 <th>@lang('views')</th>
+                <th>@lang('Share')</th>
                 <th>@lang('Action')</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($allItems as $index => $unit)
-            @php
-            $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
-            $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
-            $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
-            @endphp
+            @forelse ($units as $index => $unit)
                 <tr>
 
-                    <td>{{ $unit->ad_name ?? $unit->name }}</td>
-                    <td >  
-                        <button type="button" 
-                        class="btn btn-primary waves-effect waves-light btn-sm">
-                        @if ($isGalleryUnit)
-                        @lang('Unit')
-                        @elseif ($isGalleryProject)
-                        @lang('Project')
-                        @elseif ($isGalleryProperty)
-                        @lang('property')
-                        @endif
-                        </button>
-                    </td>
+                    <td>{{ $unit->number_unit ?? '' }}</td>
                     <td>{{ __($unit->status) }}</td>
                     <td>{{ __($unit->type) ?? '' }} </td>
                     <td>
@@ -44,12 +27,12 @@
                     </td>
                     <td> {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}</td>
 
-                    {{-- <td>
+                    <td>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addNewCCModal_{{ $unit->id }}"
                             class="btn btn-primary waves-effect waves-light btn-sm">
                             @lang('Share')
                         </button>
-                    </td> --}}
+                    </td>
                     <td>
 
                         <div class="dropdown">
@@ -58,11 +41,6 @@
                                 <i class="ti ti-dots-vertical"></i>
                             </button>
                             <div class="dropdown-menu" style="">
-
-                                @if (Auth::user()->hasPermission('update-unit'))
-                                <a class="dropdown-item"
-                                href=""  data-bs-toggle="modal" data-bs-target="#addNewCCModal_{{ $unit->id }}">@lang('Share')</a>
-                                @endif
 
                                 @if (Auth::user()->hasPermission('update-unit'))
                                     <a class="dropdown-item"
