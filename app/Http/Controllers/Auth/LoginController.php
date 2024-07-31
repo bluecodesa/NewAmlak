@@ -90,7 +90,8 @@ public function login(Request $request)
     if (!$user && !empty($input['otp'])) {
         $sessionOtp = session('otp');
         if ($input['otp'] == $sessionOtp) {
-            return view('auth.chooseAcount')->with('success', 'OTP is correct, but user does not exist. Please register.');
+            // return  redirect()->route('Home.auth.chooseAccount')->with('success', __('OTP is correct, but user does not exist. Please register.'));
+            return view('auth.chooseAcount')->with('success', __('OTP is correct, but user does not exist. Please register.'));
         } else {
             return back()->withInput()->withErrors(['otp' => 'The provided OTP is incorrect.']);
         }
