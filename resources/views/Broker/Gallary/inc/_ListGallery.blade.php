@@ -63,30 +63,51 @@
                         </div>
                     </div>
                 </div>
+
+                @php
+                $isUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
+                $isProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
+                $isProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
+        
+                if ($isUnit) {
+                    $showRoute = route('Broker.Unit.show', $unit->id);
+                    $editRoute = route('Broker.Unit.edit', $unit->id);
+                    $deleteRoute = route('Broker.Unit.destroy', $unit->id);
+                } elseif ($isProject) {
+                    $showRoute = route('Broker.Project.show', $unit->id);
+                    $editRoute = route('Broker.Project.edit', $unit->id);
+                    $deleteRoute = route('Broker.Project.destroy', $unit->id);
+                } elseif ($isProperty) {
+                    $showRoute = route('Broker.Property.show', $unit->id);
+                    $editRoute = route('Broker.Property.edit', $unit->id);
+                    $deleteRoute = route('Broker.Property.destroy', $unit->id);
+                } else {
+                    $showRoute = '#';
+                    $editRoute = '#';
+                    $deleteRoute = '#';
+                }
+            @endphp
+
                 <div class="justify-content-center">
                     @if (Auth::user()->hasPermission('read-unit'))
-                        <a href="{{ route('Broker.Unit.show', $unit->id) }}" class="btn btn-secondary">
-                            <i class="ti ti-eye"></i>
-                        </a>
-                    @endif
-                    @if (Auth::user()->hasPermission('update-unit'))
-                        <a href="{{ route('Broker.Unit.edit', $unit->id) }}" class="btn btn-primary">
-                            <i class="ti ti-highlight"></i>
-                        </a>
-                    @endif
-                    @if (Auth::user()->hasPermission('delete-unit'))
-                        <a href="javascript:void(0);" onclick="handleDelete('{{ $unit->id }}')"
-                            class="btn btn-danger">
-                            <i class="ti ti-trash"></i>
-                        </a>
-
-                        <form id="delete-form-{{ $unit->id }}"
-                            action="{{ route('Broker.Unit.destroy', $unit->id) }}" method="POST"
-                            style="display: none;">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                    @endif
+                    <a href="{{ $showRoute }}" class="btn btn-secondary">
+                        <i class="ti ti-eye"></i>
+                    </a>
+                @endif
+                @if (Auth::user()->hasPermission('update-unit'))
+                    <a href="{{ $editRoute }}" class="btn btn-primary">
+                        <i class="ti ti-highlight"></i>
+                    </a>
+                @endif
+                @if (Auth::user()->hasPermission('delete-unit'))
+                    <a href="javascript:void(0);" onclick="handleDelete('{{ $unit->id }}')" class="btn btn-danger">
+                        <i class="ti ti-trash"></i>
+                    </a>
+                    <form id="delete-form-{{ $unit->id }}" action="{{ $deleteRoute }}" method="POST" style="display: none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                @endif
 
 
 

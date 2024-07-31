@@ -58,33 +58,46 @@
                                 <i class="ti ti-dots-vertical"></i>
                             </button>
                             <div class="dropdown-menu" style="">
+                                @php
 
+                                    if ($isGalleryUnit) {
+                                        $editRoute = route('Broker.Unit.edit', $unit->id);
+                                        $showRoute = route('Broker.Unit.show', $unit->id);
+                                        $deleteRoute = route('Broker.Unit.destroy', $unit->id);
+                                    } elseif ($isGalleryProject) {
+                                        $editRoute = route('Broker.Project.edit', $unit->id);
+                                        $showRoute = route('Broker.Project.show', $unit->id);
+                                        $deleteRoute = route('Broker.Project.destroy', $unit->id);
+                                    } elseif ($isGalleryProperty) {
+                                        $editRoute = route('Broker.Property.edit', $unit->id);
+                                        $showRoute = route('Broker.Property.show', $unit->id);
+                                        $deleteRoute = route('Broker.Property.destroy', $unit->id);
+                                    } else {
+                                        $editRoute = '#';
+                                        $showRoute = '#';
+                                        $deleteRoute = '#';
+                                    }
+                                @endphp
+                            
                                 @if (Auth::user()->hasPermission('update-unit'))
-                                <a class="dropdown-item"
-                                href=""  data-bs-toggle="modal" data-bs-target="#addNewCCModal_{{ $unit->id }}">@lang('Share')</a>
+                                    <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#addNewCCModal_{{ $unit->id }}">@lang('Share')</a>
                                 @endif
-
+                            
                                 @if (Auth::user()->hasPermission('update-unit'))
-                                    <a class="dropdown-item"
-                                        href="{{ route('Broker.Unit.edit', $unit->id) }}">@lang('Edit')</a>
+                                    <a class="dropdown-item" href="{{ $editRoute }}">@lang('Edit')</a>
                                 @endif
-
+                            
                                 @if (Auth::user()->hasPermission('read-unit'))
-                                    <a class="dropdown-item" href="{{ route('Broker.Unit.show', $unit->id) }}"
-                                        target="_blank">@lang('Show')</a>
+                                    <a class="dropdown-item" href="{{ $showRoute }}" target="_blank">@lang('Show')</a>
                                 @endif
-
+                            
                                 @if (Auth::user()->hasPermission('delete-unit'))
-                                    <a href="javascript:void(0);" onclick="handleDelete('{{ $unit->id }}')"
-                                        class="dropdown-item delete-btn">@lang('Delete')</a>
-                                    <form id="delete-form-{{ $unit->id }}"
-                                        action="{{ route('Broker.Unit.destroy', $unit->id) }}" method="POST"
-                                        style="display: none;">
+                                    <a href="javascript:void(0);" onclick="handleDelete('{{ $unit->id }}')" class="dropdown-item delete-btn">@lang('Delete')</a>
+                                    <form id="delete-form-{{ $unit->id }}" action="{{ $deleteRoute }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
                                 @endif
-
                             </div>
                         </div>
                     </td>
