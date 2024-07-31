@@ -144,81 +144,92 @@
 
                            <!-- unit card -->
 
-                           @if($project->PropertiesProject->isNotEmpty())
+                        @if($project->PropertiesProject->isNotEmpty())
                            @foreach ($project->PropertiesProject as $property)
-                               <div class="card card-action mb-4">
-                                   <div class="card-header align-items-center">
-                                       <h5 class="card-action-title mb-0">{{ $property->name }}</h5>
-                                   </div>
-                                   <div class="col-md mb-4 mb-md-2">
-                                       <div class="accordion mt-3" id="accordionExample">
-                                           @php
-                                               $propertyTypes = $property->PropertyUnits->pluck('property_type_id')->unique();
-                                           @endphp
-                       
-                                           @foreach ($propertyTypes as $propertyTypeId)
+                               @if ($property->PropertyUnits->isNotEmpty())
+                                   <div class="card card-action mb-4">
+                                       <div class="card-header align-items-center">
+                                           <h5 class="card-action-title mb-0">
+                                            <a  href="{{ route('Home.showPublicProperty', [
+                                                'gallery_name' => optional($property->BrokerData->GalleryData)->gallery_name,
+                                                'id' => $property->id
+                                                ]) }}">
+                                                   {{ $property->name }}
+                                               </a>
+                                               
+                                           </h5>
+                                       </div>
+                                       <div class="col-md mb-4 mb-md-2">
+                                           <div class="accordion mt-3" id="accordionExample">
                                                @php
-                                                   $units = $property->PropertyUnits->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
+                                                   $propertyTypes = $property->PropertyUnits->pluck('property_type_id')->unique();
                                                @endphp
                        
-                                               @if ($units->count() > 0)
+                                               @foreach ($propertyTypes as $propertyTypeId)
                                                    @php
-                                                       $propertyTypeName = $units->first()->PropertyTypeData->name ?? '';
-                                                       $accordionId = 'accordion' . $propertyTypeId;
-                                                       $headingId = 'heading' . $propertyTypeId;
-                                                       $collapseId = 'collapse' . $propertyTypeId;
+                                                       $units = $property->PropertyUnits->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
                                                    @endphp
                        
-                                                   <div class="card accordion-item {{ $loop->first ? 'active' : '' }}">
-                                                       <h2 class="accordion-header" id="{{ $headingId }}">
-                                                           <button
-                                                               type="button"
-                                                               class="accordion-button {{ $loop->first ? '' : 'collapsed' }}"
-                                                               data-bs-toggle="collapse"
-                                                               data-bs-target="#{{ $collapseId }}"
-                                                               aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-                                                               aria-controls="{{ $collapseId }}">
-                                                               {{ $propertyTypeName }}
-                                                           </button>
-                                                       </h2>
+                                                   @if ($units->count() > 0)
+                                                       @php
+                                                           $propertyTypeName = $units->first()->PropertyTypeData->name ?? '';
+                                                           $accordionId = 'accordion' . $propertyTypeId;
+                                                           $headingId = 'heading' . $propertyTypeId;
+                                                           $collapseId = 'collapse' . $propertyTypeId;
+                                                       @endphp
                        
-                                                       <div
-                                                           id="{{ $collapseId }}"
-                                                           class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
-                                                           aria-labelledby="{{ $headingId }}"
-                                                           data-bs-parent="#accordionExample">
-                                                           <div class="accordion-body">
-                                                               <table class="table">
-                                                                   <thead>
-                                                                       <tr>
-                                                                           <th>@lang('#')</th>
-                                                                           <th>@lang('Residential number')</th>
-                                                                           <th>@lang('Area (square metres)')</th>
-                                                                           <th>@lang('number rooms')</th>
-                                                                           <th>@lang('Ad type')</th>
-                                                                       </tr>
-                                                                   </thead>
-                                                                   <tbody>
-                                                                       @foreach ($units as $index => $unit)
-                                                                       <tr class="clickable-row" data-href="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}">
-                                                                           <td>{{ $index + 1 }}</td>
-                                                                               <td>{{ $unit->number_unit ?? '' }}</td>
-                                                                               <td>{{ $unit->space ?? '' }}</td>
-                                                                               <td>{{ $unit->rooms ?? '' }}</td>                                                                     
-                                                                               <td>{{ __($unit->type) ?? '' }}</td>
+                                                       <div class="card accordion-item {{ $loop->first ? 'active' : '' }}">
+                                                           <h2 class="accordion-header" id="{{ $headingId }}">
+                                                               <button
+                                                                   type="button"
+                                                                   class="accordion-button {{ $loop->first ? '' : 'collapsed' }}"
+                                                                   data-bs-toggle="collapse"
+                                                                   data-bs-target="#{{ $collapseId }}"
+                                                                   aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                                                   aria-controls="{{ $collapseId }}">
+                                                                   {{ $propertyTypeName }}
+                                                               </button>
+                                                           </h2>
+                       
+                                                           <div
+                                                               id="{{ $collapseId }}"
+                                                               class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                                               aria-labelledby="{{ $headingId }}"
+                                                               data-bs-parent="#accordionExample">
+                                                               <div class="accordion-body">
+                                                                   <table class="table">
+                                                                       <thead>
+                                                                           <tr>
+                                                                               <th>@lang('#')</th>
+                                                                               <th>@lang('Residential number')</th>
+                                                                               <th>@lang('Area (square metres)')</th>
+                                                                               <th>@lang('number rooms')</th>
+                                                                               <th>@lang('Ad type')</th>
                                                                            </tr>
-                                                                       @endforeach
-                                                                   </tbody>
-                                                               </table>
+                                                                       </thead>
+                                                                       <tbody>
+                                                                           @foreach ($units as $index => $unit)
+                                                                           <tr class="clickable-row" data-href="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}">
+                                                                               <td>{{ $index + 1 }}</td>
+                                                                                   <td>{{ $unit->number_unit ?? '' }}</td>
+                                                                                   <td>{{ $unit->space ?? '' }}</td>
+                                                                                   <td>{{ $unit->rooms ?? '' }}</td>                                                                     
+                                                                                   <td>{{ __($unit->type) ?? '' }}</td>
+                                                                               </tr>
+                                                                           @endforeach
+                                                                       </tbody>
+                                                                   </table>
+                                                               </div>
                                                            </div>
                                                        </div>
-                                                   </div>
-                                               @endif
-                                           @endforeach
+                                                   @endif
+                                               @endforeach
+                                           </div>
                                        </div>
                                    </div>
-                               </div>
+                               @endif
                            @endforeach
+                       
                        @else
                            <div class="card card-action mb-4">
                                <div class="card-header align-items-center">
