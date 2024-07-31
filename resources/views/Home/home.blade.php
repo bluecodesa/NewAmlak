@@ -30,8 +30,8 @@
                                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/Join-community-arrow.png') }}"
                                     style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                                     alt="Join community arrow" class="scaleX-n1-rtl" /></span>
-                            <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal"
-                                data-bs-target="#addSubscriberModal">سجل معنا الأن</a>
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg"
+                               >سجل معنا الأن</a>
                         </div>
                     </div>
                     <div id="heroDashboardAnimation" class="hero-animation-img">
@@ -276,7 +276,10 @@
                                         @endforeach
 
                                         </ul>
-                                        <div class="d-grid mt-4 pt-3">
+                                       <div class="d-grid mt-4 pt-3">
+                                        <a href="{{ route('login') }}" class="btn btn-label-primary" >ابدأ الأن</a>
+                                        </div>
+                                        {{-- <div class="d-grid mt-4 pt-3">
                                             @if ($subscriptionType && $subscriptionType->roles->count() == 2)
                                                 <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
                                                     data-bs-target="#addSubscriberModal">ابدأ الأن</a>
@@ -287,7 +290,7 @@
                                                 <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
                                                     onclick="redirectToCreateOffice()">ابدأ الأن</a>
                                             @endif
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -349,7 +352,10 @@
                                         @endforeach
 
                                         </ul>
-                                        <div class="d-grid mt-4 pt-3">
+                                          <div class="d-grid mt-4 pt-3">
+                                                <a href="{{ route('login') }}" class="btn btn-label-primary" >ابدأ الأن</a>
+                                          </div>
+                                        {{-- <div class="d-grid mt-4 pt-3">
                                             @if ($subscriptionType && $subscriptionType->roles->count() == 2)
                                                 <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
                                                     data-bs-target="#addSubscriberModal">ابدأ الأن</a>
@@ -360,7 +366,7 @@
                                                 <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
                                                     onclick="redirectToCreateOffice()">ابدأ الأن</a>
                                             @endif
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -979,7 +985,7 @@
                         @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
                         <button form="a-form" type="submit" class="btn btn-lg btn-primary">@lang('Send Request')</button>
                         @else
-                        <button form="a-form" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">@lang('Send Request')</button>
+                        <a form="a-form" class="btn btn-primary" href="{{ route('login') }}">@lang('Send Request')</a>
                         @endif
                 </div>
 

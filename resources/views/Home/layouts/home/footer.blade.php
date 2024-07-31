@@ -20,7 +20,7 @@
                         <div class="d-flex mt-1">
                             <input type="email" class="form-control rounded-0 rounded-start-bottom rounded-start-top"
                                 id="footer-email" placeholder="بريدك الالكتروني" />
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#addSubscriberModal" type="submit"
+                            <a href="{{ route('login') }}" type="submit"
                                 class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top">
                                 سجل
                             </a>
