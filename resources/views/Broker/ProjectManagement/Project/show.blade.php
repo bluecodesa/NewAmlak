@@ -491,10 +491,10 @@
                                                                 <i class="ti ti-dots-vertical"></i>
                                                             </button>
                                                             <div class="dropdown-menu" style="">
-                                                                @if ($property->is_divided == 1)
+                                                                {{-- @if ($property->is_divided == 1)
                                                                     <a class="dropdown-item"
                                                                         href="{{ route('Broker.Property.show', $property->id) }}">@lang('Add units')</a>
-                                                                @endif
+                                                                @endif --}}
 
                                                                 <a class="dropdown-item"
                                                                     href="{{ route('Broker.Property.show', $property->id) }}">@lang('Show')</a>

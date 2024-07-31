@@ -125,7 +125,7 @@ class HomeController extends Controller
         
         // $otp = mt_rand(100000, 999999);
         $otp=555555;
-        session()->forget(['otp', 'email', 'phone']);
+        session()->forget(['otp', 'email', 'phone' ,'mobile']);
 
         session(['otp' => $otp]);
 

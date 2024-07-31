@@ -264,6 +264,9 @@ class UnitController extends Controller
         if ($Unit->property_id != null) {
             return redirect()->route('Broker.Property.show', $Unit->property_id)->with('success', __('Update successfully'));
         }
+        if ($Unit->property_id != null && $Unit->project_id != null) {
+            return redirect()->route('Broker.Project.show', $Unit->project_id)->with('success', __('Update successfully'));
+        }
         return redirect()->route('Broker.Unit.show', $Unit->id)->with('success', __('Update successfully'));
     }
 
