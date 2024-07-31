@@ -184,6 +184,21 @@ class GalleryService
         } else {
 
             $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
+            $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
+
+            $units->each(function ($unit) {
+                $unit->isGalleryUnit = true;
+            });
+            $projects->each(function ($project) {
+                $project->isGalleryProject = true;
+            });
+            $properties->each(function ($propertie) {
+                $propertie->isGalleryProperty = true;
+            });
+            $allItems = $projects->merge($properties)->merge($units);
+
+
             $uniqueIds = $units->pluck('CityData.id')->unique();
             $uniqueNames = $units->pluck('CityData.name')->unique();
             $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
@@ -217,6 +232,7 @@ class GalleryService
         $galleries = $this->galleryRepository->allPublic();
         $units = collect();
         $districts = collect();
+        $allItems = collect();
         $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
         foreach ($galleries as $gallery) {
             $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
@@ -234,8 +250,8 @@ class GalleryService
             $properties->each(function ($propertie) {
                 $propertie->isGalleryProperty = true;
             });
-            $allItems = $projects->merge($properties)->merge($galleryUnits);
-
+            $galleryItems = $projects->merge($properties)->merge($galleryUnits);
+            $allItems = $allItems->merge($galleryItems);
         }
 
         $uniqueIds = $units->pluck('CityData.id')->unique();

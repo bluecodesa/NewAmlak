@@ -135,7 +135,7 @@
                                             @endif
                                             @if ($subscriber->broker_id)
                                                 {{-- +{{ $subscriber->BrokerData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }} --}}
-                                                {{ $subscriber->BrokerData->full_phone ?? '' }}
+                                                {{ $subscriber->BrokerData->userData->full_phone ?? '' }}
                                             @endif
                                         </span>
                                     </li>

@@ -3,6 +3,8 @@
 namespace App\Services\Broker;
 
 use App\Interfaces\Broker\PropertyRepositoryInterface;
+use App\Models\Broker;
+use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -134,5 +136,10 @@ class PropertyService
         $unit = $this->PropertyRepository->StoreUnit($id, $data);
 
         return $unit;
+    }
+
+    function ShowPublicProject($id)
+    {
+        return   $this->PropertyRepository->ShowPublicProperty($id);
     }
 }

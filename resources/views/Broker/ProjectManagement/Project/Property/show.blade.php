@@ -38,6 +38,9 @@
                                     @endforelse
                                     <div class="user-info text-center">
                                         <h4 class="mb-2">{{ $Property->name }}</h4>
+                                        <span class="badge bg-label-secondary mt-1"> <a class="bg-label-secondary waves-effect" href="{{ route('Broker.Project.show', $Property->ProjectData->id) }}" class="text-white">
+                                            {{ $Property->ProjectData->name ?? '' }}
+                                        </a></span>
                                         <span class="badge bg-label-secondary mt-1">@lang('property')</span>
                                     </div>
                                 </div>
@@ -102,7 +105,33 @@
                                 </ul>
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('Broker.Property.edit', $Property->id) }}"
-                                        class="btn btn-warning me-3">@lang('Edit')</a>
+                                        class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light me-3">@lang('Edit')</a>
+
+                                    <div class="btn-group">
+                                        <button type="button"
+                                            class="btn btn-outline-primary btn-sm waves-effect me-2 dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span><span class="d-none d-sm-inline-block">@lang('Download')</span></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            @if ($Property->property_masterplan)
+                                                <li>
+                                                    <a href="{{ $Property->property_masterplan }}" target="_blank"
+                                                        class="dropdown-item">@lang('Download') @lang('المخطط الرئيسي')</a>
+                                                </li>
+                                            @endif
+
+                                            @if ($Property->property_brochure)
+                                                <li>
+
+                                                    <a href="{{ $Property->property_brochure }}" target="_blank"
+                                                        class="dropdown-item">@lang('Download') @lang('البروشور')</a>
+                                                </li>
+                                            @endif
+
+
+                                        </ul>
+                                    </div>
 
 
                                 </div>
@@ -154,7 +183,7 @@
                                                     class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
                                                     <div class="dt-buttons btn-group flex-wrap d-flex">
                                                         <button onclick="exportToExcel()"
-                                                            class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                            class="btn btn-outline-primary me-3 waves-effect waves-light"
                                                             tabindex="0" aria-controls="DataTables_Table_0" type="button"
                                                             aria-haspopup="dialog" aria-expanded="false"><span>
                                                                 <i class="ti ti-download me-1 ti-xs"></i><span

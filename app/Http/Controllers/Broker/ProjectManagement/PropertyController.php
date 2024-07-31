@@ -204,4 +204,18 @@ class PropertyController extends Controller
             'property_id' => $id,
         ]);
     }
+
+    public function showPubllicProperty($gallery_name, $id)
+    {
+        $property = $this->PropertyService->ShowPublicProject($id);
+
+        if($property->BrokerData->license_validity == 'valid' && $property->BrokerData->GalleryData->gallery_status != 0 ){
+            return view('Home.Gallery.Property.show',  get_defined_vars());
+        }
+        else {
+            $broker=$property->BrokerData;
+            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+        }
+    }
+
 }

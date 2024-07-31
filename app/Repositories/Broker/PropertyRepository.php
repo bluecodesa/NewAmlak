@@ -211,9 +211,9 @@ class PropertyRepository implements PropertyRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() . '/Brokers/Projects/Unit', $ext);
+                    $image->move(public_path() . '/Brokers/Projects/Unit/', $ext);
                     UnitImage::create([
-                        'image' => '/Brokers/Projects/Unit/Images' . $ext,
+                        'image' => '/Brokers/Projects/Unit/Images/' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }
@@ -237,5 +237,12 @@ class PropertyRepository implements PropertyRepositoryInterface
 
 
         return redirect()->route('Broker.Property.index')->with('success', __('added successfully'));
+    }
+
+    function ShowPublicProperty($id)
+    {
+        $property = Property::where('show_in_gallery', 1)->find($id);
+        return $property;
+
     }
 }

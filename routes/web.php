@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Subscribers\SubscriptionTypesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
+use App\Http\Controllers\Broker\ProjectManagement\PropertyController;
 use App\Http\Controllers\Property_Finder\RealEstateRequestController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Property_Finder\HomeController as Property_FinderHomeController;
@@ -60,6 +61,7 @@ Route::group(
               //projects
             Route::get('gallery/projects', [ProjectController::class, 'showAllProjetcs'])->name('showAllProjects');
             Route::get('gallery/{gallery_name}/project/{id}', [ProjectController::class, 'showPubllicProject'])->name('showPublicProject');
+            Route::get('gallery/{gallery_name}/property/{id}', [PropertyController::class, 'showPubllicProperty'])->name('showPublicProperty');
             route::resource('Real-Estate-Requests', RealEstateRequestController::class)->middleware('CheckSubscription');
             Route::post('/store-request', [HomeController::class, 'createRequest'])->name('createRequest');
             Route::post('send-otp', [HomeController::class, 'sendOtp'])->name('sendOtp');

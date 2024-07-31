@@ -1,5 +1,5 @@
 @extends('Home.layouts.home.app')
-@section('title', __('project') . ' ' . $project->name )
+@section('title', __('property') . ' ' . $property->name )
 @section('content')
 
 
@@ -12,10 +12,10 @@
                     <span class="text-muted fw-light">
                         <a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
                     </span>/
-                    مشروع : {{ $project->name ?? '' }}
+                    عقار : {{ $property->name ?? '' }}
                 </span>
             </h4>
-            <input hidden type="text" name="project_idd" value="{{ $project->id }}" />
+            <input hidden type="text" name="property_idd" value="{{ $property->id }}" />
 
             <!-- Image Slider -->
             <div class="row">
@@ -26,12 +26,12 @@
                                 @php
                                     $i = 0;
                                 @endphp
-                                @if($project->ProjectImages->isEmpty())
+                                @if($property->PropertyImages->isEmpty())
                                 <div class="carousel-item active">
                                     <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
                                 </div>
                                 @else
-                                @foreach ($project->ProjectImages as $media)
+                                @foreach ($property->PropertyImages as $media)
                                     <div class="carousel-item @if ($i == 0) active @endif">
                                         @if (Str::startsWith($media->image, '/Brokers/Projects'))
                                             <!-- Image -->
@@ -81,7 +81,7 @@
                                             @php
                                                 $j = 0;
                                             @endphp
-                                            @foreach ($project->ProjectImages as $media)
+                                            @foreach ($property->PropertyImages as $media)
                                                 <div class="carousel-item @if ($j == 0) active @endif">
                                                     @if (Str::startsWith($media->image, '/Brokers/Projects/'))
                                                         <!-- Image -->
@@ -118,19 +118,19 @@
                     </div>
                     <!-- /Image Slider -->
 
-                    <!-- description of project -->
-                    @if($project->note)
+                    <!-- description of property -->
+                    @if($property->note)
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
-                            <h5 class="card-action-title mb-0">وصف المشروع</h5>
+                            <h5 class="card-action-title mb-0">وصف العقار</h5>
                         </div>
                         <div class="card-body pb-0">
                             <div id="project-description-short">
-                                {!! Str::limit(strip_tags($project->note ?? ''), 500, '...') !!}
+                                {!! Str::limit(strip_tags($property->note ?? ''), 500, '...') !!}
                                 <a href="javascript:void(0);" id="read-more-btn" onclick="toggleReadMore()">Read More</a>
                             </div>
                             <div id="project-description-full" style="display: none;">
-                                {!! $project->note ?? '' !!}
+                                {!! $property->note ?? '' !!}
                                 <a href="javascript:void(0);" id="read-less-btn" onclick="toggleReadMore()">Read Less</a>
                             </div>
                         </div>
@@ -139,103 +139,24 @@
                  <!-- description of project -->
 
                   <!-- time line -->
-              
+
              <!-- time line -->
 
                            <!-- unit card -->
 
-@if($project->PropertiesProject)
-                        @foreach ($project->PropertiesProject as $property )
-                                
                            <div class="card card-action mb-4">
-                               <div class="card-header align-items-center">    
-                                   <h5 class="card-action-title mb-0">{{ $property->name }}</h5>
-                               </div>
-                               <div class="col-md mb-4 mb-md-2">
-                                   <div class="accordion mt-3" id="accordionExample">
-                                       @php
-                                           $propertyTypes = $property->PropertyUnits->pluck('property_type_id')->unique();
-                                       @endphp
-   
-                                       @foreach ($propertyTypes as $propertyTypeId)
-                                           @php
-                                               $units = $property->PropertyUnits->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
-                                           @endphp
-   
-                                           @if ($units->count() > 0)
-                                               @php
-                                                   $propertyTypeName = $units->first()->PropertyTypeData->name ?? '';
-                                                   $accordionId = 'accordion' . $propertyTypeId;
-                                                   $headingId = 'heading' . $propertyTypeId;
-                                                   $collapseId = 'collapse' . $propertyTypeId;
-                                               @endphp
-   
-                                               <div class="card accordion-item {{ $loop->first ? 'active' : '' }}">
-                                                   <h2 class="accordion-header" id="{{ $headingId }}">
-                                                       <button
-                                                           type="button"
-                                                           class="accordion-button {{ $loop->first ? '' : 'collapsed' }}"
-                                                           data-bs-toggle="collapse"
-                                                           data-bs-target="#{{ $collapseId }}"
-                                                           aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-                                                           aria-controls="{{ $collapseId }}">
-                                                           {{ $propertyTypeName }}
-                                                       </button>
-                                                   </h2>
-   
-                                                   <div
-                                                       id="{{ $collapseId }}"
-                                                       class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
-                                                       aria-labelledby="{{ $headingId }}"
-                                                       data-bs-parent="#accordionExample">
-                                                       <div class="accordion-body">
-                                                           <table class="table">
-                                                               <thead>
-                                                                   <tr>
-                                                                       <th>@lang('#')</th>
-                                                                       <th>@lang('Residential number')</th>
-                                                                       <th>@lang('Area (square metres)')</th>
-                                                                       <th>@lang('number rooms')</th>
-                                                                       <th>@lang('Ad type')</th>
-                                                                   </tr>
-                                                               </thead>
-                                                               <tbody>
-                                                                   @foreach ($units as $index => $unit)
-                                                                   <tr class="clickable-row" data-href="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}">
-                                                                       <td>{{ $index + 1 }}</td>
-                                                                           <td>{{ $unit->number_unit ?? '' }}</td>
-                                                                           <td>{{ $unit->space ?? '' }}</td>
-                                                                           <td>{{ $unit->rooms ?? '' }}</td>                                                                     
-                                                                           <td>{{ __($unit->type) ?? '' }}</td>
-                                                                       </tr>
-                                                                   @endforeach
-                                                               </tbody>
-                                                           </table>
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                           @endif
-                                       @endforeach
-                                   </div>
-                               </div>
-                           </div>
-                       @endforeach
-
-@else
-                            
-                        <div class="card card-action mb-4">
                             <div class="card-header align-items-center">
                                 <h5 class="card-action-title mb-0">الوحدات</h5>
                             </div>
                             <div class="col-md mb-4 mb-md-2">
                                 <div class="accordion mt-3" id="accordionExample">
                                     @php
-                                        $propertyTypes = $project->UnitsProject->pluck('property_type_id')->unique();
+                                        $propertyTypes = $property->UnitsProperty->pluck('property_type_id')->unique();
                                     @endphp
 
                                     @foreach ($propertyTypes as $propertyTypeId)
                                         @php
-                                            $units = $project->UnitsProject->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
+                                            $units = $property->UnitsProperty->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
                                         @endphp
 
                                         @if ($units->count() > 0)
@@ -281,7 +202,7 @@
                                                                     <td>{{ $index + 1 }}</td>
                                                                         <td>{{ $unit->number_unit ?? '' }}</td>
                                                                         <td>{{ $unit->space ?? '' }}</td>
-                                                                        <td>{{ $unit->rooms ?? '' }}</td>                                                                     
+                                                                        <td>{{ $unit->rooms ?? '' }}</td>
                                                                         <td>{{ __($unit->type) ?? '' }}</td>
                                                                     </tr>
                                                                 @endforeach
@@ -295,35 +216,35 @@
                                 </div>
                             </div>
                         </div>
-@endif
+
                         <!-- /unit table -->
 
                     <!-- Project Masterplan -->
-                    @if($project->project_masterplan)
+                    @if($property->property_masterplan)
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
-                            <h5 class="card-action-title mb-0">مخطط المشروع</h5>
+                            <h5 class="card-action-title mb-0">مخطط العقار</h5>
                         </div>
                         <div class="card-body pb-0">
-                            @if (Str::endsWith($project->project_masterplan, '.pdf'))
-                                <embed src="{{ $project->project_masterplan }}" type="application/pdf" width="100%" height="500px" />
+                            @if (Str::endsWith($property->property_masterplan, '.pdf'))
+                                <embed src="{{ $property->property_masterplan }}" type="application/pdf" width="100%" height="500px" />
                             @else
-                                <img src="{{ $project->project_masterplan }}" class="img-fluid" alt="Project Masterplan">
+                                <img src="{{ $property->property_masterplan }}" class="img-fluid" alt="property Masterplan">
                             @endif
                         </div>
                     </div>
                     @endif
-                    @if($project->project_brochure)
+                    @if($property->property_brochure)
 
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
-                            <h5 class="card-action-title mb-0">برشور المشروع</h5>
+                            <h5 class="card-action-title mb-0">برشور العقار</h5>
                         </div>
                         <div class="card-body pb-0">
-                            @if (Str::endsWith($project->project_brochure	, '.pdf'))
-                                <embed src="{{ $project->project_brochure	 }}" type="application/pdf" width="100%" height="500px" />
+                            @if (Str::endsWith($property->property_brochure	, '.pdf'))
+                                <embed src="{{ $property->property_brochure	 }}" type="application/pdf" width="100%" height="500px" />
                             @else
-                                <img src="{{ $project->project_brochure	 }}" class="img-fluid" alt="Project Masterplan">
+                                <img src="{{ $property->property_brochure	 }}" class="img-fluid" alt="property Masterplan">
                             @endif
                         </div>
                     </div>
@@ -340,10 +261,10 @@
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-check text-heading"></i>
                                     <span class="fw-medium mx-2 text-heading">
-                                        {{ $project->BrokerData->UserData->name ?? $project->OfficeData->UserData->name ?? '' }}
+                                        {{ $property->BrokerData->UserData->name ?? $property->OfficeData->UserData->name ?? '' }}
                                     </span>
                                 </li>
-                                @if ($project->BrokerData->UserData->is_broker)
+                                @if ($property->BrokerData->UserData->is_broker)
                                     <li class="list-inline-item d-flex gap-1">
                                         <i class="ti ti-user-check"></i>@lang('Broker')
                                     </li>
@@ -354,51 +275,17 @@
                                 @endif
                                 <li class="list-inline-item d-flex gap-1">
                                     <i class="ti ti-color-swatch"></i>
-                                    رقم رخصة فال : {{ $project->BrokerData->broker_license ?? '' }}
+                                    رقم رخصة فال : {{ $property->BrokerData->broker_license ?? '' }}
                                 </li>
                                 <li class="list-inline-item d-flex gap-1">
                                     <i class="ti ti-calendar"></i>
-                                    عضو منذ {{ $project->BrokerData->UserData->created_at ?? $project->OfficeData->UserData->created_at ?? '' }}
+                                    عضو منذ {{ $property->BrokerData->UserData->created_at ?? $property->OfficeData->UserData->created_at ?? '' }}
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <!-- /About User -->
-                    @if($project->ProjectTimeLineData)
-                    <div class="card card-action mb-4">
-                        <div class="card-header align-items-center">
-                            <h5 class="card-action-title mb-0">@lang('Time Line')</h5>
-                        </div>
-                        <div class="card-body pb-0">
-                            <div class="col-xl-12 mb-4 mb-xl-0">
-                                    <ul class="timeline mb-0">
-                                        @forelse ($project->ProjectTimeLineData as $index => $timeLine)
-    
-                                      <li class="timeline-item timeline-item-transparent">
-                                        <span class="timeline-point timeline-point-primary"></span>
-                                        <div class="timeline-event">
-                                          <div class="timeline-header border-bottom mb-3">
-                                            <h6 class="mb-0">{{ $timeLine->StatusData->name }}</h6>
-                                            <span class="text-muted">{{ $timeLine->date }}</span>
-                                          </div>
-                                          {{-- <div class="d-flex justify-content-between flex-wrap mb-2">
-                                            <div class="d-flex align-items-center">
-                                              <span>{{ $timeLine->date }}</span>
-                                            </div>
-                                          </div> --}}
-                                        </div>
-                                      </li>
-                                      @empty
-                                      <tr>
-                                          <td colspan="6">@lang('No timeline found')</td>
-                                      </tr>
-                                  @endforelse
-    
-                                    </ul>
-                              </div>
-                        </div>
-                    </div>
-                    @endif
+
 
                     <!-- Profile Overview -->
                     <div class="card mb-4">
@@ -406,11 +293,11 @@
                             <div class="leaflet-map" id="userLocation"></div>
                             <iframe width="100%" style="border-radius: 10px;" height="200" frameborder="0"
                                 style="border:0"
-                                src="https://www.google.com/maps/embed/v1/place?q={{ $project->lat_long }}&amp;key=YOUR_API_KEY_HERE"></iframe>
+                                src="https://www.google.com/maps/embed/v1/place?q={{ $property->lat_long }}&amp;key=YOUR_API_KEY_HERE"></iframe>
                         </div>
                     </div>
                     <!-- /Profile Overview -->
-                    
+
                 </div>
             </div>
             <!-- /User Profile Content -->

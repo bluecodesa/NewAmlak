@@ -41,7 +41,15 @@
                                         @endforelse
                                         <div class="user-info text-center">
                                             <h4 class="mb-2">{{ $Unit->number_unit }}</h4>
+                                            <span class="badge bg-label-secondary mt-1"> <a class="bg-label-secondary" href="{{ route('Broker.Project.show', $Unit->ProjectData->id) }}" class="text-white">
+                                                {{ $Unit->ProjectData->name ?? '' }}
+                                            </a></span>
+                                            <span class="badge bg-label-secondary mt-1"> <a class="bg-label-secondary" href="{{ route('Broker.Property.show', $Unit->PropertyData->id) }}" class="text-white">
+                                                {{ $Unit->PropertyData->name ?? '' }}
+                                            </a></span>
                                             <span class="badge bg-label-secondary mt-1">@lang('Unit')</span>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -142,12 +150,12 @@
                                 </ul>
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('Broker.Unit.edit', $Unit->id) }}"
-                                        class="btn btn-warning me-3">@lang('Edit')</a>
+                                        class="btn btn-primary me-3">@lang('Edit')</a>
 
                                         @if($Unit->unit_masterplan)
 
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                            <button type="button" class="btn btn-outline-primary dropdown-toggle"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
                                                         class="d-none d-sm-inline-block">@lang('Download')</span></span>
@@ -258,7 +266,7 @@
                                                     class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
                                                     <div class="dt-buttons btn-group flex-wrap d-flex">
                                                         <button onclick="exportToExcel()"
-                                                            class="btn btn-success buttons-collection  btn-label-secondary me-3 waves-effect waves-light"
+                                                            class="btn btn-outline-primary me-3 waves-effect waves-light"
                                                             tabindex="0" aria-controls="DataTables_Table_0"
                                                             type="button" aria-haspopup="dialog"
                                                             aria-expanded="false"><span>
