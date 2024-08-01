@@ -381,7 +381,7 @@
                                     @php
                                         $count = 0;
                                     @endphp
-                                    
+                                    @if(!$requests)
                                     @foreach($requests as $request)
                                         @foreach($request->requestStatuses as $status)
                                             @if ($status->interestType && $status->interestType->default === 1)
@@ -392,6 +392,7 @@
                                             @endif
                                         @endforeach
                                     @endforeach
+                                    @endif
                             
                                 <h4 class="mb-0">{{ $count }}</h4>
                                 <span class="text-success"></span>
