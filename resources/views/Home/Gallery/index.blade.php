@@ -232,6 +232,7 @@
             <!-- Connection Cards -->
             <div class="row g-4">
                 @foreach ($allItems as $unit)
+                @if ($unit->BrokerData->license_validity == 'valid' && $unit->ad_license_status == 'Valid')
                     <div class="col-xl-4 col-lg-6 col-md-6">
                         <div class="card h-200">
                             <div class="card-body text-center">
@@ -504,6 +505,7 @@
 
                     @include('Home.Gallery.inc.share')
                     @include('Home.Gallery.inc.unitInterest')
+                    @endif
                 @endforeach
             </div>
 

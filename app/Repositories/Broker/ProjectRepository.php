@@ -18,6 +18,8 @@ use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
+
 
 
 class ProjectRepository implements ProjectRepositoryInterface
@@ -53,10 +55,35 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         $project_data['broker_id'] = Auth::user()->UserBrokerData->id;
 
+        $license_date = auth()->user()->UserBrokerData->license_date;
+
         if (isset($data['show_in_gallery'])) {
             $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+    
+            $rules = [
+                'ad_license_number' => 'required|numeric',
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+        
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+        
+            validator($data, $rules ,$messages)->validate();
+
+                $project_data['ad_license_number'] = $data['ad_license_number'];
+                $project_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $project_data['ad_license_status'] = 'Valid';
+                // $project_data['ad_license_status'] = (strtotime($data['ad_license_expiry']) <= strtotime($license_date)) ? 'Valid' : 'Expired';
+
         } else {
             $project_data['show_in_gallery'] = 0;
+            $project_data['ad_license_status'] ='InValid';
+
         }
         unset($project_data['time_line']);
         unset($project_data['date']);
@@ -208,11 +235,38 @@ class ProjectRepository implements ProjectRepositoryInterface
 
       $property_data['broker_id'] = Auth::user()->UserBrokerData->id;
 
-      if (isset($data['show_in_gallery'])) {
-          $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
-      } else {
-          $property_data['show_in_gallery'] = 0;
-      }
+    //   if (isset($data['show_in_gallery'])) {
+    //       $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+    //   } else {
+    //       $property_data['show_in_gallery'] = 0;
+    //   }
+    if (isset($data['show_in_gallery'])) {
+        $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+
+        $rules = [
+            'ad_license_number' => 'required|numeric',
+            'ad_license_expiry' => 'required|date|after_or_equal:today',
+        ];
+    
+        $messages = [
+            'ad_license_number.required' => 'The license number is required.',
+            'ad_license_number.numeric' => 'The license number must be a number.',
+            'ad_license_expiry.required' => 'The license expiry date is required.',
+            'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+            'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+        ];
+    
+        validator($data, $rules ,$messages)->validate();
+
+            $property_data['ad_license_number'] = $data['ad_license_number'];
+            $property_data['ad_license_expiry'] = $data['ad_license_expiry'];
+            $property_data['ad_license_status'] = 'Valid';
+
+    } else {
+        $property_data['show_in_gallery'] = 0;
+        $property_data['ad_license_status'] ='InValid';
+
+    }
 
       $property =  Property::create($property_data);
       if ($images) {
@@ -239,14 +293,41 @@ class ProjectRepository implements ProjectRepositoryInterface
         unset($unit_data['monthly']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         $unit_data['project_id'] = $id;
+        // if (isset($data['show_gallery'])) {
+        //     if ($data['show_gallery'] == 'on') {
+        //         $unit_data['show_gallery'] = 1;
+        //     } else {
+        //         $unit_data['show_gallery'] = 0;
+        //     }
+        // } else {
+        //     $unit_data['show_gallery'] = 0;
+        // }
         if (isset($data['show_gallery'])) {
-            if ($data['show_gallery'] == 'on') {
-                $unit_data['show_gallery'] = 1;
-            } else {
-                $unit_data['show_gallery'] = 0;
-            }
+            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+    
+            $rules = [
+                'ad_license_number' => 'required|numeric',
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+        
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+        
+            validator($data, $rules ,$messages)->validate();
+
+                $unit_data['ad_license_number'] = $data['ad_license_number'];
+                $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $unit_data['ad_license_status'] = 'Valid';
+
         } else {
             $unit_data['show_gallery'] = 0;
+            $unit_data['ad_license_status'] ='InValid';
+
         }
 
         if (isset($data['daily_rent'])) {

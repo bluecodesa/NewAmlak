@@ -86,6 +86,7 @@
                                 <th>@lang('city')</th>
                                 <th>@lang('Number Properties')</th>
                                 <th>@lang('Number Units')</th>
+                                <th>@lang('Ad Status')</th>
 
                                 <th>@lang('Action')</th>
                             </tr>
@@ -98,6 +99,8 @@
                                     <td>{{ $project->CityData->name ?? '' }}</td>
                                     <td> {{ $project->PropertiesProject->count() }} </td>
                                     <td> {{ $project->UnitsProject->count() }} </td>
+                                    <td>{{ __($project->ad_license_status ?? '') }}</td>
+
 
                                     <td>
 
