@@ -329,9 +329,11 @@
                                                     <a href="javascript:;"><span
                                                             class="badge bg-label-info">@lang('rent and sale')</span></a>
                                                 @endif
-                                                <a href="javascript:;" class="me-1"
-                                                    style="@if (!$unit->daily_rent) visibility:hidden @endif">
+                                                @if ($unit->daily_rent)
+                                                <a href="javascript:;" class="me-1">
                                                     <span class="badge bg-label-secondary">متاح @lang('Daily Rent')</span></a>
+                                                    @endif
+
                                             </div>
                                             <div class="d-flex align-items-center justify-content-around my-3 py-1">
                                                 <div>
