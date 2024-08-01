@@ -365,7 +365,8 @@
                                 <h4 class="mb-1 card-title"> <a
                                         href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
                                         {{ $unit->ad_name ?? ($unit->name ?? '') }}
-                                    </a></h4>
+                                    </a>
+                                </h4>
                                 <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
                                     <span class="pb-1"><i
@@ -373,7 +374,7 @@
                                 </div>
                                 @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
 
-                                <div class=" align-items-center my-3 gap-2 text-end">
+                                <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
                                     <a href="javascript:;"><span class="badge bg-label-primary">
                                             {{ __($unit->PropertyTypeData->name) ?? '' }}</span></a>
@@ -390,9 +391,10 @@
                                         <a href="javascript:;"><span
                                                 class="badge bg-label-info">@lang('rent and sale')</span></a>
                                     @endif
-                                    <a href="javascript:;" class="me-1"
-                                        style="@if (!$unit->daily_rent) visibility:hidden @endif">
+                                    @if ($unit->daily_rent)
+                                    <a href="javascript:;" class="me-1">
                                         <span class="badge bg-label-secondary">متاح @lang('Daily Rent')</span></a>
+                                    @endif
                                 </div>
                                 <div class="d-flex align-items-center justify-content-around my-3 py-1">
                                     <div>

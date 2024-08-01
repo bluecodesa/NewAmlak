@@ -303,8 +303,10 @@
                                                 </a>
                                             </div>
 
-                                            <h4 class="mb-1 card-title">{{ $unit->ad_name ?? ($unit->name ?? '') }}
-                                            </h4>
+                                            <h4 class="mb-1 card-title"> <a href="javascript:;">
+                                                {{ $unit->ad_name ?? ($unit->name ?? '') }}
+                                            </a>
+                                        </h4>
                                             <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
                                                 <span class="pb-1"><i
@@ -332,7 +334,7 @@
                                                 @if ($unit->daily_rent)
                                                 <a href="javascript:;" class="me-1">
                                                     <span class="badge bg-label-secondary">متاح @lang('Daily Rent')</span></a>
-                                                    @endif
+                                                @endif
 
                                             </div>
                                             <div class="d-flex align-items-center justify-content-around my-3 py-1">
@@ -357,8 +359,8 @@
             
                                             @if(isset($unit->isGalleryProject) && $unit->isGalleryProject)
             
-                                            <div class="align-items-center justify-content-center my-3 gap-2 text-end" style="text-align: center;">
-            
+                                            <div class="d-flex align-items-center justify-content-center my-3 gap-2"
+                                            style="text-align: center;">            
                                                 <a href="javascript:;"><span class="badge bg-label-primary">
                                                         {{ __('Project') ?? '' }}</span></a>
             
@@ -382,8 +384,9 @@
             
                                             @if(isset($unit->isGalleryProperty) && $unit->isGalleryProperty)
             
-                                            <div class="align-items-center justify-content-center my-3 gap-2 text-end" style="text-align: center;">
-            
+                                            <div class="d-flex align-items-center justify-content-center my-3 gap-2"
+                                            style="text-align: center;">
+
                                                 <a href="javascript:;"><span class="badge bg-label-primary">
                                                         {{ __('property') ?? '' }}</span></a>
             
