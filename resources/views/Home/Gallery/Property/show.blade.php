@@ -143,8 +143,8 @@
              <!-- time line -->
 
                            <!-- unit card -->
-
-                           <div class="card card-action mb-4">
+                        @if ($property->UnitsProperty)
+                        <div class="card card-action mb-4">
                             <div class="card-header align-items-center">
                                 <h5 class="card-action-title mb-0">الوحدات</h5>
                             </div>
@@ -216,6 +216,8 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+                           
 
                         <!-- /unit table -->
 
