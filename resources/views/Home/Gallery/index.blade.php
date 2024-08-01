@@ -416,7 +416,8 @@
 
                                 @if(isset($unit->isGalleryProject) && $unit->isGalleryProject)
 
-                                <div class="align-items-center justify-content-center my-3 gap-2 text-end" style="text-align: center;">
+                                <div class="d-flex align-items-center justify-content-center my-3 gap-2"
+                                 style="text-align: center;">
 
                                     <a href="javascript:;"><span class="badge bg-label-primary">
                                             {{ __('Project') ?? '' }}</span></a>
@@ -441,7 +442,7 @@
 
                                 @if(isset($unit->isGalleryProperty) && $unit->isGalleryProperty)
 
-                                <div class="align-items-center justify-content-center my-3 gap-2 text-end" style="text-align: center;">
+                                <div class="d-flex align-items-center justify-content-center my-3 gap-2" style="text-align: center;">
 
                                     <a href="javascript:;"><span class="badge bg-label-primary">
                                             {{ __('property') ?? '' }}</span></a>

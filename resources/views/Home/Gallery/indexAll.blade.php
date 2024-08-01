@@ -312,7 +312,7 @@
                                             </div>
                                             @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
 
-                                            <div class=" align-items-center my-3 gap-2 text-end">
+                                            <div class="d-flex align-items-center justify-content-center my-3 gap-2">
             
                                                 <a href="javascript:;"><span class="badge bg-label-primary">
                                                         {{ __($unit->PropertyTypeData->name) ?? '' }}</span></a>
