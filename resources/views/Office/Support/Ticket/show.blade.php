@@ -153,7 +153,7 @@
                                                 <div class="mt-4">
                                                     <h5>@lang('Add your comment')</h5>
                                                     <form id="commentForm"
-                                                        action="{{ route('Broker.tickets.addResponse', $ticket->id) }}"
+                                                        action="{{ route('Office.tickets.addResponse', $ticket->id) }}"
                                                         method="POST" enctype="multipart/form-data">
                                                         @csrf
                                                         <div class="mb-3">

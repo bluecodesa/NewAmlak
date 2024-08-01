@@ -94,7 +94,7 @@
                 </div>
             </div>
             <!-- Modal to add new record -->
-            @include('Broker.Gallary.inc._shareGallery')
+            @include('Office.Gallary.inc._shareGallery')
             <!--/ DataTable with Buttons -->
 
 

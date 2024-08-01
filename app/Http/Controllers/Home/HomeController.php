@@ -398,6 +398,8 @@ class HomeController extends Controller
         $this->notifyAdminsForOffice($office);
 
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+        auth()->loginUsingId($user->id);
+
         return redirect()->route('login')->with('success', __('registerd successfully'));
     }
 

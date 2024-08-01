@@ -77,16 +77,17 @@
                                 <tr>
 
 
-                                    <td>{{ $client->number_of_requests ?? '' }}</td>
+                                    <td>{{ $client->realEstateRequest->number_of_requests ?? '' }}</td>
                                     <td> {{ $client->user->name }}</td>
-                                    {{-- <td>{{ $client->propertyType->name ?? '' }}</td> --}}
-                                    <td>{{ $client->city->name }} / {{ $client->district->name ?? '' }}</td>
+                                    <td>{{ $client->realEstateRequest->city->name }} / {{ $client->realEstateRequest->district->name ?? '' }}</td>
                                     <td>
-                                        @foreach ($client->requestStatuses as $status)
+                                        {{ __($client->interestType->name) }}
+
+                                        {{-- @foreach ($client->requestStatuses as $status)
                                             @if ($status->request_status_id)
                                                 {{ __($status->interestType->name) }}<br>
                                             @endif
-                                        @endforeach
+                                        @endforeach --}}
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -97,7 +98,7 @@
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Office.RealEstateRequest.show', $client->id) }}">@lang('Show')</a>
+                                                        href="{{ route('Office.RealEstateRequest.show', $client->realEstateRequest->id) }}">@lang('Show')</a>
                                                 @endif
 
                                             </div>

@@ -21,107 +21,7 @@
                     </ul>
                 </div>
             @endif
-            {{-- <div class="card">
-                <div class="card-body">
-                    <form action="{{ route('Broker.Gallary.showInterests') }}" class="row" method="GET"
-                        id="interestsForm">
 
-
-                        <div class="col-12 col-md-4 mb-3">
-                            <span>@lang('status')</span>
-                            <select class="form-select form-control-sm" id="status_filter" name="status_filter"
-                                onchange="reloadInterests()">
-                                <option value="all" {{ $statusFilter == 'all' ? 'selected' : '' }}>
-                                    @lang('All')</option>
-                                @foreach ($interestsTypes as $interestsType)
-                                    <option value="{{ __($interestsType->id) }}"
-                                        {{ $statusFilter == $interestsType->id ? 'selected' : '' }}>
-                                        {{ __($interestsType->name) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-4 mb-3">
-                            <span>@lang('Project')</span>
-                            <select class="form-select form-control-sm " id="prj_filter" required="" name="prj_filter"
-                                style="width:95%!important" onchange="reloadInterests()">
-                                <option value="all" {{ $projectFilter == 'all' ? 'selected' : '' }}>
-                                    @lang('All')</option>
-                                @foreach ($requests as $unitInterest)
-                                    @if ($unitInterest->PropertyData && $unitInterest->PropertyData->ProjectData)
-                                        <option value="{{ $unitInterest->PropertyData->ProjectData->id }}"
-                                            {{ $projectFilter == $unitInterest->PropertyData->ProjectData->id ? 'selected' : '' }}>
-                                            {{ $unitInterest->PropertyData->ProjectData->name }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-4 mb-3">
-                            <span>@lang('property')</span>
-                            <select class="form-select form-control-sm" id="prop_filter" required="" name="prop_filter"
-                                style="width:95%!important" onchange="reloadInterests()">
-                                <option value="all" {{ $propFilter == 'all' ? 'selected' : '' }}>
-                                    @lang('All')</option>
-                                @foreach ($unitInterests as $unitInterest)
-                                    @if ($unitInterest->PropertyData)
-                                        <option value="{{ $unitInterest->PropertyData->id }}"
-                                            {{ $propFilter == $unitInterest->PropertyData->id ? 'selected' : '' }}>
-                                            {{ $unitInterest->PropertyData->name }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-12 col-md-4 mb-3">
-                            <span>@lang('Unit')</span>
-                            <select class="form-select form-control-sm" id="unit_filter" required="" name="unit_filter"
-                                style="width:95%!important" onchange="reloadInterests()">
-                                <option value="all" {{ $unitFilter == 'all' ? 'selected' : '' }}>
-                                    @lang('All')</option>
-                                @foreach ($unitInterests->unique('number_unit') as $unitInterest)
-                                    @if ($unitInterest->unit)
-                                        <option value="{{ $unitInterest->unit->id }}"
-                                            {{ $unitFilter == $unitInterest->unit->id ? 'selected' : '' }}>
-                                            {{ $unitInterest->unit->number_unit }}
-                                        </option>
-                                    @endif
-                                @endforeach
-
-                            </select>
-                        </div>
-
-                        <div class="col-12 col-md-4 mb-3">
-                            <span>@lang('Client Name')</span>
-                            <select class="form-select form-control-sm" id="client_filter" required=""
-                                name="client_filter" style="width:95%!important" onchange="reloadInterests()">
-                                <option value="all" {{ $clientFilter == 'all' ? 'selected' : '' }}>
-                                    @lang('All')</option>
-                                @foreach ($unitInterests->unique('name') as $unitInterest)
-                                    @if ($unitInterest->name)
-                                        <option value="{{ $unitInterest->id }}"
-                                            {{ $clientFilter == $unitInterest->id ? 'selected' : '' }}>
-                                            {{ _($unitInterest->name) }}
-                                        </option>
-                                    @endif
-                                @endforeach
-
-
-                            </select>
-                        </div>
-
-
-
-                        <div class="col-12 text-center">
-                            <button type="submit" class="btn btn-primary">@lang('Filter')</button>
-                            <a href="{{ route('Broker.Gallary.showInterests') }}"
-                                class="btn btn-danger">@lang('Cancel')</a>
-                        </div>
-
-                    </form>
-                </div>
-            </div> --}}
             <hr>
             <div class="card">
 
@@ -180,7 +80,7 @@
                                     <td>{{ $client->number_of_requests ?? '' }}</td>
                                     <td> {{ $client->user->name }}</td>
                                     {{-- <td>{{ $client->propertyType->name ?? '' }}</td> --}}
-                                    <td>{{ $client->city->name }} / {{ $client->district->name ?? '' }}</td>
+                                    <td>{{ $client->realEstateRequest->city->name }} / {{ $client->realEstateRequest->district->name ?? '' }}</td>
                                     <td>
                                         @foreach ($client->requestStatuses as $status)
                                             @if ($status->request_status_id)
@@ -207,41 +107,7 @@
 
                                     </td>
                                    
-                                    {{-- <td>
-                                        @if (Auth::user()->hasPermission('update-requests-interest'))
-                                            <form method="POST"
-                                                action="{{ route('Broker.Interest.status.update', $client->id) }}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{ $client->id }}">
-                                                <select class="form-control select-input w-auto" name="status"
-                                                    onchange="this.form.submit()">
-                                                    @foreach ($interestsTypes as $interestsType)
-                                                        <option value="{{ $interestsType->id }}"
-                                                            {{ $client->status == $interestsType->id ? 'selected' : '' }}>
-                                                            {{ __($interestsType->name) }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="submit" class="submit-from" hidden=""></button>
-                                            </form>
-                                        @endif
 
-
-                                    </td> --}}
-
-                                    {{-- <td>
-                                        <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light"
-                                            target="_blank" data-toggle="modal"
-                                            data-target="#shareLinkUnit{{ $client->id }}"
-                                            href="tel:+{{ $client->key_phone }}{{ $client->whatsapp }}"
-                                            onclick="document.querySelector('#shareLinkUnit{{ $client->id }} ul.share-tabs.nav.nav-tabs li:first-child a').click()">
-                                            @lang('مكالمة')</a>
-                                        <a href="https://web.whatsapp.com/send?phone=+{{ $client->key_phone }}{{ $client->whatsapp }}"
-                                            class="btn btn-outline-warning btn-sm waves-effect waves-light"
-                                            target="_blank">@lang('محادثة(شات)')</a>
-
-
-                                    </td> --}}
                                 </tr>
                             @empty
                                 <td colspan="6">

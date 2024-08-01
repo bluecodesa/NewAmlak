@@ -16,7 +16,7 @@
                     <h4> الفاتورة </h4>
                     {{-- ( {{ Auth::user()->UserBrokerData->UserSystemInvoicePaid ?? '' !== '' ? 'تجديد إشتراك' : 'اشتراك جديد' }}) --}}
                     <p>(رقم الفاتورة -
-                        {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? '' }}
+                        {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? Auth::user()->UserOfficeData->UserSystemInvoicePending->invoice_ID ?? '' }}
                         )</p>
                 </div>
                 <div class="row text-center">

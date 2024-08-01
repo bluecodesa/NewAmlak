@@ -514,6 +514,33 @@
 
 {{-- نهايه الوصف --}}
     @push('scripts')
+    <script>
+
+$(document).ready(function() {
+        // Intercept form submission
+        $('#OwnerForm').submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'), // Form action URL
+                data: formData, // Form data
+                success: function(data) {
+                    $('#OwnersDiv').empty();
+                    $('#OwnersDiv').append(data);
+                    $('#addNewCCModal').modal('hide');
+                    alertify.success(@json(__('added successfully')));
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response here
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+    </script>
         <script>
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
