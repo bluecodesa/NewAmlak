@@ -41,12 +41,16 @@
                                         @endforelse
                                         <div class="user-info text-center">
                                             <h4 class="mb-2">{{ $Unit->number_unit }}</h4>
+                                            @if ($Unit->ProjectData)
                                             <span class="badge bg-label-secondary mt-1"> <a class="bg-label-secondary" href="{{ route('Broker.Project.show', $Unit->ProjectData->id) }}" class="text-white">
                                                 {{ $Unit->ProjectData->name ?? '' }}
                                             </a></span>
+                                            @endif
+                                            @if ( $Unit->PropertyData)
                                             <span class="badge bg-label-secondary mt-1"> <a class="bg-label-secondary" href="{{ route('Broker.Property.show', $Unit->PropertyData->id) }}" class="text-white">
                                                 {{ $Unit->PropertyData->name ?? '' }}
                                             </a></span>
+                                            @endif
                                             <span class="badge bg-label-secondary mt-1">@lang('Unit')</span>
 
 
@@ -194,7 +198,7 @@
                     <hr>
                     <div class="row">
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 mb-1">
                             <div class="card">
                                 <div class="card-body">
 
@@ -216,7 +220,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 mb-1">
                             <div class="card">
                                 <div class="card-body">
 
@@ -232,6 +236,30 @@
                                             @empty
                                             @endforelse
 
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6 mb-1">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <small class="text-light fw-medium">@lang('Ad License Information')</small>
+                                    <div class="demo-inline-spacing mt-3">
+                                        <ul class="list-group">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                    @lang('Ad License Number')
+                                                    <span>{{ __($Unit->ad_license_number ?? '' ) }}</span>
+                                                </li>
+                                                <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                {{ $Unit->ad_license_expiry ?? '' }}
+                                                <span class="badge bg-primary">{{ __($Unit->ad_license_status) }}</span>
+                                                </li>
                                         </ul>
                                     </div>
                                 </div>

@@ -153,8 +153,24 @@ class GallaryController extends Controller
         $districts = $this->galleryService->findById($gallery->id)->BrokerData->BrokerHasUnits;
         $districtsIds = $districts->pluck('district_id')->toArray();
         $numberOfVisitorsForEachUnit = [];
-        foreach ($units as $unit) {
-            $numberOfVisitorsForEachUnit[$unit->id] = $unit->visitors()->count();
+        // foreach ($units as $unit) {
+        //     $numberOfVisitorsForEachUnit[$unit->id] = $unit->visitors()->count();
+        // }
+
+        foreach ($allItems as $unit) {
+            if ($unit->isGalleryProject) {
+                $numberOfVisitorsForEachUnit[$unit->id] = Visitor::where('project_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            } elseif ($unit->isGalleryProperty) {
+                $numberOfVisitorsForEachUnit[$unit->id] = Visitor::where('property_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            } else {
+                $numberOfVisitorsForEachUnit[$unit->id] = Visitor::where('unit_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            }
         }
 
 
@@ -281,8 +297,23 @@ class GallaryController extends Controller
         }
 
         $unitVisitorsCount = [];
-        foreach ($data['units'] as $unit) {
-            $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->distinct('ip_address')->count('ip_address');
+        // foreach ($data['units'] as $unit) {
+        //     $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->distinct('ip_address')->count('ip_address');
+        // }
+        foreach ($data['allItems'] as $unit) {
+            if ($unit->isGalleryProject) {
+                $unitVisitorsCount[$unit->id] = Visitor::where('project_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            } elseif ($unit->isGalleryProperty) {
+                $unitVisitorsCount[$unit->id] = Visitor::where('property_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            } else {
+                $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            }
         }
         $data['unitVisitorsCount'] = $unitVisitorsCount;
         $check_val =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData;
@@ -396,10 +427,26 @@ class GallaryController extends Controller
         }
 
         $unitVisitorsCount = [];
-        foreach ($data['units'] as $unit) {
-            $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)
-                ->distinct('ip_address')
-                ->count('ip_address');
+        // foreach ($data['allItems'] as $unit) {
+        //     $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)
+        //         ->distinct('ip_address')
+        //         ->count('ip_address');
+        // }
+
+        foreach ($data['allItems'] as $unit) {
+            if ($unit->isGalleryProject) {
+                $unitVisitorsCount[$unit->id] = Visitor::where('project_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            } elseif ($unit->isGalleryProperty) {
+                $unitVisitorsCount[$unit->id] = Visitor::where('property_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            } else {
+                $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            }
         }
 
         $data['unitVisitorsCount'] = $unitVisitorsCount;

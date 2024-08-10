@@ -156,6 +156,7 @@
                                     <th>@lang('property')</th>
                                     <th>@lang('Property type')</th>
                                     <th>@lang('Ad type')</th>
+                                    {{-- <th>@lang('Ad Status')</th> --}}
                                     <th>@lang('Action')</th>
                                 </tr>
                             </thead>
@@ -175,6 +176,7 @@
                                         </td>
                                         <td>{{ $unit->PropertyTypeData->name ?? '' }}</td>
                                         <td>{{ __($unit->type) ?? '' }}</td>
+                                        {{-- <td>{{ __($unit->ad_license_status ?? '') }}</td> --}}
                                         <td>
 
                                             <div class="dropdown">

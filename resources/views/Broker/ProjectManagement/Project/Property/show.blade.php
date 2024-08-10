@@ -38,9 +38,11 @@
                                     @endforelse
                                     <div class="user-info text-center">
                                         <h4 class="mb-2">{{ $Property->name }}</h4>
+                                        @if ($Property->ProjectData)
                                         <span class="badge bg-label-secondary mt-1"> <a class="bg-label-secondary waves-effect" href="{{ route('Broker.Project.show', $Property->ProjectData->id) }}" class="text-white">
                                             {{ $Property->ProjectData->name ?? '' }}
                                         </a></span>
+                                        @endif
                                         <span class="badge bg-label-secondary mt-1">@lang('property')</span>
                                     </div>
                                 </div>
@@ -155,6 +157,30 @@
                         </div>
                     </div>
                     <hr>
+                <div class="row">
+                    <div class="col-lg-6 mb-1">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <small class="text-light fw-medium">@lang('Ad License Information')</small>
+                                <div class="demo-inline-spacing mt-3">
+                                    <ul class="list-group">
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                @lang('Ad License Number')
+                                                <span>{{ __($Property->ad_license_number ?? '' ) }}</span>
+                                            </li>
+                                            <li
+                                            class="list-group-item d-flex justify-content-between align-items-center">
+                                            {{ $Property->ad_license_expiry ?? '' }}
+                                            <span class="badge bg-primary">{{ __($Property->ad_license_status) }}</span>
+                                            </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                     <!-- property table -->
                     <div class="card">

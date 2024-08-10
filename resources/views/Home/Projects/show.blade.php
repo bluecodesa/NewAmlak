@@ -139,7 +139,7 @@
                  <!-- description of project -->
 
                   <!-- time line -->
-              
+
              <!-- time line -->
 
                            <!-- unit card -->
@@ -156,7 +156,7 @@
                                                 ]) }}">
                                                    {{ $property->name }}
                                                </a>
-                                               
+
                                            </h5>
                                        </div>
                                        <div class="col-md mb-4 mb-md-2">
@@ -164,12 +164,12 @@
                                                @php
                                                    $propertyTypes = $property->PropertyUnits->pluck('property_type_id')->unique();
                                                @endphp
-                       
+
                                                @foreach ($propertyTypes as $propertyTypeId)
                                                    @php
                                                        $units = $property->PropertyUnits->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
                                                    @endphp
-                       
+
                                                    @if ($units->count() > 0)
                                                        @php
                                                            $propertyTypeName = $units->first()->PropertyTypeData->name ?? '';
@@ -177,7 +177,7 @@
                                                            $headingId = 'heading' . $propertyTypeId;
                                                            $collapseId = 'collapse' . $propertyTypeId;
                                                        @endphp
-                       
+
                                                        <div class="card accordion-item {{ $loop->first ? 'active' : '' }}">
                                                            <h2 class="accordion-header" id="{{ $headingId }}">
                                                                <button
@@ -190,7 +190,7 @@
                                                                    {{ $propertyTypeName }}
                                                                </button>
                                                            </h2>
-                       
+
                                                            <div
                                                                id="{{ $collapseId }}"
                                                                class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
@@ -213,7 +213,7 @@
                                                                                <td>{{ $index + 1 }}</td>
                                                                                    <td>{{ $unit->number_unit ?? '' }}</td>
                                                                                    <td>{{ $unit->space ?? '' }}</td>
-                                                                                   <td>{{ $unit->rooms ?? '' }}</td>                                                                     
+                                                                                   <td>{{ $unit->rooms ?? '' }}</td>
                                                                                    <td>{{ __($unit->type) ?? '' }}</td>
                                                                                </tr>
                                                                            @endforeach
@@ -229,7 +229,7 @@
                                    </div>
                                @endif
                            @endforeach
-                       
+
                        @else
                            <div class="card card-action mb-4">
                                <div class="card-header align-items-center">
@@ -240,12 +240,12 @@
                                        @php
                                            $propertyTypes = $project->UnitsProject->pluck('property_type_id')->unique();
                                        @endphp
-                       
+
                                        @foreach ($propertyTypes as $propertyTypeId)
                                            @php
                                                $units = $project->UnitsProject->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
                                            @endphp
-                       
+
                                            @if ($units->count() > 0)
                                                @php
                                                    $propertyTypeName = $units->first()->PropertyTypeData->name ?? '';
@@ -253,7 +253,7 @@
                                                    $headingId = 'heading' . $propertyTypeId;
                                                    $collapseId = 'collapse' . $propertyTypeId;
                                                @endphp
-                       
+
                                                <div class="card accordion-item {{ $loop->first ? 'active' : '' }}">
                                                    <h2 class="accordion-header" id="{{ $headingId }}">
                                                        <button
@@ -266,7 +266,7 @@
                                                            {{ $propertyTypeName }}
                                                        </button>
                                                    </h2>
-                       
+
                                                    <div
                                                        id="{{ $collapseId }}"
                                                        class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
@@ -289,7 +289,7 @@
                                                                        <td>{{ $index + 1 }}</td>
                                                                            <td>{{ $unit->number_unit ?? '' }}</td>
                                                                            <td>{{ $unit->space ?? '' }}</td>
-                                                                           <td>{{ $unit->rooms ?? '' }}</td>                                                                     
+                                                                           <td>{{ $unit->rooms ?? '' }}</td>
                                                                            <td>{{ __($unit->type) ?? '' }}</td>
                                                                        </tr>
                                                                    @endforeach
@@ -304,7 +304,7 @@
                                </div>
                            </div>
                        @endif
-                       
+
                         <!-- /unit table -->
 
                     <!-- Project Masterplan -->
@@ -373,6 +373,28 @@
                         </div>
                     </div>
                     <!-- /About User -->
+
+                    @if ($project->ad_license_number)
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-action-title mb-0">@lang('Ad License Information')</h5>
+                                    <div class="demo-inline-spacing mt-3">
+                                        <ul class="list-group">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                    @lang('Ad License Number')
+                                                    <span>{{ __($project->ad_license_number ?? '' ) }}</span>
+                                                </li>
+                                                <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                {{ $project->ad_license_expiry ?? '' }}
+                                                <span class="badge bg-primary">{{ __($project->ad_license_status) }}</span>
+                                                </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                    </div>
+                    @endif
                     @if($project->ProjectTimeLineData)
                     <div class="card card-action mb-4">
                         <div class="card-header align-items-center">
@@ -382,7 +404,7 @@
                             <div class="col-xl-12 mb-4 mb-xl-0">
                                     <ul class="timeline mb-0">
                                         @forelse ($project->ProjectTimeLineData as $index => $timeLine)
-    
+
                                       <li class="timeline-item timeline-item-transparent">
                                         <span class="timeline-point timeline-point-primary"></span>
                                         <div class="timeline-event">
@@ -402,7 +424,7 @@
                                           <td colspan="6">@lang('No timeline found')</td>
                                       </tr>
                                   @endforelse
-    
+
                                     </ul>
                               </div>
                         </div>
@@ -419,7 +441,7 @@
                         </div>
                     </div>
                     <!-- /Profile Overview -->
-                    
+
                 </div>
             </div>
             <!-- /User Profile Content -->

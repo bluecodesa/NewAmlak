@@ -4,7 +4,9 @@
 namespace App\Repositories\Broker;
 
 use App\Interfaces\Broker\PropertyRepositoryInterface;
+use App\Models\Broker;
 use App\Models\Feature;
+use App\Models\Gallery;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\Unit;
@@ -12,6 +14,7 @@ use App\Models\UnitFeature;
 use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
+use App\Models\Visitor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
@@ -49,12 +52,12 @@ class PropertyRepository implements PropertyRepositoryInterface
 
         if (isset($data['show_in_gallery'])) {
             $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
-    
+
             $rules = [
                 'ad_license_number' => 'required|numeric',
                 'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
-        
+
             $messages = [
                 'ad_license_number.required' => 'The license number is required.',
                 'ad_license_number.numeric' => 'The license number must be a number.',
@@ -62,7 +65,7 @@ class PropertyRepository implements PropertyRepositoryInterface
                 'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
                 'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
             ];
-        
+
             validator($data, $rules ,$messages)->validate();
 
                 $property_data['ad_license_number'] = $data['ad_license_number'];
@@ -119,11 +122,35 @@ class PropertyRepository implements PropertyRepositoryInterface
           $property_data['property_brochure'] = '/Brokers/Properties/pdfs/' . $brochureName;
       }
 
-      if (isset($data['show_in_gallery']) ) {
-          $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
-      } else {
-          $property_data['show_in_gallery'] = 0;
-      }
+      if (isset($data['show_in_gallery'])) {
+        $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+
+        $rules = [
+            'ad_license_number' => 'required|numeric',
+            'ad_license_expiry' => 'required|date|after_or_equal:today',
+        ];
+
+        $messages = [
+            'ad_license_number.required' => 'The license number is required.',
+            'ad_license_number.numeric' => 'The license number must be a number.',
+            'ad_license_expiry.required' => 'The license expiry date is required.',
+            'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+            'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+        ];
+
+        validator($data, $rules ,$messages)->validate();
+
+            $property_data['ad_license_number'] = $data['ad_license_number'];
+            $property_data['ad_license_expiry'] = $data['ad_license_expiry'];
+            $property_data['ad_license_status'] = 'Valid';
+
+    } else {
+        $property_data['show_in_gallery'] = 0;
+        // $property_data['ad_license_number'] = null;
+        // $property_data['ad_license_expiry'] = null;
+        $property_data['ad_license_status'] ='InValid';
+
+    }
 
         if ($images) {
             foreach ($images as $image) {
@@ -182,12 +209,12 @@ class PropertyRepository implements PropertyRepositoryInterface
 
         if (isset($data['show_gallery'])) {
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
-    
+
             $rules = [
                 'ad_license_number' => 'required|numeric',
                 'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
-        
+
             $messages = [
                 'ad_license_number.required' => 'The license number is required.',
                 'ad_license_number.numeric' => 'The license number must be a number.',
@@ -195,7 +222,7 @@ class PropertyRepository implements PropertyRepositoryInterface
                 'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
                 'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
             ];
-        
+
             validator($data, $rules ,$messages)->validate();
 
                 $unit_data['ad_license_number'] = $data['ad_license_number'];
@@ -291,6 +318,26 @@ class PropertyRepository implements PropertyRepositoryInterface
     function ShowPublicProperty($id)
     {
         $property = Property::where('show_in_gallery', 1)->find($id);
+        $broker = Broker::findOrFail($property->broker_id);
+        $gallery =Gallery::where('broker_id', $broker->id)->first();
+
+        $visitor = Visitor::where('property_id', $id)
+        ->where('ip_address', request()->ip())
+        ->where('visited_at', '>=', now()->subHour())
+        ->first();
+
+    if (!$visitor) {
+
+        $newVisitor = new Visitor();
+        $newVisitor->property_id = $id;
+        $newVisitor->gallery_id = $gallery->id;
+        $newVisitor->ip_address = request()->ip();
+        $newVisitor->visited_at = now();
+        $newVisitor->save();
+    }
+    $unitVisitorsCount = Visitor::where('property_id', $property->id)->distinct('ip_address')->count('ip_address');
+
+
         return $property;
 
     }

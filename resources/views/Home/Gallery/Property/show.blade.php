@@ -136,6 +136,7 @@
                         </div>
                     </div>
                     @endif
+
                  <!-- description of project -->
 
                   <!-- time line -->
@@ -143,7 +144,7 @@
              <!-- time line -->
 
                            <!-- unit card -->
-                        @if ($property->UnitsProperty)
+                        @if ($property->UnitsProperty->isNotEmpty())
                         <div class="card card-action mb-4">
                             <div class="card-header align-items-center">
                                 <h5 class="card-action-title mb-0">الوحدات</h5>
@@ -217,7 +218,7 @@
                             </div>
                         </div>
                         @endif
-                           
+
 
                         <!-- /unit table -->
 
@@ -288,6 +289,27 @@
                     </div>
                     <!-- /About User -->
 
+                    @if ($property->ad_license_number)
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-action-title mb-0">@lang('Ad License Information')</h5>
+                                    <div class="demo-inline-spacing mt-3">
+                                        <ul class="list-group">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                    @lang('Ad License Number')
+                                                    <span>{{ __($property->ad_license_number ?? '' ) }}</span>
+                                                </li>
+                                                <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                {{ $property->ad_license_expiry ?? '' }}
+                                                <span class="badge bg-primary">{{ __($property->ad_license_status) }}</span>
+                                                </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                    </div>
+                    @endif
 
                     <!-- Profile Overview -->
                     <div class="card mb-4">

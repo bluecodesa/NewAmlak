@@ -198,7 +198,6 @@ class GalleryService
             });
             $allItems = $projects->merge($properties)->merge($units);
 
-
             $uniqueIds = $units->pluck('CityData.id')->unique();
             $uniqueNames = $units->pluck('CityData.name')->unique();
             $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
@@ -252,6 +251,19 @@ class GalleryService
             });
             $galleryItems = $projects->merge($properties)->merge($galleryUnits);
             $allItems = $allItems->merge($galleryItems);
+            // foreach ($allItems as $key => $oneItem) {
+            //     dd($oneItem);
+            //     $item =  $user->UserBrokerData;
+            //     if ($broker->license_date > now()->format('Y-m-d')) {
+            //         $broker->update(['license_validity' => 'valid']);
+            //     } else {
+            //         $broker->update(['license_validity' => 'expired']);
+            //         $check_gallary = Gallery::where('broker_id', $broker->id)->first();
+            //         if ($check_gallary) {
+            //             $check_gallary->update(['gallery_status' => '0']);
+            //         }
+            //     }
+            // }
         }
 
         $uniqueIds = $units->pluck('CityData.id')->unique();

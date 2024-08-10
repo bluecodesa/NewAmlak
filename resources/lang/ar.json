@@ -653,7 +653,14 @@
     "Project Masterplan": "مخطط المشروع",
     "Project Brochure": "برشور المشروع",
     "Property Masterplan": "مخطط العقار",
-    "Property Brochure": "برشور العقار"
+    "Property Brochure": "برشور العقار",
+    "Ad License Information": "معلومات رخصة الاعلان",
+    "Ad License Number": "رقم رخصة الاعلان",
+    "Ad License Expiry": "تاريخ انتهاء الاعلان",
+    "Valid": "نشط",
+    "InValid": "منتهي",
+    "Fal license  date can not be exceeded": "لا يمكن تجاوز تاريخ رخصة فال",
+    "Ad Status": "حالة الاعلان"
 
 
 

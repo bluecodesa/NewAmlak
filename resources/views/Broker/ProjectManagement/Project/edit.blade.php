@@ -217,7 +217,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                      
+
 
                             {{-- <div class="col-sm-12 col-md-6 mb-3">
                                     <label class="form-label">@lang('address')</label>
@@ -258,6 +258,24 @@
                                 </span>
 
                             </label>
+                        </div>
+
+                        <div class="row" id="gallery-fields">
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Ad License Number')<span
+                                    class="required-color">*</span></label>
+                                <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $project->ad_license_number }}" required />
+                            </div>
+                            @php
+                            $licenseDate = Auth::user()->UserBrokerData->license_date;
+                            @endphp
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Ad License Expiry')<span
+                                    class="required-color">*</span></label>
+                                <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ $project->ad_license_expiry }}" required />
+                                <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
+                            </div>
+
                         </div>
 
                         {{-- <div class="col-md-6 col-12 mb-3">
@@ -364,7 +382,7 @@
 
                     </div>
 
-                  
+
 
 
                 </div>
@@ -569,6 +587,81 @@ function removeFeature(button) {
             const nextTab = this.getAttribute('data-next');
             const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
             nextTabButton.click();
+        });
+    });
+</script>
+<script>
+    document.getElementById('show_in_gallery').addEventListener('change', function () {
+        var galleryFields = document.getElementById('gallery-fields');
+        if (this.checked) {
+            galleryFields.style.display = 'block';
+            document.getElementById('ad_license_number').required = true;
+            document.getElementById('ad_license_expiry').required = true;
+        } else {
+            galleryFields.style.display = 'none';
+            document.getElementById('ad_license_number').required = false;
+            document.getElementById('ad_license_expiry').required = false;
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        adLicenseExpiryInput.addEventListener('change', function() {
+            var selectedDate = new Date(this.value);
+            if (selectedDate > licenseDate) {
+                errorMessage.style.display = 'block';
+                adLicenseExpiryInput.setCustomValidity('');
+            } else {
+                errorMessage.style.display = 'none';
+                adLicenseExpiryInput.setCustomValidity(''); /
+            }
+        });
+
+        adLicenseExpiryInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+        });
+    });
+</script>
+
+<script>
+    var licenseDate = new Date("{{ $licenseDate }}");
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        var submitButton = document.getElementById('submit_button');
+        var form = document.getElementById('unit-form');
+
+        function validateDate() {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Show error message if the selected date is after the license date
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true; // Disable submit button
+            } else {
+                // Hide error message if the date is valid
+                errorMessage.style.display = 'none';
+                submitButton.disabled = false; // Enable submit button
+            }
+        }
+
+        adLicenseExpiryInput.addEventListener('change', validateDate);
+
+        form.addEventListener('submit', function(event) {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Prevent form submission if the selected date is invalid
+                event.preventDefault();
+                errorMessage.style.display = 'block';
+            } else {
+                // Allow form submission if the date is valid
+                errorMessage.style.display = 'none';
+            }
         });
     });
 </script>

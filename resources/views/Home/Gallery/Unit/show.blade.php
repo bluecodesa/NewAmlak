@@ -191,6 +191,28 @@
                                 </ul>
                             @endif
 
+                            @if ($Unit->ad_license_number)
+                            <div class="row">
+                                <div class="col-lg-6 mb-2">
+                                    <h5 class="card-action-title mb-0">@lang('Ad License Information')</h5>
+                                            <div class="demo-inline-spacing mt-3">
+                                                <ul class="list-group">
+                                                        <li
+                                                            class="list-group-item d-flex justify-content-between align-items-center">
+                                                            @lang('Ad License Number')
+                                                            <span>{{ __($Unit->ad_license_number ?? '' ) }}</span>
+                                                        </li>
+                                                        <li
+                                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                                        {{ $Unit->ad_license_expiry ?? '' }}
+                                                        <span class="badge bg-primary">{{ __($Unit->ad_license_status) }}</span>
+                                                        </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                            </div>
+                            @endif
+
                             @if ($Unit->UnitServicesData->isNotEmpty())
                                 <ul class="list-unstyled mb-4 mt-3">
                                     <h5 class="card-action-title mb-0">@lang('Amenities')</h5>

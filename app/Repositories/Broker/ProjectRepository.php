@@ -59,12 +59,12 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         if (isset($data['show_in_gallery'])) {
             $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
-    
+
             $rules = [
                 'ad_license_number' => 'required|numeric',
                 'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
-        
+
             $messages = [
                 'ad_license_number.required' => 'The license number is required.',
                 'ad_license_number.numeric' => 'The license number must be a number.',
@@ -72,7 +72,7 @@ class ProjectRepository implements ProjectRepositoryInterface
                 'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
                 'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
             ];
-        
+
             validator($data, $rules ,$messages)->validate();
 
                 $project_data['ad_license_number'] = $data['ad_license_number'];
@@ -126,8 +126,31 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         if (isset($data['show_in_gallery'])) {
             $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => 'required|numeric',
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $project_data['ad_license_number'] = $data['ad_license_number'];
+                $project_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $project_data['ad_license_status'] = 'Valid';
+                // $project_data['ad_license_status'] = (strtotime($data['ad_license_expiry']) <= strtotime($license_date)) ? 'Valid' : 'Expired';
+
         } else {
             $project_data['show_in_gallery'] = 0;
+            $project_data['ad_license_status'] ='InValid';
+
         }
 
           // Handle project_masterplan upload
@@ -247,7 +270,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'ad_license_number' => 'required|numeric',
             'ad_license_expiry' => 'required|date|after_or_equal:today',
         ];
-    
+
         $messages = [
             'ad_license_number.required' => 'The license number is required.',
             'ad_license_number.numeric' => 'The license number must be a number.',
@@ -255,7 +278,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
             'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
         ];
-    
+
         validator($data, $rules ,$messages)->validate();
 
             $property_data['ad_license_number'] = $data['ad_license_number'];
@@ -304,12 +327,12 @@ class ProjectRepository implements ProjectRepositoryInterface
         // }
         if (isset($data['show_gallery'])) {
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
-    
+
             $rules = [
                 'ad_license_number' => 'required|numeric',
                 'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
-        
+
             $messages = [
                 'ad_license_number.required' => 'The license number is required.',
                 'ad_license_number.numeric' => 'The license number must be a number.',
@@ -317,7 +340,7 @@ class ProjectRepository implements ProjectRepositoryInterface
                 'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
                 'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
             ];
-        
+
             validator($data, $rules ,$messages)->validate();
 
                 $unit_data['ad_license_number'] = $data['ad_license_number'];

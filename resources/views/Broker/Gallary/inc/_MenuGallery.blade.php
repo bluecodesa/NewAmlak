@@ -9,6 +9,7 @@
                 <th>@lang('Ad type')</th>
                 <th>@lang('city')</th>
                 <th>@lang('Show in Gallery')</th>
+                <th>@lang('Ad Status')</th>
                 <th>@lang('views')</th>
                 <th>@lang('Action')</th>
             </tr>
@@ -23,8 +24,8 @@
                 <tr>
 
                     <td>{{ $unit->ad_name ?? $unit->name }}</td>
-                    <td >  
-                        <button type="button" 
+                    <td >
+                        <button type="button"
                         class="btn btn-primary waves-effect waves-light btn-sm">
                         @if ($isGalleryUnit)
                         @lang('Unit')
@@ -40,7 +41,8 @@
                     <td>
                         {{ $unit->CityData->name ?? '' }}
                     </td>
-                    <td> {{ $unit->show_gallery == 1 ? __('Show') : __('hide') }}
+                    <td>{{ $unit->show_gallery == 1 || $unit->show_in_gallery == 1 ? __('show') : __('hide') }}</td>
+                    <td> {{ __($unit->ad_license_status)}}
                     </td>
                     <td> {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}</td>
 
@@ -78,19 +80,19 @@
                                         $deleteRoute = '#';
                                     }
                                 @endphp
-                            
+
                                 @if (Auth::user()->hasPermission('update-unit'))
                                     <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#addNewCCModal_{{ $unit->id }}">@lang('Share')</a>
                                 @endif
-                            
+
                                 @if (Auth::user()->hasPermission('update-unit'))
                                     <a class="dropdown-item" href="{{ $editRoute }}">@lang('Edit')</a>
                                 @endif
-                            
+
                                 @if (Auth::user()->hasPermission('read-unit'))
                                     <a class="dropdown-item" href="{{ $showRoute }}" target="_blank">@lang('Show')</a>
                                 @endif
-                            
+
                                 @if (Auth::user()->hasPermission('delete-unit'))
                                     <a href="javascript:void(0);" onclick="handleDelete('{{ $unit->id }}')" class="dropdown-item delete-btn">@lang('Delete')</a>
                                     <form id="delete-form-{{ $unit->id }}" action="{{ $deleteRoute }}" method="POST" style="display: none;">
