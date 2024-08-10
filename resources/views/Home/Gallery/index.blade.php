@@ -82,7 +82,7 @@
                 @lang('Filter')
             </a>
             </div>
-          
+
             <!-- filter  -->
             <div class="row" style="text-align: center;">
                 <div id="collapseExample" class="collapse col-md-12 m-2">
@@ -265,7 +265,12 @@
                                          href="{{ route('login') }}">
                                         <i class="ti ti-heart ti-sm"></i>
 
-                                    </a>
+                                        </a>
+                                        <a class=" d-flex align-items-center me-3"
+                                         href="{{ route('login') }}">
+                                        <i class="ti ti-report ti-sm"></i>
+                                            @lang('الابلاغ عن الاعلان')
+                                        </a>
 
                                     @endguest
 
@@ -309,9 +314,16 @@
                                                 <i class="ti ti-heart ti-sm"></i>
                                             </a>
                                         @endif
+                                        <a class=" d-flex align-items-center me-3"
+                                         href="" data-bs-toggle="modal"
+                                        data-bs-target="#modalReport" >
+                                       <i class="ti ti-report ti-sm"></i>
+                                           @lang('الابلاغ عن الاعلان')
+                                       </a>
                                     @endauth
 
                                 </div>
+
                                 <div class="mx-auto my-3">
                                     @php
                                         $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
@@ -434,7 +446,7 @@
                                         <h4 class="mb-0">{{ $unit->UnitsProject->count() ?? 0 }}</h4>
                                         <span>@lang('Number units')</span>
                                     </div>
-                              
+
                                     <div>
                                         <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                         <span class="ti ti-eye"></span>
@@ -455,7 +467,7 @@
                                         <h4 class="mb-0">{{ $unit->UnitsProperty->count() ?? 0 }}</h4>
                                         <span>@lang('Number units')</span>
                                     </div>
-                              
+
                                     <div>
                                         <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                         <span class="ti ti-eye"></span>
@@ -508,6 +520,8 @@
 
                     @include('Home.Gallery.inc.share')
                     @include('Home.Gallery.inc.unitInterest')
+                    @include('Home.Gallery.inc._ad-report')
+
                     @endif
                 @endforeach
             </div>
@@ -644,6 +658,7 @@
                 // Optionally, provide feedback to the user
                 alertify.success(@json(__('copy done')));
             }
+
         </script>
     @endpush
 @endsection

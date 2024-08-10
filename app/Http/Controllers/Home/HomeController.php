@@ -837,4 +837,5 @@ class HomeController extends Controller
 
         return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
+
 }

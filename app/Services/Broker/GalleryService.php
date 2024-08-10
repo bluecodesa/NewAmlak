@@ -17,6 +17,8 @@ use App\Repositories\Broker\ProjectRepository;
 use App\Repositories\Broker\PropertyRepository;
 use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
+use App\Interfaces\Admin\TicketTypeRepositoryInterface;
+
 
 class GalleryService
 {
@@ -30,6 +32,7 @@ class GalleryService
 
     protected $propertyUsageService;
 
+    protected $ticketTypeRepository;
 
 
     public function __construct(
@@ -38,7 +41,8 @@ class GalleryService
         PropertyRepository $PropertyRepository,
         ProjectRepository $ProjectRepository,
         GalleryRepositoryInterface $galleryRepository,
-        PropertyUsageService  $propertyUsageService
+        PropertyUsageService  $propertyUsageService,
+        TicketTypeRepositoryInterface $ticketTypeRepository
 
     ) {
         $this->galleryRepository = $galleryRepository;
@@ -47,6 +51,8 @@ class GalleryService
         $this->ProjectRepository = $ProjectRepository;
         $this->PropertyRepository = $PropertyRepository;
         $this->propertyUsageService = $propertyUsageService;
+        $this->ticketTypeRepository = $ticketTypeRepository;
+
     }
 
 
@@ -219,6 +225,7 @@ class GalleryService
                 $user_id = null;
                 $broker = Broker::findOrFail($brokerId);
             }
+            $ticketTypes = $this->ticketTypeRepository->all();
 
             return get_defined_vars();
         }
