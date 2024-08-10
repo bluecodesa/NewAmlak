@@ -122,7 +122,7 @@ class HomeController extends Controller
 
     public function sendOtp(Request $request)
     {
-        
+
         // $otp = mt_rand(100000, 999999);
         $otp=555555;
         session()->forget(['otp', 'email', 'phone' ,'mobile']);
@@ -669,15 +669,15 @@ class HomeController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
-            'phone' => [
-                'required',
-                'max:25'
-            ],
-            'full_phone' => [
-                'required',
-                Rule::unique('users'),
-                'max:25'
-            ],
+            // 'phone' => [
+            //     'required',
+            //     'max:25'
+            // ],
+            // 'full_phone' => [
+            //     'required',
+            //     Rule::unique('users'),
+            //     'max:25'
+            // ],
             'password' => 'required|string|max:255|confirmed',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
         ];
@@ -686,8 +686,8 @@ class HomeController extends Controller
             'name.required' => __('The name field is required.'),
             'email.required' => __('The email field is required.'),
             'email.unique' => __('The email has already been taken.'),
-            'full_phone.required' => __('The mobile field is required.'),
-            'full_phone.unique' => __('The mobile has already been taken.'),
+            // 'full_phone.required' => __('The mobile field is required.'),
+            // 'full_phone.unique' => __('The mobile has already been taken.'),
             'password.required' => __('The password field is required.'),
             'password.confirmed' => __('The password confirmation does not match.'),
             'avatar.image' => __('The broker logo must be an image.')
@@ -705,11 +705,11 @@ class HomeController extends Controller
         }
 
         $user = User::create([
-            'is_property_founder' => 1,
+            'is_property_finder' => 1,
             'name' => $request->name,
-            'phone' => $request->phone,
-            'key_phone' => $request->key_phone,
-            'full_phone' => $request->full_phone,
+            // 'phone' => $request->phone,
+            // 'key_phone' => $request->key_phone,
+            // 'full_phone' => $request->full_phone,
             'email' => $request->email,
             'user_name' => uniqid(),
             'password' => bcrypt($request->password),
@@ -717,6 +717,7 @@ class HomeController extends Controller
         ]);
 
         $this->notifyAdmins2($user);
+        auth()->loginUsingId($user->id);
 
         return redirect()->route('login')->withSuccess(__('Property Finder created successfully.'));
     }

@@ -46,7 +46,7 @@
                                         </div>
                                         <button type="submit" class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
                                     </form>
-                                </div>                                
+                                </div>
                                 <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                                     <form id="formAuthentication" class="mb-3" method="POST"
                                           action="{{ route('Home.sendOtp') }}">
@@ -83,21 +83,5 @@
         </div>
     </div>
 
-    <script>
-        function updateFullPhone(input) {
-            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
-            var key_phone = document.getElementById('key_phone').value;
-            var fullPhone = key_phone + input.value;
-            document.getElementById('full_phone').value = fullPhone;
-        }
-        $(document).ready(function() {
-            $('.dropdown-item').on('click', function() {
-                var key = $(this).data('key');
-                var phone = $('#phone').val();
-                $('#key_phone').val(key);
-                $('#full_phone').val(key + phone);
-                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-            });
-        });
-    </script>
+
 @endsection
