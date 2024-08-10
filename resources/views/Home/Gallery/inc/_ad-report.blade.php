@@ -14,6 +14,8 @@
             <form action="{{ route('Broker.Tickets.store') }}" method="POST" class="row"
             enctype="multipart/form-data">
             @csrf
+            @include('Admin.layouts.Inc._errors')
+
           <div class="row">
             @if ($unit->isGalleryUnit)
             <input type="hidden" name="unit_id" value="{{ $unit->id }}" class="form-control" required>
@@ -25,13 +27,16 @@
                     <div class="col-md-6 mb-3 col-12">
 
                 <label class="form-label">{{ __('Ticket Type') }} <span class="required-color">*</span></label>
-                <select class="form-select" name="type" required>
-                    <option value="" selected disabled> @lang('Ticket Type') </option>
+                <select class="form-select" name="type" required disabled>
+                    <option value="" disabled> @lang('Ticket Type') </option>
                     @foreach ($ticketTypes as $ticketType)
-                        <option value="{{ $ticketType->id }}">
-                            {{ $ticketType->name }}</option>
+                        <option value="{{ $ticketType->id }}" {{ $ticketType->id == 39 ? 'selected' : '' }}>
+                            {{ $ticketType->name }}
+                        </option>
                     @endforeach
                 </select>
+                <input type="hidden" name="type" value="39" required>
+
 
             </div>
 

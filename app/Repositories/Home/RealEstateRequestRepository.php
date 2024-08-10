@@ -11,7 +11,7 @@ class RealEstateRequestRepository
     {
         $userId=auth()->user()->id;
         // $requests = RealEstateRequest::with(['requestStatuses' => function($query) use ($userId) {
-        //     $query->where('user_id', $userId); 
+        //     $query->where('user_id', $userId);
         // }])->get();
         $requests = RequestStatus::where('user_id', $userId)->get();
         return $requests;
@@ -24,6 +24,7 @@ class RealEstateRequestRepository
 
     function getRequestById($id)
     {
+        dd(RealEstateRequest::findOrFail($id));
         return RealEstateRequest::findOrFail($id);
     }
 

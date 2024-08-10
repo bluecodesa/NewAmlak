@@ -7,6 +7,8 @@ interface RealEstateRequestRepositoryInterface
 {
     public function getAll();
 
+    public function getRequestById($id);
+
     public function create($data);
 
     public function getOwnerById($id);

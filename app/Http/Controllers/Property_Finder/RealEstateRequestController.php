@@ -76,7 +76,6 @@ class RealEstateRequestController extends Controller
         $requestStatus = RequestStatus::where('request_id', $id)
         ->where('user_id', Auth::id())
         ->first();
-
         return view('Broker.Gallary.RealEstateRequests.show', get_defined_vars());
     }
 
@@ -85,23 +84,23 @@ class RealEstateRequestController extends Controller
         $request->validate([
             'status' => 'required|exists:interest_types,id',
         ]);
-    
+
         $requestStatus = RequestStatus::where('request_id', $requestId)
             ->where('user_id', Auth::id())
             ->first();
-    
+
         if (!$requestStatus) {
             $requestStatus = new RequestStatus();
             $requestStatus->user_id = Auth::id();
             $requestStatus->request_id = $requestId;
         }
-    
+
         $requestStatus->request_status_id = $request->input('status');
         $requestStatus->save();
-    
+
         return redirect()->back()->with('success', 'Update successfully');
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      */

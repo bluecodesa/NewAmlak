@@ -23,6 +23,7 @@ class RealEstateRequestService
 
     public function getRequestById($id)
     {
+        dd($this->RealEstateRequestRepository->getRequestById($id));
         return $this->RealEstateRequestRepository->getRequestById($id);
     }
 

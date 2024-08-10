@@ -50,7 +50,7 @@
                                                         type="button"><span><i
                                                                 class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                 </div>
-                                           
+
                                             </div>
                                         </div>
                                     </div>
@@ -75,18 +75,17 @@
                         <tbody class="table-border-bottom-0">
                             @forelse ($requests as $index => $client)
                                 <tr>
-
-
                                     <td>{{ $client->number_of_requests ?? '' }}</td>
                                     <td> {{ $client->user->name }}</td>
                                     {{-- <td>{{ $client->propertyType->name ?? '' }}</td> --}}
                                     <td>{{ $client->realEstateRequest->city->name }} / {{ $client->realEstateRequest->district->name ?? '' }}</td>
                                     <td>
-                                        @foreach ($client->requestStatuses as $status)
-                                            @if ($status->request_status_id)
-                                                {{ __($status->interestType->name) }}<br>
+
+                                        {{-- @foreach ($client->requestStatuses as $status) --}}
+                                            @if ($client->request_status_id)
+                                                {{ __($client->interestType->name) }}<br>
                                             @endif
-                                        @endforeach
+                                        {{-- @endforeach --}}
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -106,7 +105,7 @@
 
 
                                     </td>
-                                   
+
 
                                 </tr>
                             @empty
