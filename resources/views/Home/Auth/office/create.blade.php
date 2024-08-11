@@ -197,7 +197,7 @@
                                             aria-label="Text input with dropdown button">
                                         <button class="btn btn-outline-primary dropdown-toggle waves-effect"
                                             type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            966
+                                            {{ $KeyPhone ?? 966}}
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end" style="">
                                             <li><a class="dropdown-item" data-key="971"

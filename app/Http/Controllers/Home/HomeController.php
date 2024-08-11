@@ -125,7 +125,7 @@ class HomeController extends Controller
 
         // $otp = mt_rand(100000, 999999);
         $otp=555555;
-        session()->forget(['otp', 'email', 'phone' ,'mobile']);
+        session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
 
         session(['otp' => $otp]);
 
@@ -136,8 +136,9 @@ class HomeController extends Controller
         } else if ($request->input('otp_type') === 'phone') {
             $fullPhone = $request->input('full_phone');
             $phone = $request->input('mobile');
+            $keyPhone = $request->input('key_phone');
 
-            session(['phone' => $fullPhone ,'mobile'=>$phone]);
+            session(['phone' => $fullPhone, 'mobile' => $phone, 'key_phone' => $keyPhone]);
             // $this->SmsSendCode($fullPhone, $otp);
         }
 
@@ -156,6 +157,8 @@ class HomeController extends Controller
     {
         $email = session('email');
         $fullPhone = session('phone');
+        $fullPhone = session('KeyPhone');
+
 
 
         return view('auth.verifyLogin', get_defined_vars());
@@ -182,8 +185,8 @@ class HomeController extends Controller
         $email = session('email');
         $fullPhone = session('phone');
         $phone = session('mobile');
-
-
+        $KeyPhone = session('key_phone');
+        
         $setting =   Setting::first();
         if ($setting->active_broker == 0) {
             return back()->with('sorry', __('Soon'));
@@ -207,6 +210,8 @@ class HomeController extends Controller
         $email = session('email');
         $fullPhone = session('phone');
         $phone = session('mobile');
+        $KeyPhone = session('Key_phone');
+
 
         $setting =   Setting::first();
         if ($setting->active_office == 0) {

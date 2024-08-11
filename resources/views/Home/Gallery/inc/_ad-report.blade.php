@@ -17,12 +17,12 @@
             @include('Admin.layouts.Inc._errors')
 
           <div class="row">
-            @if ($unit->isGalleryUnit)
-            <input type="hidden" name="unit_id" value="{{ $unit->id }}" class="form-control" required>
-            @elseif ($unit->isGalleryProperty)
-                <input type="hidden" name="property_id" value="{{ $unit->id }}" class="form-control" required>
-            @elseif ($unit->isGalleryProject)
-                <input type="hidden" name="project_id" value="{{ $unit->id }}" class="form-control" required>
+            @if ($Unit->isGalleryUnit)
+            <input type="hidden" name="unit_id" value="{{ $Unit->id }}" class="form-control" required>
+            @elseif ($Unit->isGalleryProperty)
+                <input type="hidden" name="property_id" value="{{ $Unit->id }}" class="form-control" required>
+            @elseif ($Unit->isGalleryProject)
+                <input type="hidden" name="project_id" value="{{ $Unit->id }}" class="form-control" required>
             @endif
                     <div class="col-md-6 mb-3 col-12">
 

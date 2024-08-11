@@ -53,7 +53,7 @@
                                         @csrf
                                         <input type="hidden" name="otp_type" value="phone">
                                         <input type="hidden" id="full_phone" name="full_phone">
-                                        <input type="hidden" id="key_phone" value="966"> <!-- Default country code -->
+                                        <input type="hidden" id="key_phone" name="key_phone" value="966"> <!-- Default country code -->
                                         <div class="mb-3">
                                             <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
                                                     class="text-danger">*</span></label>

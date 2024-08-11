@@ -170,6 +170,7 @@ class GalleryService
                 $newVisitor->save();
             }
             $unitVisitorsCount = Visitor::where('unit_id', $Unit->id)->distinct('ip_address')->count('ip_address');
+            $ticketTypes = $this->ticketTypeRepository->all();
 
             return get_defined_vars();
         }

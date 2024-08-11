@@ -369,12 +369,23 @@
                                                 {{ $CheckUnitExist == false ? ' تسجيل اهتمام' : 'تم تسجيل اهتمام' }}
                                             </button>
                                         </form>
+                                        <a class="btn btn-primary"
+                                        href="" data-bs-toggle="modal"
+                                       data-bs-target="#modalReport" >
+                                      <i class="ti ti-report ti-sm"></i>
+                                          @lang('الابلاغ عن الاعلان')
+                                      </a>
                                     @endauth
                                     @guest
-                                        <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
+                                        <a href="{{ route('login') }}" type="submit" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#modalToggle">
                                             تسجيل اهتمام
-                                        </button>
+                                        </a>
+                                        <a class="btn btn-primary"
+                                        href="{{ route('login') }}">
+                                       <i class="ti ti-report ti-sm"></i>
+                                           @lang('الابلاغ عن الاعلان')
+                                       </a>
                                     @endguest
 
                                     <!-- Modal -->
@@ -479,6 +490,8 @@
         </div>
     </section>
     @include('Home.layouts.inc.__addSubscriberModal')
+    @include('Home.Gallery.inc._ad-report')
+
 
 
     @include('Home.Gallery.Unit.share')

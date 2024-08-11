@@ -112,7 +112,7 @@
                         <form id="registrationForm" class="mb-3 row" action="{{ route('Home.Brokers.CreateBroker') }}"
                             method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
                             @csrf
-                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
+                            <input type="text" name="key_phone" hidden id="key_phone" value="{{ $keyPhone ?? '966' }}">
                             <input type="text" name="full_phone" hidden id="full_phone" value="966">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
@@ -183,13 +183,13 @@
                                 <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
                                         class="text-danger">*</span></label>
                                 <div class="input-group">
-                                    <input type="text" placeholder="123456789" id="phone" name="mobile" 
+                                    <input type="text" placeholder="123456789" id="phone" name="mobile"
                                         value="{{ $phone }}" class="form-control" required maxlength="9"
                                         pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                         aria-label="Text input with dropdown button">
                                     <button class="btn btn-outline-primary dropdown-toggle waves-effect"
                                         type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        966
+                                        {{ $KeyPhone ?? 966}}
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end" style="">
                                         <li><a class="dropdown-item" data-key="971"
