@@ -534,7 +534,7 @@
     "User is already a renter in this office.": "هذا المستأجر موجود بالفعل.",
     "User found and is a property finder.": "تم العثور على بيانات العميل، برجاء مراجعة البيانات للاستمرار",
     "User is not registered": "هذا المستأجر غير مسجل",
-    "Enter OTP received on your email:": "ادخل الرمز الذي تم ارساله الي الايميل الخاص بك:",
+    "Enter OTP received :": "ادخل الرمز الذي تم ارساله :",
     "Verify OTP": "تحقق من الرمز",
     "Resend OTP": "اعادة ارسال الرمز",
     "Complete registration": "اكمال التسجيل",

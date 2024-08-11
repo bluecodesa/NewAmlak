@@ -18,7 +18,7 @@
                     </div>
                     <!-- /Logo -->
 
-                    <p class="mb-2 fw-medium">@lang('Enter OTP received on your email:')</p>
+                    <p class="mb-2 fw-medium">@lang('Enter OTP received :')</p>
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -43,7 +43,7 @@
                             <input type="text" class="form-control" id="otp" name="otp" placeholder="@lang('OTP')" />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label">   
+                            <label class="form-label">
                              <a href="{{ route('Home.auth.loginByPassword') }}" type="submit" >@lang('Login by Password?')</a>
                             </label>
                         </div>

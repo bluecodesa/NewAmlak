@@ -248,8 +248,10 @@ class GallaryController extends Controller
 
         $data = $this->galleryService->showUnitPublic($gallery_name, $id);
 
-
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
+            return view('Broker.Gallary.inc._GalleryComingsoon', $data);
+        }
+        if (empty($data) || (isset($data['Unit']) && $data['Unit']->show_gallery == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
         $broker = $data['broker'];

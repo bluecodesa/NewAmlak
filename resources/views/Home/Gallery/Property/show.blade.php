@@ -355,7 +355,7 @@
 
     @include('Home.Gallery.Unit.share')
     @include('Home.Auth.propertyFinder.create') --}}
-    {{-- @include('Home.Gallery.inc._ad-report') --}}
+    @include('Home.Gallery.Property._ad-report')
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

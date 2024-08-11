@@ -11,6 +11,7 @@ use App\Models\ProjectStatus;
 use App\Models\ProjectTimeLine;
 use App\Models\Property;
 use App\Models\PropertyImage;
+use App\Models\TicketType;
 use App\Models\Unit;
 use App\Models\UnitFeature;
 use App\Models\UnitImage;
@@ -225,7 +226,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     function ShowPublicProject($id)
     {
         $project = Project::where('show_in_gallery', 1)->find($id);
-        return $project;
+        $ticketTypes =  TicketType::paginate(100);
+        return get_defined_vars();
 
     }
     public function delete($id)

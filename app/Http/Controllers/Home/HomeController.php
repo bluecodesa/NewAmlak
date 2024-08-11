@@ -157,7 +157,7 @@ class HomeController extends Controller
     {
         $email = session('email');
         $fullPhone = session('phone');
-        $fullPhone = session('KeyPhone');
+        $KeyPhone = session('Key_phone');
 
 
 
@@ -186,7 +186,7 @@ class HomeController extends Controller
         $fullPhone = session('phone');
         $phone = session('mobile');
         $KeyPhone = session('key_phone');
-        
+
         $setting =   Setting::first();
         if ($setting->active_broker == 0) {
             return back()->with('sorry', __('Soon'));

@@ -390,6 +390,25 @@
                                                 {{ $project->ad_license_expiry ?? '' }}
                                                 <span class="badge bg-primary">{{ __($project->ad_license_status) }}</span>
                                                 </li>
+                                                @auth
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <a class=" d-flex align-items-center me-3"
+                                                     href="" data-bs-toggle="modal"
+                                                     data-bs-target="#modalReport" >
+                                                    <i class="ti ti-report ti-sm"></i>
+                                                        @lang('الابلاغ عن الاعلان')
+                                                    </a>
+                                                  </li>
+                                                @endauth
+                                                @guest
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <a class=" d-flex align-items-center me-3"
+                                                    href="{{ route('login') }}">
+                                                   <i class="ti ti-report ti-sm"></i>
+                                                       @lang('الابلاغ عن الاعلان')
+                                                   </a>
+                                                  </li>
+                                                @endguest
                                         </ul>
                                     </div>
                                 </div>
@@ -454,6 +473,8 @@
 
     @include('Home.Gallery.Unit.share')
     @include('Home.Auth.propertyFinder.create') --}}
+    @include('Home.Gallery.Projects._ad-report')
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

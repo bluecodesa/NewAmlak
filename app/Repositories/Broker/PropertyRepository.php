@@ -318,27 +318,29 @@ class PropertyRepository implements PropertyRepositoryInterface
     function ShowPublicProperty($id)
     {
         $property = Property::where('show_in_gallery', 1)->find($id);
-        $broker = Broker::findOrFail($property->broker_id);
-        $gallery =Gallery::where('broker_id', $broker->id)->first();
+        if($property){
+            $broker = Broker::findOrFail($property->broker_id);
+            $gallery =Gallery::where('broker_id', $broker->id)->first();
 
-        $visitor = Visitor::where('property_id', $id)
-        ->where('ip_address', request()->ip())
-        ->where('visited_at', '>=', now()->subHour())
-        ->first();
+            $visitor = Visitor::where('property_id', $id)
+            ->where('ip_address', request()->ip())
+            ->where('visited_at', '>=', now()->subHour())
+            ->first();
 
-    if (!$visitor) {
+        if (!$visitor) {
 
-        $newVisitor = new Visitor();
-        $newVisitor->property_id = $id;
-        $newVisitor->gallery_id = $gallery->id;
-        $newVisitor->ip_address = request()->ip();
-        $newVisitor->visited_at = now();
-        $newVisitor->save();
-    }
-    $unitVisitorsCount = Visitor::where('property_id', $property->id)->distinct('ip_address')->count('ip_address');
+            $newVisitor = new Visitor();
+            $newVisitor->property_id = $id;
+            $newVisitor->gallery_id = $gallery->id;
+            $newVisitor->ip_address = request()->ip();
+            $newVisitor->visited_at = now();
+            $newVisitor->save();
+        }
+        $unitVisitorsCount = Visitor::where('property_id', $property->id)->distinct('ip_address')->count('ip_address');
+        
+            return $property;
+        }
 
-
-        return $property;
 
     }
 }

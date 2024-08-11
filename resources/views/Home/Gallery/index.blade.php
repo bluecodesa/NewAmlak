@@ -266,11 +266,11 @@
                                         <i class="ti ti-heart ti-sm"></i>
 
                                         </a>
-                                        <a class=" d-flex align-items-center me-3"
+                                        {{-- <a class=" d-flex align-items-center me-3"
                                          href="{{ route('login') }}">
                                         <i class="ti ti-report ti-sm"></i>
                                             @lang('الابلاغ عن الاعلان')
-                                        </a>
+                                        </a> --}}
 
                                     @endguest
 
@@ -314,12 +314,12 @@
                                                 <i class="ti ti-heart ti-sm"></i>
                                             </a>
                                         @endif
-                                        <a class=" d-flex align-items-center me-3"
+                                        {{-- <a class=" d-flex align-items-center me-3"
                                          href="" data-bs-toggle="modal"
                                         data-bs-target="#modalReport" >
                                        <i class="ti ti-report ti-sm"></i>
                                            @lang('الابلاغ عن الاعلان')
-                                       </a>
+                                       </a> --}}
                                     @endauth
 
                                 </div>
@@ -520,7 +520,7 @@
 
                     @include('Home.Gallery.inc.share')
                     @include('Home.Gallery.inc.unitInterest')
-                    @include('Home.Gallery.inc._ad-report')
+                    {{-- @include('Home.Gallery.inc._ad-report') --}}
 
                     @endif
                 @endforeach

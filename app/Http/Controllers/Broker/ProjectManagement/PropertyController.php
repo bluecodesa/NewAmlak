@@ -4,7 +4,9 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Property;
 use App\Models\PropertyImage;
+use App\Models\TicketType;
 use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
@@ -209,10 +211,12 @@ class PropertyController extends Controller
     {
         $property = $this->PropertyService->ShowPublicProject($id);
 
-        if($property->BrokerData->license_validity == 'valid' && $property->BrokerData->GalleryData->gallery_status != 0 ){
+        if(!empty($property) && $property->BrokerData->license_validity == 'valid' && $property->BrokerData->GalleryData->gallery_status != 0 ){
+            $ticketTypes =  TicketType::paginate(100);
             return view('Home.Gallery.Property.show',  get_defined_vars());
         }
         else {
+            $property = Property::findOrFail($id);
             $broker=$property->BrokerData;
             return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
         }

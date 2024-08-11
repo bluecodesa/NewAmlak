@@ -4,7 +4,9 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 use App\Models\Subscription;
+use App\Models\TicketType;
 use App\Models\User;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
@@ -220,13 +222,15 @@ class ProjectController extends Controller
     public function showPubllicProject($gallery_name, $id)
     {
         $project = $this->projectService->ShowPublicProject($id);
-        if($project->BrokerData->license_validity == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 ){
+        if(!empty($project) && $project->BrokerData->license_validity == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 ){
+            $ticketTypes =  TicketType::paginate(100);
             return view('Home.Projects.show',  get_defined_vars());
 
         }
         else {
+            $project = Project::findOrFail($id);
             $broker=$project->BrokerData;
             return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
-        }   
+        }
     }
 }
