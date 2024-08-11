@@ -25,7 +25,7 @@ use App\Services\Admin\DistrictService;
 
 class HomeController extends Controller
 {
-    
+
 
     use MailSendCode;
     protected $districtService;
@@ -51,15 +51,21 @@ class HomeController extends Controller
             ->whereIn('id', $favorites->pluck('unit_id'))
             ->get();
             $user = auth()->user();
-            $requests = RealEstateRequest::where('user_id', $user->id)->get();
-            // $requests = RealEstateRequest::where('user_id', $user->id)
+            // $requests = RealEstateRequest::where('user_id', $user->id)->get();
+
+            $requests = RealEstateRequest::withCount(['requestStatuses as views_count' => function ($query) {
+                $query->whereNotNull('read_by');
+            }])->where('user_id', $user->id)->get();
+
+            $count = 0;
+
+                        // $requests = RealEstateRequest::where('user_id', $user->id)
             // ->withCount(['requestStatuses as status_count_3' => function ($query) {
             //     $query->where('request_status_id', 3);
             // }, 'requestStatuses as status_count_8' => function ($query) {
             //     $query->where('request_status_id', 8);
             // }])
             // ->get();
-            $count = 0;
 
 //             foreach($requests as $request){
 //                 foreach($request->requestStatuses as $status);{
@@ -67,7 +73,7 @@ class HomeController extends Controller
 // }
 //         }
 //     }
-//     dd($status->interestType->name);            
+//     dd($status->interestType->name);
 
         return view('Home.Property-Finder.index', get_defined_vars());
     }

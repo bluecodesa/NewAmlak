@@ -76,6 +76,9 @@ class RealEstateRequestController extends Controller
         $requestStatus = RequestStatus::where('request_id', $id)
         ->where('user_id', Auth::id())
         ->first();
+        if ($requestStatus) {
+            $requestStatus->update(['read_by' => Auth::id()]);
+        }
 
         return view('Broker.Gallary.RealEstateRequests.show', get_defined_vars());
     }

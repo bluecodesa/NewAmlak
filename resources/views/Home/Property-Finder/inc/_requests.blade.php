@@ -38,7 +38,7 @@
                                 @else
                                 <li><a class="dropdown-item text-danger" href="javascript:void(0);" data-status="canceled">@lang('الغاء الطلب')</a></li>
                                 @endif
-                            </ul>                            
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -65,30 +65,30 @@
                    <h6 class="mb-1">@lang('Validation'): <span class="badge bg-danger mt-1">{{ __($request->request_valid) }}</span></h6>
                    @endif
                     <h6 class="mb-1">@lang('Request Number'): <span class="badge bg-primary mt-1">{{ $request->number_of_requests }}</span></h6>
-                  
+
                 </div>
             </div>
             <div class="card-body border-top"  style="text-align: center;">
-                <h6><i class="ti ti-eye ti-sm"></i>0</h6>
+                <h6><i class="ti ti-eye ti-sm"></i>{{ $request->views_count ?? 0 }}</h6>
                 <div class="d-flex align-items-center mb-3">
                             @php
                                 $counts = [];
                             @endphp
-                            
+
                             @foreach($request->requestStatuses as $status)
                                 @if ($status->interestType && $status->interestType->show_for_realEaste === 0)
                                     @php
                                         $interestTypeName = $status->interestType->name;
-                            
+
                                         if (!isset($counts[$interestTypeName])) {
                                             $counts[$interestTypeName] = 0;
                                         }
-                            
+
                                         $counts[$interestTypeName]++;
                                     @endphp
                                 @endif
                             @endforeach
-                        
+
                         @foreach($counts as $name => $count)
                             <h6 class="mb-1">
                                 {{ $name }}: <span class="badge bg-primary mt-1">{{ $count }}</span>
