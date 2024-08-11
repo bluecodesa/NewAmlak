@@ -173,7 +173,7 @@
                                     <label class="form-label" for="email">@lang('Company email')<span
                                             class="text-danger">*</span></label>
 
-                                    <input type="email" readonly class="form-control" id="email" name="email" value="{{ $email }}"
+                                    <input type="email"  class="form-control" id="email" name="email" value="{{ $email }}"
                                         required>
 
                                 </div>
@@ -303,7 +303,7 @@
                                 </div>
                             </div>
 
-                     
+
                             <div class="col-12" style="text-align: center;">
                                 <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary"
                                         data-dismiss="modal">@lang('Cancel')</a>
@@ -312,7 +312,7 @@
                                 </div>
 
                         </form>
-                
+
                     </div>
                 </div>
                 <!-- Register Card -->

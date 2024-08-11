@@ -2,7 +2,7 @@
 @section('title', __('Gallary'))
 @section('content')
     <section class="section-py first-section-pt">
-        <div class="container">
+        <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                 </span>المعرض</h4>
 
@@ -20,7 +20,6 @@
                 </div>
             </div>
             <!--/ Header -->
-            <div class="card-body">
                 <div class="" style="text-align: center;" >
                     <a class="btn btn-primary mb-2"  data-bs-toggle="collapse" href="#collapseExample" role="button"
                     aria-expanded="false" aria-controls="collapseExample">
@@ -164,6 +163,7 @@
                             </form>
                         </div>
                     </div>
+                </div>
                     <!--/ filter pills -->
                     {{-- <div class="divider divider-success">
                         <div class="divider-text">@lang('Units')</div>
@@ -205,7 +205,13 @@
                                                      href="{{ route('login') }}">
                                                     <i class="ti ti-heart ti-sm"></i>
 
-                                                </a>
+                                                    </a>
+
+                                                    <a class=" d-flex align-items-center me-3"
+                                                    href="{{ route('login') }}">
+                                                   <i class="ti ti-report ti-sm"></i>
+                                                       @lang('الابلاغ عن الاعلان')
+                                                   </a>
 
                                                 @endguest
 
@@ -249,6 +255,13 @@
                                                             <i class="ti ti-heart ti-sm"></i>
                                                         </a>
                                                     @endif
+
+                                                    <a class=" d-flex align-items-center me-3"
+                                                    href="" data-bs-toggle="modal"
+                                                   data-bs-target="#modalReport" >
+                                                  <i class="ti ti-report ti-sm"></i>
+                                                      @lang('الابلاغ عن الاعلان')
+                                                  </a>
                                                 @endauth
 
                                             </div>
@@ -315,7 +328,7 @@
                                             @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
 
                                             <div class="d-flex align-items-center justify-content-center my-3 gap-2">
-            
+
                                                 <a href="javascript:;"><span class="badge bg-label-primary">
                                                         {{ __($unit->PropertyTypeData->name) ?? '' }}</span></a>
                                                 @if ($unit->type == 'rent')
@@ -326,7 +339,7 @@
                                                     <a href="javascript:;"><span
                                                             class="badge bg-label-success">@lang('sale')</span></a>
                                                 @endif
-            
+
                                                 @if ($unit->type == 'rent and sale')
                                                     <a href="javascript:;"><span
                                                             class="badge bg-label-info">@lang('rent and sale')</span></a>
@@ -356,14 +369,14 @@
                                                 </div>
                                             </div>
                                             @endif
-            
+
                                             @if(isset($unit->isGalleryProject) && $unit->isGalleryProject)
-            
+
                                             <div class="d-flex align-items-center justify-content-center my-3 gap-2"
-                                            style="text-align: center;">            
+                                            style="text-align: center;">
                                                 <a href="javascript:;"><span class="badge bg-label-primary">
                                                         {{ __('Project') ?? '' }}</span></a>
-            
+
                                             </div>
                                             <div class="d-flex align-items-center justify-content-around my-3 py-1">
                                                 <div>
@@ -374,29 +387,29 @@
                                                     <h4 class="mb-0">{{ $unit->UnitsProject->count() ?? 0 }}</h4>
                                                     <span>@lang('Number units')</span>
                                                 </div>
-                                          
+
                                                 <div>
                                                     <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                                     <span class="ti ti-eye"></span>
                                                 </div>
                                             </div>
                                             @endif
-            
+
                                             @if(isset($unit->isGalleryProperty) && $unit->isGalleryProperty)
-            
+
                                             <div class="d-flex align-items-center justify-content-center my-3 gap-2"
                                             style="text-align: center;">
 
                                                 <a href="javascript:;"><span class="badge bg-label-primary">
                                                         {{ __('property') ?? '' }}</span></a>
-            
+
                                             </div>
                                             <div class="d-flex align-items-center justify-content-around my-3 py-1">
                                                 <div>
                                                     <h4 class="mb-0">{{ $unit->UnitsProperty->count() ?? 0 }}</h4>
                                                     <span>@lang('Number units')</span>
                                                 </div>
-                                          
+
                                                 <div>
                                                     <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                                     <span class="ti ti-eye"></span>
@@ -434,6 +447,8 @@
                                 </div>
                                 @include('Home.Gallery.inc.share')
                                 @include('Home.Gallery.inc.unitInterest')
+                                @include('Home.Gallery.inc._ad-report')
+
                             @endif
                         @endforeach
 
@@ -442,7 +457,6 @@
 
 
                 </div>
-            </div>
     </section>
 
 

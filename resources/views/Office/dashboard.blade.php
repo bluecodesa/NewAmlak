@@ -380,20 +380,25 @@
                                     @php
                                         $count = 0;
                                     @endphp
-                                    
+                                    @if ($requests)
                                     @foreach($requests as $request)
-                                        @foreach($request->requestStatuses as $status)
-                                            @if ($status->interestType && $status->interestType->default === 1)
-                                                @php
-                                                    $count++;
-                                                    break; 
-                                                @endphp
-                                            @endif
-                                        @endforeach
-                                    @endforeach
-                            
-                                <h4 class="mb-0">{{ $count }}</h4>
-                                <span class="text-success"></span>
+                                    @if ($request->requestStatuses)
+                                    @foreach($request->requestStatuses as $status)
+                                    @if ($status->interestType && $status->interestType->default === 1)
+                                        @php
+                                            $count++;
+                                            break;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                    @endif
+
+                                @endforeach
+
+                            <h4 class="mb-0">{{ $count }}</h4>
+                            <span class="text-success"></span>
+                                    @endif
+
                             </div>
                             <div class="d-flex align-items-center mt-1">
 

@@ -96,7 +96,7 @@
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Broker.RealEstateRequest.show', $client->id) }}">@lang('Show')</a>
+                                                        href="{{ route('Broker.RealEstateRequest.show', $client->realEstateRequest->id) }}">@lang('Show')</a>
                                                 @endif
 
                                             </div>

@@ -24,7 +24,6 @@ class RealEstateRequestRepository
 
     function getRequestById($id)
     {
-        dd(RealEstateRequest::findOrFail($id));
         return RealEstateRequest::findOrFail($id);
     }
 

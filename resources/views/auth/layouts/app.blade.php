@@ -59,6 +59,25 @@
              .template-customizer-open-btn {
             display: none !important;
         }
+
+        body,
+        h4,
+        h1,
+        h2,
+        h5,
+        h6,
+        h3,
+        span,
+        .dropify-clear,
+        small,
+        b,
+        strong,
+        label,
+
+        * {
+            font-family: "Noto Kufi Arabic", sans-serif !important;
+        }
+
         .toast-success {
             background-color: #28a745 !important; /* Green color */
         }
