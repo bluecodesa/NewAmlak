@@ -67,7 +67,7 @@
           <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
             @lang('close')
           </button>
-          <button type="submit" class="btn btn-primary">@lang('save')</button>
+          <button type="submit" class="btn btn-primary">@lang('ابلاغ')</button>
         </div>
     </form>
       </div>

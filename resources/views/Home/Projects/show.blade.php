@@ -387,8 +387,10 @@
                                                 </li>
                                                 <li
                                                 class="list-group-item d-flex justify-content-between align-items-center">
-                                                {{ __($project->ad_license_status) }}
-                                                <span class="badge bg-primary"></span>
+                                                @lang(' صلاحية الاعلان')
+                                                <span class="badge bg-primary">
+                                                    {{ __($project->ad_license_status) }}
+                                                </span>
                                                 </li>
                                                 @auth
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
