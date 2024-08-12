@@ -658,7 +658,7 @@
     "Ad License Number": "رقم رخصة الاعلان",
     "Ad License Expiry": "تاريخ انتهاء الاعلان",
     "Valid": "نشط",
-    "InValid": "منتهي",
+    "InValid": "غير نشط",
     "Fal license  date can not be exceeded": "لا يمكن تجاوز تاريخ رخصة فال",
     "Ad Status": "حالة الاعلان",
     "New subscriptions": "الاشتراكات الجديدة",

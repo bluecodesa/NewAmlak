@@ -172,7 +172,7 @@
                                             </li>
                                             <li
                                             class="list-group-item d-flex justify-content-between align-items-center">
-                                            {{ $Property->ad_license_expiry ?? '' }}
+                                            @lang(' صلاحية الاعلان')
                                             <span class="badge bg-primary">{{ __($Property->ad_license_status) }}</span>
                                             </li>
                                     </ul>

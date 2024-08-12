@@ -188,7 +188,7 @@
                                                 </li>
                                                 <li
                                                 class="list-group-item d-flex justify-content-between align-items-center">
-                                                {{ $project->ad_license_expiry ?? '' }}
+                                                @lang(' صلاحية الاعلان')
                                                 <span class="badge bg-primary">{{ __($project->ad_license_status) }}</span>
                                                 </li>
                                         </ul>
