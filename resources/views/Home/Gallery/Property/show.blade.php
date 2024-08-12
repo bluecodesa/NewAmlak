@@ -302,8 +302,8 @@
                                                 </li>
                                                 <li
                                                 class="list-group-item d-flex justify-content-between align-items-center">
-                                                {{ $property->ad_license_expiry ?? '' }}
-                                                <span class="badge bg-primary">{{ __($property->ad_license_status) }}</span>
+                                                {{ __($property->ad_license_status) }}
+                                                <span class="badge bg-primary"></span>
                                                 </li>
                                                 @auth
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">

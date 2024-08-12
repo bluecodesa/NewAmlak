@@ -387,8 +387,8 @@
                                                 </li>
                                                 <li
                                                 class="list-group-item d-flex justify-content-between align-items-center">
-                                                {{ $project->ad_license_expiry ?? '' }}
-                                                <span class="badge bg-primary">{{ __($project->ad_license_status) }}</span>
+                                                {{ __($project->ad_license_status) }}
+                                                <span class="badge bg-primary"></span>
                                                 </li>
                                                 @auth
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -473,7 +473,7 @@
 
     @include('Home.Gallery.Unit.share')
     @include('Home.Auth.propertyFinder.create') --}}
-    @include('Home.Gallery.Projects._ad-report')
+    @include('Home.Projects._ad-report')
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

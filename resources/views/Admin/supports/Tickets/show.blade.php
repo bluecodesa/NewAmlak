@@ -60,11 +60,11 @@
 
                                         <li class="mb-2 pt-1">
                                             <span class="fw-medium me-1">@lang('Ad Url'):</span>
-                                            <a class=" d-flex align-items-center me-3"
-                                            href="{{ route('login') }}">
-                                           {{ $ticket->ad_url }}
-                                           </a>
-                                          </li>
+                                            <a class="d-flex align-items-center me-3" href="{{ $ticket->ad_url }}" target="_blank">
+                                                {{ $ticket->ad_url }}
+                                            </a>
+                                        </li>
+
                                     </ul>
                                 </div>
                                 <div class="col-sm-6">

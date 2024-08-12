@@ -204,9 +204,28 @@
                                                         </li>
                                                         <li
                                                         class="list-group-item d-flex justify-content-between align-items-center">
-                                                        {{ $Unit->ad_license_expiry ?? '' }}
-                                                        <span class="badge bg-primary">{{ __($Unit->ad_license_status) }}</span>
+                                                        {{ __($Unit->ad_license_status) }}
+                                                        <span class="badge bg-primary"></span>
                                                         </li>
+                                                        @auth
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <a class=" d-flex align-items-center me-3"
+                                                             href="" data-bs-toggle="modal"
+                                                             data-bs-target="#modalReport" >
+                                                            <i class="ti ti-report ti-sm"></i>
+                                                                @lang('الابلاغ عن الاعلان')
+                                                            </a>
+                                                          </li>
+                                                        @endauth
+                                                        @guest
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <a class=" d-flex align-items-center me-3"
+                                                            href="{{ route('login') }}">
+                                                           <i class="ti ti-report ti-sm"></i>
+                                                               @lang('الابلاغ عن الاعلان')
+                                                           </a>
+                                                          </li>
+                                                        @endguest
                                                 </ul>
                                             </div>
                                         </div>
@@ -369,23 +388,23 @@
                                                 {{ $CheckUnitExist == false ? ' تسجيل اهتمام' : 'تم تسجيل اهتمام' }}
                                             </button>
                                         </form>
-                                        <a class="btn btn-primary"
+                                        {{-- <a class="btn btn-primary"
                                         href="" data-bs-toggle="modal"
                                        data-bs-target="#modalReport" >
                                       <i class="ti ti-report ti-sm"></i>
                                           @lang('الابلاغ عن الاعلان')
-                                      </a>
+                                      </a> --}}
                                     @endauth
                                     @guest
                                         <a href="{{ route('login') }}" type="submit" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#modalToggle">
                                             تسجيل اهتمام
                                         </a>
-                                        <a class="btn btn-primary"
+                                        {{-- <a class="btn btn-primary"
                                         href="{{ route('login') }}">
                                        <i class="ti ti-report ti-sm"></i>
                                            @lang('الابلاغ عن الاعلان')
-                                       </a>
+                                       </a> --}}
                                     @endguest
 
                                     <!-- Modal -->

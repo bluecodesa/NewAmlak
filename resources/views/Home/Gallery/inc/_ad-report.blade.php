@@ -36,7 +36,7 @@
             @endphp
             <input type="hidden" name="ad_url" value="{{ $unit_url }}" class="form-control" required>
 
-            <div class="col-md-6 mb-3 col-12">
+            {{-- <div class="col-md-6 mb-3 col-12">
 
                 <label class="form-label">{{ __('Ticket Type') }} <span class="required-color">*</span></label>
                 <select class="form-select" name="type" required disabled>
@@ -50,11 +50,12 @@
                 <input type="hidden" name="type" value="39" required>
 
 
-            </div>
+            </div> --}}
+            <input type="hidden" name="type" value="39" required>
 
             <div class="col-md-6 mb-3 col-12">
                 <label class="form-label"> @lang('Ticket Address') <span class="required-color">*</span></label>
-                <input type="text" required name="subject" class="form-control"
+                <input type="text" required name="subject" class="form-control" value="{{ $unit->name }}"
                     placeholder="@lang('Ticket Address')">
             </div>
             <div class="col-md-6 mb-3 col-12">

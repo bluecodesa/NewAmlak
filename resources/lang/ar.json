@@ -660,7 +660,11 @@
     "Valid": "نشط",
     "InValid": "منتهي",
     "Fal license  date can not be exceeded": "لا يمكن تجاوز تاريخ رخصة فال",
-    "Ad Status": "حالة الاعلان"
+    "Ad Status": "حالة الاعلان",
+    "New subscriptions": "الاشتراكات الجديدة",
+    "Expired subscriptions": "الاشتراكات المنتهية",
+    "Ad Url": "لينك الاعلان"
+
 
 
 

@@ -27,7 +27,7 @@
             <input type="hidden" name="ad_url" value="{{ $ad_url }}" class="form-control" required>
 
                 <input type="hidden" name="project_id" value="{{ $project->id }}" class="form-control" required>
-                    <div class="col-md-6 mb-3 col-12">
+                {{-- <div class="col-md-6 mb-3 col-12">
 
                 <label class="form-label">{{ __('Ticket Type') }} <span class="required-color">*</span></label>
                 <select class="form-select" name="type" required disabled>
@@ -38,18 +38,19 @@
                         </option>
                     @endforeach
                 </select>
-                <input type="hidden" name="type" value="39" required>
 
 
-            </div>
+            </div> --}}
+            <input type="hidden" name="type" value="39" required>
+
 
             <div class="col-md-6 mb-3 col-12">
                 <label class="form-label"> @lang('Ticket Address') <span class="required-color">*</span></label>
-                <input type="text" required name="subject" class="form-control"
+                <input type="text" required name="subject" class="form-control" value="{{ $project->name }}"
                     placeholder="@lang('Ticket Address')">
             </div>
             <div class="col-md-6 mb-3 col-12">
-                <label class="form-label">@lang('Image')</label>
+                <label class="form-label">@lang('Attachments')</label>
                 <input type="file" class="form-control" name="image"
                     accept="image/jpeg,image/png,image/gif,image/jpg">
 

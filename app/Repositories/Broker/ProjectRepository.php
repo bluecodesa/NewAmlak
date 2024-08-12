@@ -226,8 +226,7 @@ class ProjectRepository implements ProjectRepositoryInterface
     function ShowPublicProject($id)
     {
         $project = Project::where('show_in_gallery', 1)->find($id);
-        $ticketTypes =  TicketType::paginate(100);
-        return get_defined_vars();
+        return $project;
 
     }
     public function delete($id)

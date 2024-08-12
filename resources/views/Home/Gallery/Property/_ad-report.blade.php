@@ -26,7 +26,7 @@
             @endphp
             <input type="hidden" name="ad_url" value="{{ $ad_url }}" class="form-control" required>
 
-                <input type="hidden" name="property_id" value="{{ $property->id }}" class="form-control" required>
+                {{-- <input type="hidden" name="property_id" value="{{ $property->id }}" class="form-control" required>
                     <div class="col-md-6 mb-3 col-12">
 
                 <label class="form-label">{{ __('Ticket Type') }} <span class="required-color">*</span></label>
@@ -38,14 +38,15 @@
                         </option>
                     @endforeach
                 </select>
-                <input type="hidden" name="type" value="39" required>
 
 
-            </div>
+            </div> --}}
+            <input type="hidden" name="type" value="39" required>
+
 
             <div class="col-md-6 mb-3 col-12">
                 <label class="form-label"> @lang('Ticket Address') <span class="required-color">*</span></label>
-                <input type="text" required name="subject" class="form-control"
+                <input type="text" required name="subject" class="form-control" value="{{ $property->name }}"
                     placeholder="@lang('Ticket Address')">
             </div>
             <div class="col-md-6 mb-3 col-12">
