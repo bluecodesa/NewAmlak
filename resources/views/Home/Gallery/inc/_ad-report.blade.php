@@ -11,7 +11,7 @@
             aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ route('Broker.Tickets.store') }}" method="POST" class="row"
+            <form action="{{ route('Home.Tickets.send-report') }}" method="POST" class="row"
             enctype="multipart/form-data">
             @csrf
             @include('Admin.layouts.Inc._errors')
@@ -24,7 +24,19 @@
             @elseif ($Unit->isGalleryProject)
                 <input type="hidden" name="project_id" value="{{ $Unit->id }}" class="form-control" required>
             @endif
-                    <div class="col-md-6 mb-3 col-12">
+            @php
+            $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
+            $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
+            $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
+            $shareLabel = $isGalleryUnit ? 'Unit' : ($isGalleryProject ? 'Project' : ($isGalleryProperty ? 'Property' : 'Item'));
+            $routeName = $isGalleryUnit ? 'gallery.showUnitPublic' : ($isGalleryProject ? 'Home.showPublicProject' : 'Home.showPublicProperty');
+
+            $gallery_name = $Unit->BrokerData->GalleryData->gallery_name;
+            $unit_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $Unit->id]);
+            @endphp
+            <input type="hidden" name="ad_url" value="{{ $unit_url }}" class="form-control" required>
+
+            <div class="col-md-6 mb-3 col-12">
 
                 <label class="form-label">{{ __('Ticket Type') }} <span class="required-color">*</span></label>
                 <select class="form-select" name="type" required disabled>

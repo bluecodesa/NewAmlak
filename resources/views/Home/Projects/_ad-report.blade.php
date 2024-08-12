@@ -11,12 +11,21 @@
             aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ route('Broker.Tickets.store') }}" method="POST" class="row"
+            <form action="{{ route('Home.Tickets.send-report') }}" method="POST" class="row"
             enctype="multipart/form-data">
             @csrf
             @include('Admin.layouts.Inc._errors')
 
           <div class="row">
+            @php
+
+            $routeName ='Home.showPublicProject';
+
+            $gallery_name = $project->BrokerData->GalleryData->gallery_name;
+            $ad_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $project->id]);
+            @endphp
+            <input type="hidden" name="ad_url" value="{{ $ad_url }}" class="form-control" required>
+
                 <input type="hidden" name="project_id" value="{{ $project->id }}" class="form-control" required>
                     <div class="col-md-6 mb-3 col-12">
 

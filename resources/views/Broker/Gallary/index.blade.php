@@ -131,7 +131,7 @@
                 alertify.success(@json(__('Download done')));
             }
         </script>
-        <script>
+        {{-- <script>
             function copyUrl() {
                 var id = $(this).data("url");
                 var input = $("<input>").val(id).appendTo("body").select();
@@ -142,6 +142,17 @@
                     text: @json(__('copy done')),
                     timer: 1000,
                 });
+            }
+        </script> --}}
+
+        <script>
+            function copyToClipboard(elementId) {
+                var copyText = document.getElementById(elementId);
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); // For mobile devices
+                document.execCommand("copy");
+
+                alertify.success(@json(__('copy done')));
             }
         </script>
     @endpush

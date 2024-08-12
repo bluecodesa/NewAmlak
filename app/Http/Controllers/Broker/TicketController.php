@@ -164,4 +164,6 @@ class TicketController extends Controller
             Notification::send($admin, new NewTicketNotification($ticket));
         }
     }
+
+   
 }

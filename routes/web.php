@@ -56,6 +56,7 @@ Route::group(
             Route::post('create-office', [HomeController::class, 'storeOffice'])->name('Offices.CreateOffice');
             Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
             Route::post('create-prperty-finder', [HomeController::class, 'storePropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
+            Route::post('send-report', [HomeController::class, 'sendAdReport'])->name('Tickets.send-report');
 
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
               //projects

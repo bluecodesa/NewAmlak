@@ -7,6 +7,7 @@ use App\Http\Traits\Email\MailWelcomeBroker;
 use App\Models\Gallery;
 use App\Notifications\Admin\NewBrokerNotification;
 use App\Notifications\Admin\NewOfficeNotification;
+use App\Notifications\Admin\NewTicketNotification;
 use Illuminate\Http\Request;
 use App\Models\City;
 use App\Models\Office;
@@ -40,8 +41,7 @@ use App\Services\CityService;
 use App\Services\PropertyTypeService;
 use App\Services\Admin\DistrictService;
 use App\Http\Traits\Email\MailSendCode;
-
-
+use App\Models\Ticket;
 
 class HomeController extends Controller
 {
@@ -873,5 +873,61 @@ class HomeController extends Controller
 
         return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
+
+    public function sendAdReport(Request $request)
+    {
+        //
+        // Validate the form data
+        $validatedData = $request->validate([
+            'type' => 'required',
+            'subject' => 'required',
+            'content' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
+        ], [
+            'type.required' => 'The type field is required.',
+            'subject.required' => 'The subject field is required.',
+            'content.required' => 'The content field is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'Only JPEG, PNG, JPG, and GIF formats are allowed for the image.',
+            'image.max' => 'The image size must not exceed 2048 kilobytes.',
+        ]);
+        // Handle file upload if an image is provided
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = uniqid() . '.' . $ext;
+            $file->move(public_path('Brokers/Tickets'), $fileName);
+            $validatedData['image'] = '/Brokers/Tickets/' . $fileName;
+        }
+
+        $ticket = new Ticket();
+        $user_id = auth()->user()->id;
+        $ticket->user_id = $user_id;
+
+        $ticket->subject = $validatedData['subject'];
+        $ticket->content = $validatedData['content'];
+        $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null
+        $ticket->ticket_type_id = $validatedData['type'];
+        $ticket->unit_id = $request['unit_id'] ?? null;
+        $ticket->project_id = $request['project_id'] ?? null;
+        $ticket->property_id = $request['property_id'] ?? null;
+        $ticket->ad_url = $request['ad_url'] ?? null;
+
+
+        $ticket->save();
+        $this->notifyAdmins3($ticket);
+
+        return redirect()->back()->with('success', 'Ad report send successfully');
+    }
+
+    protected function notifyAdmins3(Ticket $ticket)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewTicketNotification($ticket));
+        }
+    }
+
 
 }

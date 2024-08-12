@@ -57,6 +57,14 @@
                                             <span class="fw-medium me-1">@lang('Create Date'):</span>
                                             <span>{{ $ticket->created_at }}</span>
                                         </li>
+
+                                        <li class="mb-2 pt-1">
+                                            <span class="fw-medium me-1">@lang('Ad Url'):</span>
+                                            <a class=" d-flex align-items-center me-3"
+                                            href="{{ route('login') }}">
+                                           {{ $ticket->ad_url }}
+                                           </a>
+                                          </li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-6">
