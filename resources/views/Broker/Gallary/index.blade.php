@@ -131,7 +131,7 @@
                 alertify.success(@json(__('Download done')));
             }
         </script>
-        {{-- <script>
+        <script>
             function copyUrl() {
                 var id = $(this).data("url");
                 var input = $("<input>").val(id).appendTo("body").select();
@@ -143,7 +143,7 @@
                     timer: 1000,
                 });
             }
-        </script> --}}
+        </script>
 
         <script>
             function copyToClipboard(elementId) {

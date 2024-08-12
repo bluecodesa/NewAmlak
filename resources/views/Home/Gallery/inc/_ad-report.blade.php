@@ -55,7 +55,7 @@
 
             <div class="col-md-6 mb-3 col-12">
                 <label class="form-label"> @lang('Ticket Address') <span class="required-color">*</span></label>
-                <input type="text" required name="subject" class="form-control" value="{{ $unit->name }}"
+                <input type="text" required name="subject" class="form-control" value="{{ $Unit->name }}"
                     placeholder="@lang('Ticket Address')">
             </div>
             <div class="col-md-6 mb-3 col-12">
