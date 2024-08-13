@@ -410,6 +410,7 @@ class HomeController extends Controller
 
     public function storeBroker(Request $request)
     {
+        dd($request);
         // return $request;
         $rules = [
             'name' => 'required|string|max:255',
@@ -491,7 +492,7 @@ class HomeController extends Controller
             'mobile' => $request->mobile,
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
-            // 'city_id' => $request->city_id,
+            'city_id' => $request->city_id,
             'broker_logo' => $request_data['broker_logo'] ?? 'HOME_PAGE/img/avatars/14.png',
         ]);
 

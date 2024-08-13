@@ -449,6 +449,34 @@
                 $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
             });
         });
+
+
+        $(document).ready(function() {
+    // Initialize key_phone and full_phone fields with session or default values
+    var keyPhone = '{{ $KeyPhone ?? 966 }}';
+    var phone = '{{ $phone ?? '' }}';
+
+    $('#key_phone').val(keyPhone);
+    $('#full_phone').val(keyPhone + phone);
+
+    // Set the dropdown text to the current key phone value
+    $('.btn.dropdown-toggle').text(keyPhone);
+
+    // Event listener for dropdown items
+    $('.dropdown-item').on('click', function() {
+        var key = $(this).data('key');
+        var phone = $('#phone').val();
+        $('#key_phone').val(key);
+        $('#full_phone').val(key + phone);
+        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+    });
+
+    // Event listener for phone input changes
+    $('#phone').on('input', function() {
+        updateFullPhone(this);
+    });
+});
+
     </script>
     {!! $sitting->zoho_salesiq !!}
 

@@ -13,7 +13,9 @@ use App\Models\Subscription;
 use App\Models\Ticket;
 use App\Models\UnitInterest;
 use App\Models\User;
+use App\Models\Visitor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -53,11 +55,23 @@ class HomeController extends Controller
 
         $totalUsers = $numberOfOffices + $numberOfBrokers + $numberOfPropertyFinders + $numberOfRenters;
 
-$officePercentage = $totalUsers > 0 ? ($numberOfOffices / $totalUsers) * 100 : 0;
-$brokerPercentage = $totalUsers > 0 ? ($numberOfBrokers / $totalUsers) * 100 : 0;
-$propertyFinderPercentage = $totalUsers > 0 ? ($numberOfPropertyFinders / $totalUsers) * 100 : 0;
-$renterPercentage = $totalUsers > 0 ? ($numberOfRenters / $totalUsers) * 100 : 0;
+        $officePercentage = $totalUsers > 0 ? ($numberOfOffices / $totalUsers) * 100 : 0;
+        $brokerPercentage = $totalUsers > 0 ? ($numberOfBrokers / $totalUsers) * 100 : 0;
+        $propertyFinderPercentage = $totalUsers > 0 ? ($numberOfPropertyFinders / $totalUsers) * 100 : 0;
+        $renterPercentage = $totalUsers > 0 ? ($numberOfRenters / $totalUsers) * 100 : 0;
 
+
+        $visitorData =Visitor::select(DB::raw('DAYNAME(visited_at) as day'), DB::raw('COUNT(id) as count'))
+        ->whereBetween('visited_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+        ->groupBy('day')
+        ->orderBy(DB::raw('FIELD(day, "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday")'))
+        ->get();
+        $days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        $visitorCounts = [];
+
+        foreach ($days as $day) {
+            $visitorCounts[$day] = $visitorData->firstWhere('day', $day)->count ?? 0;
+        }
 
 
         //end dashbard

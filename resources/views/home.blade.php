@@ -343,6 +343,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-6 col-md-6 col-6 mb-4">
+            <div class="card">
+                <h5 class="card-header">@lang('Gallery visitors')</h5>
+                <div class="card-body">
+                <canvas id="dayChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
         </div>
@@ -412,6 +423,55 @@
                 plugins: {
                     legend: {
                         display: false
+                    }
+                }
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('dayChart').getContext('2d');
+        var dayChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                datasets: [{
+                    label: 'Number of Visitors',
+                    data: [
+                        {{ $visitorCounts['Sunday'] }},
+                        {{ $visitorCounts['Monday'] }},
+                        {{ $visitorCounts['Tuesday'] }},
+                        {{ $visitorCounts['Wednesday'] }},
+                        {{ $visitorCounts['Thursday'] }},
+                        {{ $visitorCounts['Friday'] }},
+                        {{ $visitorCounts['Saturday'] }}
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(40, 208, 148, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(40, 208, 148, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
                 }
             }
