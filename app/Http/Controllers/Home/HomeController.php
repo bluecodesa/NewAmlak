@@ -479,6 +479,8 @@ class HomeController extends Controller
             'email' => $request->email,
             'user_name' => uniqid(),
             'password' => bcrypt($request->password),
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
             'customer_id' => $new_customer_id,
             'avatar' => $request_data['broker_logo'] ?? null,
         ]);
