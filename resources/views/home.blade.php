@@ -10,6 +10,14 @@
         <!-- Content -->
 
         <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="col-xl-12 col-md-12 col-12 mb-4">
+                <div class="card">
+                    <h5 class="card-header">@lang('Gallery visitors') @lang('monthly')</h5>
+                    <div class="card-body">
+                        <canvas id="monthChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
     <div class="row">
          <div class="col-xl-3 col-md-4 col-6 mb-4">
             <a class="card h-100">
@@ -293,15 +301,6 @@
                         <span class="text-success"></span>
                     </div>
                     <div class="d-flex align-items-center mt-1">
-                        {{-- <div class="progress w-100" style="height: 8px">
-                      <div
-                        class="progress-bar bg-primary"
-                        style="width: 85%"
-                        role="progressbar"
-                        aria-valuenow="85"
-                        aria-valuemin="0"
-                        aria-valuemax="100"></div>
-                    </div> --}}
                     </div>
                 </div>
             </a>
@@ -339,73 +338,35 @@
                 </div>
             </a>
         </div>
+
+        <div class="col-xl-6 col-md-6 col-6 mb-4">
+            <div class="card">
+            <div class="form-group">
+                <select id="citySelect" class="form-select">
+                    <option selected disabled>@lang('اختر المدينه لعرض العقارات')</option>
+                    @foreach($cities as $city)
+                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="container mt-3">
+                <div id="cityData">
+                    <p><strong>@lang('Units') :</strong> <span id="unitsCount">0</span></p>
+                    <p><strong>@lang('properties') :</strong> <span id="propertiesCount">0</span></p>
+                    <p><strong>@lang('Projects') :</strong> <span id="projectsCount">0</span></p>
+                </div>
+            </div>
+        </div>
+        </div>
+
     </div>
 
     <div class="row">
 
-        <div class="col-xl-12 col-md-12 col-12 mb-4">
-            <div class="card">
-                <h5 class="card-header">@lang('Gallery visitors') @lang('monthly')</h5>
-                <div class="card-body">
-                    <canvas id="monthChart" height="100"></canvas>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="col-xl-6 col-md-6 col-6 mb-4">
             <div class="card">
-                <h5 class="card-header">@lang('Gallery visitors') @lang('weekly')</h5>
-                <div class="card-body">
-                <canvas id="dayChart" height="200"></canvas>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-xl-6 col-md-6 col-6 mb-4">
-            <div class="card">
-                <h5 class="card-header">@lang('Cities')</h5>
-                <div class="card-body">
-                    <div class="form-group">
-                        <select id="citySelect" class="form-select">
-                            <option selected disabled>@lang('city')</option>
-                            @foreach($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    {{-- <div class="progress mt-3">
-                        <div id="unitsProgressBar" class="progress-bar bg-success" role="progressbar"
-                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Units</div>
-                    </div>
-                    <div class="progress mt-3">
-                        <div id="propertiesProgressBar" class="progress-bar bg-info" role="progressbar"
-                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Properties</div>
-                    </div>
-                    <div class="progress mt-3">
-                        <div id="projectsProgressBar" class="progress-bar bg-warning" role="progressbar"
-                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Projects</div>
-                    </div> --}}
-                    <div class="container mt-3">
-                        <div id="cityData">
-                            <p><strong>@lang('Units') :</strong> <span id="unitsCount">0</span></p>
-                            <p><strong>@lang('properties') :</strong> <span id="propertiesCount">0</span></p>
-                            <p><strong>@lang('Projects') :</strong> <span id="projectsCount">0</span></p>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-
-
-
-
-        <div class="col-xl-6 col-md-6 col-6 mb-4">
-            <div class="card">
-                <h5 class="card-header">@lang('Clients')</h5>
+                <h5 class="card-header">@lang('Subscribers')</h5>
                 <div class="card-body">
                     <canvas id="rolesChart" height="100"></canvas>
                     <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
@@ -444,6 +405,58 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-6 col-md-6 col-6 mb-4">
+            <div class="card">
+                <h5 class="card-header">@lang('Gallery visitors') @lang('weekly')</h5>
+                <div class="card-body">
+                <canvas id="dayChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        {{-- <div class="col-xl-6 col-md-6 col-6 mb-4">
+            <div class="card">
+                <h5 class="card-header">@lang('Cities')</h5>
+                <div class="card-body">
+                    <div class="form-group">
+                        <select id="citySelect" class="form-select">
+                            <option selected disabled>@lang('city')</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- <div class="progress mt-3">
+                        <div id="unitsProgressBar" class="progress-bar bg-success" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Units</div>
+                    </div>
+                    <div class="progress mt-3">
+                        <div id="propertiesProgressBar" class="progress-bar bg-info" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Properties</div>
+                    </div>
+                    <div class="progress mt-3">
+                        <div id="projectsProgressBar" class="progress-bar bg-warning" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Projects</div>
+                    </div> --}}
+                    {{-- <div class="container mt-3">
+                        <div id="cityData">
+                            <p><strong>@lang('Units') :</strong> <span id="unitsCount">0</span></p>
+                            <p><strong>@lang('properties') :</strong> <span id="propertiesCount">0</span></p>
+                            <p><strong>@lang('Projects') :</strong> <span id="projectsCount">0</span></p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div> --}}
+
+
+
+
 
 
     </div>
