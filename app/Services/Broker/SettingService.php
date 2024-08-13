@@ -26,7 +26,6 @@ class SettingService
     public function updateBroker(array $data, $id)
     {
         $request = request();
-
         $broker = Broker::findOrFail($id);
         $rules = [
             'name' => 'required|string|max:255',
@@ -109,6 +108,9 @@ class SettingService
         $userData = [
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->mobile,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
         ];
 
         // Check if $ext is defined and not empty
