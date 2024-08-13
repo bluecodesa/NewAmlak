@@ -83,4 +83,19 @@ class HomeController extends Controller
         $messages = ContactUs::latest('created_at')->get();
         return view('Admin.supports.ContactUs.index', get_defined_vars());
     }
+
+    public function getCityCounts(Request $request)
+{
+    $cityId = $request->city_id;
+
+    $unitsCount = Unit::where('city_id', $cityId)->count();
+    $propertiesCount = Property::where('city_id', $cityId)->count();
+    $projectsCount = Project::where('city_id', $cityId)->count();
+
+    return response()->json([
+        'units' => $unitsCount,
+        'properties' => $propertiesCount,
+        'projects' => $projectsCount
+    ]);
+}
 }

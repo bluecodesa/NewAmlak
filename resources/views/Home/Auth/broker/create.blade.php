@@ -202,8 +202,20 @@
 
                             </div>
 
+                            <div class="col-md-4 col-12 mb-3">
+                                <label class="form-label" for="package"> @lang('Subscription Type') <span
+                                        class="text-danger">*</span></label>
+                                <select type="package" class="form-select" name="subscription_type_id" required>
+                                    <option value="" selected disabled> @lang('Subscription Type') </option>
+                                    @foreach ($subscriptionTypes as $subscriptionType)
+                                        <option value="{{ $subscriptionType->id }}">
+                                            {{ $subscriptionType->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                            <div class="form-group col-md-4">
+
+                            <div class="form-group col-md-6">
                                 <label class="form-label">@lang('Region') <span
                                         class="text-danger">*</span></label>
                                 <select type="package" class="form-select" id="Region_id" name="region_id"
@@ -217,23 +229,11 @@
                                 </select>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label class="form-label">@lang('city') <span class="text-danger">*</span>
                                 </label>
                                 <select type="package" class="form-select" name="city_id" id="CityDiv"
                                     required>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4 col-12 mb-3">
-                                <label class="form-label" for="package"> @lang('Subscription Type') <span
-                                        class="text-danger">*</span></label>
-                                <select type="package" class="form-select" name="subscription_type_id" required>
-                                    <option value="" selected disabled> @lang('Subscription Type') </option>
-                                    @foreach ($subscriptionTypes as $subscriptionType)
-                                        <option value="{{ $subscriptionType->id }}">
-                                            {{ $subscriptionType->name }}</option>
-                                    @endforeach
                                 </select>
                             </div>
 
