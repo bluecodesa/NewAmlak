@@ -150,7 +150,7 @@
                             <span class="avatar-initial rounded bg-label-primary"><i
                                     class="ti ti-users ti-md"></i></span>
                         </div>
-                        <h4 class="ms-1 mb-0">@lang('Property Finder')</h4>
+                        <h4 class="ms-1 mb-0">@lang('owners')</h4>
                     </div>
                     <small class="text-muted"></small>
                 </div>
