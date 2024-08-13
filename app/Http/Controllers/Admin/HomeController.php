@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Broker;
 use App\Models\ContactUs;
 use App\Models\Office;
+use App\Models\Owner;
+use App\Models\Project;
+use App\Models\Property;
 use App\Models\RealEstateRequest;
 use App\Models\Renter;
 use Illuminate\Http\Request;
 use App\Models\Subscription;
 use App\Models\Ticket;
+use App\Models\Unit;
 use App\Models\UnitInterest;
 use App\Models\User;
 use App\Models\Visitor;
@@ -52,6 +56,8 @@ class HomeController extends Controller
         $numberOfBrokers = User::where('is_broker', 1)->count();
         $numberOfPropertyFinders = User::where('is_property_finder', 1)->count();
         $numberOfRenters = User::where('is_renter', 1)->count();
+        $numberOfOwners = Owner::all()->count();
+
 
         $totalUsers = $numberOfOffices + $numberOfBrokers + $numberOfPropertyFinders + $numberOfRenters;
 
