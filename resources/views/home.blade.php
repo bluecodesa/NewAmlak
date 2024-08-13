@@ -342,6 +342,67 @@
     </div>
 
     <div class="row">
+
+        <div class="col-xl-12 col-md-12 col-12 mb-4">
+            <div class="card">
+                <h5 class="card-header">@lang('Gallery visitors') @lang('monthly')</h5>
+                <div class="card-body">
+                    <canvas id="monthChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 col-6 mb-4">
+            <div class="card">
+                <h5 class="card-header">@lang('Gallery visitors') @lang('weekly')</h5>
+                <div class="card-body">
+                <canvas id="dayChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-6 col-md-6 col-6 mb-4">
+            <div class="card">
+                <h5 class="card-header">@lang('Cities')</h5>
+                <div class="card-body">
+                    <div class="form-group">
+                        <select id="citySelect" class="form-select">
+                            <option selected disabled>@lang('city')</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- <div class="progress mt-3">
+                        <div id="unitsProgressBar" class="progress-bar bg-success" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Units</div>
+                    </div>
+                    <div class="progress mt-3">
+                        <div id="propertiesProgressBar" class="progress-bar bg-info" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Properties</div>
+                    </div>
+                    <div class="progress mt-3">
+                        <div id="projectsProgressBar" class="progress-bar bg-warning" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Projects</div>
+                    </div> --}}
+                    <div class="container mt-3">
+                        <div id="cityData">
+                            <p><strong>@lang('Units') :</strong> <span id="unitsCount">0</span></p>
+                            <p><strong>@lang('properties') :</strong> <span id="propertiesCount">0</span></p>
+                            <p><strong>@lang('Projects') :</strong> <span id="projectsCount">0</span></p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
         <div class="col-xl-6 col-md-6 col-6 mb-4">
             <div class="card">
                 <h5 class="card-header">@lang('Clients')</h5>
@@ -383,64 +444,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-xl-6 col-md-6 col-6 mb-4">
-            <div class="card">
-                <h5 class="card-header">@lang('Cities')</h5>
-                <div class="card-body">
-                    <div class="form-group">
-                        <select id="citySelect" class="form-select">
-                            <option selected disabled>@lang('city')</option>
-                            @foreach($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    {{-- <div class="progress mt-3">
-                        <div id="unitsProgressBar" class="progress-bar bg-success" role="progressbar"
-                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Units</div>
-                    </div>
-                    <div class="progress mt-3">
-                        <div id="propertiesProgressBar" class="progress-bar bg-info" role="progressbar"
-                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Properties</div>
-                    </div>
-                    <div class="progress mt-3">
-                        <div id="projectsProgressBar" class="progress-bar bg-warning" role="progressbar"
-                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Projects</div>
-                    </div> --}}
-                    <div class="container mt-3">
-                        <div id="cityData">
-                            <p><strong>@lang('Units') :</strong> <span id="unitsCount">0</span></p>
-                            <p><strong>@lang('properties') :</strong> <span id="propertiesCount">0</span></p>
-                            <p><strong>@lang('Projects') :</strong> <span id="projectsCount">0</span></p>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-6 col-md-6 col-6 mb-4">
-            <div class="card">
-                <h5 class="card-header">@lang('Gallery visitors')</h5>
-                <div class="card-body">
-                <canvas id="dayChart" height="200"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-6 col-md-6 col-6 mb-4">
-            <div class="card">
-                <h5 class="card-header">@lang('Gallery visitors')</h5>
-                <div class="card-body">
-                    <canvas id="monthChart" height="200"></canvas>
-                </div>
-            </div>
-        </div>
-
-
 
 
     </div>
