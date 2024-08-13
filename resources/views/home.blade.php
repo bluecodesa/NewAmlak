@@ -157,7 +157,7 @@
                 <div class="card-body">
                     <div id="ordersLastWeek"></div>
                     <div class="d-flex justify-content-between align-items-center gap-3">
-                        <h4 class="mb-0">{{ $numOfOwners }}</h4>
+                        <h4 class="mb-0">{{ $numberOfOwners }}</h4>
                         <span class="text-success"></span>
                     </div>
                     <div class="d-flex align-items-center mt-1">

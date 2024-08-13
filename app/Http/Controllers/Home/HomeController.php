@@ -410,7 +410,6 @@ class HomeController extends Controller
 
     public function storeBroker(Request $request)
     {
-        dd($request);
         // return $request;
         $rules = [
             'name' => 'required|string|max:255',
