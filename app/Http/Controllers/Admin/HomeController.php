@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
+use App\Models\City;
 use App\Models\ContactUs;
 use App\Models\Office;
 use App\Models\Owner;
@@ -65,6 +66,8 @@ class HomeController extends Controller
         $brokerPercentage = $totalUsers > 0 ? ($numberOfBrokers / $totalUsers) * 100 : 0;
         $propertyFinderPercentage = $totalUsers > 0 ? ($numberOfPropertyFinders / $totalUsers) * 100 : 0;
         $renterPercentage = $totalUsers > 0 ? ($numberOfRenters / $totalUsers) * 100 : 0;
+        $ownerPercentage = $totalUsers > 0 ? ($numberOfOwners / $totalUsers) * 100 : 0;
+
 
 
         $visitorData =Visitor::select(DB::raw('DAYNAME(visited_at) as day'), DB::raw('COUNT(id) as count'))
@@ -80,6 +83,31 @@ class HomeController extends Controller
         }
 
 
+        //month
+
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+
+        $visitorDataMonth = Visitor::select(
+                DB::raw('DAY(visited_at) as day'),
+                DB::raw('COUNT(id) as count')
+            )
+            ->whereBetween('visited_at', [$startOfMonth, $endOfMonth])
+            ->groupBy('day')
+            ->orderBy('day')
+            ->get();
+
+        // Generate an array with all days of the month initialized to 0
+        $daysInMonth = range(1, $endOfMonth->day);
+        $visitorCountsMonth = array_fill_keys($daysInMonth, 0);
+
+        // Populate the array with actual visitor counts
+        foreach ($visitorDataMonth as $data) {
+            $visitorCountsMonth[$data->day] = $data->count;
+        }
+
+        $cities = City::all(); // Assuming you have a City model
+
         //end dashbard
         return view('home', get_defined_vars());
     }
@@ -90,18 +118,17 @@ class HomeController extends Controller
         return view('Admin.supports.ContactUs.index', get_defined_vars());
     }
 
-    public function getCityCounts(Request $request)
-{
-    $cityId = $request->city_id;
+    public function getCityData($cityId) {
+        $unitsCount = Unit::where('city_id', $cityId)->count();
+        $propertiesCount = Property::where('city_id', $cityId)->count();
+        $projectsCount = Project::where('city_id', $cityId)->count();
 
-    $unitsCount = Unit::where('city_id', $cityId)->count();
-    $propertiesCount = Property::where('city_id', $cityId)->count();
-    $projectsCount = Project::where('city_id', $cityId)->count();
+        return response()->json([
+            'units_count' => $unitsCount,
+            'properties_count' => $propertiesCount,
+            'projects_count' => $projectsCount,
+        ]);
+    }
 
-    return response()->json([
-        'units' => $unitsCount,
-        'properties' => $propertiesCount,
-        'projects' => $projectsCount
-    ]);
-}
+
 }

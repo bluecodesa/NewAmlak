@@ -366,13 +366,58 @@
                                 style="background-color: rgb(253, 172, 52); width: 35px; height: 6px"></span>
                             <div class="text-muted">{{ $numberOfPropertyFinders }} ({{ round($propertyFinderPercentage, 2) }}%)</div>
                         </li>
+                        <li class="ct-series-4 d-flex flex-column">
+                            <h5 class="mb-0">@lang('owners')</h5>
+                            <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                                style="background-color: rgb(115, 5, 119); width: 35px; height: 6px"></span>
+                            <div class="text-muted">{{ $numberOfOwners }} ({{ round($ownerPercentage, 2) }}%)</div>
+                        </li>
                         <li class="ct-series-3 d-flex flex-column">
                             <h5 class="mb-0">@lang('Renters')</h5>
                             <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
                                 style="background-color: rgb(235, 75, 75); width: 35px; height: 6px"></span>
                             <div class="text-muted">{{ $numberOfRenters }} ({{ round($renterPercentage, 2) }}%)</div>
                         </li>
+
                     </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 col-6 mb-4">
+            <div class="card">
+                <h5 class="card-header">@lang('Cities')</h5>
+                <div class="card-body">
+                    <div class="form-group">
+                        <select id="citySelect" class="form-select">
+                            <option selected disabled>@lang('city')</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- <div class="progress mt-3">
+                        <div id="unitsProgressBar" class="progress-bar bg-success" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Units</div>
+                    </div>
+                    <div class="progress mt-3">
+                        <div id="propertiesProgressBar" class="progress-bar bg-info" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Properties</div>
+                    </div>
+                    <div class="progress mt-3">
+                        <div id="projectsProgressBar" class="progress-bar bg-warning" role="progressbar"
+                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0 Projects</div>
+                    </div> --}}
+                    <div class="container mt-3">
+                        <div id="cityData">
+                            <p><strong>@lang('Units') :</strong> <span id="unitsCount">0</span></p>
+                            <p><strong>@lang('properties') :</strong> <span id="propertiesCount">0</span></p>
+                            <p><strong>@lang('Projects') :</strong> <span id="projectsCount">0</span></p>
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
         </div>
@@ -385,6 +430,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-6 col-md-6 col-6 mb-4">
+            <div class="card">
+                <h5 class="card-header">@lang('Gallery visitors')</h5>
+                <div class="card-body">
+                    <canvas id="monthChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+
 
 
     </div>
@@ -428,27 +484,32 @@
         </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var ctx = document.getElementById('rolesChart').getContext('2d');
         var rolesChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['offices', 'Brokers', 'Property Finders', 'Renters'],
+                labels: ['offices', 'Brokers', 'Property Finders', 'Renters','Owners'],
                 datasets: [{
                     data: [
                         {{ $officePercentage }},
                         {{ $brokerPercentage }},
                         {{ $propertyFinderPercentage }},
-                        {{ $renterPercentage }}
+                        {{ $renterPercentage }},
+                        {{ $ownerPercentage }}
+
                     ],
                     backgroundColor: [
                         'rgb(102, 110, 232)',
                         'rgb(40, 208, 148)',
                         'rgb(253, 172, 52)',
-                        'rgb(235, 75, 75)'
+                        'rgb(235, 75, 75)',
+                        'rgb(115, 5, 119)'
+
                     ],
-                    hoverOffset: 4
+                    hoverOffset: 5
                 }]
             },
             options: {
@@ -510,6 +571,97 @@
             }
         });
     });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('monthChart').getContext('2d');
+        var monthChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach(range(1, date('t')) as $day)
+                        '{{ $day }}',
+                    @endforeach
+                ],
+                datasets: [{
+                    label: 'Number of Visitors',
+                    data: [
+                        @foreach(range(1, date('t')) as $day)
+                            {{ $visitorCountsMonth[$day] }},
+                        @endforeach
+                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Day of the Month'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Visitors'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    document.getElementById('citySelect').addEventListener('change', function() {
+    var cityId = this.value;
+
+    fetch(`/get-city-data/${cityId}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Debugging: log the data to ensure it's being fetched correctly
+            document.getElementById('unitsCount').textContent = data.units_count;
+            document.getElementById('propertiesCount').textContent = data.properties_count;
+            document.getElementById('projectsCount').textContent = data.projects_count;
+        }).catch(error => {
+            console.error('Error fetching city data:', error);
+        });
+});
+
+// document.getElementById('citySelect').addEventListener('change', function() {
+//     var cityId = this.value;
+
+//     fetch(`/get-city-data/${cityId}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log(data); // Debugging: log the data to ensure it's being fetched correctly
+//             var maxCount = Math.max(data.units_count, data.properties_count, data.projects_count);
+
+//             updateProgressBar('unitsProgressBar', data.units_count, 'Units', maxCount);
+//             updateProgressBar('propertiesProgressBar', data.properties_count, 'Properties', maxCount);
+//             updateProgressBar('projectsProgressBar', data.projects_count, 'Projects', maxCount);
+//         }).catch(error => {
+//             console.error('Error fetching city data:', error);
+//         });
+// });
+
+// function updateProgressBar(progressBarId, count, label, maxCount) {
+//     var progressBar = document.getElementById(progressBarId);
+//     if (progressBar) {
+//         var percentage = (count / maxCount) * 100; // Normalize to the max count
+//         progressBar.style.width = percentage + '%';
+//         progressBar.setAttribute('aria-valuenow', percentage);
+//         progressBar.textContent = count + ' ' + label;
+//     } else {
+//         console.error('Progress bar not found:', progressBarId);
+//     }
+// }
+
 </script>
     @endpush
 

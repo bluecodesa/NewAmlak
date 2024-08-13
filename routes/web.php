@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Broker\Gallary\GallaryController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\ProductController;
@@ -127,6 +128,8 @@ Route::group(
         Route::post('/register-property-finder', [Property_FinderHomeController::class, 'registerPropertyFinder'])->name('register-property-finder');
 
         Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('GetDistrictsByCity');
+
+        Route::get('/get-city-data/{cityId}', [AdminHomeController::class, 'getCityData']);
 
     }
 
