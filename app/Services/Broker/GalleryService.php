@@ -18,7 +18,7 @@ use App\Repositories\Broker\PropertyRepository;
 use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 use App\Interfaces\Admin\TicketTypeRepositoryInterface;
-
+use App\Models\Property;
 
 class GalleryService
 {
@@ -259,6 +259,10 @@ class GalleryService
             });
             $galleryItems = $projects->merge($properties)->merge($galleryUnits);
             $allItems = $allItems->merge($galleryItems);
+
+            $this->updateAdLicenseStatus(Project::all());
+            $this->updateAdLicenseStatus(Property::all());
+            $this->updateAdLicenseStatus(Unit::all());
             // foreach ($allItems as $key => $oneItem) {
             //     dd($oneItem);
             //     $item =  $user->UserBrokerData;
@@ -287,6 +291,15 @@ class GalleryService
 
         return get_defined_vars();
     }
+
+    protected function updateAdLicenseStatus($items)
+{
+    foreach ($items as $item) {
+        if (isset($item->ad_license_expiry) && $item->ad_license_expiry < now()->format('Y-m-d')) {
+            $item->update(['ad_license_status' => 'InValid']);
+        }
+    }
+}
 
     public function filterUnitsPublic($units, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent)
     {

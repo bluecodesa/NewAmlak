@@ -51,6 +51,7 @@ Route::group(
     function () {
         Route::prefix('app')->name('Home.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
+            Route::get('/nafath/callback', [HomeController::class, 'handleCallback'])->name('nafath.callback');
             Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
             Route::get('create-broker', [HomeController::class, 'createBroker'])->name('Brokers.CreateBroker');
             Route::get('create-prperty-finder', [HomeController::class, 'createPropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');

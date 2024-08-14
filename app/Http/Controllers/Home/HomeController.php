@@ -42,6 +42,8 @@ use App\Services\PropertyTypeService;
 use App\Services\Admin\DistrictService;
 use App\Http\Traits\Email\MailSendCode;
 use App\Models\Ticket;
+use App\Services\NafathService;
+
 
 class HomeController extends Controller
 {
@@ -56,12 +58,14 @@ class HomeController extends Controller
     protected $propertyTypeService;
     protected $districtService;
 
+    protected $nafathService;
 
     public function __construct(SubscriptionTypeService $subscriptionTypeService
     , SectionService $SectionService,
     CityService $cityService,
     PropertyTypeService $propertyTypeService,
-    DistrictService $districtService
+    DistrictService $districtService,
+    NafathService $nafathService
     )
     {
         $this->subscriptionTypeService = $subscriptionTypeService;
@@ -69,6 +73,8 @@ class HomeController extends Controller
         $this->cityService = $cityService;
         $this->propertyTypeService = $propertyTypeService;
         $this->districtService = $districtService;
+        $this->nafathService = $nafathService;
+
 
     }
 
@@ -408,9 +414,25 @@ class HomeController extends Controller
         return redirect()->route('login')->with('success', __('registerd successfully'));
     }
 
+
+    public function handleCallback(Request $request)
+    {
+        $authorizationCode = $request->input('code');
+        $accessTokenResponse = $this->nafathService->getAccessToken($authorizationCode);
+        $userDetails = $this->nafathService->getUserDetails($accessTokenResponse['access_token']);
+        return redirect()->route('home')->with('success', 'Logged in successfully');
+    }
+
     public function storeBroker(Request $request)
     {
+
         // return $request;
+
+        // $nafathResponse = $this->nafathService->validateId($request->input('id_number'));
+        // if (!$nafathResponse || !isset($nafathResponse['valid']) || !$nafathResponse['valid']) {
+        //     return redirect()->back()->with('success', 'Invalid ID number. Registration failed.');
+        // }
+
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',

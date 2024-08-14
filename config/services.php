@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+
+    'nafath' => [
+        'redirect_uri' => env('NAFATH_REDIRECT_URI'),
+        'base_uri' => env('NAFATH_BASE_URI', 'http://iam2-qa-api.dev-apps.elm.sa'),
+        'app_id' => env('NAFATH_APP_ID'),
+        'app_key' => env('NAFATH_APP_KEY'),
+    ],
+
 ];

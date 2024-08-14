@@ -171,6 +171,13 @@
                                     required>
                             </div>
 
+                            {{-- <div class="col-md-4 mb-3">
+                                <label class="form-label" for="license_number"> @lang('id number')<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" minlength="1" maxlength="10"
+                                    id="id_number" name="id_number" required>
+                            </div> --}}
+
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="email">@lang('Email')<span
                                         class="text-danger">*</span></label>
