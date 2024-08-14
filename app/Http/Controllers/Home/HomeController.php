@@ -415,18 +415,17 @@ class HomeController extends Controller
     }
 
 
-    public function handleCallback(Request $request)
-    {
-        $authorizationCode = $request->input('code');
-        $accessTokenResponse = $this->nafathService->getAccessToken($authorizationCode);
-        $userDetails = $this->nafathService->getUserDetails($accessTokenResponse['access_token']);
-        return redirect()->route('home')->with('success', 'Logged in successfully');
-    }
-
     public function storeBroker(Request $request)
     {
 
         // return $request;
+        $validationResponse = $this->nafathService->validateId($request->input('id_number'));
+        dd($validationResponse);
+
+        if ($validationResponse['status'] != 'success') {
+            return redirect()->back()->withErrors(['id_number' => 'Invalid ID number'])->withInput();
+        }
+
 
         // $nafathResponse = $this->nafathService->validateId($request->input('id_number'));
         // if (!$nafathResponse || !isset($nafathResponse['valid']) || !$nafathResponse['valid']) {

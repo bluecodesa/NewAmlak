@@ -1,70 +1,52 @@
 <?php
+
 namespace App\Services;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Http;
 
 class NafathService
 {
-    protected $client;
-    protected $baseUri;
+    protected $appId;
+    protected $appKey;
+    protected $baseUrl;
 
     public function __construct()
     {
-        $this->client = new Client();
-        $this->baseUri = config('services.nafath.base_uri');
+        $this->appId = '1b93b92a'; // Replace with your actual Application ID
+        $this->appKey = '5a6c7fe47172db303bcc4e9adfd9a4aa'; // Replace with your actual Application Key
+        $this->baseUrl = 'https://iam2-qa-api.dev-apps.elm.sa';
     }
 
+    /**
+     * Validate an ID number with Nafath.
+     *
+     * @param string $idNumber
+     * @return array
+     */
     public function validateId($idNumber)
     {
         try {
-            $response = $this->client->post($this->baseUri . '/validate-id', [
-                'json' => [
-                    'id_number' => $idNumber,
-                ]
+            $response = Http::timeout(60)->withHeaders([
+                'APP-ID' => $this->appId,
+                'APP-KEY' => $this->appKey,
+            ])->post("{$this->baseUrl}/validate-id", [
+                'id_number' => $idNumber,
             ]);
-            dd($response);
+            dd($idNumber);
 
-            return json_decode($response->getBody()->getContents(), true);
-        } catch (RequestException $e) {
-            // Handle exception
-            return null;
-        }
-    }
-
-    public function getUserDetails($token)
-    {
-        try {
-            $response = $this->client->get($this->baseUri . '/user', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $token,
-                ]
-            ]);
-
-            return json_decode($response->getBody()->getContents(), true);
-        } catch (RequestException $e) {
-            // Handle exception
-            return null;
-        }
-    }
-
-    public function getAccessToken($authorizationCode)
-    {
-        try {
-            $response = $this->client->post($this->baseUri . '/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'authorization_code',
-                    'client_id' => env('NAFATH_CLIENT_ID'),
-                    'client_secret' => env('NAFATH_CLIENT_SECRET'),
-                    'code' => $authorizationCode,
-                    'redirect_uri' => env('NAFATH_REDIRECT_URI'),
-                ]
-            ]);
-
-            return json_decode($response->getBody()->getContents(), true);
-        } catch (RequestException $e) {
-            // Handle exception
-            return null;
+            if ($response->successful()) {
+                return $response->json();
+            } else {
+                return [
+                    'status' => 'error',
+                    'message' => 'API returned an error: ' . $response->status() . ' - ' . $response->body(),
+                ];
+            }
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => 'Request failed: ' . $e->getMessage(),
+            ];
         }
     }
 }

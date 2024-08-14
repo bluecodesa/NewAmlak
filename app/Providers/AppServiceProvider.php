@@ -103,6 +103,8 @@ use App\Repositories\Office\PropertyRepository as OfficePropertyRepository;
 use App\Repositories\Office\SettingRepository as OfficeSettingRepository;
 use App\Repositories\Office\UnitInterestRepository as OfficeUnitInterestRepository;
 use App\Repositories\Office\UnitRepository as OfficeUnitRepository;
+use App\Services\NafathService;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -112,6 +114,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+        $this->app->singleton(NafathService::class, function ($app) {
+            return new NafathService();
+        });
 
         $this->app->bind(
             UnitInterestRepositoryInterface::class,
