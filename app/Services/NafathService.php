@@ -14,7 +14,7 @@ class NafathService
     {
         $this->appId = '1b93b92a'; // Replace with your actual Application ID
         $this->appKey = '5a6c7fe47172db303bcc4e9adfd9a4aa'; // Replace with your actual Application Key
-        $this->baseUrl = 'https://iam2-qa-api.dev-apps.elm.sa';
+        $this->baseUrl = 'http://iam2-qa-api.dev-apps.elm.sa';
     }
 
     /**
