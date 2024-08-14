@@ -148,7 +148,7 @@ class PropertyRepository implements PropertyRepositoryInterface
         $property_data['show_in_gallery'] = 0;
         // $property_data['ad_license_number'] = null;
         // $property_data['ad_license_expiry'] = null;
-        $property_data['ad_license_status'] ='InValid';
+        // $property_data['ad_license_status'] ='InValid';
 
     }
 
@@ -337,7 +337,7 @@ class PropertyRepository implements PropertyRepositoryInterface
             $newVisitor->save();
         }
         $unitVisitorsCount = Visitor::where('property_id', $property->id)->distinct('ip_address')->count('ip_address');
-        
+
             return $property;
         }
 

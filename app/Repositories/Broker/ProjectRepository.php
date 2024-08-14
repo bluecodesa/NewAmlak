@@ -150,7 +150,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         } else {
             $project_data['show_in_gallery'] = 0;
-            $project_data['ad_license_status'] ='InValid';
+            // $project_data['ad_license_status'] ='InValid';
 
         }
 

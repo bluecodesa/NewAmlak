@@ -237,7 +237,7 @@ class UnitRepository implements UnitRepositoryInterface
 
         } else {
             $unit_data['show_gallery'] = 0;
-            $unit_data['ad_license_status'] ='InValid';
+            // $unit_data['ad_license_status'] ='InValid';
 
         }
 
