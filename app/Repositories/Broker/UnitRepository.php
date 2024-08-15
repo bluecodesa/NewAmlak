@@ -217,7 +217,11 @@ class UnitRepository implements UnitRepositoryInterface
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
-                'ad_license_number' => 'required|numeric',Rule::unique('units')->ignore($id),
+                'ad_license_number' => [
+                    'required',
+                    'numeric',
+                    Rule::unique('units', 'ad_license_number')->ignore($id),
+                ],
                 'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
 

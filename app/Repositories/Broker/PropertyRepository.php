@@ -55,12 +55,13 @@ class PropertyRepository implements PropertyRepositoryInterface
             $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
-                'ad_license_number' => 'required|numeric',
+                'ad_license_number' => ['required', 'numeric', Rule::unique('properties')],
                 'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
 
             $messages = [
                 'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.unique' => __('The license number has already been taken.'),
                 'ad_license_number.numeric' => 'The license number must be a number.',
                 'ad_license_expiry.required' => 'The license expiry date is required.',
                 'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
@@ -127,7 +128,11 @@ class PropertyRepository implements PropertyRepositoryInterface
         $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
         $rules = [
-            'ad_license_number' => ['required', 'numeric', Rule::unique('properties')],
+            'ad_license_number' => [
+                'required',
+                'numeric',
+                Rule::unique('properties', 'ad_license_number')->ignore($id),
+            ],
             'ad_license_expiry' => 'required|date|after_or_equal:today',
         ];
 
