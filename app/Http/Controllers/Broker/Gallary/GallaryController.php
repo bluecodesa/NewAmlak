@@ -177,7 +177,27 @@ class GallaryController extends Controller
         return view('Broker.Gallary.index', get_defined_vars());
     }
 
+    public function showInteractiveMap(){
 
+        $allItems = collect();
+        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        $projects = $this->ProjectService->getAllProjectsByBrokerId(auth()->user()->UserBrokerData->id);
+        $properties = $this->PropertyService->getAll(auth()->user()->UserBrokerData->id);
+        $units->each(function ($unit) {
+            $unit->isGalleryUnit = true;
+        });
+        $projects->each(function ($project) {
+            $project->isGalleryProject = true;
+        });
+        $properties->each(function ($propertie) {
+            $propertie->isGalleryProperty = true;
+        });
+        $galleryItems = $projects->merge($properties)->merge($units);
+        $allItems = $allItems->merge($galleryItems);
+
+        return view('Broker.Gallary.InteractiveMap.index', get_defined_vars());
+
+    }
 
     public function showGallery($galleryId)
     {

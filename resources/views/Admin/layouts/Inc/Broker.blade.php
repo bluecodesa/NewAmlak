@@ -196,13 +196,22 @@
                         </li>
                     @endif
 
-                    @if (Auth::user()->hasPermission('read-requests-interest'))
-                    <li class="menu-item">
-                        <a href="{{ route('Broker.RealEstateRequest.index') }}" class="menu-link">
-                            <div data-i18n="@lang('Real Estate Requests')">@lang('Real Estate Requests')</div>
-                        </a>
-                    </li>
-                @endif
+                @if (Auth::user()->hasPermission('read-requests-interest'))
+                <li class="menu-item">
+                    <a href="{{ route('Broker.RealEstateRequest.index') }}" class="menu-link">
+                        <div data-i18n="@lang('Real Estate Requests')">@lang('Real Estate Requests')</div>
+                    </a>
+                </li>
+            @endif
+
+                @if (Auth::user()->hasPermission('read-requests-interest'))
+                <li class="menu-item">
+                    <a href="{{ route('Broker.Gallery.InteractiveMap') }}" class="menu-link">
+                        <div data-i18n="@lang('Interactive Map')">@lang('Interactive Map')</div>
+                    </a>
+                </li>
+            @endif
+
 
                 </ul>
             </li>

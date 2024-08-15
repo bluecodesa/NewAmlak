@@ -98,6 +98,8 @@ Route::group(
             Route::post('/gallery/custom-update/{gallery}', [GallaryController::class, 'customUpdate'])->name('Gallery.customUpdate')->middleware('CheckSubscription');
             Route::get('Gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showGalleryUnit'])->name('Gallary.showUnit')->middleware('CheckSubscription');
             Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity')->middleware('CheckSubscription');
+            Route::get('InteractiveMap', [GallaryController::class, 'showInteractiveMap'])->name('Gallery.InteractiveMap')->middleware('CheckSubscription');
+
             //
             Route::post('/Interest/status/{id}', [UnitInterestController::class, 'update'])->name('Interest.status.update')->middleware('CheckSubscription');
             Route::get('Interests', [UnitInterestController::class, 'index'])->name('Gallary.showInterests')->middleware('CheckSubscription');
