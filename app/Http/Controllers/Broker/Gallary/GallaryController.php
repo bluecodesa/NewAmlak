@@ -14,6 +14,11 @@ use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Project;
+use App\Models\Property;
+use App\Models\PropertyType;
 use App\Models\Setting;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
@@ -195,10 +200,52 @@ class GallaryController extends Controller
         $galleryItems = $projects->merge($properties)->merge($units);
         $allItems = $allItems->merge($galleryItems);
 
+
+        $propertyTypes = PropertyType::all();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
+        $cities = City::all();
+        $districts = District::all();
+        $projects = Project::all();
+
+        $allItemsProperties = collect();
+
+
+        $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
+        foreach ($galleries as $gallery) {
+            $projects = $this->ProjectService->getAllProjectsByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
+            $properties = $this->PropertyService->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
+            $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
+                ->where('show_gallery', 1)
+                ->get();
+            // $units = $units->merge($galleryUnits);
+            $galleryUnits->each(function ($unit) {
+                $unit->isGalleryUnit = true;
+            });
+            $projects->each(function ($project) {
+                $project->isGalleryProject = true;
+            });
+            $properties->each(function ($propertie) {
+                $propertie->isGalleryProperty = true;
+            });
+            $galleryItems = $projects->merge($properties)->merge($galleryUnits);
+            $allItemsProperties = $allItemsProperties->merge($galleryItems);
+            $this->updateAdLicenseStatus(Project::all());
+            $this->updateAdLicenseStatus(Property::all());
+            $this->updateAdLicenseStatus(Unit::all());
+
+
         return view('Broker.Gallary.InteractiveMap.index', get_defined_vars());
 
     }
-
+}
+protected function updateAdLicenseStatus($allItemsProperties)
+{
+    foreach ($allItemsProperties as $item) {
+        if (isset($item->ad_license_expiry) && $item->ad_license_expiry < now()->format('Y-m-d')) {
+            $item->update(['ad_license_status' => 'InValid']);
+        }
+    }
+}
     public function showGallery($galleryId)
     {
         $gallery = $this->galleryService->findById($galleryId);
