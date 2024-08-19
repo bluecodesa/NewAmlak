@@ -14,10 +14,9 @@
             <!-- DataTable with Buttons -->
 
             <div class="card">
-
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('Ads') </h5>
+                        <h5 class="card-header">@lang('Ads')</h5>
                     </div>
                     <hr>
                     <div class="col-12">
@@ -65,28 +64,72 @@
                             <tr>
                                 <th>#</th>
                                 <th>@lang('Name')</th>
-                                <th>@lang('Image')</th>
+                                <th>@lang('Content')</th>
+                                <th>@lang('Client Name')</th>
+                                <th>@lang('status')</th>
+                                <th>@lang('Display Start Date')</th>
+                                <th>@lang('Display End Date')</th>
+                                <th>@lang('Ad Duration (days)')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-
-                            @forelse ($Ads as $index=> $Ad)
+                            @forelse ($Ads as $index => $Ad)
                                 <tr>
-
-
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $Ad->ad_name }}</td>
+                                    <td>
+                                        @if($Ad->content)
+                                            @php
+                                                $fileExtension = pathinfo($Ad->content, PATHINFO_EXTENSION);
+                                            @endphp
+                                            @if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif']))
+                                                <img src="{{ asset($Ad->content) }}" alt="{{ $Ad->ad_name }}" width="100">
+                                            @elseif (in_array($fileExtension, ['mp4', 'mov', 'avi', 'wmv', 'flv']))
+                                                <video width="100" controls>
+                                                    <source src="{{ asset($Ad->content) }}" type="video/{{ $fileExtension }}">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            @else
+                                                <a href="{{ asset($Ad->content) }}" target="_blank">Download File</a>
+                                            @endif
+                                        @else
+                                            <span>@lang('No Content')</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $Ad->client_name }}</td>
+                                    <td>{{ $Ad->status }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($Ad->show_start_date)->format('Y-m-d H:i:s') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($Ad->show_end_date)->format('Y-m-d H:i:s') }}</td>
+                                    <td>{{ $Ad->ad_duration }} @lang('days')</td>
+                                    <td>
+                                        <a href="{{ route('Admin.Advertisings.show', $Ad->id) }}" class="btn btn-info btn-sm">
+                                            <i class="ti ti-eye"></i> @lang('View')
+                                        </a>
+                                        <a href="{{ route('Admin.Advertisings.edit', $Ad->id) }}" class="btn btn-warning btn-sm">
+                                            <i class="ti ti-edit"></i> @lang('Edit')
+                                        </a>
+                                        <form action="{{ route('Admin.Advertisings.destroy', $Ad->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                <i class="ti ti-trash"></i> @lang('Delete')
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @empty
-                                <td colspan="4">
-                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                        <span class="alert-icon text-danger me-2">
-                                            <i class="ti ti-ban ti-xs"></i>
-                                        </span>
-                                        @lang('No Data Found!')
-                                    </div>
-                                </td>
+                                <tr>
+                                    <td colspan="8">
+                                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                            <span class="alert-icon text-danger me-2">
+                                                <i class="ti ti-ban ti-xs"></i>
+                                            </span>
+                                            @lang('No Data Found!')
+                                        </div>
+                                    </td>
+                                </tr>
                             @endforelse
-
                         </tbody>
                     </table>
                 </div>
@@ -94,13 +137,10 @@
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
-
-
         </div>
 
         <div class="content-backdrop fade"></div>
     </div>
-
 
     @push('scripts')
         <script>
@@ -108,14 +148,13 @@
                 // Get the table by ID
                 var table = document.getElementById('table');
 
-
                 // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {
                     sheet: "Sheet1"
                 });
 
                 // Save the workbook as an Excel file
-                XLSX.writeFile(wb, @json(__('Roles')) + '.xlsx');
+                XLSX.writeFile(wb, @json(__('Ads')) + '.xlsx');
 
                 alertify.success(@json(__('Download done')));
             }
