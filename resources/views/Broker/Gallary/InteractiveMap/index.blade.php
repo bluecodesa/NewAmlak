@@ -18,8 +18,6 @@
                         data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
                         aria-selected="true">
                         <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('عقارتي')
-                        <span
-                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">{{ $units->count() }}</span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -155,8 +153,6 @@
                                         <p>
                                             ${item.isGalleryUnit ? 'Unit' : item.isGalleryProject ? 'Project' : item.isGalleryProperty ? 'Property' : ''}
                                         </p>
-
-
                                         <a href="${showRoute}" class="btn btn-primary mt-2">@lang('Show')</a>
                                     </div>
                                 `))

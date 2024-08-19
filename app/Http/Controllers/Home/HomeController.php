@@ -419,12 +419,12 @@ class HomeController extends Controller
     {
 
         // return $request;
-        $validationResponse = $this->nafathService->validateId($request->input('id_number'));
-        dd($validationResponse);
+        // $validationResponse = $this->nafathService->validateId($request->input('id_number'));
+        // // dd($validationResponse);
 
-        if ($validationResponse['status'] != 'success') {
-            return redirect()->back()->withErrors(['id_number' => 'Invalid ID number'])->withInput();
-        }
+        // if ($validationResponse['status'] != 'success') {
+        //     return redirect()->back()->withErrors(['id_number' => 'Invalid ID number'])->withInput();
+        // }
 
 
         // $nafathResponse = $this->nafathService->validateId($request->input('id_number'));

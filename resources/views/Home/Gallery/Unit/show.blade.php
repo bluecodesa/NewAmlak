@@ -191,7 +191,7 @@
                                 </ul>
                             @endif
 
-                            @if ($Unit->ad_license_number)
+                            {{-- @if ($Unit->ad_license_number)
                             <div class="row">
                                 <div class="col-lg-6 mb-2">
                                     <h5 class="card-action-title mb-0">@lang('Ad License Information')</h5>
@@ -230,7 +230,7 @@
                                             </div>
                                         </div>
                             </div>
-                            @endif
+                            @endif --}}
 
                             @if ($Unit->UnitServicesData->isNotEmpty())
                                 <ul class="list-unstyled mb-4 mt-3">
@@ -489,6 +489,50 @@
                             </ul>
                         </div>
                     </div>
+                    @if ($Unit->ad_license_number)
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-action-title mb-0">@lang('Ad License Information')</h5>
+                                    <div class="demo-inline-spacing mt-3">
+                                        <ul class="list-group">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                                    @lang('Ad License Number')
+                                                    <span>{{ __($Unit->ad_license_number ?? '' ) }}</span>
+                                                </li>
+                                                <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                @lang(' صلاحية الاعلان')
+                                                <span class="badge bg-primary">
+                                                    {{ __($Unit->ad_license_status) }}
+                                                </span>
+                                                </li>
+                                                @auth
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <a class=" d-flex align-items-center me-3"
+                                                     href="" data-bs-toggle="modal"
+                                                     data-bs-target="#modalReport" >
+                                                    <i class="ti ti-report ti-sm"></i>
+                                                        @lang('الابلاغ عن الاعلان')
+                                                    </a>
+                                                  </li>
+                                                @endauth
+                                                @guest
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <a class=" d-flex align-items-center me-3"
+                                                    href="{{ route('login') }}">
+                                                   <i class="ti ti-report ti-sm"></i>
+                                                       @lang('الابلاغ عن الاعلان')
+                                                   </a>
+                                                  </li>
+                                                @endguest
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                    </div>
+                    @endif
                     <div class="card mb-4">
                         <div class="card-body">
                             <div class="leaflet-map" id="userLocation"></div>

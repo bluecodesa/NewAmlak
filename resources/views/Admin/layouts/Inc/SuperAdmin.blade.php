@@ -261,12 +261,21 @@
 
         @if (Auth::user()->hasPermission('read-support-ticket-admin'))
         <li class="menu-item">
+            <a href="{{ route('Admin.SupportTickets.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="@lang('Ads Management')">@lang('Ads Management')</div>
+            </a>
+        </li>
+    @endif
+
+        @if (Auth::user()->hasPermission('read-support-ticket-admin'))
+        <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="@lang('Landing Page')">@lang('Landing Page')</div>
             </a>
             <ul class="menu-sub">
-           
+
                     @if (Auth::user()->hasPermission('read-role'))
                         <li class="menu-item">
                             <a href="{{ route('Admin.PartnerSuccess.index') }}" class="menu-link">
@@ -280,13 +289,13 @@
                                     <div data-i18n="@lang('privacy policy')">@lang('privacy policy')</div>
                                 </a>
                             </li>
-    
+
                             <li class="menu-item">
                                 <a href="{{ route('Admin.TermsPage') }}" class="menu-link">
                                     <div data-i18n="@lang('Terms')">@lang('Conditions & Terms')</div>
                                 </a>
                             </li>
-                
+
             </ul>
         </li>
         @endif
@@ -304,7 +313,7 @@
                     </a>
                 </li>
 
-               
+
 
 
                 <li class="menu-item" style="">

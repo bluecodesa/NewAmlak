@@ -316,7 +316,8 @@
                                                 </a>
                                             </div>
 
-                                            <h4 class="mb-1 card-title"> <a href="javascript:;">
+                                            <h4 class="mb-1 card-title"> <a
+                                                href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
                                                 {{ $unit->ad_name ?? ($unit->name ?? '') }}
                                             </a>
                                         </h4>
