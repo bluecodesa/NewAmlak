@@ -413,9 +413,9 @@ class ProjectRepository implements ProjectRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() . '/Brokers/Projects/Unit', $ext);
+                    $image->move(public_path() . '/Brokers/Projects/Unit/Images/', $ext);
                     UnitImage::create([
-                        'image' => '/Brokers/Projects/Unit/Images' . $ext,
+                        'image' => '/Brokers/Projects/Unit/Images/' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }
