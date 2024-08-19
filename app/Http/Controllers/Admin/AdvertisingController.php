@@ -26,7 +26,7 @@ class AdvertisingController  extends Controller
     public function create()
     {
         //
-        return view('Admin.settings.HomePages.PartnerSuccess.create', get_defined_vars());
+        return view('Admin.Advertising.create', get_defined_vars());
     }
 
     /**

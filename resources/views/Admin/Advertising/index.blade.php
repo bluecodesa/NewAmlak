@@ -42,7 +42,7 @@
                                                 </div>
                                                 @if (Auth::user()->hasPermission('create-sections'))
                                                 <div class="btn-group">
-                                                    <a href="{{ route('Admin.PartnerSuccess.create') }}" type="button"
+                                                    <a href="{{ route('Admin.Advertisings.create') }}" type="button"
                                                         class="btn btn-primary">
                                                         <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
                                                                 class="d-none d-sm-inline-block">@lang('Add')</span></span>
