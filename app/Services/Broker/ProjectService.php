@@ -39,7 +39,7 @@ class ProjectService
         ->whereHas('brokerData', function ($query) use ($validBrokers) {
             $query->whereIn('id', $validBrokers->pluck('id')->toArray());
         })->get();
-        
+
     return $projects;
     }
 
@@ -164,7 +164,7 @@ class ProjectService
             'monthly' => 'digits_between:0,8',
             'instrument_number' => [
                 'nullable',
-                Rule::unique('properties')->ignore($id),
+                Rule::unique('units')->ignore($id),
                 'max:25'
             ],
             'service_type_id' => 'required',
