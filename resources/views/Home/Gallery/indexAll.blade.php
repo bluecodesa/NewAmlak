@@ -316,10 +316,28 @@
                                                 </a>
                                             </div>
 
-                                            <h4 class="mb-1 card-title"> <a
-                                                href="{{ $showRoute }}">
-                                                {{ $unit->ad_name ?? ($unit->name ?? '') }}
-                                            </a>
+
+
+                                            <h4 class="mb-1 card-title">
+
+                                                @if ($isGalleryUnit)
+                                                    <a href="{{ route('gallery.showUnitPublic', [
+                                                            'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                            'id' => $unit->id
+                                                        ]) }}" class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
+                                                @elseif ($isGalleryProject)
+                                                    <a href="{{ route('Home.showPublicProject', [
+                                                            'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                            'id' => $unit->id
+                                                        ]) }}" class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
+                                                @elseif ($isGalleryProperty)
+                                                    <a href="{{ route('Home.showPublicProperty', [
+                                                            'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                            'id' => $unit->id
+                                                        ]) }}" class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
+                                                @endif
+
+
                                         </h4>
                                             <div class="d-flex align-items-center justify-content-center my-3 gap-2">
 
