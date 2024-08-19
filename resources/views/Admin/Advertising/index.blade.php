@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-6 py-3">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        @lang('Partners Success')</h4>
+                        @lang('Ads')</h4>
                 </div>
             </div>
             <!-- DataTable with Buttons -->
@@ -17,7 +17,7 @@
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('Partners Success') </h5>
+                        <h5 class="card-header">@lang('Ads') </h5>
                     </div>
                     <hr>
                     <div class="col-12">
@@ -71,45 +71,10 @@
                         </thead>
                         <tbody class="table-border-bottom-0">
 
-                            @forelse ($partnerSuccesses as $index=> $partnerSuccess)
+                            @forelse ($Ads as $index=> $Ad)
                                 <tr>
-                                    <th>{{ $index + 1 }}</th>
-                                    <td>{{ $partnerSuccess->name }}</td>
-                                    <td><img src="{{ asset($partnerSuccess->image) }}" alt="{{ $partnerSuccess->name }}" width="100"></td>
-                                    <td>
 
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ti ti-dots-vertical"></i>
-                                            </button>
-                                            <div class="dropdown-menu" style="">
-                                                {{-- @if (Auth::user()->hasPermission('view-role'))
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('Admin.PartnerSuccess.show', $partnerSuccess->id) }}">@lang('Show')</a>
-                                                @endif --}}
 
-                                                @if (Auth::user()->hasPermission('update-role'))
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('Admin.PartnerSuccess.edit', $partnerSuccess->id) }}">@lang('Edit')</a>
-                                                @endif
-
-                                                @if (Auth::user()->hasPermission('delete-role'))
-                                                    <a href="javascript:void(0);"
-                                                        onclick="handleDelete('{{ $partnerSuccess->id }}')"
-                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                    <form id="delete-form-{{ $partnerSuccess->id }}"
-                                                        action="{{ route('Admin.PartnerSuccess.destroy', $partnerSuccess->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                @endif
-
-                                            </div>
-                                        </div>
-
-                                    </td>
                                 </tr>
                             @empty
                                 <td colspan="4">

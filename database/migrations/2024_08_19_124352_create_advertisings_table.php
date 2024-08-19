@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('advertisings', function (Blueprint $table) {
             $table->id();
+            $table->string('ad_name');
+            $table->enum('status', ['Published', 'Scheduled', 'Finished']);
+            $table->string('client_name');
+            $table->dateTime('show_start_date');
+            $table->integer('ad_duration'); // In days, hours, etc.
+            $table->dateTime('show_end_date');
             $table->timestamps();
         });
     }
