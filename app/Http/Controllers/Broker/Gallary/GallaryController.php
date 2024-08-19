@@ -211,6 +211,7 @@ class GallaryController extends Controller
 
 
         $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
+
         foreach ($galleries as $gallery) {
             $projects = $this->ProjectService->getAllProjectsByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
             $properties = $this->PropertyService->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
@@ -227,8 +228,10 @@ class GallaryController extends Controller
             $properties->each(function ($propertie) {
                 $propertie->isGalleryProperty = true;
             });
+
             $galleryItems = $projects->merge($properties)->merge($galleryUnits);
             $allItemsProperties = $allItemsProperties->merge($galleryItems);
+
             $this->updateAdLicenseStatus(Project::all());
             $this->updateAdLicenseStatus(Property::all());
             $this->updateAdLicenseStatus(Unit::all());

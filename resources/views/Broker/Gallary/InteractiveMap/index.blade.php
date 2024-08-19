@@ -110,7 +110,7 @@
             </div>
         </div>
 
-    @push('scripts')
+        @push('scripts')
         <!-- Include Mapbox CSS -->
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
 
@@ -120,7 +120,7 @@
         <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiYmx1ZWNvZGVrc2EiLCJhIjoiY2x6djJiaGZhMDNvdzJoc2djN2k4eHM0MiJ9.eOLXc1f7RLgcsbeIS4Us0Q'; // Replace with your Mapbox access token
 
-            // Initialize Mapbox map
+            // Initialize the first Mapbox map
             var map = new mapboxgl.Map({
                 container: 'map', // ID of the element where the map will be displayed
                 style: 'mapbox://styles/mapbox/streets-v11', // Map style
@@ -128,37 +128,48 @@
                 zoom: 5 // Initial map zoom level
             });
 
-
-
             var items = @json($allItems);
 
-            // Function to add markers
+            // Function to add markers to the first map
             function addMarkers(filteredItems) {
-            filteredItems.forEach(function(item) {
-            if (item.lat_long) {
-                var coordinates = item.lat_long.split(',');
-                new mapboxgl.Marker()
-                    .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
-                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add a popup with details
-                        .setHTML(`
-                            <div style="width: 200px;">
-                                <h6>${item.name || item.ad_name}</h6>
-                                <p><strong>@lang('Ad Type'):</strong> ${item.ad_type}</p>
-                                <p><strong>@lang('Property Type'):</strong> ${item.property_type}</p>
-                                <p><strong>@lang('City'):</strong> ${item.city_name}</p>
-                                <p><strong>@lang('District'):</strong> ${item.district_name}</p>
-                                <p><strong>@lang('Project'):</strong> ${item.project_name}</p>
-                            </div>
-                        `))
-                    .addTo(map);
-            }
-        });
-    }
+                filteredItems.forEach(function(item) {
+                    if (item.lat_long) {
+                        var coordinates = item.lat_long.split(',');
+                        var showRoute = '#'; // Default value
 
-            // Initial markers
+                        // Determine the correct route based on the item type
+                        if (item.isGalleryUnit) {
+                            showRoute = `{{ route('Broker.Unit.show', ':id') }}`.replace(':id', item.id);
+                        } else if (item.isGalleryProject) {
+                            showRoute = `{{ route('Broker.Project.show', ':id') }}`.replace(':id', item.id);
+                        } else if (item.isGalleryProperty) {
+                            showRoute = `{{ route('Broker.Property.show', ':id') }}`.replace(':id', item.id);
+                        }
+
+                        new mapboxgl.Marker()
+                            .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
+                            .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add a popup with details
+                                .setHTML(`
+                                    <div style="width: 200px;">
+                                        <h6>${item.name || item.ad_name}</h6>
+                                        <p>
+                                            ${item.isGalleryUnit ? 'Unit' : item.isGalleryProject ? 'Project' : item.isGalleryProperty ? 'Property' : ''}
+                                        </p>
+
+
+                                        <a href="${showRoute}" class="btn btn-primary mt-2">@lang('Show')</a>
+                                    </div>
+                                `))
+                            .addTo(map);
+                    }
+                });
+            }
+
+            // Initial markers for the first map
             addMarkers(items);
-       // Function to filter items
-       function filterItems() {
+
+            // Function to filter items for the first map
+            function filterItems() {
                 var adType = $('#adTypeFilter').val();
                 var propertyType = $('#propertyTypeFilter').val();
                 var typeUse = $('#typeUseFilter').val();
@@ -178,54 +189,90 @@
                 // Remove existing markers
                 $('.mapboxgl-marker').remove();
 
-                // Add filtered markers
+                // Add filtered markers to the first map
                 addMarkers(filteredItems);
             }
 
-            // Attach filter event handlers
+            // Attach filter event handlers for the first map
             $('#adTypeFilter, #propertyTypeFilter, #typeUseFilter, #cityFilter, #districtFilter, #projectFilter').change(function() {
                 filterItems();
             });
 
-
+            // Initialize the second Mapbox map
             var mapAll = new mapboxgl.Map({
-            container: 'mapAll', // ID of the element where the map will be displayed
-            style: 'mapbox://styles/mapbox/streets-v11', // Map style
-            center: [45.0, 23.8859], // Center of Saudi Arabia [lng, lat]
-            zoom: 5 // Initial map zoom level
-        });
+                container: 'mapAll', // ID of the element where the map will be displayed
+                style: 'mapbox://styles/mapbox/streets-v11', // Map style
+                center: [45.0, 23.8859], // Center of Saudi Arabia [lng, lat]
+                zoom: 5 // Initial map zoom level
+            });
 
+            var allItemsProperties = @json($allItemsProperties);
 
+            // Function to add markers to the second map
+            function addAllMarkers(filteredItems) {
+                filteredItems.forEach(function(item) {
+                    if (item.lat_long) {
+                        var coordinates = item.lat_long.split(',');
+                        var showRoute = '#'; // Default value
 
-var allItemsProperties = @json($allItemsProperties);
+                                // Determine the correct route based on the item type
+                                if (item.isGalleryUnit) {
+                                    showRoute = `{{ route('Broker.Unit.show', ':id') }}`.replace(':id', item.id);
+                                } else if (item.isGalleryProject) {
+                                    showRoute = `{{ route('Broker.Project.show', ':id') }}`.replace(':id', item.id);
+                                } else if (item.isGalleryProperty) {
+                                    showRoute = `{{ route('Broker.Property.show', ':id') }}`.replace(':id', item.id);
+                                }
 
-// Function to add markers
-function addAllMarkers(filteredItems) {
-filteredItems.forEach(function(item) {
-if (item.lat_long) {
-    var coordinates = item.lat_long.split(',');
-    new mapboxgl.Marker()
-        .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
-        .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add a popup with details
-            .setHTML(`
-                <div style="width: 200px;">
-                    <h6>${item.name || item.ad_name}</h6>
-                    <p><strong>@lang('Ad Type'):</strong> ${item.ad_type}</p>
-                    <p><strong>@lang('Property Type'):</strong> ${item.property_type}</p>
-                    <p><strong>@lang('City'):</strong> ${item.city_name}</p>
-                    <p><strong>@lang('District'):</strong> ${item.district_name}</p>
-                    <p><strong>@lang('Project'):</strong> ${item.project_name}</p>
-                </div>
-            `))
-        .addTo(mapAll);
-}
-});
-}
+                                new mapboxgl.Marker()
+                                    .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
+                                    .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add a popup with details
+                                        .setHTML(`
+                                            <div style="width: 200px;">
+                                                <h6>${item.name || item.ad_name}</h6>
+                                               <p>
+                                            ${item.isGalleryUnit ? 'Unit' : item.isGalleryProject ? 'Project' : item.isGalleryProperty ? 'Property' : ''}
+                                            </p>
+                                            <a href="${showRoute}" class="btn btn-primary mt-2">@lang('Show')</a>
+                                            </div>
+                                        `))
+                            .addTo(mapAll);
+                    }
+                });
+            }
 
-// Initial markers
-addAllMarkers(allItemsProperties);
+            // Initial markers for the second map
+            addAllMarkers(allItemsProperties);
 
+            // Function to filter items for the second map
+            function filterItemsAll() {
+                var adType = $('#adTypeFilterAll').val();
+                var propertyType = $('#propertyTypeFilterAll').val();
+                var typeUse = $('#typeUseFilterAll').val();
+                var city = $('#cityFilterAll').val();
+                var district = $('#districtFilterAll').val();
+                var project = $('#projectFilterAll').val();
+
+                var filteredItems = allItemsProperties.filter(function(item) {
+                    return (!adType || item.type == adType) &&
+                           (!propertyType || item.property_type_id == propertyType) &&
+                           (!typeUse || item.property_usage_id == typeUse) &&
+                           (!city || item.city_id == city) &&
+                           (!district || item.district_id == district) &&
+                           (!project || item.project_id == project);
+                });
+
+                // Remove existing markers
+                $('.mapboxgl-marker').remove();
+
+                // Add filtered markers to the second map
+                addAllMarkers(filteredItems);
+            }
+
+            // Attach filter event handlers for the second map
+            $('#adTypeFilterAll, #propertyTypeFilterAll, #typeUseFilterAll, #cityFilterAll, #districtFilterAll, #projectFilterAll').change(function() {
+                filterItemsAll();
+            });
         </script>
-
     @endpush
 @endsection
