@@ -17,7 +17,7 @@ class AdvertisingController  extends Controller
     {
         //
         $Ads = Advertising::all();
-        return view('Admin.settings.HomePages.PartnerSuccess.index', get_defined_vars());
+        return view('Admin.Advertising.index', get_defined_vars());
     }
 
     /**

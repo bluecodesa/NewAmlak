@@ -261,7 +261,7 @@
 
         @if (Auth::user()->hasPermission('read-support-ticket-admin'))
         <li class="menu-item">
-            <a href="{{ route('Admin.SupportTickets.index') }}" class="menu-link">
+            <a href="{{ route('Admin.Advertising.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
                 <div data-i18n="@lang('Ads Management')">@lang('Ads Management')</div>
             </a>
