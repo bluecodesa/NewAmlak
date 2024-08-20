@@ -17,22 +17,20 @@
                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
                         aria-selected="true">
-                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('عقارتي')
+                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('My Properties')
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
                         aria-selected="false" tabindex="-1">
-                        <i class="tf-icons ti ti-cards ti-xs me-1"></i> @lang('جميع العقارات')
+                        <i class="tf-icons ti ti-cards ti-xs me-1"></i> @lang('All Properties')
                     </button>
                 </li>
 
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade active show" id="navs-justified-home" role="tabpanel">
-
-
 
                             <!-- Filter Dropdowns -->
                     <div class="row mb-3">
@@ -73,7 +71,7 @@
                         </div>
                         <div class="col-md-2">
                             <select id="districtFilter" class="form-select">
-                                <option value="">@lang('districts')</option>
+                                <option value="">@lang('district')</option>
                                 <!-- Populate districts dynamically -->
                                 @foreach($districts as $district)
                                     <option value="{{ $district->id }}">{{ $district->name }}</option>
@@ -116,6 +114,7 @@
         <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
 
         <script>
+
             mapboxgl.accessToken = 'pk.eyJ1IjoiYmx1ZWNvZGVrc2EiLCJhIjoiY2x6djJiaGZhMDNvdzJoc2djN2k4eHM0MiJ9.eOLXc1f7RLgcsbeIS4Us0Q'; // Replace with your Mapbox access token
 
             // Initialize the first Mapbox map
@@ -148,12 +147,19 @@
                             .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
                             .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add a popup with details
                                 .setHTML(`
-                                    <div style="width: 200px;">
+
+                                    <div id="popup-${item.id}" style="width: 200px; cursor: pointer;">
                                         <h6>${item.name || item.ad_name}</h6>
-                                        <p>
-                                            ${item.isGalleryUnit ? 'Unit' : item.isGalleryProject ? 'Project' : item.isGalleryProperty ? 'Property' : ''}
+                                          <p>
+                                            ${item.isGalleryUnit ? "@lang('Unit')" : item.isGalleryProject ? "@lang('Project')" : item.isGalleryProperty ? "@lang('property')" : ''}
                                         </p>
-                                        <a href="${showRoute}" class="btn btn-primary mt-2">@lang('Show')</a>
+                                       <p><strong>@lang('Ad type'):</strong> ${item.type ? item.type : ''}</p>
+                                        <p><strong>@lang('Property type'):</strong> ${item.property_type_data ? item.property_type_data.name : ''}</p>
+                                        <p><strong>@lang('City'):</strong> ${item.city_data ? item.city_data.name : ''}</p>
+                                        <p><strong>@lang('district'):</strong> ${item.district_data ? item.district_data.name : ''}</p>
+
+                                        <a href="${showRoute}" target="_blank" class="btn btn-primary mt-2">@lang('Show')</a>
+
                                     </div>
                                 `))
                             .addTo(map);
@@ -163,7 +169,6 @@
 
             // Initial markers for the first map
             addMarkers(items);
-
             // Function to filter items for the first map
             function filterItems() {
                 var adType = $('#adTypeFilter').val();
@@ -187,6 +192,7 @@
 
                 // Add filtered markers to the first map
                 addMarkers(filteredItems);
+
             }
 
             // Attach filter event handlers for the first map
@@ -224,13 +230,19 @@
                                     .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
                                     .setPopup(new mapboxgl.Popup({ offset: 25 }) // Add a popup with details
                                         .setHTML(`
-                                            <div style="width: 200px;">
-                                                <h6>${item.name || item.ad_name}</h6>
-                                               <p>
-                                            ${item.isGalleryUnit ? 'Unit' : item.isGalleryProject ? 'Project' : item.isGalleryProperty ? 'Property' : ''}
-                                            </p>
-                                            <a href="${showRoute}" class="btn btn-primary mt-2">@lang('Show')</a>
-                                            </div>
+                                                    <div id="popup-${item.id}" style="width: 200px; cursor: pointer;">
+                                        <h6>${item.name || item.ad_name}</h6>
+                                          <p>
+                                            ${item.isGalleryUnit ? "@lang('Unit')" : item.isGalleryProject ? "@lang('Project')" : item.isGalleryProperty ? "@lang('property')" : ''}
+                                        </p>
+                                       <p><strong>@lang('Ad type'):</strong> ${item.type ? item.type : ''}</p>
+                                        <p><strong>@lang('Property type'):</strong> ${item.property_type_data ? item.property_type_data.name : ''}</p>
+                                        <p><strong>@lang('City'):</strong> ${item.city_data ? item.city_data.name : ''}</p>
+                                        <p><strong>@lang('district'):</strong> ${item.district_data ? item.district_data.name : ''}</p>
+
+                                        <a href="${showRoute}" target="_blank" class="btn btn-primary mt-2">@lang('Show')</a>
+
+                                    </div>
                                         `))
                             .addTo(mapAll);
                     }

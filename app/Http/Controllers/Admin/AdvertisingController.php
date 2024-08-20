@@ -24,10 +24,10 @@ class AdvertisingController  extends Controller
 
             $startDate = Carbon::parse($ad->show_start_date);
             $endDate = Carbon::parse($ad->show_end_date);
-
-            if ($startDate->isSameDay($today)) {
+            
+            if ($startDate == $today || $startDate < $today) {
                 $ad->status = 'Published';
-            } elseif ($endDate->isSameDay($today)) {
+            } elseif ($endDate == $today || $endDate < $today) {
                 $ad->status = 'Finished';
             }
 
@@ -57,7 +57,8 @@ class AdvertisingController  extends Controller
          $request->validate([
             'ad_name' => 'required|string|max:255',
                 'content' => 'required|file|mimes:jpg,jpeg,png,gif,mp4,mov,avi,wmv,flv,pdf,doc,docx|max:20480',
-                'client_name' => 'required|string|max:255',
+                'client_name' => 'nullable|string|max:255',
+                'ad_url' => 'nullable|string|max:255',
                 'show_start_date' => 'required|date|after_or_equal:today',
                 'show_end_date' => 'required|date|after:show_start_date',
                 'ad_duration' => 'required|integer|min:1',
@@ -71,7 +72,6 @@ class AdvertisingController  extends Controller
             'content.mimes' => 'The content must be a file of type: jpg, jpeg, png, gif, mp4, mov, avi, wmv, flv, pdf, doc, docx.',
             'content.max' => 'The content may not be greater than 20 MB.',
 
-            'client_name.required' => 'The client name is required.',
             'client_name.string' => 'The client name must be a string.',
             'client_name.max' => 'The client name may not be greater than 255 characters.',
 
@@ -109,6 +109,7 @@ class AdvertisingController  extends Controller
          // Additional data
          $data['ad_name'] = $request->input('ad_name');
          $data['client_name'] = $request->input('client_name');
+         $data['ad_url'] = $request->input('ad_url');
          $data['ad_duration'] = $request->input('ad_duration');
          $data['show_start_date'] = $request->input('show_start_date');
          $data['show_end_date'] = $request->input('show_end_date');

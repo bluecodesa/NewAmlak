@@ -34,6 +34,11 @@
                     </div>
 
                     <div class="col-md-6 col-12 mb-3">
+                        <label class="form-label">@lang('Client Name')</label>
+                        <input class="form-control" type="text" id="ad_url" name="client_name" required>
+                    </div>
+
+                    <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Display Start Date')</label>
                         <input class="form-control" type="datetime-local" id="show_start_date" name="show_start_date" required>
                     </div>

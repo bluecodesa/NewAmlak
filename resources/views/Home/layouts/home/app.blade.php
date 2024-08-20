@@ -52,9 +52,9 @@
                         <li class="nav-item">
                             <a class="nav-link  fw-medium" href="{{ route('gallery.showAllGalleries') }}">المعرض</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link  fw-medium" href="{{ route('Home.showAllProjects') }}">المشاريع</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link fw-medium" href="{{ route('brokers') }}">الوسطاء العقاريين</a>
                         </li>
@@ -97,7 +97,7 @@
 
                     <!-- navbar button: Start -->
                     <li class="me-1">
-{{-- 
+{{--
                         @guest
                             <a href="" class="btn btn-primary btn-sm" target="_blank" data-bs-toggle="modal"
                                 data-bs-target="#addSubscriberModal"><span

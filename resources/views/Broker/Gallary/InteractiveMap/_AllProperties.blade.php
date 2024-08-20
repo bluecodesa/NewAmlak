@@ -29,16 +29,16 @@
         <select id="cityFilterAll" class="form-select">
             <option value="">@lang('City')</option>
             <!-- Populate cities dynamically -->
-            @foreach($cities as $city)
+            @foreach($citiesAll as $city)
                 <option value="{{ $city->id }}">{{ $city->name }}</option>
             @endforeach
         </select>
     </div>
     <div class="col-md-2">
         <select id="districtFilterAll" class="form-select">
-            <option value="">@lang('District')</option>
+            <option value="">@lang('district')</option>
             <!-- Populate districts dynamically -->
-            @foreach($districts as $district)
+            @foreach($districtsAll as $district)
                 <option value="{{ $district->id }}">{{ $district->name }}</option>
             @endforeach
         </select>

@@ -18,6 +18,7 @@ use App\Repositories\Broker\PropertyRepository;
 use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 use App\Interfaces\Admin\TicketTypeRepositoryInterface;
+use App\Models\Advertising;
 use App\Models\Property;
 
 class GalleryService
@@ -263,19 +264,7 @@ class GalleryService
             $this->updateAdLicenseStatus(Project::all());
             $this->updateAdLicenseStatus(Property::all());
             $this->updateAdLicenseStatus(Unit::all());
-            // foreach ($allItems as $key => $oneItem) {
-            //     dd($oneItem);
-            //     $item =  $user->UserBrokerData;
-            //     if ($broker->license_date > now()->format('Y-m-d')) {
-            //         $broker->update(['license_validity' => 'valid']);
-            //     } else {
-            //         $broker->update(['license_validity' => 'expired']);
-            //         $check_gallary = Gallery::where('broker_id', $broker->id)->first();
-            //         if ($check_gallary) {
-            //             $check_gallary->update(['gallery_status' => '0']);
-            //         }
-            //     }
-            // }
+       
         }
 
         $uniqueIds = $units->pluck('CityData.id')->unique();

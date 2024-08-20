@@ -1,24 +1,55 @@
 @extends('Home.layouts.home.app')
 @section('title', __('Gallary'))
 @section('content')
+<style>
+.sticky-carousel-wrapper {
+    top: 0; /* Stick to the top of the viewport */
+    width: 100%; /* Full width */
+    height: 200px; /* Fixed height */
+    z-index: 1000; /* Ensure it's above other content */
+    background: #fff; /* Optional: ensure the background is solid */
+    overflow: hidden; /* Hide overflow to maintain height constraint */
+}
+
+
+
+</style>
+
     <section class="section-py first-section-pt">
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                 </span>المعرض</h4>
 
-            <div class="row rounded-5">
-                <div class="col-12 rounded-5">
-                    <div class="card mb-4 rounded-5">
-
-                        {{-- <div class="user-profile-header-banner rounded-5">
-                            <img src="{{ asset($gallery->gallery_cover) }}" alt="Gallery Cover" class="img-fluid"
-                                style="height: 200px; width: 100%;">
-
-                        </div> --}}
-
+                <div class="sticky-carousel-wrapper mb-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                                    <!-- Carousel wrapper -->
+                                    <div id="advertisementCarousel" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @foreach($advertisings as $index => $advertisement)
+                                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                                    <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#advertisementCarousel" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#advertisementCarousel" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+
             <!--/ Header -->
                 <div class="" style="text-align: center;" >
                     <a class="btn btn-primary mb-2"  data-bs-toggle="collapse" href="#collapseExample" role="button"
@@ -172,7 +203,7 @@
                     <!-- Connection Cards -->
                     <div class="row g-4">
 
-                        @foreach ($allItems as $unit)
+                        @foreach ($allItems as $index => $unit)
                             @if ($unit->BrokerData->license_validity == 'valid' && $unit->ad_license_status == 'Valid' )
                                 <div class="col-xl-4 col-lg-6 col-md-6">
                                     <div class="card h-200">
@@ -468,6 +499,7 @@
                                 @include('Home.Gallery.inc.unitInterest')
 
                             @endif
+
                         @endforeach
 
                     </div>

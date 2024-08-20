@@ -13,6 +13,7 @@ use App\Services\PropertyTypeService;
 use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Http\Controllers\Controller;
+use App\Models\Advertising;
 use App\Models\Broker;
 use App\Models\City;
 use App\Models\District;
@@ -182,33 +183,34 @@ class GallaryController extends Controller
         return view('Broker.Gallary.index', get_defined_vars());
     }
 
-    public function showInteractiveMap(){
-
+    public function showInteractiveMap()
+    {
         $allItems = collect();
         $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $projects = $this->ProjectService->getAllProjectsByBrokerId(auth()->user()->UserBrokerData->id);
         $properties = $this->PropertyService->getAll(auth()->user()->UserBrokerData->id);
+
         $units->each(function ($unit) {
             $unit->isGalleryUnit = true;
         });
         $projects->each(function ($project) {
             $project->isGalleryProject = true;
         });
-        $properties->each(function ($propertie) {
-            $propertie->isGalleryProperty = true;
+        $properties->each(function ($property) {
+            $property->isGalleryProperty = true;
         });
+
         $galleryItems = $projects->merge($properties)->merge($units);
         $allItems = $allItems->merge($galleryItems);
+        
 
-
-        $propertyTypes = PropertyType::all();
+        $propertyTypes = $allItems->pluck('PropertyTypeData')->filter()->unique();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
-        $cities = City::all();
-        $districts = District::all();
+        $cities = $allItems->pluck('CityData')->unique();
+        $districts = $allItems->pluck('DistrictData')->unique();
         $projects = Project::all();
 
         $allItemsProperties = collect();
-
 
         $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
 
@@ -218,29 +220,32 @@ class GallaryController extends Controller
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
                 ->where('show_gallery', 1)
                 ->get();
-            // $units = $units->merge($galleryUnits);
+
             $galleryUnits->each(function ($unit) {
                 $unit->isGalleryUnit = true;
             });
             $projects->each(function ($project) {
                 $project->isGalleryProject = true;
             });
-            $properties->each(function ($propertie) {
-                $propertie->isGalleryProperty = true;
+            $properties->each(function ($property) {
+                $property->isGalleryProperty = true;
             });
 
             $galleryItems = $projects->merge($properties)->merge($galleryUnits);
             $allItemsProperties = $allItemsProperties->merge($galleryItems);
+            $propertyTypesAll = $allItemsProperties->pluck('PropertyTypeData')->filter()->unique();
+            $usagesAll =  $this->propertyUsageService->getAllPropertyUsages();
+            $citiesAll = $allItemsProperties->pluck('CityData')->unique();
+            $districtsAll = $allItemsProperties->pluck('DistrictData')->unique();
+        }
 
-            $this->updateAdLicenseStatus(Project::all());
-            $this->updateAdLicenseStatus(Property::all());
-            $this->updateAdLicenseStatus(Unit::all());
-
+        $this->updateAdLicenseStatus(Project::all());
+        $this->updateAdLicenseStatus(Property::all());
+        $this->updateAdLicenseStatus(Unit::all());
 
         return view('Broker.Gallary.InteractiveMap.index', get_defined_vars());
-
     }
-}
+
 protected function updateAdLicenseStatus($allItemsProperties)
 {
     foreach ($allItemsProperties as $item) {
@@ -520,8 +525,12 @@ protected function updateAdLicenseStatus($allItemsProperties)
                     ->count('ip_address');
             }
         }
+        $advertisings = Advertising::where('status', 'Published')->get();
+
 
         $data['unitVisitorsCount'] = $unitVisitorsCount;
+        $data['advertisings'] = $advertisings;
+
         $checkActive = Setting::first();
         if ($checkActive->active_gallery == 1) {
             return view('Home.Gallery.indexAll',  $data);
