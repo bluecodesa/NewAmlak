@@ -125,11 +125,19 @@
                     .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
                     .setPopup(new mapboxgl.Popup({ offset: 25 })
                         .setHTML(`
-                            <div style="width: 200px;">
-                                <h6>${item.name || item.ad_name}</h6>
-                                <p>${item.isGalleryUnit ? 'Unit' : item.isGalleryProject ? 'Project' : 'Property'}</p>
-                                <a href="${showRoute}" target="_blank" class="btn btn-primary mt-2">@lang('Show')</a>
-                            </div>
+                            <div id="popup-${item.id}" style="width: 200px; cursor: pointer;">
+                                        <h6>${item.name || item.ad_name}</h6>
+                                          <p>
+                                            ${item.isGalleryUnit ? "@lang('Unit')" : item.isGalleryProject ? "@lang('Project')" : item.isGalleryProperty ? "@lang('property')" : ''}
+                                        </p>
+                                       <p><strong>@lang('Ad type'):</strong> ${item.type ? item.type : ''}</p>
+                                        <p><strong>@lang('Property type'):</strong> ${item.property_type_data ? item.property_type_data.name : ''}</p>
+                                        <p><strong>@lang('City'):</strong> ${item.city_data ? item.city_data.name : ''}</p>
+                                        <p><strong>@lang('istrict'):</strong> ${item.district_data ? item.district_data.name : ''}</p>
+
+                                        <a href="${showRoute}" target="_blank" class="btn btn-primary mt-2">@lang('Show')</a>
+
+                                    </div>
                         `))
                     .addTo(map);
             }
@@ -138,6 +146,36 @@
 
     // Initial markers for My Properties
     addMarkers(items);
+
+    function filterItems() {
+                var adType = $('#adTypeFilter').val();
+                var propertyType = $('#propertyTypeFilter').val();
+                var typeUse = $('#typeUseFilter').val();
+                var city = $('#cityFilter').val();
+                var district = $('#districtFilter').val();
+                var project = $('#projectFilter').val();
+
+                var filteredItems = items.filter(function(item) {
+                    return (!adType || item.type == adType) &&
+                           (!propertyType || item.property_type_id == propertyType) &&
+                           (!typeUse || item.property_usage_id == typeUse) &&
+                           (!city || item.city_id == city) &&
+                           (!district || item.district_id == district) &&
+                           (!project || item.project_id == project);
+                });
+
+                // Remove existing markers
+                $('.mapboxgl-marker').remove();
+
+                // Add filtered markers to the first map
+                addMarkers(filteredItems);
+
+            }
+
+            // Attach filter event handlers for the first map
+            $('#adTypeFilter, #propertyTypeFilter, #typeUseFilter, #cityFilter, #districtFilter, #projectFilter').change(function() {
+                filterItems();
+            });
 
     // Toggle functionality
     document.getElementById('myPropertiesBtn').addEventListener('click', function() {
