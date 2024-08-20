@@ -673,7 +673,10 @@
     "Content": "محتوي الاعلان",
     "Ad Duration (days)": "مدة عرض الإعلان",
     "Display Start Date": "تاريخ بدء العرض",
-    "Display End Date": " تاريخ نهاية العرض"
+    "Display End Date": " تاريخ نهاية العرض",
+    "Published": "منشور",
+    "Scheduled": "مجدول",
+    "Finished": "منتهي"
 
 
 

@@ -166,7 +166,29 @@ class AdvertisingController  extends Controller
             'show_end_date' => 'required|date|after:show_start_date',
             'ad_duration' => 'required|integer|min:1',
         ], [
-            // Custom validation messages
+           'ad_name.required' => 'The ad name is required.',
+            'ad_name.string' => 'The ad name must be a string.',
+            'ad_name.max' => 'The ad name may not be greater than 255 characters.',
+
+            'content.required' => 'The content file is required.',
+            'content.file' => 'The content must be a file.',
+            'content.mimes' => 'The content must be a file of type: jpg, jpeg, png, gif, mp4, mov, avi, wmv, flv, pdf, doc, docx.',
+            'content.max' => 'The content may not be greater than 20 MB.',
+
+            'client_name.string' => 'The client name must be a string.',
+            'client_name.max' => 'The client name may not be greater than 255 characters.',
+
+            'show_start_date.required' => 'The display start date is required.',
+            'show_start_date.date' => 'The display start date is not a valid date.',
+            'show_start_date.after_or_equal' => 'The display start date must be today or a future date.',
+
+            'show_end_date.required' => 'The display end date is required.',
+            'show_end_date.date' => 'The display end date is not a valid date.',
+            'show_end_date.after' => 'The display end date must be after the display start date.',
+
+            'ad_duration.required' => 'The ad display duration is required.',
+            'ad_duration.integer' => 'The ad display duration must be an integer.',
+            'ad_duration.min' => 'The ad display duration must be at least 1 day.',
         ]);
     
         $advertising = Advertising::findOrFail($id);

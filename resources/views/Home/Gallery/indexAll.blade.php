@@ -32,7 +32,7 @@
                                                 @foreach($advertisings as $index => $advertisement)
                                                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                                         @if(in_array(pathinfo($advertisement->content, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
-                                                            <a href="{{ $advertisement->ad_url ?? '' }}" target="_blank">
+                                                            <a href="{{ $advertisement->ad_url ?? 'javascript:0;' }}" target="_blank">
                                                                 <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
                                                             </a>
                                                         @else

@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Content')</label>
-                        <input class="form-control" type="file" id="content" name="content" accept="image/*,video/*,.pdf,.docx" required>
+                        <input class="form-control" type="file" id="content" name="content" required accept="image/*,video/*,.pdf,.docx" required>
                         <small>@lang('Content can be an image, video, or file (PDF, DOCX)')</small>
                     </div>
 
@@ -40,11 +40,11 @@
 
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Display Start Date')</label>
-                        <input class="form-control" type="datetime-local" id="show_start_date" name="show_start_date" required>
+                        <input class="form-control" type="date" id="show_start_date" name="show_start_date" required>
                     </div>
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Display End Date')</label>
-                        <input class="form-control" type="datetime-local" id="show_end_date" name="show_end_date" required>
+                        <input class="form-control" type="date" id="show_end_date" name="show_end_date" required>
                     </div>
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Ad Display Duration (days)')</label>
