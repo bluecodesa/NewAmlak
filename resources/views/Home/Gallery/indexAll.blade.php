@@ -3,12 +3,12 @@
 @section('content')
 <style>
 .sticky-carousel-wrapper {
-    top: 0; /* Stick to the top of the viewport */
-    width: 100%; /* Full width */
-    height: 200px; /* Fixed height */
-    z-index: 1000; /* Ensure it's above other content */
-    background: #fff; /* Optional: ensure the background is solid */
-    overflow: hidden; /* Hide overflow to maintain height constraint */
+    top: 0; 
+    width: 100%; 
+    height: 200px; 
+    z-index: 1000; 
+    background: #fff; 
+    overflow: hidden; 
 }
 
 
@@ -17,7 +17,7 @@
 
     <section class="section-py first-section-pt">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
+            <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                 </span>المعرض</h4>
 
                 <div class="sticky-carousel-wrapper mb-2">
@@ -30,7 +30,9 @@
                                         <div class="carousel-inner">
                                             @foreach($advertisings as $index => $advertisement)
                                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                                    <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
+                                                    <a href="{{ $advertisement->ad_url ?? '' }}" target="_blank">
+                                                        <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
+                                                    </a>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -48,6 +50,7 @@
                         </div>
                     </div>
                 </div>
+                
 
 
             <!--/ Header -->
