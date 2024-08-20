@@ -54,11 +54,11 @@
 
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Display Start Date')</label>
-                        <input class="form-control" type="date" id="show_start_date" name="show_start_date" value="{{ old('show_start_date', \Carbon\Carbon::parse($advertising->show_start_date)->format('Y-m-d\TH:i')) }}" required>
+                        <input class="form-control" type="date" id="show_start_date" name="show_start_date" value="{{ old('show_start_date', \Carbon\Carbon::parse($advertising->show_start_date)->format('Y-m-d')) }}" required>
                     </div>
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Display End Date')</label>
-                        <input class="form-control" type="date" id="show_end_date" name="show_end_date" value="{{ old('show_end_date', \Carbon\Carbon::parse($advertising->show_end_date)->format('Y-m-d\TH:i')) }}" required>
+                        <input class="form-control" type="date" id="show_end_date" name="show_end_date" value="{{ old('show_end_date', \Carbon\Carbon::parse($advertising->show_end_date)->format('Y-m-d')) }}" required>
                     </div>
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Ad Duration (days)')</label>

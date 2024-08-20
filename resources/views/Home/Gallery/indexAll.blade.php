@@ -32,29 +32,17 @@
                                                 @foreach($advertisings as $index => $advertisement)
                                                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                                         @if(in_array(pathinfo($advertisement->content, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
-                                                        @if($advertisement->ad_url)
                                                             <a href="{{ $advertisement->ad_url }}" target="_blank">
                                                                 <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
                                                             </a>
                                                         @else
-                                                            <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
-                                                        @endif
-                                                    @else
-                                                        @if($advertisement->ad_url)
-                                                            <a href="{{ $advertisement->ad_url }}" target="_blank">
-                                                                <video class="d-block w-100 h-100" autoplay muted>
-                                                                    <source src="{{ asset($advertisement->content) }}" type="video/mp4">
-                                                                    @lang('Your browser does not support the video tag.')
-                                                                </video>
-                                                            </a>
-                                                        @else
+                                                        <a href="{{ $advertisement->ad_url }}" target="_blank">
                                                             <video class="d-block w-100 h-100" autoplay muted>
                                                                 <source src="{{ asset($advertisement->content) }}" type="video/mp4">
                                                                 @lang('Your browser does not support the video tag.')
                                                             </video>
+                                                        </a>
                                                         @endif
-                                                    @endif
-                                                    
                                                     </div>
                                                 @endforeach
                                             </div>

@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="col-md-6 col-12 mb-3">
-                        <label class="form-label">@lang('Client Name')</label>
+                        <label class="form-label">@lang('Ad Url')</label>
                         <input class="form-control" type="text" id="ad_url" name="client_name" required>
                     </div>
 
@@ -47,7 +47,7 @@
                         <input class="form-control" type="date" id="show_end_date" name="show_end_date" required>
                     </div>
                     <div class="col-md-6 col-12 mb-3">
-                        <label class="form-label">@lang('Ad Display Duration (days)')</label>
+                        <label class="form-label">@lang('Ad Duration (days)')</label>
                         <input class="form-control" type="number" id="ad_duration" name="ad_duration" required readonly>
                     </div>
                     <div class="col-12">
