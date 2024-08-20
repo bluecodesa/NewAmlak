@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Advertisement Details'))
+@section('title', __('Show'))
 @section('content')
 
 <div class="content-wrapper">
@@ -9,7 +9,7 @@
                 <h4 class="">
                     <a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                     <a href="{{ route('Admin.Advertisings.index') }}" class="text-muted fw-light">@lang('Ads')</a> /
-                    @lang('Advertisement Details')
+                    @lang('Show')
                 </h4>
             </div>
         </div>
@@ -25,6 +25,11 @@
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Client Name')</label>
                         <p>{{ $advertisement->client_name }}</p>
+                    </div>
+                    
+                    <div class="col-md-6 col-12 mb-3">
+                        <label class="form-label">@lang('Client Name')</label>
+                        <p>{{ __($advertisement->status) }}</p>
                     </div>
 
                     <div class="col-md-6 col-12 mb-3">
