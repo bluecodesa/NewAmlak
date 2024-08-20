@@ -64,9 +64,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>@lang('Name')</th>
-                                <th>@lang('Content')</th>
+                                {{-- <th>@lang('Content')</th> --}}
                                 <th>@lang('Client Name')</th>
-                                <th>@lang('Ad Url')</th>
+                                {{-- <th>@lang('Ad Url')</th> --}}
                                 <th>@lang('status')</th>
                                 <th>@lang('Display Start Date')</th>
                                 <th>@lang('Display End Date')</th>
@@ -79,7 +79,7 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $Ad->ad_name }}</td>
-                                    <td>
+                                    {{-- <td>
                                         @if($Ad->content)
                                             @php
                                                 $fileExtension = pathinfo($Ad->content, PATHINFO_EXTENSION);
@@ -97,9 +97,9 @@
                                         @else
                                             <span>@lang('No Content')</span>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                     <td>{{ $Ad->client_name }}</td>
-                                    <td>{{ $Ad->ad_url }}</td>
+                                    {{-- <td>{{ $Ad->ad_url }}</td> --}}
                                     <td>{{ $Ad->status }}</td>
                                     <td>{{ \Carbon\Carbon::parse($Ad->show_start_date)->format('Y-m-d H:i:s') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($Ad->show_end_date)->format('Y-m-d H:i:s') }}</td>
