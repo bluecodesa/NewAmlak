@@ -139,53 +139,70 @@ class AdvertisingController  extends Controller
     public function show(string $id)
     {
         //
+        $advertisement = Advertising::findOrFail($id);
+
+        return view('Admin.Advertising.show', get_defined_vars());
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
-        $partnerSuccess = PartnerSuccess::findOrFail($id);
-        return view('Admin.settings.HomePages.PartnerSuccess.edit', compact('partnerSuccess'));
+        $advertising = Advertising::findOrFail($id);
+        return view('Admin.Advertising.edit', compact('advertising'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the input data
         $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'ad_name' => 'required|string|max:255',
+            'content' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,avi,wmv,flv,pdf,doc,docx|max:20480',
+            'client_name' => 'nullable|string|max:255',
+            'ad_url' => 'nullable|string|max:255',
+            'show_start_date' => 'required|date|after_or_equal:today',
+            'show_end_date' => 'required|date|after:show_start_date',
+            'ad_duration' => 'required|integer|min:1',
+        ], [
+            // Custom validation messages
         ]);
-
-        $partnerSuccess = PartnerSuccess::findOrFail($id);
-
-        $data = $request->only(['name']);
-
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($partnerSuccess->image) {
-                $oldImagePath = public_path($partnerSuccess->image);
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
-                }
-            }
-
-            // Upload new image
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('Admin/PartnerSuccess/Images/'), $imageName);
-            $data['image'] = 'Admin/PartnerSuccess/Images/' . $imageName;
+    
+        $advertising = Advertising::findOrFail($id);
+    
+        $data = [];
+        if ($request->hasFile('content')) {
+            $content = $request->file('content');
+            $ext = $content->getClientOriginalExtension();
+            $contentName = uniqid() . '.' . $ext;
+            $content->move(public_path('/Admin/Advertisings/Files/'), $contentName);
+            $data['content'] = '/Admin/Advertisings/Files/' . $contentName;
         }
-
-        $partnerSuccess->update($data);
-        return redirect()->route('Admin.PartnerSuccess.index')->with('success', 'Update successfully');
-
+    
+        // Determine status based on start date
+        $showStartDate = new \DateTime($request->input('show_start_date'));
+        $currentDate = new \DateTime();
+        if ($showStartDate->format('Y-m-d') === $currentDate->format('Y-m-d')) {
+            $data['status'] = 'Published';
+        } else {
+            $data['status'] = 'Scheduled';
+        }
+    
+        // Additional data
+        $data['ad_name'] = $request->input('ad_name');
+        $data['client_name'] = $request->input('client_name');
+        $data['ad_url'] = $request->input('ad_url');
+        $data['ad_duration'] = $request->input('ad_duration');
+        $data['show_start_date'] = $request->input('show_start_date');
+        $data['show_end_date'] = $request->input('show_end_date');
+    
+        // Update the advertising entry
+        $advertising->update($data);
+    
+        return redirect()->route('Admin.Advertisings.index')->with('success', __('Ad updated successfully'));
     }
+    
 
     /**
      * Remove the specified resource from storage.

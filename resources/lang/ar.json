@@ -669,7 +669,11 @@
     "Ads Management": "ادارة لاعلانات",
     "Ads": "الاعلانات",
     "My Properties": "عقاراتي",
-    "All Properties": "جميع العقارات"
+    "All Properties": "جميع العقارات",
+    "Content": "محتوي الاعلان",
+    "Ad Duration (days)": "مدة عرض الإعلان",
+    "Display Start Date": "تاريخ بدء العرض",
+    "Display End Date": " تاريخ نهاية العرض"
 
 
 

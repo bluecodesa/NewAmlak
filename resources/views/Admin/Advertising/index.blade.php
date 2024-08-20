@@ -66,6 +66,7 @@
                                 <th>@lang('Name')</th>
                                 <th>@lang('Content')</th>
                                 <th>@lang('Client Name')</th>
+                                <th>@lang('Ad Url')</th>
                                 <th>@lang('status')</th>
                                 <th>@lang('Display Start Date')</th>
                                 <th>@lang('Display End Date')</th>
@@ -98,25 +99,38 @@
                                         @endif
                                     </td>
                                     <td>{{ $Ad->client_name }}</td>
+                                    <td>{{ $Ad->ad_url }}</td>
                                     <td>{{ $Ad->status }}</td>
                                     <td>{{ \Carbon\Carbon::parse($Ad->show_start_date)->format('Y-m-d H:i:s') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($Ad->show_end_date)->format('Y-m-d H:i:s') }}</td>
-                                    <td>{{ $Ad->ad_duration }} @lang('days')</td>
+                                    <td>{{ $Ad->ad_duration }} @lang('day')</td>
+
                                     <td>
-                                        <a href="{{ route('Admin.Advertisings.show', $Ad->id) }}" class="btn btn-info btn-sm">
-                                            <i class="ti ti-eye"></i> @lang('View')
-                                        </a>
-                                        <a href="{{ route('Admin.Advertisings.edit', $Ad->id) }}" class="btn btn-warning btn-sm">
-                                            <i class="ti ti-edit"></i> @lang('Edit')
-                                        </a>
-                                        <form action="{{ route('Admin.Advertisings.destroy', $Ad->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                                <i class="ti ti-trash"></i> @lang('Delete')
+
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
                                             </button>
-                                        </form>
+                                            <div class="dropdown-menu" style="">
+                                                <a class="dropdown-item"
+                                                    href="{{ route('Admin.Advertisings.show', $Ad->id) }}">@lang('Show')</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('Admin.Advertisings.edit', $Ad->id) }}">@lang('Edit')</a>
+                                                    <a href="javascript:void(0);"
+                                                        onclick="handleDelete('{{ $Ad->id }}')"
+                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                    <form id="delete-form-{{ $Ad->id }}"
+                                                        action="{{ route('Admin.Advertisings.destroy', $Ad->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+
+                                            </div>
+                                        </div>
                                     </td>
+                      
                                 </tr>
                             @empty
                                 <tr>
