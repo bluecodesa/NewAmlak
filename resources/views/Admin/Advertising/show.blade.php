@@ -17,7 +17,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 col-12 mb-3">
-                        <label class="form-label">@lang('Ad Name')</label>
+                        <label class="form-label">@lang('Name')</label>
                         <p>{{ $advertisement->ad_name }}</p>
                     </div>
                  
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="col-md-6 col-12 mb-3">
-                        <label class="form-label">@lang('Ad URL')</label>
+                        <label class="form-label">@lang('Ad Url')</label>
                         <p><a href="{{ $advertisement->ad_url }}" target="_blank">{{ $advertisement->ad_url }}</a></p>
                     </div>
 

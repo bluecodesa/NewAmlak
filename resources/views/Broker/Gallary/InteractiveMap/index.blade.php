@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="nav-align-top nav-tabs-shadow mb-4">
-            <div class="toggle-container mb-2" style="display: flex; justify-content: center; gap: 10px;">
+            <div class="toggle-container m-2" style="display: flex; justify-content: center; gap: 10px;">
                 <button id="myPropertiesBtn" class="btn btn-primary active">@lang('My Properties')</button>
                 <button id="allPropertiesBtn" class="btn btn-secondary">@lang('All Properties')</button>
             </div>
