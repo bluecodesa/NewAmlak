@@ -42,8 +42,7 @@ class PropertyController extends Controller
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
 
-        $this->middleware(['role_or_permission:read-building'])->only(['show']);
-        $this->middleware(['role_or_permission:read-building'])->only(['index']);
+        $this->middleware(['role_or_permission:read-building'])->only(['index','show']);
         $this->middleware(['role_or_permission:create-building'])->only(['create', 'store']);
         $this->middleware(['role_or_permission:update-building'])->only(['edit', 'update']);
         $this->middleware(['role_or_permission:delete-building'])->only(['destroy']);
