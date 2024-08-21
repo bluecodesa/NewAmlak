@@ -40,9 +40,10 @@ class AdvertisingController  extends Controller
         ->where('status', '!=', 'Finished')
         ->update(['status' => 'Finished']);
 
+
         // Update ads that have a start date today or less and end date today or greater to 'Published'
         Advertising::where('show_start_date', '<=', $today)
-        ->where('status', '!=', 'Published')
+        ->whereNotIn('status', ['Published', 'Finished'])
         ->update(['status' => 'Published']);
 
 
