@@ -162,3 +162,9 @@ Route::group(
     }
 
 );
+
+use App\Http\Controllers\IdValidationController;
+
+Route::get('/id-validation', [IdValidationController::class, 'showForm'])->name('id-validation');
+Route::post('/validate-id', [IdValidationController::class, 'validateId'])->name('validate-id');
+
