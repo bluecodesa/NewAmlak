@@ -113,32 +113,51 @@
             if (item.lat_long) {
                 var coordinates = item.lat_long.split(',');
                 var showRoute = '#';
+                var rentPriceAndType = '';
 
                 if (item.isGalleryUnit) {
                     showRoute = `{{ route('Broker.Unit.show', ':id') }}`.replace(':id', item.id);
+                    rentPriceAndType = `${item.rentPrice} @lang('SAR') / ${item.rent_type_show }`;
                 } else if (item.isGalleryProject) {
                     showRoute = `{{ route('Broker.Project.show', ':id') }}`.replace(':id', item.id);
                 } else if (item.isGalleryProperty) {
                     showRoute = `{{ route('Broker.Property.show', ':id') }}`.replace(':id', item.id);
                 }
-
                 new mapboxgl.Marker()
                     .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
                     .setPopup(new mapboxgl.Popup({ offset: 25 })
                         .setHTML(`
-                            <div id="popup-${item.id}" style="width: 200px; cursor: pointer;">
-                                        <h6>${item.name || item.ad_name}</h6>
-                                          <p>
-                                            ${item.isGalleryUnit ? "@lang('Unit')" : item.isGalleryProject ? "@lang('Project')" : item.isGalleryProperty ? "@lang('property')" : ''}
-                                        </p>
-                                       <p><strong>@lang('Ad type'):</strong> ${item.type ? item.type : ''}</p>
-                                        <p><strong>@lang('Property type'):</strong> ${item.property_type_data ? item.property_type_data.name : ''}</p>
-                                        <p><strong>@lang('City'):</strong> ${item.city_data ? item.city_data.name : ''}</p>
-                                        <p><strong>@lang('istrict'):</strong> ${item.district_data ? item.district_data.name : ''}</p>
+                        <div id="popup-${item.id}" style="width: 200px; cursor: pointer; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <h6>${item.name || item.ad_name}</h6>
+                            ${item.isGalleryUnit ? `
+                            <p>
+                                <i class="ti ti-bell-dollar"></i>${rentPriceAndType ? `<span class="pb-1">${rentPriceAndType}</span>` : ''}
+                            </p>
+                             ` : ''}
+                            ${!item.isGalleryProject ? `
+                                <p>
+                                    <i class="ti ti-building-arch"></i> ${item.property_type_data ? item.property_type_data.name : ''} / ${item.type ? item.type : ''}
+                                </p>
+                            ` : ''} 
+                            <p>
+                                ${item.isGalleryUnit ? 
+                                    (item.ProjectData ? `<span class="badge bg-label-secondary mt-1">${item.ProjectData.name}</span>` : '') + 
+                                    " " + 
+                                    (item.PropertyData ? `<span class="badge bg-label-secondary mt-1">${item.PropertyData.name}</span>` : '') + 
+                                    ` <span class="badge bg-label-secondary mt-1">@lang('Unit')</span>`
+                                : item.isGalleryProperty ? 
+                                    (item.ProjectData ? `<span class="badge bg-label-secondary mt-1">${item.ProjectData.name}</span>` : '') + 
+                                    ` <span class="badge bg-label-secondary mt-1">@lang('Property')</span>` 
+                                : item.isGalleryProject ? 
+                                    `<span class="badge bg-label-secondary mt-1">@lang('Project')</span>` 
+                                : ''}
+                            </p>
+                            <p>
+                                <i class="ti ti-map-pin"></i> ${item.city_data ? item.city_data.name : ''} / ${item.district_data ? item.district_data.name : ''}
+                            </p>
+                            <a href="${showRoute}" target="_blank" class="btn btn-primary mt-2">@lang('Show')</a>
+                        </div>
 
-                                        <a href="${showRoute}" target="_blank" class="btn btn-primary mt-2">@lang('Show')</a>
-
-                                    </div>
                         `))
                     .addTo(map);
             }

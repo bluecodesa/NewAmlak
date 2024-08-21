@@ -41,6 +41,7 @@ use App\Services\CityService;
 use App\Services\PropertyTypeService;
 use App\Services\Admin\DistrictService;
 use App\Http\Traits\Email\MailSendCode;
+use App\Models\Advertising;
 use App\Models\Ticket;
 use App\Services\NafathService;
 
@@ -664,6 +665,7 @@ class HomeController extends Controller
                 }
             }
         }
+        $advertisings = Advertising::where('status', 'Published')->get();
 
 
         return view('Home.Brokers.index', get_defined_vars());

@@ -1,10 +1,65 @@
 @extends('Home.layouts.home.app')
 @section('title', __('Real Estate Brokers'))
 @section('content')
+<style>
+    .sticky-carousel-wrapper {
+        top: 0; 
+        width: 100%; 
+        height: 200px; 
+        z-index: 1000; 
+        background: #fff; 
+        overflow: hidden; 
+    }
+    
+    
+    
+    </style>
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
-            <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
+            <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                 </span> @lang('Real Estate Brokers') </h4>
+
+                <div class="sticky-carousel-wrapper mb-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mb-4">
+                                <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                                    <!-- Carousel wrapper -->
+                                    @if($advertisings->isNotEmpty())
+                                        <div id="advertisementCarousel" class="carousel slide" data-bs-ride="carousel">
+                                            <div class="carousel-inner">
+                                                @foreach($advertisings as $index => $advertisement)
+                                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                                        @if(in_array(pathinfo($advertisement->content, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                                                            <a href="{{ $advertisement->ad_url }}" target="_blank">
+                                                                <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
+                                                            </a>
+                                                        @else
+                                                        <a href="{{ $advertisement->ad_url }}" target="_blank">
+                                                            <video class="d-block w-100 h-100" autoplay muted>
+                                                                <source src="{{ asset($advertisement->content) }}" type="video/mp4">
+                                                                @lang('Your browser does not support the video tag.')
+                                                            </video>
+                                                        </a>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#advertisementCarousel" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#advertisementCarousel" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             <div class="row g-4" @if ($users->count() == 0) style="min-height: 300px" @endif>
                 @foreach ($users as $broker)

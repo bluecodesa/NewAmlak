@@ -192,17 +192,23 @@ class GallaryController extends Controller
 
         $units->each(function ($unit) {
             $unit->isGalleryUnit = true;
+            $unit->rentPrice =$unit->getRentPriceByType() ?? null;
+            $unit->rent_type_show =  __($unit->rent_type_show) ?? null;
+            $unit->ProjectData =$unit->ProjectData ?? null;
+            $unit->PropertyData =$unit->PropertyData ?? null;
+
+
         });
         $projects->each(function ($project) {
             $project->isGalleryProject = true;
         });
         $properties->each(function ($property) {
             $property->isGalleryProperty = true;
+            $property->ProjectData =$property->ProjectData ?? null;
         });
 
         $galleryItems = $projects->merge($properties)->merge($units);
         $allItems = $allItems->merge($galleryItems);
-        
 
         $propertyTypes = $allItems->pluck('PropertyTypeData')->filter()->unique();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
@@ -393,6 +399,10 @@ protected function updateAdLicenseStatus($allItemsProperties)
             }
         }
         $data['unitVisitorsCount'] = $unitVisitorsCount;
+        $advertisings = Advertising::where('status', 'Published')->get();
+
+        $data['advertisings'] = $advertisings;
+
         $check_val =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData;
         if ($check_val->license_validity == 'valid') {
             return view('Home.Gallery.index', $data);
