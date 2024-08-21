@@ -15,33 +15,52 @@ class IdValidationController extends Controller
         $this->nafathService = $nafathService;
     }
 
-    // Method to display the validation form
     public function showForm()
     {
         return view('auth.id-validation');
     }
 
-    // Method to handle form submission and validate ID number
     public function validateId(Request $request)
-    {
-        $request->validate([
-            'id_number' => 'required|string',
+{
+    $request->validate([
+        'id_number' => 'required|string',
+    ]);
+
+    $idNumber = $request->input('id_number');
+    $result = $this->nafathService->validateIdNumber($idNumber);
+
+    if ($result['valid']) {
+        return response()->json([
+            'valid' => true,
+            'message' => 'ID Number is valid',
         ]);
-
-        // Example: Retrieving IAM page URL
-        $result = $this->nafathService->retrieveIamPage('ar', $request->input('id_number'));
-
-        // Handle the response and set the message
-        if (isset($result['id'])) {
-            $message = 'ID Number is valid';
-            $alertClass = 'alert-success';
-        } else {
-            $message = 'ID Number is invalid';
-            $alertClass = 'alert-danger';
-        }
-
-        return redirect()->route('id-validation')
-                         ->with('message', $message)
-                         ->with('alert-class', $alertClass);
+    } else {
+        return response()->json([
+            'valid' => false,
+            'message' => 'ID Number is invalid',
+        ]);
     }
+}
+
+
+    // public function validateId(Request $request)
+    // {
+    //     $request->validate([
+    //         'id_number' => 'required|string',
+    //     ]);
+
+    //     $idNumber = $request->input('id_number');
+    //     $result = $this->nafathService->validateIdNumber($idNumber);
+    //     if ($result['valid']) {
+    //         $message = 'ID Number is valid';
+    //         $alertClass = 'alert-success';
+    //     } else {
+    //         $message = 'ID Number is invalid';
+    //         $alertClass = 'alert-danger';
+    //     }
+
+    //     return redirect()->route('id-validation')
+    //                      ->with('message', $message)
+    //                      ->with('alert-class', $alertClass);
+    // }
 }

@@ -663,7 +663,7 @@
     "Ad Status": "حالة الاعلان",
     "New subscriptions": "الاشتراكات الجديدة",
     "Expired subscriptions": "الاشتراكات المنتهية",
-    "Ad Url": "لينك الاعلان",
+    "Ad Url": "رابط الاعلان",
     "weekly": "اسبوعيا",
     "Interactive Map": "الخريطة التفاعلية",
     "Ads Management": "ادارة الاعلانات",
@@ -677,7 +677,8 @@
     "Published": "منشور",
     "Scheduled": "مجدول",
     "Finished": "منتهي",
-    "Back": "عودة"
+    "Back": "عودة",
+    "Ad Name": "اسم الاعلان"
 
 
 

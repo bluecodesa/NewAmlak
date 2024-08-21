@@ -51,52 +51,24 @@ class NafathService
 {
     protected $appId;
     protected $appKey;
-    protected $baseUrl;
 
     public function __construct()
     {
         $this->appId = env('NAFATH_APP_ID');
         $this->appKey = env('NAFATH_APP_KEY');
-        $this->baseUrl = 'https://Iam2-qa-api.dev-apps.elm.sa:433'; // Pre-production URL
     }
 
-    protected function headers()
-    {
-        return [
-            'APP-ID' => $this->appId,
-            'APP-KEY' => $this->appKey,
-        ];
-    }
-
-    // Method to retrieve URL for IAM page
-    public function retrieveIamPage($locale = 'ar', $requestId)
-    {
-        $response = Http::withHeaders($this->headers())
-            ->get("{$this->baseUrl}/api/v1/oidc/session", [
-                'locale' => $locale,
-                'requestId' => $requestId,
-            ]);
-
-        return $response->json();
-    }
-
-    // Method to retrieve JWK
-    public function retrieveJwk()
-    {
-        $response = Http::withHeaders($this->headers())
-            ->get("{$this->baseUrl}/api/v1/oidc/jwk");
-
-        return $response->json();
-    }
-
-    // Method to verify JWK
-    public function verifyJwk($organizationNumber, $platformKey, $requestNumber, $token)
+    public function validateIdNumber($idNumber)
     {
         $response = Http::withHeaders([
-            'ORGANIZATION-NUMBER' => $organizationNumber,
-            'PLATFORM-KEY' => $platformKey,
-            'REQUEST-NUMBER' => $requestNumber,
-        ])->put("{$this->baseUrl}/api/oidc/jwt/valid", $token);
+            'Application-ID' => $this->appId,
+            'Application-Key' => $this->appKey,
+            ])->timeout(60) 
+            ->post('https://iam2-qa-api.dev-apps.elm.sa:433/validate-id', [
+                'id_number' => $idNumber,
+                
+            ]);
+            dd($idNumber);
 
         return $response->json();
     }
