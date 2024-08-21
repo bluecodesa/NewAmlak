@@ -19,20 +19,32 @@ class AdvertisingController  extends Controller
     {
         //
         $Ads = Advertising::all();
-        foreach ($Ads as $ad) {
-            $today = Carbon::now()->startOfDay(); // Get today's date at the start of the day
+        // foreach ($Ads as $ad) {
+        //     $today = Carbon::now()->startOfDay(); // Get today's date at the start of the day
 
-            $startDate = Carbon::parse($ad->show_start_date);
-            $endDate = Carbon::parse($ad->show_end_date);
+        //     $startDate = Carbon::parse($ad->show_start_date);
+        //     $endDate = Carbon::parse($ad->show_end_date);
             
-            if ($startDate == $today || $startDate < $today) {
-                $ad->status = 'Published';
-            } elseif ($endDate == $today || $endDate < $today) {
-                $ad->status = 'Finished';
-            }
+        //     if ($startDate == $today || $startDate < $today) {
+        //         $ad->status = 'Published';
+        //     } elseif ($endDate == $today || $endDate < $today) {
+        //         $ad->status = 'Finished';
+        //     }
 
-            $ad->save();
-        }
+        //     $ad->save();
+        // }
+
+        $today = Carbon::today();
+
+        Advertising::where('show_end_date', '<', $today)
+        ->where('status', '!=', 'Finished')
+        ->update(['status' => 'Finished']);
+
+        // Update ads that have a start date today or less and end date today or greater to 'Published'
+        Advertising::where('show_start_date', '<=', $today)
+        ->where('status', '!=', 'Published')
+        ->update(['status' => 'Published']);
+
 
         return view('Admin.Advertising.index', get_defined_vars());
     }
