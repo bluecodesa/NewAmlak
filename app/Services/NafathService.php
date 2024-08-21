@@ -63,7 +63,8 @@ class NafathService
         $response = Http::withHeaders([
             'Application-ID' => $this->appId,
             'Application-Key' => $this->appKey,
-            ])->post('https://Iam2-qa-api.dev-apps.elm.sa:433/validate-id', [
+            ])->timeout(60) // Increase timeout to 30 seconds
+            ->post('https://iam2-qa-api.dev-apps.elm.sa:433/validate-id', [
                 'id_number' => $idNumber,
             ]);
 
