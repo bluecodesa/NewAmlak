@@ -62,6 +62,8 @@ class ProjectController extends Controller
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
         //
+
+        $this->middleware(['role_or_permission:read-project'])->only(['show']);
         $this->middleware(['role_or_permission:read-project'])->only(['index']);
         $this->middleware(['role_or_permission:create-project'])->only(['create', 'store']);
         $this->middleware(['role_or_permission:update-project'])->only(['edit', 'update']);
