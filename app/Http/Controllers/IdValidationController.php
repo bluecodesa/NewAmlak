@@ -28,11 +28,11 @@ class IdValidationController extends Controller
             'id_number' => 'required|string',
         ]);
 
-        $idNumber = $request->input('id_number');
-        $result = $this->nafathService->validateIdNumber($idNumber);
+        // Example: Retrieving IAM page URL
+        $result = $this->nafathService->retrieveIamPage('ar', $request->input('id_number'));
 
-        // Prepare the message and alert class based on the result
-        if ($result['valid']) {
+        // Handle the response and set the message
+        if (isset($result['id'])) {
             $message = 'ID Number is valid';
             $alertClass = 'alert-success';
         } else {
@@ -40,7 +40,6 @@ class IdValidationController extends Controller
             $alertClass = 'alert-danger';
         }
 
-        // Redirect back with the result message
         return redirect()->route('id-validation')
                          ->with('message', $message)
                          ->with('alert-class', $alertClass);
