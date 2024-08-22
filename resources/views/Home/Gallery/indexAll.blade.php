@@ -19,6 +19,8 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                 </span>المعرض</h4>
+                
+                @if($advertisings->isNotEmpty())
 
                 <div class="sticky-carousel-wrapper mb-2">
                     <div class="row">
@@ -26,7 +28,6 @@
                             <div class="card mb-4">
                                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                                     <!-- Carousel wrapper -->
-                                    @if($advertisings->isNotEmpty())
                                         <div id="advertisementCarousel" class="carousel slide" data-bs-ride="carousel">
                                             <div class="carousel-inner">
                                                 @foreach($advertisings as $index => $advertisement)
@@ -55,13 +56,13 @@
                                                 <span class="visually-hidden">Next</span>
                                             </button>
                                         </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+                @endif
+
 
 
             <!--/ Header -->
