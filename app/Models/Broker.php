@@ -44,10 +44,14 @@ class Broker extends Model
     }
 
 
+    // public function UserSystemInvoicePending()
+    // {
+    //     return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status', 'pending')->latest();
+    // }
 
     public function UserSystemInvoicePending()
     {
-        return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status', 'pending')->latest();
+        return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status','!=', 'active')->latest();
     }
 
     public function UserSystemInvoicePaid()

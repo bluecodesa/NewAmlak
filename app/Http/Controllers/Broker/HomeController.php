@@ -92,6 +92,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
+
         // return Auth::user()->UserBrokerData->UserSubscription->SubscriptionSectionData;
         // return Auth::user()->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')->toArray();
         // $subscriptionType = subscriptionType::find(Auth::user()->UserBrokerData->UserSubscription->subscription_type_id);

@@ -38,6 +38,11 @@ class CheckSubscriptionMiddleware
                     // 'end_date' => $endDate,
                 ]);
                 $status = ($subscriptionType->price > 0) ? 'pending' : 'active';
+
+                SystemInvoice::where('broker_id', $subscription->broker_id)
+                ->where('status', '!=', 'expired')
+                ->update(['status' => 'expired']);
+
                 // SystemInvoice::create([
                 //     'broker_id' => $subscription->broker_id,
                 //     'office_id' => $subscription->office_id,
