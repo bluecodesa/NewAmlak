@@ -192,7 +192,7 @@ class GallaryController extends Controller
 
         $units->each(function ($unit) {
             $unit->isGalleryUnit = true;
-            $unit->rentPrice =$unit->getRentPriceByType() ?? null;
+            $unit->rentPrice =$unit->getRentPriceByType() ?? '';
             $unit->rent_type_show =  __($unit->rent_type_show) ?? null;
             $unit->ProjectData =$unit->ProjectData ?? null;
             $unit->PropertyData =$unit->PropertyData ?? null;

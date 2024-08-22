@@ -28,7 +28,6 @@
                             </div>
 
                             <div class="col-8">
-                                @if (Auth::user()->hasPermission('create-role'))
                                     <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                         <div
                                             class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
@@ -39,7 +38,7 @@
                                                         type="button"><span><i
                                                                 class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                 </div>
-                                                @if (Auth::user()->hasPermission('create-sections'))
+                                                @if (Auth::user()->hasPermission('Add-advertisement'))
                                                 <div class="btn-group">
                                                     <a href="{{ route('Admin.Advertisings.create') }}" type="button"
                                                         class="btn btn-primary">
@@ -51,7 +50,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
                             </div>
 
                         </div>
@@ -106,7 +104,7 @@
                                     <td>{{ $Ad->ad_duration }} @lang('day')</td>
 
                                     <td>
-
+                                        {{-- Add advertisement --}}
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -115,9 +113,12 @@
                                             <div class="dropdown-menu" style="">
                                                 <a class="dropdown-item"
                                                     href="{{ route('Admin.Advertisings.show', $Ad->id) }}">@lang('Show')</a>
+                                                    @if (Auth::user()->hasPermission('Edit-advertisement'))
                                                     <a class="dropdown-item"
                                                         href="{{ route('Admin.Advertisings.edit', $Ad->id) }}">@lang('Edit')</a>
-                                                    <a href="javascript:void(0);"
+                                                    @endif
+                                                    @if (Auth::user()->hasPermission('Delete-advertisement'))
+                                                        <a href="javascript:void(0);"
                                                         onclick="handleDelete('{{ $Ad->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
                                                     <form id="delete-form-{{ $Ad->id }}"
@@ -126,7 +127,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
-
+                                                    @endif
                                             </div>
                                         </div>
                                     </td>

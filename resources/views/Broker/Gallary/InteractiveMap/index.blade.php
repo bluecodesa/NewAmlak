@@ -129,16 +129,18 @@
                         .setHTML(`
                         <div id="popup-${item.id}" style="width: 200px; cursor: pointer; display: flex; flex-direction: column; align-items: center; text-align: center;">
                             <h6>${item.name || item.ad_name}</h6>
-                            ${item.isGalleryUnit ? `
-                            <p>
-                                <i class="ti ti-bell-dollar"></i>${rentPriceAndType ? `<span class="pb-1">${rentPriceAndType}</span>` : ''}
-                            </p>
-                             ` : ''}
                             ${!item.isGalleryProject ? `
                                 <p>
                                     <i class="ti ti-building-arch"></i> ${item.property_type_data ? item.property_type_data.name : ''} / ${item.type ? item.type : ''}
                                 </p>
                             ` : ''} 
+
+                            ${item.isGalleryUnit ? `
+                            <p>
+                                <i class="ti ti-bell-dollar"></i>${rentPriceAndType ? `<span class="pb-1">${rentPriceAndType}</span>` : ''}
+                            </p>
+                             ` : ''}
+                          
                             <p>
                                 ${item.isGalleryUnit ? 
                                     (item.ProjectData ? `<span class="badge bg-label-secondary mt-1">${item.ProjectData.name}</span>` : '') + 
