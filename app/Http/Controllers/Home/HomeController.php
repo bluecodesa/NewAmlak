@@ -42,6 +42,7 @@ use App\Services\PropertyTypeService;
 use App\Services\Admin\DistrictService;
 use App\Http\Traits\Email\MailSendCode;
 use App\Models\Advertising;
+use App\Models\Owner;
 use App\Models\Ticket;
 use App\Services\NafathService;
 
@@ -699,29 +700,72 @@ class HomeController extends Controller
     {
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|max:255',
-            // 'phone' => [
-            //     'required',
-            //     'max:25'
-            // ],
-            // 'full_phone' => [
-            //     'required',
-            //     Rule::unique('users'),
-            //     'max:25'
-            // ],
+            'email' => 'required|email|unique:users,email,NULL,id,id_number,' . $request->id_number,
             'password' => 'required|string|max:255|confirmed',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'account_type' => 'required|in:is_property_finder,is_owner',
+            'id_number' => [
+                'required',
+                'numeric',
+                'digits:10',
+                function ($attribute, $value, $fail) use ($request) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail(__('The ID number must start with 1 or 2 and be exactly 10 digits long.'));
+                    }
+
+                    if ($request->account_type === 'is_owner') {
+                        // Check if the ID number is already registered as an owner
+                        $owner = User::where('is_owner', 1)->where('id_number', $value)->first();
+                        if ($owner) {
+                            $fail(__('This account is already registered as an owner.'));
+                        }
+
+                        // Check if the ID number is registered but not as an owner
+                        $user = User::where('id_number', $value)
+                            ->where('is_owner', 0)
+                            ->first();
+
+                        if ($user) {
+                            session()->flash('modal_data', [
+                                'name' => $user->name,
+                                'email' => $user->email,
+                                'id_number' => $user->id_number,
+                                'account_type' => $this->getAccountType($user)
+                            ]);
+                            $fail(__('This account is already registered as a ' . $this->getAccountType($user) . '. Do you want to add them as an owner?'));
+                        }
+
+                    } elseif ($request->account_type === 'is_property_finder') {
+                        // Check if the ID number is already registered as a property finder
+                        $propertyFinder = User::where('is_property_finder', 1)->where('id_number', $value)->first();
+                        if ($propertyFinder) {
+                            $fail(__('This account is already registered as a property finder.'));
+                        }
+
+                        // Check if the ID number is registered but not as a property finder
+                        $user = User::where('id_number', $value)
+                            ->where('is_property_finder', 0)
+                            ->first();
+
+                        if ($user) {
+                            $fail(__('This account is already registered as a ' . $this->getAccountType($user) ));
+                        }
+                    }
+                },
+            ],
         ];
+
 
         $messages = [
             'name.required' => __('The name field is required.'),
             'email.required' => __('The email field is required.'),
             'email.unique' => __('The email has already been taken.'),
-            // 'full_phone.required' => __('The mobile field is required.'),
-            // 'full_phone.unique' => __('The mobile has already been taken.'),
             'password.required' => __('The password field is required.'),
             'password.confirmed' => __('The password confirmation does not match.'),
-            'avatar.image' => __('The broker logo must be an image.')
+            'avatar.image' => __('The broker logo must be an image.'),
+            'id_number.required' => __('The ID number field is required.'),
+            'id_number.numeric' => __('The ID number must be a number.'),
+            'id_number.digits' => __('The ID number must be exactly 10 digits long.'),
         ];
 
         $request->validate($rules, $messages);
@@ -730,28 +774,219 @@ class HomeController extends Controller
 
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
-            $ext  =  uniqid() . '.' . $file->clientExtension();
+            $ext  = uniqid() . '.' . $file->clientExtension();
             $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
             $request_data['avatar'] = '/PropertyFounder/' . 'Logos/' . $ext;
         }
 
-        $user = User::create([
-            'is_property_finder' => 1,
-            'name' => $request->name,
-            // 'phone' => $request->phone,
-            // 'key_phone' => $request->key_phone,
-            // 'full_phone' => $request->full_phone,
-            'email' => $request->email,
-            'user_name' => uniqid(),
-            'password' => bcrypt($request->password),
-            'avatar' => $request_data['avatar'] ?? null,
+
+            $user_data = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'user_name' => uniqid(),
+                'password' => bcrypt($request->password),
+                'avatar' => $request_data['avatar'] ?? null,
+                'id_number' => $request->id_number,
+            ];
+
+            if ($request->account_type === 'is_property_finder') {
+                $user_data['is_property_finder'] = 1;
+            } else {
+                $user_data['is_owner'] = 1;
+            }
+
+            $user = User::create($user_data);
+
+            if ($request->account_type === 'is_owner') {
+                Owner::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'user_id' => $user->id,
+                ]);
+            }
+
+            $this->notifyAdmins2($user);
+            auth()->loginUsingId($user->id);
+
+            return redirect()->route('login')->withSuccess(__('Owner profile added successfully'));
+
+    }
+
+
+    public function addOwnerProfile(Request $request)
+    {
+
+
+        $user = User::where('id_number', $request->id_number)->first();
+
+        if (!$user) {
+            return redirect()->back()->withError(__('User not found.'));
+        }
+
+        // Update the user to be an owner
+        $user->update(['is_owner' => 1]);
+
+        // Create an owner profile
+        Owner::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'user_id' => $user->id,
         ]);
 
+        // Notify admins or perform other actions
         $this->notifyAdmins2($user);
+
+        // Log in the user
         auth()->loginUsingId($user->id);
 
-        return redirect()->route('login')->withSuccess(__('Property Finder created successfully.'));
+        return redirect()->route('login')->withSuccess(__('Owner profile added successfully.'));
     }
+
+
+
+//     public function storePropertyFinder(Request $request)
+// {
+//     // Step 1: Check if the user is being registered as an owner
+//     if ($request->account_type === 'is_owner') {
+
+//         // Check if the user is already an owner
+//         $owner = User::where('is_owner', 1)->where('id_number', $request->id_number)->first();
+//         if ($owner) {
+//             return back()->withErrors(__('This account is already registered as an owner.'));
+//         }
+
+//         // Check if the user exists but is not an owner
+
+//         $user = User::where('id_number', $request->id_number)->first();
+//         if ($user && !$user->is_owner) {
+//             // Update the user to be an owner
+//             $user->update(['is_owner' => 1]);
+
+//             // Create an entry in the `Owner` table
+//             Owner::create([
+//                 'name' => $user->name,  // Use the existing user's name
+//                 'email' => $user->email,  // Use the existing user's email
+//                 'user_id' => $user->id,
+//             ]);
+
+//             // Notify admins or perform other actions
+//             $this->notifyAdmins2($user);
+//             auth()->loginUsingId($user->id);
+
+//             return redirect()->route('login')->withSuccess(__('Owner profile added successfully'));
+//         }
+//     }
+
+//     // Step 2: Validation for new user registration
+//     $rules = [
+//         'name' => 'required|string|max:255',
+//         'email' => 'required|email|unique:users,email',
+//         'password' => 'required|string|max:255|confirmed',
+//         'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+//         'account_type' => 'required|in:is_property_finder,is_owner',
+//         'id_number' => [
+//             'required',
+//             'numeric',
+//             'digits:10',
+//             function ($attribute, $value, $fail) {
+//                 if (!preg_match('/^[12]\d{9}$/', $value)) {
+//                     $fail(__('The ID number must start with 1 or 2 and be exactly 10 digits long.'));
+//                 }
+
+//                 $owner = User::where('is_owner', 1)->where('id_number', $value)->first();
+//                 if ($owner) {
+//                     $fail(__('This account is already registered as an owner.'));
+//                 }
+
+//                 $user = User::where('id_number', $value)->first();
+//                 if ($user && !$user->is_owner) {
+//                     session()->flash('modal_data', [
+//                         'name' => $user->name,
+//                         'email' => $user->email,
+//                         'id_number' => $user->id_number,
+//                         'account_type' => $this->getAccountType($user),
+//                     ]);
+//                     $fail(__('This account is already registered as a ' . $this->getAccountType($user) . '. Do you want to add them as an owner?'));
+//                 }
+//             },
+//         ],
+//     ];
+
+//     $messages = [
+//         'name.required' => __('The name field is required.'),
+//         'email.required' => __('The email field is required.'),
+//         'email.unique' => __('The email has already been taken.'),
+//         'password.required' => __('The password field is required.'),
+//         'password.confirmed' => __('The password confirmation does not match.'),
+//         'avatar.image' => __('The broker logo must be an image.'),
+//         'id_number.required' => __('The ID number field is required.'),
+//         'id_number.numeric' => __('The ID number must be a number.'),
+//         'id_number.digits' => __('The ID number must be exactly 10 digits long.'),
+//     ];
+
+//     $request->validate($rules, $messages);
+
+//     // Step 3: Handling avatar upload
+//     $request_data = [];
+//     if ($request->hasFile('avatar')) {
+//         $file = $request->file('avatar');
+//         $ext  = uniqid() . '.' . $file->clientExtension();
+//         $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
+//         $request_data['avatar'] = '/PropertyFounder/' . 'Logos/' . $ext;
+//     }
+
+//     // Step 4: Create a new user
+//     $user_data = [
+//         'name' => $request->name,
+//         'email' => $request->email,
+//         'user_name' => uniqid(),
+//         'password' => bcrypt($request->password),
+//         'avatar' => $request_data['avatar'] ?? null,
+//         'id_number' => $request->id_number,
+//     ];
+
+//     if ($request->account_type === 'is_property_finder') {
+//         $user_data['is_property_finder'] = 1;
+//     } else {
+//         $user_data['is_owner'] = 1;
+//     }
+
+//     $user = User::create($user_data);
+
+//     if ($request->account_type === 'is_owner') {
+//         Owner::create([
+//             'name' => $request->name,
+//             'email' => $request->email,
+//             'user_id' => $user->id,
+//         ]);
+//     }
+
+//     // Notify admins and log in the user
+//     $this->notifyAdmins2($user);
+//     auth()->loginUsingId($user->id);
+
+//     return redirect()->route('login')->withSuccess(__('Owner profile added successfully'));
+// }
+
+
+    private function getAccountType($user)
+    {
+        if ($user->is_property_finder) {
+            return 'property finder';
+        } elseif ($user->is_renter) {
+            return 'renter';
+        } elseif ($user->is_employee) {
+            return 'employee';
+        } elseif ($user->is_broker) {
+            return 'Broker';
+        } elseif ($user->is_office) {
+        return 'Office';
+        }
+        // Add more checks if needed
+        return 'user';
+    }
+
+
 
     protected function notifyAdmins2(User $user)
     {

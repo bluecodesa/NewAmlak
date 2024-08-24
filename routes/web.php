@@ -59,6 +59,7 @@ Route::group(
             Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
             Route::post('create-prperty-finder', [HomeController::class, 'storePropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
             Route::post('send-report', [HomeController::class, 'sendAdReport'])->name('Tickets.send-report');
+            Route::post('/add-owner-profile', [HomeController::class, 'addOwnerProfile'])->name('add-owner-profile');
 
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
               //projects
@@ -167,4 +168,5 @@ use App\Http\Controllers\IdValidationController;
 
 Route::get('/id-validation', [IdValidationController::class, 'showForm'])->name('id-validation');
 Route::post('/validate-id', [IdValidationController::class, 'validateId'])->name('validate-id');
+
 

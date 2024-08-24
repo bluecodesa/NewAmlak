@@ -44,6 +44,8 @@ class HomeController extends Controller
             $finder->assignRole('Renter');
         } elseif ($finder->is_property_finder) {
             $finder->assignRole('Property-Finder');
+        }elseif ($finder->is_owner) {
+            $finder->assignRole('Owner');
         }
 
         $favorites = FavoriteUnit::where('finder_id', $finder->id)->get();
@@ -51,29 +53,12 @@ class HomeController extends Controller
             ->whereIn('id', $favorites->pluck('unit_id'))
             ->get();
             $user = auth()->user();
-            // $requests = RealEstateRequest::where('user_id', $user->id)->get();
 
             $requests = RealEstateRequest::withCount(['requestStatuses as views_count' => function ($query) {
                 $query->whereNotNull('read_by');
             }])->where('user_id', $user->id)->get();
 
             $count = 0;
-
-                        // $requests = RealEstateRequest::where('user_id', $user->id)
-            // ->withCount(['requestStatuses as status_count_3' => function ($query) {
-            //     $query->where('request_status_id', 3);
-            // }, 'requestStatuses as status_count_8' => function ($query) {
-            //     $query->where('request_status_id', 8);
-            // }])
-            // ->get();
-
-//             foreach($requests as $request){
-//                 foreach($request->requestStatuses as $status);{
-//                     if ($status->interestType && $status->interestType->show_for_realEaste === 0) {
-// }
-//         }
-//     }
-//     dd($status->interestType->name);
 
         return view('Home.Property-Finder.index', get_defined_vars());
     }

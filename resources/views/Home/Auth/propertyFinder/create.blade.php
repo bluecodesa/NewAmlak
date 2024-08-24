@@ -103,10 +103,19 @@
                         <!-- /Logo -->
                         <h4 class="mb-1 pt-2 text-center">سجل الأن</h4>
 
-                        <form id="formAuthentication" class="mb-3" action="{{ route('Home.PropertyFinders.CreatePropertyFinder') }}"
+                    <form id="formAuthentication" class="mb-3" action="{{ route('Home.PropertyFinders.CreatePropertyFinder') }}"
                             method="POST" enctype="multipart/form-data">
                             @csrf
 
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                                 <div class="mb-3 row">
                                     <div class="col-md-6">
                                         <label class="form-label" for="name">@lang('Name')<span class="text-danger">*</span></label>
@@ -117,8 +126,21 @@
                                         <label class="form-label" for="email">@lang('Email')<span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="register_email" name="email" value="{{ $email }}" placeholder="@lang('Email')" required>
                                     </div>
+
+                                    <div class="col-md-6 col-12 mb-3">
+                                        <label for="id_number" class="form-label">@lang('id number')<span
+                                            class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="id_number" name="id_number" required>
+                                    </div>
+
+                                <div class="col-md-6">
+                                    <label for="id_number" class="form-label">@lang('Account Type')<span
+                                        class="text-danger">*</span></label>
+                                        <select id="adTypeFilter" class="form-select" name="account_type" required>
+                                            <option value="is_property_finder">@lang('Property Finder')</option>
+                                            <option value="is_owner">@lang('owner')</option>
+                                        </select>
                                 </div>
-                                <div class="mb-3 row">
 
                                     <div class="col-md-6">
                                         {{-- <label for="password"> @lang('password') <span class="text-danger">*</span></label>
@@ -156,7 +178,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
                         <div class="col-12 mb-3">
                             <div class="form-check mb-0 ms-2">
@@ -180,7 +201,7 @@
                                         <button type="submit" class="btn btn-primary">@lang('Submit')</button>
                                     </div>
                                 </div>
-                            </form>
+                    </form>
 
 
 
@@ -189,6 +210,44 @@
                 <!-- Register Card -->
             </div>
         </div>
+
+
+      <!-- Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirm Registration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+                <ul id="modalDetails" class="list-unstyled"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmButton">Add Owner Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="addOwnerProfileForm" method="POST" action="">
+    @csrf <!-- Laravel CSRF token for security -->
+    <!-- Add your form fields here -->
+
+    <!-- Hidden input for confirming owner addition, which will be added dynamically -->
+    <input type="hidden" name="confirm_owner" value="0">
+
+    <!-- Additional fields required for adding an owner -->
+    <input type="hidden" name="id_number" value="{{ session('modal_data.id_number') }}">
+    <input type="hidden" name="name" value="{{ session('modal_data.name') }}">
+    <input type="hidden" name="email" value="{{ session('modal_data.email') }}">
+    <input type="hidden" name="account_type" value="{{ session('modal_data.account_type') }}">
+
+    <!-- The action will be set dynamically in the JavaScript function -->
+</form>
+
     </div>
 
     <!-- / Content -->
@@ -236,16 +295,13 @@
                     },
                     success: function(data) {
                         $('#CityDiv').fadeOut('fast', function() {
-                            // Empty the city select element
                             $(this).empty();
-                            // Append the new options based on the received data
                             $.each(data, function(key, city) {
                                 $('#CityDiv').append($('<option>', {
                                     value: city.id,
                                     text: city.name
                                 }));
                             });
-                            // Fade in the city select element with new options
                             $(this).fadeIn('fast');
                         });
                     },
@@ -256,33 +312,27 @@
             });
         });
 
-        // $('#broker_logo_preview').click(function() {
-        //     $('#broker_logo').click(); // Trigger file input click on image click
-        // });
+
 
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
-                    $('#uploadedAvatar').attr('src', e.target.result); // Update the preview image
+                    $('#uploadedAvatar').attr('src', e.target.result);
                 };
 
-                reader.readAsDataURL(input.files[0]); // Convert image to base64 string
+                reader.readAsDataURL(input.files[0]);
             }
         }
 
         $("#upload").change(function() {
-            readURL(this); // Call readURL function when a file is selected
+            readURL(this);
         });
     </script>
     <script>
-        // JavaScript to handle the reset button functionality
         $('#account-image-reset').click(function() {
-            // Reset the file input by clearing its value
             $('#upload').val('');
-
-            // Reset the preview image to the default avatar
             $('#uploadedAvatar').attr('src', '{{ asset('HOME_PAGE/img/avatars/14.png') }}');
         });
     </script>
@@ -303,6 +353,71 @@
             $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
         });
     });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const modalData = @json(session('modal_data'));
+
+    if (modalData) {
+        // Display the modal with the user's information
+        const modalContent = `
+            <div class="modal" id="confirmOwnerModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm Owner Profile</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>This account is already registered as a ${modalData.account_type}.</p>
+                            <p>Name: ${modalData.name}</p>
+                            <p>Email: ${modalData.email}</p>
+                            <p>ID Number: ${modalData.id_number}</p>
+                            <p>Do you want to add them as an owner?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="confirmAddOwner">Yes, Add as Owner</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Append the modal to the body
+        document.body.insertAdjacentHTML('beforeend', modalContent);
+
+        // Show the modal
+        $('#confirmOwnerModal').modal('show');
+
+        // Handle the confirmation button click
+        document.getElementById('confirmAddOwner').addEventListener('click', function () {
+            // Append hidden input to the form to confirm owner addition
+            const form = document.querySelector('form'); // Adjust the selector if necessary
+            const confirmInput = document.createElement('input');
+            confirmInput.type = 'hidden';
+            confirmInput.name = 'confirm_owner';
+            confirmInput.value = '1';
+            form.appendChild(confirmInput);
+
+            // Call the addOwnerProfile function (Submit the form to the controller method)
+            addOwnerProfile();
+        });
+    }
+});
+
+// Function to handle the owner profile addition
+function addOwnerProfile() {
+    // Get the form
+    const form = document.getElementById('addOwnerProfileForm');
+
+    form.action = '{{ route("Home.add-owner-profile") }}';
+
+    form.submit();
+}
+
 </script>
 
 </body>

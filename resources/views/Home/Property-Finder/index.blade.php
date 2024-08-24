@@ -54,6 +54,8 @@
                                                     @lang('Renter')
                                                 @elseif($finder->is_property_finder)
                                                     @lang('Property Finder')
+                                                @elseif($finder->is_owner)
+                                                @lang('owner')
                                                 @endif
                                             </li>
                                             <li class="list-inline-item d-flex gap-1">
@@ -103,6 +105,15 @@
                 </button>
             </li>
         @endif
+            @if (Auth::user()->hasPermission('read-building'))
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-My_Properties" aria-controls="navs-justified-My_Properties"
+                        aria-selected="false" tabindex="-1">
+                        <i class="tf-icons ti ti-heart ti-xs me-1"></i>@lang('My Properties')
+                    </button>
+                </li>
+            @endif
                 @if (Auth::user()->hasPermission('update-user-profile'))
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
@@ -125,6 +136,10 @@
 
                 </div>
                 <div class="tab-pane fade" id="navs-justified-requests" role="tabpanel">
+                    @include('Home.Property-Finder.inc._requests')
+
+                </div>
+                <div class="tab-pane fade" id="navs-justified-My_Properties" role="tabpanel">
                     @include('Home.Property-Finder.inc._requests')
 
                 </div>
@@ -203,7 +218,7 @@
     $(document).ready(function() {
         $('.dropdown-menu .dropdown-item').on('click', function() {
             var status = $(this).data('status');
-            var requestId = $(this).closest('.card').data('id'); 
+            var requestId = $(this).closest('.card').data('id');
 
             if (requestId && status) {
                 $.ajax({
@@ -215,7 +230,7 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            location.reload(); 
+                            location.reload();
                         } else {
                             alert('Failed to update request status');
                         }
