@@ -25,4 +25,7 @@ class OwnerController extends Controller
         $this->OwnerService->Delete($id);
         return redirect()->route('Admin.Owner.index')->with('success', __('Deleted successfully'));
     }
+
+
+
 }

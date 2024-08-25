@@ -31,13 +31,28 @@ class BrokerDataService
         return Project::where('broker_id', Auth::user()->UserBrokerData->id)->get();
     }
 
+
+    public function getProjectsForOwners()
+    {
+        return Project::where('owner_id', Auth::user()->UserOwnerData->id)->get();
+    }
+
     public function getProperties()
     {
-    
+
         return Property::where('broker_id', Auth::user()->UserBrokerData->id)
         ->whereNull('project_id')
         ->get();
     }
+
+    public function getPropertiesForOwners()
+    {
+
+        return Property::where('owner_id', Auth::user()->UserOwnerData->id)
+        ->whereNull('project_id')
+        ->get();
+    }
+
 
 
 }

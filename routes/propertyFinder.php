@@ -57,3 +57,6 @@ Route::group(
     }
 
 );
+Route::get('create-unit', [HomeController::class, 'createUnit'])->name('Owner.create-unit');
+Route::Post('create-unit', [HomeController::class, 'storeUnit'])->name('Owner.store-unit');
+

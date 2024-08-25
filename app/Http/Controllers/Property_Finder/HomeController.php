@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Property_Finder;
 use App\Http\Controllers\Controller;
 use App\Models\FavoriteUnit;
 use App\Models\Unit;
+use App\Models\UnitRentalPrice;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,13 +14,38 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use App\Http\Traits\Email\MailSendCode;
 use  App\Email\Admin\SendOtpMail;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Feature;
 use App\Models\RealEstateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Admin\NewPropertyFinderNotification;
 use App\Services\Admin\DistrictService;
+use App\Models\Project;
+use App\Models\Property;
+use App\Models\PropertyUsage;
+use App\Models\UnitFeature;
+use App\Models\UnitImage;
+use App\Models\UnitInterest;
+use App\Models\UnitService as ModelsUnitService;
+use App\Services\Admin\SettingService;
+use App\Services\AllServiceService;
+use App\Services\CityService;
+use App\Services\Broker\BrokerDataService;
+use App\Services\Broker\OwnerService;
+use App\Services\Broker\UnitInterestService;
+use App\Services\Broker\UnitService;
+use App\Services\FeatureService;
+use App\Services\PropertyTypeService;
+use App\Services\PropertyUsageService;
+use App\Services\RegionService;
+use App\Services\ServiceTypeService;
 
+use App\Services\Admin\SubscriptionService;
+use App\Services\Admin\SubscriptionTypeService;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -28,14 +54,63 @@ class HomeController extends Controller
 
 
     use MailSendCode;
+
+    protected $UnitService;
+    protected $regionService;
+    protected $cityService;
+    protected $brokerDataService;
+    protected $propertyTypeService;
+    protected $propertyUsageService;
+    protected $ServiceTypeService;
+    protected $AllServiceService;
+    protected $FeatureService;
+    protected $ownerService;
+    protected $settingService;
+    protected $unitInterestService;
+    protected $SubscriptionTypeService;
+
+    protected $subscriptionService;
     protected $districtService;
 
-    public function __construct(DistrictService $districtService)
-    {
 
+
+
+
+    public function __construct(
+        SettingService $settingService,
+        OwnerService $ownerService,
+        UnitService $UnitService,
+        RegionService $regionService,
+        AllServiceService $AllServiceService,
+        FeatureService $FeatureService,
+        CityService $cityService,
+        BrokerDataService $brokerDataService,
+        PropertyTypeService $propertyTypeService,
+        ServiceTypeService $ServiceTypeService,
+        PropertyUsageService $propertyUsageService,
+        UnitInterestService $unitInterestService,
+        SubscriptionTypeService $SubscriptionTypeService,
+        SubscriptionService $subscriptionService,
+        DistrictService $districtService
+    ) {
+        $this->regionService = $regionService;
+        $this->cityService = $cityService;
+        $this->UnitService = $UnitService;
+        $this->brokerDataService = $brokerDataService;
+        $this->propertyTypeService = $propertyTypeService;
+        $this->propertyUsageService = $propertyUsageService;
+        $this->ServiceTypeService = $ServiceTypeService;
+        $this->AllServiceService = $AllServiceService;
+        $this->FeatureService = $FeatureService;
+        $this->ownerService = $ownerService;
+        $this->settingService = $settingService;
+        $this->unitInterestService = $unitInterestService;
+        $this->subscriptionService = $subscriptionService;
+        $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->districtService = $districtService;
-
     }
+
+
 
     public function index()
     {
@@ -59,6 +134,29 @@ class HomeController extends Controller
             }])->where('user_id', $user->id)->get();
 
             $count = 0;
+
+
+
+        $allItems = collect();
+        $AllUnits = Unit::where('owner_id', auth()->user()->UserOwnerData->id)
+        ->get();
+        $projects =  Project::where('owner_id', auth()->user()->UserOwnerData->id)
+        ->get();
+        $properties =  Property::where('owner_id', auth()->user()->UserOwnerData->id)
+        ->get();
+        $AllUnits->each(function ($unit) {
+            $unit->isGalleryUnit = true;
+
+        });
+        $projects->each(function ($project) {
+            $project->isGalleryProject = true;
+        });
+        $properties->each(function ($property) {
+            $property->isGalleryProperty = true;
+        });
+
+        $Items = $projects->merge($properties)->merge($AllUnits);
+        $allItems = $allItems->merge($Items);
 
         return view('Home.Property-Finder.index', get_defined_vars());
     }
@@ -331,5 +429,153 @@ public function GetDistrictsByCity($id)
 
     return view('Admin.settings.Region.inc._district', get_defined_vars());
 }
+
+public function createUnit()
+    {
+        $types = $this->propertyTypeService->getAllPropertyTypes();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        $services = $this->AllServiceService->getAllServices();
+        $features = $this->FeatureService->getAllFeature();
+        $projects = $this->brokerDataService->getProjectsForOwners();
+        $properties = $this->brokerDataService->getPropertiesForOwners();
+        return view('Home.Owners.unit.create', get_defined_vars());
+    }
+
+    public function storeUnit(Request $request)
+    {
+        // return $request;
+
+        $rules = [];
+        $rules = [
+            'number_unit' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'price' => 'digits_between:0,10',
+            'monthly' => 'digits_between:0,8',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('units'),
+                'max:25'
+            ],
+            'daily' => 'digits_between:0,8',
+            'quarterly' => 'digits_between:0,8',
+            'midterm' => 'digits_between:0,10',
+            'yearly' => 'digits_between:0,10',
+
+        ];
+        $messages = [
+            'number_unit.required' => 'The number unit field is required.',
+            'number_unit.string' => 'The number unit must be a string.',
+            'number_unit.max' => 'The number unit may not be greater than :max characters.',
+            'location.required' => 'The location field is required.',
+            'location.string' => 'The location must be a string.',
+            'location.max' => 'The location may not be greater than :max characters.',
+            'city_id.required' => 'The city ID field is required.',
+            'city_id.exists' => 'The selected city ID is invalid.',
+            'owner_id.required' => 'The owner ID field is required.',
+            'owner_id.exists' => 'The selected owner ID is invalid.',
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+            'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
+            'price' => 'price must be smaller than or equal to 10 numbers.',
+            'monthly' => 'Monthly price must be smaller than or equal to 8.',
+            'daily' => 'Monthly price must be smaller than or equal to 8.',
+            'quarterly' => 'Monthly price must be smaller than or equal to 8.',
+            'midterm' => 'Monthly price must be smaller than or equal to 10.',
+            'yearly' => 'Monthly price must be smaller than or equal to 10.',
+
+
+        ];
+       $request->validate($rules, $messages);
+        $data = $request->all();
+        $unit_data = $data;
+
+        unset($unit_data['name']);
+        unset($unit_data['qty']);
+        unset($unit_data['images']);
+        // unset($unit_data['videos']);
+        unset($unit_data['service_id']);
+        unset($unit_data['monthly']);
+
+            $unit_data['show_gallery'] = 0;
+            $unit_data['ad_license_status'] ='InValid';
+
+
+
+        if (isset($data['daily_rent'])) {
+            $unit_data['daily_rent'] = $data['daily_rent'] == 'on' ? 1 : 0;
+        } else {
+            $unit_data['daily_rent'] = 0;
+        }
+
+        if (isset($unit_data['unit_masterplan'])) {
+            $unitMasterplan = $unit_data['unit_masterplan'];
+            $ext = $unitMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $unitMasterplan->move(public_path('/Brokers/Projects/Units/'), $masterplanName);
+            $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
+        }
+
+        if (isset($unit_data['video'])) {
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Brokers/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Brokers/Projects/Unit/Video/' . $videoName;
+        }
+
+        $unit = Unit::create($unit_data);
+        if (isset($data['service_id'])) {
+            foreach ($data['service_id'] as  $service) {
+                ModelsUnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
+            }
+        }
+        UnitRentalPrice::create([
+            'unit_id' => $unit->id,
+            'daily' => $data['monthly'] / 30,
+            'monthly' => $data['monthly'],
+            'quarterly' => $data['monthly'] * 3,
+            'midterm' => $data['monthly'] * 6,
+            'yearly' => $data['monthly'] * 12,
+        ]);
+        if (isset($data['name'])) {
+            foreach ($data['name'] as $index => $Feature_name) {
+                $Feature =    Feature::where('name', $Feature_name)->first();
+                if (!$Feature) {
+                    $Feature =   Feature::create(['name' => $Feature_name, 'created_by' => Auth::id()]);
+                }
+                UnitFeature::create(['feature_id' => $Feature->id, 'unit_id' => $unit->id, 'qty' => $data['qty'][$index]]);
+            }
+        }
+        if (isset($data['images'])) {
+            $images = $data['images'];
+            if ($images) {
+                foreach ($images as $image) {
+                    $ext = $image->getClientOriginalExtension();
+                    $filename = uniqid() . '.' . $ext;
+                    $image->move(public_path() . '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/', $filename);
+                    UnitImage::create([
+                        'image' => '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/' . $filename,
+                        'unit_id' => $unit->id,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('Broker.Unit.index')->with('success', __('added successfully'));
+
+    }
+
+    public function GetCitiesByRegion($id)
+    {
+        // $cities = City::where('region_id', $id)->get();
+        $cities =City::where('region_id', $id)->get();
+
+        return view('Admin.settings.Region.inc._city', get_defined_vars());
+    }
+
 
 }

@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasOne(Broker::class, 'user_id');
     }
 
+    public function UserOwnerData()
+    {
+        return $this->hasOne(Owner::class, 'user_id');
+    }
+
     public function UserEmployeeData()
     {
         return $this->hasOne(Employee::class, 'user_id');

@@ -110,7 +110,7 @@
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-My_Properties" aria-controls="navs-justified-My_Properties"
                         aria-selected="false" tabindex="-1">
-                        <i class="tf-icons ti ti-heart ti-xs me-1"></i>@lang('My Properties')
+                        <i class="tf-icons ti ti-building-arch ti-xs me-1"></i>@lang('My Properties')
                     </button>
                 </li>
             @endif
@@ -140,7 +140,7 @@
 
                 </div>
                 <div class="tab-pane fade" id="navs-justified-My_Properties" role="tabpanel">
-                    @include('Home.Property-Finder.inc._requests')
+                    @include('Home.Property-Finder.inc._myProperties')
 
                 </div>
                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">

@@ -1,6 +1,8 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="{{ url('HOME_PAGE/vendor/libs/popper/popper.js')}}"></script>
     <script src="{{ url('HOME_PAGE/vendor/js/bootstrap.js')}}"></script>
     <script src="{{ url('HOME_PAGE/vendor/libs/node-waves/node-waves.js')}}"></script>
