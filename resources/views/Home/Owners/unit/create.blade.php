@@ -117,7 +117,7 @@
                                                 <option disabled value="" selected>@lang('city')</option>
                                                 @foreach ($cities as $city)
                                                     <option value="{{ $city->id }}"
-                                                        data-url="{{ route('Owner.GetDistrictsByCity', $city->id) }}">
+                                                        data-url="{{ route('Owner.GetDistrictsCity', $city->id) }}">
                                                         {{ $city->name }}
                                                     </option>
                                                 @endforeach
