@@ -152,7 +152,7 @@
                                      <input type="hidden" id="owner_id" name="owner_id" value="{{ Auth::user()->UserOwnerData->id }}">
 
                                      <!-- Visible input for owner's name -->
-                                     <input type="text" required id="modalRoleName" readonly name="owner_name" class="form-control"
+                                     <input type="text" required id="modalRoleName" readonly  class="form-control"
                                             value="{{ Auth::user()->UserOwnerData->name }}"
                                             placeholder="{{ __('property name') }}">
                                 </div>

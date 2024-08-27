@@ -584,11 +584,7 @@ public function createUnit()
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
-        $services = $this->AllServiceService->getAllServices();
-        $features = $this->FeatureService->getAllFeature();
-        $projects = $this->brokerDataService->getProjectsForOwners();
-        $properties = $this->brokerDataService->getPropertiesForOwners();
+               $services = $this->ServiceTypeService->getAllServiceTypes();
         return view('Home.Owners.Property.create', get_defined_vars());
     }
 
@@ -648,6 +644,7 @@ public function createUnit()
 
     $property_data = $request->all();
 
+    unset($property_data['images']);
     // Handle project_masterplan upload
     if ($request->hasFile('property_masterplan')) {
         $propertyMasterplan = $request->file('property_masterplan');
@@ -666,7 +663,6 @@ public function createUnit()
         $property_data['property_brochure'] = '/Brokers/Properties/pdfs/' . $brochureName;
     }
 
-    $property_data['broker_id'] = Auth::user()->UserBrokerData->id;
 
     // Handle ad_license_number and ad_license_expiry validation if show_in_gallery is set
 
