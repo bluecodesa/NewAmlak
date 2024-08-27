@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Broker;
 use App\Models\Owner;
 use App\Models\Role;
 use App\Models\User;
@@ -27,7 +28,9 @@ class OwnerController extends Controller
 
     public function index()
     {
-        $owners = $this->ownerService->getAllByBrokerId(auth()->user()->UserBrokerData->id);
+        // $owners = $this->ownerService->getAllByBrokerId(auth()->user()->UserBrokerData->id);
+        $broker = Broker::with('owners')->findOrFail(auth()->user()->UserBrokerData->id);
+        $owners = $broker->owners;
         return view('Broker.ProjectManagement.Owner.index', get_defined_vars());
     }
 

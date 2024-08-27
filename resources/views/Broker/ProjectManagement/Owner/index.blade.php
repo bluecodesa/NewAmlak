@@ -69,7 +69,7 @@
                                 <th scope="col">@lang('Email')</th>
                                 <th scope="col">@lang('phone')</th>
                                 <th scope="col">@lang('city')</th>
-                                <th scope="col">@lang('Broker')</th>
+                                {{-- <th scope="col">@lang('Broker')</th> --}}
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>
@@ -81,7 +81,7 @@
                                     <td>{{ $owner->email }}</td>
                                     <td>{{ $owner->full_phone }}</td>
                                     <td>{{ $owner->CityData->name }}</td>
-                                    <td>{{ $owner->BrokerData->UserData->name }}</td>
+                                    {{-- <td>{{ $owner->BrokerData->name }}</td> --}}
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
