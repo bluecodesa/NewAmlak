@@ -1,15 +1,21 @@
-@extends('Home.layouts.home.app')
-@section('title', __('حسابي'))
-
+@extends('Admin.layouts.app')
+@section('title', __('Add unit'))
 @section('content')
 
-<section class="section-py bg-body first-section-pt">
-    <div class="container mt-2">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
-        </h4>
+    <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+                <div class="col-12">
 
+                    <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                        <a href="{{ route('Broker.Project.index') }}" class="text-muted fw-light">@lang('Projects') </a> /
+                        <a href="{{ route('Broker.Property.show', $Property->id) }}" class="text-muted fw-light">
+                            {{ $Property->name }} </a> /
+                        @lang('Add unit')
+                    </h4>
+                </div>
 
-
+            </div>
 
             <div class="row">
                 <div class="col-12">
@@ -23,25 +29,21 @@
                                         aria-selected="true">
                                         <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Basic Details')
                                         <span
-                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">10</span>
+                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
                                     </button>
                                 </li>
                                 <li class="nav-item">
                                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                         data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
                                         aria-selected="false">
-                                        <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
-                                        <span
-                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
+                                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Gallery')
                                     </button>
                                 </li>
                                 <li class="nav-item">
                                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                         data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
                                         aria-selected="false">
-                                        <i class="tf-icons ti ti-droplet-dollar ti-xs me-1"></i> @lang('price')
-                                        <span
-                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
+                                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('price')
                                     </button>
                                 </li>
                                 <li class="nav-item">
@@ -49,8 +51,6 @@
                                         data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
                                         aria-selected="false">
                                         <i class="tf-icons ti ti-file ti-xs me-1"></i> @lang('Attachments')
-                                        <span
-                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
                                     </button>
                                 </li>
                             </ul>
@@ -61,33 +61,13 @@
                                     {{-- الوصف --}}
 
 
-                                    <form action="{{ route('Owner.store-unit') }}" method="POST" class="row"
-                                        enctype="multipart/form-data">
+                                    <form action="{{ route('Broker.Property.StoreUnit', $id) }}" method="POST"
+                                        class="row" enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
-
-
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('Project') <span class="required-color"></span></label>
-                                            <select class="form-select projectSelect" name="project_id" id="projectSelect">
-                                                <option selected value="">@lang('without')</option>
-                                                @foreach ($projects as $project)
-                                                    <option value="{{ $project->id }}" data-url="{{ route('Broker.GetProjectDetails', $project->id) }}">
-                                                        {{ $project->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('property') <span class="required-color"></span></label>
-                                            <select class="form-select" name="property_id" id="propertySelect">
-                                                <option selected value="">@lang('without')</option>
-                                                @foreach ($properties as $property)
-                                                    <option value="{{ $property->id }}">{{ $property->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 col-12 mb-3">
+                                        <input type="text" hidden name="lat_long" value="{{ $Property->lat_long }}">
+                                        <input type="text" hidden name="project_id" value="{{ $Property->project_id }}">
+                                        <div class="col-md-3 col-12 mb-3">
 
                                             <label class="form-label">
                                                 {{ __('Residential number') }} <span class="required-color">*</span></label>
@@ -96,112 +76,135 @@
 
                                         </div>
 
-                                        <div class="col-md-4 mb-3 col-12">
+                                        <div class="col-md-3 col-12 mb-3">
                                             <label class="form-label">@lang('Region') <span
-                                                    class="required-color">*</span></label>
+                                                    class="required-color">*</span>
+                                            </label>
                                             <select class="form-select" id="Region_id" required>
-                                                <option disabled value="">@lang('Region')</option>
+                                                <option disabled value="">@lang('Region') </option>
                                                 @foreach ($Regions as $Region)
                                                     <option value="{{ $Region->id }}"
-                                                        data-url="{{ route('Owner.GetCitiesByRegion', $Region->id) }}">
-                                                        {{ $Region->name }}
-                                                    </option>
+                                                        {{ $Property->CityData->RegionData->id == $Region->id ? 'selected' : '' }}
+                                                        data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
+                                                        {{ $Region->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="col-md-4 mb-3 col-12">
+                                        <div class="col-md-3 col-12 mb-3">
                                             <label class="form-label">@lang('city') <span
-                                                    class="required-color">*</span></label>
-                                            <select class="form-select" id="CityDiv" name="city_id" required>
-                                                <option disabled value="" selected>@lang('city')</option>
+                                                    class="required-color">*</span>
+                                            </label>
+                                            <select class="form-select" name="city_id" id="CityDiv" required>
                                                 @foreach ($cities as $city)
                                                     <option value="{{ $city->id }}"
-                                                        data-url="{{ route('Owner.GetDistrictsCity', $city->id) }}">
-                                                        {{ $city->name }}
-                                                    </option>
+                                                        data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}"
+                                                        {{ $Property->CityData->id == $city->id ? 'selected' : '' }}>
+                                                        {{ $city->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="col-md-4 mb-3 col-12">
+                                        <div class="col-md-3 col-12 mb-3">
                                             <label class="form-label">@lang('district') <span
-                                                    class="required-color">*</span></label>
-                                            <select class="form-select" name="district_id" id="DistrictDiv"
-                                                required></select>
+                                                    class="required-color">*</span>
+                                            </label>
+                                            <select class="form-select" name="district_id" id="DistrictDiv" required>
+                                                @foreach ($Property->CityData->DistrictsCity as $district)
+                                                    <option value="{{ $district->id }}"
+                                                        {{ $district->id == $Property->district_id ? 'selected' : '' }}>
+                                                        {{ $district->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
+
+                                        <div class="col-md-4 col-12 mb-3">
                                             <label class="form-label">@lang('location') <span
                                                     class="required-color">*</span></label>
                                             <input type="text" required name="location" id="myAddressBar"
-                                                class="form-control" placeholder="@lang('Address')"
-                                                value="{{ old('location') }}" />
+                                                class="form-control" placeholder="@lang('location name')"
+                                                value="{{ $Property->location }}" />
                                         </div>
 
-                                        <div class="col-md-4 mb-3 col-12">
+
+
+                                        <div class="col-md-4 col-12 mb-3">
                                             <label class="form-label">@lang('Property type') <span
-                                                    class="required-color">*</span></label>
+                                                    class="required-color">*</span>
+                                            </label>
                                             <select class="form-select" name="property_type_id" required>
-                                                <option disabled selected value="">@lang('Property type')</option>
+                                                <option disabled value="">@lang('Property type')</option>
                                                 @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                    <option value="{{ $type->id }}"
+                                                        {{ $Property->property_type_id == $type->id ? 'selected' : '' }}>
+                                                        {{ $type->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="col-md-4 mb-3 col-12">
+                                        <div class="col-md-4 col-12 mb-3">
                                             <label class="form-label">@lang('Type use') <span
-                                                    class="required-color">*</span></label>
+                                                    class="required-color">*</span>
+                                            </label>
                                             <select class="form-select" name="property_usage_id" required>
                                                 <option disabled selected value="">@lang('Type use')</option>
                                                 @foreach ($usages as $usage)
-                                                    <option value="{{ $usage->id }}">{{ $usage->name }}</option>
+                                                    <option value="{{ $usage->id }}"
+                                                        {{ $Property->property_usage_id == $usage->id ? 'selected' : '' }}>
+                                                        {{ $usage->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="col-12 col-md-4 mb-3">
-                                            <label class="col-md-6 form-label">@lang('owner name') <span
-                                                    class="required-color">*</span></label>
-                                            <div class="input-group">
-                                                <select class="form-select" id="OwnersDiv"
-                                                    aria-label="Example select with button addon" name="owner_id"
-                                                    required>
-                                                    <option selected selected value="{{ Auth::user()->UserOwnerData->id }}">{{ Auth::user()->UserOwnerData->name }}</option>
-                                                </select>
-                                            
-                                            </div>
+                                        <div class="col-md-4 col-12 mb-3">
+                                            <label class="form-label">@lang('owner name') <span
+                                                    class="required-color">*</span>
+                                            </label>
+                                            <select class="form-select" name="owner_id" required>
+                                                <option disabled selected value="">@lang('owner name')</option>
+                                                @foreach ($owners as $owner)
+                                                    <option value="{{ $owner->id }}"
+                                                        {{ $Property->owner_id == $owner->id ? 'selected' : '' }}>
+                                                        {{ $owner->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
+                                        <div class="col-md-4 col-12 mb-3">
                                             <label class="form-label">@lang('Instrument number')</label>
                                             <input type="number" name="instrument_number" class="form-control"
                                                 placeholder="@lang('Instrument number')"
                                                 value="{{ old('Instrument number') }}" />
                                         </div>
 
-                                        <div class="col-md-4 mb-3 col-12">
+
+                                        <div class="col-md-4 col-12 mb-3">
                                             <label class="form-label">@lang('offered service') <span
-                                                    class="required-color">*</span></label>
+                                                    class="required-color">*</span>
+                                            </label>
                                             <select class="form-select" name="service_type_id" required>
                                                 <option disabled selected value="">@lang('offered service')</option>
                                                 @foreach ($servicesTypes as $service)
-                                                    <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                                    <option value="{{ $service->id }}"
+                                                        {{ $Property->service_type_id == $service->id ? 'selected' : '' }}>
+                                                        {{ $service->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Area (square metres)')</label>
+
+                                        <div class="col-md-4 col-12 mb-3">
+                                            <label class="form-label">@lang('Area (square metres)')
+                                            </label>
                                             <input type="number" name="space" class="form-control"
                                                 placeholder="@lang('Area (square metres)')"
                                                 value="{{ old('Area (square metres)') }}" />
                                         </div>
 
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('number rooms') </label>
+                                        <div class="col-md-4 col-12 mb-3">
+                                            <label class="form-label">@lang('number rooms')</label>
                                             <input type="number" name="rooms" class="form-control"
                                                 placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
                                         </div>
@@ -209,10 +212,11 @@
 
 
                                         <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Number bathrooms') </label>
+                                            <label class="form-label">@lang('Number bathrooms')</label>
                                             <input type="number" name="bathrooms" class="form-control"
                                                 placeholder="@lang('Number bathrooms')" value="{{ old('Number bathrooms') }}" />
                                         </div>
+
                                         <div class="col-12 mb-2 col-md-4">
                                             <label class="form-label">@lang('Status of Unit') <span
                                                     class="required-color">*</span>
@@ -241,11 +245,10 @@
 
                                         <div class="col-sm-12 col-md-6 mb-3" hidden>
                                             <label class="form-label">@lang('lat&long')</label>
-                                            <input type="text" readonly name="lat_long" id="location_tag"
+                                            <input type="text" required readonly name="lat_long" id="location_tag"
                                                 class="form-control" placeholder="@lang('lat&long')"
-                                                value="{{ old('location_tag') }}" />
+                                                value="{{ $Property->lat_long }}" />
                                         </div>
-
 
                                         <div class="col-12 mb-3">
                                             <label class="form-label">@lang('Additional details')</label>
@@ -253,7 +256,6 @@
                                                 <div class="mb-3 col-4">
                                                     <input type="text" name="name[]" class="form-control search"
                                                         placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <input type="text" name="qty[]" class="form-control"
@@ -266,17 +268,19 @@
                                                             class="d-none d-sm-inline-block">@lang('Add details')</span></button>
                                                 </div>
                                             </div>
-
                                         </div>
 
+                                        {{-- <div class="col-sm-12 col-md-12 mb-3">
+                                            <label class="form-label mb-2">@lang('Pictures property') </label>
+                                            <input type="file" name="images[]" multiple class="dropify"
+                                                accept="image/jpeg, image/png" />
+                                        </div> --}}
 
                                         <div class="col-12" style="text-align: center;">
-                                            <button type="button" class="btn btn-primary col-4 me-1 next-tab"
-                                                data-next="#navs-justified-gallery">
+                                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
                                                 {{ __('Next') }}
                                             </button>
                                         </div>
-
 
 
 
@@ -285,7 +289,7 @@
                                 <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                                     <div class="row">
 
-                                        <div class="col-md-3 col-12 mb-3">
+                                        <div class="col-md-4 col-12 mb-3">
 
                                             <label class="form-label">
                                                 {{ __('ad name') }} <span class="required-color">*</span></label>
@@ -293,8 +297,6 @@
                                                 placeholder="{{ __('ad name') }}">
 
                                         </div>
-
-
 
                                         <div class="col-12 mb-2 col-md-4">
                                             <label class="form-label">@lang('Ad type') <span
@@ -309,17 +311,35 @@
                                             </select>
                                         </div>
 
+                                    
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                             <label class="switch switch-lg">
-                                                <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" disabled />
+                                                <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" checked />
                                                 <span class="switch-toggle-slider">
                                                     <span class="switch-on"><i class="ti ti-check"></i></span>
                                                     <span class="switch-off"><i class="ti ti-x"></i></span>
                                                 </span>
                                             </label>
                                         </div>
-
+                                    
+                                        <div class="row" id="gallery-fields">
+                                            <div class="col-sm-12 col-md-4 mb-3">
+                                                <label class="form-label">@lang('Ad License Number')<span
+                                                    class="required-color">*</span></label>
+                                                <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" required />
+                                            </div>
+                                            @php
+                                            $licenseDate = Auth::user()->UserBrokerData->license_date;
+                                            @endphp
+                                            <div class="col-sm-12 col-md-4 mb-3">
+                                                <label class="form-label">@lang('Ad License Expiry')<span
+                                                    class="required-color">*</span></label>
+                                                <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" required />
+                                                <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
+                                            </div>
+                                            
+                                        </div>
 
                                         <div class="col-12 mb-3">
                                             <label class="form-label mb-2">@lang('Description')</label>
@@ -327,7 +347,7 @@
                                                 {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
                                                 <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
 
-                                                </textarea>
+                                                    </textarea>
                                             </div>
                                         </div>
 
@@ -347,14 +367,15 @@
                                             </div>
                                         </div>
 
-
+                               
                                     </div>
+
                                     <div class="col-12" style="text-align: center;">
-                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab"
-                                            data-next="#navs-justified-profile">
+                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
                                             {{ __('Next') }}
                                         </button>
                                     </div>
+
                                 </div>
                                 <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                                     <div class="row">
@@ -362,8 +383,7 @@
                                             <label class="form-label"
                                                 style="display: block !important;">@lang('Daily Rent')
                                             </label>
-                                            {{-- <input type="checkbox"  name="daily_rent" class="toggleHomePage"
-                                                    data-toggle="toggle" data-onstyle="primary"> --}}
+
                                             <label class="switch switch-lg">
                                                 <input type="checkbox" name="daily_rent" class="switch-input" />
                                                 <span class="switch-toggle-slider">
@@ -405,12 +425,13 @@
                                         </div>
 
                                     </div>
+
                                     <div class="col-12" style="text-align: center;">
-                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab"
-                                            data-next="#navs-justified-messages">
+                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-messages">
                                             {{ __('Next') }}
                                         </button>
                                     </div>
+
                                 </div>
                                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                                     <div class="row">
@@ -424,10 +445,10 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-12" style="text-align: center;">
+                                    <div class="col-12" style="text-align: center;" >
                                         <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
                                             type="submit">@lang('save')</button>
-                                    </div>
+                                        </div>
                                 </div>
 
 
@@ -448,19 +469,17 @@
             <!-- container-fluid -->
 
         </div>
-
-</section>
+    </div>
     @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
 
     {{-- نهايه الوصف --}}
     @push('scripts')
-    <script>
-        $(document).ready(function() {
+        <script>
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
                 $.ajax({
-                    type: "GET",
+                    type: "get",
                     url: url,
                     beforeSend: function() {
                         $('#CityDiv').fadeOut('fast');
@@ -471,17 +490,15 @@
                             $(this).fadeIn('fast');
                         });
                     },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
-                    }
                 });
             });
 
+            //
             $('#CityDiv').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
                 $.ajax({
-                    type: "GET",
+                    type: "get",
                     url: url,
                     beforeSend: function() {
                         $('#DistrictDiv').fadeOut('fast');
@@ -492,13 +509,8 @@
                             $(this).fadeIn('fast');
                         });
                     },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
-                    }
                 });
             });
-        });
-
             //
             $("#myAddressBar").on("keyup", function() {
                 // This function will be called every time a key is pressed in the input field
@@ -612,31 +624,7 @@
                     }
                 });
             });
-            //
-
-            $(document).ready(function() {
-                // Intercept form submission
-                $('#OwnerForm').submit(function(event) {
-                    event.preventDefault();
-                    var formData = $(this).serialize();
-                    $.ajax({
-                        type: 'POST',
-                        url: $(this).attr('action'), // Form action URL
-                        data: formData, // Form data
-                        success: function(data) {
-                            $('#OwnersDiv').empty();
-                            $('#OwnersDiv').append(data);
-                            $('#addNewCCModal').modal('hide');
-                            alertify.success(@json(__('added successfully')));
-                        },
-                        error: function(xhr, status, error) {
-                            // Handle error response here
-                            console.error(xhr.responseText);
-                        }
-                    });
-                });
-            });
-        </sc>
+        </script>
         <script>
             document.querySelectorAll('.next-tab').forEach(button => {
                 button.addEventListener('click', function() {
@@ -646,140 +634,6 @@
                 });
             });
         </script>
-
-<script>
-    $(document).ready(function() {
-        function populateAllProperties() {
-            var propertySelect = $('#propertySelect');
-            propertySelect.empty();
-            propertySelect.append('<option selected value="">@lang('without')</option>');
-            @foreach ($properties as $property)
-                propertySelect.append('<option value="{{ $property->id }}">{{ $property->name }}</option>');
-            @endforeach
-        }
-
-        $('#projectSelect').on('change', function() {
-            var projectId = $(this).val();
-            var propertySelect = $('#propertySelect');
-
-            if (projectId) {
-                // Clear previous options
-                propertySelect.empty();
-                propertySelect.append('<option selected value="">@lang('without')</option>');
-
-                $.ajax({
-                    url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
-                    type: 'GET',
-                    success: function(response) {
-                        $.each(response.properties, function(key, property) {
-                            propertySelect.append('<option value="' + property.id + '">' + property.name + '</option>');
-                        });
-                    },
-                    error: function(error) {
-                        console.error('Error fetching properties:', error);
-                    }
-                });
-            } else {
-                // Reset to show all properties when "without" is selected
-                populateAllProperties();
-            }
-        });
-
-        $('#propertySelect').on('change', function() {
-            var propertyId = $(this).val();
-            if (!propertyId) {
-                // Reset to show all properties when "without" is selected
-                populateAllProperties();
-            }
-        });
-
-        // Initial population of properties
-        populateAllProperties();
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        function populateFields(data) {
-            // Populate region select
-            $('#Region_id').val(data.city_data.region_data.id).change();
-
-            // Populate city select
-            $('#CityDiv').empty();
-            // $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
-            // $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
-
-            // Populate district select
-            $('#DistrictDiv').empty();
-            // $.each(data.city_data.districts_city, function(index, district) {
-            //     $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
-            // });
-        }
-
-        function resetFields() {
-            // $('#Region_id').val('').change();
-            $('#CityDiv').empty();
-            $('#DistrictDiv').empty();
-            $('#myAddressBar').val('');
-            $('select[name="property_type_id"]').val('').change();
-            $('select[name="property_usage_id"]').val('').change();
-            $('select[name="owner_id"]').val('').change();
-            // $('input[name="instrument_number"]').val('');
-            $('select[name="service_type_id"]').val('').change();
-        }
-
-        $('#projectSelect').on('change', function() {
-            var projectId = $(this).val();
-            if (projectId) {
-                $.ajax({
-                    url: '{{ route('Broker.GetProjectDetails', '') }}/' + projectId,
-                    type: 'GET',
-                    success: function(response) {
-                        populateFields(response.project);
-                        $('#myAddressBar').val(response.project.location);
-                        $('select[name="property_type_id"]').val(response.project.property_type_id).change();
-                        $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
-                        $('select[name="owner_id"]').val(response.project.owner_id).change();
-                        // $('input[name="instrument_number"]').val(response.project.instrument_number);
-                        $('select[name="service_type_id"]').val(response.project.service_type_id).change();
-                    },
-                    error: function(error) {
-                        console.error('Error fetching project details:', error);
-                    }
-                });
-            } else {
-                resetFields();
-            }
-        });
-
-        $('#propertySelect').on('change', function() {
-            var propertyId = $(this).val();
-            if (propertyId) {
-                $.ajax({
-                    url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
-                    type: 'GET',
-                    success: function(response) {
-                        populateFields(response.property);
-                        $('#myAddressBar').val(response.property.location);
-                        $('select[name="property_type_id"]').val(response.property.property_type_id).change();
-                        $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
-                        $('select[name="owner_id"]').val(response.property.owner_id).change();
-                        // $('input[name="instrument_number"]').val(response.property.instrument_number);
-                        $('select[name="service_type_id"]').val(response.property.service_type_id).change();
-                    },
-                    error: function(error) {
-                        console.error('Error fetching property details:', error);
-                    }
-                });
-            } else {
-                resetFields();
-            }
-        });
-    });
-</script>
-
-
-
         <script>
             $('#button-addon1').click(function() {
                 $('#upload').val('');
@@ -796,6 +650,84 @@
                 $('#projectMasterplan').val('');
             });
         </script>
+
+
+
+<script>
+    document.getElementById('show_gallery').addEventListener('change', function () {
+        var galleryFields = document.getElementById('gallery-fields');
+        if (this.checked) {
+            galleryFields.style.display = 'block';
+            document.getElementById('ad_license_number').required = true;
+            document.getElementById('ad_license_expiry').required = true;
+        } else {
+            galleryFields.style.display = 'none';
+            document.getElementById('ad_license_number').required = false;
+            document.getElementById('ad_license_expiry').required = false;
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        adLicenseExpiryInput.addEventListener('change', function() {
+            var selectedDate = new Date(this.value);
+            if (selectedDate > licenseDate) {
+                errorMessage.style.display = 'block';
+                adLicenseExpiryInput.setCustomValidity('');
+            } else {
+                errorMessage.style.display = 'none';
+                adLicenseExpiryInput.setCustomValidity(''); /
+            }
+        });
+
+        adLicenseExpiryInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+        });
+    });
+</script>
+
+<script>
+    var licenseDate = new Date("{{ $licenseDate }}");
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        var submitButton = document.getElementById('submit_button');
+        var form = document.getElementById('unit-form');
+
+        function validateDate() {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Show error message if the selected date is after the license date
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true; // Disable submit button
+            } else {
+                // Hide error message if the date is valid
+                errorMessage.style.display = 'none';
+                submitButton.disabled = false; // Enable submit button
+            }
+        }
+
+        adLicenseExpiryInput.addEventListener('change', validateDate);
+
+        form.addEventListener('submit', function(event) {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Prevent form submission if the selected date is invalid
+                event.preventDefault();
+                errorMessage.style.display = 'block';
+            } else {
+                // Allow form submission if the date is valid
+                errorMessage.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 
     @endpush

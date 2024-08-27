@@ -5,7 +5,7 @@
     <a  href="{{ route('Owner.create-unit') }}" class="btn btn-primary mx-2">
         @lang('Add New Unit')
     </a>
-    <a href="javascript:void(0);"  class="btn btn-primary mx-2">
+    <a href="{{ route('Owner.create-Property') }}"  class="btn btn-primary mx-2">
         @lang('Add New Property')
     </a>
 </div>

@@ -25,6 +25,7 @@ use App\Notifications\Admin\NewPropertyFinderNotification;
 use App\Services\Admin\DistrictService;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\PropertyImage;
 use App\Models\PropertyUsage;
 use App\Models\UnitFeature;
 use App\Models\UnitImage;
@@ -565,7 +566,7 @@ public function createUnit()
             }
         }
 
-        return redirect()->route('Broker.Unit.index')->with('success', __('added successfully'));
+        return redirect()->route('PropertyFinder.index')->with('success', __('added successfully'));
 
     }
 
@@ -577,5 +578,133 @@ public function createUnit()
         return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
 
+    public function createProperty()
+    {
+        $types = $this->propertyTypeService->getAllPropertyTypes();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        $services = $this->AllServiceService->getAllServices();
+        $features = $this->FeatureService->getAllFeature();
+        $projects = $this->brokerDataService->getProjectsForOwners();
+        $properties = $this->brokerDataService->getPropertiesForOwners();
+        return view('Home.Owners.Property.create', get_defined_vars());
+    }
+
+    public function storeProperty(Request $request)
+{
+    // Define validation rules
+    $rules = [
+        'name' => 'required|string|max:255',
+        'location' => 'required|string|max:255',
+        'service_type_id' => 'required|exists:service_types,id',
+        'is_divided' => 'required|boolean',
+        'city_id' => 'required|exists:cities,id',
+        'owner_id' => 'required|exists:owners,id',
+        'instrument_number' => [
+            'nullable',
+            Rule::unique('properties'),
+            'max:25'
+        ],
+        'property_masterplan' => 'nullable|file|mimes:pdf|max:2048',
+        'property_brochure' => 'nullable|file|mimes:pdf|max:2048',
+        'ad_license_number' => 'nullable|numeric|unique:properties,ad_license_number',
+        'ad_license_expiry' => 'nullable|date|after_or_equal:today',
+    ];
+
+    // Define validation messages
+    $messages = [
+        'name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+        'name.string' => __('The :attribute must be a string.', ['attribute' => __('name')]),
+        'name.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('name'), 'max' => 255]),
+        'location.required' => __('The :attribute field is required.', ['attribute' => __('location')]),
+        'location.string' => __('The :attribute must be a string.', ['attribute' => __('location')]),
+        'location.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('location'), 'max' => 255]),
+        'service_type_id.required' => __('The :attribute field is required.', ['attribute' => __('service type')]),
+        'service_type_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('service type')]),
+        'is_divided.required' => __('The :attribute field is required.', ['attribute' => __('is divided')]),
+        'is_divided.boolean' => __('The :attribute field must be true or false.', ['attribute' => __('is divided')]),
+        'city_id.required' => __('The :attribute field is required.', ['attribute' => __('city')]),
+        'city_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('city')]),
+        'owner_id.required' => __('The :attribute field is required.', ['attribute' => __('owner')]),
+        'owner_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('owner')]),
+        'instrument_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('instrument number')]),
+        'instrument_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('instrument number'), 'max' => 25]),
+        'property_masterplan.file' => __('The master plan must be a file.'),
+        'property_masterplan.mimes' => __('The master plan must be a PDF file.'),
+        'property_masterplan.max' => __('The master plan may not be greater than :max kilobytes.', ['max' => 2048]),
+        'property_brochure.file' => __('The brochure must be a file.'),
+        'property_brochure.mimes' => __('The brochure must be a PDF file.'),
+        'property_brochure.max' => __('The brochure may not be greater than :max kilobytes.', ['max' => 2048]),
+        'ad_license_number.unique' => __('The license number has already been taken.'),
+        'ad_license_number.numeric' => 'The license number must be a number.',
+        'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+        'ad_license_expiry.after_or_equal' => 'The license expiry date must be today or a future date.',
+    ];
+
+    // Validate request data
+    $request->validate($rules, $messages);
+
+    $property_data = $request->all();
+
+    // Handle project_masterplan upload
+    if ($request->hasFile('property_masterplan')) {
+        $propertyMasterplan = $request->file('property_masterplan');
+        $ext = $propertyMasterplan->getClientOriginalExtension();
+        $masterplanName = uniqid() . '.' . $ext;
+        $propertyMasterplan->move(public_path('/Brokers/Properties/pdfs'), $masterplanName);
+        $property_data['property_masterplan'] = '/Brokers/Properties/pdfs/' . $masterplanName;
+    }
+
+    // Handle project_brochure upload
+    if ($request->hasFile('property_brochure')) {
+        $propertyBrochure = $request->file('property_brochure');
+        $ext = $propertyBrochure->getClientOriginalExtension();
+        $brochureName = uniqid() . '.' . $ext;
+        $propertyBrochure->move(public_path('/Brokers/Properties/pdfs'), $brochureName);
+        $property_data['property_brochure'] = '/Brokers/Properties/pdfs/' . $brochureName;
+    }
+
+    $property_data['broker_id'] = Auth::user()->UserBrokerData->id;
+
+    // Handle ad_license_number and ad_license_expiry validation if show_in_gallery is set
+
+        $property_data['show_in_gallery'] = 0;
+        $property_data['ad_license_status'] = 'InValid';
+
+
+    // Create the property
+    $property = Property::create($property_data);
+
+    // Handle property images if provided
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $ext = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/Brokers/Projects/Property/'), $ext);
+            PropertyImage::create([
+                'image' => '/Brokers/Projects/Property/' . $ext,
+                'property_id' => $property->id,
+            ]);
+        }
+    }
+
+    return redirect()->route('PropertyFinder.home')->with('success', __('added successfully'));
+}
+
+
+    public function edit($id)
+    {
+        $Property = $this->PropertyService->findById($id);
+        $types = $this->propertyTypeService->getAllPropertyTypes();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $advisors = $this->brokerDataService->getAdvisors();
+        $developers = $this->brokerDataService->getDevelopers();
+        $owners = $this->brokerDataService->getOwners();
+        $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        return view('Broker.ProjectManagement.Project.Property.edit', get_defined_vars());
+    }
 
 }

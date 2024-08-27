@@ -160,7 +160,7 @@
         </script>
         <script>
 
-            $(document).ready(function () {
+$(document).ready(function () {
     $('#searchBtn').click(function (e) {
         e.preventDefault(); // Prevent the default form submission
 
@@ -176,7 +176,7 @@
             success: function (response) {
                 $('#idNumberInput').removeClass('is-invalid');
                 $('#idNumberError').text('');
-                $('#searchResults').html(response.html); // Update the modal content
+                $('#searchResults').html(response.html); // Inject the result content into the modal
             },
             error: function (xhr) {
                 var errors = xhr.responseJSON.errors;
