@@ -103,7 +103,7 @@
                                                 <option disabled value="">@lang('Region')</option>
                                                 @foreach ($Regions as $Region)
                                                     <option value="{{ $Region->id }}"
-                                                        data-url="{{ route('Owner.GetCitiesByRegion', $Region->id) }}">
+                                                        data-url="{{ route('Owner.GetCitiesRegion', $Region->id) }}">
                                                         {{ $Region->name }}
                                                     </option>
                                                 @endforeach
@@ -170,7 +170,7 @@
                                                     required>
                                                     <option selected selected value="{{ Auth::user()->UserOwnerData->id }}">{{ Auth::user()->UserOwnerData->name }}</option>
                                                 </select>
-                                            
+
                                             </div>
                                         </div>
 
@@ -455,12 +455,11 @@
     {{-- نهايه الوصف --}}
     @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('#Region_id').on('change', function() {
+        $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
                 $.ajax({
-                    type: "GET",
+                    type: "get",
                     url: url,
                     beforeSend: function() {
                         $('#CityDiv').fadeOut('fast');
@@ -471,17 +470,15 @@
                             $(this).fadeIn('fast');
                         });
                     },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
-                    }
                 });
             });
 
+            //
             $('#CityDiv').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
                 $.ajax({
-                    type: "GET",
+                    type: "get",
                     url: url,
                     beforeSend: function() {
                         $('#DistrictDiv').fadeOut('fast');
@@ -492,12 +489,8 @@
                             $(this).fadeIn('fast');
                         });
                     },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
-                    }
                 });
             });
-        });
 
             //
             $("#myAddressBar").on("keyup", function() {
@@ -636,7 +629,7 @@
                     });
                 });
             });
-        </sc>
+       </script>
         <script>
             document.querySelectorAll('.next-tab').forEach(button => {
                 button.addEventListener('click', function() {

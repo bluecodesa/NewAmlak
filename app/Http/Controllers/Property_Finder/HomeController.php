@@ -570,7 +570,7 @@ public function createUnit()
 
     }
 
-    public function GetCitiesByRegion($id)
+    public function GetCitiesRegion($id)
     {
         // $cities = City::where('region_id', $id)->get();
         $cities =City::where('region_id', $id)->get();

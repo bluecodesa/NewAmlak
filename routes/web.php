@@ -133,7 +133,7 @@ Route::group(
 
         Route::get('/get-city-data/{cityId}', [AdminHomeController::class, 'getCityData']);
 
-        Route::get('GetCitiesByRegion/{id}',[Property_FinderHomeController::class, 'GetCitiesByRegion'])->name('Owner.GetCitiesByRegion');
+        Route::get('GetCitiesRegion/{id}',[Property_FinderHomeController::class, 'GetCitiesRegion'])->name('Owner.GetCitiesRegion');
         Route::get('GetDistrictsCity/{id}',[Property_FinderHomeController::class, 'GetDistrictsCity'])->name('Owner.GetDistrictsCity');
 
 
