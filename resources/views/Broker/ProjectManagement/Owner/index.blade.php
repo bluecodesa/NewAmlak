@@ -42,11 +42,13 @@
                                             </div>
                                             @if (Auth::user()->hasPermission('create-owner'))
                                                 <div class="btn-group">
-                                                    <a href="{{ route('Broker.Owner.create') }}" class="btn btn-primary">
+                                                    {{-- <a href="{{ route('Broker.Owner.create') }}" class="btn btn-primary">
                                                         <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
                                                                 class="d-none d-sm-inline-block">@lang('Add New Owner')</span></span>
-                                                    </a>
-
+                                                    </a> --}}
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                                                        @lang('Add New Owner')
+                                                    </button>
                                                 </div>
                                             @endif
                                         </div>
@@ -131,6 +133,7 @@
 
             <!--/ DataTable with Buttons -->
 
+            @include('Broker.ProjectManagement.Owner.inc._serach')
 
         </div>
 
@@ -154,6 +157,40 @@
                 XLSX.writeFile(wb, @json(__('owners')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
+        </script>
+        <script>
+
+            $(document).ready(function () {
+    $('#searchBtn').click(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        var idNumber = $('#idNumberInput').val();
+
+        $.ajax({
+            url: '{{ route('Broker.Owner.searchByIdNumber') }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id_number: idNumber
+            },
+            success: function (response) {
+                $('#idNumberInput').removeClass('is-invalid');
+                $('#idNumberError').text('');
+                $('#searchResults').html(response.html); // Update the modal content
+            },
+            error: function (xhr) {
+                var errors = xhr.responseJSON.errors;
+                if (errors.id_number) {
+                    $('#idNumberInput').addClass('is-invalid');
+                    $('#idNumberError').text(errors.id_number[0]);
+                } else {
+                    $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                }
+            }
+        });
+    });
+});
+
         </script>
     @endpush
 @endsection

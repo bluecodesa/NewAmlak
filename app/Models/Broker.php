@@ -98,4 +98,11 @@ class Broker extends Model
     {
         return 'AMK1-' . $this->user->customer_id ?? '';
     }
+
+    public function owners()
+    {
+        return $this->belongsToMany(Owner::class, 'owner_office_broker')
+                    ->withPivot('office_id', 'balance')
+                    ->withTimestamps();
+    }
 }

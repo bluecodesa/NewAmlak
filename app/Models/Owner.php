@@ -31,4 +31,18 @@ class Owner extends Model
     {
         return $this->key_phone . $this->phone;
     }
+
+    public function offices()
+    {
+        return $this->belongsToMany(Office::class, 'owner_office_broker')
+                    ->withPivot('broker_id', 'balance')
+                    ->withTimestamps();
+    }
+
+    public function brokers()
+    {
+        return $this->belongsToMany(Broker::class, 'owner_office_broker')
+                    ->withPivot('office_id', 'balance')
+                    ->withTimestamps();
+    }
 }

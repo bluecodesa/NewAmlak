@@ -38,7 +38,13 @@
                                 placeholder="@lang('Email')">
                         </div>
 
-                        <div class="col-12 mb-3 col-md-4">
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="id_number" class="form-label">@lang('id number')<span
+                                class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="id_number" name="id_number" required>
+                        </div>
+
+                        <div class="col-12 mb-3 col-md-6">
                             <label for="color" class="form-label">@lang('phone') <span
                                     class="required-color">*</span></label>
                             <div class="input-group">
@@ -58,7 +64,7 @@
 
 
 
-                        <div class="col-md-4 col-12 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">@lang('Region') </label>
                             <select class="form-select" id="Region_id" required>
                                 <option disabled selected value="">@lang('Region')</option>
@@ -70,7 +76,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4 col-12 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">@lang('city') </label>
                             <select class="form-select" name="city_id" id="CityDiv" required>
 
@@ -96,6 +102,31 @@
         </div>
 
         <div class="content-backdrop fade"></div>
+
+ <!-- Modal to confirm adding new owner -->
+ <div class="modal fade" id="confirmOwnerModal" tabindex="-1" aria-labelledby="confirmOwnerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmOwnerModalLabel">Confirm Owner Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>This account is already registered as a <span id="user-role"></span>.</p>
+                <p>Name: <span id="user-name"></span></p>
+                <p>Email: <span id="user-email"></span></p>
+                <p>ID Number: <span id="user-id-number"></span></p>
+                <p>Do you want to add them as an owner?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmAddOwner">Yes, Add as Owner</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     </div>
     @push('scripts')
         <script>
@@ -133,6 +164,7 @@
                 });
             });
         </script>
-    @endpush
+
+@endpush
 
 @endsection

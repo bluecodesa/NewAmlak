@@ -47,7 +47,13 @@ Route::group(
             //
             route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
             route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
+
+
             route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+            Route::post('/owner-search', [OwnerController::class, 'searchByIdNumber'])->name('Owner.searchByIdNumber');
+            Route::post('/owner/add/{id}', [OwnerController::class, 'addAsOwner'])->name('Owner.addAsOwner');
+
+
             route::resource('RealEstateRequest', RealEstateRequestController::class)->middleware('CheckSubscription');
             Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
 
