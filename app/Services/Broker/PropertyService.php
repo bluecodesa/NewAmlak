@@ -7,6 +7,8 @@ use App\Models\Broker;
 use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Rules\UniqueAcrossTables;
+
 
 class PropertyService
 {
@@ -40,9 +42,9 @@ class PropertyService
             ],
             'ad_license_number' => [
                 'required',
-                Rule::unique('properties'),
+                new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
                 'max:25'
-            ],
+                ],
         ];
 
         // Validate data
@@ -124,9 +126,9 @@ class PropertyService
             'type' => ['required', Rule::in(['sale', 'rent', 'rent and sale'])],
             'ad_license_number' => [
                 'required',
-                Rule::unique('units'),
+                new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
                 'max:25'
-            ],
+                ],
 
         ];
         $messages = [

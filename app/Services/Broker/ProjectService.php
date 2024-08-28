@@ -10,6 +10,8 @@ use App\Interfaces\Broker\ProjectRepositoryInterface;
 use App\Models\Broker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Rules\UniqueAcrossTables;
+
 
 class ProjectService
 {
@@ -60,9 +62,9 @@ class ProjectService
             'project_brochure' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
             'ad_license_number' => [
                 'required',
-                Rule::unique('projects'),
+                new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
                 'max:25'
-            ],
+                ],
 
         ];
         $messages = [
@@ -182,9 +184,9 @@ class ProjectService
             ],
             'ad_license_number' => [
                 'required',
-                Rule::unique('properties'),
+                new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
                 'max:25'
-            ],
+                ],
         ];
 
         // Validate data
@@ -240,9 +242,9 @@ class ProjectService
             'type' => ['required', Rule::in(['sale', 'rent','rent and sale'])],
             'ad_license_number' => [
                 'required',
-                Rule::unique('units'),
+                new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
                 'max:25'
-            ],
+                ],
 
         ];
         $messages = [

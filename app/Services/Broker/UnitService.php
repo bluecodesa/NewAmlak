@@ -5,6 +5,8 @@ namespace App\Services\Broker;
 use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Models\Unit;
 use Illuminate\Validation\Rule;
+use App\Rules\UniqueAcrossTables;
+
 
 class UnitService
 {
@@ -41,10 +43,10 @@ class UnitService
                 Rule::unique('units'),
                 'max:25'
             ],
-            'ad_license_number' => [
-                'required',
-                Rule::unique('units'),
-                'max:25'
+           'ad_license_number' => [
+            'required',
+            new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
+            'max:25'
             ],
 
             // 'service_type_id' => 'required',
