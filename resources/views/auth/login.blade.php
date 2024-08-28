@@ -24,17 +24,18 @@
                             <ul class="nav nav-pills mb-3 justify-content-center" role="tablist">
                                 <li class="nav-item">
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
-                                            aria-selected="true">@lang('Email')</button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                             data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
                                             aria-selected="false">@lang('mobile')</button>
                                 </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
+                                            aria-selected="true">@lang('Email')</button>
+                                </li>
+
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
+                                <div class="tab-pane fade " id="navs-pills-top-home" role="tabpanel">
                                     <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('Home.sendOtp') }}">
                                         @csrf
                                         <input type="hidden" name="otp_type" value="email">
@@ -47,7 +48,7 @@
                                         <button type="submit" class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
                                     </form>
                                 </div>
-                                <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+                                <div class="tab-pane fade show active" id="navs-pills-top-profile" role="tabpanel">
                                     <form id="formAuthentication" class="mb-3" method="POST"
                                           action="{{ route('Home.sendOtp') }}">
                                         @csrf

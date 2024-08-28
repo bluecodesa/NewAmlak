@@ -40,7 +40,6 @@ class UnitRepository implements UnitRepositoryInterface
             'yearly' => 'digits_between:0,10',
 
 
-
         ];
 
         // Define custom validation messages
@@ -52,7 +51,9 @@ class UnitRepository implements UnitRepositoryInterface
             'midterm' => 'Monthly price must be smaller than or equal to 10.',
             'yearly' => 'Monthly price must be smaller than or equal to 10.',
 
+
         ];
+
 
         $unit_data = $data;
         unset($unit_data['name']);

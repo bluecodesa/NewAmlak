@@ -58,6 +58,12 @@ class ProjectService
             'city_id' => 'required|exists:cities,id',
             'project_masterplan' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
             'project_brochure' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+            'ad_license_number' => [
+                'required',
+                Rule::unique('projects'),
+                'max:25'
+            ],
+
         ];
         $messages = [
             'name.required' => __('The project name is required.'),
@@ -78,6 +84,13 @@ class ProjectService
             'project_brochure.file' => __('The project brochure must be a file.'),
             'project_brochure.mimes' => __('The project brochure must be a file of type: jpeg, png, jpg, gif, pdf.'),
             'project_brochure.max' => __('The project brochure may not be greater than :max kilobytes.', ['max' => 2048]),
+
+
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+
 
         ];
 
@@ -104,6 +117,11 @@ class ProjectService
             // 'developer_id' => 'required|exists:developers,id',
             // 'advisor_id' => 'required|exists:advisors,id',
             // 'owner_id' => 'required|exists:owners,id',
+            'ad_license_number' => [
+                'required',
+                Rule::unique('projects')->ignore($id),
+                'max:25'
+            ],
         ];
 
         // Validate data
@@ -116,6 +134,11 @@ class ProjectService
             'location.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('location'), 'max' => 255]),
             'city_id.required' => __('The :attribute field is required.', ['attribute' => __('city')]),
             'city_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('city')]),
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+
        ];
 
         validator($data, $rules, $messages)->validate();
@@ -145,6 +168,51 @@ class ProjectService
     {
         // Validation rules
 
+        $rules = [
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'service_type_id' => 'required|exists:service_types,id',
+            'is_divided' => 'required|boolean',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('properties'),
+                'max:25'
+            ],
+            'ad_license_number' => [
+                'required',
+                Rule::unique('properties'),
+                'max:25'
+            ],
+        ];
+
+        // Validate data
+        $messages = [
+            'name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            'name.string' => __('The :attribute must be a string.', ['attribute' => __('name')]),
+            'name.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('name'), 'max' => 255]),
+            'location.required' => __('The :attribute field is required.', ['attribute' => __('location')]),
+            'location.string' => __('The :attribute must be a string.', ['attribute' => __('location')]),
+            'location.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('location'), 'max' => 255]),
+            'service_type_id.required' => __('The :attribute field is required.', ['attribute' => __('service type')]),
+            'service_type_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('service type')]),
+            'is_divided.required' => __('The :attribute field is required.', ['attribute' => __('is divided')]),
+            'is_divided.boolean' => __('The :attribute field must be true or false.', ['attribute' => __('is divided')]),
+            'city_id.required' => __('The :attribute field is required.', ['attribute' => __('city')]),
+            'city_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('city')]),
+            'owner_id.required' => __('The :attribute field is required.', ['attribute' => __('owner')]),
+            'owner_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('owner')]),
+            'instrument_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('instrument number')]),
+            'instrument_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('instrument number'), 'max' => 25]),
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+        ];
+
+        validator($data, $rules, $messages)->validate();
+
         $data['broker_id'] = Auth::user()->UserBrokerData->id;
         $data['project_id'] = $projectId;
         $property = $this->projectRepository->storeProperty($data, $projectId, $images);
@@ -170,6 +238,11 @@ class ProjectService
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
             'type' => ['required', Rule::in(['sale', 'rent','rent and sale'])],
+            'ad_license_number' => [
+                'required',
+                Rule::unique('units'),
+                'max:25'
+            ],
 
         ];
         $messages = [
@@ -185,6 +258,11 @@ class ProjectService
             'type.in' => 'The selected type is invalid.',
             'price' => 'price must be smaller than or equal to 10 numbers.',
             'monthly' => 'Monthly price must be smaller than or equal to 8.',
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+
         ];
 
         // Validate data

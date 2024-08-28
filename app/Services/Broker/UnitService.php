@@ -41,6 +41,12 @@ class UnitService
                 Rule::unique('units'),
                 'max:25'
             ],
+            'ad_license_number' => [
+                'required',
+                Rule::unique('units'),
+                'max:25'
+            ],
+
             // 'service_type_id' => 'required',
             // "show_gallery" => 'required',
             // 'space' => 'required|numeric',
@@ -57,8 +63,19 @@ class UnitService
             // 'qty.*' => 'string',
         ];
 
+
+        $messages = [
+
+
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+
+        ];
+
         // Validate data
-        validator($data, $rules)->validate();
+        validator($data, $rules,$messages)->validate();
 
         $unit = $this->UnitRepository->store($data);
 
@@ -76,6 +93,11 @@ class UnitService
         $rules = [
             'instrument_number' => [
                 'nullable',
+                Rule::unique('units')->ignore($id),
+                'max:25'
+            ],
+            'ad_license_number' => [
+                'required',
                 Rule::unique('units')->ignore($id),
                 'max:25'
             ],
@@ -106,6 +128,12 @@ class UnitService
             'quarterly' => 'quarterly price must be smaller than or equal to 8.',
             'midterm' => 'midterm price must be smaller than or equal to 10.',
             'yearly' => 'yearly price must be smaller than or equal to 10.',
+
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+
 
         ];
 
