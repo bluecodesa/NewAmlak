@@ -21,6 +21,10 @@ class Owner extends Model
     {
         return $this->belongsTo(Office::class, 'office_id');
     }
+    public function UserData()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function BrokerData()
     {
@@ -44,5 +48,15 @@ class Owner extends Model
         return $this->belongsToMany(Broker::class, 'owner_office_broker')
                     ->withPivot('office_id', 'balance')
                     ->withTimestamps();
+    }
+
+    public function OfficesData()
+    {
+        return $this->belongsToMany(Office::class, 'owner_office_broker', 'owner_id', 'office_id');
+    }
+
+    public function BrokersData()
+    {
+        return $this->belongsToMany(Broker::class, 'owner_office_broker', 'owner_id', 'broker_id');
     }
 }

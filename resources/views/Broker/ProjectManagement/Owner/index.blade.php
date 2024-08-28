@@ -12,6 +12,17 @@
                 </div>
             </div>
             <!-- DataTable with Buttons -->
+            {{-- @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif --}}
 
             <div class="card">
 
@@ -79,8 +90,8 @@
 
                                     <td>{{ $owner->name }}</td>
                                     <td>{{ $owner->email }}</td>
-                                    <td>{{ $owner->full_phone }}</td>
-                                    <td>{{ $owner->CityData->name }}</td>
+                                    <td>{{ $owner->UserData->full_phone }}</td>
+                                    <td>{{ $owner->CityData->name ?? '-' }}</td>
                                     {{-- <td>{{ $owner->BrokerData->name }}</td> --}}
                                     <td>
                                         <div class="dropdown">
@@ -132,6 +143,33 @@
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
+            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1"> برجاء ادخال رقم هوية المالك
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        @include('Admin.layouts.Inc._errors')
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <input type="text" name="id_number" id="idNumberInput" class="form-control" placeholder="Enter ID Number" />
+                                    <div class="invalid-feedback" id="idNumberError"></div>
+                                </div>
+                            </div>
+                            <div id="searchResults"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                @lang('Cancel')
+                            </button>
+                            <button type="button" class="btn btn-primary" id="searchBtn">@lang('Search')</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             @include('Broker.ProjectManagement.Owner.inc._serach')
 
@@ -190,6 +228,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
         </script>
     @endpush

@@ -63,9 +63,28 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    {{-- <a href="javascript:void(0)" class="btn btn-primary">
-                    <i class="ti ti-check me-1"></i>Connected
-                  </a> --}}
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            @lang('Switch Account')
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="roleDropdown">
+                                            @if ($finder->is_renter)
+                                                <li><a class="dropdown-item" href="{{ route('PropertyFinder.home') }}">@lang('Renter')</a></li>
+                                            @endif
+                                            @if ($finder->is_property_finder)
+                                                <li><a class="dropdown-item" href="{{ route('PropertyFinder.home') }}">@lang('Property Finder')</a></li>
+                                            @endif
+                                            @if ($finder->is_owner)
+                                                <li><a class="dropdown-item" href="{{ route('PropertyFinder.home') }}">@lang('owner')</a></li>
+                                            @endif
+                                            @if ($finder->is_broker)
+                                                <li><a class="dropdown-item" href="{{ route('Broker.home') }}">@lang('Broker')</a></li>
+                                            @endif
+                                            @if ($finder->is_office)
+                                                <li><a class="dropdown-item" href="{{ route('Office.home') }}">@lang('Office')</a></li>
+                                            @endif
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +124,7 @@
                 </button>
             </li>
         @endif
-            @if (Auth::user()->hasPermission('read-building'))
+            @if ($finder->is_owner && Auth::user()->hasPermission('read-building'))
                 <li class="nav-item" role="presentation">
                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                         data-bs-target="#navs-justified-My_Properties" aria-controls="navs-justified-My_Properties"
@@ -139,10 +158,13 @@
                     @include('Home.Property-Finder.inc._requests')
 
                 </div>
+                @if ($finder->is_owner && Auth::user()->hasPermission('read-building'))
+
                 <div class="tab-pane fade" id="navs-justified-My_Properties" role="tabpanel">
                     @include('Home.Property-Finder.inc._myProperties')
 
                 </div>
+                @endif
                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                     @include('Home.Property-Finder.inc._security')
 

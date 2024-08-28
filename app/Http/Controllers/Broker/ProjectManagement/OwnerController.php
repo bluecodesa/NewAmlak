@@ -7,10 +7,12 @@ use App\Models\Broker;
 use App\Models\Owner;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\Admin\NewPropertyFinderNotification;
 use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\Broker\OwnerService;
 use App\Services\RegionService;
+use Illuminate\Support\Facades\Notification;
 
 class OwnerController extends Controller
 {
@@ -112,8 +114,9 @@ class OwnerController extends Controller
         }
     }
 
+
     public function addAsOwner(Request $request)
-{
+    {
     // Validate the request data
     $request->validate([
         'id_number' => [
@@ -136,20 +139,17 @@ class OwnerController extends Controller
 
     // Find the user by ID number
     $user = User::where('id_number', $request->id_number)->first();
-
     if (!$user) {
-        return redirect()->back()->with('error', __('User not found.'));
-    }
+        return redirect()->route('Broker.Owner.index')->with('success', __('User not found.'));
 
-    // Check if the user is already an owner
+    }
     if ($user->is_owner) {
-        return redirect()->back()->with('info', __('This user is already an owner.'));
+        return redirect()->route('Broker.Owner.index')->with('success', __('This user is already an owner.'));
+
     }
 
-    // Update the user to be an owner
     $user->update(['is_owner' => 1]);
 
-    // Create an owner profile
     $owner = Owner::create([
         'name' => $user->name,
         'email' => $user->email,
@@ -159,18 +159,23 @@ class OwnerController extends Controller
         'balance' => $request->balance ?? 0,
     ]);
 
-    // Associate the owner with the broker (if needed)
     $broker_id = auth()->user()->UserBrokerData->id;
     $owner->brokers()->attach($broker_id, [
         'balance' => $request->balance ?? 0,
     ]);
 
-    // Notify admins or perform other actions
     $this->notifyAdmins2($user);
 
-    return redirect()->route('owners.index')->with('success', __('Owner profile added successfully.'));
-}
+    return redirect()->route('Broker.Owner.index')->with('success', __('Owner profile added successfully.'));
+    }
 
+    protected function notifyAdmins2(User $user)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewPropertyFinderNotification($user));
+        }
+    }
 
 
     public function store(Request $request)

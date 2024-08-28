@@ -136,8 +136,7 @@ class HomeController extends Controller
 
             $count = 0;
 
-
-
+     if($finder->is_owner == 1){
         $allItems = collect();
         $AllUnits = Unit::where('owner_id', auth()->user()->UserOwnerData->id)
         ->get();
@@ -158,6 +157,8 @@ class HomeController extends Controller
 
         $Items = $projects->merge($properties)->merge($AllUnits);
         $allItems = $allItems->merge($Items);
+     }
+
 
         return view('Home.Property-Finder.index', get_defined_vars());
     }
