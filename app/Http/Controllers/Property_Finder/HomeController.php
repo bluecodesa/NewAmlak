@@ -190,7 +190,9 @@ class HomeController extends Controller
         $finder = auth()->user();
         $roles = Role::all();
         $userRoles = $roles->filter(function ($role) use ($finder) {
-            return $finder->hasRole($role->name);
+            $finder->hasRole($role->name);
+            return session(['active_role' => $role]);
+
         });
 
 
