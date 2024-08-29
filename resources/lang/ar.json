@@ -680,7 +680,10 @@
     "Finished": "منتهي",
     "Back": "عودة",
     "Ad Name": "اسم الاعلان",
-    "Add New Property": "اضافة عقار جديد"
+    "Add New Property": "اضافة عقار جديد",
+    "User is already an Owner in this Broker.": "هذا المالك مسجل بالفعل ي هذا المسوق ",
+    "User is registered before.": "هذا المستخدم مسجل بالفعل",
+    "This Owner is not registered": "هذا المالك غير مسجل"
 
 
 

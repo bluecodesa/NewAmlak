@@ -89,7 +89,7 @@ class OwnerController extends Controller
                 } else {
                     return response()->json([
                         'html' => view('Broker.ProjectManagement.Owner.inc.search-result-modal', [
-                            'message' => __('User found and is a property finder.'),
+                            'message' => __('User is registered before.'),
                             'user' => $user,
                             'id_number'=>$idNumber
                         ])->render()
@@ -98,7 +98,7 @@ class OwnerController extends Controller
             } else {
                 return response()->json([
                     'html' => view('Broker.ProjectManagement.Owner.inc.search-result-modal', [
-                        'message' => __('User found and is a property finder.'),
+                        'message' => __('User is registered before.'),
                         'user' => $user,
                         'id_number'=>$idNumber
                     ])->render()
@@ -107,7 +107,7 @@ class OwnerController extends Controller
         } else {
             return response()->json([
                 'html' => view('Broker.ProjectManagement.Owner.inc._addRenter', [
-                    'message' => __('User is not registered'),
+                    'message' => __('This Owner is not registered'),
                     session(['id_number' => $idNumber]),
                     ])->render()
             ]);
