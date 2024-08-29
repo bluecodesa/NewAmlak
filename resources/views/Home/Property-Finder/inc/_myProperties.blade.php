@@ -3,7 +3,7 @@
 
 <div class="text-center my-4">
     <a  href="{{ route('Owner.create-unit') }}" class="btn btn-primary mx-2">
-        @lang('Add New Unit')
+        @lang('Add unit')
     </a>
     <a href="{{ route('Owner.create-Property') }}"  class="btn btn-primary mx-2">
         @lang('Add New Property')
@@ -18,28 +18,46 @@
                 <div class="col-xl-4 col-lg-6 col-md-6">
                     <div class="card">
                 <div class="card-body text-center">
-                <div class="dropdown btn-pinned">
+                    <div class="dropdown btn-pinned">
 
-                    @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
-                    <span class="pb-1">
-                        {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
-                    </span>
-
-                    @endif
+                        @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
+                        <span class="pb-1">
+                            {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                        </span>
+                        @endif
 
                         <button
-                        type="button"
-                        class="btn dropdown-toggle hide-arrow p-0"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="ti ti-dots-vertical text-muted"></i>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="javascript:void(0);">@lang('Edit')</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);">@lang('Delete')</a></li>
-                      </ul>
+                            type="button"
+                            class="btn dropdown-toggle hide-arrow p-0"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="ti ti-dots-vertical text-muted"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @if ($unit->isGalleryUnit)
+                                <li><a class="dropdown-item" href="{{ route('Owner.edit-unit', $unit->id) }}">@lang('Edit')</a></li>
+                                <li>
+                                    <form action="{{ route('Owner.delete-unit', $unit->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dropdown-item">@lang('Delete')</button>
+                                    </form>
+                                </li>
+                            @elseif ($unit->isGalleryProperty)
+                                <li><a class="dropdown-item" href="{{ route('Owner.edit-property', $unit->id) }}">@lang('Edit')</a></li>
+                                <li>
+                                    <form action="{{ route('Owner.delete-property', $unit->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dropdown-item">@lang('Delete')</button>
+                                    </form>
+                                </li>
+                            @elseif ($unit->isGalleryProject)
 
-                </div>
+                            @endif
+                        </ul>
+
+                    </div>
                 <div class="d-flex align-items-center justify-content-start">
                     <a  class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                     data-bs-toggle="modal"

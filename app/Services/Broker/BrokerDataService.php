@@ -22,9 +22,18 @@ class BrokerDataService
         return Developer::where('broker_id', Auth::user()->UserBrokerData->id)->get();
     }
 
-    public function getOwners()
+    public function getOwnersHome()
     {
         return Owner::where('broker_id', Auth::user()->UserBrokerData->id)->get();
+    }
+
+    public function getOwners()
+    {
+        // Assuming the authenticated user is a broker
+        $broker = Auth::user()->UserBrokerData;
+
+        // Retrieve owners associated with the broker
+        return $broker->owners;
     }
     public function getProjects()
     {

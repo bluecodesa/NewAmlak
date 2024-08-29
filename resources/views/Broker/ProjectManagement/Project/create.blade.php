@@ -166,8 +166,10 @@
                                                     {{ $owner->name }}</option>
                                             @endforeach
                                         </select>
-                                        <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                            data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
+                                        <a href="{{ route('Broker.Owner.create') }}" target="_blank" class="btn btn-outline-primary"
+                                        type="button">@lang('Add New Owner')</a>
+                                        {{-- <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button> --}}
                                     </div>
                                 </div>
 
@@ -192,7 +194,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                               
+
 
                                 <div class="col-md-6 col-12 mb-3" hidden>
                                     <label class="form-label">@lang('lat&long')</label>
@@ -221,7 +223,7 @@
                                     </span>
                                 </label>
                             </div>
-                        
+
                             <div class="row" id="gallery-fields">
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Ad License Number')<span
@@ -237,7 +239,7 @@
                                     <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" required />
                                     <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="mb-3 col-12">
@@ -310,7 +312,7 @@
                                 </div>
                             </div>
 
-                         
+
                         </div>
 
                     </form>

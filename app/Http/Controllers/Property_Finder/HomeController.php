@@ -46,6 +46,7 @@ use App\Services\ServiceTypeService;
 
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -567,9 +568,178 @@ public function createUnit()
             }
         }
 
-        return redirect()->route('PropertyFinder.index')->with('success', __('added successfully'));
+        return redirect()->route('PropertyFinder.home')->with('success', __('added successfully'));
 
     }
+
+    public function editUnit($id)
+    {
+        // $Property = $this->PropertyService->findById($id);
+        $Unit = Unit::where('owner_id', auth()->user()->UserOwnerData->id)
+        ->where('id', $id)
+        ->firstOrFail();
+        $Unit = $this->UnitService->findById($id);
+        $types = $this->propertyTypeService->getAllPropertyTypes();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        $projects = $this->brokerDataService->getProjectsForOwners();
+        $properties = $this->brokerDataService->getPropertiesForOwners();
+        $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        $services = $this->AllServiceService->getAllServices();
+        $features = $this->FeatureService->getAllFeature();
+        return view('Home.Owners.Unit.edit', get_defined_vars());
+    }
+
+    public function updateUnit(Request $request, $id)
+    {
+        $rules = [
+            'number_unit' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'price' => 'digits_between:0,10',
+            'monthly' => 'digits_between:0,8',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('units')->ignore($id),
+                'max:25'
+            ],
+            'daily' => 'digits_between:0,8',
+            'quarterly' => 'digits_between:0,8',
+            'midterm' => 'digits_between:0,10',
+            'yearly' => 'digits_between:0,10',
+        ];
+
+        $messages = [
+            'number_unit.required' => 'The number unit field is required.',
+            'number_unit.string' => 'The number unit must be a string.',
+            'number_unit.max' => 'The number unit may not be greater than :max characters.',
+            'location.required' => 'The location field is required.',
+            'location.string' => 'The location must be a string.',
+            'location.max' => 'The location may not be greater than :max characters.',
+            'city_id.required' => 'The city ID field is required.',
+            'city_id.exists' => 'The selected city ID is invalid.',
+            'owner_id.required' => 'The owner ID field is required.',
+            'owner_id.exists' => 'The selected owner ID is invalid.',
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+            'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
+            'price' => 'price must be smaller than or equal to 10 numbers.',
+            'monthly' => 'Monthly price must be smaller than or equal to 8.',
+            'daily' => 'Monthly price must be smaller than or equal to 8.',
+            'quarterly' => 'Monthly price must be smaller than or equal to 8.',
+            'midterm' => 'Monthly price must be smaller than or equal to 10.',
+            'yearly' => 'Monthly price must be smaller than or equal to 10.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        $unit = Unit::findOrFail($id);
+        $data = $request->all();
+
+        $unit_data = $data;
+        unset($unit_data['name']);
+        unset($unit_data['qty']);
+        unset($unit_data['images']);
+        unset($unit_data['service_id']);
+        unset($unit_data['daily']);
+        unset($unit_data['monthly']);
+        unset($unit_data['quarterly']);
+        unset($unit_data['midterm']);
+        unset($unit_data['yearly']);
+
+        $unit_data['show_gallery'] = 0;
+        $unit_data['ad_license_status'] = 'InValid';
+
+        if (isset($unit_data['daily_rent'])) {
+            $unit_data['daily_rent'] = $unit_data['daily_rent'] == 'on' ? 1 : 0;
+        } else {
+            $unit_data['daily_rent'] = 0;
+        }
+
+        // Handle unit_masterplan upload
+        if (isset($unit_data['unit_masterplan'])) {
+            if (!empty($unit->unit_masterplan) && File::exists(public_path($unit->unit_masterplan))) {
+                File::delete(public_path($unit->unit_masterplan));
+            }
+            $unitMasterplan = $unit_data['unit_masterplan'];
+            $ext = $unitMasterplan->getClientOriginalExtension();
+            $masterplanName = uniqid() . '.' . $ext;
+            $unitMasterplan->move(public_path('/Brokers/Projects/Units/'), $masterplanName);
+            $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
+        }
+
+        // Handle video upload
+        if (isset($unit_data['video'])) {
+            if (!empty($unit->video) && File::exists(public_path($unit->video))) {
+                File::delete(public_path($unit->video));
+            }
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Brokers/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Brokers/Projects/Unit/Video/' . $videoName;
+        }
+
+        $unit->update($unit_data);
+
+        // Update services
+        if (isset($data['service_id'])) {
+            $unit->unitServices()->delete();
+            foreach ($data['service_id'] as $service) {
+                ModelsUnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
+            }
+        }
+
+        // Update rental prices
+         UnitRentalPrice::updateOrCreate(['unit_id' => $unit->id], [
+            'unit_id' => $unit->id,
+            'daily' => $data['daily'],
+            'monthly' => $data['monthly'],
+            'quarterly' => $data['quarterly'],
+            'midterm' => $data['midterm'],
+            'yearly' => $data['yearly'],
+        ]);
+
+        // Update features
+        if (isset($data['name'])) {
+            $unit->UnitFeatureData()->delete();
+            foreach ($data['name'] as $index => $Feature_name) {
+                $Feature =    Feature::where('name', $Feature_name)->first();
+                if (!$Feature) {
+                    $Feature =   Feature::create(['name' => $Feature_name, 'created_by' => Auth::id()]);
+                }
+                UnitFeature::create(['feature_id' => $Feature->id, 'unit_id' => $unit->id, 'qty' => $data['qty'][$index]]);
+            }
+        }
+
+        // Handle images
+        if (isset($data['images'])) {
+            $unit->unitImages()->delete();
+            $images = $data['images'];
+            if ($images) {
+                foreach ($images as $image) {
+                    $ext = $image->getClientOriginalExtension();
+                    $filename = uniqid() . '.' . $ext;
+                    $image->move(public_path() . '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/', $filename);
+                    UnitImage::create([
+                        'image' => '/Brokers/Projects/Unit/Images/' . $unit->number_unit . '/' . $filename,
+                        'unit_id' => $unit->id,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('PropertyFinder.home')->with('success', __('updated successfully'));
+    }
+
+    public function deleteUnit($id)
+    {
+        $unit=Unit::destroy($id);
+        return redirect()->route('PropertyFinder.home')->with('success', __('Deleted successfully'));
+
+    }
+
 
     public function GetCitiesRegion($id)
     {
@@ -585,7 +755,7 @@ public function createUnit()
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-               $services = $this->ServiceTypeService->getAllServiceTypes();
+        $services = $this->ServiceTypeService->getAllServiceTypes();
         return view('Home.Owners.Property.create', get_defined_vars());
     }
 
@@ -690,18 +860,111 @@ public function createUnit()
 }
 
 
-    public function edit($id)
+    public function editProperty($id)
     {
-        $Property = $this->PropertyService->findById($id);
+        // $Property = $this->PropertyService->findById($id);
+        $Property = Property::where('owner_id', auth()->user()->UserOwnerData->id)
+        ->where('id', $id)
+        ->firstOrFail();
         $types = $this->propertyTypeService->getAllPropertyTypes();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $advisors = $this->brokerDataService->getAdvisors();
-        $developers = $this->brokerDataService->getDevelopers();
-        $owners = $this->brokerDataService->getOwners();
+        // $owners = $this->brokerDataService->getOwners();
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
-        return view('Broker.ProjectManagement.Project.Property.edit', get_defined_vars());
+        return view('Home.Owners.Property.edit', get_defined_vars());
     }
 
+    public function updateProperty(Request $request, $id)
+    {
+        $rules = [];
+        $rules = [
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'service_type_id' => 'required|exists:service_types,id',
+            // 'is_divided' => 'required|boolean',
+            'city_id' => 'required|exists:cities,id',
+            'owner_id' => 'required|exists:owners,id',
+            'instrument_number' => [
+                'nullable',
+                Rule::unique('properties')->ignore($id),
+                'max:25'
+            ],
+        ];
+        $messages = [
+            'name.required' => 'The name field is required.',
+            'name.string' => 'The name must be a string.',
+            'name.max' => 'The name may not be greater than :max characters.',
+            'location.required' => 'The location field is required.',
+            'location.string' => 'The location must be a string.',
+            'location.max' => 'The location may not be greater than :max characters.',
+            'service_type_id.required' => 'The service type ID field is required.',
+            'service_type_id.exists' => 'The selected service type ID is invalid.',
+            'city_id.required' => 'The city ID field is required.',
+            'city_id.exists' => 'The selected city ID is invalid.',
+            'owner_id.required' => 'The owner ID field is required.',
+            'owner_id.exists' => 'The selected owner ID is invalid.',
+            'instrument_number.unique' => 'The instrument number has already been taken.',
+            'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
+        ];
+
+        $request->validate($rules, $messages);
+
+        $property = Property::findOrFail($id);
+        $property_data = $request->all();
+        unset($property_data['images']);
+
+
+        // Handle project_masterplan upload
+        if ($request->hasFile('property_masterplan')) {
+            if (!empty($property->property_masterplan) && File::exists(public_path($property->property_masterplan))) {
+                File::delete(public_path($property->property_masterplan));
+            }
+          $propertyMasterplan = $property_data['property_masterplan'];
+          $ext = $propertyMasterplan->getClientOriginalExtension();
+          $masterplanName = uniqid() . '.' . $ext;
+          $propertyMasterplan->move(public_path('/Brokers/Properties/pdfs'), $masterplanName);
+          $property_data['property_masterplan'] = '/Brokers/Properties/pdfs/' . $masterplanName;
+      }
+
+      // Handle project_brochure upload
+      if ($request->hasFile('property_brochure')) {
+        if (!empty($property->property_brochure) && File::exists(public_path($property->property_brochure))) {
+            File::delete(public_path($property->property_brochure));
+        }
+          $propertyBrochure = $property_data['property_brochure'];
+          $ext = $propertyBrochure->getClientOriginalExtension();
+          $brochureName = uniqid() . '.' . $ext;
+          $propertyBrochure->move(public_path('/Brokers/Properties/pdfs'), $brochureName);
+          $property_data['property_brochure'] = '/Brokers/Properties/pdfs/' . $brochureName;
+      }
+
+
+        $property_data['show_in_gallery'] = 0;
+        $property_data['ad_license_status'] ='InValid';
+
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $property->PropertyImages()->delete();
+                $ext = uniqid() . '.' . $image->clientExtension();
+                $image->move(public_path() . '/Brokers/Projects/Property/', $ext);
+                PropertyImage::create([
+                    'image' => '/Brokers/Projects/Property/' . $ext,
+                    'property_id' => $property->id,
+                ]);
+            }
+        };
+        $property->update($property_data);
+
+        return redirect()->route('PropertyFinder.home')->with('success', __('updated successfully'));
+
+    }
+
+    public function deleteProperty($id)
+    {
+        $Property=Property::destroy($id);
+        return redirect()->route('PropertyFinder.home')->with('success', __('Deleted successfully'));
+
+    }
 }

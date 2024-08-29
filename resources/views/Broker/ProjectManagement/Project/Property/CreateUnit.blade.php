@@ -311,7 +311,7 @@
                                             </select>
                                         </div>
 
-                                    
+
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                             <label class="switch switch-lg">
@@ -322,7 +322,7 @@
                                                 </span>
                                             </label>
                                         </div>
-                                    
+
                                         <div class="row" id="gallery-fields">
                                             <div class="col-sm-12 col-md-4 mb-3">
                                                 <label class="form-label">@lang('Ad License Number')<span
@@ -338,7 +338,7 @@
                                                 <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" required />
                                                 <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
                                             </div>
-                                            
+
                                         </div>
 
                                         <div class="col-12 mb-3">
@@ -367,7 +367,7 @@
                                             </div>
                                         </div>
 
-                               
+
                                     </div>
 
                                     <div class="col-12" style="text-align: center;">

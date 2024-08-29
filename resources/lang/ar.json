@@ -532,6 +532,7 @@
     "not_active": "غير نشط",
     "User is already registered": "هذا المستخدم موجود بالفعل",
     "User is already a renter in this office.": "هذا المستأجر موجود بالفعل.",
+    "User is already a owner in this broker.": "هذا المالك موجود بالفعل.",
     "User found and is a property finder.": "تم العثور على بيانات العميل، برجاء مراجعة البيانات للاستمرار",
     "User is not registered": "هذا المستأجر غير مسجل",
     "Enter OTP received :": "ادخل الرمز الذي تم ارساله :",
@@ -678,7 +679,8 @@
     "Scheduled": "مجدول",
     "Finished": "منتهي",
     "Back": "عودة",
-    "Ad Name": "اسم الاعلان"
+    "Ad Name": "اسم الاعلان",
+    "Add New Property": "اضافة عقار جديد"
 
 
 

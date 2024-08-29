@@ -59,4 +59,10 @@ class Owner extends Model
     {
         return $this->belongsToMany(Broker::class, 'owner_office_broker', 'owner_id', 'broker_id');
     }
+
+    public function officeBrokers()
+    {
+        return $this->hasMany(OwnerOfficeBroker::class, 'owner_id');
+    }
+
 }

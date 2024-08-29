@@ -1,5 +1,7 @@
 
     <!-- Core JS -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places"
+    defer></script>
     <!-- build:js assets/vendor/js/core.js -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

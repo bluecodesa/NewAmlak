@@ -59,6 +59,13 @@ Route::group(
 );
 Route::get('create-unit', [HomeController::class, 'createUnit'])->name('Owner.create-unit');
 Route::Post('create-unit', [HomeController::class, 'storeUnit'])->name('Owner.store-unit');
+Route::get('edit-unit/{id}', [HomeController::class, 'editUnit'])->name('Owner.edit-unit');
+Route::put('update-unit/{id}', [HomeController::class, 'updateUnit'])->name('Owner.update-unit');
+Route::delete('delete-unit/{id}', [HomeController::class, 'deleteUnit'])->name('Owner.delete-unit');
 
 Route::get('create-property', [HomeController::class, 'createProperty'])->name('Owner.create-Property');
 Route::Post('create-property', [HomeController::class, 'storeProperty'])->name('Owner.store-Property');
+Route::get('edit-property/{id}', [HomeController::class, 'editProperty'])->name('Owner.edit-property');
+Route::put('update-property/{id}', [HomeController::class, 'updateProperty'])->name('Owner.update-property');
+Route::delete('delete-property/{id}', [HomeController::class, 'deleteProperty'])->name('Owner.delete-property');
+

@@ -1,19 +1,14 @@
-@extends('Admin.layouts.app')
+
+@extends('Home.layouts.home.app')
 @section('title', __('Edit') . ' ' . $Property->name)
+
 @section('content')
 
-    <div class="content-wrapper">
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="row">
-                <div class="col-6">
+<section class="section-py bg-body first-section-pt">
+    <div class="container mt-2">
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
+        </h4>
 
-                    <h4 class=""><a href="{{ route('Broker.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Broker.Property.index') }}" class="text-muted fw-light">@lang('properties') </a> /
-                        @lang('Edit') : {{ $Property->name }}
-                    </h4>
-                </div>
-
-            </div>
 
             <div class="row">
                 <div class="card">
@@ -58,7 +53,7 @@
 
                   </ul>
 
-                            <form action="{{ route('Broker.Property.update', $Property->id) }}" method="POST"
+                            <form action="{{ route('Owner.update-property', $Property->id) }}" method="POST"
                                 class="row" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -152,25 +147,20 @@
 
 
 
-                                <div class="col-md-4 col-12 mb-3">
+                                <div class="col-12 col-md-4 mb-3">
                                     <label class="col-md-6 form-label">@lang('owner name') <span
                                             class="required-color">*</span>
                                     </label>
-                                    <div class="input-group">
-                                        <select class="form-select" id="OwnersDiv"
-                                            aria-label="Example select with button addon" name="owner_id" required>
-                                            <option disabled selected value="">@lang('owner name')</option>
-                                            @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}"
-                                                    {{ $owner->id == $Property->owner_id ? 'selected' : '' }}>
-                                                    {{ $owner->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                            data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
-                                    </div>
+                                    {{-- <div class="input-group">
+                                        <option selected selected value="{{ Auth::user()->UserOwnerData->id }}">{{ Auth::user()->UserOwnerData->name }}</option>
 
+                                     </div> --}}
+                                     <input type="hidden" id="owner_id" name="owner_id" value="{{ Auth::user()->UserOwnerData->id }}">
 
+                                     <!-- Visible input for owner's name -->
+                                     <input type="text" required id="modalRoleName" readonly  class="form-control"
+                                            value="{{ Auth::user()->UserOwnerData->name }}"
+                                            placeholder="{{ __('property name') }}">
                                 </div>
 
 
@@ -235,23 +225,7 @@
 
                                     </label>
                                 </div>
-                                <div class="row" id="gallery-fields">
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Ad License Number')<span
-                                            class="required-color">*</span></label>
-                                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Property->ad_license_number }}" required />
-                                    </div>
-                                    @php
-                                    $licenseDate = Auth::user()->UserBrokerData->license_date;
-                                    @endphp
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Ad License Expiry')<span
-                                            class="required-color">*</span></label>
-                                        <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ $Property->ad_license_expiry }}" required />
-                                        <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
-                                    </div>
 
-                                </div>
 
 
                                 <div class="mb-3 col-12">
@@ -324,7 +298,7 @@
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end col -->
-        </div> <!-- end row -->
+</section>
         @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
 
     <!-- container-fluid -->
@@ -494,80 +468,6 @@
     });
 </script>
 
-<script>
-    document.getElementById('show_in_gallery').addEventListener('change', function () {
-        var galleryFields = document.getElementById('gallery-fields');
-        if (this.checked) {
-            galleryFields.style.display = 'block';
-            document.getElementById('ad_license_number').required = true;
-            document.getElementById('ad_license_expiry').required = true;
-        } else {
-            galleryFields.style.display = 'none';
-            document.getElementById('ad_license_number').required = false;
-            document.getElementById('ad_license_expiry').required = false;
-        }
-    });
-</script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
-        var errorMessage = document.getElementById('date_error_message');
-        adLicenseExpiryInput.addEventListener('change', function() {
-            var selectedDate = new Date(this.value);
-            if (selectedDate > licenseDate) {
-                errorMessage.style.display = 'block';
-                adLicenseExpiryInput.setCustomValidity('');
-            } else {
-                errorMessage.style.display = 'none';
-                adLicenseExpiryInput.setCustomValidity(''); /
-            }
-        });
-
-        adLicenseExpiryInput.addEventListener('focus', function() {
-            errorMessage.style.display = 'none';
-        });
-    });
-</script>
-
-<script>
-    var licenseDate = new Date("{{ $licenseDate }}");
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
-        var errorMessage = document.getElementById('date_error_message');
-        var submitButton = document.getElementById('submit_button');
-        var form = document.getElementById('unit-form');
-
-        function validateDate() {
-            var selectedDate = new Date(adLicenseExpiryInput.value);
-            if (selectedDate > licenseDate) {
-                // Show error message if the selected date is after the license date
-                errorMessage.style.display = 'block';
-                submitButton.disabled = true; // Disable submit button
-            } else {
-                // Hide error message if the date is valid
-                errorMessage.style.display = 'none';
-                submitButton.disabled = false; // Enable submit button
-            }
-        }
-
-        adLicenseExpiryInput.addEventListener('change', validateDate);
-
-        form.addEventListener('submit', function(event) {
-            var selectedDate = new Date(adLicenseExpiryInput.value);
-            if (selectedDate > licenseDate) {
-                // Prevent form submission if the selected date is invalid
-                event.preventDefault();
-                errorMessage.style.display = 'block';
-            } else {
-                // Allow form submission if the date is valid
-                errorMessage.style.display = 'none';
-            }
-        });
-    });
-</script>
 @endpush
 @endsection

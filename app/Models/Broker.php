@@ -105,4 +105,10 @@ class Broker extends Model
                     ->withPivot('office_id', 'balance')
                     ->withTimestamps();
     }
+
+    public function ownerBrokers()
+    {
+        return $this->hasMany(OwnerOfficeBroker::class, 'broker_id');
+    }
+
 }

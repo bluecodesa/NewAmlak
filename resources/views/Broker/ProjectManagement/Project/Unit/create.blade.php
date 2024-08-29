@@ -71,7 +71,7 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
-                                     
+
 
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('Project') <span class="required-color"></span></label>
@@ -83,7 +83,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        
+
                                         <div class="col-md-4 mb-3 col-12">
                                             <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                             <select class="form-select" name="property_id" id="propertySelect">
@@ -179,9 +179,11 @@
                                                         <option value="{{ $owner->id }}">{{ $owner->name }}</option>
                                                     @endforeach
                                                 </select>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                                <a href="{{ route('Broker.Owner.create') }}" target="_blank" class="btn btn-outline-primary"
+                                                type="button">@lang('Add New Owner')</a>
+                                                {{-- <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                                     data-bs-target="#addNewCCModal"
-                                                    type="button">@lang('Add New Owner')</button>
+                                                    type="button">@lang('Add New Owner')</button> --}}
                                             </div>
                                         </div>
 
@@ -330,7 +332,7 @@
                                                 </span>
                                             </label>
                                         </div>
-                                    
+
                                         <div class="row" id="gallery-fields">
                                             <div class="col-sm-12 col-md-4 mb-3">
                                                 <label class="form-label">@lang('Ad License Number')<span
@@ -346,7 +348,7 @@
                                                 <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" required />
                                                 <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
                                             </div>
-                                            
+
                                         </div>
 
                                         <div class="col-12 mb-3">
@@ -450,7 +452,7 @@
                                                 <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
                                             </div>
                                         </div>
-                            
+
                                     </div>
                                     <div class="col-12" style="text-align: center;">
                                         <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
