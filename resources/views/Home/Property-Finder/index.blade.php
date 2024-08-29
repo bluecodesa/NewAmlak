@@ -65,7 +65,7 @@
                                     </div>
                                     @php
                                     // Retrieve the active role from the session
-                                    $activeRole = session('active_role', 'Switch Account'); // Default to 'Switch Account' if no role is set
+                                    $activeRole = session('active_role'); // Default to 'Switch Account' if no role is set
                                     @endphp
 
                                 <div class="dropdown">
