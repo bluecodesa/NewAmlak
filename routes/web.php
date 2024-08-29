@@ -163,6 +163,7 @@ Route::group(
 
         Route::get('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
         Route::post('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
+        Route::get('/switch-role/{role}', [AdminHomeController::class, 'switchRole'])->name('switch.role');
 
     }
 

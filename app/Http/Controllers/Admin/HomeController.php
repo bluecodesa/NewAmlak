@@ -12,6 +12,7 @@ use App\Models\Project;
 use App\Models\Property;
 use App\Models\RealEstateRequest;
 use App\Models\Renter;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\Subscription;
 use App\Models\Ticket;
@@ -20,6 +21,7 @@ use App\Models\UnitInterest;
 use App\Models\User;
 use App\Models\Visitor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -129,6 +131,50 @@ class HomeController extends Controller
             'projects_count' => $projectsCount,
         ]);
     }
+
+    public function switchRole($role)
+    {
+
+        $roles = Role::all();
+
+
+        if (!$roles->contains('name', $role)) {
+            return redirect()->route('home')->with('error', 'Role not found');
+        }
+
+
+        $user = Auth::user();
+
+
+        if ($user->hasRole($role)) {
+
+            Auth::logout();
+
+
+            Auth::loginUsingId($user->id);
+            
+            session(['active_role' => $role]);
+
+
+            switch ($role) {
+                case 'Owner':
+                    return redirect()->route('PropertyFinder.home');
+                case 'Property-Finder':
+                    return redirect()->route('PropertyFinder.home');
+                case 'Renter':
+                    return redirect()->route('PropertyFinder.home');
+                case 'Broker':
+                    return redirect()->route('Broker.home');
+                case 'Office':
+                    return redirect()->route('Office.home');
+                default:
+                    return redirect()->route('Home.home');
+            }
+        } else {
+            return redirect()->route('home')->with('error', 'You do not have permission for this role');
+        }
+    }
+
 
 
 }

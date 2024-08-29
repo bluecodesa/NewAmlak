@@ -27,6 +27,7 @@ use App\Models\Project;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\PropertyUsage;
+use App\Models\Role;
 use App\Models\UnitFeature;
 use App\Models\UnitImage;
 use App\Models\UnitInterest;
@@ -117,6 +118,12 @@ class HomeController extends Controller
     public function index()
     {
         $finder = auth()->user();
+        $roles = Role::all();
+        $userRoles = $roles->filter(function ($role) use ($finder) {
+            return $finder->hasRole($role->name);
+        });
+
+
         if ($finder->is_renter) {
             $finder->assignRole('Renter');
         } elseif ($finder->is_property_finder) {
@@ -137,7 +144,7 @@ class HomeController extends Controller
 
             $count = 0;
 
-     if($finder->is_owner == 1){
+     if($finder->is_owner == 1 ){
         $allItems = collect();
         $AllUnits = Unit::where('owner_id', auth()->user()->UserOwnerData->id)
         ->get();

@@ -50,11 +50,11 @@
                                             class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                             <li class="list-inline-item d-flex gap-1">
                                                 <i class="ti ti-color-swatch"></i>
-                                                @if ($finder->is_renter)
+                                                @if (session('active_role') === 'Renter')
                                                     @lang('Renter')
-                                                @elseif($finder->is_property_finder)
+                                                @elseif(session('active_role') === 'Property-Finder')
                                                     @lang('Property Finder')
-                                                @elseif($finder->is_owner)
+                                                @elseif(session('active_role') === 'Owner')
                                                 @lang('owner')
                                                 @endif
                                             </li>
@@ -63,7 +63,26 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="dropdown">
+                                    @php
+                                    // Retrieve the active role from the session
+                                    $activeRole = session('active_role', 'Switch Account'); // Default to 'Switch Account' if no role is set
+                                    @endphp
+
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @lang($activeRole) <!-- Display the active role as the button label -->
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="roleDropdown">
+                                        @foreach ($roles as $role)
+                                            @if ($userRoles->contains('name', $role->name) && $role->name !== $activeRole)
+                                                <li><a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">@lang($role->name)</a></li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+
+
+                                    {{-- <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                             @lang('Switch Account')
                                         </button>
@@ -84,7 +103,7 @@
                                                 <li><a class="dropdown-item" href="{{ route('Office.home') }}">@lang('Office')</a></li>
                                             @endif
                                         </ul>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -124,15 +143,15 @@
                 </button>
             </li>
         @endif
-            @if ($finder->is_owner && Auth::user()->hasPermission('read-building'))
-                <li class="nav-item" role="presentation">
-                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                        data-bs-target="#navs-justified-My_Properties" aria-controls="navs-justified-My_Properties"
-                        aria-selected="false" tabindex="-1">
-                        <i class="tf-icons ti ti-building-arch ti-xs me-1"></i>@lang('My Properties')
-                    </button>
-                </li>
-            @endif
+        @if (session('active_role') === 'Owner')
+        <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link" role="tab"
+                    data-bs-toggle="tab" data-bs-target="#navs-justified-My_Properties"
+                    aria-controls="navs-justified-My_Properties" aria-selected="false" tabindex="-1">
+                <i class="tf-icons ti ti-building-arch ti-xs me-1"></i>@lang('My Properties')
+            </button>
+        </li>
+    @endif
                 @if (Auth::user()->hasPermission('update-user-profile'))
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"

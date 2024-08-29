@@ -33,6 +33,7 @@ class RoleController extends Controller
         $roles =  $this->RoleService->getAll();
         return view('Admin.roles.index', get_defined_vars());
     }
+    
 
     public function create()
     {
