@@ -119,59 +119,71 @@ class HomeController extends Controller
     {
         $finder = auth()->user();
         $roles = Role::all();
+
+        // Determine the active role based on user flags
+        if ($finder->is_owner) {
+            $activeRole = 'Owner';
+            $finder->assignRole('Owner');
+        } elseif ($finder->is_property_finder) {
+            $activeRole = 'Property-Finder';
+            $finder->assignRole('Property-Finder');
+        } elseif ($finder->is_renter) {
+            $activeRole = 'Renter';
+            $finder->assignRole('Renter');
+        } else {
+            // Default role if none of the above
+            $activeRole = null;
+        }
+
+        // Save the active role in session
+        if ($activeRole) {
+            session(['active_role' => $activeRole]);
+        }
+
+        // Filter user roles
         $userRoles = $roles->filter(function ($role) use ($finder) {
-            session(['active_role' => $role]);
             return $finder->hasRole($role->name);
         });
 
-
-
-        if ($finder->is_renter) {
-            $finder->assignRole('Renter');
-        } elseif ($finder->is_property_finder) {
-            $finder->assignRole('Property-Finder');
-        }elseif ($finder->is_owner) {
-            $finder->assignRole('Owner');
-        }
-
+        // Get favorite units
         $favorites = FavoriteUnit::where('finder_id', $finder->id)->get();
         $units = Unit::with('Unitfavorites')
             ->whereIn('id', $favorites->pluck('unit_id'))
             ->get();
-            $user = auth()->user();
 
-            $requests = RealEstateRequest::withCount(['requestStatuses as views_count' => function ($query) {
-                $query->whereNotNull('read_by');
-            }])->where('user_id', $user->id)->get();
+        // Get real estate requests with view counts
+        $requests = RealEstateRequest::withCount(['requestStatuses as views_count' => function ($query) {
+            $query->whereNotNull('read_by');
+        }])->where('user_id', $finder->id)->get();
 
-            $count = 0;
-
-     if($finder->is_owner == 1 ){
+        $count = 0;
         $allItems = collect();
-        $AllUnits = Unit::where('owner_id', auth()->user()->UserOwnerData->id)
-        ->get();
-        $projects =  Project::where('owner_id', auth()->user()->UserOwnerData->id)
-        ->get();
-        $properties =  Property::where('owner_id', auth()->user()->UserOwnerData->id)
-        ->get();
-        $AllUnits->each(function ($unit) {
-            $unit->isGalleryUnit = true;
 
-        });
-        $projects->each(function ($project) {
-            $project->isGalleryProject = true;
-        });
-        $properties->each(function ($property) {
-            $property->isGalleryProperty = true;
-        });
+        // If the user is an owner, get their units, projects, and properties
+        if ($finder->is_owner) {
+            $AllUnits = Unit::where('owner_id', $finder->UserOwnerData->id)->get();
+            $projects = Project::where('owner_id', $finder->UserOwnerData->id)->get();
+            $properties = Property::where('owner_id', $finder->UserOwnerData->id)->get();
 
-        $Items = $projects->merge($properties)->merge($AllUnits);
-        $allItems = $allItems->merge($Items);
-     }
+            // Mark items as gallery items
+            $AllUnits->each(function ($unit) {
+                $unit->isGalleryUnit = true;
+            });
+            $projects->each(function ($project) {
+                $project->isGalleryProject = true;
+            });
+            $properties->each(function ($property) {
+                $property->isGalleryProperty = true;
+            });
 
+            // Merge all items
+            $Items = $projects->merge($properties)->merge($AllUnits);
+            $allItems = $allItems->merge($Items);
+        }
 
         return view('Home.Property-Finder.index', get_defined_vars());
     }
+
 
     public function create(){
 
