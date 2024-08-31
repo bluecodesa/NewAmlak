@@ -790,6 +790,7 @@ class HomeController extends Controller
             ];
 
             if ($request->account_type === 'is_property_finder') {
+                session(['active_role' => 'Property-Finder']);
                 $user_data['is_property_finder'] = 1;
             } else {
                 $user_data['is_owner'] = 1;
@@ -803,6 +804,7 @@ class HomeController extends Controller
                     'email' => $request->email,
                     'user_id' => $user->id,
                 ]);
+                session(['active_role' => 'Owner']);
             }
 
             $this->notifyAdmins2($user);

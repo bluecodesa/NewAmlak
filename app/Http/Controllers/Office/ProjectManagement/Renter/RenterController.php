@@ -92,7 +92,7 @@ public function searchByIdNumber(Request $request)
 
             return response()->json(['html' => view('Office.ProjectManagement.Renter.inc.search-result-modal', ['message' => __('User found and is a property finder.'), 'user' => $user])->render()]);
         }  if ($user) {
-            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._result_renter', ['message' => __('User is already registered'), 'user' => $user])->render()]);
+            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc.search-result-modal', ['message' => __('User is already registered'), 'user' => $user])->render()]);
         }
         else {
             return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => __('User is not registered')])->render()]);
@@ -111,6 +111,7 @@ public function addAsRenter($id)
         $user->update(['is_renter' => 1]);
         $role = Role::firstOrCreate(['name' => 'Renter']);
         $user->assignRole($role);
+        session(['active_role' => 'Renter']);
         $renter = Renter::updateOrCreate(['user_id' => $user->id]);
         $renter->OfficeData()->attach($officeId);
 
@@ -131,6 +132,7 @@ public function addAsRenter($id)
     public function store(Request $request)
     {
         $this->RenterService->createRenter($request->all());
+        session(['active_role' => 'Renter']);
         return redirect()->route('Office.Renter.index')->with('success', __('added successfully'));
     }
 
