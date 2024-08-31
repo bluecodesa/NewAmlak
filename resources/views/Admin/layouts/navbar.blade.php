@@ -112,7 +112,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
+                            document.getElementById('logout-form').submit();">
 
                                 <i class="mdi mdi-power text-danger"></i>
                                 تسحيل الخروج</a>

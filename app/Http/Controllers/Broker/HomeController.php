@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\District;
 use App\Models\Gallery;
 use App\Models\Owner;
+use App\Models\Role;
 use App\Models\Subscription;
 use App\Models\SubscriptionSection;
 use App\Models\SubscriptionType;
@@ -104,7 +105,13 @@ class HomeController extends Controller
         //         ]);
         //     }
         // }
+
         $user = $request->user();
+        $roles = Role::all();
+        $userRoles = $roles->filter(function ($role) use ($user) {
+            return $user->hasRole($role->name);
+
+        });
         $brokerId = auth()->user()->UserBrokerData->id;
         $numberOfowners = $this->ownerService->getAllByBrokerId($brokerId)->count();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();

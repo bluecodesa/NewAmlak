@@ -65,8 +65,15 @@
                                     </div>
                                     @php
                                     // Retrieve the active role from the session
-                                    $activeRole = session('active_role'); // Default to 'Switch Account' if no role is set
-                                    @endphp
+                                    $activeRole = session('active_role') ?? 'Switch Account'; // Default to 'Switch Account' if no role is set
+
+                                    // Define the specific roles to show in the "Add New Account" dropdown
+                                    $specificRoles = collect(['Renter', 'Owner', 'Office', 'Broker']);
+
+                                    // Get the roles that the user does not have yet
+                                    $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+                                @endphp
+
 
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -81,29 +88,21 @@
                                     </ul>
                                 </div>
 
+                                <!-- Add New Account Button -->
+                                @if ($availableRoles->isNotEmpty())
+                                <div class="mt-3">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="addAccountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                      @lang('Add New Account')
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="addAccountDropdown">
+                                        @foreach ($availableRoles as $role)
+                                            <li><a class="dropdown-item" href="#" onclick="handleRoleRedirect('{{ $role }}')">@lang($role)</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
-                                    {{-- <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                            @lang('Switch Account')
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="roleDropdown">
-                                            @if ($finder->is_renter)
-                                                <li><a class="dropdown-item" href="{{ route('PropertyFinder.home') }}">@lang('Renter')</a></li>
-                                            @endif
-                                            @if ($finder->is_property_finder)
-                                                <li><a class="dropdown-item" href="{{ route('PropertyFinder.home') }}">@lang('Property Finder')</a></li>
-                                            @endif
-                                            @if ($finder->is_owner)
-                                                <li><a class="dropdown-item" href="{{ route('PropertyFinder.home') }}">@lang('owner')</a></li>
-                                            @endif
-                                            @if ($finder->is_broker)
-                                                <li><a class="dropdown-item" href="{{ route('Broker.home') }}">@lang('Broker')</a></li>
-                                            @endif
-                                            @if ($finder->is_office)
-                                                <li><a class="dropdown-item" href="{{ route('Office.home') }}">@lang('Office')</a></li>
-                                            @endif
-                                        </ul>
-                                    </div> --}}
+
                                 </div>
                             </div>
                         </div>
@@ -283,6 +282,32 @@
             }
         });
     });
+</script>
+
+<script>
+    function handleRoleRedirect(role) {
+        if (role === 'Office') {
+            redirectToCreateOffice();
+        } else if (role === 'Broker') {
+            redirectToCreateBroker();
+        } else if (role === 'Owner' || role === 'Property-Finder') {
+            redirectToCreatePropertyFinder();
+        } else {
+            alert('No redirection available for this role.');
+        }
+    }
+
+    function redirectToCreateBroker() {
+        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+    }
+
+    function redirectToCreatePropertyFinder() {
+        window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+    }
+
+    function redirectToCreateOffice() {
+        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+    }
 </script>
 
     @endpush

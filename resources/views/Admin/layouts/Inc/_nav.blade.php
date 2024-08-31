@@ -321,6 +321,40 @@
                             <span class="align-middle">Pricing</span>
                         </a>
                     </li> --}}
+                     <!-- Account Switching -->
+                    @php
+                    // Assuming you have stored user roles in the session
+                    $user = auth()->user();
+                            $roles = App\Models\Role::all();
+                            $userRoles = $roles->filter(function ($role) use ($user) {
+                                return $user->hasRole($role->name);
+
+                            });
+                                    // Retrieve the active role from the session
+                                    $activeRole = session('active_role') ?? 'Switch Account'; // Default to 'Switch Account' if no role is set
+
+                                    // Define the specific roles to show in the "Add New Account" dropdown
+                                    $specificRoles = collect(['Renter', 'Owner', 'Office', 'Broker']);
+
+                                    // Get the roles that the user does not have yet
+                                    $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+                @endphp
+
+                @if($availableRoles->isNotEmpty())
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="ti ti-exchange-vertical me-2 ti-sm"></i> @lang('Switch Account')
+                        </a>
+                        @foreach ($roles as $role)
+                        @if ($userRoles->contains('name', $role->name) && $role->name !== $activeRole)
+                            <li><a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">@lang($role->name)</a></li>
+                        @endif
+                    @endforeach
+                    </li>
+                @endif
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>

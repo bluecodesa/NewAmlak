@@ -152,7 +152,7 @@ class HomeController extends Controller
 
 
             Auth::loginUsingId($user->id);
-            
+
             session(['active_role' => $role]);
 
 
@@ -163,7 +163,7 @@ class HomeController extends Controller
                     return redirect()->route('PropertyFinder.home');
                 case 'Renter':
                     return redirect()->route('PropertyFinder.home');
-                case 'Broker':
+                case 'RS-Broker':
                     return redirect()->route('Broker.home');
                 case 'Office':
                     return redirect()->route('Office.home');

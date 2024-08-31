@@ -149,6 +149,7 @@ class OwnerController extends Controller
     }
 
     $user->update(['is_owner' => 1]);
+    $user->assignRole('Owner');
 
     $owner = Owner::create([
         'name' => $user->name,
@@ -165,6 +166,7 @@ class OwnerController extends Controller
     ]);
 
     $this->notifyAdmins2($user);
+
 
     return redirect()->route('Broker.Owner.index')->with('success', __('Owner profile added successfully.'));
     }
