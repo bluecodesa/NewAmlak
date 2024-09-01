@@ -89,7 +89,7 @@ public function login(Request $request)
     if (!$user && !empty($input['otp'])) {
         $sessionOtp = session('otp');
         if ($input['otp'] == $sessionOtp) {
-            return view('auth.chooseAccount')->with('success', __('OTP is correct, but user does not exist. Please register.'));
+            return view('auth.chooseAcount')->with('success', __('OTP is correct, but user does not exist. Please register.'));
         } else {
             return back()->withInput()->withErrors(['otp' => 'The provided OTP is incorrect.']);
         }
@@ -136,6 +136,7 @@ public function login(Request $request)
  */
 protected function storeUserRoleInSession(User $user)
 {
+    // Assuming a user can have multiple roles and you want to store the first one
     $roles = $user->roles()->pluck('name');
 
     if ($roles->isNotEmpty()) {
