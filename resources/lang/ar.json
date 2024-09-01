@@ -681,13 +681,14 @@
     "Back": "عودة",
     "Ad Name": "اسم الاعلان",
     "Add New Property": "اضافة عقار جديد",
-    "User is already an Owner in this Broker.": "هذا المالك مسجل بالفعل ",
+    "Click on Client Data, Add as Owner the patient added to the Owners list.": "تم العثور على بيانات العميل، انقر إضافة كـمالك ليتم اضافته الى قائمة الملاك",
     "User is registered before.": "هذا المستخدم مسجل بالفعل",
     "This Owner is not registered": "هذا المالك غير مسجل",
     "Owner": "مالك",
     "Add New Account": "اضافة حساب جديد",
     "Switch Account": "تغيير الحساب",
-    "RS-Broker": "مسوق عقاري"
+    "RS-Broker": "مسوق عقاري",
+    "Add as Owner": "إضافة كــمالك"
 
 
 

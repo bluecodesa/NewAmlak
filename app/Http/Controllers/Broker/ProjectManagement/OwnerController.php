@@ -80,7 +80,7 @@ class OwnerController extends Controller
                 if ($existingOwner) {
                     return response()->json([
                         'html' => view('Broker.ProjectManagement.Owner.inc._result_renter', [
-                            'message' => __('User is already an Owner in this Broker.'),
+                            'message' => __('Click on Client Data, Add as Owner the patient added to the Owners list.'),
                             'user' => $user,
                         'id_number'=>$idNumber
 
@@ -89,7 +89,7 @@ class OwnerController extends Controller
                 } else {
                     return response()->json([
                         'html' => view('Broker.ProjectManagement.Owner.inc.search-result-modal', [
-                            'message' => __('User is registered before.'),
+                            'message' => __('Click on Client Data, Add as Owner the patient added to the Owners list.'),
                             'user' => $user,
                             'id_number'=>$idNumber
                         ])->render()
@@ -98,7 +98,7 @@ class OwnerController extends Controller
             } else {
                 return response()->json([
                     'html' => view('Broker.ProjectManagement.Owner.inc.search-result-modal', [
-                        'message' => __('User is registered before.'),
+                        'message' => __('Click on Client Data, Add as Owner the patient added to the Owners list.'),
                         'user' => $user,
                         'id_number'=>$idNumber
                     ])->render()
