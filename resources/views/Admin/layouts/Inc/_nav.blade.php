@@ -341,7 +341,29 @@
                 @endphp
 
                 @if($availableRoles->isNotEmpty())
-                    <li>
+
+                     @foreach ($roles as $role)
+                        @if ($userRoles->contains('name', $role->name) && $role->name !== $activeRole)
+
+                <a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar avatar-offline">
+                                <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
+                                    alt class="h-auto rounded-circle" />
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
+                            <small class="text-muted">@lang($role->name)</small>
+                        </div>
+                    </div>
+                </a>
+                @endif
+                @endforeach
+
+                @endif
+                    {{-- <li>
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
@@ -354,7 +376,7 @@
                         @endif
                     @endforeach
                     </li>
-                @endif
+                @endif --}}
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
