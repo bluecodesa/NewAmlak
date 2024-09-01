@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <form action="{{ route('Broker.Owner.store') }}" method="POST" class="row">
                         <input type="text" name="key_phone" hidden value="966" id="key_phone">
-                        <input type="text" name="full_phone" hidden id="full_phone" value="966">
+                        <input type="text" name="full_phone" hidden id="full_phone" >
                         @csrf
                         @method('post')
                         <div class="col-md-6 col-12 mb-3">

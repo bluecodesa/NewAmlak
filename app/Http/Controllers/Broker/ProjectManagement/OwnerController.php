@@ -154,6 +154,8 @@ class OwnerController extends Controller
     $owner = Owner::create([
         'name' => $user->name,
         'email' => $user->email,
+        'key_phone' => $user->key_phone ?? null,
+        'phone' => $user->phone ?? null,
         'full_phone' => $user->full_phone,
         'city_id' => $request->city_id,
         'user_id' => $user->id,
@@ -198,6 +200,7 @@ class OwnerController extends Controller
     {
 
         $Owner =  $this->ownerService->getOwnerById($id);
+        // dd($Owner);
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         return view('Broker.ProjectManagement.Owner.edit', get_defined_vars());

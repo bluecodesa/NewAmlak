@@ -83,7 +83,25 @@ class OwnerService
             ],
         ];
 
-        validator($data, $rules)->validate();
+        $messages = [
+            'name.required' => 'The name field is required.',
+            'name.string' => 'The name must be a string.',
+            'name.max' => 'The name may not be greater than 255 characters.',
+
+            'city_id.required' => 'Please select a city.',
+
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.unique' => 'The email has already been taken.',
+            'email.max' => 'The email may not be greater than 255 characters.',
+
+            'full_phone.required' => 'The phone number is required.',
+            'full_phone.unique' => 'The phone number has already been taken.',
+            'full_phone.max' => 'The phone number may not be greater than 25 characters.',
+        ];
+
+        validator($data, $rules, $messages)->validate();
+
 
         $Owner = $this->OwnerRepository->updateOwner($id, $data);
 
