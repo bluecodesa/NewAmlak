@@ -149,7 +149,7 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="name"> @lang('Broker name')<span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="basic-default-name" name="name"
+                                <input type="text" class="form-control" id="basic-default-name" name="name" 
                                     placeholder="@lang('Broker name')" required>
                             </div>
 

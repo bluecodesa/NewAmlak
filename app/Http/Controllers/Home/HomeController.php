@@ -237,6 +237,7 @@ class HomeController extends Controller
         $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
             ->whereIn('id', $RolesSubscriptionTypeIds)
             ->get();
+        $newBroker=auth()->user();
         return view('Home.Auth.broker.CreateBroker', get_defined_vars());
     }
     public function createOffice()
@@ -510,6 +511,8 @@ class HomeController extends Controller
             'id_number.required' => __('The ID number is required.'),
 
         ];
+
+        $request->validate($rules, $messages);
 
 
         $request_data = [];

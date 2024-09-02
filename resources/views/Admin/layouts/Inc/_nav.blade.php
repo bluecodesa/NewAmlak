@@ -322,48 +322,39 @@
                         </a>
                     </li> --}}
                      <!-- Account Switching -->
-                    @php
-                    // Assuming you have stored user roles in the session
-                    $user = auth()->user();
-                            $roles = App\Models\Role::all();
-                            $userRoles = $roles->filter(function ($role) use ($user) {
-                                return $user->hasRole($role->name);
+                     @php
+                     // Assuming you have stored user roles in the session
+                     $user = auth()->user();
+                     $roles = App\Models\Role::all();
 
-                            });
-                                    // Retrieve the active role from the session
-                                    $activeRole = session('active_role') ?? 'Switch Account'; // Default to 'Switch Account' if no role is set
+                     // Retrieve the active role from the session, default to 'Switch Account' if no role is set
+                     $activeRole = session('active_role') ?? 'Switch Account';
 
-                                    // Define the specific roles to show in the "Add New Account" dropdown
-                                    $specificRoles = collect(['Renter', 'Owner', 'Office', 'Broker']);
+                     // Filter out the active role from the available roles
+                     $availableRoles = $roles->filter(function ($role) use ($user, $activeRole) {
+                         return $user->hasRole($role->name) && $role->name !== $activeRole;
+                     });
+                 @endphp
 
-                                    // Get the roles that the user does not have yet
-                                    $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
-                @endphp
-
-                @if($availableRoles->isNotEmpty())
-
-                     @foreach ($roles as $role)
-                        @if ($userRoles->contains('name', $role->name) && $role->name !== $activeRole)
-
-                <a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
-                            <div class="avatar avatar-offline">
-                                <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
-                                    alt class="h-auto rounded-circle" />
-                            </div>
-                        </div>
-                        <div class="flex-grow-1">
-                            <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
-                            <small class="text-muted">@lang($role->name)</small>
-                        </div>
-                    </div>
-                </a>
-                @endif
-                @endforeach
-
-                @endif
-                    {{-- <li>
+                 @if($availableRoles->isNotEmpty())
+                     @foreach ($availableRoles as $role)
+                         <a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">
+                             <div class="d-flex">
+                                 <div class="flex-shrink-0 me-3">
+                                     <div class="avatar avatar-offline">
+                                         <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
+                                             alt class="h-auto rounded-circle" />
+                                     </div>
+                                 </div>
+                                 <div class="flex-grow-1">
+                                     <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
+                                     <small class="text-muted">@lang($role->name)</small>
+                                 </div>
+                             </div>
+                         </a>
+                     @endforeach
+                 @endif
+                        {{-- <li>
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
