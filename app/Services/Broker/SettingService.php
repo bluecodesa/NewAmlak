@@ -46,9 +46,20 @@ class SettingService
             ],
             // 'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            // 'id_number' => [
+            //     'nullable',
+            //     Rule::unique('brokers')->ignore($id),
+            // ],
             'id_number' => [
                 'nullable',
-                Rule::unique('brokers')->ignore($id),
+                'numeric',
+                'digits:10',
+                Rule::unique('users')->ignore($broker->user_id),
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                    }
+                },
             ],
         ];
 
@@ -68,8 +79,9 @@ class SettingService
             'broker_logo.image' => __('The broker logo must be an image.'),
             'city_id.required' => 'The city field is required.',
             'city_id.exists' => 'The selected city is invalid.',
-            'id_number.unique' => __('The ID number has already been taken.'),
-            // 'password.confirmed' => __('The password confirmation does not match.'),
+            'id_number.numeric' => 'The ID number must be a number.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+            'id_number.unique' => 'The ID number has already been taken.', // Cus            // 'password.confirmed' => __('The password confirmation does not match.'),
 
 
         ];
