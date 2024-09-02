@@ -97,7 +97,10 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                 @endif
+                                @endif
+
+
+
 
 
                                 </div>
@@ -282,29 +285,95 @@
 </script>
 
 <script>
-    function handleRoleRedirect(role) {
-        if (role === 'Office') {
-            redirectToCreateOffice();
-        } else if (role === 'Broker') {
-            redirectToCreateBroker();
-        } else if (role === 'Owner' || role === 'Property-Finder') {
-            redirectToCreatePropertyFinder();
-        } else {
-            alert('No redirection available for this role.');
-        }
-    }
+//     function handleRoleRedirect(role) {
+//         if (role === 'Office') {
+//             redirectToCreateOffice();
+//         } else if (role === 'RS-Broker') {
+//             redirectToCreateBroker();
+//         } else if (role === 'Owner' || role === 'Property-Finder') {
+//             redirectToCreatePropertyFinder();
+//         } else {
+//             alert('No redirection available for this role.');
+//         }
+//     }
 
-    function redirectToCreateBroker() {
-        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
-    }
+//     function redirectToCreateBroker() {
+//         let formData = {
+//         name: document.getElementById('name').value,
+//         id_number: document.getElementById('id_number').value,
+//         email: document.getElementById('email').value,
+//         phone: document.getElementById('phone').value,
+//         key_phone: document.getElementById('key_phone').value,
+//         avatar: document.querySelector('input[name="avatar"]').files[0]
+//     };
 
-    function redirectToCreatePropertyFinder() {
-        window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
-    }
+//     // Store form data and role in session storage
+//     sessionStorage.setItem('formData', JSON.stringify(formData));
+//     sessionStorage.setItem('role', role);
 
-    function redirectToCreateOffice() {
-        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+//     window.location.href = "{{ route('Home.Broker.CreateNewBroker') }}";
+//     }
+
+//     function redirectToCreatePropertyFinder() {
+//         window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+//     }
+
+//     function redirectToCreateOffice() {
+//         window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+//     }
+
+//     function handleRoleRedirect(role) {
+//     if (role === 'Office') {
+//         redirectToCreateOffice();
+//     } else if (role === 'RS-Broker') {
+//         redirectToCreateBroker();
+//     } else if (role === 'Owner' || role === 'Property-Finder') {
+//         redirectToCreatePropertyFinder();
+//     } else {
+//         alert('No redirection available for this role.');
+//     }
+// }
+
+function handleRoleRedirect(role) {
+    if (role === 'Office') {
+        redirectToCreateOffice();
+    } else if (role === 'RS-Broker') {
+        redirectToCreateBroker();
+    } else if (role === 'Owner' || role === 'Property-Finder') {
+        redirectToCreatePropertyFinder();
+    } else {
+        alert('No redirection available for this role.');
     }
+}
+
+function redirectToCreateOffice() {
+    // storeFormData();
+    window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+}
+
+function redirectToCreateBroker() {
+    // storeFormData();
+    window.location.href = "{{ route('Home.Broker.CreateNewBroker') }}";
+}
+
+function redirectToCreatePropertyFinder() {
+    // storeFormData();
+    window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+}
+
+function storeFormData() {
+    let formData = {
+        name: document.getElementById('name').value,
+        id_number: document.getElementById('id_number').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        key_phone: document.getElementById('key_phone').value,
+        avatar: document.querySelector('input[name="avatar"]').files[0]
+    };
+
+    sessionStorage.setItem('formData', JSON.stringify(formData));
+}
+
 </script>
 
     @endpush

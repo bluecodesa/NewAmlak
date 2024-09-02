@@ -6,7 +6,9 @@
     @include('Admin.layouts.Inc._errors')
 
     <input type="text" name="key_phone" hidden id="key_phone" value="{{ $broker->key_phone ?? '966' }}">
-    <input type="text" name="full_phone" hidden id="full_phone" >
+    <input type="text" hidden name="full_phone" id="full_phone"
+    value="{{ $broker->UserData->full_phone ?? ($broker->key_phone ?? '966') }}">
+
     <div class="col-md-4 col-12 mb-3">
         <label for="name">
             @lang('Broker name')<span class="text-danger">*</span></label>
@@ -43,17 +45,16 @@
 
 
     <div class="col-12 mb-3 col-md-4">
-        <label for="color" class="form-label">@lang('Mobile Whats app') <span class="required-color">*</span></label>
+        <label for="color" class="form-label">@lang('phone') <span class="required-color">*</span></label>
         <div class="input-group">
-            <input type="text" placeholder="123456789" name="mobile" value="{{ $broker->UserData->phone }}"
-            class="form-control" maxlength="9" pattern="\d{1,9}"
-            oninput="updateFullPhone(this)"
-            aria-label="Text input with dropdown button">
+            <input type="text" placeholder="123456789" name="mobile" id="phone"
+            value="{{ $broker->UserData->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
+                oninput="updateFullPhone(this)" aria-label="Text input with dropdown button">
             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{ $broker->UserData->key_phone ?? '966' }}
+                {{ $Owner->key_phone ?? '966' }}
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" style="">
+            <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                 <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
             </ul>
@@ -124,3 +125,5 @@
         <button type="submit" class="btn btn-primary">@lang('save')</button>
     </div>
 </form>
+
+

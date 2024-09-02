@@ -146,7 +146,7 @@
                                                 {{ $subscriber->OfficeData->userData->id_number ?? '' }}
                                             @endif
                                             @if ($subscriber->broker_id)
-                                                {{ $subscriber->BrokerData->id_number ?? '' }}
+                                                {{ $subscriber->BrokerData->userData->id_number ?? '' }}
                                             @endif
                                         </span>
                                     </li>

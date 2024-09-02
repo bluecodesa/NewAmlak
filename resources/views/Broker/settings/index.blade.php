@@ -196,21 +196,22 @@
             </script>
 
 <script>
-    function updateFullPhone(input) {
-            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
-            var key_phone = $('#key_phone').val();
-            var fullPhone = key_phone + input.value;
-            document.getElementById('full_phone').value = fullPhone;
-        }
-        $(document).ready(function() {
-            $('.dropdown-item').on('click', function() {
-                var key = $(this).data('key');
-                var phone = $('input[name="mobile"]').val(); // Get the phone number input value
-                $('#key_phone').val(key);
-                $('#full_phone').val(key + phone);
-                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+       function updateFullPhone(input) {
+                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+                var key_phone = $('#key_phone').val();
+                var fullPhone = key_phone + input.value;
+                document.getElementById('full_phone').value = fullPhone;
+            }
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    var phone = $('#phone').val();
+                    $('#key_phone').val(key);
+                    $('#full_phone').val(key + phone);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
             });
-        });
+
 
 </script>
         @endpush

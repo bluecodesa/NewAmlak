@@ -80,7 +80,7 @@ class OwnerController extends Controller
                 if ($existingOwner) {
                     return response()->json([
                         'html' => view('Broker.ProjectManagement.Owner.inc._result_renter', [
-                            'message' => __('Click on Client Data, Add as Owner the patient added to the Owners list.'),
+                            'message' => __('Click on Client Data, can not add again in the same account.'),
                             'user' => $user,
                         'id_number'=>$idNumber
 
@@ -144,33 +144,41 @@ class OwnerController extends Controller
 
     }
     if ($user->is_owner) {
-        return redirect()->route('Broker.Owner.index')->with('success', __('This user is already an owner.'));
+        $owner_id=$user->UserOwnerData->id;
+        $owner = Owner::findOrFail($owner_id);
+        $broker_id = auth()->user()->UserBrokerData->id;
+        $owner->brokers()->attach($broker_id, [
+            'balance' => $request->balance ?? 0,
+        ]);
+        return redirect()->route('Broker.Owner.index')->with('success', __('Owner profile added successfully.'));
+
+    }else{
+        $user->update(['is_owner' => 1]);
+        $user->assignRole('Owner');
+
+        $owner = Owner::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'key_phone' => $user->key_phone ?? null,
+            'phone' => $user->phone ?? null,
+            'full_phone' => $user->full_phone,
+            'city_id' => $request->city_id,
+            'user_id' => $user->id,
+            'balance' => $request->balance ?? 0,
+        ]);
+
+        $broker_id = auth()->user()->UserBrokerData->id;
+        $owner->brokers()->attach($broker_id, [
+            'balance' => $request->balance ?? 0,
+        ]);
+
+        $this->notifyAdmins2($user);
+
+
+        return redirect()->route('Broker.Owner.index')->with('success', __('Owner profile added successfully.'));
 
     }
 
-    $user->update(['is_owner' => 1]);
-    $user->assignRole('Owner');
-
-    $owner = Owner::create([
-        'name' => $user->name,
-        'email' => $user->email,
-        'key_phone' => $user->key_phone ?? null,
-        'phone' => $user->phone ?? null,
-        'full_phone' => $user->full_phone,
-        'city_id' => $request->city_id,
-        'user_id' => $user->id,
-        'balance' => $request->balance ?? 0,
-    ]);
-
-    $broker_id = auth()->user()->UserBrokerData->id;
-    $owner->brokers()->attach($broker_id, [
-        'balance' => $request->balance ?? 0,
-    ]);
-
-    $this->notifyAdmins2($user);
-
-
-    return redirect()->route('Broker.Owner.index')->with('success', __('Owner profile added successfully.'));
     }
 
     protected function notifyAdmins2(User $user)
@@ -194,13 +202,17 @@ class OwnerController extends Controller
     public function show(string $id)
     {
         //
+
+        $Owner =  $this->ownerService->getOwnerById($id);
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
+        return view('Broker.ProjectManagement.Owner.show', get_defined_vars());
     }
 
     public function edit($id)
     {
 
         $Owner =  $this->ownerService->getOwnerById($id);
-        // dd($Owner);
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         return view('Broker.ProjectManagement.Owner.edit', get_defined_vars());

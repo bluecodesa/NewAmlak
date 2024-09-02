@@ -213,6 +213,32 @@ class HomeController extends Controller
             ->get();
         return view('Home.Auth.broker.create', get_defined_vars());
     }
+
+    public function createNewBroker()
+    {
+        $email = session('email');
+        $fullPhone = session('phone');
+        $phone = session('mobile');
+        $KeyPhone = session('key_phone');
+
+        $setting =   Setting::first();
+        if ($setting->active_broker == 0) {
+            return back()->with('sorry', __('Soon'));
+        }
+
+        $termsAndConditionsUrl = $setting->terms_pdf;
+        $privacyPolicyUrl = $setting->privacy_pdf;
+        $Regions = Region::all();
+        $cities = City::all();
+        $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
+
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->get();
+        return view('Home.Auth.broker.CreateBroker', get_defined_vars());
+    }
     public function createOffice()
     {
         $email = session('email');
@@ -332,6 +358,8 @@ class HomeController extends Controller
             'password' => bcrypt($request->password),
             'customer_id' => $new_customer_id,
             'avatar' => $request_data['company_logo'] ?? null,
+            // 'id_number' => $request->id_number,
+
         ]);
 
         $office = Office::create([
@@ -342,6 +370,7 @@ class HomeController extends Controller
             'created_by' => Auth::id(),
             // 'presenter_name' => $request->presenter_name,
             'company_logo' => $request_data['company_logo'] ?? null,
+
         ]);
         $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
         $startDate = Carbon::now();
@@ -444,6 +473,16 @@ class HomeController extends Controller
             'password' => 'required|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             // 'id_number' => 'nullable|unique:brokers,id_number'
+            'id_number' => [
+                'required',
+                'numeric',
+                'digits:10',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                    }
+                },
+            ],
 
         ];
 
@@ -465,10 +504,13 @@ class HomeController extends Controller
             'password.confirmed' => __('The password confirmation does not match.'),
             'broker_logo.image' => __('The broker logo must be an image.'),
             // 'id_number.unique' => __('The ID number has already been taken.')
+            'id_number.numeric' => 'The ID number must be a number.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+            'id_number.unique' => 'The ID number has already been taken.', // Cus
+            'id_number.required' => __('The ID number is required.'),
+
         ];
 
-
-        $request->validate($rules, $messages);
 
         $request_data = [];
 
@@ -507,6 +549,8 @@ class HomeController extends Controller
             'full_phone' => $request->full_phone,
             'customer_id' => $new_customer_id,
             'avatar' => $request_data['broker_logo'] ?? null,
+            'id_number' => $request->id_number,
+
         ]);
 
         // Create Broker
@@ -518,6 +562,7 @@ class HomeController extends Controller
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
             'city_id' => $request->city_id,
+            'id_number' => $request->id_number,
             'broker_logo' => $request_data['broker_logo'] ?? 'HOME_PAGE/img/avatars/14.png',
         ]);
 

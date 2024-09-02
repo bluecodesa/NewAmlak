@@ -81,6 +81,8 @@ class OwnerRepository
                 'is_owner' => 1,
                 'name' => $data['name'],
                 'email' => $data['email'],
+                'phone' => $data['phone'],
+                'key_phone' => $data['key_phone'],
                 'full_phone' => $data['full_phone'],
                 'id_number' => $data['id_number'],
                 'password' => Hash::make($password),
@@ -89,6 +91,8 @@ class OwnerRepository
             $owner = Owner::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
+                'phone' => $data['phone'],
+                'key_phone' => $data['key_phone'],
                 'full_phone' => $data['full_phone'],
                 'city_id' => $data['city_id'],
                 'user_id' => $user->id,

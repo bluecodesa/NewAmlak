@@ -54,6 +54,7 @@ Route::group(
             Route::get('/nafath/callback', [HomeController::class, 'handleCallback'])->name('nafath.callback');
             Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
             Route::get('create-broker', [HomeController::class, 'createBroker'])->name('Brokers.CreateBroker');
+            Route::get('create-new-broker', [HomeController::class, 'createNewBroker'])->name('Broker.CreateNewBroker');
             Route::get('create-prperty-finder', [HomeController::class, 'createPropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
             Route::post('create-office', [HomeController::class, 'storeOffice'])->name('Offices.CreateOffice');
             Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
