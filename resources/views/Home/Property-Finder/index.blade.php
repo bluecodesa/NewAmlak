@@ -64,15 +64,12 @@
                                         </ul>
                                     </div>
                                     @php
-                                    // Retrieve the active role from the session
-                                    $activeRole = session('active_role') ?? 'Switch Account'; // Default to 'Switch Account' if no role is set
+                                        $activeRole = session('active_role') ?? 'Switch Account';
 
-                                    // Define the specific roles to show in the "Add New Account" dropdown
-                                    $specificRoles = collect(['Renter', 'Owner', 'Office', 'Broker']);
+                                        $specificRoles = collect(['Owner', 'Office', 'RS-Broker']);
 
-                                    // Get the roles that the user does not have yet
-                                    $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
-                                @endphp
+                                        $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+                                    @endphp
 
 
                                 <div class="dropdown">
@@ -90,17 +87,17 @@
 
                                 <!-- Add New Account Button -->
                                 @if ($availableRoles->isNotEmpty())
-                                <div class="mt-3">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="addAccountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                      @lang('Add New Account')
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="addAccountDropdown">
-                                        @foreach ($availableRoles as $role)
-                                            <li><a class="dropdown-item" href="#" onclick="handleRoleRedirect('{{ $role }}')">@lang($role)</a></li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="addAccountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @lang('Add New Account')
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="addAccountDropdown">
+                                            @foreach ($availableRoles as $role)
+                                                <li><a class="dropdown-item" href="#" onclick="handleRoleRedirect('{{ $role }}')">@lang($role)</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                 @endif
 
 
                                 </div>

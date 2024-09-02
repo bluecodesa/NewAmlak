@@ -110,7 +110,7 @@
 
 
                     <div class="col-12 mb-3 col-md-6">
-                        <label for="color" class="form-label">@lang('Mobile Whats app') <span class="required-color">*</span></label>
+                        <label for="color" class="form-label">@lang('Mobile Whats app') <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <input type="text" placeholder="123456789" name="phone" value="{{ $finder->phone }}"
                                 class="form-control" maxlength="9" pattern="\d{1,9}"
