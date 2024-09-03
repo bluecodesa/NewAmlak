@@ -24,7 +24,7 @@ class AdvertisingController  extends Controller
 
         //     $startDate = Carbon::parse($ad->show_start_date);
         //     $endDate = Carbon::parse($ad->show_end_date);
-            
+
         //     if ($startDate == $today || $startDate < $today) {
         //         $ad->status = 'Published';
         //     } elseif ($endDate == $today || $endDate < $today) {
@@ -166,7 +166,7 @@ class AdvertisingController  extends Controller
         $advertising = Advertising::findOrFail($id);
         return view('Admin.Advertising.edit', compact('advertising'));
     }
-    
+
     public function update(Request $request, $id)
     {
         // Validate the input data
@@ -203,9 +203,9 @@ class AdvertisingController  extends Controller
             'ad_duration.integer' => 'The ad display duration must be an integer.',
             'ad_duration.min' => 'The ad display duration must be at least 1 day.',
         ]);
-    
+
         $advertising = Advertising::findOrFail($id);
-    
+
         $data = [];
         if ($request->hasFile('content')) {
             $content = $request->file('content');
@@ -214,7 +214,7 @@ class AdvertisingController  extends Controller
             $content->move(public_path('/Admin/Advertisings/Files/'), $contentName);
             $data['content'] = '/Admin/Advertisings/Files/' . $contentName;
         }
-    
+
         // Determine status based on start date
         $showStartDate = new \DateTime($request->input('show_start_date'));
         $currentDate = new \DateTime();
@@ -223,7 +223,7 @@ class AdvertisingController  extends Controller
         } else {
             $data['status'] = 'Scheduled';
         }
-    
+
         // Additional data
         $data['ad_name'] = $request->input('ad_name');
         $data['client_name'] = $request->input('client_name');
@@ -231,13 +231,13 @@ class AdvertisingController  extends Controller
         $data['ad_duration'] = $request->input('ad_duration');
         $data['show_start_date'] = $request->input('show_start_date');
         $data['show_end_date'] = $request->input('show_end_date');
-    
+
         // Update the advertising entry
         $advertising->update($data);
-    
+
         return redirect()->route('Admin.Advertisings.index')->with('success', __('Ad updated successfully'));
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -255,7 +255,7 @@ class AdvertisingController  extends Controller
 
         $partnerSuccess->delete();
 
-        return redirect()->route('Admin.PartnerSuccess.index')->with('success', 'Deleted successfully');
+        return redirect()->route('Admin.Advertisings.index')->with('success', 'Deleted successfully');
 
     }
 }
