@@ -130,8 +130,9 @@
 
                                 <a href="{{ route('PropertyFinder.home') }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span>
-                                    <span class="d-none d-md-block">@lang('My Account')</span>
-                                    <small>(@lang($activeRole))</small>
+                                    <span class="d-none d-md-block">@lang('My Account') </span>
+                                    <br>
+                                    <small> (@lang($activeRole))</small>
                                 </a>
                             @else
                                 <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
