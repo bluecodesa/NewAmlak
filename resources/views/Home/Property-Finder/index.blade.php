@@ -72,7 +72,7 @@
                                     @endphp
 
 
-                                <div class="dropdown">
+                                {{-- <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         @lang($activeRole) <!-- Display the active role as the button label -->
                                     </button>
@@ -83,7 +83,7 @@
                                             @endif
                                         @endforeach
                                     </ul>
-                                </div>
+                                </div> --}}
 
                                 <!-- Add New Account Button -->
                                 @if ($availableRoles->isNotEmpty())

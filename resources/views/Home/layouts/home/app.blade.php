@@ -9,8 +9,17 @@
 
 
 <body>
+    <style>
+            /* Show dropdown on hover */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0; /* Adjusts the dropdown position */
+    }
+
+    </style>
     <script src="{{ url('HOME_PAGE/vendor/js/dropdown-hover.js') }}"></script>
     <script src="{{ url('HOME_PAGE/vendor/js/mega-dropdown.js') }}"></script>
+
 
     <!-- Navbar: Start -->
     <nav class="layout-navbar shadow-none py-0">
@@ -105,16 +114,40 @@
                                 <span class="d-none d-md-block">سجل معنا الأن</span></a>
                         @endguest --}}
                         @auth
-                        @if(!auth()->user()->is_office || !auth()->user()->is_broker )
-                            <a href="{{ route('PropertyFinder.home') }}" class="btn btn-primary btn-sm"><span
-                                    class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span><span
-                                    class="d-none d-md-block">حسابى</span></a>
-                                @else
-                                <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm"><span
-                                    class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span><span
-                                    class="d-none d-md-block">حسابى</span></a>
-                                @endif
-                        @endauth
+                        <div class="dropdown">
+                            @if(!auth()->user()->is_office || !auth()->user()->is_broker)
+                                <a href="{{ route('PropertyFinder.home') }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span>
+                                    <span class="d-none d-md-block">حسابى</span>
+                                </a>
+                            @else
+                                <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span>
+                                    <span class="d-none d-md-block">حسابى</span>
+                                </a>
+                            @endif
+
+                            <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                                @php
+                                  $user = auth()->user();
+                                  $roles = App\Models\Role::all();
+                                  $userRoles = $roles->filter(function ($role) use ($user) {
+                                        return $user->hasRole($role->name);
+
+                                    });
+                                    $activeRole = session('active_role') ?? 'Switch Account';
+                                    $specificRoles = collect(['Owner', 'Office', 'RS-Broker']);
+                                    $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+                                @endphp
+
+                                @foreach ($roles as $role)
+                                    @if ($userRoles->contains('name', $role->name) && $role->name !== $activeRole)
+                                        <li><a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">@lang($role->name)</a></li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endauth
 
 
                     </li>
