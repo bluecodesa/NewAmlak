@@ -3,12 +3,12 @@
 @section('content')
 <style>
 .sticky-carousel-wrapper {
-    top: 0; 
-    width: 100%; 
-    height: 200px; 
-    z-index: 1000; 
-    background: #fff; 
-    overflow: hidden; 
+    top: 0;
+    width: 100%;
+    height: 200px;
+    z-index: 1000;
+    background: #fff;
+    overflow: hidden;
 }
 
 
@@ -19,7 +19,7 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="py-3 mb-1"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/
                 </span>المعرض</h4>
-                
+
                 @if($advertisings->isNotEmpty())
 
                 <div class="sticky-carousel-wrapper mb-2">
@@ -28,34 +28,49 @@
                             <div class="card mb-4">
                                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                                     <!-- Carousel wrapper -->
-                                        <div id="advertisementCarousel" class="carousel slide" data-bs-ride="carousel">
-                                            <div class="carousel-inner">
-                                                @foreach($advertisings as $index => $advertisement)
-                                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                                        @if(in_array(pathinfo($advertisement->content, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
-                                                            <a href="{{ $advertisement->ad_url }}" target="_blank">
-                                                                <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
-                                                            </a>
-                                                        @else
+                                    <div id="advertisementCarousel" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @foreach($advertisings as $index => $advertisement)
+                                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                                    @php
+                                                        $isImage = in_array(pathinfo($advertisement->content, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']);
+                                                    @endphp
+
+                                                    @if(!empty($advertisement->ad_url))
                                                         <a href="{{ $advertisement->ad_url }}" target="_blank">
+                                                            @if ($isImage)
+                                                                <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
+                                                            @else
+                                                                <video class="d-block w-100 h-100" autoplay muted>
+                                                                    <source src="{{ asset($advertisement->content) }}" type="video/mp4">
+                                                                    @lang('Your browser does not support the video tag.')
+                                                                </video>
+                                                            @endif
+                                                        </a>
+                                                    @else
+                                                        @if ($isImage)
+                                                            <img src="{{ asset($advertisement->content) }}" class="d-block w-100 h-100" alt="Advertisement Image">
+                                                        @else
                                                             <video class="d-block w-100 h-100" autoplay muted>
                                                                 <source src="{{ asset($advertisement->content) }}" type="video/mp4">
                                                                 @lang('Your browser does not support the video tag.')
                                                             </video>
-                                                        </a>
                                                         @endif
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            <button class="carousel-control-prev" type="button" data-bs-target="#advertisementCarousel" data-bs-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Previous</span>
-                                            </button>
-                                            <button class="carousel-control-next" type="button" data-bs-target="#advertisementCarousel" data-bs-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="visually-hidden">Next</span>
-                                            </button>
+                                                    @endif
+                                                </div>
+                                            @endforeach
                                         </div>
+
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#advertisementCarousel" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#advertisementCarousel" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

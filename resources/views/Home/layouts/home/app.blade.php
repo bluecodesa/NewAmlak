@@ -112,6 +112,10 @@
                                     class="tf-icons ti ti-registered scaleX-n1-rtl me-md-1"></span>
                                 <span class="d-none d-md-block">سجل معنا الأن</span></a>
                         @endguest --}}
+                        @php
+                            $availableRoles = null;
+                        @endphp
+
                         @auth
                         <div class="dropdown">
                             @php
@@ -226,18 +230,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        @foreach ($availableRoles as $role)
-                            <div class="col-6 mb-3">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <h6 class="card-title">@lang($role)</h6>
-                                        <button class="btn btn-primary btn-sm" onclick="handleRoleRedirect('{{ $role }}')">
-                                            @lang('Add')
-                                        </button>
+                        @if (!$availableRoles == null)
+                            @foreach ($availableRoles as $role)
+                                <div class="col-6 mb-3">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title">@lang($role)</h6>
+                                            <button class="btn btn-primary btn-sm" onclick="handleRoleRedirect('{{ $role }}')">
+                                                @lang('Add')
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
+
                     </div>
                 </div>
                 <div class="modal-footer">

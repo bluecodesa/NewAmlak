@@ -68,7 +68,7 @@ class AdvertisingController  extends Controller
      {
          // Validate the input data
          $request->validate([
-            'ad_name' => 'required|string|max:255',
+                'ad_name' => 'required|string|max:255',
                 'content' => 'required|file|mimes:jpg,jpeg,png,gif,mp4,mov,avi,wmv,flv,pdf,doc,docx|max:20480',
                 'client_name' => 'nullable|string|max:255',
                 'ad_url' => 'nullable|string|max:255',
