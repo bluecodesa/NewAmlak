@@ -35,7 +35,7 @@
 
                     <div class="col-md-6 col-12 mb-3">
                         <label class="form-label">@lang('Ad Url')</label>
-                        <input class="form-control" type="text" id="ad_url" name="client_name" placeholder="https://tryamlak.com" required>
+                        <input class="form-control" type="text" id="ad_url" name="client_name" placeholder="https://tryamlak.com">
                     </div>
 
                     <div class="col-md-6 col-12 mb-3">
