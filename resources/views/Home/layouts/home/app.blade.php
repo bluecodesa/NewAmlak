@@ -116,9 +116,21 @@
                         @auth
                         <div class="dropdown">
                             @if(!auth()->user()->is_office || !auth()->user()->is_broker)
+                            @php
+                            $user = auth()->user();
+                            $roles = App\Models\Role::all();
+                            $userRoles = $roles->filter(function ($role) use ($user) {
+                                  return $user->hasRole($role->name);
+
+                              });
+                              $activeRole = session('active_role') ?? 'Switch Account';
+                              $specificRoles = collect(['Owner', 'Office', 'RS-Broker']);
+                              $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+                            @endphp
+
                                 <a href="{{ route('PropertyFinder.home') }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span>
-                                    <span class="d-none d-md-block">حسابى</span>
+                                    <span class="d-none d-md-block">@lang('My Account') (@lang($activeRole))</span>
                                 </a>
                             @else
                                 <a href="{{ route('Admin.home') }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -128,17 +140,6 @@
                             @endif
 
                             <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                                @php
-                                  $user = auth()->user();
-                                  $roles = App\Models\Role::all();
-                                  $userRoles = $roles->filter(function ($role) use ($user) {
-                                        return $user->hasRole($role->name);
-
-                                    });
-                                    $activeRole = session('active_role') ?? 'Switch Account';
-                                    $specificRoles = collect(['Owner', 'Office', 'RS-Broker']);
-                                    $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
-                                @endphp
 
                                 @foreach ($roles as $role)
                                     @if ($userRoles->contains('name', $role->name) && $role->name !== $activeRole)
