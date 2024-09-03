@@ -50,11 +50,11 @@
                                             class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                             <li class="list-inline-item d-flex gap-1">
                                                 <i class="ti ti-color-swatch"></i>
-                                                @if (session('active_role') === 'Renter')
+                                                @if (session('active_role') == 'Renter')
                                                     @lang('Renter')
-                                                @elseif(session('active_role') === 'Property-Finder')
+                                                @elseif(session('active_role') == 'Property-Finder')
                                                     @lang('Property Finder')
-                                                @elseif(session('active_role') === 'Owner')
+                                                @elseif(session('active_role') == 'Owner')
                                                 @lang('owner')
                                                 @endif
                                             </li>
@@ -72,7 +72,7 @@
                                     @endphp
 
 
-                                {{-- <div class="dropdown">
+                                <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         @lang($activeRole) <!-- Display the active role as the button label -->
                                     </button>
@@ -83,10 +83,10 @@
                                             @endif
                                         @endforeach
                                     </ul>
-                                </div> --}}
+                                </div>
 
                                 <!-- Add New Account Button -->
-                                @if ($availableRoles->isNotEmpty())
+                                {{-- @if ($availableRoles->isNotEmpty())
                                     <div class="mt-3">
                                         <button class="btn btn-primary dropdown-toggle" type="button" id="addAccountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         @lang('Add New Account')
@@ -97,7 +97,7 @@
                                             @endforeach
                                         </ul>
                                     </div>
-                                @endif
+                                @endif --}}
 
 
 

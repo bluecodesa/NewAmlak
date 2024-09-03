@@ -668,6 +668,208 @@ class HomeController extends Controller
         // return redirect()->route('login')->with('success', __('registerd successfully'));
     }
 
+    public function storeNewBroker(Request $request)
+{
+
+
+    // Validation rules
+    $rules = [
+        'full_phone' => 'required|unique:brokers,full_phone',
+        'subscription_type_id' => 'required|exists:subscription_types,id',
+        'license_number' => 'required|numeric|unique:brokers,broker_license',
+        'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+    ];
+
+    $messages = [
+        'name.required' => __('The name field is required.'),
+        'email.required' => __('The email field is required.'),
+        'email.unique' => __('The email has already been taken.'),
+        'full_phone.required' => __('The mobile field is required.'),
+        'full_phone.unique' => __('The mobile has already been taken.'),
+        'subscription_type_id.required' => __('The subscription type field is required.'),
+        'subscription_type_id.exists' => __('The selected subscription type is invalid.'),
+        'license_number.required' => __('The license number field is required.'),
+        'license_number.unique' => __('The license number has already been taken.'),
+        'license_number.numeric' => __('The license number must be a number.'),
+        'password.required' => __('The password field is required.'),
+        'password.confirmed' => __('The password confirmation does not match.'),
+        'broker_logo.image' => __('The broker logo must be an image.'),
+        'id_number.numeric' => 'The ID number must be a number.',
+        'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+        'id_number.unique' => 'The ID number has already been taken.',
+        'id_number.required' => __('The ID number is required.'),
+    ];
+
+    // Validate the request
+    $request->validate($rules, $messages);
+
+    // Check if the user already exists with incomplete data
+    $user = User::where('email', $request->email)->first();
+
+    if ($user) {
+        // Update existing user
+        $user->update([
+            'is_broker' => 1,
+            'customer_id' => $this->generateCustomerId(),
+            'avatar' => $request->hasFile('broker_logo') ? $this->uploadFile($request->file('broker_logo')) : $user->avatar,
+        ]);
+    } else {
+        // Create a new user
+        $user = User::create([
+            'is_broker' => 1,
+            'name' => $request->name,
+            'email' => $request->email,
+            'user_name' => uniqid(),
+            'password' => bcrypt($request->password),
+            'phone' => $request->mobile,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
+            'customer_id' => $this->generateCustomerId(),
+            'avatar' => $this->uploadFile($request->file('broker_logo')),
+            'id_number' => $request->id_number,
+        ]);
+    }
+
+    // Create or update Broker
+    $broker = Broker::updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'broker_license' => $request->license_number,
+            'license_date' => $request->license_date,
+            'mobile' => $user->phone,
+            'key_phone' => $user->key_phone,
+            'full_phone' => $user->full_phone,
+            'city_id' => $request->city_id,
+            'id_number' => $user->id_number,
+            'broker_logo' => $this->uploadFile($request->file('broker_logo')) ?? 'HOME_PAGE/img/avatars/14.png',
+        ]
+    );
+
+    // Create or update Subscription
+    $subscriptionType = SubscriptionType::find($request->subscription_type_id);
+    $startDate = Carbon::now();
+    $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+    if ($subscriptionType->price > 0) {
+        $SubType = 'paid';
+        $status = 'pending';
+    } else {
+        $SubType = 'free';
+        $status = 'active';
+    }
+
+    $subscription = Subscription::updateOrCreate(
+        ['broker_id' => $broker->id],
+        [
+            'subscription_type_id' => $request->subscription_type_id,
+            'status' => $subscriptionType->price > 0 ? 'pending' : 'active',
+            'is_start' => $subscriptionType->price > 0 ? 0 : 1,
+            'is_new' => 1,
+            'start_date' => now()->format('Y-m-d H:i:s'),
+            'end_date' => $endDate,
+            'total' => $subscriptionType->price,
+        ]
+    );
+
+    foreach ($subscriptionType->sections()->get() as $section_id) {
+        SubscriptionSection::create([
+            'section_id' => $section_id->id,
+            'subscription_id' => $subscription->id,
+        ]);
+    }
+    $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+
+    $delimiter = '-';
+    if (!$Last_invoice_ID) {
+        $new_invoice_ID = '00001';
+    } else {
+        $result = explode($delimiter, $Last_invoice_ID);
+        $number = (int)$result[1] + 1;
+        $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+    }
+    $Invoice =   SystemInvoice::create([
+        'broker_id' => $broker->id,
+        'subscription_name' => $subscriptionType->name,
+        'amount' => $subscriptionType->price,
+        'subscription_type' => $SubType,
+        'period' => $subscriptionType->period,
+        'period_type' => $subscriptionType->period_type,
+        'status' => $status,
+        'invoice_ID' => 'INV-' . $new_invoice_ID,
+    ]);
+
+    $galleryName = explode('@', $request->email)[0];
+    $defaultCoverImage = '/Gallery/cover/cover.png';
+
+
+    //
+    $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+    $sectionNames = [];
+    foreach ($hasRealEstateGallerySection as $section) {
+        $sectionNames[] = $section->name;
+    }
+
+    if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+        // Create the gallery
+        $galleryName = explode('@', $request->email)[0];
+        $defaultCoverImage = '/Gallery/cover/cover.png';
+        $gallery = Gallery::create([
+            'broker_id' => $broker->id,
+            'gallery_name' => $galleryName,
+            'gallery_status' => 1,
+            'gallery_cover' => $defaultCoverImage,
+        ]);
+    } else {
+        $gallery = null;
+    }
+
+    if ($broker->license_date > now()->format('Y-m-d')) {
+        $broker->update(['license_validity' => 'valid']);
+        // Gallery::where('broker_id', $broker->id)->first()->update(['gallery_status' => '1']);
+    } else {
+        $broker->update(['license_validity' => 'expired']);
+        $checkGallery =     Gallery::where('broker_id', $broker->id)->first();
+        if ($checkGallery) {
+            $checkGallery->update(['gallery_status' => '0']);
+        }
+    }
+
+    $this->notifyAdmins($broker);
+
+    $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+
+    auth()->loginUsingId($user->id);
+    return redirect()->route('Broker.home')->withSuccess(__('registerd successfully'));
+}
+
+private function uploadFile($file)
+{
+    if ($file) {
+        $filename = uniqid() . '.' . $file->extension();
+        $file->move(public_path('/Brokers/Logos'), $filename);
+        return '/Brokers/Logos/' . $filename;
+    }
+    return null;
+}
+
+private function generateCustomerId()
+{
+    $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
+    $delimiter = '-';
+    $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
+
+    if (!$Last_customer_id) {
+        return 'AMK1-0001';
+    } else {
+        $result = explode($delimiter, $Last_customer_id);
+        $number = (int)$result[1] + 1;
+        $tag_index = min(intval($number / 1000), count($prefixes) - 1);
+        $tag = $prefixes[$tag_index];
+        return $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
+    }
+}
+
+
     protected function notifyAdmins(Broker $broker)
     {
         $admins = User::where('is_admin', true)->get();

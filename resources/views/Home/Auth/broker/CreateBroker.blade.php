@@ -109,11 +109,12 @@
                         <!-- /Logo -->
                         <h4 class="mb-1 pt-2 text-center">سجل الأن</h4>
 
-                        <form id="registrationForm" class="mb-3 row" action="{{ route('Home.Brokers.CreateBroker') }}"
+                        <form id="registrationForm" class="mb-3 row" action="{{ route('Home.Brokers.CreateNewBroker') }}"
                             method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
                             @csrf
                             <input type="text" name="key_phone" hidden id="key_phone">
                             <input type="text" name="full_phone" hidden id="full_phone" >
+                            
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -149,8 +150,8 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="name"> @lang('Broker name')<span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="basic-default-name" name="name" 
-                                    placeholder="@lang('Broker name')" required>
+                                <input type="text" class="form-control" id="basic-default-name" name="name"
+                                 value="{{ $newBroker->name }}" readonly  placeholder="@lang('Broker name')" required>
                             </div>
 
 
@@ -174,7 +175,7 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="license_number"> @lang('id number')<span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" minlength="1" maxlength="10"
+                                <input type="text" class="form-control" minlength="1" maxlength="10" value="{{ $newBroker->id_number }}" readonly
                                     id="id_number" name="id_number" required>
                             </div>
 
@@ -182,7 +183,7 @@
                                 <label class="form-label" for="email">@lang('Email')<span
                                         class="text-danger">*</span></label>
 
-                                <input type="email" class="form-control" id="email"  name="email" value="{{ $email }}" required>
+                                <input type="email" class="form-control" id="email"  name="email" value="{{ $newBroker->email }}" readonly required>
 
                             </div>
 
@@ -191,12 +192,12 @@
                                         class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="text" placeholder="123456789" id="phone" name="mobile"
-                                        value="{{ $phone }}" class="form-control" required maxlength="9"
+                                    value="{{ $newBroker->phone }}" readonly class="form-control" required maxlength="9"
                                         pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                         aria-label="Text input with dropdown button">
-                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect" disabled
                                         type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ $KeyPhone ?? 966}}
+                                        {{ $newBroker->key_phone ?? 966}}
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end" style="">
                                         <li><a class="dropdown-item" data-key="971"
@@ -222,7 +223,7 @@
                             </div>
 
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="form-label">@lang('Region') <span
                                         class="text-danger">*</span></label>
                                 <select type="package" class="form-select" id="Region_id" name="region_id"
@@ -236,7 +237,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="form-label">@lang('city') <span class="text-danger">*</span>
                                 </label>
                                 <select type="package" class="form-select" name="city_id" id="CityDiv"

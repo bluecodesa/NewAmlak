@@ -122,14 +122,14 @@ class HomeController extends Controller
         $roles = Role::all();
         $userRoles = $roles->filter(function ($role) use ($finder) {
             return $finder->hasRole($role->name);
-
         });
 
-        if ($finder->is_renter) {
+
+        if ($finder->is_renter == 1) {
             $finder->assignRole('Renter');
-        } elseif ($finder->is_property_finder) {
+        } elseif ($finder->is_property_finder == 1) {
             $finder->assignRole('Property-Finder');
-        }elseif ($finder->is_owner) {
+        }elseif ($finder->is_owner == 1) {
             $finder->assignRole('Owner');
         }
 

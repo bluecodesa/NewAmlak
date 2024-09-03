@@ -323,37 +323,34 @@
                     </li> --}}
                      <!-- Account Switching -->
                      @php
-                     // Assuming you have stored user roles in the session
-                     $user = auth()->user();
-                     $roles = App\Models\Role::all();
+                        $user = auth()->user();
+                        $roles = App\Models\Role::all();
 
-                     // Retrieve the active role from the session, default to 'Switch Account' if no role is set
-                     $activeRole = session('active_role') ?? 'Switch Account';
+                        $activeRole = session('active_role') ?? 'Switch Account';
 
-                     // Filter out the active role from the available roles
-                     $availableRoles = $roles->filter(function ($role) use ($user, $activeRole) {
-                         return $user->hasRole($role->name) && $role->name !== $activeRole;
-                     });
-                 @endphp
+                        $availableRoles = $roles->filter(function ($role) use ($user, $activeRole) {
+                            return $user->hasRole($role->name) && $role->name !== $activeRole;
+                        });
+                    @endphp
 
-                 @if($availableRoles->isNotEmpty())
-                     @foreach ($availableRoles as $role)
-                         <a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">
-                             <div class="d-flex">
-                                 <div class="flex-shrink-0 me-3">
-                                     <div class="avatar avatar-offline">
-                                         <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
-                                             alt class="h-auto rounded-circle" />
-                                     </div>
-                                 </div>
-                                 <div class="flex-grow-1">
-                                     <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
-                                     <small class="text-muted">@lang($role->name)</small>
-                                 </div>
-                             </div>
-                         </a>
-                     @endforeach
-                 @endif
+                        @if($availableRoles->isNotEmpty())
+                            @foreach ($availableRoles as $role)
+                                <a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0 me-3">
+                                            <div class="avatar avatar-offline">
+                                                <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
+                                                    alt class="h-auto rounded-circle" />
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
+                                            <small class="text-muted">@lang($role->name)</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        @endif
                         {{-- <li>
                         <div class="dropdown-divider"></div>
                     </li>
@@ -374,7 +371,7 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-            document.getElementById('logout-form').submit();">
+                        document.getElementById('logout-form').submit();">
                             <i class="ti ti-logout me-2 ti-sm"></i>
                             <span class="align-middle">@lang('Log Out')</span>
                         </a>

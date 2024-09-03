@@ -102,8 +102,11 @@ public function login(Request $request)
             Auth::login($user);
             session()->forget('otp'); // clear OTP session
 
-            // Store the user's first role in the session
-            $this->storeUserRoleInSession($user);
+            // if($user->is_owner == 1  && $user->hasRole('Owner')){
+            //     session(['active_role' => 'Owner']);
+
+            // }
+            $this->storeUserRoleInSession(auth()->user());
 
             return redirect()->route('Admin.home')->withSuccess('Logged in successfully with OTP');
         } else {
@@ -111,12 +114,10 @@ public function login(Request $request)
         }
     }
 
-    // If password is provided, verify it
     if (!empty($input['password'])) {
         $credentials = [$fieldType => $input['user_name'], 'password' => $input['password']];
         if (auth()->attempt($credentials)) {
 
-            // Store the user's first role in the session
             $this->storeUserRoleInSession(auth()->user());
 
             return redirect()->route('Admin.home')->withSuccess(__('Login successfully'));
@@ -125,7 +126,6 @@ public function login(Request $request)
         }
     }
 
-    // If neither OTP nor password is provided
     return back()->withInput()->withErrors(['login' => 'Please provide either an OTP or a password to log in.']);
 }
 
@@ -136,9 +136,14 @@ public function login(Request $request)
  */
 protected function storeUserRoleInSession(User $user)
 {
-    // Assuming a user can have multiple roles and you want to store the first one
     $roles = $user->roles()->pluck('name');
 
+
+    // if($user->is_owner && $user->hasRole('Owner')){
+    //     session(['active_role' => 'Owner']);
+    // }
+
+    
     if ($roles->isNotEmpty()) {
         session(['active_role' => $roles->first()]);
     }

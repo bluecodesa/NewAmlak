@@ -58,6 +58,7 @@ Route::group(
             Route::get('create-prperty-finder', [HomeController::class, 'createPropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
             Route::post('create-office', [HomeController::class, 'storeOffice'])->name('Offices.CreateOffice');
             Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
+            Route::post('create-new-broker', [HomeController::class, 'storeNewBroker'])->name('Brokers.CreateNewBroker');
             Route::post('create-prperty-finder', [HomeController::class, 'storePropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
             Route::post('send-report', [HomeController::class, 'sendAdReport'])->name('Tickets.send-report');
             Route::post('/add-owner-profile', [HomeController::class, 'addOwnerProfile'])->name('add-owner-profile');
