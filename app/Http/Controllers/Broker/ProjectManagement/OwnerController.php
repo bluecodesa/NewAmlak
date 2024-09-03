@@ -143,6 +143,20 @@ class OwnerController extends Controller
         return redirect()->route('Broker.Owner.index')->with('success', __('User not found.'));
 
     }
+
+    $city_id = null;
+    if ($user->UserBrokerData) {
+        $city_id = $user->UserBrokerData->CityData->id ?? null;
+    } elseif ($user->UserOfficeData) {
+        $city_id = $user->UserOfficeData->CityData->id ?? null;
+    } elseif ($user->UserOwnerData) {
+        $city_id = $user->UserOwnerData->CityData->id ?? null;
+    } elseif ($user->UserRenterData) {
+        $city_id = $user->UserRenterData->CityData->id ?? null;
+    } elseif ($user->UserEmployeeData) {
+        $city_id = $user->UserEmployeeData->CityData->id ?? null;
+    }
+
     if ($user->is_owner) {
         $owner_id=$user->UserOwnerData->id;
         $owner = Owner::findOrFail($owner_id);
@@ -162,7 +176,7 @@ class OwnerController extends Controller
             'key_phone' => $user->key_phone ?? null,
             'phone' => $user->phone ?? null,
             'full_phone' => $user->full_phone,
-            'city_id' => $request->city_id,
+            'city_id' => $city_id ?? $request->city_id,
             'user_id' => $user->id,
             'balance' => $request->balance ?? 0,
         ]);
