@@ -130,19 +130,48 @@
                                     : route('PropertyFinder.home');
                             @endphp
 
-                            <a href="#" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <!-- "My Account" Dropdown Toggle -->
+                            <a href="{{ $accountRoute }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="tf-icons ti ti-dashboard scaleX-n1-rtl me-md-1"></span>
                                 <span class="d-none d-md-block">@lang('My Account') (@lang($activeRole))</span>
                             </a>
 
+                            <!-- Dropdown Menu -->
                             <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                                 @foreach ($roles as $role)
                                     @if ($userRoles->contains('name', $role->name) && $role->name !== $activeRole)
                                         <li><a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">@lang($role->name)</a></li>
                                     @endif
                                 @endforeach
+
+                                <!-- Add New Account Button -->
+                                @if ($availableRoles->isNotEmpty())
+                                    <li><hr class="dropdown-divider"></li> <!-- Divider between roles and add new account -->
+                                    <li>
+                                        <button class="dropdown-item" id="addAccountButton">@lang('Add New Account')</button>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
+
+
+
+                        <script>
+                            // Show modal when "Add New Account" is clicked
+                            document.getElementById('addAccountButton').addEventListener('click', function() {
+                                var addAccountModal = new bootstrap.Modal(document.getElementById('addAccountModal'), {});
+                                addAccountModal.show();
+                            });
+
+                            // Handle role redirection logic (you can modify this according to your needs)
+                            function handleRoleRedirect(role) {
+                                console.log(`Redirect to add new account for role: ${role}`);
+                                // Example: window.location.href = `/add-account/${role}`;
+                            }
+                        </script>
+
+
+
 
                         <script>
                             document.getElementById('accountDropdown').addEventListener('click', function() {
@@ -187,7 +216,36 @@
     </nav>
     <!-- Navbar: End -->
 
-
+     <!-- Modal for Adding New Account -->
+     <div class="modal fade" id="addAccountModal" tabindex="-1" aria-labelledby="addAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAccountModalLabel">@lang('Add New Account')</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        @foreach ($availableRoles as $role)
+                            <div class="col-6 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h6 class="card-title">@lang($role)</h6>
+                                        <button class="btn btn-primary btn-sm" onclick="handleRoleRedirect('{{ $role }}')">
+                                            @lang('Add')
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('close')</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     @yield('content')
