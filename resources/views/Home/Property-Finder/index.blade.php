@@ -358,7 +358,7 @@ function redirectToCreateBroker() {
 
 function redirectToCreatePropertyFinder() {
     // storeFormData();
-    window.location.href = "{{ route('Home.PropertyFinders.CreateNewPropertyFinder') }}";
+    window.location.href = "{{ route('Home.PropertyFinder.CreateNewPropertyFinder') }}";
 }
 
 function storeFormData() {

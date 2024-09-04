@@ -189,7 +189,6 @@ class HomeController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required|unique:users,phone,' . $id,
-            'key_phone' => 'required|string',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'id_number' => [
                 'required',
