@@ -180,6 +180,7 @@ class HomeController extends Controller
         $tickets = $this->ticketService->getUserTickets(auth()->id());
         $requests = $this->RealEstateRequestService->getAll();
         Auth::user()->assignRole('RS-Broker');
+        session(['active_role' => 'RS-Broker']);
         return view('Broker.dashboard',  get_defined_vars());
     }
 

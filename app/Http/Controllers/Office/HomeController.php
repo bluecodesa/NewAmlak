@@ -156,6 +156,7 @@ class HomeController extends Controller
         $tickets = $this->ticketService->getUserTickets(auth()->id());
         $requests = $this->RealEstateRequestService->getAll();
         Auth::user()->assignRole('Office-Admin');
+        session(['active_role' => 'Office-Admin']);
         return view('Office.dashboard',  get_defined_vars());
     }
 

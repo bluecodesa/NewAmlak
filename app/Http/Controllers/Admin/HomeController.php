@@ -165,7 +165,7 @@ class HomeController extends Controller
                     return redirect()->route('PropertyFinder.home');
                 case 'RS-Broker':
                     return redirect()->route('Broker.home');
-                case 'Office':
+                case 'Office-Admin':
                     return redirect()->route('Office.home');
                 default:
                     return redirect()->route('Home.home');

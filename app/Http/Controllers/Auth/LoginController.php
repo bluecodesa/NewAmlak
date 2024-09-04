@@ -138,12 +138,6 @@ protected function storeUserRoleInSession(User $user)
 {
     $roles = $user->roles()->pluck('name');
 
-
-    // if($user->is_owner && $user->hasRole('Owner')){
-    //     session(['active_role' => 'Owner']);
-    // }
-
-    
     if ($roles->isNotEmpty()) {
         session(['active_role' => $roles->first()]);
     }

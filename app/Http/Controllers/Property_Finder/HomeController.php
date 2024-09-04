@@ -131,6 +131,8 @@ class HomeController extends Controller
             $finder->assignRole('Property-Finder');
         }elseif ($finder->is_owner == 1) {
             $finder->assignRole('Owner');
+            session(['active_role' => 'Owner']);
+
         }
 
         $favorites = FavoriteUnit::where('finder_id', $finder->id)->get();
@@ -145,28 +147,28 @@ class HomeController extends Controller
 
             $count = 0;
 
-     if($finder->is_owner == 1 ){
-        $allItems = collect();
-        $AllUnits = Unit::where('owner_id', auth()->user()->UserOwnerData->id)
-        ->get();
-        $projects =  Project::where('owner_id', auth()->user()->UserOwnerData->id)
-        ->get();
-        $properties =  Property::where('owner_id', auth()->user()->UserOwnerData->id)
-        ->get();
-        $AllUnits->each(function ($unit) {
-            $unit->isGalleryUnit = true;
+        if($finder->is_owner == 1 ){
+            $allItems = collect();
+            $AllUnits = Unit::where('owner_id', auth()->user()->UserOwnerData->id)
+            ->get();
+            $projects =  Project::where('owner_id', auth()->user()->UserOwnerData->id)
+            ->get();
+            $properties =  Property::where('owner_id', auth()->user()->UserOwnerData->id)
+            ->get();
+            $AllUnits->each(function ($unit) {
+                $unit->isGalleryUnit = true;
 
-        });
-        $projects->each(function ($project) {
-            $project->isGalleryProject = true;
-        });
-        $properties->each(function ($property) {
-            $property->isGalleryProperty = true;
-        });
+            });
+            $projects->each(function ($project) {
+                $project->isGalleryProject = true;
+            });
+            $properties->each(function ($property) {
+                $property->isGalleryProperty = true;
+            });
 
-        $Items = $projects->merge($properties)->merge($AllUnits);
-        $allItems = $allItems->merge($Items);
-     }
+            $Items = $projects->merge($properties)->merge($AllUnits);
+            $allItems = $allItems->merge($Items);
+        }
 
 
         return view('Home.Property-Finder.index', get_defined_vars());

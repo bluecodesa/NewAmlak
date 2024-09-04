@@ -669,7 +669,7 @@ class HomeController extends Controller
     }
 
     public function storeNewBroker(Request $request)
-{
+    {
 
 
     // Validation rules
@@ -840,7 +840,7 @@ class HomeController extends Controller
 
     auth()->loginUsingId($user->id);
     return redirect()->route('Broker.home')->withSuccess(__('registerd successfully'));
-}
+    }
 
 private function uploadFile($file)
 {
@@ -1359,27 +1359,7 @@ private function generateCustomerId()
     }
 }
 
-//     protected function notifyAllBrokers(RealEstateRequest $realEstateRequest)
-// {
-//     $users = User::where('is_broker', true)
-//     ->orWhere('is_office', true)
-//     ->get();
-//     foreach ($users as $user) {
-//         Notification::send($user, new NewRealEstateRequestNotification($realEstateRequest));
-//         $defaultInterestType = InterestType::where('default', 1)->first();
 
-//         if ($defaultInterestType) {
-//             RequestStatus::create([
-//                 'user_id' => $user->id,
-//                 'request_id' => $realEstateRequest->id,
-//                 'request_status_id' => $defaultInterestType->id
-//             ]);
-//         } else {
-//             return redirect()->back()->withErrors(['default' => __('No default interest type found.')]);
-//         }
-
-//     }
-//     }
     public function GetDistrictsByCity($id)
     {
         $districts = $this->districtService->getDistrictsByCity($id);
