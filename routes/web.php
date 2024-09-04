@@ -55,11 +55,17 @@ Route::group(
             Route::get('create-office', [HomeController::class, 'createOffice'])->name('Offices.CreateOffice');
             Route::get('create-broker', [HomeController::class, 'createBroker'])->name('Brokers.CreateBroker');
             Route::get('create-new-broker', [HomeController::class, 'createNewBroker'])->name('Broker.CreateNewBroker');
+            Route::get('create-new-office', [HomeController::class, 'createNewOffice'])->name('Offices.CreateNewOffice');
             Route::get('create-prperty-finder', [HomeController::class, 'createPropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
+            Route::get('create-new-property-finder', [HomeController::class, 'createNewPropertyFinder'])->name('PropertyFinder.CreateNewPropertyFinder');
+
             Route::post('create-office', [HomeController::class, 'storeOffice'])->name('Offices.CreateOffice');
             Route::post('create-broker', [HomeController::class, 'storeBroker'])->name('Brokers.CreateBroker');
             Route::post('create-new-broker', [HomeController::class, 'storeNewBroker'])->name('Brokers.CreateNewBroker');
+            Route::post('create-new-office', [HomeController::class, 'storeNewOffice'])->name('Offices.CreateNewOffice');
             Route::post('create-prperty-finder', [HomeController::class, 'storePropertyFinder'])->name('PropertyFinders.CreatePropertyFinder');
+            Route::post('create-new-porperty-finder', [HomeController::class, 'storeNewPropertyFinder'])->name('PropertyFinders.CreateNewPropertyFinder');
+
             Route::post('send-report', [HomeController::class, 'sendAdReport'])->name('Tickets.send-report');
             Route::post('/add-owner-profile', [HomeController::class, 'addOwnerProfile'])->name('add-owner-profile');
 

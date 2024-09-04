@@ -66,7 +66,7 @@
                                     @php
                                         $activeRole = session('active_role') ?? 'Switch Account';
 
-                                        $specificRoles = collect(['Owner', 'Office', 'RS-Broker']);
+                                        $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker']);
 
                                         $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
                                     @endphp
@@ -335,7 +335,7 @@
 // }
 
 function handleRoleRedirect(role) {
-    if (role === 'Office') {
+    if (role === 'Office-Admin') {
         redirectToCreateOffice();
     } else if (role === 'RS-Broker') {
         redirectToCreateBroker();
@@ -348,7 +348,7 @@ function handleRoleRedirect(role) {
 
 function redirectToCreateOffice() {
     // storeFormData();
-    window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+    window.location.href = "{{ route('Home.Offices.CreateNewOffice') }}";
 }
 
 function redirectToCreateBroker() {
@@ -358,7 +358,7 @@ function redirectToCreateBroker() {
 
 function redirectToCreatePropertyFinder() {
     // storeFormData();
-    window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+    window.location.href = "{{ route('Home.PropertyFinders.CreateNewPropertyFinder') }}";
 }
 
 function storeFormData() {

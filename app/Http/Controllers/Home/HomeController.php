@@ -445,7 +445,208 @@ class HomeController extends Controller
 
         return redirect()->route('login')->with('success', __('registerd successfully'));
     }
+    public function createNewOffice()
+    {
+        $email = session('email');
+        $fullPhone = session('phone');
+        $phone = session('mobile');
+        $KeyPhone = session('Key_phone');
 
+
+        $setting =   Setting::first();
+        if ($setting->active_office == 0) {
+            return back()->with('sorry', __('Soon'));
+        }
+        $termsAndConditionsUrl = $setting->terms_pdf;
+        $privacyPolicyUrl = $setting->privacy_pdf;
+        $Regions = Region::all();
+        $cities = City::all();
+        $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
+
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+
+        // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status', 1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
+
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->get();
+            $newOffice=auth()->user();
+        return view('Home.Auth.office.CreateOffice', get_defined_vars());
+    }
+
+
+    public function storeNewOffice(Request $request)
+    {
+
+        $rules = [
+            'city_id' => 'required|exists:cities,id',
+            'company_logo' => 'file',
+            'subscription_type_id' => 'required|exists:subscription_types,id',
+            'CRN' => [
+                'required',
+                Rule::unique('offices'),
+                'max:25'
+            ],
+        ];
+        $messages = [
+            'name.required' => __('The company name field is required.'),
+            'email.required' => __('The email field is required.'),
+            'email.email' => __('The email must be a valid email address.'),
+            'email.unique' => __('The email has already been taken.'),
+            'email.max' => __('The email may not be greater than :max characters.'),
+            'city_id.required' => __('The city field is required.'),
+            'city_id.exists' => __('The selected city is invalid.'),
+            'company_logo.required' => __('The company logo field is required.'),
+            'company_logo.file' => __('The company logo must be a file.'),
+            'subscription_type_id.required' => __('The subscription type field is required.'),
+            'subscription_type_id.exists' => __('The selected subscription type is invalid.'),
+            'CRN.required' => __('The CRN field is required.'),
+            'CRN.unique' => __('The CRN has already been taken.'),
+            'CRN.max' => __('The CRN may not be greater than :max characters.'),
+            'phone.required' => __('The Company mobile number field is required.'),
+            'full_phone.unique' => __('The Company mobile number has already been taken.'),
+            'phone.max' => __('The Company mobile number may not be greater than :max characters.'),
+            'presenter_name.required' => __('The presenter name field is required.'),
+            'presenter_name.string' => __('The presenter name must be a string.'),
+            'presenter_name.max' => __('The presenter name may not be greater than :max characters.'),
+            'password.required' => __('The password field is required.'),
+            'password.string' => __('The password must be a string.'),
+            'password.max' => __('The password may not be greater than :max characters.'),
+        ];
+        $request->validate($rules, $messages);
+
+
+
+    // Check if the user already exists with incomplete data
+    $user = User::where('email', $request->email)->first();
+
+    $request_data = [];
+    if ($request->company_logo) {
+        $file = $request->File('company_logo');
+        $ext  =  uniqid() . '.' . $file->clientExtension();
+        $file->move(public_path() . '/Offices/' . 'Logos/', $ext);
+        $request_data['company_logo'] = '/Offices/' . 'Logos/' . $ext;
+    }
+
+    if ($user) {
+        // Update existing user
+        $user->update([
+            'is_office' => 1,
+            'customer_id' => $this->generateCustomerId(),
+            'avatar' => $request_data['company_logo'] ?? null,
+        ]);
+    }else{
+        $user = User::create([
+            'is_office' => 1,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
+            'user_name' => uniqid(),
+            'password' => bcrypt($request->password),
+            'customer_id' => $this->generateCustomerId(),
+            'avatar' => $request_data['company_logo'] ?? null,
+            // 'id_number' => $request->id_number,
+
+        ]);
+
+    }
+
+
+        $office = Office::create([
+            'user_id' => $user->id,
+            'CRN' => $request->CRN,
+            'company_name' => $user->name,
+            'city_id' => $request->city_id,
+            'created_by' => Auth::id(),
+            // 'presenter_name' => $request->presenter_name,
+            'company_logo' => $request_data['company_logo'] ?? null,
+
+        ]);
+
+        // $Last_customer_id = User::latest()->value('customer_id');
+        // if (!$Last_customer_id) {
+        //     $new_customer_id = str_pad(1 + 1, 4, '0', STR_PAD_LEFT);
+        // } else {
+        //     $new_customer_id = str_pad($Last_customer_id + 1, 4, '0', STR_PAD_LEFT);
+        // }
+
+
+    // Create or update Subscription
+
+        $subscriptionType = SubscriptionType::find($request->subscription_type_id); // Or however you obtain your instance
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate($startDate)->format('Y-m-d H:i:s');
+        if ($subscriptionType->price > 0) {
+            $SubType = 'paid';
+            $status = 'pending';
+        } else {
+            $SubType = 'free';
+            $status = 'active';
+        }
+        $subscription = Subscription::create([
+            'office_id' => $office->id,
+            'subscription_type_id' => $request->subscription_type_id,
+            'status' => $status,
+            'is_start' => $status == 'pending' ? 0 : 1,
+            'is_new' => 1,
+            'start_date' => now()->format('Y-m-d H:i:s'),
+            'end_date' => $endDate,
+            'total' => '200'
+        ]);
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+
+        $delimiter = '-';
+        if (!$Last_invoice_ID) {
+            $new_invoice_ID = '00001';
+        } else {
+            $result = explode($delimiter, $Last_invoice_ID);
+            $number = (int)$result[1] + 1;
+            $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+        }
+        $Invoice = SystemInvoice::create([
+            'office_id' => $office->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => $SubType,
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
+        ]);
+        $galleryName = explode('@', $request->email)[0];
+        $defaultCoverImage = '/Gallery/cover/cover.png';
+
+
+        //
+        $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+        $sectionNames = [];
+        foreach ($hasRealEstateGallerySection as $section) {
+            $sectionNames[] = $section->name;
+        }
+
+        if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+            $galleryName = explode('@', $request->email)[0];
+            $defaultCoverImage = '/Gallery/cover/cover.png';
+
+            $gallery = Gallery::create([
+                'office_id' => $office->id,
+                'gallery_name' => $galleryName,
+                'gallery_status' => 1,
+                'gallery_cover' => $defaultCoverImage,
+            ]);
+        } else {
+            $gallery = null;
+        }
+        $this->notifyAdminsForOffice($office);
+
+        $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+        auth()->loginUsingId($user->id);
+
+        return redirect()->route('login')->with('success', __('registerd successfully'));
+    }
 
     public function storeBroker(Request $request)
     {
@@ -1056,13 +1257,127 @@ private function generateCustomerId()
                 ]);
                 session(['active_role' => 'Owner']);
             }
-
             $this->notifyAdmins2($user);
             auth()->loginUsingId($user->id);
 
             return redirect()->route('login')->withSuccess(__('Owner profile added successfully'));
 
     }
+
+    public function createNewPropertyFinder()
+    {
+        $email = session('email');
+
+        $setting =   Setting::first();
+
+        $termsAndConditionsUrl = $setting->terms_pdf;
+        $privacyPolicyUrl = $setting->privacy_pdf;
+        $Regions = Region::all();
+        $cities = City::all();
+        $RolesIds = Role::whereIn('name', ['Property-Finder'])->pluck('id')->toArray();
+        $newPropertyFinder = auth()->user();
+        return view('Home.Auth.propertyFinder.CreatePropertyFinder', get_defined_vars());
+    }
+
+
+
+    public function storeNewPropertyFinder(Request $request)
+    {
+        $rules = [
+            'account_type' => 'required|in:is_property_finder,is_owner',
+        ];
+
+        $messages = [
+            'name.required' => __('The name field is required.'),
+            'email.required' => __('The email field is required.'),
+            'email.unique' => __('The email has already been taken.'),
+            'password.required' => __('The password field is required.'),
+            'password.confirmed' => __('The password confirmation does not match.'),
+            'avatar.image' => __('The avatar must be an image.'),
+            'id_number.required' => __('The ID number field is required.'),
+            'id_number.numeric' => __('The ID number must be a number.'),
+            'id_number.digits' => __('The ID number must be exactly 10 digits long.'),
+        ];
+
+        $request->validate($rules, $messages);
+
+        $request_data = [];
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $ext  = uniqid() . '.' . $file->clientExtension();
+            $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
+            $request_data['avatar'] = '/PropertyFounder/' . 'Logos/' . $ext;
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+
+        if ($user) {
+            // Update existing user
+            if ($request->account_type === 'is_property_finder') {
+                session(['active_role' => 'Property-Finder']);
+                $user->update([
+                    'is_property_finder' => 1,
+                ]);
+            } else {
+                $user->update([
+                    'is_owner' => 1,
+                ]);
+                session(['active_role' => 'Owner']);
+            }
+        } else {
+            $user_data = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'user_name' => uniqid(),
+                'password' => bcrypt($request->password),
+                'avatar' => $request_data['avatar'] ?? null,
+                'id_number' => $request->id_number,
+            ];
+
+            if ($request->account_type === 'is_property_finder') {
+                session(['active_role' => 'Property-Finder']);
+                $user_data['is_property_finder'] = 1;
+            } else {
+                $user_data['is_owner'] = 1;
+            }
+
+            $user = User::create($user_data);
+        }
+
+        if ($request->account_type === 'is_owner') {
+            $city_id = null;
+
+            // Check if the user is a broker or an office and get the corresponding city_id
+            if ($user->is_broker) {
+                $city_id = $user->UserBrokerData->cityData->id ?? null;
+            } elseif ($user->is_office) {
+                $city_id = $user->UserOfficeData->cityData->id ?? null;
+            }
+
+            // Create the owner with the city_id
+            Owner::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'key_phone' => $user->key_phone ?? null,
+                'phone' => $user->phone ?? null,
+                'full_phone' => $user->full_phone,
+                'city_id' => $city_id ?? null,
+                'user_id' => $user->id,
+                'balance' => $request->balance ?? 0,
+            ]);
+
+            session(['active_role' => 'Owner']);
+        }
+        
+        $user->assignRole('Owner');
+        $this->notifyAdmins2($user);
+        auth()->loginUsingId($user->id);
+
+        return redirect()->route('login')->withSuccess(__('Owner profile added successfully'));
+    }
+
 
 
     public function addOwnerProfile(Request $request)

@@ -125,11 +125,11 @@
                                     return $user->hasRole($role->name);
                                 });
                                 $activeRole = session('active_role') ?? 'Switch Account';
-                                $specificRoles = collect(['Owner', 'Office', 'RS-Broker']);
+                                $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker']);
                                 $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
 
                                 // Determine the correct route
-                                $accountRoute = ($activeRole == 'Office' || $activeRole == 'RS-Broker')
+                                $accountRoute = ($activeRole == 'Office-Admin' || $activeRole == 'RS-Broker')
                                     ? route('Admin.home')
                                     : route('PropertyFinder.home');
                             @endphp

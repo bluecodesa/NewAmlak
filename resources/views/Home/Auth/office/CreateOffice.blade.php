@@ -12,7 +12,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{{ $sitting->title }} @lang('register')/ @lang('Broker')</title>
+        <title>{{ $sitting->title }} @lang('register')/ @lang('Office')</title>
 
     <meta name="description" content="" />
 
@@ -30,11 +30,12 @@
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/fontawesome.css') }}" />
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/tabler-icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/fonts/flag-icons.css') }}" />
-    <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
+
     <!-- Core CSS -->
-    {{-- <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/css/rtl/core.css" class="template-customizer-core-css') }}" />
     <link rel="stylesheet"
-        href="{{ url('HOME_PAGE/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css') }}" /> --}}
+        href="{{ asset('HOME_PAGE/vendor/css/rtl/core.css" class="template-customizer-core-css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('HOME_PAGE/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css') }}" />
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/css/demo.css') }}" />
 
     <!-- Vendors CSS -->
@@ -43,6 +44,7 @@
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/typeahead-js/typeahead.css') }}" />
     <!-- Vendor -->
     <link rel="stylesheet" href="{{ asset('HOME_PAGE/vendor/libs/@form-validation/form-validation.css') }}" />
+    <link href="{{ url('dashboard_files/assets/css/alertify.min.css') }}" rel="stylesheet" type="text/css">
 
     <!-- Page CSS -->
     <!-- Page -->
@@ -64,6 +66,7 @@
             display: none !important;
         }
     </style>
+
     <style>
         body,
         h4,
@@ -109,12 +112,12 @@
                         <!-- /Logo -->
                         <h4 class="mb-1 pt-2 text-center">سجل الأن</h4>
 
-                        <form id="registrationForm" class="mb-3 row" action="{{ route('Home.Brokers.CreateNewBroker') }}"
-                            method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
+                        <form id="formAuthentication" class="mb-3" action="{{ route('Home.Offices.CreateNewOffice') }}"
+                            method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input type="text" name="key_phone" hidden id="key_phone">
-                            <input type="text" name="full_phone" hidden id="full_phone" >
 
+                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
+                            <input type="text" name="full_phone" hidden id="full_phone" value="966">
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -125,182 +128,127 @@
                                 </div>
                             @endif
 
-                            <div class="mb-3 col-12">
+                            <div class="mb-3 row">
                                 <div class="d-flex align-items-start align-items-sm-center justify-content-center gap-4">
                                     <img src="{{ asset('HOME_PAGE/img/avatars/14.png') }}" alt="user-avatar"
                                         class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
                                     <div class="button-wrapper">
                                         <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
-                                            <span class="d-none d-sm-block">اختر صورة شخصيه</span>
+                                            <span class="d-none d-sm-block">@lang('Company logo')</span>
                                             <i class="ti ti-upload d-block d-sm-none"></i>
                                             <input type="file" id="upload" class="account-file-input"
-                                                name="broker_logo" hidden accept="image/png, image/jpeg" />
+                                                name="company_logo" hidden accept="image/png, image/jpeg" />
                                         </label>
                                         <button type="button" id="account-image-reset"
                                             class="btn btn-label-secondary account-image-reset mb-3">
-                                            <i class="ti ti-refresh"></i>
-                                            {{-- <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span> --}}
+                                            <i class="ti ti-refresh-dot d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">@lang('إعادة تعيين الصورة')</span>
                                         </button>
+
+                                        <div class="text-muted">Allowed JPG, GIF or PNG. Max size of 800K</div>
                                     </div>
                                 </div>
 
                             </div>
+                            <div class="mb-3 row">
 
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="name"> @lang('Broker name')<span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="basic-default-name" name="name"
-                                 value="{{ $newBroker->name }}" readonly  placeholder="@lang('Broker name')" required>
-                            </div>
-
-
-
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="license_number"> @lang('license number')<span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" minlength="1" maxlength="10"
-                                    pattern="1\d{9}" title="يجب أن يكون الرقم مكونًا من 10 أرقام ويبدأ برقم 1."
-                                    id="license_number" name="license_number" required>
-                            </div>
-
-                            <div class="col-md-4 col-12 mb-3">
-                                <label for="license_date">
-                                    @lang('License expiration date')<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="license_date" value=""
-                                    required>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="license_number"> @lang('id number')<span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" minlength="1" maxlength="10" value="{{ $newBroker->id_number }}" readonly
-                                    id="id_number" name="id_number" required>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="email">@lang('Email')<span
-                                        class="text-danger">*</span></label>
-
-                                <input type="email" class="form-control" id="email"  name="email" value="{{ $newBroker->email }}" readonly required>
-
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
-                                        class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="text" placeholder="123456789" id="phone" name="mobile"
-                                    value="{{ $newBroker->phone }}" readonly class="form-control" required maxlength="9"
-                                        pattern="\d{1,9}" oninput="updateFullPhone(this)"
-                                        aria-label="Text input with dropdown button">
-                                    <button class="btn btn-outline-primary dropdown-toggle waves-effect" disabled
-                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ $newBroker->key_phone ?? 966}}
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end" style="">
-                                        <li><a class="dropdown-item" data-key="971"
-                                                href="javascript:void(0);">971</a></li>
-                                        <li><a class="dropdown-item" data-key="966"
-                                                href="javascript:void(0);">966</a></li>
-                                    </ul>
-
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-4 col-12 mb-3">
-                                <label class="form-label" for="package"> @lang('Subscription Type') <span
-                                        class="text-danger">*</span></label>
-                                <select type="package" class="form-select" name="subscription_type_id" required>
-                                    <option value="" selected disabled> @lang('Subscription Type') </option>
-                                    @foreach ($subscriptionTypes as $subscriptionType)
-                                        <option value="{{ $subscriptionType->id }}">
-                                            {{ $subscriptionType->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-
-                            <div class="form-group col-md-4">
-                                <label class="form-label">@lang('Region') <span
-                                        class="text-danger">*</span></label>
-                                <select type="package" class="form-select" id="Region_id" name="region_id"
-                                    required>
-                                    <option disabled selected value="">@lang('Region')</option>
-                                    @foreach ($Regions as $Region)
-                                        <option value="{{ $Region->id }}"
-                                            data-url="{{ route('Home.Region.show', $Region->id) }}">
-                                            {{ $Region->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                <label class="form-label">@lang('city') <span class="text-danger">*</span>
-                                </label>
-                                <select type="package" class="form-select" name="city_id" id="CityDiv"
-                                    required>
-                                </select>
-                            </div>
-
-
-                            {{--
-                            <div class="form-group col-md-4">
-                                <label class="form-label">@lang('Region') <span
-                                        class="text-danger">*</span></label>
-                                <select type="package" class="form-select" id="Region_id" name="region_id" required>
-                                    <option disabled selected value="">@lang('Region')</option>
-                                    @foreach ($Regions as $Region)
-                                        <option value="{{ $Region->id }}"
-                                            data-url="{{ route('Home.Region.show', $Region->id) }}">
-                                            {{ $Region->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-4">
-                                <label class="form-label">@lang('city') <span class="text-danger">*</span>
-                                </label>
-                                <select type="package" class="form-select" name="city_id" id="CityDiv" required>
-                                </select>
-                            </div> --}}
-
-
-
-
-
-                            <div class="col-md-6">
-                                <div class="mb-3 form-password-toggle">
-                                    <label class="form-label" for="password">@lang('password') <span
+                                <div class="col-md-6">
+                                    <label class="form-label" for="company_name"> @lang('Company Name')<span
                                             class="text-danger">*</span></label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="password" id="password" class="form-control" name="password"
-                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                            aria-describedby="password" disabled required />
-                                        <span class="input-group-text cursor-pointer"><i
-                                                class="ti ti-eye-off"></i></span>
-                                    </div>
+
+                                    <input type="text" class="form-control" placeholder="@lang('Company Name')"
+                                        id="company_name" name="name" value="{{ $newOffice->name }}" readonly>
+
                                 </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-
-
-                                <div class="mb-3 form-password-toggle">
-                                    <label class="form-label" for="password">@lang('Confirm Password') <span
+                                <div class="col-md-6">
+                                    <label class="form-label" for="name"> @lang('Commercial Registration No')<span
                                             class="text-danger">*</span></label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="password" id="password_confirmation" class="form-control"
-                                            name="password_confirmation"
-                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                            aria-describedby="password" disabled required />
-                                        <span class="input-group-text cursor-pointer"><i
-                                                class="ti ti-eye-off"></i></span>
+                                    <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')"
+                                        id="CR_number" required name="CRN" value="">
+                                </div>
+
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="email">@lang('Company email')<span
+                                            class="text-danger">*</span></label>
+
+                                    <input type="email"  class="form-control" id="email" name="email" value="{{ $email }}"
+                                    value="{{ $newOffice->email }}" readonly    required>
+
+                                </div>
+                                {{-- <div class="col-md-4">
+                                    <label class="form-label" for="email">@lang('Name of company representative')<span
+                                            class="text-danger">*</span></label>
+
+                                            <input type="text" id="presenter_name" name="presenter_name" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
+                                            required >
+
+                                </div> --}}
+
+                                <div class="col-md-6">
+                                    <label class="form-label" for="mobile">@lang('Company Mobile')<span
+                                            class="text-danger">*</span></label>
+
+                                    <div class="input-group">
+                                        <input type="text" placeholder="123456789" id="phone" name="phone"
+                                        value="{{ $newOffice->phone }}" readonly class="form-control" maxlength="9" pattern="\d{1,9}"
+                                            oninput="updateFullPhone(this)"
+                                            aria-label="Text input with dropdown button">
+                                        <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                            type="button" data-bs-toggle="dropdown" aria-expanded="false" disabled>
+                                            {{ $newOffice->key_phone ?? 966}}
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" style="">
+                                            <li><a class="dropdown-item" data-key="971"
+                                                    href="javascript:void(0);">971</a></li>
+                                            <li><a class="dropdown-item" data-key="966"
+                                                    href="javascript:void(0);">966</a></li>
+                                        </ul>
+
                                     </div>
+
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+
+                                <div class="form-group col-md-4">
+                                    <label class="form-label">@lang('Region') <span
+                                            class="text-danger">*</span></label>
+                                    <select type="package" class="form-select" id="Region_id" name="region_id"
+                                        required>
+                                        <option disabled selected value="">@lang('Region')</option>
+                                        @foreach ($Regions as $Region)
+                                            <option value="{{ $Region->id }}"
+                                                data-url="{{ route('Home.Region.show', $Region->id) }}">
+                                                {{ $Region->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label class="form-label">@lang('city') <span class="text-danger">*</span>
+                                    </label>
+                                    <select type="package" class="form-select" name="city_id" id="CityDiv"
+                                        required>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 col-12 mb-3">
+                                    <label class="form-label" for="package"> @lang('Subscription Type') <span
+                                            class="text-danger">*</span></label>
+                                    <select type="package" class="form-select" name="subscription_type_id" required>
+                                        <option value="" selected disabled> @lang('Subscription Type') </option>
+                                        @foreach ($subscriptionTypes as $subscriptionType)
+                                            <option value="{{ $subscriptionType->id }}">
+                                                {{ $subscriptionType->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+
+
                             <div class="col-12 mb-3">
                                 <div class="form-check mb-0 ms-2">
                                     <input class="form-check-input" required checked type="checkbox" id="terms-conditions">
@@ -317,15 +265,15 @@
                                 </div>
                             </div>
 
-                            <div class="col-12" style="text-align: center;">
-                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
-                                <a href="{{ route('welcome') }}" type="button"
-                                    class="btn btn-secondary">@lang('Cancel')</a>
 
-                            </div>
+                            <div class="col-12" style="text-align: center;">
+                                <a href="{{ route('welcome') }}" type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">@lang('Cancel')</a>
+
+                                    <button type="submit" class="btn btn-primary">@lang('Submit')</button>
+                                </div>
 
                         </form>
-
 
                     </div>
                 </div>
@@ -355,27 +303,34 @@
     <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/popular.js') }}"></script>
     <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
     <script src="{{ asset('HOME_PAGE/vendor/libs/@form-validation/auto-focus.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
-    <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
+
     <!-- Main JS -->
     <script src="{{ asset('HOME_PAGE/js/main.js') }}"></script>
 
     <!-- Page JS -->
     <script src="{{ asset('HOME_PAGE/js/pages-auth.js') }}"></script>
-    {{-- <script src="{{ asset('HOME_PAGE/js/pages-account-settings-account.js') }}"></script> --}}
+    <script src="{{ asset('HOME_PAGE/js/pages-account-settings-account.js') }}"></script>
 
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="{{ url('dashboard_files/assets/js/alertify.js') }}"></script>
+    <script src="{{ url('dashboard_files/assets/js/alertify.min.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            $('#license_number').on('change', function(event) {
-                var licenseNumber = $('#license_number').val();
-                var pattern = /^1\d{9}$/;
-                if (!pattern.test(licenseNumber)) {
-                    alertify.error('يجب أن يكون الرقم مكونًا من 10 أرقام ويبدأ برقم 1.');
-                    event.preventDefault(); // Prevent the form from submitting
-                    $('#license_number').val('');
-                }
-            });
-        });
+        var success = '{{ Session::has('success') }}';
+        var sorry = '{{ Session::has('sorry') }}';
+
+        if (success) {
+            var msg = '{{ Session::get('success') }}';
+            alertify.success(msg);
+        }
+        if (sorry) {
+            var msg = '{{ Session::get('sorry') }}';
+            alertify.error(msg);
+        }
+
+
 
         $(document).ready(function() {
             $('#Region_id').on('change', function() {
@@ -408,15 +363,6 @@
                 });
             });
         });
-
-        function validateForm() {
-            var checkBox = document.getElementById('terms-conditions');
-            if (!checkBox.checked) {
-                alert("You must accept the terms and conditions before registering.");
-                return false;
-            }
-            return true;
-        }
 
         // $('#broker_logo_preview').click(function() {
         //     $('#broker_logo').click(); // Trigger file input click on image click
@@ -492,31 +438,6 @@
         updateFullPhone(this);
     });
 });
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Retrieve form data from session storage
-    let formData = JSON.parse(sessionStorage.getItem('formData'));
-
-    if (formData) {
-        document.getElementById('basic-default-name').value = formData.name;
-        document.getElementById('id_number').value = formData.id_number;
-        document.getElementById('email').value = formData.email;
-        document.getElementById('phone').value = formData.phone;
-        document.getElementById('key_phone').value = formData.key_phone;
-
-        // Handle avatar image
-        if (formData.avatar) {
-            let avatarImg = document.getElementById('uploadedAvatar');
-            avatarImg.src = URL.createObjectURL(formData.avatar);
-        }
-
-        // Clear the session storage
-        sessionStorage.removeItem('formData');
-        sessionStorage.removeItem('role');
-    }
-});
-
 
     </script>
     {!! $sitting->zoho_salesiq !!}

@@ -23,35 +23,35 @@
                 </div>
                 <div class="col-8">
 
-                @php
-                // Assuming you have stored user roles in the session
-                $user = auth()->user();
-                        $roles = App\Models\Role::all();
-                        $userRoles = $roles->filter(function ($role) use ($user) {
-                            return $user->hasRole($role->name);
+                        @php
+                        // Assuming you have stored user roles in the session
+                        $user = auth()->user();
+                                $roles = App\Models\Role::all();
+                                $userRoles = $roles->filter(function ($role) use ($user) {
+                                    return $user->hasRole($role->name);
 
-                        });
-                                // Retrieve the active role from the session
-                                $activeRole = session('active_role') ?? 'Switch Account'; // Default to 'Switch Account' if no role is set
+                                });
+                                        // Retrieve the active role from the session
+                                        $activeRole = session('active_role') ?? 'Switch Account'; // Default to 'Switch Account' if no role is set
 
-                                // Define the specific roles to show in the "Add New Account" dropdown
-                                $specificRoles = collect(['Owner']);
+                                        // Define the specific roles to show in the "Add New Account" dropdown
+                                        $specificRoles = collect(['Owner']);
 
-                                // Get the roles that the user does not have yet
-                                $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
-                @endphp
-                @if ($availableRoles->isNotEmpty())
-                <div class="mt-3">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="addAccountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                      @lang('Add New Account')
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="addAccountDropdown">
-                        @foreach ($availableRoles as $role)
-                            <li><a class="dropdown-item" href="#" onclick="handleRoleRedirect('{{ $role }}')">@lang($role)</a></li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+                                        // Get the roles that the user does not have yet
+                                        $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+                        @endphp
+                        @if ($availableRoles->isNotEmpty())
+                        <div class="mt-3">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="addAccountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            @lang('Add New Account')
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="addAccountDropdown">
+                                @foreach ($availableRoles as $role)
+                                    <li><a class="dropdown-item" href="#" onclick="handleRoleRedirect('{{ $role }}')">@lang($role)</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
               </div>
 
               </div>
@@ -256,9 +256,9 @@
 
 <script>
     function handleRoleRedirect(role) {
-        if (role === 'Office') {
+        if (role === 'Office-Admin') {
             redirectToCreateOffice();
-        } else if (role === 'Broker') {
+        } else if (role === 'Rs-Broker') {
             redirectToCreateBroker();
         } else if (role === 'Owner' || role === 'Property-Finder') {
             redirectToCreatePropertyFinder();
@@ -268,15 +268,15 @@
     }
 
     function redirectToCreateBroker() {
-        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
+        window.location.href = "{{ route('Home.Brokers.CreateNewBroker') }}";
     }
 
     function redirectToCreatePropertyFinder() {
-        window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+        window.location.href = "{{ route('Home.PropertyFinder.CreateNewPropertyFinder') }}";
     }
 
     function redirectToCreateOffice() {
-        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+        window.location.href = "{{ route('Home.Offices.CreateNewOffice') }}";
     }
 </script>
     @endpush
