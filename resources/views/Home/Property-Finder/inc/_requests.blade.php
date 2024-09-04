@@ -1,5 +1,5 @@
 <div class="row g-4">
-    @foreach($requests as $request)
+    @forelse($requests as $request)
     <div class="col-xl-4 col-lg-6 col-md-6">
         <div class="card" data-id="{{ $request->id }}">
             <div class="card-header">
@@ -98,5 +98,13 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @empty
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <span class="alert-icon text-danger me-2">
+            <i class="ti ti-ban ti-xs"></i>
+        </span>
+        @lang('No Data Found!')
+    </div>
+
+    @endforelse
 </div>

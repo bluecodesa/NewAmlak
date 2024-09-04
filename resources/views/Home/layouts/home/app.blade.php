@@ -155,7 +155,17 @@
                                         <button class="dropdown-item" id="addAccountButton">@lang('Add New Account')</button>
                                     </li>
                                 @endif
-                            </ul>
+                                <li><hr class="dropdown-divider"></li> <!-- Divider between roles and add new account -->
+                                <li>
+                                    <a href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+                                        class="dropdown-item" target="_blank"><i
+                                        class="tf-icons ti ti-logout scaleX-n1-rtl me-md-1"></i>تسجيل خروج</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                 </li>
+                             </ul>
                         </div>
 
 
@@ -197,7 +207,7 @@
 
                         @endguest
 
-
+{{-- 
                         @auth
 
 
@@ -209,7 +219,7 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-                        @endauth
+                        @endauth --}}
 
                     </li>
                     <!-- navbar button: End -->
