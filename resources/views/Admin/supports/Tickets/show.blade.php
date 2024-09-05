@@ -35,6 +35,11 @@
                                             <span class="fw-medium me-1">@lang('Client Name'):</span>
                                             <span>{{ $ticket->UserData->name }}</span>
                                         </li>
+                                        <li class="mb-2">
+                                            @foreach ( $ticket->UserData->roles as $role )
+                                            <span class="badge bg-label-primary" >{{ __($role->name) }}</span>
+                                            @endforeach()
+                                        </li>
                                         <li class="mb-2 pt-1">
                                             <span class="fw-medium me-1">@lang('Ticket Type'):</span>
                                             <span>{{ $ticket->ticketType->name }}</span>

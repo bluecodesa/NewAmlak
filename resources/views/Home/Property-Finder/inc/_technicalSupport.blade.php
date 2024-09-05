@@ -10,8 +10,9 @@
         <div class="list-group">
             @foreach($tickets as $ticket)
                 <a href="#ticket-{{ $ticket->id }}" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
-                    @lang('Ticket Number') #{{ $ticket->formatted_id }} - {{ $ticket->ticketType->name }}
-                    <span class="badge bg-primary rounded-pill">{{ $ticket->ticketResponses->count() }} Replies</span>
+                    @lang('Ticket Number') #{{ $ticket->formatted_id }} -  <span class="badge bg-label-primary">{{ __($ticket->status) }}</span>
+                     <br>  {{ $ticket->ticketType->name }}
+                    <span class="badge bg-primary rounded-pill">{{ $ticket->ticketResponses->count() }} @lang('Comments')</span>
                 </a>
             @endforeach
         </div>
@@ -42,7 +43,7 @@
                         <!-- Display replies -->
                         <div class="chat-box">
                             @foreach($ticket->ticketResponses as $reply)
-                                <div class="chat-message {{ $reply->is_admin ? 'text-right' : '' }}">
+                                {{-- <div class="chat-message {{ $reply->is_admin ? 'text-right' : '' }}">
                                     <strong>{{ $reply->is_admin ? 'Admin' : $finder->name }}:</strong>
                                     <p>{{  $reply->response  }}</p>
 
@@ -65,7 +66,34 @@
 
 
                                     <small class="text-muted">{{ $reply->created_at->diffForHumans() }}</small>
-                                </div>
+                                </div> --}}
+                                <div
+                                class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer mb-5">
+                                <img src="{{ optional($reply->UserData)->avatar ?: url('HOME_PAGE/img/avatars/14.png') }}"
+                                    alt="{{ optional($reply->UserData)->name ?? 'Default Name' }}"
+                                    class="rounded-circle me-3 w-px-50" />
+                                    <div class="w-100">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="col-8 user-info">
+                                                <strong>{{ $reply->is_admin ? 'Admin' : $finder->name }}:</strong>
+                                                <h6 class="mb-1">{!! $reply->response !!}</h6>
+                                                <div class="user-status">
+                                                    <span class="badge"></span>
+                                                    <small>{{ $reply->created_at->diffForHumans() }}</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 add-btn">
+                                                @if ($reply->response_attachment)
+                                                    <span
+                                                        class="badge bg-label-secondary">{{ basename($reply->response_attachment) }}</span>
+                                                    <a class="btn btn-primary ti ti-download btn-sm"
+                                                        href="{{ asset($reply->response_attachment) }}"
+                                                        download></a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
                             @endforeach
                         </div>
 
@@ -84,7 +112,7 @@
                             </div>
 
                             <div class="mt-3">
-                                <button class="btn btn-primary" type="submit">Send</button>
+                                <button class="btn btn-primary" type="submit">@lang('Add your comment')</button>
                             </div>
                         </form>
                         @endif
