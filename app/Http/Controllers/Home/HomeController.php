@@ -478,6 +478,7 @@ class HomeController extends Controller
     public function storeNewOffice(Request $request)
     {
 
+
         $rules = [
             'city_id' => 'required|exists:cities,id',
             'company_logo' => 'file',
@@ -903,6 +904,15 @@ class HomeController extends Controller
 
     // Validate the request
     $request->validate($rules, $messages);
+    $request_data = [];
+
+    if ($request->hasFile('broker_logo')) {
+        $file = $request->file('broker_logo');
+        $ext  =  uniqid() . '.' . $file->clientExtension();
+        $file->move(public_path() . '/Brokers/' . 'Logos/', $ext);
+        $request_data['broker_logo'] = '/Brokers/' . 'Logos/' . $ext;
+    }
+
 
     // Check if the user already exists with incomplete data
     $user = User::where('email', $request->email)->first();
@@ -912,7 +922,7 @@ class HomeController extends Controller
         $user->update([
             'is_broker' => 1,
             'customer_id' => $this->generateCustomerId(),
-            'avatar' => $request->hasFile('broker_logo') ? $this->uploadFile($request->file('broker_logo')) : $user->avatar,
+            'avatar' => $request_data['broker_logo'] ?? null,
         ]);
     } else {
         // Create a new user
@@ -926,7 +936,7 @@ class HomeController extends Controller
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
             'customer_id' => $this->generateCustomerId(),
-            'avatar' => $this->uploadFile($request->file('broker_logo')),
+            'avatar' => $request_data['broker_logo'] ?? null,
             'id_number' => $request->id_number,
         ]);
     }
@@ -942,7 +952,7 @@ class HomeController extends Controller
             'full_phone' => $user->full_phone,
             'city_id' => $request->city_id,
             'id_number' => $user->id_number,
-            'broker_logo' => $this->uploadFile($request->file('broker_logo')) ?? 'HOME_PAGE/img/avatars/14.png',
+            'broker_logo' => $request_data['broker_logo'] ?? 'HOME_PAGE/img/avatars/14.png',
         ]
     );
 
