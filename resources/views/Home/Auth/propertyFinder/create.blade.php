@@ -116,8 +116,9 @@
                                 </ul>
                             </div>
                         @endif
-                        <input type="text" name="key_phone" hidden id="key_phone">
-                        <input type="text" name="full_phone" hidden id="full_phone" >
+                        <input type="text" name="key_phone" hidden id="key_phone" value="{{ $KeyPhone }}">
+                        <input type="text" name="phone" hidden id="phone" value="{{ $phone }}">
+                        <input type="text" name="full_phone" hidden id="full_phone" value="{{ $fullPhone }}" >
                                 <div class="mb-3 row">
                                     <div class="col-md-6">
                                         <label class="form-label" for="name">@lang('Name')<span class="text-danger">*</span></label>

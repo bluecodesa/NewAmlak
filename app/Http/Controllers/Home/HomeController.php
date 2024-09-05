@@ -1133,6 +1133,10 @@ private function generateCustomerId()
     public function createPropertyFinder()
     {
         $email = session('email');
+        $fullPhone = session('phone');
+        $phone = session('mobile');
+        $KeyPhone = session('key_phone');
+
 
         $setting =   Setting::first();
 
@@ -1234,6 +1238,9 @@ private function generateCustomerId()
             $user_data = [
                 'name' => $request->name,
                 'email' => $request->email,
+                'key_phone' => $request->key_phone ?? null,
+                'phone' => $request->phone ?? null,
+                'full_phone' => $request->full_phone ?? null,
                 'user_name' => uniqid(),
                 'password' => bcrypt($request->password),
                 'avatar' => $request_data['avatar'] ?? null,
@@ -1254,6 +1261,9 @@ private function generateCustomerId()
                     'name' => $request->name,
                     'email' => $request->email,
                     'user_id' => $user->id,
+                    'key_phone' => $request->key_phone ?? null,
+                    'phone' => $request->phone ?? null,
+                    'full_phone' => $request->full_phone ?? null,
                 ]);
                 session(['active_role' => 'Owner']);
             }
@@ -1370,7 +1380,7 @@ private function generateCustomerId()
 
             session(['active_role' => 'Owner']);
         }
-        
+
         $user->assignRole('Owner');
         $this->notifyAdmins2($user);
         auth()->loginUsingId($user->id);
