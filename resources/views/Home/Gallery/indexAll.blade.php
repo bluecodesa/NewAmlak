@@ -275,36 +275,48 @@
                                                    </a> --}}
 
                                                 @endguest
+                                                @php
+                                                $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
+                                                $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
+                                                $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
+                                                @endphp
+                                            
+                                            @auth
+                                                @if (auth()->user())
+                                                    @php
+                                                        $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)->orwhere('property_id', $unit->id)->orwhere('project_id', $unit->id)
+                                                            ->where('finder_id', auth()->user()->id)
+                                                            ->exists();
+                                            
+                                                        // Determine the type (unit, property, or project)
+                                                        $type = $isGalleryUnit ? 'unit' : ($isGalleryProject ? 'project' : ($isGalleryProperty ? 'property' : ''));
+                                                    @endphp
 
-                                                @auth
-
-                                                    @if (auth()->user())
-                                                        @php
-                                                            $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)
-                                                                ->where('finder_id', auth()->user()->id)
-                                                                ->exists();
-                                                        @endphp
                                                         @if (Auth::user()->hasPermission('Add-property-as-favorite') ||
                                                                 Auth::user()->hasPermission('Add-property-as-favorite-admin'))
-                                                            @if ($isFavorite)
+                                                          @if ($isFavorite)
                                                                 <form method="POST" action="{{ route('remove-from-favorites') }}">
                                                                     @csrf
-                                                                    <button type="submit"
-                                                                        class="btn btn-label-danger btn-icon d-flex align-items-center me-3">
+                                                                    <button type="submit" class="btn btn-label-danger btn-icon d-flex align-items-center me-3">
                                                                         <i class="ti ti-heart ti-sm"></i>
                                                                     </button>
                                                                     <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                                                                    <!-- Send the type as hidden input -->
+                                                                    <input type="hidden" name="type" value="{{ $type }}">
                                                                 </form>
+
+                                                 
                                                             @else
                                                                 <form method="POST" action="{{ route('add-to-favorites') }}">
                                                                     @csrf
-                                                                    <button type="submit"
-                                                                        class="btn btn-label-secondary btn-icon d-flex align-items-center me-3">
+                                                                    <button type="submit" class="btn btn-label-secondary btn-icon d-flex align-items-center me-3">
                                                                         <i class="ti ti-heart ti-sm"></i>
                                                                     </button>
                                                                     <input type="hidden" name="unit_id" value="{{ $unit->id }}">
-                                                                    <input type="hidden" name="owner_id"
-                                                                        value="{{ $unit->BrokerData->user_id }}">
+                                                                    <input type="hidden" name="owner_id" value="{{ $unit->BrokerData->user_id }}">
+                                                
+                                                                    <!-- Send type as hidden input -->
+                                                                    <input type="hidden" name="type" value="{{ $type }}">
                                                                 </form>
                                                             @endif
                                                         @endif
