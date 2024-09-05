@@ -173,7 +173,7 @@
                                     <label class="form-label" for="email">@lang('Company email')<span
                                             class="text-danger">*</span></label>
 
-                                    <input type="email"  class="form-control" id="email" name="email" value="{{ $email }}"
+                                    <input type="email"  class="form-control" id="email" name="email"
                                     value="{{ $newOffice->email }}" readonly    required>
 
                                 </div>
