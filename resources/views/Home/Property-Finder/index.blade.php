@@ -141,16 +141,23 @@
                     <i class="tf-icons ti ti-heart ti-xs me-1"></i>الطلبات العقارية
                 </button>
             </li>
-        @endif
-        @if (session('active_role') === 'Owner')
-        <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link" role="tab"
-                    data-bs-toggle="tab" data-bs-target="#navs-justified-My_Properties"
-                    aria-controls="navs-justified-My_Properties" aria-selected="false" tabindex="-1">
-                <i class="tf-icons ti ti-building-arch ti-xs me-1"></i>@lang('My Properties')
-            </button>
-        </li>
-    @endif
+                @endif
+                @if (session('active_role') === 'Owner')
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link" role="tab"
+                            data-bs-toggle="tab" data-bs-target="#navs-justified-My_Properties"
+                            aria-controls="navs-justified-My_Properties" aria-selected="false" tabindex="-1">
+                        <i class="tf-icons ti ti-building-arch ti-xs me-1"></i>@lang('My Properties')
+                    </button>
+                </li>
+            @endif
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-Technical" aria-controls="navs-justified-Technical"
+                            aria-selected="false" tabindex="-1">
+                            <i class="tf-icons ti ti-heart ti-xs me-1"></i>الدعم الفني
+                        </button>
+                    </li>
                 @if (Auth::user()->hasPermission('update-user-profile'))
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
@@ -183,6 +190,11 @@
 
                 </div>
                 @endif
+
+                <div class="tab-pane fade" id="navs-justified-Technical" role="tabpanel">
+                    @include('Home.Property-Finder.inc._technicalSupport')
+
+                </div>
                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                     @include('Home.Property-Finder.inc._security')
 

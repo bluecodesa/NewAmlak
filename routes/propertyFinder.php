@@ -48,6 +48,10 @@ Route::group(
             Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('GetDistrictsByCity')->middleware('CheckSubscription');
             Route::post('/update-request-status/{id}', [RealEstateRequestController::class, 'updateStatus'])->name('updateRequestStatus');
             Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
+            Route::Post('create-ticket', [HomeController::class, 'createTicket'])->name('create-ticket');
+            Route::post('tickets/{ticketId}/add-response', [HomeController::class, 'addReplay'])->name('tickets.addResponse');
+
+
 
 
 

@@ -28,10 +28,13 @@ use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\PropertyUsage;
 use App\Models\Role;
+use App\Models\Setting;
+use App\Models\Ticket;
 use App\Models\UnitFeature;
 use App\Models\UnitImage;
 use App\Models\UnitInterest;
 use App\Models\UnitService as ModelsUnitService;
+use App\Notifications\Admin\NewTicketNotification;
 use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
 use App\Services\CityService;
@@ -49,6 +52,10 @@ use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Admin\TicketTypeService;
+use App\Services\Broker\TicketService;
+
+
 
 
 
@@ -74,6 +81,8 @@ class HomeController extends Controller
 
     protected $subscriptionService;
     protected $districtService;
+    protected $ticketService;
+    protected $ticketTypeService;
 
 
 
@@ -94,7 +103,9 @@ class HomeController extends Controller
         UnitInterestService $unitInterestService,
         SubscriptionTypeService $SubscriptionTypeService,
         SubscriptionService $subscriptionService,
-        DistrictService $districtService
+        DistrictService $districtService,
+        TicketService $ticketService,
+        TicketTypeService $ticketTypeService
     ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -111,8 +122,9 @@ class HomeController extends Controller
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
         $this->districtService = $districtService;
+        $this->ticketService = $ticketService;
+        $this->ticketTypeService =  $ticketTypeService;
     }
-
 
 
 
@@ -135,17 +147,31 @@ class HomeController extends Controller
 
         }
 
+        //favorites
         $favorites = FavoriteUnit::where('finder_id', $finder->id)->get();
         $units = Unit::with('Unitfavorites')
             ->whereIn('id', $favorites->pluck('unit_id'))
             ->get();
             $user = auth()->user();
 
-            $requests = RealEstateRequest::withCount(['requestStatuses as views_count' => function ($query) {
+        //requests
+        $requests = RealEstateRequest::withCount(['requestStatuses as views_count' => function ($query) {
                 $query->whereNotNull('read_by');
             }])->where('user_id', $user->id)->get();
 
             $count = 0;
+
+        //tecnical support
+        $tickets = $this->ticketService->getUserTickets(auth()->id());
+        $ticketTypes = $this->ticketTypeService->getAllTicketTypes();
+        $settings = Setting::first();
+        $tickets->transform(function ($ticket) {
+            $ticket->formatted_id = "100{$ticket->id}";
+            $ticket->ticketResponses();
+            return $ticket;
+        });
+
+        //
 
         if($finder->is_owner == 1 ){
             $allItems = collect();
@@ -977,4 +1003,81 @@ public function createUnit()
         return redirect()->route('PropertyFinder.home')->with('success', __('Deleted successfully'));
 
     }
+
+
+    public function createTicket(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'type' => 'required',
+            'subject' => 'required',
+            'content' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
+        ], [
+            'type.required' => 'The type field is required.',
+            'subject.required' => 'The subject field is required.',
+            'content.required' => 'The content field is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'Only JPEG, PNG, JPG, and GIF formats are allowed for the image.',
+            'image.max' => 'The image size must not exceed 2048 kilobytes.',
+        ]);
+        // Handle file upload if an image is provided
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $fileName = uniqid() . '.' . $ext;
+            $file->move(public_path('Owners/Tickets'), $fileName);
+            $validatedData['image'] = '/Owners/Tickets/' . $fileName;
+        }
+
+        $ticket = new Ticket();
+        $user_id = auth()->user()->id;
+        $ticket->user_id = $user_id;
+
+        $ticket->subject = $validatedData['subject'];
+        $ticket->content = $validatedData['content'];
+        $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null
+        $ticket->ticket_type_id = $validatedData['type'];
+        $ticket->unit_id = $request['unit_id'] ?? null;
+        $ticket->project_id = $request['project_id'] ?? null;
+        $ticket->property_id = $request['property_id'] ?? null;
+
+        $ticket->save();
+        $this->notifyAdmins($ticket);
+
+        return redirect()->route('PropertyFinder.home')->with('success', 'Ticket created successfully');
+
+    }
+    protected function notifyAdmins(Ticket $ticket)
+    {
+        $admins = User::where('is_admin', true)->get();
+        foreach ($admins as $admin) {
+            Notification::send($admin, new NewTicketNotification($ticket));
+        }
+    }
+
+    public function addReplay(Request $request, $ticketId)
+    {
+        $request->validate([
+            'response' => 'required|string',
+            'response_attachment' => 'nullable|mimes:jpeg,png,jpg,gif,pdf|max:2048',
+        ], [
+            'response.required' => 'The response field is required.',
+            'response.string' => 'The response must be a string.',
+            'response_attachment.mimes' => 'The response attachment must be a valid image (jpg, jpeg, png, gif) or PDF file.',
+            'response_attachment.max' => 'The response attachment may not be greater than :max kilobytes.',
+        ]);
+        $ticketData = [
+            'user_id' => auth()->user()->id,
+            'response' => $request->input('response'),
+            'response_attachment' => $request->file('response_attachment'),
+        ];
+
+        $this->ticketService->addResponseToTicket($ticketId, $ticketData);
+
+        return redirect()->back()->with('success', __('Replay added successfully'));
+    }
+
+
 }
