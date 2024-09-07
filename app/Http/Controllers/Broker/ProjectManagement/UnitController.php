@@ -10,6 +10,7 @@ use App\Models\PropertyUsage;
 use App\Models\Unit;
 use App\Models\UnitImage;
 use App\Models\UnitInterest;
+use App\Services\Admin\FalLicenseService;
 use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
 use App\Services\CityService;
@@ -46,6 +47,10 @@ class UnitController extends Controller
 
     protected $subscriptionService;
 
+    protected $FalLicenseService;
+
+
+
 
 
 
@@ -63,7 +68,8 @@ class UnitController extends Controller
         PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
         SubscriptionTypeService $SubscriptionTypeService,
-        SubscriptionService $subscriptionService
+        SubscriptionService $subscriptionService,
+        FalLicenseService $FalLicenseService
     ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -79,6 +85,8 @@ class UnitController extends Controller
         $this->unitInterestService = $unitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
+        $this->FalLicenseService = $FalLicenseService;
+
         //
         $this->middleware(['role_or_permission:read-unit'])->only(['show']);
         $this->middleware(['role_or_permission:read-all-units'])->only(['index']);
@@ -156,6 +164,7 @@ class UnitController extends Controller
     public function create()
     {
         $types = $this->propertyTypeService->getAllPropertyTypes();
+        $Faltypes = $this->FalLicenseService->getAll();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
@@ -346,7 +355,7 @@ class UnitController extends Controller
         }
         return response()->json(['error' => 'Image not found'], 404);
     }
-    
+
     public function destroyVideo($id)
     {
         $unit = Unit::find($id);

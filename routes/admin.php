@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdvertisingController;
+use App\Http\Controllers\Admin\FalLicenseController;
 use App\Http\Controllers\Admin\General\CityController;
 use App\Http\Controllers\Admin\General\DistrictController;
 use App\Http\Controllers\Admin\General\PropertyTypeController;
@@ -154,6 +155,8 @@ Route::group(
                 'SupportTickets' => SupportController::class,
                 'ProjectSettings' => ProjectController::class,
                 'Advertisings' => AdvertisingController::class,
+                'FalLicense' => FalLicenseController::class,
+
 
 
 
