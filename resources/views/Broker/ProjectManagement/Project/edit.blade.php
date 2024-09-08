@@ -260,7 +260,22 @@
                             </label>
                         </div>
 
+
+
                         <div class="row" id="gallery-fields">
+
+                            {{-- <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('FalLicense type') <span
+                                        class="required-color">*</span></label>
+                                <select class="form-select" name="fal_id" required>
+                                    <option disabled selected value="">@lang('FalLicense type')</option>
+                                    @foreach ($Faltypes as $Faltype)
+                                        <option value="{{ $Faltype->id }}"
+                                            {{ $Faltype->id == $project->fal_id ? 'selected' : '' }}>
+                                            {{ $Faltype->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div> --}}
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="form-label">@lang('Ad License Number')<span
                                     class="required-color">*</span></label>

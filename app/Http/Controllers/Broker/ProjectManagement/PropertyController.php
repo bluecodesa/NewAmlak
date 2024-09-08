@@ -18,6 +18,8 @@ use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Services\Admin\FalLicenseService;
+
 
 class PropertyController extends Controller
 {
@@ -30,7 +32,20 @@ class PropertyController extends Controller
     protected $ServiceTypeService;
     protected $AllServiceService;
     protected $FeatureService;
-    public function __construct(PropertyService $PropertyService, AllServiceService $AllServiceService, FeatureService $FeatureService, RegionService $regionService, CityService $cityService, BrokerDataService $brokerDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    protected $FalLicenseService;
+
+    public function __construct(PropertyService $PropertyService, AllServiceService $AllServiceService,
+    FeatureService $FeatureService,
+    RegionService $regionService,
+    CityService $cityService,
+    BrokerDataService $brokerDataService,
+    PropertyTypeService $propertyTypeService,
+    ServiceTypeService $ServiceTypeService,
+    PropertyUsageService $propertyUsageService,
+    FalLicenseService $FalLicenseService
+
+    )
+
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -41,6 +56,8 @@ class PropertyController extends Controller
         $this->ServiceTypeService = $ServiceTypeService;
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
+        $this->FalLicenseService = $FalLicenseService;
+
 
         $this->middleware(['role_or_permission:read-building'])->only(['index','show']);
         $this->middleware(['role_or_permission:create-building'])->only(['create', 'store']);
@@ -58,6 +75,7 @@ class PropertyController extends Controller
     public function create()
     {
         $types = $this->propertyTypeService->getAllPropertyTypes();
+        $Faltypes = $this->FalLicenseService->getAll();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
@@ -105,6 +123,7 @@ class PropertyController extends Controller
     {
         $Property = $this->PropertyService->findById($id);
         $types = $this->propertyTypeService->getAllPropertyTypes();
+        $Faltypes = $this->FalLicenseService->getAll();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();

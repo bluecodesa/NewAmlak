@@ -322,7 +322,18 @@
                                                 </span>
                                             </label>
                                         </div>
-                                    
+
+                                        {{-- <div class="col-md-4 mb-3 col-12">
+                                            <label class="form-label">@lang('FalLicense type') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" name="fal_id" required>
+                                                <option disabled selected value="">@lang('FalLicense type')</option>
+                                                @foreach ($Faltypes as $Faltype)
+                                                    <option value="{{ $Faltype->id }}">{{ $Faltype->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div> --}}
+
                                         <div class="row" id="gallery-fields">
                                             <div class="col-sm-12 col-md-4 mb-3">
                                                 <label class="form-label">@lang('Ad License Number')<span
@@ -338,7 +349,7 @@
                                                 <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" required />
                                                 <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="col-12 mb-3">
                                             <label class="form-label mb-2">@lang('Description')</label>
@@ -349,7 +360,7 @@
                                                     </textarea>
                                             </div>
                                         </div>
-                                 
+
                                         <div class="col-sm-12 col-md-12 mb-3">
                                             <label class="form-label mb-2">@lang('Unit Images') </label>
                                             <div class="input-group">

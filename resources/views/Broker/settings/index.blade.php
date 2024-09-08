@@ -52,6 +52,14 @@
                                     @lang('Gallary Mange')
                                 </button>
                             </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-fal" aria-controls="navs-justified-fal"
+                                    aria-selected="false">
+                                    <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
+                                    @lang('Fal License')
+                                </button>
+                            </li>
 
                         </ul>
 
@@ -87,6 +95,11 @@
                                         </div>
                                     </div>
                                 @endif
+                            </div>
+
+                            <div class="tab-pane fade" id="navs-justified-fal" role="tabpanel">
+                                    @include('Broker.settings.inc.FalLicense.index')
+
                             </div>
 
 

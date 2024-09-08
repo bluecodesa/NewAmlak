@@ -252,6 +252,7 @@ class UnitController extends Controller
     {
         $Unit = $this->UnitService->findById($id);
         $types = $this->propertyTypeService->getAllPropertyTypes();
+        $Faltypes = $this->FalLicenseService->getAll();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();

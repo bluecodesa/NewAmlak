@@ -19,6 +19,9 @@ use App\Services\Broker\SettingService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 use Illuminate\Support\Facades\Hash;
+use App\Services\Admin\FalLicenseService;
+use App\Models\FalLicenseUser;
+
 
 class SettingController extends Controller
 {
@@ -29,6 +32,8 @@ class SettingController extends Controller
     protected $settingService;
     protected $subscriptionService;
     protected $SubscriptionTypeService;
+    protected $FalLicenseService;
+
 
 
     public function __construct(
@@ -38,7 +43,9 @@ class SettingController extends Controller
         RegionService $regionService,
         CityService $cityService,
         EmailSettingService $EmailSettingService,
-        SubscriptionTypeService $SubscriptionTypeService
+        SubscriptionTypeService $SubscriptionTypeService,
+        FalLicenseService $FalLicenseService
+
     ) {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
@@ -47,6 +54,8 @@ class SettingController extends Controller
         $this->settingService = $settingService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
+        $this->FalLicenseService = $FalLicenseService;
+
 
         $this->middleware(['role_or_permission:read-building'])->only(['index']);
     }
@@ -71,6 +80,9 @@ class SettingController extends Controller
         }
 
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
+        $Faltypes = $this->FalLicenseService->getAll();
+        $falLicenses=FalLicenseUser::where('user_id',auth()->user()->UserBrokerData->id)->get();
+
         // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
         return view('Broker.settings.index', get_defined_vars());
     }
@@ -168,4 +180,101 @@ class SettingController extends Controller
         // Redirect with success message
         return redirect()->route('Broker.Setting.index')->withSuccess(__('Password updated successfully.'));
     }
+
+    public function createFalLicense()
+    {
+        //
+        $Faltypes = $this->FalLicenseService->getAll();
+        $falLicenses=FalLicenseUser::where('user_id',auth()->user()->UserBrokerData->id)->get();
+
+        // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
+        return view('Broker.settings.inc.FalLicense.create', get_defined_vars());
+    }
+
+    public function storeFalLicense(Request $request)
+{
+    $user = auth()->user();
+
+    $rules = [
+        'ad_license_number' => [
+            'required',
+            'numeric',
+            Rule::unique('fallicenseUsers')
+        ],
+        'ad_license_expiry' => 'required|date|after_or_equal:today',
+        'fal_id' => 'required|exists:fals,id',
+    ];
+
+    $messages = [
+        'ad_license_number.required' => 'The license number is required.',
+        'ad_license_number.unique' => 'The license number has already been taken.',
+        'ad_license_number.numeric' => 'The license number must be a number.',
+        'ad_license_expiry.required' => 'The license expiry date is required.',
+        'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+        'ad_license_expiry.after_or_equal' => 'The license expiry date must be today or a future date.',
+        'fal_id.required' => 'The Fal License type is required.',
+        'fal_id.exists' => 'The selected Fal License type is invalid.',
+    ];
+
+    $validatedData = $request->validate($rules, $messages);
+
+    FalLicenseUser::create(
+        ['user_id' => $user->id],
+        [
+            'fal_id' => $validatedData['fal_id'],
+            'ad_license_number' => $validatedData['ad_license_number'],
+            'ad_license_expiry' => $validatedData['ad_license_expiry'],
+            'ad_license_status' => 'valid',
+        ]
+    );
+
+
+    return redirect()->route('Broker.Setting.index')->withSuccess(__('License created successfully.'));
+}
+
+
+public function updateFalLicense(Request $request, $id)
+{
+    dd($request);
+    $broker = Broker::findOrFail($id);
+    $user = $broker->userData;
+
+    $rules = [
+        'ad_license_number' => [
+            'required',
+            'numeric',
+            Rule::unique('fallicenseUsers')->ignore($id) // Ignore the current user's license
+        ],
+        'ad_license_expiry' => 'required|date|after_or_equal:today',
+        'fal_id' => 'required|exists:fals,id',
+    ];
+
+    $messages = [
+        'ad_license_number.required' => 'The license number is required.',
+        'ad_license_number.unique' => 'The license number has already been taken.',
+        'ad_license_number.numeric' => 'The license number must be a number.',
+        'ad_license_expiry.required' => 'The license expiry date is required.',
+        'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+        'ad_license_expiry.after_or_equal' => 'The license expiry date must be today or a future date.',
+        'fal_id.required' => 'The Fal License type is required.',
+        'fal_id.exists' => 'The selected Fal License type is invalid.',
+    ];
+
+    $validatedData = $request->validate($rules, $messages);
+
+
+    FalLicenseUser::updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'fal_id' => $validatedData['fal_id'],
+            'ad_license_number' => $validatedData['ad_license_number'],
+            'ad_license_expiry' => $validatedData['ad_license_expiry'],
+            'ad_license_status' => 'Valid',
+        ]
+    );
+
+
+    return redirect()->route('Broker.Setting.index')->withSuccess(__('License updated successfully.'));
+}
+
 }

@@ -88,6 +88,7 @@ class UnitRepository implements UnitRepositoryInterface
 
             validator($data, $rules ,$messages)->validate();
 
+                $unit_data['fal_id'] = $data['fal_id'];
                 $unit_data['ad_license_number'] = $data['ad_license_number'];
                 $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
                 $unit_data['ad_license_status'] = 'Valid';

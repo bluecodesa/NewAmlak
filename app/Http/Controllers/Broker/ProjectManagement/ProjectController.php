@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\AllServiceService;
 use App\Services\FeatureService;
+use App\Services\Admin\FalLicenseService;
+
 
 
 class ProjectController extends Controller
@@ -34,6 +36,8 @@ class ProjectController extends Controller
     protected $AdminProjectService;
     protected $AllServiceService;
     protected $FeatureService;
+    protected $FalLicenseService;
+
 
 
 
@@ -48,7 +52,9 @@ class ProjectController extends Controller
         BrokerDataService $brokerDataService,
         PropertyTypeService $propertyTypeService,
         ServiceTypeService $ServiceTypeService,
-        PropertyUsageService $propertyUsageService
+        PropertyUsageService $propertyUsageService,
+        FalLicenseService $FalLicenseService
+
     ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -61,6 +67,8 @@ class ProjectController extends Controller
         $this->AdminProjectService = $AdminProjectService;
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
+        $this->FalLicenseService = $FalLicenseService;
+
         //
 
         $this->middleware(['role_or_permission:read-project'])->only(['index','show']);
@@ -79,6 +87,7 @@ class ProjectController extends Controller
     public function create()
     {
         $Regions = $this->regionService->getAllRegions();
+        $Faltypes = $this->FalLicenseService->getAll();
         $cities = $this->cityService->getAllCities();
         $services = $this->ServiceTypeService->getAllServiceTypes();
         $advisors = $this->brokerDataService->getAdvisors();
@@ -113,6 +122,7 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $project = $this->projectService->findProjectById($id);
+        $Faltypes = $this->FalLicenseService->getAll();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $advisors = $this->brokerDataService->getAdvisors();
