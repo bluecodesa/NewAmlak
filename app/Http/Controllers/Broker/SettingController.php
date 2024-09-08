@@ -191,6 +191,16 @@ class SettingController extends Controller
         return view('Broker.settings.inc.FalLicense.create', get_defined_vars());
     }
 
+    public function editFalLicense($id)
+    {
+
+        $Faltypes = $this->FalLicenseService->getAll();
+        // $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+        $falLicense = FalLicenseUser::findOrFail($id);
+
+        return view('Broker.settings.inc.FalLicense.edit', get_defined_vars());
+    }
+
     public function storeFalLicense(Request $request)
     {
         $user = auth()->user();
@@ -233,47 +243,46 @@ class SettingController extends Controller
     }
 
 
-public function updateFalLicense(Request $request, $id)
-{
-    $broker = Broker::findOrFail($id);
-    $user = $broker->userData;
+    public function updateFalLicense(Request $request, $id)
+    {
+        $user = auth()->user();
 
-    $rules = [
-        'ad_license_number' => [
-            'required',
-            'numeric',
-            Rule::unique('fallicenseUsers')->ignore($id) // Ignore the current user's license
-        ],
-        'ad_license_expiry' => 'required|date|after_or_equal:today',
-        'fal_id' => 'required|exists:fals,id',
-    ];
+        // Validation rules
+        $rules = [
+            'ad_license_number' => [
+                'required',
+                'numeric',
+                Rule::unique('fallicenseUsers')->ignore($id) // Ignore the current record
+            ],
+            'ad_license_expiry' => 'required|date|after_or_equal:today',
+            'fal_id' => 'required|exists:fals,id',
+        ];
 
-    $messages = [
-        'ad_license_number.required' => 'The license number is required.',
-        'ad_license_number.unique' => 'The license number has already been taken.',
-        'ad_license_number.numeric' => 'The license number must be a number.',
-        'ad_license_expiry.required' => 'The license expiry date is required.',
-        'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
-        'ad_license_expiry.after_or_equal' => 'The license expiry date must be today or a future date.',
-        'fal_id.required' => 'The Fal License type is required.',
-        'fal_id.exists' => 'The selected Fal License type is invalid.',
-    ];
+        $messages = [
+            'ad_license_number.required' => 'The license number is required.',
+            'ad_license_number.unique' => 'The license number has already been taken.',
+            'ad_license_number.numeric' => 'The license number must be a number.',
+            'ad_license_expiry.required' => 'The license expiry date is required.',
+            'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+            'ad_license_expiry.after_or_equal' => 'The license expiry date must be today or a future date.',
+            'fal_id.required' => 'The Fal License type is required.',
+            'fal_id.exists' => 'The selected Fal License type is invalid.',
+        ];
 
-    $validatedData = $request->validate($rules, $messages);
+        $validatedData = $request->validate($rules, $messages);
 
+        $falLicenseUser = FalLicenseUser::findOrFail($id);
 
-    FalLicenseUser::updateOrCreate(
-        ['user_id' => $user->id],
-        [
+        $falLicenseUser->update([
             'fal_id' => $validatedData['fal_id'],
             'ad_license_number' => $validatedData['ad_license_number'],
             'ad_license_expiry' => $validatedData['ad_license_expiry'],
-            'ad_license_status' => 'Valid',
-        ]
-    );
+            'ad_license_status' => 'valid',
+        ]);
 
+        // Redirect with success message
+        return redirect()->route('Broker.Setting.index')->withSuccess(__('License updated successfully.'));
+    }
 
-    return redirect()->route('Broker.Setting.index')->withSuccess(__('License updated successfully.'));
-}
 
 }

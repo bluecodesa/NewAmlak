@@ -74,8 +74,8 @@ Route::group(
             route::put('updatePassword/{id}', [SettingController::class, 'updatePassword'])->name('Setting.updatePassword')->middleware('CheckSubscription');
             route::get('createFalLicense', [SettingController::class, 'createFalLicense'])->name('Setting.createFalLicense')->middleware('CheckSubscription');
             route::post('createFalLicense', [SettingController::class, 'storeFalLicense'])->name('Setting.createFalLicense')->middleware('CheckSubscription');
+            route::get('editFalLicense/{id}', [SettingController::class, 'editFalLicense'])->name('Setting.editFalLicense')->middleware('CheckSubscription');
             route::put('updateFalLicense/{id}', [SettingController::class, 'updateFalLicense'])->name('Setting.updateFalLicense')->middleware('CheckSubscription');
-
 
             //
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');

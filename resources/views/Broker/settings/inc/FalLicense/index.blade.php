@@ -29,7 +29,7 @@
                                                     <a href="{{ route('Broker.Setting.createFalLicense') }}" type="button"
                                                         class="btn btn-primary">
                                                         <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add New FalLicense')</span></span>
+                                                                class="d-none d-sm-inline-block">@lang('Add New')</span></span>
                                                     </a>
                                                 </div>
                                             {{-- @endif --}}
@@ -75,7 +75,7 @@
                                             <div class="dropdown-menu" style="">
                                                 {{-- @if (Auth::user()->hasPermission('update-sections')) --}}
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Admin.FalLicense.edit', $falLicense->id) }}">@lang('Edit')</a>
+                                                        href="{{ route('Broker.Setting.editFalLicense', $falLicense->id) }}">@lang('Edit')</a>
                                                 {{-- @endif --}}
 
                                                 {{-- @if (Auth::user()->hasPermission('delete-sections')) --}}

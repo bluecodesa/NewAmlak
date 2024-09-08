@@ -7,9 +7,9 @@
             <div class="row">
                 <div class="col-6 ">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Admin.FalLicense.index') }}" class="text-muted fw-light">@lang('falLicense')
+                        <a href="{{ route('Broker.Setting.index') }}" class="text-muted fw-light">@lang('Settings')
                         </a> /
-                        @lang('Edit FalLicense')
+                        @lang('Edit')
                     </h4>
                 </div>
 
@@ -18,27 +18,44 @@
             <div class="card">
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
-                    <form action="{{ route('Admin.FalLicense.update', $falLicense->id) }}" method="POST" class="row">
+                    <form action="{{ route('Broker.Setting.updateFalLicense', $falLicense->id) }}" method="POST" class="row">
                         @csrf
                         @method('PUT')
-                        @foreach (config('translatable.locales') as $locale)
-                            <div class="col-md-6 col-12 mb-3">
-                                <label class="form-label">
-                                    {{ __('Name') }} {{ __($locale) }} <span class="required-color">*</span></label>
-                                <input type="text" required value="{{ $falLicense->translate($locale)->name }}"
-                                    name="{{ $locale }}[name]" class="form-control"
-                                    placeholder="{{ __('Name') }} {{ __($locale) }}">
 
+                           <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('FalLicense type') <span
+                                        class="required-color">*</span></label>
+                                <select class="form-select" name="fal_id" required>
+                                    <option disabled selected value="">@lang('FalLicense type')</option>
+                                    @foreach ($Faltypes as $Faltype)
+                                        <option value="{{ $Faltype->id }}"
+                                            {{ $Faltype->id == $falLicense->fal_id ? 'selected' : '' }}>
+                                            {{ $Faltype->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
-                        @endforeach
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary me-1">
-                                {{ __('save') }}
-                            </button>
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Ad License Number')<span
+                                    class="required-color">*</span></label>
+                                <input type="number" name="ad_license_number" class="form-control"
+                                value="{{ $falLicense->ad_license_number }}"  id="ad_license_number" required />
+                            </div>
+                            @php
+                            $licenseDate = Auth::user()->UserBrokerData->license_date;
+                            @endphp
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Ad License Expiry')<span
+                                    class="required-color">*</span></label>
+                                <input type="date" name="ad_license_expiry" class="form-control"
+                                value="{{ $falLicense->ad_license_expiry }}" id="ad_license_expiry" required />
+                                <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
+                            </div>
+                            <div div class="col-sm-12 col-md-4 mb-3">
+                                <button class="btn btn-primary" type="submit" name="submit">@lang('save')</button>
+                            </div>
 
-                        </div>
-                    </form>
+                        </form>
 
                 </div>
             </div>
@@ -54,3 +71,16 @@
 
 
 @endsection
+
+<script>
+    document.getElementById('ad_license_expiry').addEventListener('change', function () {
+        const expiryDate = new Date(this.value);
+        const licenseDate = new Date('{{ $licenseDate }}'); // License date from the backend
+
+        if (expiryDate > licenseDate) {
+            document.getElementById('date_error_message').style.display = 'block';
+        } else {
+            document.getElementById('date_error_message').style.display = 'none';
+        }
+    });
+</script>
