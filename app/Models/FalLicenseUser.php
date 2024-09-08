@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FalLicenseUser  extends Model
 {
-    protected $table = 'fallicenseUsers';
+    protected $table = 'fallicenseusers';
 
     protected $guarded = [];
 
@@ -22,6 +22,6 @@ class FalLicenseUser  extends Model
      */
     public function falData()
     {
-        return $this->belongsTo(Fal::class);
+        return $this->belongsTo(Fal::class ,'id');
     }
 }

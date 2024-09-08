@@ -62,7 +62,7 @@
                                     <td>{{ $falLicense->falData->name }} </td>
                                     <td>{{ $falLicense->ad_license_number }} </td>
                                     <td>{{ $falLicense->ad_license_expiry }} </td>
-                                    <td>{{ $falLicense->ad_license_status }} </td>
+                                    <td>{{ __($falLicense->ad_license_status) }} </td>
 
 
                                     <td>
