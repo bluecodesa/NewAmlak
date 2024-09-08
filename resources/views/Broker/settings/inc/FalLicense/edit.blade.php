@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Edit FalLicense'))
+@section('title', __('Edit'))
 @section('content')
 
     <div class="content-wrapper">
