@@ -129,9 +129,9 @@
                                 $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
 
                                 // Determine the correct route
-                                $accountRoute = ($activeRole == 'Office-Admin' || $activeRole == 'RS-Broker')
-                                    ? route('Admin.home')
-                                    : route('PropertyFinder.home');
+                                $accountRoute = ($activeRole == 'Owner' || $activeRole == 'Renter' || $activeRole == 'Property-Finder')
+                                    ? route('PropertyFinder.home')
+                                    : route('Admin.home');
                             @endphp
 
                             <!-- "My Account" Dropdown Toggle -->
@@ -207,7 +207,7 @@
 
                         @endguest
 
-{{-- 
+{{--
                         @auth
 
 

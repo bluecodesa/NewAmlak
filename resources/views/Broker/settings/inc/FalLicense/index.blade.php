@@ -83,7 +83,7 @@
                                                         onclick="handleDelete('{{ $falLicense->id }}')"
                                                         class="dropdown-item delete-btn">@lang('Delete')</a>
                                                     <form id="delete-form-{{ $falLicense->id }}"
-                                                        action="{{ route('Admin.FalLicense.destroy', $falLicense->id) }}"
+                                                        action="{{ route('Broker.Setting.deleteFalLicense', $falLicense->id) }}"
                                                         method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')

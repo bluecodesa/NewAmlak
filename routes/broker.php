@@ -76,6 +76,7 @@ Route::group(
             route::post('createFalLicense', [SettingController::class, 'storeFalLicense'])->name('Setting.createFalLicense')->middleware('CheckSubscription');
             route::get('editFalLicense/{id}', [SettingController::class, 'editFalLicense'])->name('Setting.editFalLicense')->middleware('CheckSubscription');
             route::put('updateFalLicense/{id}', [SettingController::class, 'updateFalLicense'])->name('Setting.updateFalLicense')->middleware('CheckSubscription');
+            route::post('deleteFalLicense/{id}', [SettingController::class, 'deleteFalLicense'])->name('Setting.deleteFalLicense')->middleware('CheckSubscription');
 
             //
             route::resource('Property', PropertyController::class)->middleware('CheckSubscription');

@@ -291,6 +291,12 @@ class SettingController extends Controller
         // Redirect with success message
         return redirect()->route('Broker.Setting.index')->withSuccess(__('License updated successfully.'));
     }
+    public function deleteFalLicense($id)
+    {
+        $falLicense = FalLicenseUser::destroy($id);
+
+        return redirect()->route('Broker.Setting.index')->withSuccess(__('Deleted successfully'));
+    }
 
 
 }
