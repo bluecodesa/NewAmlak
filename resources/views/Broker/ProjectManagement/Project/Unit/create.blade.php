@@ -333,7 +333,7 @@
                                                 // dd($falLicense);
 
                                             // $licenseDate = Auth::user()->UserFalData->falData->name;
-                                            $licenseDate = $falLicense->ad_license_expiry;
+                                            $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
                                         @endphp
 
