@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Str;
 use App\Http\Traits\Email\MailOwnerCredentials;
+use App\Models\OwnerOfficeBroker;
 
 class OwnerRepository
 {
@@ -16,7 +17,7 @@ class OwnerRepository
 
     public function getAllByBrokerId($brokerId)
     {
-        return Owner::where('broker_id', $brokerId)->get();
+        return OwnerOfficeBroker::where('broker_id', $brokerId)->get();
     }
 
     public function create($data)
