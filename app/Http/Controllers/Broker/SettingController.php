@@ -217,7 +217,7 @@ class SettingController extends Controller
             'ad_license_number' => [
                 'required',
                 'numeric',
-                Rule::unique('fallicenseUsers') // Unique in the 'fallicenseUsers' table
+                Rule::unique('fallicenseusers') // Unique in the 'fallicenseUsers' table
             ],
             'ad_license_expiry' => 'required|date|after_or_equal:today',
             'fal_id' => 'required|exists:fals,id',
@@ -260,7 +260,7 @@ class SettingController extends Controller
             'ad_license_number' => [
                 'required',
                 'numeric',
-                Rule::unique('fallicenseUsers')->ignore($id) // Ignore the current record
+                Rule::unique('fallicenseusers')->ignore($id) // Ignore the current record
             ],
             'ad_license_expiry' => 'required|date|after_or_equal:today',
             'fal_id' => 'required|exists:fals,id',
