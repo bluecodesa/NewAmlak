@@ -312,45 +312,67 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
-                                            <label class="switch switch-lg">
-                                                <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" checked />
-                                                <span class="switch-toggle-slider">
-                                                    <span class="switch-on"><i class="ti ti-check"></i></span>
-                                                    <span class="switch-off"><i class="ti ti-x"></i></span>
-                                                </span>
-                                            </label>
-                                        </div>
+                                        @php
+                                        // Fetch all Fal licenses for the authenticated user
+                                        $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
+                                            ->whereHas('falData', function ($query) {
+                                                $query->whereTranslation('name', 'Real State FalLicense', 'en');
+                                            })
+                                            ->where('ad_license_status', 'valid')
+                                            ->first();
+                                            // dd($falLicense);
 
-                                        {{-- <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('FalLicense type') <span
-                                                    class="required-color">*</span></label>
-                                            <select class="form-select" name="fal_id" required>
-                                                <option disabled selected value="">@lang('FalLicense type')</option>
-                                                @foreach ($Faltypes as $Faltype)
-                                                    <option value="{{ $Faltype->id }}">{{ $Faltype->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div> --}}
+                                        // $licenseDate = Auth::user()->UserFalData->falData->name;
+                                        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
-                                        <div class="row" id="gallery-fields">
+                                    @endphp
+
+                                        @if($falLicense)
+                                            <!-- Show the "Show in Gallery" switch if the user has a valid license -->
                                             <div class="col-sm-12 col-md-4 mb-3">
-                                                <label class="form-label">@lang('Ad License Number')<span
-                                                    class="required-color">*</span></label>
-                                                <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" required />
-                                            </div>
-                                            @php
-                                            $licenseDate = Auth::user()->UserBrokerData->license_date;
-                                            @endphp
-                                            <div class="col-sm-12 col-md-4 mb-3">
-                                                <label class="form-label">@lang('Ad License Expiry')<span
-                                                    class="required-color">*</span></label>
-                                                <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" required />
-                                                <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
+                                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                                <label class="switch switch-lg">
+                                                    <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery"
+                                                        @if($falLicense->ad_license_status != 'valid') disabled @endif
+                                                        @if($falLicense->ad_license_status == 'valid') checked @endif />
+                                                    <span class="switch-toggle-slider">
+                                                        <span class="switch-on"><i class="ti ti-check"></i></span>
+                                                        <span class="switch-off"><i class="ti ti-x"></i></span>
+                                                    </span>
+                                                </label>
                                             </div>
 
-                                        </div>
+                                            <!-- Show gallery fields only if the license status is "valid" -->
+                                            <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
+                                                    <input type="number" name="ad_license_number" class="form-control" id="ad_license_number"
+                                                        @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                                </div>
+
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
+                                                    <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry"
+                                                        @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                                    <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <!-- Display a message if the license is not valid or doesn't exist -->
+                                            <div class="col-sm-12 col-md-4 mb-3">
+                                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                                <label class="switch switch-lg">
+                                                    <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" disabled />
+                                                    <span class="switch-toggle-slider">
+                                                        <span class="switch-off"><i class="ti ti-x"></i></span>
+                                                    </span>
+                                                </label>
+                                                <!-- Add a message to indicate the license has expired -->
+                                                <div class="alert alert-warning mt-2">
+                                                    @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                                                </div>
+                                            </div>
+                                        @endif
                                         <div class="col-12 mb-3">
                                             <label class="form-label mb-2">@lang('Description')</label>
                                             <div>
