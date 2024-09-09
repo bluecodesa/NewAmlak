@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Add New FalLicense'))
+@section('title', __('Add New'))
 @section('content')
 
     <div class="content-wrapper">
@@ -9,7 +9,7 @@
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Broker.Setting.index') }}" class="text-muted fw-light">@lang('Settings')
                         </a> /
-                        @lang('Add New FalLicense')
+                        @lang('Add New')
                     </h4>
                 </div>
 
@@ -22,26 +22,28 @@
 
                 <form action="{{ route('Broker.Setting.createFalLicense') }}" method="post" class="row">
                     @csrf
-                
 
                     <div class="col-md-4 mb-3 col-12">
-                        <label class="form-label">@lang('FalLicense type') <span
+                        <label class="form-label">@lang('REGA Type') <span
                                 class="required-color">*</span></label>
                         <select class="form-select" name="fal_id" required>
-                            <option disabled selected value="">@lang('FalLicense type')</option>
+                            <option disabled selected value="">@lang('REGA Type')</option>
                             @foreach ($Faltypes as $Faltype)
                                 <option value="{{ $Faltype->id }}">{{ $Faltype->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-sm-12 col-md-4 mb-3">
-                        <label class="form-label">@lang('Ad License Number')<span
-                            class="required-color">*</span></label>
-                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" required />
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label" for="ad_license_number"> @lang('license number')<span
+                                class="text-danger">*</span></label>
+                        <input type="text" class="form-control" minlength="1" maxlength="10"
+                            pattern="1\d{9}" title="يجب أن يكون الرقم مكونًا من 10 أرقام ويبدأ برقم 1."
+                            id="ad_license_number" name="ad_license_number" required>
                     </div>
-                    @php
+
+                    {{-- @php
                     $licenseDate = Auth::user()->UserBrokerData->license_date;
-                    @endphp
+                    @endphp --}}
                     <div class="col-sm-12 col-md-4 mb-3">
                         <label class="form-label">@lang('Ad License Expiry')<span
                             class="required-color">*</span></label>
@@ -71,15 +73,20 @@
 
 @endsection
 
+@push('scripts')
 <script>
-    document.getElementById('ad_license_expiry').addEventListener('change', function () {
-        const expiryDate = new Date(this.value);
-        const licenseDate = new Date('{{ $licenseDate }}'); // License date from the backend
 
-        if (expiryDate > licenseDate) {
-            document.getElementById('date_error_message').style.display = 'block';
-        } else {
-            document.getElementById('date_error_message').style.display = 'none';
+    $(document).ready(function() {
+    $('#ad_license_number').on('change', function(event) {
+        var licenseNumber = $('#ad_license_number').val();
+        var pattern = /^1\d{9}$/;
+        if (!pattern.test(licenseNumber)) {
+            alertify.error('The license number must be 10 digits long and start with 1.');
+            event.preventDefault(); // Prevent form submission
+            $('#ad_license_number').val('');
         }
     });
+});
+
 </script>
+@endpush

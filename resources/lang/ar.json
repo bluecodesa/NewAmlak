@@ -661,6 +661,7 @@
     "Ad License Expiry": "تاريخ انتهاء الاعلان",
     "Valid": "نشط",
     "InValid": "غير نشط",
+    "invalid": "منتهية",
     "Fal license  date can not be exceeded": "لا يمكن تجاوز تاريخ رخصة فال",
     "Ad Status": "حالة الاعلان",
     "New subscriptions": "الاشتراكات الجديدة",
@@ -692,7 +693,9 @@
     "RS-Broker": "وسيط عقاري",
     "Add as Owner": "إضافة كــمالك",
     "My Account": "حسابي",
-    "Fal License": "رخصة فال"
+    "Fal License": "رخصة فال",
+    "REGA License": "تراخيص هيئة العقار",
+    "REGA Type": "نوع الرخصة "
 
 
 

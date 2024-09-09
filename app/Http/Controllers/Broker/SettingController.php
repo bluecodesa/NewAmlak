@@ -85,8 +85,8 @@ class SettingController extends Controller
         $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
 
         foreach ($Licenses as $License) {
-            if (isset($Licenses->ad_license_expiry) && $Licenses->ad_license_expiry < now()->format('Y-m-d')) {
-                $Licenses->update(['ad_license_status' => 'invalid']);
+            if (isset($License->ad_license_expiry) && $License->ad_license_expiry < now()->format('Y-m-d')) {
+                $License->update(['ad_license_status' => 'invalid']);
             }
         }
 

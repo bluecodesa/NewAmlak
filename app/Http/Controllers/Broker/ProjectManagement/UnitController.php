@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\FalLicenseUser;
 use App\Models\Project;
 use App\Models\Property;
 use App\Models\PropertyUsage;
@@ -176,6 +177,8 @@ class UnitController extends Controller
         $features = $this->FeatureService->getAllFeature();
         $projects = $this->brokerDataService->getProjects();
         $properties = $this->brokerDataService->getProperties();
+        $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+
         return view('Broker.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 

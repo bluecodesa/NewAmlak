@@ -36,11 +36,12 @@
                                     </button>
                                 </li>
                             @endif
-                            <li class="nav-item" role="presentation">
+                            <li class="nav-item">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                    data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
-                                    aria-selected="false" tabindex="-1">
-                                    <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
+                                    data-bs-target="#navs-justified-fal" aria-controls="navs-justified-fal"
+                                    aria-selected="false">
+                                    <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
+                                    @lang('REGA License')
                                 </button>
                             </li>
 
@@ -52,12 +53,13 @@
                                     @lang('Gallary Mange')
                                 </button>
                             </li>
-                            <li class="nav-item">
+
+
+                            <li class="nav-item" role="presentation">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                    data-bs-target="#navs-justified-fal" aria-controls="navs-justified-fal"
-                                    aria-selected="false">
-                                    <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
-                                    @lang('Fal License')
+                                    data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
+                                    aria-selected="false" tabindex="-1">
+                                    <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
                                 </button>
                             </li>
 
