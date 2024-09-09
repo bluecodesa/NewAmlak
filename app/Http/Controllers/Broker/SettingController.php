@@ -164,7 +164,6 @@ class SettingController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ];
 
-        // Define custom error messages
         $messages = [
             'current_password.required' => __('The current password field is required.'),
             'password.required' => __('The new password field is required.'),
@@ -172,15 +171,12 @@ class SettingController extends Controller
             'password.confirmed' => __('The new password confirmation does not match.'),
         ];
 
-        // Validate the request
         $request->validate($rules, $messages);
 
-        // Verify the current password
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => __('The current password is incorrect.')]);
         }
 
-        // Update the password
         $user->update([
             'password' => Hash::make($request->password),
         ]);
@@ -203,7 +199,6 @@ class SettingController extends Controller
     {
 
         $Faltypes = $this->FalLicenseService->getAll();
-        // $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
         $falLicense = FalLicenseUser::findOrFail($id);
 
         return view('Broker.settings.inc.FalLicense.edit', get_defined_vars());
@@ -217,7 +212,7 @@ class SettingController extends Controller
             'ad_license_number' => [
                 'required',
                 'numeric',
-                Rule::unique('fallicenseusers') // Unique in the 'fallicenseUsers' table
+                Rule::unique('fallicenseusers')
             ],
             'ad_license_expiry' => 'required|date|after_or_equal:today',
             'fal_id' => 'required|exists:fals,id',
@@ -234,10 +229,8 @@ class SettingController extends Controller
             'fal_id.exists' => 'The selected Fal License type is invalid.',
         ];
 
-        // Validate the incoming data
         $validatedData = $request->validate($rules, $messages);
 
-        // Create the Fal License entry
         FalLicenseUser::create([
             'user_id' => $user->id,
             'fal_id' => $validatedData['fal_id'],
@@ -255,12 +248,11 @@ class SettingController extends Controller
     {
         $user = auth()->user();
 
-        // Validation rules
         $rules = [
             'ad_license_number' => [
                 'required',
                 'numeric',
-                Rule::unique('fallicenseusers')->ignore($id) // Ignore the current record
+                Rule::unique('fallicenseusers')->ignore($id)
             ],
             'ad_license_expiry' => 'required|date|after_or_equal:today',
             'fal_id' => 'required|exists:fals,id',
