@@ -22,6 +22,6 @@ class FalLicenseUser  extends Model
      */
     public function falData()
     {
-        return $this->belongsTo(Fal::class ,'id');
+        return $this->belongsTo(Fal::class ,'fal_id');
     }
 }

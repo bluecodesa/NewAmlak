@@ -82,6 +82,14 @@ class SettingController extends Controller
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
         $Faltypes = $this->FalLicenseService->getAll();
         $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+        $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
+
+        foreach ($Licenses as $License) {
+            if (isset($Licenses->ad_license_expiry) && $Licenses->ad_license_expiry < now()->format('Y-m-d')) {
+                $Licenses->update(['ad_license_status' => 'invalid']);
+            }
+        }
+
 
         // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
         return view('Broker.settings.index', get_defined_vars());

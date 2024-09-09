@@ -73,6 +73,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Renter::class, 'user_id');
     }
+
+    public function UserFalData()
+    {
+        return $this->hasOne(FalLicenseUser::class, 'user_id');
+    }
+
     public static function getAdmins()
     {
         return self::where('is_admin', 1)->paginate(100);

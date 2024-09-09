@@ -264,7 +264,7 @@ class GalleryService
             $this->updateAdLicenseStatus(Project::all());
             $this->updateAdLicenseStatus(Property::all());
             $this->updateAdLicenseStatus(Unit::all());
-       
+
         }
 
         $uniqueIds = $units->pluck('CityData.id')->unique();
