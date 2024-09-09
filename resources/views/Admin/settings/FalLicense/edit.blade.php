@@ -1,5 +1,5 @@
 @extends('Admin.layouts.app')
-@section('title', __('Edit FalLicense'))
+@section('title', __('Edit'))
 @section('content')
 
     <div class="content-wrapper">
@@ -7,9 +7,9 @@
             <div class="row">
                 <div class="col-6 ">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Admin.FalLicense.index') }}" class="text-muted fw-light">@lang('falLicense')
+                        <a href="{{ route('Admin.FalLicense.index') }}" class="text-muted fw-light">@lang('[]al License')
                         </a> /
-                        @lang('Edit FalLicense')
+                        @lang('Edit')
                     </h4>
                 </div>
 
