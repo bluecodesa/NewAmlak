@@ -45,7 +45,7 @@ Route::group(
             Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
             Route::post('/PropertyFinder/verify-code-finder', [HomeController::class, 'verifyCode'])->name('verify-code-finder');
             Route::post('/PropertyFinder/complete-registration-finder', [HomeController::class, 'register'])->name('complete-registration-finder');
-            Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsByCity')->name('GetDistrictsByCity')->middleware('CheckSubscription');
+            Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsCity')->name('GetDistrictsByCity')->middleware('CheckSubscription');
             Route::post('/update-request-status/{id}', [RealEstateRequestController::class, 'updateStatus'])->name('updateRequestStatus');
             Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
             Route::Post('create-ticket', [HomeController::class, 'createTicket'])->name('create-ticket');

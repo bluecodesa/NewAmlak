@@ -1281,8 +1281,10 @@
             });
         });
 
-
-            $('#CityDiv').on('change', function() {
+            //
+    </script>
+    <script>
+        $('#CityDiv').on('change', function() {
                 var selectedOption = $(this).find(':selected');
                 var url = selectedOption.data('url');
                 $.ajax({
@@ -1299,6 +1301,5 @@
                     },
                 });
             });
-            //
     </script>
 @endsection

@@ -95,7 +95,7 @@ class SettingController extends Controller
             $expiryDate = \Carbon\Carbon::parse($License->ad_license_expiry);
 
             $now = \Carbon\Carbon::now();
-            if ($expiryDate->diffInDays($now) <= 30 && $expiryDate > $now) {
+            if ($expiryDate->diffInDays($now) == 30 && $expiryDate > $now) {
                 $this->notifyBroker($License, 'Your license will expire in ' . $expiryDate->diffInDays($now) . ' days.');
             }
 

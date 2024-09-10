@@ -463,9 +463,8 @@ protected function notifyAdmins2(User $user)
 
 public function GetDistrictsCity($id)
 {
-    // $districts = District::where('city_id', $id)->get();
-    $districts = $this->districtService->getDistrictsByCity($id);
-
+    $districts = District::where('city_id', $id)->get();
+    // $districts = $this->districtService->getDistrictsByCity($id);
     return view('Admin.settings.Region.inc._district', get_defined_vars());
 }
 
