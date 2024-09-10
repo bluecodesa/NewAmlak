@@ -17,6 +17,7 @@ use  App\Email\Admin\SendOtpMail;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Feature;
+use App\Models\Owner;
 use App\Models\RealEstateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -105,7 +106,8 @@ class HomeController extends Controller
         SubscriptionService $subscriptionService,
         DistrictService $districtService,
         TicketService $ticketService,
-        TicketTypeService $ticketTypeService
+        TicketTypeService $ticketTypeService,
+
     ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -194,9 +196,14 @@ class HomeController extends Controller
 
             $Items = $projects->merge($properties)->merge($AllUnits);
             $allItems = $allItems->merge($Items);
+            $city = $finder->UserOwnerData->CityData;
+            $region = $city->RegionData ?? [];
+
+
         }
 
-
+        $Regions = $this->regionService->getAllRegions();
+        $cities = $this->cityService->getAllCities();
         return view('Home.Property-Finder.index', get_defined_vars());
     }
 
@@ -209,68 +216,143 @@ class HomeController extends Controller
     }
 
     public function updatePropertyFinder(Request $request, $id)
-    {
-
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'phone' => 'required|unique:users,phone,' . $id,
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'id_number' => [
-                'required',
-                'numeric',
-                'digits:10',
-                'unique:users,id_number,' . $id, // Ensure ID number is unique, excluding the current user
-                function ($attribute, $value, $fail) {
-                    if (!preg_match('/^[12]\d{9}$/', $value)) {
-                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
-                    }
-                },
-            ],
-        ];
-
-        $messages = [
-            'name.required' => __('The name field is required.'),
-            'email.required' => __('The email field is required.'),
-            'email.unique' => __('The email has already been taken.'),
-            'phone.required' => __('The mobile field is required.'),
-            'phone.unique' => __('The mobile has already been taken.'),
-            'avatar.image' => __('The Image logo must be an image.'),
-            'id_number.required' => 'The ID number field is required.',
-            'id_number.numeric' => 'The ID number must be a number.',
-            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
-            'id_number.unique' => 'The ID number has already been taken.', // Custom message for unique constraint
-        ];
-
-        $request->validate($rules, $messages);
-
-        $finder = User::findOrFail($id);
-        if ($request->hasFile('avatar')) {
-            // Delete old avatar if it exists
-            if ($finder->avatar) {
-                $oldAvatarPath = public_path($finder->avatar);
-                if (file_exists($oldAvatarPath)) {
-                    unlink($oldAvatarPath);
+{
+    $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'phone' => 'required|unique:users,phone,' . $id,
+        'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+        'id_number' => [
+            'required',
+            'numeric',
+            'digits:10',
+            'unique:users,id_number,' . $id,
+            function ($attribute, $value, $fail) {
+                if (!preg_match('/^[12]\d{9}$/', $value)) {
+                    $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
                 }
-            }
+            },
+        ],
+    ];
 
-            $file = $request->file('avatar');
-            $ext = uniqid() . '.' . $file->clientExtension();
-            $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
-            $finder->avatar = '/PropertyFounder/' . 'Logos/' . $ext;
+    $messages = [
+        'name.required' => __('The name field is required.'),
+        'email.required' => __('The email field is required.'),
+        'email.unique' => __('The email has already been taken.'),
+        'phone.required' => __('The mobile field is required.'),
+        'phone.unique' => __('The mobile has already been taken.'),
+        'avatar.image' => __('The Image logo must be an image.'),
+        'id_number.required' => 'The ID number field is required.',
+        'id_number.numeric' => 'The ID number must be a number.',
+        'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+        'id_number.unique' => 'The ID number has already been taken.',
+    ];
+
+    $request->validate($rules, $messages);
+
+    $finder = User::findOrFail($id);
+    if ($request->hasFile('avatar')) {
+        if ($finder->avatar) {
+            $oldAvatarPath = public_path($finder->avatar);
+            if (file_exists($oldAvatarPath)) {
+                unlink($oldAvatarPath);
+            }
         }
 
-            $finder->name = $request->name;
-            $finder->email = $request->email;
-            $finder->phone = $request->phone;
-            $finder->id_number = $request->id_number;
-            $finder->key_phone = $request->key_phone;
-            $finder->full_phone = $request->key_phone . $request->phone;
-
-            $finder->save();
-
-        return redirect()->route('PropertyFinder.home')->withSuccess(__('Property Finder updated successfully.'));
+        $file = $request->file('avatar');
+        $ext = uniqid() . '.' . $file->clientExtension();
+        $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
+        $finder->avatar = '/PropertyFounder/' . 'Logos/' . $ext;
     }
+
+    $finder->name = $request->name;
+    $finder->email = $request->email;
+    $finder->phone = $request->phone;
+    $finder->id_number = $request->id_number;
+    $finder->key_phone = $request->key_phone;
+    $finder->full_phone = $request->key_phone . $request->phone;
+
+    $finder->save();
+    // If the user is marked as an owner, update or create their entry in the `owners` table
+    if ($finder->is_owner) {
+        Owner::where('user_id', $finder->id)->update([
+            'name' => $finder->name,
+            'email' => $finder->email,
+            'phone' => $finder->phone,
+            'key_phone' => $finder->key_phone,
+            'full_phone' => $finder->full_phone,
+            'city_id' => $request->city_id,
+        ]);
+    }
+
+
+    return redirect()->route('PropertyFinder.home')->withSuccess(__('Property Finder updated successfully.'));
+}
+
+
+    // public function updatePropertyFinder(Request $request, $id)
+    // {
+
+    //     $rules = [
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|email|unique:users,email,' . $id,
+    //         'phone' => 'required|unique:users,phone,' . $id,
+    //         'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+    //         'id_number' => [
+    //             'required',
+    //             'numeric',
+    //             'digits:10',
+    //             'unique:users,id_number,' . $id, // Ensure ID number is unique, excluding the current user
+    //             function ($attribute, $value, $fail) {
+    //                 if (!preg_match('/^[12]\d{9}$/', $value)) {
+    //                     $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+    //                 }
+    //             },
+    //         ],
+    //     ];
+
+    //     $messages = [
+    //         'name.required' => __('The name field is required.'),
+    //         'email.required' => __('The email field is required.'),
+    //         'email.unique' => __('The email has already been taken.'),
+    //         'phone.required' => __('The mobile field is required.'),
+    //         'phone.unique' => __('The mobile has already been taken.'),
+    //         'avatar.image' => __('The Image logo must be an image.'),
+    //         'id_number.required' => 'The ID number field is required.',
+    //         'id_number.numeric' => 'The ID number must be a number.',
+    //         'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+    //         'id_number.unique' => 'The ID number has already been taken.', // Custom message for unique constraint
+    //     ];
+
+    //     $request->validate($rules, $messages);
+
+    //     $finder = User::findOrFail($id);
+    //     if ($request->hasFile('avatar')) {
+    //         // Delete old avatar if it exists
+    //         if ($finder->avatar) {
+    //             $oldAvatarPath = public_path($finder->avatar);
+    //             if (file_exists($oldAvatarPath)) {
+    //                 unlink($oldAvatarPath);
+    //             }
+    //         }
+
+    //         $file = $request->file('avatar');
+    //         $ext = uniqid() . '.' . $file->clientExtension();
+    //         $file->move(public_path() . '/PropertyFounder/' . 'Logos/', $ext);
+    //         $finder->avatar = '/PropertyFounder/' . 'Logos/' . $ext;
+    //     }
+
+    //         $finder->name = $request->name;
+    //         $finder->email = $request->email;
+    //         $finder->phone = $request->phone;
+    //         $finder->id_number = $request->id_number;
+    //         $finder->key_phone = $request->key_phone;
+    //         $finder->full_phone = $request->key_phone . $request->phone;
+
+    //         $finder->save();
+
+    //     return redirect()->route('PropertyFinder.home')->withSuccess(__('Property Finder updated successfully.'));
+    // }
 
     public function updatePassword(Request $request, $id)
     {

@@ -126,8 +126,27 @@
                             </ul>
                         </div>
                     </div>
+                    @if($finder->is_owner)
+                    <div class="col-md-6 col-12 mb-3">
+                        <label>@lang('Region') <span class="text-danger">*</span></label>
+                        <select type="package" class="form-select" id="Region_id" required>
+                            <option selected value="{{ $region->id ?? '' }}">
+                                {{ $region->name ?? '' }}</option>
+                            @foreach ($Regions as $Region)
+                                <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
+                                    {{ $Region->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-
+                    <div class="col-md-6 col-12 mb-3">
+                        <label>@lang('city') <span class="text-danger">*</span></label>
+                        <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
+                            <option selected value="{{ $city->id ?? '' }}">
+                                {{ $city->name ?? '' }}</option>
+                        </select>
+                    </div>
+                    @endif
 
                     <div class="col-md-12 col-12 mb-3">
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
