@@ -63,6 +63,7 @@
                             <tr>
                                 {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
+                                <th>@lang('Number of users')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -71,6 +72,7 @@
                                 <tr>
                                     {{-- <th>{{ $index + 1 }}</th> --}}
                                     <td>{{ $falLicense->name }} </td>
+                                    <td>{{ $falLicense->licenses->count() }} </td>
                                     <td>
 
                                         <div class="dropdown">

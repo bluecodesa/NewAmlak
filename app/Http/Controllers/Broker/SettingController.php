@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
+use App\Models\Fal;
 use App\Models\Gallery;
 use App\Models\NotificationSetting;
 use App\Models\Office;
@@ -82,6 +83,7 @@ class SettingController extends Controller
 
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
         $Faltypes = $this->FalLicenseService->getAll();
+
         $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
         $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
 
@@ -213,7 +215,9 @@ protected function notifyBroker(FalLicenseUser $license, $message)
     public function createFalLicense()
     {
         //
-        $Faltypes = $this->FalLicenseService->getAll();
+        // $Faltypes = $this->FalLicenseService->getAll();
+        $createdTypes = FalLicenseUser::where('user_id', auth()->user()->id)->pluck('fal_id');
+        $Faltypes = Fal::whereNotIn('id', $createdTypes)->get();
         $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
 
         // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
