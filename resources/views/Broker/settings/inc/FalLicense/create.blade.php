@@ -27,7 +27,7 @@
                         <label class="form-label">@lang('REGA Type') <span
                                 class="required-color">*</span></label>
                         <select class="form-select" name="fal_id" required>
-                            <option disabled selected value="">@lang('REGA Type')</option>
+                            <option disabled selected value="">@lang('REGA License Type')</option>
                             @foreach ($Faltypes as $Faltype)
                                 <option value="{{ $Faltype->id }}">{{ $Faltype->name }}</option>
                             @endforeach
