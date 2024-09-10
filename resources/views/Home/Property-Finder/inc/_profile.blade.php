@@ -145,7 +145,7 @@
                             <option selected value="{{ $city->id ?? '' }}">
                                 {{ $city->name ?? '' }}</option>
                             @foreach ($cities as $city)
-                            {{ $city->id == $finder->UserOwnerData->CityData->city_id ? 'selected' : '' }}>
+                            {{ $city->id ? 'selected' : '' }}>
                             {{ $city->name ?? '' }}</option>
                                 @endforeach
                         </select>
