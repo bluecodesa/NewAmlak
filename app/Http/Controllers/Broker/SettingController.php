@@ -8,6 +8,7 @@ use App\Models\Gallery;
 use App\Models\NotificationSetting;
 use App\Models\Office;
 use App\Models\Subscription;
+use App\Notifications\Admin\LicenseExpiryNotification;
 use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
 use App\Services\RegionService;
@@ -21,7 +22,7 @@ use App\Services\Admin\SubscriptionTypeService;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Admin\FalLicenseService;
 use App\Models\FalLicenseUser;
-
+use Illuminate\Support\Facades\Notification;
 
 class SettingController extends Controller
 {
@@ -84,16 +85,40 @@ class SettingController extends Controller
         $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
         $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
 
+        // foreach ($Licenses as $License) {
+        //     if (isset($License->ad_license_expiry) && $License->ad_license_expiry < now()->format('Y-m-d')) {
+        //         $License->update(['ad_license_status' => 'invalid']);
+        //     }
+        // }
+
         foreach ($Licenses as $License) {
-            if (isset($License->ad_license_expiry) && $License->ad_license_expiry < now()->format('Y-m-d')) {
+            $expiryDate = \Carbon\Carbon::parse($License->ad_license_expiry);
+
+            $now = \Carbon\Carbon::now();
+            if ($expiryDate->diffInDays($now) <= 30 && $expiryDate > $now) {
+                $this->notifyBroker($License, 'Your license will expire in ' . $expiryDate->diffInDays($now) . ' days.');
+            }
+
+            if ($expiryDate < $now) {
                 $License->update(['ad_license_status' => 'invalid']);
+                $this->notifyBroker($License, 'Your license has expired and is now invalid.');
             }
         }
 
-
-        // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
         return view('Broker.settings.index', get_defined_vars());
     }
+
+
+
+
+protected function notifyBroker(FalLicenseUser $license, $message)
+{
+    $broker = $license->userData;
+    if ($broker && $broker->is_broker) {
+        Notification::send($broker, new LicenseExpiryNotification($message));
+    }
+}
+
 
 
 
