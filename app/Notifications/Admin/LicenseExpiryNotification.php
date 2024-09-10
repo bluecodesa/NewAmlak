@@ -3,6 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Models\Broker;
+use App\Models\FalLicenseUser;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Models\User;
@@ -16,11 +17,13 @@ class LicenseExpiryNotification extends Notification
     use Queueable;
 
 
-    private $message;
+    private $message,$license;
 
-    public function __construct($message)
+    public function __construct(FalLicenseUser $license, $message)
     {
         $this->message = $message;
+        $this->license = $license;
+
     }
 
     public function via($notifiable)
@@ -31,7 +34,8 @@ class LicenseExpiryNotification extends Notification
     public function toDatabase($notifiable)
     {
 
-
+        $license = $this->license;
+        
         return [
             'msg' => __('') . ' ' . $this->message,
             'url' => route('Broker.Setting.index'),
