@@ -55,6 +55,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Admin\TicketTypeService;
 use App\Services\Broker\TicketService;
+use App\Services\Admin\RegionService as AdminRegionService;
+
 
 
 
@@ -84,6 +86,8 @@ class HomeController extends Controller
     protected $districtService;
     protected $ticketService;
     protected $ticketTypeService;
+    protected $RegionService;
+
 
 
 
@@ -107,6 +111,8 @@ class HomeController extends Controller
         DistrictService $districtService,
         TicketService $ticketService,
         TicketTypeService $ticketTypeService,
+        AdminRegionService $RegionService
+
 
     ) {
         $this->regionService = $regionService;
@@ -126,6 +132,8 @@ class HomeController extends Controller
         $this->districtService = $districtService;
         $this->ticketService = $ticketService;
         $this->ticketTypeService =  $ticketTypeService;
+        $this->RegionService = $RegionService;
+
     }
 
 
@@ -863,6 +871,13 @@ public function createUnit()
         // $cities = City::where('region_id', $id)->get();
         $cities =City::where('region_id', $id)->get();
 
+        return view('Admin.settings.Region.inc._city', get_defined_vars());
+    }
+
+    public function GetCitiesByRegion($id)
+    {
+        // $cities = City::where('region_id', $id)->get();
+        $cities = $this->RegionService->getCityByRegionId($id);
         return view('Admin.settings.Region.inc._city', get_defined_vars());
     }
 

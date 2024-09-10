@@ -133,7 +133,7 @@
                             <option selected value="{{ $region->id ?? '' }}">
                                 {{ $region->name ?? '' }}</option>
                             @foreach ($Regions as $Region)
-                                <option value="{{ $Region->id }}" data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
+                                <option value="{{ $Region->id }}" data-url="{{ route('PropertyFinder.GetCitiesByRegion', $Region->id) }}">
                                     {{ $Region->name }}</option>
                             @endforeach
                         </select>
