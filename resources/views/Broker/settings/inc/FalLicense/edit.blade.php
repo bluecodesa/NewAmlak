@@ -23,10 +23,10 @@
                         @method('PUT')
 
                            <div class="col-md-4 mb-3 col-12">
-                                <label class="form-label">@lang('FalLicense type') <span
+                                <label class="form-label">@lang('REGA Type') <span
                                         class="required-color">*</span></label>
                                 <select class="form-select" name="fal_id" required>
-                                    <option disabled selected value="">@lang('FalLicense type')</option>
+                                    <option disabled selected value="">@lang('REGA Type')</option>
                                     @foreach ($Faltypes as $Faltype)
                                         <option value="{{ $Faltype->id }}"
                                             {{ $Faltype->id == $falLicense->fal_id ? 'selected' : '' }}>
