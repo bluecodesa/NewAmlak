@@ -45,7 +45,7 @@
                     $licenseDate = Auth::user()->UserBrokerData->license_date;
                     @endphp --}}
                     <div class="col-sm-12 col-md-4 mb-3">
-                        <label class="form-label">@lang('Ad License Expiry')<span
+                        <label class="form-label">@lang('License Expiry')<span
                             class="required-color">*</span></label>
                         <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" required />
                         <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>

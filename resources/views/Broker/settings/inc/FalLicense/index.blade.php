@@ -49,8 +49,8 @@
                             <tr>
                                 {{-- <th>#</th> --}}
                                 <th>@lang('Name')</th>
-                                <th>@lang('Ad License Number')</th>
-                                <th>@lang('Ad License Expiry')</th>
+                                <th>@lang('License Number')</th>
+                                <th>@lang('License Expiry')</th>
                                 <th>@lang('status')</th>
                                 <th>@lang('Action')</th>
                             </tr>

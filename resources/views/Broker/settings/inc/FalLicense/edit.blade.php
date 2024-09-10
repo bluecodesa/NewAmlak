@@ -9,7 +9,7 @@
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
                         <a href="{{ route('Broker.Setting.index') }}" class="text-muted fw-light">@lang('Settings')
                         </a> /
-                        @lang('Edit')
+                        @lang('Edit') @lang('REGA License')
                     </h4>
                 </div>
 
@@ -36,7 +36,7 @@
                             </div>
 
                             <div class="col-sm-12 col-md-4 mb-3">
-                                <label class="form-label">@lang('Ad License Number')<span
+                                <label class="form-label">@lang('License Number')<span
                                     class="required-color">*</span></label>
                                 <input type="number" name="ad_license_number" class="form-control"
                                 value="{{ $falLicense->ad_license_number }}"  id="ad_license_number" required />
@@ -45,7 +45,7 @@
                             $licenseDate = Auth::user()->UserBrokerData->license_date;
                             @endphp
                             <div class="col-sm-12 col-md-4 mb-3">
-                                <label class="form-label">@lang('Ad License Expiry')<span
+                                <label class="form-label">@lang('License Expiry')<span
                                     class="required-color">*</span></label>
                                 <input type="date" name="ad_license_expiry" class="form-control"
                                 value="{{ $falLicense->ad_license_expiry }}" id="ad_license_expiry" required />
