@@ -133,7 +133,7 @@
                             <option selected value="{{ $region->id ?? '' }}">
                                 {{ $region->name ?? '' }}</option>
                             @foreach ($Regions as $Region)
-                                <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
+                                <option value="{{ $Region->id }}" data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
                                     {{ $Region->name }}</option>
                             @endforeach
                         </select>
@@ -144,6 +144,10 @@
                         <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
                             <option selected value="{{ $city->id ?? '' }}">
                                 {{ $city->name ?? '' }}</option>
+                            @foreach ($cities as $city)
+                            {{ $city->id == $finder->UserOwnerData->CityData->city_id ? 'selected' : '' }}>
+                            {{ $city->name ?? '' }}</option>
+                                @endforeach
                         </select>
                     </div>
                     @endif

@@ -386,6 +386,26 @@ function storeFormData() {
     sessionStorage.setItem('formData', JSON.stringify(formData));
 }
 
+
+
+$('#Region_id').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function() {
+                    $('#CityDiv').fadeOut('fast');
+                },
+                success: function(data) {
+                    $('#CityDiv').fadeOut('fast', function() {
+                        $(this).empty().append(data);
+                        $(this).fadeIn('fast');
+                    });
+                },
+            });
+ });
+
 </script>
 
     @endpush

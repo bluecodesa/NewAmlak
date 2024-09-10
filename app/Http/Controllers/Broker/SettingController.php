@@ -91,19 +91,19 @@ class SettingController extends Controller
         //     }
         // }
 
-        foreach ($Licenses as $License) {
-            $expiryDate = \Carbon\Carbon::parse($License->ad_license_expiry);
+        // foreach ($Licenses as $License) {
+        //     $expiryDate = \Carbon\Carbon::parse($License->ad_license_expiry);
 
-            $now = \Carbon\Carbon::now();
-            if ($expiryDate->diffInDays($now) == 30 && $expiryDate > $now) {
-                $this->notifyBroker($License, 'Your license will expire in ' . $expiryDate->diffInDays($now) . ' days.');
-            }
+        //     $now = \Carbon\Carbon::now();
+        //     if ($expiryDate->diffInDays($now) == 30 && $expiryDate > $now) {
+        //         $this->notifyBroker($License, 'Your license will expire in ' . $expiryDate->diffInDays($now) . ' days.');
+        //     }
 
-            if ($expiryDate < $now) {
-                $License->update(['ad_license_status' => 'invalid']);
-                $this->notifyBroker($License, 'Your license has expired and is now invalid.');
-            }
-        }
+        //     if ($expiryDate < $now) {
+        //         $License->update(['ad_license_status' => 'invalid']);
+        //         $this->notifyBroker($License, 'Your license has expired and is now invalid.');
+        //     }
+        // }
 
         return view('Broker.settings.index', get_defined_vars());
     }

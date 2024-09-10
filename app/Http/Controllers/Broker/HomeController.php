@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Models\City;
 use App\Models\District;
+use App\Models\FalLicenseUser;
 use App\Models\Gallery;
 use App\Models\Owner;
 use App\Models\Role;
@@ -14,6 +15,7 @@ use App\Models\SubscriptionSection;
 use App\Models\SubscriptionType;
 use App\Models\SystemInvoice;
 use App\Models\UnitInterest;
+use App\Notifications\Admin\LicenseExpiryNotification;
 use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +33,7 @@ use App\Services\PropertyUsageService;
 use App\Services\Admin\SectionService;
 use App\Services\Broker\TicketService;
 use App\Services\RealEstateRequestService;
+use Illuminate\Support\Facades\Notification;
 
 class HomeController extends Controller
 {
@@ -93,18 +96,6 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-
-        // return Auth::user()->UserBrokerData->UserSubscription->SubscriptionSectionData;
-        // return Auth::user()->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')->toArray();
-        // $subscriptionType = subscriptionType::find(Auth::user()->UserBrokerData->UserSubscription->subscription_type_id);
-        // if (!Auth::user()->UserBrokerData->UserSubscription->SubscriptionSectionData) {
-        //     foreach ($subscriptionType->sections()->get() as $section_id) {
-        //         SubscriptionSection::create([
-        //             'section_id' => $section_id->id,
-        //             'subscription_id' => Auth::user()->UserBrokerData->UserSubscription->id,
-        //         ]);
-        //     }
-        // }
 
         $user = $request->user();
         $roles = Role::all();
@@ -181,8 +172,35 @@ class HomeController extends Controller
         $requests = $this->RealEstateRequestService->getAll();
         Auth::user()->assignRole('RS-Broker');
         session(['active_role' => 'RS-Broker']);
+
+        $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
+
+        foreach ($Licenses as $License) {
+            $expiryDate = \Carbon\Carbon::parse($License->ad_license_expiry);
+            $now = \Carbon\Carbon::now();
+
+            if ($expiryDate->diffInDays($now) <= 30 && $expiryDate > $now && !$License->notification_sent) {
+                $this->notifyBroker($License, 'Your license will expire in ' . $expiryDate->diffInDays($now) . ' days.');
+                $License->update(['notification_sent' => true]);
+            }
+
+            if ($expiryDate < $now ) {
+                $License->update(['ad_license_status' => 'invalid', 'notification_sent' => true]);
+                $this->notifyBroker($License, 'Your license has expired and is now invalid.');
+            }
+        }
+
         return view('Broker.dashboard',  get_defined_vars());
     }
+
+    protected function notifyBroker(FalLicenseUser $license, $message)
+    {
+        $broker = $license->userData;
+        if ($broker && $broker->is_broker) {
+            Notification::send($broker, new LicenseExpiryNotification($message));
+        }
+    }
+
 
     function ViewInvoice()
     {
