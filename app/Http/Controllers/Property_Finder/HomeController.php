@@ -196,7 +196,7 @@ class HomeController extends Controller
 
             $Items = $projects->merge($properties)->merge($AllUnits);
             $allItems = $allItems->merge($Items);
-            $city = $finder->UserOwnerData->CityData;
+            $city = $finder->UserOwnerData->CityData ?? null;
             $region = $city->RegionData ?? [];
 
 
