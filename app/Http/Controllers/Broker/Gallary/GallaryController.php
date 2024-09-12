@@ -353,6 +353,9 @@ protected function updateAdLicenseStatus($allItemsProperties)
         })
         ->paginate(3);
 
+        $allUnits = Unit::take(6)->paginate(3);
+
+
 
         $data['moreUnits'] = $moreUnits;
 

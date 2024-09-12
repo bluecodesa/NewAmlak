@@ -245,6 +245,9 @@ class PropertyController extends Controller
             })
             ->paginate(3);
 
+            $allProperties = Property::take(6)->paginate(3);
+
+
             return view('Home.Gallery.Property.show',  get_defined_vars());
         }
         else {
