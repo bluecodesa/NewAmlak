@@ -235,6 +235,15 @@ class ProjectController extends Controller
         $project = $this->projectService->ShowPublicProject($id);
         if(!empty($project) && $project->BrokerData->license_validity == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 ){
             $ticketTypes =  TicketType::paginate(100);
+            $cityId = $project->city_id;
+            $districtId  = $project->district_id  ;
+            $moreProjects = Project::where('id', '!=', $id)
+            ->where('ad_license_status', 'Valid')
+            ->where(function($query) use ($cityId, $districtId, $project) {
+                $query->where('city_id', $cityId)
+                      ->orWhere('district_id', $districtId);
+            })
+            ->paginate(3);
             return view('Home.Projects.show',  get_defined_vars());
 
         }

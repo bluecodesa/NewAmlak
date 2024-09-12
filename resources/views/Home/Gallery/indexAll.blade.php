@@ -240,11 +240,15 @@
                                         <div class="card-body text-center">
                                             <div class="dropdown btn-pinned">
                                                 @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
+                                                @if ($unit->type == 'rent')
                                                     <span class="pb-1">
                                                         {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
                                                     </span>
-                                                @else
-
+                                                    @elseif ($unit->type == 'sale')
+                                                    {{ $unit->price }} @lang('SAR')
+                                                    @else
+                                                    {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                                    @endif
                                                 @endif
 
 
@@ -280,14 +284,14 @@
                                                 $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
                                                 $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
                                                 @endphp
-                                            
+
                                             @auth
                                                 @if (auth()->user())
                                                     @php
                                                         $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)->orwhere('property_id', $unit->id)->orwhere('project_id', $unit->id)
                                                             ->where('finder_id', auth()->user()->id)
                                                             ->exists();
-                                            
+
                                                         // Determine the type (unit, property, or project)
                                                         $type = $isGalleryUnit ? 'unit' : ($isGalleryProject ? 'project' : ($isGalleryProperty ? 'property' : ''));
                                                     @endphp
@@ -305,7 +309,7 @@
                                                                     <input type="hidden" name="type" value="{{ $type }}">
                                                                 </form>
 
-                                                 
+
                                                             @else
                                                                 <form method="POST" action="{{ route('add-to-favorites') }}">
                                                                     @csrf
@@ -314,7 +318,7 @@
                                                                     </button>
                                                                     <input type="hidden" name="unit_id" value="{{ $unit->id }}">
                                                                     <input type="hidden" name="owner_id" value="{{ $unit->BrokerData->user_id }}">
-                                                
+
                                                                     <!-- Send type as hidden input -->
                                                                     <input type="hidden" name="type" value="{{ $type }}">
                                                                 </form>

@@ -335,6 +335,27 @@ protected function updateAdLicenseStatus($allItemsProperties)
         if (empty($data) || (isset($data['Unit']) && $data['Unit']->show_gallery == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
+
+        $unit = $data['Unit'];
+        $cityId = $unit->city_id;
+        $propertyTypeId = $unit->property_type_id;
+        $propertyUsageId = $unit->property_usage_id;
+
+
+        //or type , orproperty type , orusage  , and sort by discrit
+        $moreUnits = Unit::where('id', '!=', $id)
+        ->where('ad_license_status', 'Valid')
+        ->where(function($query) use ($cityId, $propertyTypeId, $propertyUsageId, $unit) {
+            $query->where('city_id', $cityId)
+                ->orWhere('property_type_id', $propertyTypeId)
+                ->orWhere('property_usage_id', $propertyUsageId)
+                ->orWhere('type', $unit->type);
+        })
+        ->paginate(3);
+
+
+        $data['moreUnits'] = $moreUnits;
+
         $broker = $data['broker'];
         if ($broker->license_validity == 'valid') {
             $data['CheckUnitExist'] = UnitInterest::where(['interested_id' => Auth::id(), 'unit_id' => $id])->exists();

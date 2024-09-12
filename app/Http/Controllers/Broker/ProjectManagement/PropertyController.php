@@ -232,6 +232,19 @@ class PropertyController extends Controller
 
         if(!empty($property) && $property->BrokerData->license_validity == 'valid' && $property->BrokerData->GalleryData->gallery_status != 0 ){
             $ticketTypes =  TicketType::paginate(100);
+
+
+            $cityId = $property->city_id;
+            $propertyTypeId = $property->property_type_id;
+            $moreProperties = Property::where('id', '!=', $id)
+            ->where('ad_license_status', 'Valid')
+            ->where(function($query) use ($cityId, $propertyTypeId, $property) {
+                $query->where('city_id', $cityId)
+                      ->orWhere('property_type_id', $propertyTypeId)
+                      ->orWhere('type', $property->type);
+            })
+            ->paginate(3);
+
             return view('Home.Gallery.Property.show',  get_defined_vars());
         }
         else {
