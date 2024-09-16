@@ -12,7 +12,11 @@
     </div>
 </section> --}}
 
-
+@php
+    $sectionsIds = Auth::user()
+        ->UserOwnerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+@endphp
 
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
@@ -134,13 +138,13 @@
                 @endif
                 @if (Auth::user()->hasPermission('Read-favorite-properties') ||
                 Auth::user()->hasPermission('Read-favorite-properties-admin'))
-            <li class="nav-item" role="presentation">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                    data-bs-target="#navs-justified-requests" aria-controls="navs-justified-requests"
-                    aria-selected="false" tabindex="-1">
-                    <i class="tf-icons ti ti-heart ti-xs me-1"></i>الطلبات العقارية
-                </button>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-requests" aria-controls="navs-justified-requests"
+                        aria-selected="false" tabindex="-1">
+                        <i class="tf-icons ti ti-heart ti-xs me-1"></i>الطلبات العقارية
+                    </button>
+                </li>
                 @endif
                 @if (session('active_role') === 'Owner')
                 <li class="nav-item" role="presentation">
@@ -150,7 +154,17 @@
                         <i class="tf-icons ti ti-building-arch ti-xs me-1"></i>@lang('My Properties')
                     </button>
                 </li>
-            @endif
+                @endif
+
+                @if (in_array(12, $sectionsIds))
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-Technical" aria-controls="navs-justified-Technical"
+                            aria-selected="false" tabindex="-1">
+                            <i class="tf-icons ti ti-file-invoice ti-xs me-1"></i>@lang('Subscription Management')
+                        </button>
+                    </li>
+                @endif
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-Technical" aria-controls="navs-justified-Technical"

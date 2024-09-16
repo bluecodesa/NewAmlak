@@ -65,4 +65,10 @@ class Owner extends Model
         return $this->hasMany(OwnerOfficeBroker::class, 'owner_id');
     }
 
+    public function UserSubscription()
+    {
+        return $this->hasOne(Subscription::class, 'owner_id');
+    }
+
+
 }
