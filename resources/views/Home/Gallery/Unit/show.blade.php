@@ -341,7 +341,7 @@
                                     @endif
                                     @if ($Unit->type == 'rent and sale')
                                         <span class="fw-medium mx-2 text-heading">@lang('sale') / @lang('rent') </span>
-                                        <span>{{ __($Unit->type) }} / {{ $Unit->getRentPriceByType() }}
+                                        <span>{{ __($Unit->price) }} / {{ $Unit->getRentPriceByType() }}
                                             <sup>@lang('SAR') / {{ __($Unit->rent_type_show) }}</span>
                                     @endif
                                 </li>
