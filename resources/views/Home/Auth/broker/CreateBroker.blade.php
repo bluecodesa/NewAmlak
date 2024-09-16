@@ -223,7 +223,7 @@
                             </div> --}}
 
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10"
-                            id="subscription_type_id" name="subscription_type_id" value="23">
+                            id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id }}">
 
 
                             <div class="form-group col-md-4">

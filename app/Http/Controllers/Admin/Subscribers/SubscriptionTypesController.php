@@ -71,10 +71,14 @@ class SubscriptionTypesController extends Controller
         $rules += [
             'period' => 'required|numeric|min:1',
             'period_type' => 'required',
-            'roles' => 'required|array|min:1', // At least one role must be selected
+            'roles' => 'required|array|min:1',
             'sections' => 'required|array',
             'upgrade_rate' => 'nullable|numeric|min:0|max:100',
-            'price' => 'required|numeric|min:0', // Add this line for price validation
+            'price' => 'required|numeric|min:0',
+            'new_subscription' => [
+                'required',
+                Rule::in(['0', '1'])
+            ],
 
         ];
         $messages = [
@@ -123,6 +127,10 @@ class SubscriptionTypesController extends Controller
             'sections*' => 'required',
             'upgrade_rate' => 'nullable|numeric|min:0|max:100',
             'price' => 'required|numeric|min:0', // Add this line for price validation
+            'new_subscription' => [
+                'required',
+                Rule::in(['0', '1'])
+            ],
 
 
         ];

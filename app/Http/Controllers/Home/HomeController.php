@@ -208,9 +208,15 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
-            ->whereIn('id', $RolesSubscriptionTypeIds)
-            ->get();
+        // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+        //     ->whereIn('id', $RolesSubscriptionTypeIds)
+        //     ->get();
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('status', 1)
+        ->where('new_subscription', '1')
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
+
         return view('Home.Auth.broker.create', get_defined_vars());
     }
 
@@ -234,9 +240,14 @@ class HomeController extends Controller
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
-            ->whereIn('id', $RolesSubscriptionTypeIds)
-            ->get();
+        // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+        //     ->whereIn('id', $RolesSubscriptionTypeIds)
+        //     ->get();
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('status', 1)
+        ->where('new_subscription', '1')
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
         $newBroker=auth()->user();
         return view('Home.Auth.broker.CreateBroker', get_defined_vars());
     }
@@ -262,9 +273,15 @@ class HomeController extends Controller
 
         // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status', 1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
-            ->whereIn('id', $RolesSubscriptionTypeIds)
-            ->get();
+        // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+        //     ->whereIn('id', $RolesSubscriptionTypeIds)
+        //     ->get();
+
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('status', 1)
+        ->where('new_subscription', '1')
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
         return view('Home.Auth.office.create', get_defined_vars());
     }
 
@@ -467,9 +484,15 @@ class HomeController extends Controller
 
         // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('is_show', 1)->where('status', 1)->whereIn('id', $RolesSubscriptionTypeIds)->get();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
-            ->whereIn('id', $RolesSubscriptionTypeIds)
-            ->get();
+        // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+        //     ->whereIn('id', $RolesSubscriptionTypeIds)
+        //     ->get();
+
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('status', 1)
+        ->where('new_subscription', '1')
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
             $newOffice=auth()->user();
         return view('Home.Auth.office.CreateOffice', get_defined_vars());
     }
@@ -1160,9 +1183,14 @@ private function generateCustomerId()
 
         $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
 
-        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
-            ->whereIn('id', $RolesSubscriptionTypeIds)
-            ->get();
+        // $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+        //     ->whereIn('id', $RolesSubscriptionTypeIds)
+        //     ->get();
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('new_subscription', '1')
+        ->where('status', 1)
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
         return view('Home.Auth.propertyFinder.create', get_defined_vars());
     }
 
