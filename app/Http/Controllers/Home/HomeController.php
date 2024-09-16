@@ -213,7 +213,7 @@ class HomeController extends Controller
         //     ->get();
         $subscriptionType = SubscriptionType::where('is_deleted', 0)
         ->where('status', 1)
-        ->where('new_subscription', '1')
+        ->where('new_subscriber', '1')
         ->whereIn('id', $RolesSubscriptionTypeIds)
         ->first();
 
@@ -245,7 +245,7 @@ class HomeController extends Controller
         //     ->get();
         $subscriptionType = SubscriptionType::where('is_deleted', 0)
         ->where('status', 1)
-        ->where('new_subscription', '1')
+        ->where('new_subscriber', '1')
         ->whereIn('id', $RolesSubscriptionTypeIds)
         ->first();
         $newBroker=auth()->user();
@@ -279,7 +279,7 @@ class HomeController extends Controller
 
         $subscriptionType = SubscriptionType::where('is_deleted', 0)
         ->where('status', 1)
-        ->where('new_subscription', '1')
+        ->where('new_subscriber', '1')
         ->whereIn('id', $RolesSubscriptionTypeIds)
         ->first();
         return view('Home.Auth.office.create', get_defined_vars());
@@ -490,7 +490,7 @@ class HomeController extends Controller
 
         $subscriptionType = SubscriptionType::where('is_deleted', 0)
         ->where('status', 1)
-        ->where('new_subscription', '1')
+        ->where('new_subscriber', '1')
         ->whereIn('id', $RolesSubscriptionTypeIds)
         ->first();
             $newOffice=auth()->user();
@@ -1187,7 +1187,7 @@ private function generateCustomerId()
         //     ->whereIn('id', $RolesSubscriptionTypeIds)
         //     ->get();
         $subscriptionType = SubscriptionType::where('is_deleted', 0)
-        ->where('new_subscription', '1')
+        ->where('new_subscriber', '1')
         ->where('status', 1)
         ->whereIn('id', $RolesSubscriptionTypeIds)
         ->first();
