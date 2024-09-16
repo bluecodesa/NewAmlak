@@ -210,7 +210,7 @@
 
                             </div>
 
-                            <div class="col-md-4 col-12 mb-3">
+                            {{-- <div class="col-md-4 col-12 mb-3">
                                 <label class="form-label" for="package"> @lang('Subscription Type') <span
                                         class="text-danger">*</span></label>
                                 <select type="package" class="form-select" name="subscription_type_id" required>
@@ -220,7 +220,10 @@
                                             {{ $subscriptionType->name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
+
+                            <input type="text" hidden class="form-control" minlength="1" maxlength="10"
+                            id="subscription_type_id" name="subscription_type_id" value="23">
 
 
                             <div class="form-group col-md-4">

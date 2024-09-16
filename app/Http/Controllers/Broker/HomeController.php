@@ -180,13 +180,13 @@ class HomeController extends Controller
             $now = \Carbon\Carbon::now();
 
             if ($expiryDate->diffInDays($now) <= 30 && $expiryDate > $now && !$License->notification_sent) {
-                $this->notifyBroker($License, __('Please note that the validity') .$License->falData->name . __('will expire in') . $expiryDate->diffInDays($now) . __('day'));
+                $this->notifyBroker($License, __('30 days left until expiration') .$License->falData->name );
                 $License->update(['notification_sent' => true]);
             }
 
             if ($expiryDate < $now ) {
                 $License->update(['ad_license_status' => 'invalid', 'notification_sent' => true]);
-                $this->notifyBroker($License, $License->falData->name . __('Your license has expired. Please renew your license as soon as possible.'));
+                $this->notifyBroker($License, __('Your has expired') .$License->falData->name . __(', please renew your license as soon as possible.'));
             }
         }
 

@@ -1154,8 +1154,15 @@ private function generateCustomerId()
         $privacyPolicyUrl = $setting->privacy_pdf;
         $Regions = Region::all();
         $cities = City::all();
-        $RolesIds = Role::whereIn('name', ['Property-Finder'])->pluck('id')->toArray();
+        // $RolesIds = Role::whereIn('name', ['Property-Finder'])->pluck('id')->toArray();
 
+        $RolesIds = Role::whereIn('name', ['Owner'])->pluck('id')->toArray();
+
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+
+        $subscriptionTypes = SubscriptionType::where('is_deleted', 0)->where('status', 1)
+            ->whereIn('id', $RolesSubscriptionTypeIds)
+            ->get();
         return view('Home.Auth.propertyFinder.create', get_defined_vars());
     }
 
@@ -1245,6 +1252,22 @@ private function generateCustomerId()
         }
 
 
+        $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
+
+        $delimiter = '-';
+        $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
+
+        if (!$Last_customer_id) {
+            $new_customer_id = 'AMK1-0001';
+        } else {
+            $result = explode($delimiter, $Last_customer_id);
+            $number = (int)$result[1] + 1;
+            $tag_index = min(intval($number / 1000), count($prefixes) - 1);
+            $tag = $prefixes[$tag_index];
+            $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
+        }
+
+
             $user_data = [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -1255,7 +1278,9 @@ private function generateCustomerId()
                 'password' => bcrypt($request->password),
                 'avatar' => $request_data['avatar'] ?? null,
                 'id_number' => $request->id_number,
+                'customer_id' => $new_customer_id,
             ];
+
 
             if ($request->account_type === 'is_property_finder') {
                 session(['active_role' => 'Property-Finder']);
@@ -1267,7 +1292,7 @@ private function generateCustomerId()
             $user = User::create($user_data);
 
             if ($request->account_type === 'is_owner') {
-                Owner::create([
+               $owner= Owner::create([
                     'name' => $request->name,
                     'email' => $request->email,
                     'user_id' => $user->id,
@@ -1275,6 +1300,56 @@ private function generateCustomerId()
                     'phone' => $request->phone ?? null,
                     'full_phone' => $request->full_phone ?? null,
                 ]);
+
+                $subscriptionType = SubscriptionType::find($request->subscription_type_id);
+                $startDate = Carbon::now();
+                $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+
+                if ($subscriptionType->price > 0) {
+                    $SubType = 'paid';
+                    $status = 'pending';
+                } else {
+                    $SubType = 'free';
+                    $status = 'active';
+                }
+                $subscription = Subscription::create([
+                    'owner_id' => $owner->id,
+                    'subscription_type_id' => $request->subscription_type_id,
+                    'status' => $status,
+                    'is_start' => $status == 'pending' ? 0 : 1,
+                    'is_new' => 1,
+                    'start_date' => now()->format('Y-m-d H:i:s'),
+                    'end_date' => $endDate,
+                    'total' => '200'
+                ]);
+
+                foreach ($subscriptionType->sections()->get() as $section_id) {
+                    SubscriptionSection::create([
+                        'section_id' => $section_id->id,
+                        'subscription_id' => $subscription->id,
+                    ]);
+                }
+                $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+
+                $delimiter = '-';
+                if (!$Last_invoice_ID) {
+                    $new_invoice_ID = '00001';
+                } else {
+                    $result = explode($delimiter, $Last_invoice_ID);
+                    $number = (int)$result[1] + 1;
+                    $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+                }
+                $Invoice =   SystemInvoice::create([
+                    'owner_id' => $owner->id,
+                    'subscription_name' => $subscriptionType->name,
+                    'amount' => $subscriptionType->price,
+                    'subscription_type' => $SubType,
+                    'period' => $subscriptionType->period,
+                    'period_type' => $subscriptionType->period_type,
+                    'status' => $status,
+                    'invoice_ID' => 'INV-' . $new_invoice_ID,
+                ]);
+
                 session(['active_role' => 'Owner']);
             }
             $this->notifyAdmins2($user);
