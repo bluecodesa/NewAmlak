@@ -1,32 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ID Validation</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>ID Validation</h1>
+@extends('auth.layouts.app')
+@section('title', __('Register By Id Number'))
+@section('content')
+    <style>
+        .template-customizer-open-btn {
+            display: none !important;
+        }
 
-        @if(session('message'))
-            <div class="alert {{ session('alert-class') }}">
-                {{ session('message') }}
-            </div>
-        @endif
+        body,
+        h4,
+        h1,
+        h2,
+        h5,
+        h6,
+        h3,
+        span,
+        .dropify-clear,
+        small,
+        b,
+        strong,
+        label,
 
-        <form method="POST" action="{{ route('validate-id') }}">
-            @csrf
-            <div class="form-group">
-                <label for="id_number">ID Number:</label>
-                <input type="text" id="id_number" name="id_number" class="form-control" required>
-                @error('id_number')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+        * {
+            font-family: "Noto Kufi Arabic", sans-serif !important;
+        }
+    </style>
+
+    <!-- Content -->
+
+    <div class="container-xxl">
+        <div class="home-btn">
+            <a href="{{ route('welcome') }}" class="text-white"><i class="ti ti-home h2"></i></a>
+        </div>
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner py-4">
+                <!-- Login -->
+                <div class="card">
+                    <div class="card-body">
+                        @if($accountType)
+                            <div class="alert alert-info">
+                                @lang('You are registering as a') {{ $accountType }}
+                            </div>
+                        @endif
+
+                        <!-- Logo -->
+                        <div class="app-brand justify-content-center mb-4 mt-2">
+                            <a href="{{ route('welcome') }}" class="logo logo-admin"><img
+                                    src="{{ url($sitting->icon) }}" alt="" height="50"></a>
+                        </div>
+                        <!-- /Logo -->
+                        @include('Admin.layouts.Inc._errors')
+
+                        <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('Home.storeAccount') }}">
+
+                            @csrf
+
+
+                            <div class="mb-3">
+                                <label class="id_number" for="id_number"> @lang('id number')<span
+                                        class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" minlength="1" maxlength="10"
+                                        id="id_number" name="id_number" required>
+                                </div>
+
+                            <div class="mb-3">
+
+                                <label for="email" class="form-label">@lang('Email') <span
+                                    class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="email" name="email" required
+                                  value="{{ $email }}"  placeholder="@lang('Email')" autofocus />
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">@lang('Name') <span
+                                    class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="name" name="name" required
+                                    placeholder="@lang('Name')" autofocus />
+
+                            </div>
+
+                            <div class="mb-3">
+                                    <div class="form-check mb-0 ms-2">
+                                        <input class="form-check-input" required checked type="checkbox" id="terms-conditions">
+                                        <label class="form-check-label" for="terms-conditions"> @lang('By registering')
+                                            @lang('you accept our')
+                                            <a href="{{ route('Terms') }}" target="_blank">
+                                                @lang('Conditions') @lang('and') @lang('Terms')
+                                            </a>
+                                            &amp;
+                                            <a href="{{ route('Privacy') }}" target="_blank">
+                                                @lang('privacy policy')
+                                            </a>
+                                        </label>
+                                    </div>
+                            </div>
+                            <input type="hidden" name="account_type" value="{{ $accountType }}">
+                            <input type="text" hidden class="form-control" minlength="1" maxlength="10"
+                            id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id }}">
+
+                            <div class="mb-3">
+                                <button class="btn btn-primary d-grid w-100" type="submit">@lang('sign up')</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+                <!-- /Register -->
             </div>
-            <button type="submit" class="btn btn-primary">Validate</button>
-        </form>
+        </div>
     </div>
-</body>
-</html>
+
+    <!-- / Content -->
+@endsection
