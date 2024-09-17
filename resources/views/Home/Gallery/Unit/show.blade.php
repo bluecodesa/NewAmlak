@@ -341,7 +341,8 @@
                                     @endif
                                     @if ($Unit->type == 'rent and sale')
                                         <span class="fw-medium mx-2 text-heading">@lang('sale') </span>
-                                        <span>{{ __($Unit->price) }}</span>
+                                        <span>{{ $Unit->price }}
+                                            <sup>@lang('SAR') </span>
                                             <li class="d-flex align-items-center mb-3">
                                                 <i class="ti ti-currency-dollar text-heading"></i><span
                                                     class="fw-medium mx-2 text-heading">@lang('rent') :
