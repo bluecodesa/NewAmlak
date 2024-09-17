@@ -713,7 +713,7 @@ public function createUnit()
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
-        return view('Home.Owners.Unit.edit', get_defined_vars());
+        return view('Home.Owners.unit.edit', get_defined_vars());
     }
 
     public function updateUnit(Request $request, $id)
