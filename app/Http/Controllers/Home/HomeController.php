@@ -1966,6 +1966,7 @@ class HomeController extends Controller
         'account_type' => 'required|string|in:broker,office,owner,property_finder',
         'subscription_type_id' => 'required|exists:subscription_types,id', // Ensure this field is present in the request
         'license_number' => 'nullable|string', // Example for optional fields
+        'broker_license' => 'nullable|string', // Example for optional fields
         'license_date' => 'nullable|date',
         'CRN' => 'nullable|string',
         'company_name' => 'nullable|string',
@@ -1987,6 +1988,20 @@ class HomeController extends Controller
         ])->withInput();
     }
 
+    $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
+    $delimiter = '-';
+    $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
+
+    if (!$Last_customer_id) {
+        $new_customer_id = 'AMK1-0001';
+    } else {
+        $result = explode($delimiter, $Last_customer_id);
+        $number = (int)$result[1] + 1;
+        $tag_index = min(intval($number / 1000), count($prefixes) - 1);
+        $tag = $prefixes[$tag_index];
+        $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
+    }
+
     // Create a new user
     $newUser = User::create([
         'id_number' => $request->id_number,
@@ -1996,6 +2011,8 @@ class HomeController extends Controller
         'is_office' => $request->account_type == 'office',
         'is_owner' => $request->account_type == 'owner',
         'is_property_finder' => $request->account_type == 'property_finder',
+        'customer_id' => $new_customer_id,
+
     ]);
 
     // Handle account-specific logic
@@ -2016,30 +2033,14 @@ class HomeController extends Controller
 
 private function handleBroker($request, $user)
 {
-    $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
-    $delimiter = '-';
-    $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
 
-    if (!$Last_customer_id) {
-        $new_customer_id = 'AMK1-0001';
-    } else {
-        $result = explode($delimiter, $Last_customer_id);
-        $number = (int)$result[1] + 1;
-        $tag_index = min(intval($number / 1000), count($prefixes) - 1);
-        $tag = $prefixes[$tag_index];
-        $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
-    }
 
     $broker = Broker::create([
         'user_id' => $user->id,
-        'broker_license' => $request->license_number,
-        'license_date' => $request->license_date,
-        'mobile' => $request->phone,
-        'key_phone' => $request->key_phone,
-        'full_phone' => $request->full_phone,
-        'city_id' => $request->city_id,
+        'broker_license' => null,
         'broker_logo' => $request->broker_logo ?? 'HOME_PAGE/img/avatars/14.png',
-        'customer_id' => $new_customer_id,
+        'id_number' => $request->id_number,
+
     ]);
 
     $subscriptionType = SubscriptionType::find($request->subscription_type_id);
@@ -2113,10 +2114,9 @@ private function handleOffice($request, $user)
 {
     $office = Office::create([
         'user_id' => $user->id,
-        'CRN' => $request->CRN,
+        'CRN' => $request->CRN ?? null,
         'company_name' => $user->name,
-        'city_id' => $request->city_id,
-        'created_by' => Auth::id(),
+        'created_by' => $user->id,
         'company_logo' => $request->company_logo ?? null,
     ]);
 
