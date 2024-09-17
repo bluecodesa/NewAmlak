@@ -159,7 +159,7 @@
                 @if (in_array(12, $sectionsIds))
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-Technical" aria-controls="navs-justified-Technical"
+                            data-bs-target="#navs-justified-Subscription_Management" aria-controls="navs-justified-Subscription_Management"
                             aria-selected="false" tabindex="-1">
                             <i class="tf-icons ti ti-file-invoice ti-xs me-1"></i>@lang('Subscription Management')
                         </button>
@@ -204,6 +204,11 @@
 
                 </div>
                 @endif
+
+                <div class="tab-pane fade" id="navs-justified-Subscription_Management" role="tabpanel">
+                    @include('Home.Property-Finder.inc._subscription_show')
+
+                </div>
 
                 <div class="tab-pane fade" id="navs-justified-Technical" role="tabpanel">
                     @include('Home.Property-Finder.inc._technicalSupport')
