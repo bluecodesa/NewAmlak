@@ -2086,25 +2086,40 @@ private function handleBroker($request, $user)
     $galleryName = explode('@', $request->email)[0];
     $defaultCoverImage = '/Gallery/cover/cover.png';
 
-    if ($subscriptionType->sections->pluck('name')->contains('Realestate-gallery')) {
-        Gallery::create([
+
+    //
+    $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+    $sectionNames = [];
+    foreach ($hasRealEstateGallerySection as $section) {
+        $sectionNames[] = $section->name;
+    }
+
+    if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+        // Create the gallery
+        $galleryName = explode('@', $request->email)[0];
+        $defaultCoverImage = '/Gallery/cover/cover.png';
+        $gallery = Gallery::create([
             'broker_id' => $broker->id,
             'gallery_name' => $galleryName,
             'gallery_status' => 1,
             'gallery_cover' => $defaultCoverImage,
         ]);
+    } else {
+        $gallery = null;
     }
 
-    $broker->update([
-        'license_validity' => $broker->license_date > now()->format('Y-m-d') ? 'valid' : 'expired',
-    ]);
-
-    if ($broker->license_validity == 'expired') {
-        $gallery = Gallery::where('broker_id', $broker->id)->first();
-        if ($gallery) {
-            $gallery->update(['gallery_status' => '0']);
+    if ($broker->license_date > now()->format('Y-m-d')) {
+        $broker->update(['license_validity' => 'valid']);
+        // Gallery::where('broker_id', $broker->id)->first()->update(['gallery_status' => '1']);
+    } else {
+        $broker->update(['license_validity' => 'expired']);
+        $checkGallery =     Gallery::where('broker_id', $broker->id)->first();
+        if ($checkGallery) {
+            $checkGallery->update(['gallery_status' => '0']);
         }
     }
+
 
     $this->notifyAdmins($broker);
     $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
