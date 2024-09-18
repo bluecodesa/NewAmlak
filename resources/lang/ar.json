@@ -703,8 +703,12 @@
     "License Number": "رقم الرخصة",
     "License Expiry": "تاريخ انتهاء الرخصة",
     "Number of users": "عدد المستخدمين",
-    "New Subscription": "للمشتركين الجدد"
-
+    "New Subscription": "للمشتركين الجدد",
+    "You are registering as a": "انت قوم الان بالتسجيل كا",
+    "office": "مكتب ادارة املاك",
+    "broker": "وسيط عقاري",
+    "property_finder": "باحث عن عقار",
+    "Sign up": "تسجيل"
 
 
 

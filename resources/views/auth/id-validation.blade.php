@@ -38,7 +38,7 @@
                     <div class="card-body">
                         @if($accountType)
                             <div class="alert alert-info">
-                                @lang('You are registering as a') {{ $accountType }}
+                                @lang('You are registering as a') {{ __($accountType) }}
                             </div>
                         @endif
 
@@ -98,7 +98,7 @@
                             id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id }}">
 
                             <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">@lang('sign up')</button>
+                                <button class="btn btn-primary d-grid w-100" type="submit">@lang('Sign up')</button>
                             </div>
                         </form>
 
