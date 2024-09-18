@@ -2042,7 +2042,7 @@ private function handleOffice($request, $user)
     $delimiter = '-';
     $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
 
-    SystemInvoice::create([
+    $Invoice = SystemInvoice::create([
         'office_id' => $office->id,
         'subscription_name' => $subscriptionType->name,
         'amount' => $subscriptionType->price,

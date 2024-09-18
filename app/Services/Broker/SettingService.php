@@ -38,7 +38,7 @@ class SettingService
             ],
             'mobile' => 'required|digits:9|unique:brokers,mobile,' . $id,
             'city_id' => 'required|exists:cities,id',
-            'license_date' => 'required',
+            // 'license_date' => 'required',
             // 'broker_license' => [
             //     'required',
             //     'numeric',
