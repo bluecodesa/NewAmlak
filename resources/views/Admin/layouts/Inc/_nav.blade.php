@@ -325,14 +325,12 @@
                      @php
                         $user = auth()->user();
                         $roles = App\Models\Role::all();
-
                         $activeRole = session('active_role') ?? 'Switch Account';
-
                         $availableRoles = $roles->filter(function ($role) use ($user, $activeRole) {
                             return $user->hasRole($role->name) && $role->name !== $activeRole;
                         });
-                        $specificRoles = collect(['Owner']);
 
+                        $specificRoles = collect(['Owner']);
                         // Get the roles that the user does not have yet
                         $Roles = $specificRoles->diff($availableRoles->pluck('name'));
                         $accountRoute = ($activeRole == 'Office-Admin' || $activeRole == 'RS-Broker')
@@ -358,7 +356,7 @@
                                 </a>
                             @endforeach
                         @endif
-                        @if ($availableRoles->isNotEmpty())
+                        @if ($Roles->isNotEmpty())
                         <li><hr class="dropdown-divider"></li> <!-- Divider between roles and add new account -->
                         <li>
                             <button class="dropdown-item" id="addAccountButton">@lang('Add New Account')</button>
