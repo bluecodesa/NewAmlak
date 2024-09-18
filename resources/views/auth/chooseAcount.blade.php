@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-body">
             <div class="text-center mb-4">
-                <h3 class="address-title mb-2">تسجيل حساب جديد</h3>
+                <h3 class="address-title mb-2">انشاء حساب</h3>
             </div>
             <div class="row">
                 <div class="col-md mb-md-0 mb-3">
@@ -85,7 +85,7 @@
                                     @endif
                                 </span>
                             </span>
-                            <input name="customRadioIcon" class="form-check-input" {{ $sitting->active_owner == 1 ? '' : 'disabled' }} type="radio" value="" id="customRadioFinder" checked />
+                            <input name="customRadioIcon" class="form-check-input" {{ $sitting->active_owner == 1 ? '' : 'disabled' }} type="radio" value="" id="customRadioOwner" checked />
                         </label>
                     </div>
                 </div>

@@ -49,9 +49,11 @@
                         @include('Admin.layouts.Inc._errors')
 
                         <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('Home.storeAccount') }}">
-
                             @csrf
 
+                            <input type="text" name="key_phone" hidden id="key_phone" value="{{ $key_phone }}">
+                            <input type="text" name="key_phone" hidden id="phone" value="{{ $phone }}">
+                            <input type="text" name="full_phone" hidden id="full_phone"  value="{{ $full_phone }}" >
 
                             <div class="mb-3">
                                 <label class="id_number" for="id_number"> @lang('id number')<span
