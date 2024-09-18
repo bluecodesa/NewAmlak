@@ -53,7 +53,7 @@
 
                             <input type="text" name="key_phone" hidden id="key_phone" value="{{ $KeyPhone }}">
                             <input type="text" name="key_phone" hidden id="phone" value="{{ $fullPhone }}">
-                            <input type="text" name="full_phone" hidden id="full_phone" >
+                            <input type="text" name="full_phone" hidden id="full_phone" value="{{ $phone }}" >
 
                             <div class="mb-3">
                                 <label class="id_number" for="id_number"> @lang('id number')<span
@@ -110,50 +110,6 @@
         </div>
     </div>
 
-    <script>
-         function updateFullPhone(input) {
-            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
-            var key_phone = $('#key_phone').val();
-            var fullPhone = key_phone + input.value;
-            document.getElementById('full_phone').value = fullPhone;
-        }
-        $(document).ready(function() {
-            $('.dropdown-item').on('click', function() {
-                var key = $(this).data('key');
-                var phone = $('#phone').val();
-                $('#key_phone').val(key);
-                $('#full_phone').val(key + phone);
-                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-            });
-        });
-
-
-        $(document).ready(function() {
-    // Initialize key_phone and full_phone fields with session or default values
-    var keyPhone = '{{ $KeyPhone ?? 966 }}';
-    var phone = '{{ $phone ?? '' }}';
-
-    $('#key_phone').val(keyPhone);
-    $('#full_phone').val(keyPhone + phone);
-
-    // Set the dropdown text to the current key phone value
-    $('.btn.dropdown-toggle').text(keyPhone);
-
-    // Event listener for dropdown items
-    $('.dropdown-item').on('click', function() {
-        var key = $(this).data('key');
-        var phone = $('#phone').val();
-        $('#key_phone').val(key);
-        $('#full_phone').val(key + phone);
-        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-    });
-
-    // Event listener for phone input changes
-    $('#phone').on('input', function() {
-        updateFullPhone(this);
-    });
-});
-    </script>
-
+  
     <!-- / Content -->
 @endsection

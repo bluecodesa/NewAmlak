@@ -1835,6 +1835,8 @@ class HomeController extends Controller
 
     public function register(Request $request)
 {
+
+    dd($request);
     $request->validate([
         'id_number' => [
             'required',
