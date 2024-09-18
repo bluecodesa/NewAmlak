@@ -87,9 +87,12 @@ class UnitInterestController extends Controller
         $clientFilter = $request->input('client_filter', 'all');
 
         $userId = auth()->user()->id;
-        $unitInterests = UnitInterest::with('unit', 'user')
-            ->where('user_id', $userId)
-            ->get();
+        // $unitInterests = UnitInterest::with('unit', 'user')
+        //     ->where('user_id', $userId)
+        //     ->get();
+        $unitInterests = UnitInterest::where('user_id', $userId)
+        ->get();
+
 
         $unitInterests = $this->getFilteredUnitInterests(
             $userId,
