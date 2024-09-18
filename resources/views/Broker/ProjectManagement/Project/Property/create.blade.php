@@ -161,7 +161,7 @@
                                                     {{ $owner->name }}</option>
                                             @endforeach
                                         </select>
-                                        <a href="{{ route('Broker.Owner.create') }}" target="_blank" class="btn btn-outline-primary"
+                                        <a href="{{ route('Broker.Owner.index') }}" target="_blank" class="btn btn-outline-primary"
                                         type="button">@lang('Add New Owner')</a>
                                         {{-- <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                             data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button> --}}

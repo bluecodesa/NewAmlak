@@ -17,7 +17,7 @@
             required>
     </div>
 
-    <div class="col-md-4 col-12 mb-3">
+    {{-- <div class="col-md-4 col-12 mb-3">
         <label for="license_number">
             @lang('license number')<span class="text-danger">*</span></label>
 
@@ -33,7 +33,7 @@
             @lang('License expiration date')<span class="text-danger">*</span></label>
         <input type="date" class="form-control" id="license_number" name="license_date"
             value="{{ $broker->license_date }}" required>
-    </div>
+    </div> --}}
 
 
     <div class="col-md-4 col-12 mb-3">

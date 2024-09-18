@@ -28,9 +28,7 @@
     <!-- Content -->
 
     <div class="container-xxl">
-        <div class="home-btn">
-            <a href="{{ route('welcome') }}" class="text-white"><i class="ti ti-home h2"></i></a>
-        </div>
+
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
                 <!-- Login -->
@@ -95,7 +93,7 @@
                             </div>
                             <input type="hidden" name="account_type" value="{{ $accountType }}">
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10"
-                            id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id }}">
+                            id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id ?? '' }}">
 
                             <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" type="submit">@lang('Sign up')</button>

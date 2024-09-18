@@ -982,7 +982,7 @@
                     <p class="fw-medium mb-4">قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك
 
                     </p>
-                        @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
+                        @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder || auth()->user()->is_owner))
                         <button form="a-form" type="submit" class="btn btn-lg btn-primary">@lang('Send Request')</button>
                         @else
                         <a form="a-form" class="btn btn-primary" href="{{ route('login') }}">@lang('Send Request')</a>

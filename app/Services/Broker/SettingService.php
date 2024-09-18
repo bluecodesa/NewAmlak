@@ -39,12 +39,12 @@ class SettingService
             'mobile' => 'required|digits:9|unique:brokers,mobile,' . $id,
             'city_id' => 'required|exists:cities,id',
             'license_date' => 'required',
-            'broker_license' => [
-                'required',
-                'numeric',
-                'unique:brokers,broker_license,' . $id,
-                'regex:/^1\d{9}$/'
-            ],
+            // 'broker_license' => [
+            //     'required',
+            //     'numeric',
+            //     'unique:brokers,broker_license,' . $id,
+            //     'regex:/^1\d{9}$/'
+            // ],
             // 'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             // 'id_number' => [
@@ -89,8 +89,8 @@ class SettingService
         $request->validate($rules, $messages);
 
         $broker->update([
-            'broker_license' => $request->broker_license,
-            'license_date' => $request->license_date,
+            // 'broker_license' => $request->broker_license,
+            // 'license_date' => $request->license_date,
             'mobile' => $request->mobile,
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
