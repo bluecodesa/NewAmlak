@@ -1960,7 +1960,16 @@ class HomeController extends Controller
     public function register(Request $request)
 {
     $request->validate([
-        'id_number' => 'required|max:10',
+        'id_number' => [
+            'required',
+            'numeric',
+            'digits:10',
+            function ($attribute, $value, $fail) {
+                if (!preg_match('/^[12]\d{9}$/', $value)) {
+                    $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                }
+            },
+        ],
         'email' => 'required|email|unique:users',
         'name' => 'required|string|max:255',
         'account_type' => 'required|string|in:broker,office,owner,property_finder',
@@ -2167,6 +2176,36 @@ private function handleOffice($request, $user)
         'status' => $status,
         'invoice_ID' => 'INV-' . $new_invoice_ID,
     ]);
+
+    $galleryName = explode('@', $request->email)[0];
+    $defaultCoverImage = '/Gallery/cover/cover.png';
+
+
+    //
+    $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+    $sectionNames = [];
+    foreach ($hasRealEstateGallerySection as $section) {
+        $sectionNames[] = $section->name;
+    }
+
+    if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+        $galleryName = explode('@', $request->email)[0];
+        $defaultCoverImage = '/Gallery/cover/cover.png';
+
+        $gallery = Gallery::create([
+            'office_id' => $office->id,
+            'gallery_name' => $galleryName,
+            'gallery_status' => 1,
+            'gallery_cover' => $defaultCoverImage,
+        ]);
+    } else {
+        $gallery = null;
+    }
+    $this->notifyAdminsForOffice($office);
+
+    $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+
 }
 
 private function handleOwner($request, $user)
@@ -2230,6 +2269,8 @@ private function handleOwner($request, $user)
     ]);
 
     session(['active_role' => 'Owner']);
+    $this->notifyAdmins2($user);
+
 }
 
 
