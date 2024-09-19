@@ -12,12 +12,13 @@
     </div>
 </section> --}}
 
-@php
-    $sectionsIds = Auth::user()
-        ->UserOwnerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
-        ->toArray();
-@endphp
-
+@if(auth()->user()->is_owner )
+    @php
+        $sectionsIds = Auth::user()
+            ->UserOwnerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+            ->toArray();
+    @endphp
+@endif
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
@@ -155,7 +156,7 @@
                     </button>
                 </li>
                 @endif
-
+                @if(auth()->user()->is_owner )
                 @if (in_array(12, $sectionsIds))
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
@@ -164,6 +165,7 @@
                             <i class="tf-icons ti ti-file-invoice ti-xs me-1"></i>@lang('Subscription Management')
                         </button>
                     </li>
+                @endif
                 @endif
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"

@@ -1840,6 +1840,7 @@ class HomeController extends Controller
     {
 
 
+
     $request->validate([
         'id_number' => [
             'required',
@@ -1854,7 +1855,7 @@ class HomeController extends Controller
         'email' => 'required|email|unique:users',
         'name' => 'required|string|max:255',
         'account_type' => 'required|string|in:broker,office,owner,property_finder',
-        'subscription_type_id' => 'required|exists:subscription_types,id', // Ensure this field is present in the request
+        'subscription_type_id' => 'nullable|exists:subscription_types,id', // Ensure this field is present in the request
         'license_number' => 'nullable|string', // Example for optional fields
         'broker_license' => 'nullable|string', // Example for optional fields
         'license_date' => 'nullable|date',
@@ -1902,9 +1903,9 @@ class HomeController extends Controller
         'is_owner' => $request->account_type == 'owner',
         'is_property_finder' => $request->account_type == 'property_finder',
         'customer_id' => $new_customer_id,
-        'phone' => $request->phone,
-        'key_phone' => $request->key_phone,
-        'full_phone' => $request->full_phone,
+        'phone' => $request->phone ?? null,
+        'key_phone' => $request->key_phone ?? null,
+        'full_phone' => $request->full_phone ?? null,
 
     ]);
 
