@@ -68,7 +68,7 @@
                 <div class="col-md mb-md-0 mb-3">
                     <div class="form-check custom-option custom-option-icon"
                     @if ($sitting->active_owner == 1) onclick="redirectToIdNumber('owner')" @endif>
-                        <label class="form-check-label custom-option-content" for="customRadioFinder">
+                        <label class="form-check-label custom-option-content" for="customRadioOwner">
                             <span class="custom-option-body">
                                 <svg width="41" height="40" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M24.25 33.75V23.75H16.75V33.75H6.75002V18.0469C6.7491 17.8733 6.78481 17.7015 6.85482 17.5426C6.92482 17.3838 7.02754 17.2415 7.15627 17.125L19.6563 5.76562C19.8841 5.5559 20.1825 5.43948 20.4922 5.43948C20.8019 5.43948 21.1003 5.5559 21.3281 5.76562L33.8438 17.125C33.9696 17.2438 34.0703 17.3866 34.1401 17.5449C34.2098 17.7032 34.2472 17.8739 34.25 18.0469V33.75H24.25Z" fill="currentColor" opacity="0.2" />
