@@ -15,12 +15,12 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <!-- DataTable with Buttons -->
-            @if(!auth()->user()->password || !auth()->user()->UserBrokerData->city_id)
+            @if( !auth()->user()->UserBrokerData->city_id)
             <div class="alert alert-danger d-flex align-items-center" role="alert">
                 <span class="alert-icon text-danger me-2">
                     <i class="ti ti-ban ti-xs"></i>
                 </span>
-                @lang(' الرجاء التوجه الي الاعدادات/الملف الشخصي والحماية .. لاكمال البيانات الشخصية الخاصه بحسابكم   ')
+                @lang(' الرجاء التوجه الي الاعدادات/الملف الشخصي  .. لاكمال البيانات الشخصية الخاصه بحسابكم   ')
             </div>
             @endif
             @if(!auth()->user()->UserFalData)
