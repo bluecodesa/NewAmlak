@@ -125,7 +125,7 @@
                                     return $user->hasRole($role->name);
                                 });
                                 $activeRole = session('active_role') ?? 'Switch Account';
-                                $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker']);
+                                $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker' ,'Property-Finder']);
                                 $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
 
                                 // Determine the correct route

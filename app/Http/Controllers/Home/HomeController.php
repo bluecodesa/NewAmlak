@@ -1839,8 +1839,6 @@ class HomeController extends Controller
     public function register(Request $request)
     {
 
-
-
     $request->validate([
         'id_number' => [
             'required',
@@ -1916,6 +1914,11 @@ class HomeController extends Controller
         $this->handleOffice($request, $newUser);
     } elseif ($request->account_type == 'owner') {
         $this->handleOwner($request, $newUser);
+    }else{
+        $newUser->assignRole('Property-Finder');
+
+        session(['active_role' => 'Property-Finder']);
+        $this->notifyAdmins2($newUser);
     }
 
     // Log the user in
