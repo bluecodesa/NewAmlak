@@ -83,6 +83,8 @@ Route::group(
             Route::get('Login', [HomeController::class, 'loginByPassword'])->name('auth.loginByPassword');
             Route::get('createAccount', [HomeController::class, 'createAccount'])->name('createAccount');
             Route::post('createAccount', [HomeController::class, 'register'])->name('storeAccount');
+            Route::post('addAccount', [HomeController::class, 'addAccount'])->name('addAccount');
+
 
 
         //

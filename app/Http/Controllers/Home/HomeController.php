@@ -1738,10 +1738,13 @@ class HomeController extends Controller
 
     public function createAccount(Request $request)
     {
+
         $accountType = $request->query('accountType');
         $email = session('email');
         $fullPhone = session('phone');
-        $KeyPhone = session('Key_phone');
+        $phone = session('mobile');
+        $key_phone = session('key_phone');
+
 
         if($accountType == 'broker'){
             $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
@@ -1834,9 +1837,9 @@ class HomeController extends Controller
 
 
     public function register(Request $request)
-{
+    {
 
-    dd($request);
+
     $request->validate([
         'id_number' => [
             'required',
@@ -1899,6 +1902,9 @@ class HomeController extends Controller
         'is_owner' => $request->account_type == 'owner',
         'is_property_finder' => $request->account_type == 'property_finder',
         'customer_id' => $new_customer_id,
+        'phone' => $request->phone,
+        'key_phone' => $request->key_phone,
+        'full_phone' => $request->full_phone,
 
     ]);
 
@@ -1918,12 +1924,16 @@ class HomeController extends Controller
     return redirect()->route('login')->with('success', __('registerd successfully'));
 }
 
+
 private function handleBroker($request, $user)
 {
 
 
     $broker = Broker::create([
         'user_id' => $user->id,
+        'mobile' => $request->phone,
+        'key_phone' => $request->key_phone,
+        'full_phone' => $request->full_phone,
         'broker_license' => null,
         'broker_logo' => $request->broker_logo ?? 'HOME_PAGE/img/avatars/14.png',
         'id_number' => $request->id_number,
@@ -2017,6 +2027,9 @@ private function handleOffice($request, $user)
     $office = Office::create([
         'user_id' => $user->id,
         'CRN' => $request->CRN ?? null,
+        'phone' => $request->phone,
+        'key_phone' => $request->key_phone,
+        'full_phone' => $request->full_phone,
         'company_name' => $user->name,
         'created_by' => $user->id,
         'company_logo' => $request->company_logo ?? null,
@@ -2084,6 +2097,7 @@ private function handleOffice($request, $user)
 
     $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
 
+
 }
 
 private function handleOwner($request, $user)
@@ -2149,8 +2163,313 @@ private function handleOwner($request, $user)
     session(['active_role' => 'Owner']);
     $this->notifyAdmins2($user);
 
+
 }
 
+public function addAccount (Request $request)
+{
+
+        $currentUser = auth()->user();
+
+        if ($request->account_type == 'broker') {
+            $newUser =    $this->handleNewBroker($request, $currentUser);
+        } elseif ($request->account_type == 'office') {
+            $newUser =  $this->handleNewOffice($request, $currentUser);
+        } elseif ($request->account_type == 'owner') {
+            $newUser = $this->handleNewOwner($request, $currentUser);
+        }
+
+        auth()->login($newUser);
+
+        return redirect()->route('login')->with('success', __('registerd successfully'));
+}
+
+
+    private function handleNewOwner($request, $user)
+    {
+        $user->update(['is_owner' => 1]);
+
+        $RolesIds = Role::whereIn('name', ['Owner'])->pluck('id')->toArray();
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('status', 1)
+        ->where('new_subscriber', '1')
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
+        $subscription_type_id = $subscriptionType->id;
+
+        $owner= Owner::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'user_id' => $user->id,
+            'key_phone' => $request->key_phone ?? null,
+            'phone' => $request->phone ?? null,
+            'full_phone' => $request->full_phone ?? null,
+        ]);
+
+        $subscriptionType = SubscriptionType::find($subscription_type_id);
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+
+        if ($subscriptionType->price > 0) {
+            $SubType = 'paid';
+            $status = 'pending';
+        } else {
+            $SubType = 'free';
+            $status = 'active';
+        }
+        $subscription = Subscription::create([
+            'owner_id' => $owner->id,
+            'subscription_type_id' => $subscription_type_id,
+            'status' => $status,
+            'is_start' => $status == 'pending' ? 0 : 1,
+            'is_new' => 1,
+            'start_date' => now()->format('Y-m-d H:i:s'),
+            'end_date' => $endDate,
+            'total' => '200'
+        ]);
+
+        foreach ($subscriptionType->sections()->get() as $section_id) {
+            SubscriptionSection::create([
+                'section_id' => $section_id->id,
+                'subscription_id' => $subscription->id,
+            ]);
+        }
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+
+        $delimiter = '-';
+        if (!$Last_invoice_ID) {
+            $new_invoice_ID = '00001';
+        } else {
+            $result = explode($delimiter, $Last_invoice_ID);
+            $number = (int)$result[1] + 1;
+            $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+        }
+        $Invoice =   SystemInvoice::create([
+            'owner_id' => $owner->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => $SubType,
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
+        ]);
+
+        $user->assignRole('Owner');
+
+        session(['active_role' => 'Owner']);
+        $this->notifyAdmins2($user);
+
+        return $user;
+
+    }
+
+    private function handleNewBroker($request, $user)
+    {
+
+        $user->update(['is_broker' => 1]);
+
+        $RolesIds = Role::whereIn('name', ['RS-Broker'])->pluck('id')->toArray();
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('status', 1)
+        ->where('new_subscriber', '1')
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
+        $subscription_type_id = $subscriptionType->id;
+
+        $broker = Broker::create([
+            'user_id' => $user->id,
+            'mobile' => $request->phone,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
+            'broker_license' => null,
+            'broker_logo' => $request->broker_logo ?? 'HOME_PAGE/img/avatars/14.png',
+            'id_number' => $request->id_number,
+
+        ]);
+
+        $subscriptionType = SubscriptionType::find($subscription_type_id);
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+
+        $status = $subscriptionType->price > 0 ? 'pending' : 'active';
+        $SubType = $subscriptionType->price > 0 ? 'paid' : 'free';
+
+        $subscription = Subscription::create([
+            'broker_id' => $broker->id,
+            'subscription_type_id' => $subscription_type_id,
+            'status' => $status,
+            'is_start' => $status == 'pending' ? 0 : 1,
+            'is_new' => 1,
+            'start_date' => now()->format('Y-m-d H:i:s'),
+            'end_date' => $endDate,
+            'total' => '200'
+        ]);
+
+        foreach ($subscriptionType->sections as $section) {
+            SubscriptionSection::create([
+                'section_id' => $section->id,
+                'subscription_id' => $subscription->id,
+            ]);
+        }
+
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+        $delimiter = '-';
+        $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
+
+        $Invoice = SystemInvoice::create([
+            'broker_id' => $broker->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => $SubType,
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
+        ]);
+
+        $galleryName = explode('@', $request->email)[0];
+        $defaultCoverImage = '/Gallery/cover/cover.png';
+
+
+        //
+        $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+        $sectionNames = [];
+        foreach ($hasRealEstateGallerySection as $section) {
+            $sectionNames[] = $section->name;
+        }
+
+        if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+            // Create the gallery
+            $galleryName = explode('@', $request->email)[0];
+            $defaultCoverImage = '/Gallery/cover/cover.png';
+            $gallery = Gallery::create([
+                'broker_id' => $broker->id,
+                'gallery_name' => $galleryName,
+                'gallery_status' => 1,
+                'gallery_cover' => $defaultCoverImage,
+            ]);
+        } else {
+            $gallery = null;
+        }
+
+        if ($broker->license_date > now()->format('Y-m-d')) {
+            $broker->update(['license_validity' => 'valid']);
+            // Gallery::where('broker_id', $broker->id)->first()->update(['gallery_status' => '1']);
+        } else {
+            $broker->update(['license_validity' => 'expired']);
+            $checkGallery =     Gallery::where('broker_id', $broker->id)->first();
+            if ($checkGallery) {
+                $checkGallery->update(['gallery_status' => '0']);
+            }
+        }
+
+
+        $this->notifyAdmins($broker);
+        $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+
+        $user->assignRole('RS-Broker');
+
+        session(['active_role' => 'RS-Broker']);
+        return $user;
+
+    }
+
+private function handleNewOffice($request, $user)
+{
+    $user->update(['is_office' => 1]);
+
+    $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
+    $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+    $subscriptionType = SubscriptionType::where('is_deleted', 0)
+    ->where('status', 1)
+    ->where('new_subscriber', '1')
+    ->whereIn('id', $RolesSubscriptionTypeIds)
+    ->first();
+    $subscription_type_id = $subscriptionType->id;
+
+    $office = Office::create([
+        'user_id' => $user->id,
+        'CRN' => $request->CRN ?? null,
+        'phone' => $request->phone,
+        'key_phone' => $request->key_phone,
+        'full_phone' => $request->full_phone,
+        'company_name' => $user->name,
+        'created_by' => $user->id,
+        'company_logo' => $request->company_logo ?? null,
+    ]);
+
+    $subscriptionType = SubscriptionType::find($subscription_type_id);
+    $startDate = Carbon::now();
+    $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+
+    $status = $subscriptionType->price > 0 ? 'pending' : 'active';
+    $SubType = $subscriptionType->price > 0 ? 'paid' : 'free';
+
+    $subscription = Subscription::create([
+        'office_id' => $office->id,
+        'subscription_type_id' => $subscription_type_id,
+        'status' => $status,
+        'is_start' => $status == 'pending' ? 0 : 1,
+        'is_new' => 1,
+        'start_date' => now()->format('Y-m-d H:i:s'),
+        'end_date' => $endDate,
+        'total' => '200'
+    ]);
+
+    $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+    $delimiter = '-';
+    $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
+
+    $Invoice = SystemInvoice::create([
+        'office_id' => $office->id,
+        'subscription_name' => $subscriptionType->name,
+        'amount' => $subscriptionType->price,
+        'subscription_type' => $SubType,
+        'period' => $subscriptionType->period,
+        'period_type' => $subscriptionType->period_type,
+        'status' => $status,
+        'invoice_ID' => 'INV-' . $new_invoice_ID,
+    ]);
+
+    $galleryName = explode('@', $request->email)[0];
+    $defaultCoverImage = '/Gallery/cover/cover.png';
+
+
+    //
+    $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+    $sectionNames = [];
+    foreach ($hasRealEstateGallerySection as $section) {
+        $sectionNames[] = $section->name;
+    }
+
+    if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+        $galleryName = explode('@', $request->email)[0];
+        $defaultCoverImage = '/Gallery/cover/cover.png';
+
+        $gallery = Gallery::create([
+            'office_id' => $office->id,
+            'gallery_name' => $galleryName,
+            'gallery_status' => 1,
+            'gallery_cover' => $defaultCoverImage,
+        ]);
+    } else {
+        $gallery = null;
+    }
+    $this->notifyAdminsForOffice($office);
+
+    $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+    
+    $user->assignRole('Office-Admin');
+
+    session(['active_role' => 'Office-Admin']);
+    return $user;
+
+}
 
 
 

@@ -51,17 +51,34 @@
                     @endif
                 </div>
                 @if (Auth::user()->hasPermission('activate-gallery'))
+
+                
+                @php
+                    // Fetch all Fal licenses for the authenticated user
+                    $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
+                        ->whereHas('falData', function ($query) {
+                            $query->whereTranslation('name', 'Real State FalLicense', 'en');
+                        })
+                        ->where('ad_license_status', 'valid')
+                        ->first();
+                        // dd($falLicense);
+
+                    // $licenseDate = Auth::user()->UserFalData->falData->name;
+                    $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
+                @endphp
+
                     <div class="col-12 col-md-6 mb-3">
 
                         <label for="editGalleryName">@lang('Enable Gallery')</label>
                         <div class="d-flex" style="margin-top: 10px">
                             @if ($gallery->gallery_status == 0)
                                 <input type="checkbox" class="toggleHomePage gallery_status"
-                                    {{ $broker->license_validity != 'valid' ? 'disabled' : '' }} name="gallery_status"
+                                {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }} name="gallery_status"
                                     value="0" data-toggle="toggle">
                             @else
                                 <input type="checkbox" class="toggleHomePage gallery_status"
-                                    {{ $broker->license_validity != 'valid' ? 'disabled' : '' }} name="gallery_status"
+                                {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }} name="gallery_status"
                                     value="1" {{ $gallery->gallery_status == 1 ? 'checked' : '' }}
                                     data-toggle="toggle" data-onstyle="primary">
                             @endif
@@ -70,7 +87,7 @@
 
                     </div>
                 @endif
-                @if ($broker->license_validity != 'valid')
+                @if ($falLicense->ad_license_status != 'valid')
                     <div class="col-12 mb-1">
                         <span class="badge bg-label-danger">@lang('Please update your FAL license data to be able to advertise properties and display them in your gallery')</span>
                     </div>
@@ -127,7 +144,7 @@
                     <div class="form-check form-switch mb-2">
                         <input class="form-check-input" disabled type="checkbox" id="flexSwitchCheckChecked"
                             value="0" name="gallery_status" class="gallery_status"
-                            {{ $broker->license_validity != 'valid' ? 'disabled' : '' }}>
+                            {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }}>
                         <label class="form-check-label" for="flexSwitchCheckChecked">@lang('Enable Gallery')</label>
                     </div>
 
