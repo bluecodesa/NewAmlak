@@ -17,6 +17,7 @@ use App\Models\Advertising;
 use App\Models\Broker;
 use App\Models\City;
 use App\Models\District;
+use App\Models\FalLicenseUser;
 use App\Models\Project;
 use App\Models\Property;
 use App\Models\PropertyType;
@@ -427,8 +428,16 @@ protected function updateAdLicenseStatus($allItemsProperties)
 
         $data['advertisings'] = $advertisings;
 
-        $check_val =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData;
-        if ($check_val->license_validity == 'valid') {
+        // $check_val =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData;
+        $user_id =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData->UserData->id;
+        $falLicense = FalLicenseUser::where('user_id', $user_id)
+                    ->whereHas('falData', function ($query) {
+                        $query->whereTranslation('name', 'Real State FalLicense', 'en');
+                    })
+                    ->where('ad_license_status', 'valid')
+                    ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        if ($falLicense->ad_license_status == 'valid') {
             return view('Home.Gallery.index', $data);
         } else {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);

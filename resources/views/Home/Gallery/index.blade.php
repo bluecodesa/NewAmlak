@@ -312,9 +312,24 @@
 
 
             <!-- Connection Cards -->
+
+            @php
+                $user_id =  $broker->UserData->id;
+
+                $falLicense = \App\Models\FalLicenseUser::where('user_id', $user_id)
+                    ->whereHas('falData', function ($query) {
+                        $query->whereTranslation('name', 'Real State FalLicense', 'en');
+                    })
+                    ->where('ad_license_status', 'valid')
+                    ->first();
+                $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
+            @endphp
+
             <div class="row g-4">
                 @foreach ($allItems as $unit)
-                @if ($unit->BrokerData->license_validity == 'valid' && $unit->ad_license_status == 'Valid')
+                {{-- @if ($unit->BrokerData->license_validity == 'valid' && $unit->ad_license_status == 'Valid') --}}
+                @if ($falLicense->ad_license_status == 'valid' && $unit->ad_license_status == 'Valid')
                     <div class="col-xl-4 col-lg-6 col-md-6">
                         <div class="card h-200">
                             <div class="card-body text-center">
