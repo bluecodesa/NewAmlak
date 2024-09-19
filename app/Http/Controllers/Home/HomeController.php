@@ -2031,9 +2031,9 @@ private function handleOffice($request, $user)
     $office = Office::create([
         'user_id' => $user->id,
         'CRN' => $request->CRN ?? null,
-        'phone' => $request->phone,
-        'key_phone' => $request->key_phone,
-        'full_phone' => $request->full_phone,
+        // 'phone' => $request->phone,
+        // 'key_phone' => $request->key_phone,
+        // 'full_phone' => $request->full_phone,
         'company_name' => $user->name,
         'created_by' => $user->id,
         'company_logo' => $request->company_logo ?? null,
