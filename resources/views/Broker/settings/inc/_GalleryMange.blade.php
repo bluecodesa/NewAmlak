@@ -53,44 +53,54 @@
                 @if (Auth::user()->hasPermission('activate-gallery'))
 
                 
-                @php
-                    // Fetch all Fal licenses for the authenticated user
-                    $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
-                        ->whereHas('falData', function ($query) {
-                            $query->whereTranslation('name', 'Real State FalLicense', 'en');
-                        })
-                        ->where('ad_license_status', 'valid')
-                        ->first();
-                        // dd($falLicense);
+                        @php
+                            $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
+                                ->whereHas('falData', function ($query) {
+                                    $query->whereTranslation('name', 'Real State FalLicense', 'en');
+                                })
+                                ->where('ad_license_status', 'valid')
+                                ->first();
+                            $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
-                    // $licenseDate = Auth::user()->UserFalData->falData->name;
-                    $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
-
-                @endphp
+                        @endphp
 
                     <div class="col-12 col-md-6 mb-3">
 
                         <label for="editGalleryName">@lang('Enable Gallery')</label>
+                        @if ($falLicense)
+                            <div class="d-flex" style="margin-top: 10px">
+                                @if ($gallery->gallery_status == 0)
+                                    <input type="checkbox" class="toggleHomePage gallery_status"
+                                    {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }} name="gallery_status"
+                                        value="0" data-toggle="toggle">
+                                @else
+                                    <input type="checkbox" class="toggleHomePage gallery_status"
+                                    {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }} name="gallery_status"
+                                        value="1" {{ $gallery->gallery_status == 1 ? 'checked' : '' }}
+                                        data-toggle="toggle" data-onstyle="primary">
+                                @endif
+
+                            </div>
+                        @else
                         <div class="d-flex" style="margin-top: 10px">
-                            @if ($gallery->gallery_status == 0)
-                                <input type="checkbox" class="toggleHomePage gallery_status"
-                                {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }} name="gallery_status"
-                                    value="0" data-toggle="toggle">
-                            @else
-                                <input type="checkbox" class="toggleHomePage gallery_status"
-                                {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }} name="gallery_status"
-                                    value="1" {{ $gallery->gallery_status == 1 ? 'checked' : '' }}
-                                    data-toggle="toggle" data-onstyle="primary">
-                            @endif
-
+                            <input type="checkbox" class="toggleHomePage gallery_status"
+                            disabled name="gallery_status"
+                                value="0" data-toggle="toggle">
                         </div>
-
+                        @endif
+                
                     </div>
                 @endif
-                @if ($falLicense->ad_license_status != 'valid')
+                @if ($falLicense)
+                    @if ($falLicense->ad_license_status != 'valid')
                     <div class="col-12 mb-1">
                         <span class="badge bg-label-danger">@lang('Please update your FAL license data to be able to advertise properties and display them in your gallery')</span>
                     </div>
+                    @endif
+                @else
+                <div class="col-12 mb-1">
+                    <span class="badge bg-label-danger">@lang('Please update your FAL license data to be able to advertise properties and display them in your gallery')</span>
+                </div>
                 @endif
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">@lang('save')</button>
