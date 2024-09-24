@@ -48,7 +48,8 @@
                         <!-- /Logo -->
                         @include('Admin.layouts.Inc._errors')
 
-                        <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('Home.storeAccount') }}">
+                        <form id="formAuthentication" class="mb-3" method="POST"
+                        onsubmit="return validateForm()" action="{{ route('Home.storeAccount') }}">
                             @csrf
 
                             <input type="text" name="key_phone" hidden id="key_phone" value="{{ $key_phone ?? '' }}">
