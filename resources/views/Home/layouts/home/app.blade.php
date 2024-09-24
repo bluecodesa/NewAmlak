@@ -113,26 +113,56 @@
                                 <span class="d-none d-md-block">سجل معنا الأن</span></a>
                         @endguest --}}
                         @php
-                            $availableRoles = null;
-                        @endphp
+                        $availableRoles = null;
+
+                        // Get the authenticated user
+                        $user = auth()->user();
+
+                        // Fetch all roles
+                        $roles = App\Models\Role::all();
+
+                        // Get the roles assigned to the user
+                        $userRoles = $roles->filter(function ($role) use ($user) {
+                            return $user->hasRole($role->name);
+                        });
+
+                        // Set the active role from the session or default to "Switch Account"
+                        $activeRole = session('active_role') ?? 'Switch Account';
+
+                        // Define specific roles
+                        $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker', 'Property-Finder']);
+
+                        // Filter available roles based on current user roles
+                        $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+
+                        // Check the current role to exclude conflicting roles
+                        if ($user->hasRole('Owner')) {
+                            $availableRoles = $availableRoles->filter(function($role) {
+                                return $role !== 'Property-Finder';
+                            });
+                        }
+
+                        if ($user->hasRole('RS-Broker')) {
+                            $availableRoles = $availableRoles->filter(function($role) {
+                                return $role !== 'Office-Admin' && $role !== 'Property-Finder';
+                            });
+                        }
+
+                        if ($user->hasRole('Office-Admin')) {
+                            $availableRoles = $availableRoles->filter(function($role) {
+                                return $role !== 'RS-Broker' && $role !== 'Property-Finder';
+                            });
+                        }
+
+                        // Determine the correct route
+                        $accountRoute = ($activeRole == 'Owner' || $activeRole == 'Renter' || $activeRole == 'Property-Finder')
+                            ? route('PropertyFinder.home')
+                            : route('Admin.home');
+                    @endphp
+
 
                         @auth
                         <div class="dropdown">
-                            @php
-                                $user = auth()->user();
-                                $roles = App\Models\Role::all();
-                                $userRoles = $roles->filter(function ($role) use ($user) {
-                                    return $user->hasRole($role->name);
-                                });
-                                $activeRole = session('active_role') ?? 'Switch Account';
-                                $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker' ,'Property-Finder']);
-                                $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
-
-                                // Determine the correct route
-                                $accountRoute = ($activeRole == 'Owner' || $activeRole == 'Renter' || $activeRole == 'Property-Finder')
-                                    ? route('PropertyFinder.home')
-                                    : route('Admin.home');
-                            @endphp
 
                             <!-- "My Account" Dropdown Toggle -->
                             <a href="{{ $accountRoute }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -277,15 +307,15 @@
                             <input type="hidden" name="key_phone" id="key_phone" value="{{ auth()->user()->key_phone ?? '' }}">
                             <input type="hidden" name="phone" id="phone" value="{{ auth()->user()->phone ?? '' }}">
                             <input type="hidden" name="full_phone" id="full_phone" value="{{ auth()->user()->full_phone ?? '' }}">
-                            
+
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10" id="id_number" name="id_number" value="{{ auth()->user()->id_number ?? '' }}" required>
-                            
+
                             <input type="text" hidden class="form-control" id="email" name="email" required value="{{ auth()->user()->email ?? '' }}" placeholder="@lang('Email')" autofocus>
-                            
+
                             <input type="text" hidden class="form-control" id="name" name="name" value="{{ auth()->user()->name ?? '' }}" required placeholder="@lang('Name')" autofocus>
                             <input type="text" hidden id="account_type" name="account_type" value="">
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10" id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id ?? '' }}">
-    
+
                             <div class="row">
                                 @if (!$availableRoles == null)
 
@@ -308,7 +338,7 @@
                                 @endif
                             </div>
                         </form>
-                        
+
                         <script>
                             function submitRoleForm(roleId) {
                                 const roleToAccountTypeMap = {
@@ -316,11 +346,11 @@
                                     'Office-Admin': 'office',
                                     'Owner': 'owner'
                                 };
-                                
-                                const accountType = roleToAccountTypeMap[roleId] || 'owner'; 
+
+                                const accountType = roleToAccountTypeMap[roleId] || 'owner';
                                 document.querySelector('input[name="role_id"][value="' + roleId + '"]').checked = true;
                                 document.getElementById('account_type').value = accountType;
-                                
+
                                 // Submit the form
                                 document.getElementById('roleForm').submit();
                             }
@@ -330,8 +360,8 @@
             </div>
         </div>
     </div>
-    
-    
+
+
 
 
     @yield('content')
