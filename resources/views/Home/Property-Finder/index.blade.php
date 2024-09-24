@@ -194,7 +194,7 @@
                             <span class="alert-icon text-danger me-2">
                                 <i class="ti ti-ban ti-xs"></i>
                             </span>
-                            @lang(' الرجاء التوجه الي البروفيل .. لاكمال البيانات الشخصية الخاصه بحسابكم   ')
+                            @lang(' الرجاء اكمال البيانات الشخصية الخاصه بحسابكم')
                         </div>
                         @endif
                     @endif

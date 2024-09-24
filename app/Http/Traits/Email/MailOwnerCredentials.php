@@ -9,9 +9,9 @@ trait MailOwnerCredentials
 {
     public function MailOwnerCredentials($user, $password)
     {
-        
+
         try {
-            Mail::to($user->email)->send(new OwnerCredentials($user, $password));
+            Mail::to($user->email)->send(mailable: new OwnerCredentials($user, $password));
         } catch (\Throwable $th) {
             // Handle exceptions if needed
         }
