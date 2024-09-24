@@ -87,7 +87,7 @@ class SettingController extends Controller
         $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
         $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
 
-     
+
         return view('Broker.settings.index', get_defined_vars());
     }
 
@@ -155,7 +155,6 @@ protected function notifyBroker(FalLicenseUser $license, $message)
 
     public function updateBroker(Request $request, $id)
     {
-        // return $request->all();
         $data = $request->all();
         $this->settingService->updateBroker($data, $id);
         return redirect()->route('Broker.Setting.index')->withSuccess(__('Updated successfully.'));
