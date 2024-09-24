@@ -110,6 +110,15 @@
         </div>
     </div>
 
-  
+  <script>
+      function validateForm() {
+            var checkBox = document.getElementById('terms-conditions');
+            if (!checkBox.checked) {
+                alert("You must accept the terms and conditions before registering.");
+                return false;
+            }
+            return true;
+        }
+  </script>
     <!-- / Content -->
 @endsection

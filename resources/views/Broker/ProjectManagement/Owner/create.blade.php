@@ -110,8 +110,6 @@
             input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
             var key_phone = $('#key_phone1').val();
             var fullPhone = key_phone + input.value;
-            console.log(key_phone);
-            console.log(fullPhone);
             document.getElementById('full_phone1').value = fullPhone;
         }
 
@@ -121,8 +119,6 @@
                 var phone = $('#phone1').val();
                 $('#key_phone1').val(key);
                 $('#full_phone1').val(key + phone);
-                console.log(phone);
-                console.log(key);
                 $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
             });
         });
