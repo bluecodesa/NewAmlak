@@ -5,8 +5,18 @@
 
 <section class="section-py bg-body first-section-pt">
     <div class="container mt-2">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
-        </h4>
+        {{-- <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
+        </h4> --}}
+
+        <div class="row">
+            <div class="col-6">
+                <h4 class=""><a href="{{ route('welcome') }}">الرئيسيه</a> /
+                    <a href="{{ route('PropertyFinder.home') }}">@lang('My Account') </a>
+                   / @lang('Add unit')
+                </h4>
+            </div>
+
+        </div>
 
 
 

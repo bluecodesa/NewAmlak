@@ -43,12 +43,13 @@
     <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
     <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
-    {{-- <link href="{{ url('dashboard_files/assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/select2/select2.css') }}" />
     <link href="{{ url('dashboard_files/assets/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/node-waves/node-waves.css') }}" />
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/nouislider/nouislider.css') }}" />
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/swiper/swiper.css') }}" />
+    <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
 
     <!-- Page CSS -->
 

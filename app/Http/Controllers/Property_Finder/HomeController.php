@@ -810,7 +810,7 @@ public function createUnit()
 
         // Update services
         if (isset($data['service_id'])) {
-            $unit->unitServices()->delete();
+            $unit->UnitServicesData()->delete();
             foreach ($data['service_id'] as $service) {
                 ModelsUnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
             }

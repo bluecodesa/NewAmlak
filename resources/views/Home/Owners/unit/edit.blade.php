@@ -5,9 +5,17 @@
 
 <section class="section-py bg-body first-section-pt">
     <div class="container mt-2">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
-        </h4>
+        {{-- <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
+        </h4> --}}
+        <div class="row">
+            <div class="col-6">
+                <h4 class=""><a href="{{ route('welcome') }}">الرئيسيه</a> /
+                    <a href="{{ route('PropertyFinder.home') }}">@lang('My Account') </a>
+                   / @lang('Edit')
+                </h4>
+            </div>
 
+        </div>
 
             <div class="row">
                 <div class="col-12">
@@ -345,7 +353,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
+                                        {{-- <div class="col-sm-12 col-md-4 mb-3">
                                             <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
                                             <label class="switch switch-primary">
                                                 <input type="checkbox" name="show_gallery"
@@ -360,6 +368,16 @@
                                                     </span>
                                                 </span>
 
+                                            </label>
+                                        </div> --}}
+                                        <div class="col-sm-12 col-md-4 mb-3">
+                                            <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                            <label class="switch switch-lg">
+                                                <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" disabled />
+                                                <span class="switch-toggle-slider">
+                                                    <span class="switch-on"><i class="ti ti-check"></i></span>
+                                                    <span class="switch-off"><i class="ti ti-x"></i></span>
+                                                </span>
                                             </label>
                                         </div>
 
