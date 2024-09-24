@@ -113,56 +113,58 @@
                                 <span class="d-none d-md-block">سجل معنا الأن</span></a>
                         @endguest --}}
                         @php
-                        $availableRoles = null;
-
-                        // Get the authenticated user
-                        $user = auth()->user();
-
-                        // Fetch all roles
-                        $roles = App\Models\Role::all();
-
-                        // Get the roles assigned to the user
-                        $userRoles = $roles->filter(function ($role) use ($user) {
-                            return $user->hasRole($role->name);
-                        });
-
-                        // Set the active role from the session or default to "Switch Account"
-                        $activeRole = session('active_role') ?? 'Switch Account';
-
-                        // Define specific roles
-                        $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker', 'Property-Finder']);
-
-                        // Filter available roles based on current user roles
-                        $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
-
-                        // Check the current role to exclude conflicting roles
-                        if ($user->hasRole('Owner')) {
-                            $availableRoles = $availableRoles->filter(function($role) {
-                                return $role !== 'Property-Finder';
-                            });
-                        }
-
-                        if ($user->hasRole('RS-Broker')) {
-                            $availableRoles = $availableRoles->filter(function($role) {
-                                return $role !== 'Office-Admin' && $role !== 'Property-Finder';
-                            });
-                        }
-
-                        if ($user->hasRole('Office-Admin')) {
-                            $availableRoles = $availableRoles->filter(function($role) {
-                                return $role !== 'RS-Broker' && $role !== 'Property-Finder';
-                            });
-                        }
-
-                        // Determine the correct route
-                        $accountRoute = ($activeRole == 'Owner' || $activeRole == 'Renter' || $activeRole == 'Property-Finder')
-                            ? route('PropertyFinder.home')
-                            : route('Admin.home');
-                    @endphp
-
+                            $availableRoles = null;
+                        @endphp
 
                         @auth
                         <div class="dropdown">
+                            @php
+                            $availableRoles = null;
+
+                            // Get the authenticated user
+                            $user = auth()->user();
+
+                            // Fetch all roles
+                            $roles = App\Models\Role::all();
+
+                            // Get the roles assigned to the user
+                            $userRoles = $roles->filter(function ($role) use ($user) {
+                                return $user->hasRole($role->name);
+                            });
+
+                            // Set the active role from the session or default to "Switch Account"
+                            $activeRole = session('active_role') ?? 'Switch Account';
+
+                            // Define specific roles
+                            $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker', 'Property-Finder']);
+
+                            // Filter available roles based on current user roles
+                            $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+
+                            // Check the current role to exclude conflicting roles
+                            if ($user->hasRole('Owner')) {
+                                $availableRoles = $availableRoles->filter(function($role) {
+                                    return $role !== 'Property-Finder';
+                                });
+                            }
+
+                            if ($user->hasRole('RS-Broker')) {
+                                $availableRoles = $availableRoles->filter(function($role) {
+                                    return $role !== 'Office-Admin' && $role !== 'Property-Finder';
+                                });
+                            }
+
+                            if ($user->hasRole('Office-Admin')) {
+                                $availableRoles = $availableRoles->filter(function($role) {
+                                    return $role !== 'RS-Broker' && $role !== 'Property-Finder';
+                                });
+                            }
+
+                            // Determine the correct route
+                            $accountRoute = ($activeRole == 'Owner' || $activeRole == 'Renter' || $activeRole == 'Property-Finder')
+                                ? route('PropertyFinder.home')
+                                : route('Admin.home');
+                        @endphp
 
                             <!-- "My Account" Dropdown Toggle -->
                             <a href="{{ $accountRoute }}" class="btn btn-primary btn-sm dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
