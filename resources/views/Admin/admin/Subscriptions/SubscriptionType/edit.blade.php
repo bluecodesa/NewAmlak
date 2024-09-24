@@ -123,14 +123,14 @@
                             <p>@lang('New Subscription')</p>
                             <div class="form-check form-check-primary mt-1">
                                 <input name="new_subscriber" class="form-check-input" type="radio"
-                                    value="{{ 1 }}" id="show" {{ $SubscriptionType->new_subscriber == 1 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="show">{{ __('Yes') }}</label>
+                                    value="{{ 1 }}" id="Yes" {{ $SubscriptionType->new_subscriber == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="Yes">{{ __('Yes') }}</label>
                             </div>
 
                             <div class="form-check form-check-primary mt-1">
                                 <input name="new_subscriber" class="form-check-input" type="radio"
-                                    value="{{ 0 }}" id="hide" {{ $SubscriptionType->new_subscriber == 0 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="hide"> {{ __('No') }}</label>
+                                    value="{{ 0 }}" id="No" {{ $SubscriptionType->new_subscriber == 0 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="No"> {{ __('No') }}</label>
                             </div>
 
                         </div>
