@@ -1839,32 +1839,56 @@ class HomeController extends Controller
     public function register(Request $request)
     {
 
-    $request->validate([
-        'id_number' => [
-            'required',
-            'numeric',
-            'digits:10',
-            function ($attribute, $value, $fail) {
-                if (!preg_match('/^[12]\d{9}$/', $value)) {
-                    $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
-                }
-            },
-        ],
-        'email' => 'required|email|unique:users',
-        'name' => 'required|string|max:255',
-        'account_type' => 'required|string|in:broker,office,owner,property_finder',
-        'subscription_type_id' => 'nullable|exists:subscription_types,id', // Ensure this field is present in the request
-        'license_number' => 'nullable|string', // Example for optional fields
-        'broker_license' => 'nullable|string', // Example for optional fields
-        'license_date' => 'nullable|date',
-        'CRN' => 'nullable|string',
-        'company_name' => 'nullable|string',
-        'company_logo' => 'nullable|image',
-        'broker_logo' => 'nullable|image',
-        'key_phone' => 'nullable|string',
-        'phone' => 'nullable|string',
-        'full_phone' => 'nullable|string',
-    ]);
+        $request->validate([
+            'id_number' => [
+                'required',
+                'numeric',
+                'digits:10',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail(__('The ID number must start with 1 or 2 and be exactly 10 digits long.'));
+                    }
+                },
+            ],
+            'email' => 'required|email|unique:users',
+            'name' => 'required|string|max:255',
+            'account_type' => 'required|string|in:broker,office,owner,property_finder',
+            'subscription_type_id' => 'nullable|exists:subscription_types,id',
+            'license_number' => 'nullable|string',
+            'broker_license' => 'nullable|string',
+            'license_date' => 'nullable|date',
+            'CRN' => 'nullable|string',
+            'company_name' => 'nullable|string',
+            'company_logo' => 'nullable|image',
+            'broker_logo' => 'nullable|image',
+            'key_phone' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'full_phone' => 'nullable|string',
+        ], [
+            'id_number.required' => 'The ID number is required.',
+            'id_number.numeric' => 'The ID number must be a numeric value.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+
+            'email.required' => 'The email address is required.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.unique' => 'This email address is already taken.',
+
+            'name.required' => 'The name is required.',
+            'name.string' => 'The name must be a valid string.',
+            'name.max' => 'The name may not be greater than 255 characters.',
+
+            'account_type.required' => 'The account type is required.',
+            'account_type.string' => 'The account type must be a valid string.',
+            'account_type.in' => 'The selected account type is invalid.',
+
+            'subscription_type_id.exists' => 'The selected subscription type does not exist.',
+
+            'license_date.date' => 'The license date must be a valid date.',
+
+            'company_logo.image' => 'The company logo must be an image file.',
+            'broker_logo.image' => 'The broker logo must be an image file.',
+        ]);
+
 
     // Check if the user already exists
     $existingUser = User::where('email', $request->email)
@@ -2467,7 +2491,7 @@ private function handleNewOffice($request, $user)
     $this->notifyAdminsForOffice($office);
 
     $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
-    
+
     $user->assignRole('Office-Admin');
 
     session(['active_role' => 'Office-Admin']);
