@@ -189,16 +189,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
                     @if (auth()->user()->is_owner)
-                        @if(!auth()->user()->password || !auth()->user()->UserOwnerData->city_id)
-                        <div class="alert alert-danger d-flex align-items-center" role="alert">
-                            <span class="alert-icon text-danger me-2">
-                                <i class="ti ti-ban ti-xs"></i>
-                            </span>
-                            @lang(' الرجاء التوجه الي البروفيل .. لاكمال البيانات الشخصية الخاصه بحسابكم   ')
-                        </div>
-                        @endif
-                    @else
-                        @if(!auth()->user()->password)
+                        @if(!auth()->user()->UserOwnerData->city_id)
                         <div class="alert alert-danger d-flex align-items-center" role="alert">
                             <span class="alert-icon text-danger me-2">
                                 <i class="ti ti-ban ti-xs"></i>
