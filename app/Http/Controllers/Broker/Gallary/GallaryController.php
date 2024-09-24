@@ -361,15 +361,7 @@ protected function updateAdLicenseStatus($allItemsProperties)
         $data['moreUnits'] = $moreUnits;
 
         $broker = $data['broker'];
-        $user_id =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData->UserData->id;
-        $falLicense = FalLicenseUser::where('user_id', $user_id)
-                    ->whereHas('falData', function ($query) {
-                        $query->whereTranslation('name', 'Real State FalLicense', 'en');
-                    })
-                    ->where('ad_license_status', 'valid')
-                    ->first();
-        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
-        if ($falLicense->ad_license_status == 'valid') {
+        if ($broker->license_validity == 'valid') {
             $data['CheckUnitExist'] = UnitInterest::where(['interested_id' => Auth::id(), 'unit_id' => $id])->exists();
             // return $data;
             return view('Home.Gallery.Unit.show', $data);
