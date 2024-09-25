@@ -335,12 +335,18 @@
                             <div class="card-body text-center">
                                 <div class="dropdown btn-pinned">
                                     @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
-                                        <span class="pb-1">
-                                            {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
-                                        </span>
-                                    @else
-
+                                          @if ($unit->type == 'rent')
+                                                    <span class="pb-1">
+                                                        {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                                    </span>
+                                                    @elseif ($unit->type == 'sale')
+                                                    {{ $unit->price }} @lang('SAR')
+                                                    @else
+                                                    {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                        @endif
                                     @endif
+
+
 
 
                                 </div>
@@ -528,7 +534,10 @@
 
                                     @if ($unit->type == 'rent and sale')
                                         <a href="javascript:;"><span
-                                                class="badge bg-label-info">@lang('rent and sale')</span></a>
+                                                class="badge bg-label-info">@lang('sale')</span></a>
+
+                                                <a href="javascript:;"><span
+                                                    class="badge bg-label-warning">@lang('rent')</span></a>
                                     @endif
                                     @if ($unit->daily_rent)
                                     <a href="javascript:;" class="me-1">
