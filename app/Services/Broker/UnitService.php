@@ -43,11 +43,11 @@ class UnitService
                 Rule::unique('units'),
                 'max:25'
             ],
-           'ad_license_number' => [
-            'required',
-            new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
-            'max:25'
-            ],
+        //    'ad_license_number' => [
+        //     'required',
+        //     new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
+        //     'max:25'
+        //     ],
 
             // 'service_type_id' => 'required',
             // "show_gallery" => 'required',

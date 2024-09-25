@@ -364,7 +364,7 @@
                                                         <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
                                                         <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry"
                                                             @if($falLicense->ad_license_status != 'valid') disabled @endif required />
-                                                        <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
+                                                        <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
                                                     </div>
                                                 </div>
                                             @else

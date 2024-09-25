@@ -40,11 +40,11 @@ class PropertyService
                 Rule::unique('properties'),
                 'max:25'
             ],
-            'ad_license_number' => [
-                'required',
-                new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
-                'max:25'
-                ],
+            // 'ad_license_number' => [
+            //     'required',
+            //     new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
+            //     'max:25'
+            //     ],
         ];
 
         // Validate data

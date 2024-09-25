@@ -60,11 +60,11 @@ class ProjectService
             'city_id' => 'required|exists:cities,id',
             'project_masterplan' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
             'project_brochure' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
-            'ad_license_number' => [
-                'required',
-                new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
-                'max:25'
-                ],
+            // 'ad_license_number' => [
+            //     'required',
+            //     new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
+            //     'max:25'
+            //     ],
 
         ];
         $messages = [
