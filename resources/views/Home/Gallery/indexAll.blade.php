@@ -250,17 +250,26 @@
                                         <div class="card-body text-center">
                                             <div class="dropdown btn-pinned">
                                                 @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
-                                                @if ($unit->type == 'rent')
-                                                    <span class="pb-1">
-                                                        {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
-                                                    </span>
+                                                    @if ($unit->type == 'rent')
+                                                        @if ($unit->getRentPriceByType())
+                                                            <span class="pb-1">
+                                                                {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                                            </span>
+                                                        @endif
                                                     @elseif ($unit->type == 'sale')
-                                                    {{ $unit->price }} @lang('SAR')
+                                                        @if ($unit->price)
+                                                        {{ $unit->price }} @lang('SAR')
+                                                        @endif
                                                     @else
-                                                    {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                                        @if ($unit->getRentPriceByType())
+                                                        <span class="pb-1">
+                                                            {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                                        </span>
+                                                        @elseif ($unit->price)
+                                                        {{ $unit->price }} @lang('SAR')
+                                                        @endif
                                                     @endif
                                                 @endif
-
 
                                             </div>
                                             <div class="d-flex align-items-center justify-content-start">
