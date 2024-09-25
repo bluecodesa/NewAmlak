@@ -81,13 +81,12 @@
 
                             <div class="mb-3">
                                     <div class="form-check mb-0 ms-2">
-                                        <input class="form-check-input" required checked type="checkbox" id="terms-conditions">
-                                        <label class="form-check-label" for="terms-conditions"> @lang('By registering')
-                                            @lang('you accept our')
+                                        <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" required>
+                                        <label class="form-check-label" for="terms-conditions">
+                                            @lang('By registering') @lang('you accept our')
                                             <a href="{{ route('Terms') }}" target="_blank">
                                                 @lang('Conditions') @lang('and') @lang('Terms')
-                                            </a>
-                                            &amp;
+                                            </a> &amp;
                                             <a href="{{ route('Privacy') }}" target="_blank">
                                                 @lang('privacy policy')
                                             </a>
@@ -111,15 +110,15 @@
         </div>
     </div>
 
-  <script>
-      function validateForm() {
+    <script>
+        document.getElementById('formAuthentication').addEventListener('submit', function(event) {
             var checkBox = document.getElementById('terms-conditions');
             if (!checkBox.checked) {
-                alert("You must accept the terms and conditions before registering.");
-                return false;
+                event.preventDefault(); 
+                alert("@lang('You must accept the terms and conditions before registering.')");
             }
-            return true;
-        }
-  </script>
+        });
+    </script>
+
     <!-- / Content -->
 @endsection

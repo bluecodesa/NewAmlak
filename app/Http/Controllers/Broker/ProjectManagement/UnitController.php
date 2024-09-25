@@ -180,8 +180,8 @@ class UnitController extends Controller
 
         $falLicense = FalLicenseUser::where('user_id', auth()->id())
         ->whereHas('falData', function ($query) {
-            $query->where('for_gallery', 1); 
-           
+            $query->where('for_gallery', 1);
+
         })
         ->where('ad_license_status', 'valid')
         ->first();
@@ -276,6 +276,14 @@ class UnitController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.Unit.edit', get_defined_vars());
     }
 

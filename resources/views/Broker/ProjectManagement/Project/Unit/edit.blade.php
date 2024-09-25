@@ -394,9 +394,7 @@
                                                     class="required-color">*</span></label>
                                                 <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Unit->ad_license_number }}" required />
                                             </div>
-                                            @php
-                                            $licenseDate = Auth::user()->UserBrokerData->license_date;
-                                            @endphp
+                                         
                                             <div class="col-sm-12 col-md-4 mb-3">
                                                 <label class="form-label">@lang('Ad License Expiry')<span
                                                     class="required-color">*</span></label>

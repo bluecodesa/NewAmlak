@@ -141,6 +141,14 @@ class PropertyController extends Controller
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.Property.edit', get_defined_vars());
     }
 
@@ -210,6 +218,14 @@ class PropertyController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.Property.CreateUnit', get_defined_vars());
     }
 

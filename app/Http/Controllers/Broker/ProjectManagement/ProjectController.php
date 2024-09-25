@@ -103,6 +103,8 @@ class ProjectController extends Controller
         })
         ->where('ad_license_status', 'valid')
         ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
         return view('Broker.ProjectManagement.Project.create', get_defined_vars());
     }
 
@@ -146,6 +148,8 @@ class ProjectController extends Controller
         })
         ->where('ad_license_status', 'valid')
         ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
         return view('Broker.ProjectManagement.Project.edit', get_defined_vars());
     }
 
@@ -180,6 +184,7 @@ class ProjectController extends Controller
         })
         ->where('ad_license_status', 'valid')
         ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.CreateProperty', get_defined_vars());
     }
 
@@ -234,6 +239,7 @@ class ProjectController extends Controller
         })
         ->where('ad_license_status', 'valid')
         ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.CreateUnit', get_defined_vars());
     }
 
