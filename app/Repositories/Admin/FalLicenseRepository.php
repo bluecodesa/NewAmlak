@@ -13,9 +13,13 @@ class FalLicenseRepository implements FalLicenseRepositoryInterface
     }
 
     public function create($data)
-    {
-        return Fal::create($data);
-    }
+{
+   
+    $data['for_gallery'] = isset($data['for_gallery']) ? 1 : 0;
+
+    return Fal::create($data);
+}
+
 
     function getById($id)
     {

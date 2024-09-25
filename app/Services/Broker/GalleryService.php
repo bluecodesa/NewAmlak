@@ -269,7 +269,7 @@ class GalleryService
 
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
-        $units = $this->filterUnitsPublic($units, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+        $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
         $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
@@ -290,44 +290,44 @@ class GalleryService
     }
 }
 
-    public function filterUnitsPublic($units, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent)
+    public function filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent)
     {
         // Filter by city if not 'all'
         if ($cityFilter !== 'all') {
-            $units = $units->where('city_id', $cityFilter);
+            $allItems = $allItems->where('city_id', $cityFilter);
         }
 
         if ($propertyTypeFilter !== 'all') {
-            $units = $units->where('PropertyTypeData.id', $propertyTypeFilter);
+            $allItems = $allItems->where('PropertyTypeData.id', $propertyTypeFilter);
         }
 
         // Filter by project if not 'all'
         if ($projectFilter !== 'all') {
-            $units = $units->where('PropertyData.ProjectData.id', $projectFilter);
+            $units = $allItems->where('PropertyData.ProjectData.id', $projectFilter);
         }
 
         // Filter by property usage if not 'all'
         if ($typeUseFilter !== 'all') {
-            $units = $units->where('property_usage_id', $typeUseFilter);
+            $allItems = $allItems->where('property_usage_id', $typeUseFilter);
         }
 
         if ($adTypeFilter !== 'all') {
-            $units = $units->where('type', $adTypeFilter);
+            $allItems = $allItems->where('type', $adTypeFilter);
         }
 
         // Filter by price range (from and to)
         if ($priceFrom !== null && $priceFrom !== '') {
-            $units = $units->where('price', '>=', $priceFrom);
+            $allItems = $allItems->where('price', '>=', $priceFrom);
         }
 
         if ($priceTo !== null && $priceTo !== '') {
-            $units = $units->where('price', '<=', $priceTo);
+            $allItems = $allItems->where('price', '<=', $priceTo);
         }
 
 
         if ($hasImageFilter) {
             $unitIdsWithImages = UnitImage::pluck('unit_id')->toArray();
-            $units = $units->filter(function ($unit) use ($unitIdsWithImages) {
+            $allItems = $allItems->filter(function ($unit) use ($unitIdsWithImages) {
                 return in_array($unit->id, $unitIdsWithImages);
             });
         }
@@ -335,54 +335,54 @@ class GalleryService
 
         // Filter by units with price
         if ($hasPriceFilter) {
-            $units = $units->whereNotNull('price');
+            $allItems = $allItems->whereNotNull('price');
         }
 
         if ($daily_rent) {
-            $units = $units->where('daily_rent', 1);
+            $allItems = $allItems->where('daily_rent', 1);
         }
 
         if ($districtFilter !== 'all') {
-            $units = $units->where('district_id', $districtFilter);
+            $allItems = $allItems->where('district_id', $districtFilter);
         }
 
-        return $units;
+        return $allItems;
     }
 
-    public function filterUnits($units, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter)
+    public function filterUnits($allItems, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter)
     {
         // Filter by advertisement type if not 'all'
         if ($adTypeFilter !== 'all') {
-            $units = $units->where('type', $adTypeFilter);
+            $allItems = $allItems->where('type', $adTypeFilter);
         }
         if ($propertyTypeFilter !== 'all') {
-            $units = $units->where('PropertyTypeData.id', $propertyTypeFilter);
+            $allItems = $allItems->where('PropertyTypeData.id', $propertyTypeFilter);
         }
 
 
         // Filter by property usage if not 'all'
         if ($typeUseFilter !== 'all') {
-            $units = $units->where('property_usage_id', $typeUseFilter);
+            $allItems = $allItems->where('property_usage_id', $typeUseFilter);
         }
 
         // Filter by city if not 'all'
         if ($cityFilter !== 'all') {
-            $units = $units->where('city_id', $cityFilter);
+            $allItems = $allItems->where('city_id', $cityFilter);
         }
 
         // Filter by district if not 'all'
         if ($districtFilter !== 'all') {
-            $units = $units->where('district_id', $districtFilter);
+            $allItems = $allItems->where('district_id', $districtFilter);
         }
         if ($projectFilter !== 'all') {
-            $units = $units->where('PropertyData.ProjectData.id', $projectFilter);
+            $allItems = $allItems->where('PropertyData.ProjectData.id', $projectFilter);
         }
 
         if ($dailyFilter !== 'all') {
             $dailyRentValue = ($dailyFilter === 'Available') ? 1 : 0;
-            $units = $units->where('daily_rent', $dailyRentValue);
+            $allItems = $allItems->where('daily_rent', $dailyRentValue);
         }
 
-        return $units;
+        return $allItems;
     }
 }

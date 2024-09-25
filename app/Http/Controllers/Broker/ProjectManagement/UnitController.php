@@ -177,7 +177,16 @@ class UnitController extends Controller
         $features = $this->FeatureService->getAllFeature();
         $projects = $this->brokerDataService->getProjects();
         $properties = $this->brokerDataService->getProperties();
-        $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1); 
+           
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
         return view('Broker.ProjectManagement.Project.Unit.create', get_defined_vars());
     }

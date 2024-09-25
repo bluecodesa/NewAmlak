@@ -23,21 +23,29 @@
                         @method('post')
                         @foreach (config('translatable.locales') as $locale)
                             <div class="col-md-6 col-12 mb-3">
-
                                 <label class="form-label">
-                                    {{ __('Name') }} {{ __($locale) }} <span class="required-color">*</span></label>
+                                    {{ __('Name') }} {{ __($locale) }} <span class="required-color">*</span>
+                                </label>
                                 <input type="text" required id="modalRoleName" name="{{ $locale }}[name]"
                                     class="form-control" placeholder="{{ __('Name') }} {{ __($locale) }}">
                             </div>
-
                         @endforeach
+                        
+                        <!-- Add the gallery checkbox here -->
+                      
+                        <div class="col-md-2 mb-3">
+                            <p>@lang('For Gallery')</p>
+                            <input class="form-check-input" type="checkbox" id="forGallery" name="for_gallery" value="1">
+                        </div>
+
+                    
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary waves-effect waves-light">
                                 {{ __('save') }}
                             </button>
-
                         </div>
                     </form>
+                    
                 </div>
             </div>
             <!-- Modal to add new record -->

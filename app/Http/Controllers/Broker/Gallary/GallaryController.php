@@ -62,10 +62,6 @@ class GallaryController extends Controller
 
 
 
-
-
-
-
     public function __construct(
         SettingService $settingService,
         GalleryService $galleryService,
@@ -153,7 +149,7 @@ class GallaryController extends Controller
         $districtFilter = request()->input('district_filter', 'all');
         $projectFilter = request()->input('project_filter', 'all');
         $dailyFilter = request()->input('daily_filter', 'all');
-        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter);
+        $allItems = $this->galleryService->filterUnits($allItems, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter);
         // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByBrokerId($brokerId);
         $galleries = $this->galleryService->all();
@@ -253,14 +249,14 @@ class GallaryController extends Controller
         return view('Broker.Gallary.InteractiveMap.index', get_defined_vars());
     }
 
-protected function updateAdLicenseStatus($allItemsProperties)
-{
-    foreach ($allItemsProperties as $item) {
-        if (isset($item->ad_license_expiry) && $item->ad_license_expiry < now()->format('Y-m-d')) {
-            $item->update(['ad_license_status' => 'InValid']);
+    protected function updateAdLicenseStatus($allItemsProperties)
+    {
+        foreach ($allItemsProperties as $item) {
+            if (isset($item->ad_license_expiry) && $item->ad_license_expiry < now()->format('Y-m-d')) {
+                $item->update(['ad_license_status' => 'InValid']);
+            }
         }
     }
-}
     public function showGallery($galleryId)
     {
         $gallery = $this->galleryService->findById($galleryId);
@@ -273,8 +269,6 @@ protected function updateAdLicenseStatus($allItemsProperties)
         $this->galleryService->create($data);
         return redirect()->route('gallery.index')->with('success', 'Gallery created successfully');
     }
-
-
 
     public function destroy($galleryId)
     {
@@ -304,9 +298,6 @@ protected function updateAdLicenseStatus($allItemsProperties)
     }
 
 
-
-
-
     public function showGalleryUnit($broker_name, $id)
     {
         $Unit = $this->UnitService->findById($id);
@@ -315,14 +306,13 @@ protected function updateAdLicenseStatus($allItemsProperties)
 
 
     public function showInterests()
-    {
 
+    {
         $gallery = $this->galleryService->findByBrokerId(auth()->user()->UserBrokerData->id) ?? null;
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $interests = $this->settingService->getAllInterestTypes();
         return view('Broker.Gallary.unit-interest', get_defined_vars());
     }
-
 
 
     public function showUnitPublic($gallery_name, $id)
@@ -356,14 +346,22 @@ protected function updateAdLicenseStatus($allItemsProperties)
 
         $allUnits = Unit::take(6)->paginate(3);
 
-
+        $data['allUnits'] = $moreUnits;
 
         $data['moreUnits'] = $moreUnits;
 
         $broker = $data['broker'];
-        if ($broker->license_validity == 'valid') {
+        $user_id=$broker->UserData->id;
+        // if ($broker->license_validity == 'valid') {
+            $falLicense = FalLicenseUser::where('user_id', $user_id)
+            ->whereHas('falData', function ($query) {
+                $query->where('for_gallery', 1);
+            })
+            ->where('ad_license_status', 'valid')
+            ->first();
+            $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+            if ($falLicense->ad_license_status == 'valid') {
             $data['CheckUnitExist'] = UnitInterest::where(['interested_id' => Auth::id(), 'unit_id' => $id])->exists();
-            // return $data;
             return view('Home.Gallery.Unit.show', $data);
         } else {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
@@ -386,6 +384,7 @@ protected function updateAdLicenseStatus($allItemsProperties)
 
 
         $data = $this->galleryService->showByName($name, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
@@ -432,11 +431,12 @@ protected function updateAdLicenseStatus($allItemsProperties)
         $user_id =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData->UserData->id;
         $falLicense = FalLicenseUser::where('user_id', $user_id)
                     ->whereHas('falData', function ($query) {
-                        $query->whereTranslation('name', 'Real State FalLicense', 'en');
+                        $query->where('for_gallery', 1);
                     })
                     ->where('ad_license_status', 'valid')
                     ->first();
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
         if ($falLicense->ad_license_status == 'valid') {
             return view('Home.Gallery.index', $data);
         } else {
@@ -487,10 +487,6 @@ protected function updateAdLicenseStatus($allItemsProperties)
 
         return redirect()->route('Broker.Gallery.index')->withSuccess('Gallery created successfully.');
     }
-
-
-
-
 
     public function downloadQrCode($link)
     {

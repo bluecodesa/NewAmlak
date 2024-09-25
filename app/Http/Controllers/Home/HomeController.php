@@ -84,11 +84,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        //subscrptions
-        // $subscriptionTypes = $this->subscriptionTypeService->getAll()
-        //     ->where('is_deleted', 0)
-        //     ->where('is_show', 1)
-        //     ->where('status', 1);
+    
         $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
         ->where('is_show', 1)
         ->where('status', 1)
@@ -117,16 +113,7 @@ class HomeController extends Controller
         }
     }
 
-    // public function sendOtp(Request $request)
-    // {
-    //     $email = $request->input('user_name');
-
-    //         $otp = mt_rand(100000, 999999);
-    //         session(['otp' => $otp, 'email' => $email]);
-    //         $this->MailSendCode($request->user_name, $otp);
-    //         return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
-
-    // }
+  
 
     public function sendOtp(Request $request)
     {
@@ -1131,26 +1118,51 @@ class HomeController extends Controller
     public function showAllBrokers(Request $request)
     {
 
-        $users =  User::where('is_broker', true)
-            ->whereHas('UserBrokerData.GalleryData')
-            ->with('UserBrokerData')
-            ->whereHas('UserBrokerData', function ($query) {
-                $query->where('license_validity', 'valid');
-            })
-            ->paginate(9);
-
+        $users = User::where('is_broker', true)
+        ->whereHas('UserFalData', function ($query) {
+            $query->where('ad_license_status', 'valid')
+                  ->whereHas('falData', function ($subQuery) {
+                      $subQuery->where('for_gallery', 1);
+                  });
+        })
+        ->with(['UserFalData' => function ($query) {
+            $query->where('ad_license_status', 'valid')
+                  ->whereHas('falData', function ($subQuery) {
+                      $subQuery->where('for_gallery', 1);
+                  });
+        }])
+        ->paginate(9);
+    
         foreach ($users as $key => $user) {
-            $broker =  $user->UserBrokerData;
-            if ($broker->license_date > now()->format('Y-m-d')) {
-                $broker->update(['license_validity' => 'valid']);
+            $falLicenseUser = $user->UserFalData; // Get the associated FalLicenseUser record
+            
+            // Check if the user has a valid Fal license
+            if ($falLicenseUser && $falLicenseUser->ad_license_expiry > now()->format('Y-m-d')) {
+                $falLicenseUser->update(['ad_license_status' => 'valid']);
             } else {
-                $broker->update(['license_validity' => 'expired']);
-                $check_gallary = Gallery::where('broker_id', $broker->id)->first();
-                if ($check_gallary) {
-                    $check_gallary->update(['gallery_status' => '0']);
+                if ($falLicenseUser) {
+                    $falLicenseUser->update(['ad_license_status' => 'invalid']);
+                    $check_gallery = Gallery::where('broker_id', $user->UserBrokerData->id)->first(); // Assuming 'broker_id' relates to 'user_id'
+                    if ($check_gallery) {
+                        $check_gallery->update(['gallery_status' => '0']);
+                    }
                 }
             }
         }
+        
+
+        // foreach ($users as $key => $user) {
+        //     $broker =  $user->UserBrokerData;
+        //     if ($broker->license_date > now()->format('Y-m-d')) {
+        //         $broker->update(['license_validity' => 'valid']);
+        //     } else {
+        //         $broker->update(['license_validity' => 'expired']);
+        //         $check_gallary = Gallery::where('broker_id', $broker->id)->first();
+        //         if ($check_gallary) {
+        //             $check_gallary->update(['gallery_status' => '0']);
+        //         }
+        //     }
+        // }
         $advertisings = Advertising::where('status', 'Published')->get();
 
 

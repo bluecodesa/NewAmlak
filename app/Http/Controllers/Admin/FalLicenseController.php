@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Fal;
 use App\Services\Admin\FalLicenseService;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,21 @@ class FalLicenseController extends Controller
 
     public function store(Request $request)
     {
-        $this->FalLicenseService->create($request->all());
+
+        $data = $request->all();
+
+        if (isset($data['for_gallery']) && $data['for_gallery'] == 1) {
+            $existingForGallery = Fal::where('for_gallery', 1)->exists();
+            
+            if ($existingForGallery) {
+                return redirect()->back()
+                    ->withErrors(['for_gallery' => __('A License with "for_gallery" already exists. You cannot add another.')])
+                    ->withInput();
+            }
+        }
+    
+        $this->FalLicenseService->create($data);
+    
         return redirect()->route('Admin.FalLicense.index')
             ->withSuccess(__('added successfully'));
     }

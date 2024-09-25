@@ -318,7 +318,7 @@
 
                 $falLicense = \App\Models\FalLicenseUser::where('user_id', $user_id)
                     ->whereHas('falData', function ($query) {
-                        $query->whereTranslation('name', 'Real State FalLicense', 'en');
+                        $query->where('for_gallery', 1);
                     })
                     ->where('ad_license_status', 'valid')
                     ->first();

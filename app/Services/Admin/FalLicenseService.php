@@ -3,6 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Interfaces\Admin\FalLicenseRepositoryInterface;
+use App\Models\Fal;
 use Illuminate\Validation\Rule;
 
 class FalLicenseService
@@ -26,7 +27,9 @@ class FalLicenseService
 
     public function create($data)
     {
-        $rules = [];
+        $rules = [
+            'for_gallery' => ['nullable', 'boolean'], 
+        ];
         foreach (config('translatable.locales') as $locale) {
             $rules += [
                 $locale . '.name' => ['required', Rule::unique('fal_translations', 'name')],
@@ -38,6 +41,18 @@ class FalLicenseService
         ];
 
         validator($data, $rules, $messages)->validate();
+
+        if (isset($data['for_gallery']) && $data['for_gallery'] == 1) {
+            $existingForGallery = Fal::where('for_gallery', 1)->exists();
+            
+            if ($existingForGallery) {
+                return redirect()->back()
+                    ->withErrors(['for_gallery' => __('A License with "for_gallery = 1" already exists. You cannot add another.')])
+                    ->withInput();
+            }
+        }
+    
+
         return $this->FalLicenseRepository->create($data);
     }
 
