@@ -258,9 +258,14 @@ class OwnerController extends Controller
             ->where('broker_id', '!=', $brokerUserId)
             ->exists();
 
-        if ($ownerInOtherAccounts) {
-            return redirect()->route('Broker.Owner.index')->with('success', __('This owner is associated with another broker account and cannot be deleted.'));
-        }
+            if ($ownerInOtherAccounts) {
+                // Delete the relationship from the pivot table for the current broker
+                OwnerOfficeBroker::where('owner_id', $owner->id)
+                    ->where('broker_id', $brokerUserId)
+                    ->delete();
+
+                return redirect()->route('Broker.Owner.index')->with('success', __('Owner removed from your broker account.'));
+            }
 
         $this->ownerService->deleteOwner($id);
         return redirect()->route('Broker.Owner.index')->with('success', __('Deleted successfully'));

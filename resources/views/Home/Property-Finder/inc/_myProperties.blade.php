@@ -21,10 +21,26 @@
                     <div class="dropdown btn-pinned">
 
                         @if(isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
-                        <span class="pb-1">
-                            {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
-                        </span>
-                        @endif
+                                        @if ($unit->type == 'rent')
+                                            @if ($unit->getRentPriceByType())
+                                                <span class="pb-1">
+                                                    {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                                </span>
+                                            @endif
+                                        @elseif ($unit->type == 'sale')
+                                            @if ($unit->price)
+                                            {{ $unit->price }} @lang('SAR')
+                                            @endif
+                                        @else
+                                            @if ($unit->getRentPriceByType())
+                                            <span class="pb-1">
+                                                {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
+                                            </span>
+                                            @elseif ($unit->price)
+                                            {{ $unit->price }} @lang('SAR')
+                                            @endif
+                                        @endif
+                            @endif
 
                         <button
                             type="button"
