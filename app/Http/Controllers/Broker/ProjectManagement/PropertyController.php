@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\FalLicenseUser;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\TicketType;
@@ -83,6 +84,15 @@ class PropertyController extends Controller
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
         $services = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.Property.create', get_defined_vars());
     }
 
@@ -229,8 +239,15 @@ class PropertyController extends Controller
     public function showPubllicProperty($gallery_name, $id)
     {
         $property = $this->PropertyService->ShowPublicProject($id);
-
-        if(!empty($property) && $property->BrokerData->license_validity == 'valid' && $property->BrokerData->GalleryData->gallery_status != 0 ){
+        $user_id=$property->BrokerData->UserData->id;
+        $falLicense = FalLicenseUser::where('user_id', $user_id)
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        if(!empty($property) && $falLicense->ad_license_status == 'valid' && $property->BrokerData->GalleryData->gallery_status != 0 ){
             $ticketTypes =  TicketType::paginate(100);
 
 

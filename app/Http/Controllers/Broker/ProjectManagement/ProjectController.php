@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\FalLicenseUser;
 use App\Models\Project;
 use App\Models\Subscription;
 use App\Models\TicketType;
@@ -233,7 +234,15 @@ class ProjectController extends Controller
     public function showPubllicProject($gallery_name, $id)
     {
         $project = $this->projectService->ShowPublicProject($id);
-        if(!empty($project) && $project->BrokerData->license_validity == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 ){
+        $user_id=$project->BrokerData->UserData->id;
+        $falLicense = FalLicenseUser::where('user_id', $user_id)
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        if(!empty($project) && $falLicense->ad_license_status == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 ){
             $ticketTypes =  TicketType::paginate(100);
 
             $cityId = $project->city_id;
