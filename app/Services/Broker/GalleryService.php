@@ -214,7 +214,7 @@ class GalleryService
             $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
             $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
             $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
-            $units = $this->filterUnitsPublic($units, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+            $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
             $unit = $units->first();
             if ($unit) {
                 $id = $unit->id;
@@ -267,15 +267,15 @@ class GalleryService
 
         }
 
-        $uniqueIds = $units->pluck('CityData.id')->unique();
-        $uniqueNames = $units->pluck('CityData.name')->unique();
+        $uniqueIds = $allItems->pluck('CityData.id')->unique();
+        $uniqueNames = $allItems->pluck('CityData.name')->unique();
         $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
         $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
         $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
-        $districtsuniqueIds = $units->pluck('DistrictData.id')->filter()->unique();
-        $districtsUniqueNames = $units->pluck('DistrictData.name')->unique();
+        $districtsuniqueIds = $allItems->pluck('DistrictData.id')->filter()->unique();
+        $districtsUniqueNames = $allItems->pluck('DistrictData.name')->unique();
         $ticketTypes = $this->ticketTypeRepository->all();
 
         return get_defined_vars();
