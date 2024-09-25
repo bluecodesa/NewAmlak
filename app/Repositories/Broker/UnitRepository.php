@@ -68,7 +68,7 @@ class UnitRepository implements UnitRepositoryInterface
         // } else {
         //     $unit_data['show_gallery'] = 0;
         // }
-dd($data);
+
         if (isset($data['show_gallery'])) {
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
 
