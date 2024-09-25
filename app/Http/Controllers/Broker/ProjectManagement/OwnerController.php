@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Broker\ProjectManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
 use App\Models\Owner;
+use App\Models\OwnerOfficeBroker;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\Admin\NewPropertyFinderNotification;
@@ -245,16 +246,25 @@ class OwnerController extends Controller
     // }
 
     public function destroy(string $id)
-{
-    $owner =  $this->ownerService->getOwnerById($id);
-    $brokerUserId = auth()->user()->id;
+    {
+        $owner = $this->ownerService->getOwnerById($id);
+        $brokerUserId = auth()->user()->id;
 
-    if ($owner->user_id === $brokerUserId) {
-        return redirect()->route('Broker.Owner.index')->with('success', __('You cannot delete yourself as an owner.'));
+        if ($owner->user_id === $brokerUserId) {
+            return redirect()->route('Broker.Owner.index')->with('success', __('You cannot delete yourself as an owner.'));
+        }
+
+        $ownerInOtherAccounts = OwnerOfficeBroker::where('owner_id', $owner->id)
+            ->where('broker_id', '!=', $brokerUserId)
+            ->exists();
+
+        if ($ownerInOtherAccounts) {
+            return redirect()->route('Broker.Owner.index')->with('success', __('This owner is associated with another broker account and cannot be deleted.'));
+        }
+
+        $this->ownerService->deleteOwner($id);
+        return redirect()->route('Broker.Owner.index')->with('success', __('Deleted successfully'));
     }
 
-    $this->ownerService->deleteOwner($id);
-    return redirect()->route('Broker.Owner.index')->with('success', __('Deleted successfully'));
-}
 
 }
