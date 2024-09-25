@@ -16,7 +16,7 @@
 
                 <div class="row p-1 mb-1">
                     <div class="col-12">
-                        <h5 class="card-header">@lang('FalLicense') </h5>
+                        <h5 class="card-header">@lang('Fal License') </h5>
                     </div>
                     <hr>
                     <div class="col-12">

@@ -43,16 +43,16 @@ class FalLicenseController extends Controller
 
         if (isset($data['for_gallery']) && $data['for_gallery'] == 1) {
             $existingForGallery = Fal::where('for_gallery', 1)->exists();
-            
+
             if ($existingForGallery) {
                 return redirect()->back()
                     ->withErrors(['for_gallery' => __('A License with "for_gallery" already exists. You cannot add another.')])
                     ->withInput();
             }
         }
-    
+
         $this->FalLicenseService->create($data);
-    
+
         return redirect()->route('Admin.FalLicense.index')
             ->withSuccess(__('added successfully'));
     }
@@ -72,6 +72,18 @@ class FalLicenseController extends Controller
 
     public function update(Request $request, $id)
     {
+        $data = $request->all();
+
+        if (isset($data['for_gallery']) && $data['for_gallery'] == 1) {
+            $existingForGallery = Fal::where('for_gallery', 1)->exists();
+
+            if ($existingForGallery) {
+                return redirect()->back()
+                    ->withErrors(['for_gallery' => __('A License with "for_gallery" already exists. You cannot add another.')])
+                    ->withInput();
+            }
+        }
+
         $this->FalLicenseService->update($id, $request->all());
         return redirect()->route('Admin.FalLicense.index')
             ->withSuccess(__('Update successfully'));

@@ -30,22 +30,22 @@
                                     class="form-control" placeholder="{{ __('Name') }} {{ __($locale) }}">
                             </div>
                         @endforeach
-                        
+
                         <!-- Add the gallery checkbox here -->
-                      
-                        <div class="col-md-2 mb-3">
-                            <p>@lang('For Gallery')</p>
+
+                        <div class="col-md-4 mb-3">
+                            <label>@lang('Allow advertising in real estate gallery')</label>
                             <input class="form-check-input" type="checkbox" id="forGallery" name="for_gallery" value="1">
                         </div>
 
-                    
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary waves-effect waves-light">
                                 {{ __('save') }}
                             </button>
                         </div>
                     </form>
-                    
+
                 </div>
             </div>
             <!-- Modal to add new record -->

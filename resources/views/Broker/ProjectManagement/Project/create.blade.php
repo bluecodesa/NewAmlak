@@ -213,7 +213,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
-                            @php
+                            {{-- @php
                             // Fetch all Fal licenses for the authenticated user
                             $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
                                 ->whereHas('falData', function ($query) {
@@ -227,7 +227,7 @@
                             $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
 
-                        @endphp
+                        @endphp --}}
 
                             @if($falLicense)
                                 <!-- Show the "Show in Gallery" switch if the user has a valid license -->

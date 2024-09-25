@@ -96,6 +96,13 @@ class ProjectController extends Controller
         $owners = $this->brokerDataService->getOwners();
         $projectStatuses = $this->AdminProjectService->getAllProjectStatus();
         $deliveryCases = $this->AdminProjectService->getAllDeliveryCases();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
         return view('Broker.ProjectManagement.Project.create', get_defined_vars());
     }
 
@@ -132,6 +139,13 @@ class ProjectController extends Controller
         $services = $this->ServiceTypeService->getAllServiceTypes();
         $projectStatuses = $this->AdminProjectService->getAllProjectStatus();
         $deliveryCases = $this->AdminProjectService->getAllDeliveryCases();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
         return view('Broker.ProjectManagement.Project.edit', get_defined_vars());
     }
 
@@ -159,6 +173,13 @@ class ProjectController extends Controller
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
         $services = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
         return view('Broker.ProjectManagement.Project.CreateProperty', get_defined_vars());
     }
 
@@ -206,6 +227,13 @@ class ProjectController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
         return view('Broker.ProjectManagement.Project.CreateUnit', get_defined_vars());
     }
 

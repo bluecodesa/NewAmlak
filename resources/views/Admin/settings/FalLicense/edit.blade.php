@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-6 ">
                     <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
-                        <a href="{{ route('Admin.FalLicense.index') }}" class="text-muted fw-light">@lang('[]al License')
+                        <a href="{{ route('Admin.FalLicense.index') }}" class="text-muted fw-light">@lang('Fal License')
                         </a> /
                         @lang('Edit')
                     </h4>
@@ -32,6 +32,12 @@
                             </div>
 
                         @endforeach
+                        <div class="col-md-4 mb-3">
+                            <label>@lang('Allow advertising in real estate gallery')</label>
+                            <input class="form-check-input" type="checkbox" id="forGallery" name="for_gallery"
+                                   value="1" {{ $falLicense->for_gallery ? 'checked' : '' }}>
+                       
+                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary me-1">
                                 {{ __('save') }}

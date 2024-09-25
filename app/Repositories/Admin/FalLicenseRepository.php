@@ -14,7 +14,7 @@ class FalLicenseRepository implements FalLicenseRepositoryInterface
 
     public function create($data)
 {
-   
+
     $data['for_gallery'] = isset($data['for_gallery']) ? 1 : 0;
 
     return Fal::create($data);
@@ -29,6 +29,8 @@ class FalLicenseRepository implements FalLicenseRepositoryInterface
     public function update($id, $data)
     {
         $Fal = Fal::findOrFail($id);
+        $data['for_gallery'] = isset($data['for_gallery']) ? 1 : 0;
+
         $Fal->update($data);
         return $Fal;
     }

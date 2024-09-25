@@ -238,9 +238,23 @@ class OwnerController extends Controller
         return redirect()->route('Broker.Owner.index')->with('success', __('Update successfully'));
     }
 
+    // public function destroy(string $id)
+    // {
+    //     $this->ownerService->deleteOwner($id);
+    //     return redirect()->route('Broker.Owner.index')->with('success', __('Deleted successfully'));
+    // }
+
     public function destroy(string $id)
-    {
-        $this->ownerService->deleteOwner($id);
-        return redirect()->route('Broker.Owner.index')->with('success', __('Deleted successfully'));
+{
+    $owner =  $this->ownerService->getOwnerById($id);
+    $brokerUserId = auth()->user()->id;
+
+    if ($owner->user_id === $brokerUserId) {
+        return redirect()->route('Broker.Owner.index')->with('success', __('You cannot delete yourself as an owner.'));
     }
+
+    $this->ownerService->deleteOwner($id);
+    return redirect()->route('Broker.Owner.index')->with('success', __('Deleted successfully'));
+}
+
 }
