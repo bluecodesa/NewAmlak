@@ -248,27 +248,25 @@ class OwnerController extends Controller
     public function destroy(string $id)
     {
         $owner = $this->ownerService->getOwnerById($id);
-        $brokerUserId = auth()->user()->id;
+        $UserId = auth()->user()->id;
+        $brokerId = auth()->user()->UserBrokerData->id;
 
         // Check if the current user is both the owner and broker
-        if ($owner->user_id === $brokerUserId) {
-            // Delete the relationship from the pivot table for the current broker/owner
+        if ($owner->user_id === $UserId) {
             OwnerOfficeBroker::where('owner_id', $owner->id)
-                ->where('broker_id', $brokerUserId)
+                ->where('broker_id', $brokerId)
                 ->delete();
 
             return redirect()->route('Broker.Owner.index')->with('success', __('You have been removed as an owner from your broker account.'));
         }
 
-        // Check if the owner is associated with other broker accounts
         $ownerInOtherAccounts = OwnerOfficeBroker::where('owner_id', $owner->id)
-            ->where('broker_id', '!=', $brokerUserId)
+            ->where('broker_id', '!=', $brokerId)
             ->exists();
 
         if ($ownerInOtherAccounts) {
-            // Delete the relationship from the pivot table for the current broker
             OwnerOfficeBroker::where('owner_id', $owner->id)
-                ->where('broker_id', $brokerUserId)
+                ->where('broker_id', $brokerId)
                 ->delete();
 
             return redirect()->route('Broker.Owner.index')->with('success', __('Owner removed from your broker account.'));
