@@ -231,7 +231,7 @@
 
                                             @php($types = ['daily', 'monthly', 'quarterly', 'midterm', 'yearly'])
 
-
+                                            @if ($Unit->getRentPriceByType())
                                             <div class="">
                                                 <select class="form-select UpdateRentPriceByType">
                                                     <option disabled value="" selected>@lang('Choose the rental price')
@@ -244,7 +244,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-
+                                            @endif
 
 
 

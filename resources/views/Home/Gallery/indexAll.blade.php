@@ -306,14 +306,18 @@
 
                                             @auth
                                                 @if (auth()->user())
-                                                    @php
-                                                        $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)->orwhere('property_id', $unit->id)->orwhere('project_id', $unit->id)
-                                                            ->where('finder_id', auth()->user()->id)
-                                                            ->exists();
+                                                @php
+                                                $isFavorite = App\Models\FavoriteUnit::where('finder_id', auth()->user()->id)
+                                                    ->where(function($query) use ($unit) {
+                                                        $query->where('unit_id', $unit->id)
+                                                              ->orWhere('property_id', $unit->id)
+                                                              ->orWhere('project_id', $unit->id);
+                                                    })
+                                                    ->exists();
 
-                                                        // Determine the type (unit, property, or project)
-                                                        $type = $isGalleryUnit ? 'unit' : ($isGalleryProject ? 'project' : ($isGalleryProperty ? 'property' : ''));
-                                                    @endphp
+                                                // Determine the type (unit, property, or project)
+                                                $type = $isGalleryUnit ? 'unit' : ($isGalleryProject ? 'project' : ($isGalleryProperty ? 'property' : ''));
+                                            @endphp
 
                                                         @if (Auth::user()->hasPermission('Add-property-as-favorite') ||
                                                                 Auth::user()->hasPermission('Add-property-as-favorite-admin'))

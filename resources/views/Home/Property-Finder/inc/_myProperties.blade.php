@@ -134,8 +134,11 @@
                     @endif
 
                     @if ($unit->type == 'rent and sale')
+                    <a href="javascript:;"><span
+                        class="badge bg-label-info">@lang('sale')</span></a>
+
                         <a href="javascript:;"><span
-                                class="badge bg-label-info">@lang('rent and sale')</span></a>
+                            class="badge bg-label-warning">@lang('rent')</span></a>
                     @endif
                     @if ($unit->daily_rent)
                     <a href="javascript:;" class="me-1">

@@ -120,5 +120,53 @@
         });
     </script>
 
+<script>
+    document.getElementById("formAuthentication").addEventListener("submit", function (e) {
+        // Prevent default form submission to process visitor data first
+        e.preventDefault();
+
+        // Capture form values
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var phone = document.getElementById("phone").value;
+        var id_number = document.getElementById("id_number").value;
+
+        // Log values for debugging
+        console.log("Name:", name);
+        console.log("Email:", email);
+        console.log("Phone:", phone);
+        console.log("ID Number:", id_number);
+
+        // Check if Zoho SalesIQ is loaded
+        if (window.$zoho && $zoho.salesiq) {
+            // Set visitor name and email
+            $zoho.salesiq.visitor.name(name);
+            $zoho.salesiq.visitor.email(email);
+
+            // Set other custom fields
+            $zoho.salesiq.visitor.phone(phone); // Add phone number
+            $zoho.salesiq.visitor.customfield("ID Number", id_number); // Custom field for ID Number
+
+            // Track multiple fields
+            $zoho.salesiq.visitor.info({
+                "Name": name,
+                "Email": email,
+                "Phone": phone,
+                "ID Number": id_number
+            });
+        }
+
+        // Submit the form after processing visitor information
+        this.submit();
+    });
+</script>
+
+
+<script>
+window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}
+</script>
+<script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq1d83b8cbfb60b3119713dd68fd1635735f23b20cfb5907da94a25b9d4e5c6911" defer>
+</script>
+
     <!-- / Content -->
 @endsection
