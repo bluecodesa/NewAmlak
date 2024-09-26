@@ -159,9 +159,44 @@ class HomeController extends Controller
 
         //favorites
         $favorites = FavoriteUnit::where('finder_id', $finder->id)->get();
-        $units = Unit::with('Unitfavorites')
-            ->whereIn('id', $favorites->pluck('unit_id'))
-            ->get();
+
+
+
+          // Fetch all units that are favorited
+            $units = Unit::with('UnitImages', 'CityData', 'PropertyTypeData')
+            ->whereIn('id', $favorites->pluck('unit_id')->filter()) // Only get non-null values
+            ->get()
+            ->each(function ($unit) {
+                $unit->isGalleryUnit = true;
+                $unit->isGalleryProperty = false;
+                $unit->isGalleryProject = false;
+            });
+
+            // Fetch all properties that are favorited
+            $properties = Property::with('PropertyImages', 'UnitsProperty', 'CityData')
+            ->whereIn('id', $favorites->pluck('property_id')->filter()) // Only get non-null values
+            ->get()
+            ->each(function ($property) {
+                $property->isGalleryUnit = false;
+                $property->isGalleryProperty = true;
+                $property->isGalleryProject = false;
+            });
+
+            // Fetch all projects that are favorited
+            $projects = Project::with('ProjectImages', 'UnitsProject', 'PropertiesProject', 'CityData')
+            ->whereIn('id', $favorites->pluck('project_id')->filter()) // Only get non-null values
+            ->get()
+            ->each(function ($project) {
+                $project->isGalleryUnit = false;
+                $project->isGalleryProperty = false;
+                $project->isGalleryProject = true;
+            });
+
+            // Combine all items into a single collection
+            $allFavorites = $units->merge($properties)->merge($projects);
+
+
+
             $user = auth()->user();
 
         //requests
