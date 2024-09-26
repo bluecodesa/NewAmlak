@@ -7,12 +7,18 @@ use App\Models\Broker;
 use App\Models\Owner;
 use App\Models\OwnerOfficeBroker;
 use App\Models\Role;
+use App\Models\Subscription;
+use App\Models\SubscriptionSection;
+use App\Models\SubscriptionType;
+use App\Models\SubscriptionTypeRole;
+use App\Models\SystemInvoice;
 use App\Models\User;
 use App\Notifications\Admin\NewPropertyFinderNotification;
 use Illuminate\Http\Request;
 use App\Services\CityService;
 use App\Services\Broker\OwnerService;
 use App\Services\RegionService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 class OwnerController extends Controller
@@ -142,7 +148,6 @@ class OwnerController extends Controller
     $user = User::where('id_number', $request->id_number)->first();
     if (!$user) {
         return redirect()->route('Broker.Owner.index')->with('success', __('User not found.'));
-
     }
 
     $city_id = null;
@@ -181,6 +186,68 @@ class OwnerController extends Controller
             'user_id' => $user->id,
             'balance' => $request->balance ?? 0,
         ]);
+
+
+
+        $RolesIds = Role::whereIn('name', ['Owner'])->pluck('id')->toArray();
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('status', 1)
+        ->where('new_subscriber', '1')
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
+        $subscription_type_id = $subscriptionType->id;
+
+        $subscriptionType = SubscriptionType::find($subscription_type_id);
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+
+        if ($subscriptionType->price > 0) {
+            $SubType = 'paid';
+            $status = 'pending';
+        } else {
+            $SubType = 'free';
+            $status = 'active';
+        }
+        $subscription = Subscription::create([
+            'owner_id' => $owner->id,
+            'subscription_type_id' => $subscription_type_id,
+            'status' => $status,
+            'is_start' => $status == 'pending' ? 0 : 1,
+            'is_new' => 1,
+            'start_date' => now()->format('Y-m-d H:i:s'),
+            'end_date' => $endDate,
+            'total' => '200'
+        ]);
+
+        foreach ($subscriptionType->sections()->get() as $section_id) {
+            SubscriptionSection::create([
+                'section_id' => $section_id->id,
+                'subscription_id' => $subscription->id,
+            ]);
+        }
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+
+        $delimiter = '-';
+        if (!$Last_invoice_ID) {
+            $new_invoice_ID = '00001';
+        } else {
+            $result = explode($delimiter, $Last_invoice_ID);
+            $number = (int)$result[1] + 1;
+            $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+        }
+        $Invoice =   SystemInvoice::create([
+            'owner_id' => $owner->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => $SubType,
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
+        ]);
+
+
 
         $broker_id = auth()->user()->UserBrokerData->id;
         $owner->brokers()->attach($broker_id, [

@@ -159,10 +159,6 @@ class HomeController extends Controller
 
         //favorites
         $favorites = FavoriteUnit::where('finder_id', $finder->id)->get();
-
-
-
-          // Fetch all units that are favorited
             $units = Unit::with('UnitImages', 'CityData', 'PropertyTypeData')
             ->whereIn('id', $favorites->pluck('unit_id')->filter()) // Only get non-null values
             ->get()
@@ -172,7 +168,6 @@ class HomeController extends Controller
                 $unit->isGalleryProject = false;
             });
 
-            // Fetch all properties that are favorited
             $properties = Property::with('PropertyImages', 'UnitsProperty', 'CityData')
             ->whereIn('id', $favorites->pluck('property_id')->filter()) // Only get non-null values
             ->get()
@@ -182,7 +177,6 @@ class HomeController extends Controller
                 $property->isGalleryProject = false;
             });
 
-            // Fetch all projects that are favorited
             $projects = Project::with('ProjectImages', 'UnitsProject', 'PropertiesProject', 'CityData')
             ->whereIn('id', $favorites->pluck('project_id')->filter()) // Only get non-null values
             ->get()
@@ -192,10 +186,7 @@ class HomeController extends Controller
                 $project->isGalleryProject = true;
             });
 
-            // Combine all items into a single collection
             $allFavorites = $units->merge($properties)->merge($projects);
-
-
 
             $user = auth()->user();
 
