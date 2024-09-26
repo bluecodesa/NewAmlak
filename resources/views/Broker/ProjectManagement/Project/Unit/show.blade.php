@@ -33,7 +33,7 @@
                         <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
                       </button>
                     </li>
-                    
+
                     <li class="nav-item">
                       <button
                         type="button"
@@ -83,7 +83,7 @@
                                 <div class="card-body">
                                     <div class="user-avatar-section">
                                         <div class="d-flex align-items-center flex-column">
-        
+
                                             <div class="row">
                                                 @forelse($Unit->UnitImages as $image)
                                                     <div class="col-6 mb-1">
@@ -91,7 +91,7 @@
                                                             alt="{{ $Unit->name }}" height="100" width="100">
                                                     </div>
                                                 @empty
-        
+
                                                     <img class="img-fluid rounded mb-3 pt-1 mt-4"
                                                         src="{{ url('Offices/Projects/default.svg') }}" alt="{{ $Unit->name }}"
                                                         height="100" width="100">
@@ -109,8 +109,8 @@
                                                     </a></span>
                                                     @endif
                                                     <span class="badge bg-label-secondary mt-1">@lang('Unit')</span>
-        
-        
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -136,7 +136,7 @@
                                     <p class="mt-4 small text-uppercase text-muted">@lang('Details')</p>
                                     <div class="info-container">
                                         <ul class="list-unstyled">
-        
+
                                             <li class="mb-2 pt-1">
                                                 <span class="fw-medium me-1">@lang('owner name') :</span>
                                                 <span>{{ $Unit->OwnerData->name ?? __('nothing') }}</span>
@@ -162,35 +162,76 @@
                                                 <span>{{ $Unit->PropertyUsageData->name ?? __('nothing') }}
                                                 </span>
                                             </li>
-        
+
                                             <li class="mb-2 pt-1">
                                                 <span class="fw-medium me-1">@lang('service type') :</span>
                                                 <span>{{ $Unit->ServiceTypeData->name ?? __('nothing') }}
                                                 </span>
                                             </li>
-        
+
                                             <li class="mb-2 pt-1">
                                                 <span class="fw-medium me-1">@lang('Ad type') :</span>
+                                                @if ($Unit->type == 'rent and sale')
+                                                <span>@lang('sale')</span> /
+                                                <span>@lang('rent')</span>
+
+                                                @else
                                                 <span>{{ __($Unit->type) ?? __('nothing') }}</span>
+                                                @endif
                                             </li>
-        
+
                                             <li class="mb-2 pt-1">
                                                 <span class="fw-medium me-1">@lang('Show in Gallery') :</span>
                                                 <span> {{ $Unit->show_gallery == 1 ? __('Show') : __('hide') }}</span>
                                             </li>
-        
+
+                                                @if ($Unit->type == 'rent')
+                                                @if ($Unit->getRentPriceByType())
+                                                <li class="mb-2 pt-1">
+                                                    <span class="fw-medium me-1">@lang('Rental price') :</span>
+                                                    <span >
+                                                        {{ $Unit->getRentPriceByType() }} @lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                                    </span>
+                                                </li>
+                                                @endif
+                                            @elseif ($Unit->type == 'sale')
+                                                @if ($Unit->price)
+                                                <li class="mb-2 pt-1">
+                                                    <span class="fw-medium me-1">@lang('Sale price') :</span>
+                                                    <span >
+                                                {{ $Unit->price }} @lang('SAR')
+                                                    </span>
+                                                </li>
+                                                @endif
+                                            @else
+                                                @if ($Unit->getRentPriceByType())
+                                                <li class="mb-2 pt-1">
+                                                <span class="fw-medium me-1">@lang('Rental price') :</span>
+                                                <span class="pb-1">
+                                                    {{ $Unit->getRentPriceByType() }} @lang('SAR') / {{ __($Unit->rent_type_show) }}
+                                                </span>
+                                                </li>
+                                                @elseif ($Unit->price)
+                                                <li class="mb-2 pt-1">
+                                                    <span class="fw-medium me-1">@lang('Sale price') :</span>
+                                                <span class="pb-1">
+                                                {{ $Unit->price }} @lang('SAR')
+                                                </span>
+                                                </li>
+                                                @endif
+                                            @endif
+                                            {{-- @if ($Unit->getRentPriceByType())
                                             <li class="mb-2 pt-1">
                                                 <span class="fw-medium me-1">@lang('Rental price') :</span>
                                                 <span> {{ $Unit->getRentPriceByType() }} <sup>@lang('SAR') /
                                                         {{ __($Unit->rent_type_show) }}
                                                     </sup> </span>
                                             </li>
-        
-        
-        
+                                            @endif --}}
+
                                             @php($types = ['daily', 'monthly', 'quarterly', 'midterm', 'yearly'])
-        
-        
+
+
                                             <div class="">
                                                 <select class="form-select UpdateRentPriceByType">
                                                     <option disabled value="" selected>@lang('Choose the rental price')
@@ -203,18 +244,18 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-        
-        
-        
-        
-        
+
+
+
+
+
                                         </ul>
                                         <div class="d-flex justify-content-center">
                                             <a href="{{ route('Broker.Unit.edit', $Unit->id) }}"
                                                 class="btn btn-primary me-3">@lang('Edit')</a>
-        
+
                                                 @if($Unit->unit_masterplan)
-        
+
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-outline-primary dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -222,31 +263,31 @@
                                                                 class="d-none d-sm-inline-block">@lang('Download')</span></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-        
+
                                                             <li>
                                                                 <a href="{{ $Unit->unit_masterplan }}" target="_blank"
                                                                     class="dropdown-item">@lang('Download') @lang('Unit Masterplan')</a>
                                                             </li>
-        
+
                                                     </ul>
                                                 </div>
                                                 @endif
-        
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- /project Card -->
                             <!-- Plan Card -->
-        
+
                         </div>
-        
+
                         <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
-        
+
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-        
+
                                         <iframe width="100%" height="200" frameborder="0" style="border:0"
                                             src="https://www.google.com/maps/embed/v1/place?q={{ $Unit->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
                                     </div>
@@ -254,11 +295,11 @@
                             </div>
                             <hr>
                             <div class="row">
-        
+
                                 <div class="col-lg-6 mb-1">
                                     <div class="card">
                                         <div class="card-body">
-        
+
                                             <small class="text-light fw-medium">@lang('Additional details')</small>
                                             <div class="demo-inline-spacing mt-3">
                                                 <ul class="list-group">
@@ -270,17 +311,17 @@
                                                         </li>
                                                     @empty
                                                     @endforelse
-        
+
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 <div class="col-lg-6 mb-1">
                                     <div class="card">
                                         <div class="card-body">
-        
+
                                             <small class="text-light fw-medium">@lang('services')</small>
                                             <div class="demo-inline-spacing mt-3">
                                                 <ul class="list-group">
@@ -288,24 +329,24 @@
                                                         <li
                                                             class="list-group-item d-flex justify-content-between align-items-center">
                                                             {{ $service->ServiceData->name ?? '' }}
-        
+
                                                         </li>
                                                     @empty
                                                     @endforelse
-        
+
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-        
+
                             </div>
-                       
+
                         </div>
                         <!--/ User Content -->
                     </div>
-        
-                    
+
+
                   </div>
                   <div class="tab-pane fade" id="navs-justified-requests" role="tabpanel">
 
@@ -314,13 +355,13 @@
                             <div class="card-header">
                                 <h5 class="card-title mb-0">@lang('Requests for interest')</h5>
                             </div>
-    
+
                             <div class="card-datatable table-responsive">
                                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                                     <div class="card-header border-top rounded-0 py-2">
                                         <div class="row">
                                             <div class="col-6">
-    
+
                                                 <div class="me-5 ms-n2 pe-5">
                                                     <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
                                                             <input id="SearchInput" class="form-control"
@@ -329,7 +370,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-6">
-    
+
                                                 <div
                                                     class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                                     <div
@@ -344,8 +385,8 @@
                                                                         class="d-none d-sm-inline-block">Export</span></span></button>
                                                             {{-- <button class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                                 <span class="d-none d-sm-inline-block">@lang('Add')</span></span></button> --}}
-    
-    
+
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -385,10 +426,10 @@
                                                                 <button type="submit" class="submit-from"
                                                                     hidden=""></button>
                                                             </form>
-    
-    
+
+
                                                         </td>
-    
+
                                                         <td>
                                                             <a class="share btn btn-outline-secondary btn-sm waves-effect waves-light"
                                                                 data-toggle="modal"
@@ -398,8 +439,8 @@
                                                                 @lang('Call')</a>
                                                             <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $client->whatsapp }}"
                                                                 class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('محادثة(شات)')</a>
-    
-    
+
+
                                                         </td>
                                                     </tr>
                                                 @empty
@@ -416,7 +457,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-    
+
                                 </div>
                             </div>
                         </div>
@@ -449,12 +490,12 @@
                     </div>
                   </div>
                   <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                 
+
                   </div>
                 </div>
               </div>
 
-          
+
             <!-- Modal -->
 
             <!-- container-fluid -->

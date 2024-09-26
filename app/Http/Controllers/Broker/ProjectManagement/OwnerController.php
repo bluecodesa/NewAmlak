@@ -251,7 +251,6 @@ class OwnerController extends Controller
         $UserId = auth()->user()->id;
         $brokerId = auth()->user()->UserBrokerData->id;
 
-        // Check if the current user is both the owner and broker
         if ($owner->user_id === $UserId) {
             OwnerOfficeBroker::where('owner_id', $owner->id)
                 ->where('broker_id', $brokerId)
@@ -272,7 +271,6 @@ class OwnerController extends Controller
             return redirect()->route('Broker.Owner.index')->with('success', __('Owner removed from your broker account.'));
         }
 
-        // If not associated with any other accounts, proceed with deletion from the owners table
         $this->ownerService->deleteOwner($id);
         return redirect()->route('Broker.Owner.index')->with('success', __('Deleted successfully'));
     }

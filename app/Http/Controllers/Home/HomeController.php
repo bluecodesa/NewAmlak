@@ -84,7 +84,7 @@ class HomeController extends Controller
 
     public function index()
     {
-    
+
         $subscriptionTypes = SubscriptionType::where('is_deleted', 0)
         ->where('is_show', 1)
         ->where('status', 1)
@@ -113,7 +113,7 @@ class HomeController extends Controller
         }
     }
 
-  
+
 
     public function sendOtp(Request $request)
     {
@@ -1132,10 +1132,10 @@ class HomeController extends Controller
                   });
         }])
         ->paginate(9);
-    
+
         foreach ($users as $key => $user) {
             $falLicenseUser = $user->UserFalData; // Get the associated FalLicenseUser record
-            
+
             // Check if the user has a valid Fal license
             if ($falLicenseUser && $falLicenseUser->ad_license_expiry > now()->format('Y-m-d')) {
                 $falLicenseUser->update(['ad_license_status' => 'valid']);
@@ -1149,7 +1149,7 @@ class HomeController extends Controller
                 }
             }
         }
-        
+
 
         // foreach ($users as $key => $user) {
         //     $broker =  $user->UserBrokerData;
@@ -1902,67 +1902,67 @@ class HomeController extends Controller
         ]);
 
 
-    // Check if the user already exists
-    $existingUser = User::where('email', $request->email)
-                        ->orWhere('id_number', $request->id_number)
-                        ->first();
+        // Check if the user already exists
+        $existingUser = User::where('email', $request->email)
+                            ->orWhere('id_number', $request->id_number)
+                            ->first();
 
-    if ($existingUser) {
-        return redirect()->back()->withErrors([
-            'email' => __('This email or ID number is already registered.'),
-        ])->withInput();
+        if ($existingUser) {
+            return redirect()->back()->withErrors([
+                'email' => __('This email or ID number is already registered.'),
+            ])->withInput();
+        }
+
+        $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
+        $delimiter = '-';
+        $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
+
+        if (!$Last_customer_id) {
+            $new_customer_id = 'AMK1-0001';
+        } else {
+            $result = explode($delimiter, $Last_customer_id);
+            $number = (int)$result[1] + 1;
+            $tag_index = min(intval($number / 1000), count($prefixes) - 1);
+            $tag = $prefixes[$tag_index];
+            $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
+        }
+
+        // Create a new user
+        $newUser = User::create([
+            'id_number' => $request->id_number,
+            'email' => $request->email,
+            'name' => $request->name,
+            'is_broker' => $request->account_type == 'broker',
+            'is_office' => $request->account_type == 'office',
+            'is_owner' => $request->account_type == 'owner',
+            'is_property_finder' => $request->account_type == 'property_finder',
+            'customer_id' => $new_customer_id,
+            'phone' => $request->phone ?? null,
+            'key_phone' => $request->key_phone ?? null,
+            'full_phone' => $request->full_phone ?? null,
+
+        ]);
+
+        // Handle account-specific logic
+        if ($request->account_type == 'broker') {
+            $this->handleBroker($request, $newUser);
+        } elseif ($request->account_type == 'office') {
+            $this->handleOffice($request, $newUser);
+        } elseif ($request->account_type == 'owner') {
+            $this->handleOwner($request, $newUser);
+        }else{
+            $newUser->assignRole('Property-Finder');
+
+            session(['active_role' => 'Property-Finder']);
+            $this->notifyAdmins2($newUser);
+        }
+
+        // Log the user in
+        auth()->login($newUser);
+
+        // Redirect the user after successful registration
+        return redirect()->route('login')->with('success', __('registerd successfully'));
     }
-
-    $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
-    $delimiter = '-';
-    $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
-
-    if (!$Last_customer_id) {
-        $new_customer_id = 'AMK1-0001';
-    } else {
-        $result = explode($delimiter, $Last_customer_id);
-        $number = (int)$result[1] + 1;
-        $tag_index = min(intval($number / 1000), count($prefixes) - 1);
-        $tag = $prefixes[$tag_index];
-        $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
-    }
-
-    // Create a new user
-    $newUser = User::create([
-        'id_number' => $request->id_number,
-        'email' => $request->email,
-        'name' => $request->name,
-        'is_broker' => $request->account_type == 'broker',
-        'is_office' => $request->account_type == 'office',
-        'is_owner' => $request->account_type == 'owner',
-        'is_property_finder' => $request->account_type == 'property_finder',
-        'customer_id' => $new_customer_id,
-        'phone' => $request->phone ?? null,
-        'key_phone' => $request->key_phone ?? null,
-        'full_phone' => $request->full_phone ?? null,
-
-    ]);
-
-    // Handle account-specific logic
-    if ($request->account_type == 'broker') {
-        $this->handleBroker($request, $newUser);
-    } elseif ($request->account_type == 'office') {
-        $this->handleOffice($request, $newUser);
-    } elseif ($request->account_type == 'owner') {
-        $this->handleOwner($request, $newUser);
-    }else{
-        $newUser->assignRole('Property-Finder');
-
-        session(['active_role' => 'Property-Finder']);
-        $this->notifyAdmins2($newUser);
-    }
-
-    // Log the user in
-    auth()->login($newUser);
-
-    // Redirect the user after successful registration
-    return redirect()->route('login')->with('success', __('registerd successfully'));
-}
 
 
 private function handleBroker($request, $user)
@@ -2418,98 +2418,98 @@ public function addAccount (Request $request)
 
     }
 
-private function handleNewOffice($request, $user)
-{
-    $user->update(['is_office' => 1]);
+    private function handleNewOffice($request, $user)
+    {
+        $user->update(['is_office' => 1]);
 
-    $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
-    $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
-    $subscriptionType = SubscriptionType::where('is_deleted', 0)
-    ->where('status', 1)
-    ->where('new_subscriber', '1')
-    ->whereIn('id', $RolesSubscriptionTypeIds)
-    ->first();
-    $subscription_type_id = $subscriptionType->id;
+        $RolesIds = Role::whereIn('name', ['Office-Admin'])->pluck('id')->toArray();
+        $RolesSubscriptionTypeIds = SubscriptionTypeRole::whereIn('role_id', $RolesIds)->pluck('subscription_type_id')->toArray();
+        $subscriptionType = SubscriptionType::where('is_deleted', 0)
+        ->where('status', 1)
+        ->where('new_subscriber', '1')
+        ->whereIn('id', $RolesSubscriptionTypeIds)
+        ->first();
+        $subscription_type_id = $subscriptionType->id;
 
-    $office = Office::create([
-        'user_id' => $user->id,
-        'CRN' => $request->CRN ?? null,
-        'phone' => $request->phone,
-        'key_phone' => $request->key_phone,
-        'full_phone' => $request->full_phone,
-        'company_name' => $user->name,
-        'created_by' => $user->id,
-        'company_logo' => $request->company_logo ?? null,
-    ]);
+        $office = Office::create([
+            'user_id' => $user->id,
+            'CRN' => $request->CRN ?? null,
+            'phone' => $request->phone,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
+            'company_name' => $user->name,
+            'created_by' => $user->id,
+            'company_logo' => $request->company_logo ?? null,
+        ]);
 
-    $subscriptionType = SubscriptionType::find($subscription_type_id);
-    $startDate = Carbon::now();
-    $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
+        $subscriptionType = SubscriptionType::find($subscription_type_id);
+        $startDate = Carbon::now();
+        $endDate = $subscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
 
-    $status = $subscriptionType->price > 0 ? 'pending' : 'active';
-    $SubType = $subscriptionType->price > 0 ? 'paid' : 'free';
+        $status = $subscriptionType->price > 0 ? 'pending' : 'active';
+        $SubType = $subscriptionType->price > 0 ? 'paid' : 'free';
 
-    $subscription = Subscription::create([
-        'office_id' => $office->id,
-        'subscription_type_id' => $subscription_type_id,
-        'status' => $status,
-        'is_start' => $status == 'pending' ? 0 : 1,
-        'is_new' => 1,
-        'start_date' => now()->format('Y-m-d H:i:s'),
-        'end_date' => $endDate,
-        'total' => '200'
-    ]);
+        $subscription = Subscription::create([
+            'office_id' => $office->id,
+            'subscription_type_id' => $subscription_type_id,
+            'status' => $status,
+            'is_start' => $status == 'pending' ? 0 : 1,
+            'is_new' => 1,
+            'start_date' => now()->format('Y-m-d H:i:s'),
+            'end_date' => $endDate,
+            'total' => '200'
+        ]);
 
-    $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
-    $delimiter = '-';
-    $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+        $delimiter = '-';
+        $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
 
-    $Invoice = SystemInvoice::create([
-        'office_id' => $office->id,
-        'subscription_name' => $subscriptionType->name,
-        'amount' => $subscriptionType->price,
-        'subscription_type' => $SubType,
-        'period' => $subscriptionType->period,
-        'period_type' => $subscriptionType->period_type,
-        'status' => $status,
-        'invoice_ID' => 'INV-' . $new_invoice_ID,
-    ]);
+        $Invoice = SystemInvoice::create([
+            'office_id' => $office->id,
+            'subscription_name' => $subscriptionType->name,
+            'amount' => $subscriptionType->price,
+            'subscription_type' => $SubType,
+            'period' => $subscriptionType->period,
+            'period_type' => $subscriptionType->period_type,
+            'status' => $status,
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
+        ]);
 
-    $galleryName = explode('@', $request->email)[0];
-    $defaultCoverImage = '/Gallery/cover/cover.png';
-
-
-    //
-    $hasRealEstateGallerySection = $subscriptionType->sections()->get();
-
-    $sectionNames = [];
-    foreach ($hasRealEstateGallerySection as $section) {
-        $sectionNames[] = $section->name;
-    }
-
-    if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
         $galleryName = explode('@', $request->email)[0];
         $defaultCoverImage = '/Gallery/cover/cover.png';
 
-        $gallery = Gallery::create([
-            'office_id' => $office->id,
-            'gallery_name' => $galleryName,
-            'gallery_status' => 1,
-            'gallery_cover' => $defaultCoverImage,
-        ]);
-    } else {
-        $gallery = null;
+
+        //
+        $hasRealEstateGallerySection = $subscriptionType->sections()->get();
+
+        $sectionNames = [];
+        foreach ($hasRealEstateGallerySection as $section) {
+            $sectionNames[] = $section->name;
+        }
+
+        if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) {
+            $galleryName = explode('@', $request->email)[0];
+            $defaultCoverImage = '/Gallery/cover/cover.png';
+
+            $gallery = Gallery::create([
+                'office_id' => $office->id,
+                'gallery_name' => $galleryName,
+                'gallery_status' => 1,
+                'gallery_cover' => $defaultCoverImage,
+            ]);
+        } else {
+            $gallery = null;
+        }
+        $this->notifyAdminsForOffice($office);
+
+        $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+
+        $user->assignRole('Office-Admin');
+
+        session(['active_role' => 'Office-Admin']);
+        return $user;
+
     }
-    $this->notifyAdminsForOffice($office);
-
-    $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
-
-    $user->assignRole('Office-Admin');
-
-    session(['active_role' => 'Office-Admin']);
-    return $user;
-
-}
 
 
 

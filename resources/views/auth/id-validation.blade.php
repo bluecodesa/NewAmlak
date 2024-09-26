@@ -49,7 +49,7 @@
                         @include('Admin.layouts.Inc._errors')
 
                         <form id="formAuthentication" class="mb-3" method="POST"
-                        onsubmit="return validateForm()" action="{{ route('Home.storeAccount') }}">
+                            onsubmit="return validateForm()" action="{{ route('Home.storeAccount') }}">
                             @csrf
 
                             <input type="text" name="key_phone" hidden id="key_phone" value="{{ $key_phone ?? '' }}">
@@ -114,7 +114,7 @@
         document.getElementById('formAuthentication').addEventListener('submit', function(event) {
             var checkBox = document.getElementById('terms-conditions');
             if (!checkBox.checked) {
-                event.preventDefault(); 
+                event.preventDefault();
                 alert("@lang('You must accept the terms and conditions before registering.')");
             }
         });
