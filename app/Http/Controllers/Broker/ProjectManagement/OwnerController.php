@@ -338,7 +338,10 @@ class OwnerController extends Controller
             return redirect()->route('Broker.Owner.index')->with('success', __('Owner removed from your broker account.'));
         }
 
-        $this->ownerService->deleteOwner($id);
+        OwnerOfficeBroker::where('owner_id', $owner->id)
+        ->where('broker_id', $brokerId)
+        ->delete();
+        // $this->ownerService->deleteOwner($id);
         return redirect()->route('Broker.Owner.index')->with('success', __('Deleted successfully'));
     }
 
