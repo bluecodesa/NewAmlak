@@ -137,8 +137,7 @@
                                         </ul>
                                     </div>
                                     @guest
-                                        <a target="_blank" class="btn btn-primary" style="color: white;" data-bs-toggle="modal"
-                                            data-bs-target="#modalToggle">
+                                        <a href="{{ route('login') }}" target="_blank" class="btn btn-primary" style="color: white;">
                                             <i class="ti ti-phone me-1"></i>تواصل
                                         </a>
                                     @endguest

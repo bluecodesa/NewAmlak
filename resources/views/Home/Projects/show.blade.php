@@ -397,6 +397,30 @@
                                     عضو منذ {{ $project->BrokerData->UserData->created_at ?? $project->OfficeData->UserData->created_at ?? '' }}
                                 </li>
                             </ul>
+                            @auth
+                            <div class="d-flex align-items-center justify-content-center">
+                                @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
+                                    <a href="tel:+{{ $project->BrokerData->key_phone }} {{ $project->BrokerData->mobile }}"
+                                        target="_blank"
+                                        class="btn btn-primary d-flex align-items-center me-3"><i
+                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                @endif
+                                @if (Auth::user()->hasPermission('Send-message-to-broker') ||
+                                        Auth::user()->hasPermission('Send-message-to-broker-admin'))
+                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $project->BrokerData->key_phone }} {{ $project->BrokerData->mobile }}"
+                                        target="_blank" class="btn btn-label-secondary btn-icon"><i
+                                            class="ti ti-message ti-sm"></i></a>
+                                @endif
+                            </div>
+                        @endauth
+                        @guest
+                                    <div class="d-flex align-items-center justify-content-center">
+                                     <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+                                            style="color: white;" href="{{ route('login') }}"><i
+                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                        <a target="_blank" class="btn btn-label-secondary btn-icon" href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
+                                    </div>
+                        @endguest
                         </div>
                     </div>
                     <!-- /About User -->
