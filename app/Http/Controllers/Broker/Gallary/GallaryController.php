@@ -388,7 +388,7 @@ class GallaryController extends Controller
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
-        $districts = Gallery::where('id', $data['gallery']->id)->first()->BrokerData->BrokerHasUnits; // رجع دي في الفيو
+        // $districts = Gallery::where('id', $data['gallery']->id)->first()->BrokerData->BrokerHasUnits; // رجع دي في الفيو
         $visitor = Visitor::where('gallery_id', $data['gallery']->id)
             ->where('ip_address', $request->ip())
             ->where('visited_at', '>=', now()->subHour())
@@ -428,7 +428,13 @@ class GallaryController extends Controller
         $data['advertisings'] = $advertisings;
 
         // $check_val =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData;
-        $user_id =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData->UserData->id;
+        // $user_id =  Gallery::where('id', $data['gallery']->id)->first()->BrokerData->UserData->id;
+        $gallery = Gallery::where('id', $data['gallery']->id)->first();
+
+        $user_id = $gallery->BrokerData?->UserData?->id
+            ?? $gallery->OfficeData?->UserData?->id
+            ?? null;
+
         $falLicense = FalLicenseUser::where('user_id', $user_id)
                     ->whereHas('falData', function ($query) {
                         $query->where('for_gallery', 1);
@@ -437,9 +443,12 @@ class GallaryController extends Controller
                     ->first();
         $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
-        if ($falLicense->ad_license_status == 'valid') {
-            return view('Home.Gallery.index', $data);
-        } else {
+        if ($falLicense) {
+            if ($falLicense->ad_license_status == 'valid') {
+                return view('Home.Gallery.index', $data);
+            }
+        }
+        else {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
     }

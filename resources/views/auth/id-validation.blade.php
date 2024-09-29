@@ -120,7 +120,7 @@
         });
     </script>
 
-<script>
+{{-- <script>
     document.getElementById("formAuthentication").addEventListener("submit", function (e) {
         // Prevent default form submission to process visitor data first
         e.preventDefault();
@@ -166,7 +166,7 @@
 window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}
 </script>
 <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq1d83b8cbfb60b3119713dd68fd1635735f23b20cfb5907da94a25b9d4e5c6911" defer>
-</script>
+</script> --}}
 
     <!-- / Content -->
 @endsection

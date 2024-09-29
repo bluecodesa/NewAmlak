@@ -1118,7 +1118,11 @@ class HomeController extends Controller
     public function showAllBrokers(Request $request)
     {
 
-        $users = User::where('is_broker', true)
+        $users = User::where(function($query) {
+            // Filter for brokers and offices
+            $query->where('is_broker', true)
+                  ->orWhere('is_office', true);
+        })
         ->whereHas('UserFalData', function ($query) {
             $query->where('ad_license_status', 'valid')
                   ->whereHas('falData', function ($subQuery) {
@@ -1133,22 +1137,23 @@ class HomeController extends Controller
         }])
         ->paginate(9);
 
-        foreach ($users as $key => $user) {
-            $falLicenseUser = $user->UserFalData; // Get the associated FalLicenseUser record
+    foreach ($users as $key => $user) {
+        $falLicenseUser = $user->UserFalData; // Get the associated FalLicenseUser record
 
-            // Check if the user has a valid Fal license
-            if ($falLicenseUser && $falLicenseUser->ad_license_expiry > now()->format('Y-m-d')) {
-                $falLicenseUser->update(['ad_license_status' => 'valid']);
-            } else {
-                if ($falLicenseUser) {
-                    $falLicenseUser->update(['ad_license_status' => 'invalid']);
-                    $check_gallery = Gallery::where('broker_id', $user->UserBrokerData->id)->first(); // Assuming 'broker_id' relates to 'user_id'
-                    if ($check_gallery) {
-                        $check_gallery->update(['gallery_status' => '0']);
-                    }
+        // Check if the user has a valid Fal license
+        if ($falLicenseUser && $falLicenseUser->ad_license_expiry > now()->format('Y-m-d')) {
+            $falLicenseUser->update(['ad_license_status' => 'valid']);
+        } else {
+            if ($falLicenseUser) {
+                $falLicenseUser->update(['ad_license_status' => 'invalid']);
+                // Check for galleries associated with the broker
+                $check_gallery = Gallery::where('broker_id', $user->UserBrokerData->id)->first(); // Assuming 'broker_id' relates to 'user_id'
+                if ($check_gallery) {
+                    $check_gallery->update(['gallery_status' => '0']);
                 }
             }
         }
+    }
 
 
         // foreach ($users as $key => $user) {
@@ -2220,6 +2225,10 @@ public function addAccount (Request $request)
         }
 
         auth()->login($newUser);
+
+        if ($request->account_type == 'owner') {
+            return redirect()->route('PropertyFinder.home')->with('success', __('registered successfully'));
+        }
 
         return redirect()->route('login')->with('success', __('registerd successfully'));
 }

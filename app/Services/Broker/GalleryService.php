@@ -19,6 +19,7 @@ use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 use App\Interfaces\Admin\TicketTypeRepositoryInterface;
 use App\Models\Advertising;
+use App\Models\Office;
 use App\Models\Property;
 
 class GalleryService
@@ -184,6 +185,7 @@ class GalleryService
         $usages =  $this->propertyUsageService->getAll();
         $gallery = $this->galleryRepository->findByGalleryName($name);
         $brokerId = $gallery->broker_id;
+        $officeId = $gallery->office_id;
         if ($gallery->gallery_status == 0) {
             $brokerId = $gallery->broker_id;
             $broker = Broker::findOrFail($brokerId);
@@ -208,7 +210,11 @@ class GalleryService
 
             $uniqueIds = $units->pluck('CityData.id')->unique();
             $uniqueNames = $units->pluck('CityData.name')->unique();
-            $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+            // $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
+            $gallery = Gallery::where('id', $gallery->id)->first();
+            $brokerDistricts = $gallery->BrokerData?->BrokerHasUnits ?? collect();
+            $officeDistricts = $gallery->OfficeData?->OfficeHasUnits ?? collect();
+            $districts = $brokerDistricts->merge($officeDistricts)->unique('id');
             $districtsIds = $districts->pluck('district_id')->toArray();
             $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
             $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
@@ -216,17 +222,47 @@ class GalleryService
             $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
             $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
             $unit = $units->first();
+            // if ($unit) {
+            //     $id = $unit->id;
+            //     $unit_id = $unit->id;
+            //     $broker = Broker::findOrFail($unit->broker_id);
+            //     $user_id = $broker->user_id;
+            // } else {
+            //     $unit_id = null;
+            //     $unitDetails = null;
+            //     $user_id = null;
+            //     $broker = Broker::findOrFail($brokerId);
+            // }
             if ($unit) {
                 $id = $unit->id;
                 $unit_id = $unit->id;
-                $broker = Broker::findOrFail($unit->broker_id);
-                $user_id = $broker->user_id;
+                if ($unit->broker_id) {
+                    $broker = Broker::findOrFail($unit->broker_id);
+                    $user_id = $broker->user_id;
+                    $user=$broker->UserData;
+                } else {
+                    $office = Office::findOrFail($unit->office_id);
+                    $user_id = $office->user_id;
+                    $user=$office->UserData;
+
+                }
             } else {
                 $unit_id = null;
                 $unitDetails = null;
                 $user_id = null;
-                $broker = Broker::findOrFail($brokerId);
+                if ($brokerId) {
+                    $broker = Broker::findOrFail($brokerId);
+                    $user_id = $broker->user_id;
+                    $user=$broker->UserData;
+
+                } elseif ($officeId) {
+                    $office = Office::findOrFail($officeId);
+                    $user_id = $office->user_id;
+                    $user=$office->UserData;
+
+                }
             }
+
             $ticketTypes = $this->ticketTypeRepository->all();
 
             return get_defined_vars();

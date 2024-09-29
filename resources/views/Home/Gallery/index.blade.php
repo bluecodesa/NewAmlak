@@ -1,5 +1,5 @@
 @extends('Home.layouts.home.app')
-@section('title', $broker->UserData->name)
+@section('title', $user->name)
 @section('content')
 
 <style>
@@ -22,7 +22,7 @@
                 <div class="col-4">
                     <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسية</a>/ </span><span
                         class="text-muted fw-light"><a href="{{ route('gallery.showAllGalleries') }}">المعرض</a>/ </span>
-                    {{ $broker->UserData->name }}</h4>
+                    {{ $user->name }}</h4>
 
                 </div>
                 <div class="col-8">
@@ -97,7 +97,7 @@
                     </div> --}}
                         <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                             <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                                <img src="{{ $broker->UserData->avatar ? $broker->UserData->avatar : asset('HOME_PAGE/img/avatars/14.png') }}"
+                                <img src="{{ $user->avatar ? $user->avatar : asset('HOME_PAGE/img/avatars/14.png') }}"
                                     alt="user image" height="100" width="100" />
 
                             </div>
@@ -105,11 +105,11 @@
                                 <div
                                     class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                     <div class="user-profile-info">
-                                        <h4>{{ $broker->UserData->name }}</h4>
+                                        <h4>{{ $user->name }}</h4>
                                         <ul
                                             class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
-                                            @if ($broker->UserData->is_broker)
+                                            @if ($user->is_broker)
                                                 <li class="list-inline-item d-flex gap-1"><i class="ti ti-user-check"></i>
                                                     @lang('Broker')</li>
                                             @else
@@ -125,10 +125,8 @@
                                                 @php
                                                     $createdAt = new DateTime($broker->UserData->created_at);
 
-                                                    // Get the month name
                                                     $monthName = $createdAt->format('F');
 
-                                                    // Get the number of days in the month
                                                     $numDay = $createdAt->format('d');
                                                     $yearName = $createdAt->format('Y');
 

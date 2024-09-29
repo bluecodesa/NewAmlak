@@ -3,16 +3,16 @@
 @section('content')
 <style>
     .sticky-carousel-wrapper {
-        top: 0; 
-        width: 100%; 
-        height: 200px; 
-        z-index: 1000; 
-        background: #fff; 
-        overflow: hidden; 
+        top: 0;
+        width: 100%;
+        height: 200px;
+        z-index: 1000;
+        background: #fff;
+        overflow: hidden;
     }
-    
-    
-    
+
+
+
     </style>
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
@@ -88,9 +88,20 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                @php
+                                    $galleryName = null;
+
+                                    if ($broker->UserBrokerData) {
+                                        $galleryName = $broker->UserBrokerData->GalleryData->gallery_name ?? null;
+                                    } elseif ($broker->UserOfficeData) {
+                                        $galleryName = $broker->UserOfficeData->GalleryData->gallery_name ?? null;
+                                    }
+                                @endphp
+
                                 <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 ">
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{ route('gallery.showByName', ['name' => $broker->UserBrokerData->GalleryData->gallery_name]) }}"
+                                        <a href="{{ route('gallery.showByName', ['name' => $galleryName]) }}"
                                             class="btn btn-primary waves-effect waves-light">زيارة المعرض</a>
 
                                     </div>

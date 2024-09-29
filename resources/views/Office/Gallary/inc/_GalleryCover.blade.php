@@ -26,7 +26,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Broker.Gallery.update-cover') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('Office.Gallery.update-cover') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" class="form-control" name="gallery_id" value="{{ $gallery->id }}">
                     <input type="file" class="form-control" id="images" name="gallery_cover" required

@@ -84,8 +84,14 @@ class Office extends Model
     }
 
     public function ownerOffices()
-{
-    return $this->hasMany(OwnerOfficeBroker::class, 'office_id');
-}
+    {
+        return $this->hasMany(OwnerOfficeBroker::class, 'office_id');
+    }
+
+    public function GalleryData()
+    {
+
+        return $this->hasOne(Gallery::class, 'office_id');
+    }
 
 }
