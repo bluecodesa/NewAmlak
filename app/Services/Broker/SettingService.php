@@ -25,8 +25,8 @@ class SettingService
 
     public function updateBroker(array $data, $id)
     {
-        $request = request();
 
+        $request = request();
         $broker = Broker::findOrFail($id);
         $rules = [
             'name' => 'required|string|max:255',
@@ -38,18 +38,29 @@ class SettingService
             ],
             'mobile' => 'required|digits:9|unique:brokers,mobile,' . $id,
             'city_id' => 'required|exists:cities,id',
-            'license_date' => 'required',
-            'broker_license' => [
-                'required',
-                'numeric',
-                'unique:brokers,broker_license,' . $id,
-                'regex:/^1\d{9}$/'
-            ],
+            // 'license_date' => 'required',
+            // 'broker_license' => [
+            //     'required',
+            //     'numeric',
+            //     'unique:brokers,broker_license,' . $id,
+            //     'regex:/^1\d{9}$/'
+            // ],
             // 'password' => 'nullable|string|max:255|confirmed',
             'broker_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            // 'id_number' => [
+            //     'nullable',
+            //     Rule::unique('brokers')->ignore($id),
+            // ],
             'id_number' => [
                 'nullable',
-                Rule::unique('brokers')->ignore($id),
+                'numeric',
+                'digits:10',
+                Rule::unique('users')->ignore($broker->user_id),
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                    }
+                },
             ],
         ];
 
@@ -69,17 +80,20 @@ class SettingService
             'broker_logo.image' => __('The broker logo must be an image.'),
             'city_id.required' => 'The city field is required.',
             'city_id.exists' => 'The selected city is invalid.',
-            'id_number.unique' => __('The ID number has already been taken.'),
-            // 'password.confirmed' => __('The password confirmation does not match.'),
+            'id_number.numeric' => 'The ID number must be a number.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+            'id_number.unique' => 'The ID number has already been taken.', // Cus            // 'password.confirmed' => __('The password confirmation does not match.'),
 
 
         ];
         $request->validate($rules, $messages);
 
         $broker->update([
-            'broker_license' => $request->broker_license,
-            'license_date' => $request->license_date,
+            // 'broker_license' => $request->broker_license,
+            // 'license_date' => $request->license_date,
             'mobile' => $request->mobile,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
             'city_id' => $request->city_id,
             'id_number' => $request->id_number,
         ]);
@@ -109,6 +123,10 @@ class SettingService
         $userData = [
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->mobile,
+            'key_phone' => $request->key_phone,
+            'full_phone' => $request->full_phone,
+            'id_number' => $request->id_number,
         ];
 
         // Check if $ext is defined and not empty

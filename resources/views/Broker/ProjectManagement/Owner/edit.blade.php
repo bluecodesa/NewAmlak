@@ -22,8 +22,10 @@
                         @csrf
                         @method('PUT')
                         <input type="text" name="key_phone" hidden value="{{ $Owner->key_phone ?? '966' }}"
-                            id="key_phone">
-                        {{-- <input type="text" name="full_phone" id="full_phone" value="{{ $Owner->full_phone }}"> --}}
+                        id="key_phone">
+                    <input type="text" hidden name="full_phone" id="full_phone"
+                        value="{{ $Owner->full_phone ?? ($Owner->key_phone ?? '966') }}">
+
                         <div class="col-md-6 mb-3 col-12">
                             <label class="form-label">
                                 {{ __('Name') }} <span class="required-color">*</span></label>
@@ -39,11 +41,8 @@
                         </div>
 
 
-
-
                         <div class="col-12 mb-3 col-md-4">
-                            <label for="color" class="form-label">@lang('phone') <span
-                                    class="required-color">*</span></label>
+                            <label for="color" class="form-label">@lang('phone') <span class="required-color">*</span></label>
                             <div class="input-group">
                                 <input type="text" placeholder="123456789" name="phone" id="phone"
                                     value="{{ $Owner->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
@@ -52,7 +51,7 @@
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ $Owner->key_phone ?? '966' }}
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end" style="">
+                                <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                                     <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
                                 </ul>
@@ -65,11 +64,14 @@
                             <select class="form-select" id="Region_id" required>
                                 <option disabled value="">@lang('Region')</option>
                                 @foreach ($Regions as $Region)
-                                    <option value="{{ $Region->id }}"
-                                        data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}"
-                                        {{ $Region->id == $Owner->CityData->RegionData->id ? 'selected' : '' }}>
-                                        {{ $Region->name }}</option>
-                                @endforeach
+                                <option value="{{ $Region->id }}"
+                                    data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}"
+                                    {{ $Owner->CityData && $Owner->CityData->RegionData && $Region->id == $Owner->CityData->RegionData->id ? 'selected' : '' }}>
+                                    {{ $Region->name }}
+                                </option>
+                            @endforeach
+
+
                             </select>
                         </div>
 
@@ -106,8 +108,8 @@
         <div class="content-backdrop fade"></div>
     </div>
     @push('scripts')
-        <script>
-            function updateFullPhone(input) {
+    <script>
+      function updateFullPhone(input) {
                 input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
                 var key_phone = $('#key_phone').val();
                 var fullPhone = key_phone + input.value;
@@ -123,24 +125,25 @@
                 });
             });
 
-            $('#Region_id').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    beforeSend: function() {
-                        $('#CityDiv').fadeOut('fast');
-                    },
-                    success: function(data) {
-                        $('#CityDiv').fadeOut('fast', function() {
-                            $(this).empty().append(data);
-                            $(this).fadeIn('fast');
-                        });
-                    },
-                });
+
+        $('#Region_id').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function() {
+                    $('#CityDiv').fadeOut('fast');
+                },
+                success: function(data) {
+                    $('#CityDiv').fadeOut('fast', function() {
+                        $(this).empty().append(data);
+                        $(this).fadeIn('fast');
+                    });
+                },
             });
-        </script>
+        });
+    </script>
     @endpush
 
 @endsection

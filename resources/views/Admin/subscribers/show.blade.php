@@ -131,11 +131,12 @@
                                         <span class="fw-medium me-1">@lang('phone') :</span>
                                         <span>
                                             @if ($subscriber->office_id)
-                                                {{ $subscriber->OfficeData->userData->full_phone ?? '' }}
+                                                {{-- {{ $subscriber->OfficeData->userData->full_phone ?? '' }} --}}
+                                                {{ $subscriber->full_phone ?? '' }}
                                             @endif
                                             @if ($subscriber->broker_id)
-                                                {{-- +{{ $subscriber->BrokerData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }} --}}
-                                                {{ $subscriber->BrokerData->full_phone ?? '' }}
+                                                {{-- +{{ $subscriber->BrokerData->userData->key_phone ?? ''  }} {{ $subscriber->BrokerData->mobile ?? '' }} --}}
+                                                {{ $subscriber->full_phone ?? '' }}
                                             @endif
                                         </span>
                                     </li>

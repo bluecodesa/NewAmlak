@@ -4,7 +4,7 @@
             <h5 class="card-title">@lang('Gallery setting')</h5>
         </div>
         <div class="card-body shadow-none bg-transparent">
-            <form action="{{ route('Broker.Gallery.update', ['Gallery' => $gallery->id]) }}" method="post" class="row">
+            <form action="{{ route('Office.Gallery.update', ['Gallery' => $gallery->id]) }}" method="post" class="row">
                 @csrf
                 @method('PUT')
 
@@ -68,7 +68,7 @@
 
 
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">@lang('Edit')</button>
+                    <button type="submit" class="btn btn-primary">@lang('save')</button>
 
                 </div>
             </form>

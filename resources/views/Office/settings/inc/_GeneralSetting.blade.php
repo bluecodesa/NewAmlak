@@ -85,8 +85,8 @@
     <div class="col-md-4 col-12 mb-3">
         <label>@lang('Region') <span class="text-danger">*</span></label>
         <select type="package" class="form-select" id="Region_id" required>
-            <option selected value="{{ $region->id }}">
-                {{ $region->name }}</option>
+            <option selected value="{{ $region->id ?? '' }}">
+                {{ $region->name ?? '' }}</option>
             @foreach ($Regions as $Region)
                 <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
                     {{ $Region->name }}</option>
@@ -97,8 +97,8 @@
     <div class="col-md-4 col-12 mb-3">
         <label>@lang('city') <span class="text-danger">*</span></label>
         <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
-            <option selected value="{{ $city->id }}">
-                {{ $city->name }}</option>
+            <option selected value="{{ $city->id ?? '' }}">
+                {{ $city->name ?? '' }}</option>
         </select>
     </div>
 

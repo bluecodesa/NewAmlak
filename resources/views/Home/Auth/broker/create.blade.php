@@ -12,7 +12,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>{{ $sitting->title }} @lang('register')</title>
+    <title>{{ $sitting->title }} @lang('register')/ @lang('Broker')</title>
 
     <meta name="description" content="" />
 
@@ -92,6 +92,9 @@
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
                 <!-- Register Card -->
+                <div class="text-left mb-2">
+                    <button class="btn btn-secondary" onclick="history.back()">عودة</button>
+                </div>
                 <div class="card">
                     <div class="card-body">
                         <!-- Logo -->
@@ -109,8 +112,8 @@
                         <form id="registrationForm" class="mb-3 row" action="{{ route('Home.Brokers.CreateBroker') }}"
                             method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
                             @csrf
-                            <input type="text" name="key_phone" hidden value="966" id="key_phone">
-                            <input type="text" name="full_phone" hidden id="full_phone" value="966">
+                            <input type="text" name="key_phone" hidden id="key_phone">
+                            <input type="text" name="full_phone" hidden id="full_phone" >
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -169,10 +172,16 @@
                             </div>
 
                             <div class="col-md-4 mb-3">
+                                <label class="form-label" for="license_number"> @lang('id number')<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" minlength="1" maxlength="10"
+                                    id="id_number" name="id_number" required>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label" for="email">@lang('Email')<span
                                         class="text-danger">*</span></label>
-
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email"  name="email" value="{{ $email }}" required>
 
                             </div>
 
@@ -181,12 +190,12 @@
                                         class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="text" placeholder="123456789" id="phone" name="mobile"
-                                        value="" class="form-control" required maxlength="9"
+                                        value="{{ $phone }}" class="form-control" required maxlength="9"
                                         pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                         aria-label="Text input with dropdown button">
                                     <button class="btn btn-outline-primary dropdown-toggle waves-effect"
                                         type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        966
+                                        {{ $KeyPhone ?? 966}}
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end" style="">
                                         <li><a class="dropdown-item" data-key="971"
@@ -199,8 +208,7 @@
 
                             </div>
 
-
-                            <div class="col-md-4 col-12 mb-3">
+                            {{-- <div class="col-md-4 col-12 mb-3">
                                 <label class="form-label" for="package"> @lang('Subscription Type') <span
                                         class="text-danger">*</span></label>
                                 <select type="package" class="form-select" name="subscription_type_id" required>
@@ -209,6 +217,32 @@
                                         <option value="{{ $subscriptionType->id }}">
                                             {{ $subscriptionType->name }}</option>
                                     @endforeach
+                                </select>
+                            </div> --}}
+
+                            <input type="text" hidden class="form-control" minlength="1" maxlength="10"
+                            id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id }}">
+
+
+                            <div class="form-group col-md-4">
+                                <label class="form-label">@lang('Region') <span
+                                        class="text-danger">*</span></label>
+                                <select type="package" class="form-select" id="Region_id" name="region_id"
+                                    required>
+                                    <option disabled selected value="">@lang('Region')</option>
+                                    @foreach ($Regions as $Region)
+                                        <option value="{{ $Region->id }}"
+                                            data-url="{{ route('Home.Region.show', $Region->id) }}">
+                                            {{ $Region->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label class="form-label">@lang('city') <span class="text-danger">*</span>
+                                </label>
+                                <select type="package" class="form-select" name="city_id" id="CityDiv"
+                                    required>
                                 </select>
                             </div>
 
@@ -284,10 +318,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-12" style="text-align: center;">
+                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
                                 <a href="{{ route('welcome') }}" type="button"
                                     class="btn btn-secondary">@lang('Cancel')</a>
-                                <button type="submit" class="btn btn-primary">@lang('Submit')</button>
 
                             </div>
 
@@ -432,6 +466,35 @@
                 $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
             });
         });
+
+
+        $(document).ready(function() {
+    // Initialize key_phone and full_phone fields with session or default values
+    var keyPhone = '{{ $KeyPhone ?? 966 }}';
+    var phone = '{{ $phone ?? '' }}';
+
+    $('#key_phone').val(keyPhone);
+    $('#full_phone').val(keyPhone + phone);
+
+    // Set the dropdown text to the current key phone value
+    $('.btn.dropdown-toggle').text(keyPhone);
+
+    // Event listener for dropdown items
+    $('.dropdown-item').on('click', function() {
+        var key = $(this).data('key');
+        var phone = $('#phone').val();
+        $('#key_phone').val(key);
+        $('#full_phone').val(key + phone);
+        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+    });
+
+    // Event listener for phone input changes
+    $('#phone').on('input', function() {
+        updateFullPhone(this);
+    });
+});
+
+
     </script>
     {!! $sitting->zoho_salesiq !!}
 

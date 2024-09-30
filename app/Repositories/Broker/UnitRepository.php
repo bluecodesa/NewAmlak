@@ -15,8 +15,7 @@ use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-
-
+use Illuminate\Validation\Rule;
 
 class UnitRepository implements UnitRepositoryInterface
 {
@@ -41,7 +40,6 @@ class UnitRepository implements UnitRepositoryInterface
             'yearly' => 'digits_between:0,10',
 
 
-
         ];
 
         // Define custom validation messages
@@ -53,7 +51,9 @@ class UnitRepository implements UnitRepositoryInterface
             'midterm' => 'Monthly price must be smaller than or equal to 10.',
             'yearly' => 'Monthly price must be smaller than or equal to 10.',
 
+
         ];
+
 
         $unit_data = $data;
         unset($unit_data['name']);
@@ -63,10 +63,39 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
+        // if (isset($data['show_gallery'])) {
+        //     $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        // } else {
+        //     $unit_data['show_gallery'] = 0;
+        // }
+
         if (isset($data['show_gallery'])) {
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.unique' => __('The license number has already been taken.'),
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $unit_data['ad_license_number'] = $data['ad_license_number'];
+                $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $unit_data['ad_license_status'] = 'Valid';
+
         } else {
             $unit_data['show_gallery'] = 0;
+            $unit_data['ad_license_status'] ='InValid';
+
         }
 
         if (isset($data['daily_rent'])) {
@@ -187,8 +216,34 @@ class UnitRepository implements UnitRepositoryInterface
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         if (isset($data['show_gallery'])) {
             $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => [
+                    'required',
+                    'numeric',
+                    Rule::unique('units', 'ad_license_number')->ignore($id),
+                ],
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $unit_data['ad_license_number'] = $data['ad_license_number'];
+                $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $unit_data['ad_license_status'] = 'Valid';
+
         } else {
             $unit_data['show_gallery'] = 0;
+            // $unit_data['ad_license_status'] ='InValid';
+
         }
 
         if (isset($data['daily_rent'])) {

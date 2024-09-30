@@ -10,6 +10,12 @@
 
     <meta name="description" content="" />
     <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+        rel="stylesheet" />
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url($sitting->icon) }}" />
 
@@ -37,12 +43,13 @@
     <link href="{{ url('dashboard_files/assets/css/dropify.css') }}" rel="stylesheet">
     <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
     <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet">
-    {{-- <link href="{{ url('dashboard_files/assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    <link rel="stylesheet" href="{{ url('assets/vendor/libs/select2/select2.css') }}" />
     <link href="{{ url('dashboard_files/assets/css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/node-waves/node-waves.css') }}" />
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/nouislider/nouislider.css') }}" />
     <link rel="stylesheet" href="{{ url('HOME_PAGE/vendor/libs/swiper/swiper.css') }}" />
+    <link href="{{ url('dashboard_files/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet" />
 
     <!-- Page CSS -->
 

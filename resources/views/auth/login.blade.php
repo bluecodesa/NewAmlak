@@ -1,346 +1,88 @@
-<!doctype html>
-
-<html lang="{{ LaravelLocalization::getCurrentLocale() }}"
-    class="light-style layout-navbar-fixed layout-menu-fixed layout-compact"
-    dir="{{ LaravelLocalization::getCurrentLocaleDirection() }}" data-theme="theme-default"
-    data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
-
-<head>
-    {!! $sitting->google_tag !!}
-
-    <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>{{ $sitting->title }} @lang('login')</title>
-
-    <meta name="description" content="" />
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
-        rel="stylesheet" />
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/fontawesome.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/tabler-icons.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/flag-icons.css') }}" />
-
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/core.css" class="template-customizer-core-css') }}" />
-    <link rel="stylesheet"
-        href="{{ asset('assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
-
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
-    <!-- Vendor -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/form-validation.css') }}" />
-
-    <!-- Page CSS -->
-    <!-- Page -->
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}" />
-
-    <!-- Helpers -->
-    <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{ asset('assets/js/config.js') }}"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
-
-    <style>
-        .template-customizer-open-btn {
-            display: none !important;
-        }
-
-        body,
-        h4,
-        h1,
-        h2,
-        h5,
-        h6,
-        h3,
-        span,
-        .dropify-clear,
-        small,
-        b,
-        strong,
-        label,
-
-        * {
-            font-family: "Noto Kufi Arabic", sans-serif !important;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Content -->
-
+@extends('auth.layouts.app')
+@section('title', __('login'))
+@section('content')
     <div class="container-xxl">
-        <div class="home-btn">
-            <a href="{{ route('welcome') }}" class="text-white"><i class="ti ti-home h2"></i></a>
-        </div>
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
-                <!-- Login -->
                 <div class="card">
                     <div class="card-body">
-                        <!-- Logo -->
                         <div class="app-brand justify-content-center mb-4 mt-2">
-                            <a href="{{ route('welcome') }}" class="logo logo-admin"><img
-                                    src="{{ url($sitting->icon) }}" alt="" height="50"></a>
+                            <a href="index.html" class="app-brand-link gap-2">
+                                <span class="app-brand-logo demo">
+                                    <a href="{{ route('welcome') }}" class="logo logo-admin"><img
+                                            src="{{ url($sitting->icon) }}" alt="" height="50"></a>
+                                </span>
+                                <span class="app-brand-text demo text-body fw-bold ms-1">أملاك</span>
+                            </a>
                         </div>
-                        <!-- /Logo -->
-                        <h4 class="mb-1 pt-2">مرحبا بك في أملاك 👋</h4>
+                        <div class="col-12 mb-2" style="text-align: center;">
+                            <h4 class="mb-1 pt-2">@lang('دخول / تسجيل') 🔒</h4>
+                        </div>
                         @include('Admin.layouts.Inc._errors')
 
-                        <form id="formAuthentication" class="mb-3" method="POST" id="register"
-                            action="{{ route('login') }}">
-                            @csrf
-                            <div class="mb-3">
+                        <div class="nav-align-top mb-4">
+                            <ul class="nav nav-pills mb-3 justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                                            aria-selected="false">@lang('mobile')</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
+                                            aria-selected="true">@lang('Email')</button>
+                                </li>
 
-                                <label for="email" class="form-label">@lang('Email')</label>
-                                <input type="text" class="form-control" id="email" name="user_name" required
-                                    placeholder="@lang('Email')" autofocus />
-
-                            </div>
-                            <div class="mb-3 form-password-toggle">
-                                <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">@lang('password')</label>
-                                    <a href="{{ route('forget.password.get') }}">
-                                        <small>@lang('Forgot your password?')</small>
-                                    </a>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade " id="navs-pills-top-home" role="tabpanel">
+                                    <form id="emailAuthentication" class="mb-3" method="POST" action="{{ route('Home.sendOtp') }}">
+                                        @csrf
+                                        <input type="hidden" name="otp_type" value="email">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">
+                                                @lang('Email')<span class="text-danger">*</span>
+                                            </label>
+                                            <input type="email" class="form-control" id="email" name="user_name" placeholder="@lang('Email')" required autofocus />
+                                        </div>
+                                        <button type="submit" class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
+                                    </form>
                                 </div>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="@lang('password')" aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                <div class="tab-pane fade show active" id="navs-pills-top-profile" role="tabpanel">
+                                    <form id="phoneAuthentication" class="mb-3" method="POST"
+                                          action="{{ route('Home.sendOtp') }}">
+                                        @csrf
+                                        <input type="hidden" name="otp_type" value="phone">
+                                        <input type="hidden" id="full_phone" name="full_phone">
+                                        <input type="hidden" id="key_phone" name="key_phone" value="966"> <!-- Default country code -->
+                                        <div class="mb-3">
+                                            <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input type="text" placeholder="123456789" id="phone" name="mobile"
+                                                       class="form-control" required maxlength="9"
+                                                       pattern="\d{1,9}" oninput="updateFullPhone(this)"
+                                                       aria-label="Text input with dropdown button">
+                                                <button class="btn btn-outline-primary dropdown-toggle waves-effect"
+                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    966
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
+                                                    <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                                    <label class="form-check-label" for="remember-me"> @lang('Remember me') </label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">@lang('sign in')</button>
-                            </div>
-                        </form>
-
-                        <p class="text-center">
-                            <span></span>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#addNewAddress">
-
-                                <span>@lang('Create an account')؟</span>
-                            </a>
-                        </p>
-
-                        {{-- <div class="divider my-4">
-                            <div class="divider-text">or</div>
                         </div>
-
-                        <div class="d-flex justify-content-center">
-                            <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
-                                <i class="tf-icons fa-brands fa-facebook-f fs-5"></i>
-                            </a>
-
-                            <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">
-                                <i class="tf-icons fa-brands fa-google fs-5"></i>
-                            </a>
-
-                            <a href="javascript:;" class="btn btn-icon btn-label-twitter">
-                                <i class="tf-icons fa-brands fa-twitter fs-5"></i>
-                            </a>
-                        </div> --}}
                     </div>
                 </div>
-                <!-- /Register -->
             </div>
         </div>
     </div>
 
-    <!-- / Content -->
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-
-    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/node-waves/node-waves.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/hammer/hammer.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/i18n/i18n.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
-    <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
-
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="{{ asset('assets/vendor/libs/@form-validation/popular.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/@form-validation/auto-focus.js') }}"></script>
-
-    <!-- Main JS -->
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-
-    <!-- Page JS -->
-    <script src="{{ asset('assets/js/pages-auth.js') }}"></script>
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {!! $sitting->zoho_salesiq !!}
-
-</body>
-
-</html>
-
-
-
-<!-- Add New user Modal -->
-<div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="text-center mb-4">
-                    <h3 class="address-title mb-2">تسجيل حساب جديد</h3>
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-md mb-md-0 mb-3">
-                            <div class="form-check custom-option custom-option-icon"
-                                @if ($sitting->active_broker == 1) onclick="redirectToCreateBroker()" @endif>
-                                <label class="form-check-label custom-option-content" for="customRadioHome">
-                                    <span class="custom-option-body">
-                                        <svg width="41" height="40" viewBox="0 0 41 40" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M24.25 33.75V23.75H16.75V33.75H6.75002V18.0469C6.7491 17.8733 6.78481 17.7015 6.85482 17.5426C6.92482 17.3838 7.02754 17.2415 7.15627 17.125L19.6563 5.76562C19.8841 5.5559 20.1825 5.43948 20.4922 5.43948C20.8019 5.43948 21.1003 5.5559 21.3281 5.76562L33.8438 17.125C33.9696 17.2438 34.0703 17.3866 34.1401 17.5449C34.2098 17.7032 34.2472 17.8739 34.25 18.0469V33.75H24.25Z"
-                                                fill="currentColor" opacity="0.2" />
-                                            <path
-                                                d="M33.25 33.75C33.25 34.3023 33.6977 34.75 34.25 34.75C34.8023 34.75 35.25 34.3023 35.25 33.75H33.25ZM34.25 18.0469H35.25C35.25 18.0415 35.25 18.0361 35.2499 18.0307L34.25 18.0469ZM33.8437 17.125L34.5304 16.398C34.5256 16.3934 34.5207 16.389 34.5158 16.3845L33.8437 17.125ZM21.3281 5.76562L20.6509 6.50143L20.656 6.50611L21.3281 5.76562ZM19.6562 5.76562L20.3288 6.5057L20.3335 6.50141L19.6562 5.76562ZM7.15625 17.125L7.82712 17.8666L7.82878 17.8651L7.15625 17.125ZM6.75 18.0469H7.75001L7.74999 18.0416L6.75 18.0469ZM5.75 33.75C5.75 34.3023 6.19772 34.75 6.75 34.75C7.30228 34.75 7.75 34.3023 7.75 33.75H5.75ZM3 32.75C2.44772 32.75 2 33.1977 2 33.75C2 34.3023 2.44772 34.75 3 34.75V32.75ZM38 34.75C38.5523 34.75 39 34.3023 39 33.75C39 33.1977 38.5523 32.75 38 32.75V34.75ZM23.25 33.75C23.25 34.3023 23.6977 34.75 24.25 34.75C24.8023 34.75 25.25 34.3023 25.25 33.75H23.25ZM15.75 33.75C15.75 34.3023 16.1977 34.75 16.75 34.75C17.3023 34.75 17.75 34.3023 17.75 33.75H15.75ZM35.25 33.75V18.0469H33.25V33.75H35.25ZM35.2499 18.0307C35.2449 17.7243 35.1787 17.422 35.0551 17.1416L33.225 17.9481C33.2409 17.9844 33.2495 18.0235 33.2501 18.0631L35.2499 18.0307ZM35.0551 17.1416C34.9316 16.8612 34.7531 16.6084 34.5304 16.398L33.1571 17.852C33.1859 17.8792 33.209 17.9119 33.225 17.9481L35.0551 17.1416ZM34.5158 16.3845L22.0002 5.02514L20.656 6.50611L33.1717 17.8655L34.5158 16.3845ZM22.0053 5.02984C21.5929 4.6502 21.0528 4.43948 20.4922 4.43948V6.43948C20.551 6.43948 20.6076 6.46159 20.6509 6.50141L22.0053 5.02984ZM20.4922 4.43948C19.9316 4.43948 19.3915 4.6502 18.979 5.02984L20.3335 6.50141C20.3767 6.46159 20.4334 6.43948 20.4922 6.43948V4.43948ZM18.9837 5.02556L6.48371 16.3849L7.82878 17.8651L20.3288 6.50569L18.9837 5.02556ZM6.48538 16.3834C6.25236 16.5942 6.06642 16.8518 5.93971 17.1393L7.76988 17.9459C7.78318 17.9157 7.80268 17.8887 7.82712 17.8666L6.48538 16.3834ZM5.93971 17.1393C5.813 17.4269 5.74836 17.7379 5.75001 18.0521L7.74999 18.0416C7.74981 18.0087 7.75659 17.976 7.76988 17.9459L5.93971 17.1393ZM5.75 18.0469V33.75H7.75V18.0469H5.75ZM3 34.75H38V32.75H3V34.75ZM25.25 33.75V25H23.25V33.75H25.25ZM25.25 25C25.25 24.4033 25.013 23.831 24.591 23.409L23.1768 24.8232C23.2237 24.8701 23.25 24.9337 23.25 25H25.25ZM24.591 23.409C24.169 22.987 23.5967 22.75 23 22.75V24.75C23.0663 24.75 23.1299 24.7763 23.1768 24.8232L24.591 23.409ZM23 22.75H18V24.75H23V22.75ZM18 22.75C17.4033 22.75 16.831 22.9871 16.409 23.409L17.8232 24.8232C17.8701 24.7763 17.9337 24.75 18 24.75V22.75ZM16.409 23.409C15.9871 23.831 15.75 24.4033 15.75 25H17.75C17.75 24.9337 17.7763 24.8701 17.8232 24.8232L16.409 23.409ZM15.75 25V33.75H17.75V25H15.75Z"
-                                                fill="currentColor" />
-                                        </svg>
-
-                                        <span class="custom-option-title">@lang('Broker')
-                                            @if ($sitting->active_broker == 0)
-                                                <br>
-                                                <span class="badge rounded-pill bg-label-warning">
-                                                    {{ __('Soon') }}</span>
-                                            @endif
-
-                                        </span>
-
-                                    </span>
-                                    <input name="customRadioIcon" class="form-check-input"
-                                        {{ $sitting->active_broker == 1 ? '' : 'disabled' }} type="radio"
-                                        value="" id="customRadioHome" checked />
-                                </label>
-                            </div>
-                        </div>
-
-                        {{-- @if ($sitting->active_office == 1) --}}
-                        <div class="col-md mb-md-0 mb-3">
-                            <div class="form-check custom-option custom-option-icon"
-                                @if ($sitting->active_office == 1) onclick="redirectToCreateOffice()" @endif>
-                                <label class="form-check-label custom-option-content" for="customRadioOffice">
-                                    <span class="custom-option-body">
-                                        <svg width="41" height="40" viewBox="0 0 41 40" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M22.75 33.75V6.25C22.75 5.91848 22.6183 5.60054 22.3839 5.36612C22.1495 5.1317 21.8315 5 21.5 5H6.5C6.16848 5 5.85054 5.1317 5.61612 5.36612C5.3817 5.60054 5.25 5.91848 5.25 6.25V33.75"
-                                                fill="currentColor" fill-opacity="0.2" />
-                                            <path
-                                                d="M2.75 32.75C2.19772 32.75 1.75 33.1977 1.75 33.75C1.75 34.3023 2.19772 34.75 2.75 34.75V32.75ZM37.75 34.75C38.3023 34.75 38.75 34.3023 38.75 33.75C38.75 33.1977 38.3023 32.75 37.75 32.75V34.75ZM21.75 33.75C21.75 34.3023 22.1977 34.75 22.75 34.75C23.3023 34.75 23.75 34.3023 23.75 33.75H21.75ZM21.5 5V4V5ZM5.25 6.25H4.25H5.25ZM4.25 33.75C4.25 34.3023 4.69772 34.75 5.25 34.75C5.80228 34.75 6.25 34.3023 6.25 33.75H4.25ZM34.25 33.75C34.25 34.3023 34.6977 34.75 35.25 34.75C35.8023 34.75 36.25 34.3023 36.25 33.75H34.25ZM22.75 14C22.1977 14 21.75 14.4477 21.75 15C21.75 15.5523 22.1977 16 22.75 16V14ZM10.25 10.25C9.69772 10.25 9.25 10.6977 9.25 11.25C9.25 11.8023 9.69772 12.25 10.25 12.25V10.25ZM15.25 12.25C15.8023 12.25 16.25 11.8023 16.25 11.25C16.25 10.6977 15.8023 10.25 15.25 10.25V12.25ZM12.75 20.25C12.1977 20.25 11.75 20.6977 11.75 21.25C11.75 21.8023 12.1977 22.25 12.75 22.25V20.25ZM17.75 22.25C18.3023 22.25 18.75 21.8023 18.75 21.25C18.75 20.6977 18.3023 20.25 17.75 20.25V22.25ZM10.25 26.5C9.69772 26.5 9.25 26.9477 9.25 27.5C9.25 28.0523 9.69772 28.5 10.25 28.5V26.5ZM15.25 28.5C15.8023 28.5 16.25 28.0523 16.25 27.5C16.25 26.9477 15.8023 26.5 15.25 26.5V28.5ZM27.75 26.5C27.1977 26.5 26.75 26.9477 26.75 27.5C26.75 28.0523 27.1977 28.5 27.75 28.5V26.5ZM30.25 28.5C30.8023 28.5 31.25 28.0523 31.25 27.5C31.25 26.9477 30.8023 26.5 30.25 26.5V28.5ZM27.75 20.25C27.1977 20.25 26.75 20.6977 26.75 21.25C26.75 21.8023 27.1977 22.25 27.75 22.25V20.25ZM30.25 22.25C30.8023 22.25 31.25 21.8023 31.25 21.25C31.25 20.6977 30.8023 20.25 30.25 20.25V22.25ZM2.75 34.75H37.75V32.75H2.75V34.75ZM23.75 33.75V6.25H21.75V33.75H23.75ZM23.75 6.25C23.75 5.65326 23.5129 5.08097 23.091 4.65901L21.6768 6.07322C21.7237 6.12011 21.75 6.18369 21.75 6.25H23.75ZM23.091 4.65901C22.669 4.23705 22.0967 4 21.5 4V6C21.5663 6 21.6299 6.02634 21.6768 6.07322L23.091 4.65901ZM21.5 4H6.5V6H21.5V4ZM6.5 4C5.90326 4 5.33097 4.23705 4.90901 4.65901L6.32322 6.07322C6.37011 6.02634 6.4337 6 6.5 6V4ZM4.90901 4.65901C4.48705 5.08097 4.25 5.65326 4.25 6.25H6.25C6.25 6.1837 6.27634 6.12011 6.32322 6.07322L4.90901 4.65901ZM4.25 6.25V33.75H6.25V6.25H4.25ZM36.25 33.75V16.25H34.25V33.75H36.25ZM36.25 16.25C36.25 15.6533 36.013 15.081 35.591 14.659L34.1768 16.0732C34.2237 16.1201 34.25 16.1837 34.25 16.25H36.25ZM35.591 14.659C35.169 14.2371 34.5967 14 34 14V16C34.0663 16 34.1299 16.0263 34.1768 16.0732L35.591 14.659ZM34 14H22.75V16H34V14ZM10.25 12.25H15.25V10.25H10.25V12.25ZM12.75 22.25H17.75V20.25H12.75V22.25ZM10.25 28.5H15.25V26.5H10.25V28.5ZM27.75 28.5H30.25V26.5H27.75V28.5ZM27.75 22.25H30.25V20.25H27.75V22.25Z"
-                                                fill="currentColor" />
-                                        </svg>
-
-                                        <span class="custom-option-title"> @lang('Office')
-
-                                            @if ($sitting->active_office == 0)
-                                                <br>
-                                                <span class="badge rounded-pill bg-label-warning">
-                                                    {{ __('Soon') }}</span>
-                                            @endif
-
-                                        </span>
-                                    </span>
-                                    <input name="customRadioIcon" class="form-check-input"
-                                        {{ $sitting->active_office == 1 ? '' : 'disabled' }} type="radio"
-                                        value="" id="customRadioOffice" />
-                                </label>
-                            </div>
-                        </div>
-                        {{-- @endif --}}
-
-                        <div class="col-md mb-md-0 mb-3">
-                            <div class="form-check custom-option custom-option-icon" data-bs-toggle="modal"
-                                @if ($sitting->active_property_finder) data-bs-target="#modalToggle" @endif>
-                                <label class="form-check-label custom-option-content" for="customRadioFinder">
-                                    <span class="custom-option-body">
-                                        <svg width="41" height="40" viewBox="0 0 41 40" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M24.25 33.75V23.75H16.75V33.75H6.75002V18.0469C6.7491 17.8733 6.78481 17.7015 6.85482 17.5426C6.92482 17.3838 7.02754 17.2415 7.15627 17.125L19.6563 5.76562C19.8841 5.5559 20.1825 5.43948 20.4922 5.43948C20.8019 5.43948 21.1003 5.5559 21.3281 5.76562L33.8438 17.125C33.9696 17.2438 34.0703 17.3866 34.1401 17.5449C34.2098 17.7032 34.2472 17.8739 34.25 18.0469V33.75H24.25Z"
-                                                fill="currentColor" opacity="0.2" />
-                                            <path
-                                                d="M33.25 33.75C33.25 34.3023 33.6977 34.75 34.25 34.75C34.8023 34.75 35.25 34.3023 35.25 33.75H33.25ZM34.25 18.0469H35.25C35.25 18.0415 35.25 18.0361 35.2499 18.0307L34.25 18.0469ZM33.8437 17.125L34.5304 16.398C34.5256 16.3934 34.5207 16.389 34.5158 16.3845L33.8437 17.125ZM21.3281 5.76562L20.6509 6.50143L20.656 6.50611L21.3281 5.76562ZM19.6562 5.76562L20.3288 6.5057L20.3335 6.50141L19.6562 5.76562ZM7.15625 17.125L7.82712 17.8666L7.82878 17.8651L7.15625 17.125ZM6.75 18.0469H7.75001L7.74999 18.0416L6.75 18.0469ZM5.75 33.75C5.75 34.3023 6.19772 34.75 6.75 34.75C7.30228 34.75 7.75 34.3023 7.75 33.75H5.75ZM3 32.75C2.44772 32.75 2 33.1977 2 33.75C2 34.3023 2.44772 34.75 3 34.75V32.75ZM38 34.75C38.5523 34.75 39 34.3023 39 33.75C39 33.1977 38.5523 32.75 38 32.75V34.75ZM23.25 33.75C23.25 34.3023 23.6977 34.75 24.25 34.75C24.8023 34.75 25.25 34.3023 25.25 33.75H23.25ZM15.75 33.75C15.75 34.3023 16.1977 34.75 16.75 34.75C17.3023 34.75 17.75 34.3023 17.75 33.75H15.75ZM35.25 33.75V18.0469H33.25V33.75H35.25ZM35.2499 18.0307C35.2449 17.7243 35.1787 17.422 35.0551 17.1416L33.225 17.9481C33.2409 17.9844 33.2495 18.0235 33.2501 18.0631L35.2499 18.0307ZM35.0551 17.1416C34.9316 16.8612 34.7531 16.6084 34.5304 16.398L33.1571 17.852C33.1859 17.8792 33.209 17.9119 33.225 17.9481L35.0551 17.1416ZM34.5158 16.3845L22.0002 5.02514L20.656 6.50611L33.1717 17.8655L34.5158 16.3845ZM22.0053 5.02984C21.5929 4.6502 21.0528 4.43948 20.4922 4.43948V6.43948C20.551 6.43948 20.6076 6.46159 20.6509 6.50141L22.0053 5.02984ZM20.4922 4.43948C19.9316 4.43948 19.3915 4.6502 18.979 5.02984L20.3335 6.50141C20.3767 6.46159 20.4334 6.43948 20.4922 6.43948V4.43948ZM18.9837 5.02556L6.48371 16.3849L7.82878 17.8651L20.3288 6.50569L18.9837 5.02556ZM6.48538 16.3834C6.25236 16.5942 6.06642 16.8518 5.93971 17.1393L7.76988 17.9459C7.78318 17.9157 7.80268 17.8887 7.82712 17.8666L6.48538 16.3834ZM5.93971 17.1393C5.813 17.4269 5.74836 17.7379 5.75001 18.0521L7.74999 18.0416C7.74981 18.0087 7.75659 17.976 7.76988 17.9459L5.93971 17.1393ZM5.75 18.0469V33.75H7.75V18.0469H5.75ZM3 34.75H38V32.75H3V34.75ZM25.25 33.75V25H23.25V33.75H25.25ZM25.25 25C25.25 24.4033 25.013 23.831 24.591 23.409L23.1768 24.8232C23.2237 24.8701 23.25 24.9337 23.25 25H25.25ZM24.591 23.409C24.169 22.987 23.5967 22.75 23 22.75V24.75C23.0663 24.75 23.1299 24.7763 23.1768 24.8232L24.591 23.409ZM23 22.75H18V24.75H23V22.75ZM18 22.75C17.4033 22.75 16.831 22.9871 16.409 23.409L17.8232 24.8232C17.8701 24.7763 17.9337 24.75 18 24.75V22.75ZM16.409 23.409C15.9871 23.831 15.75 24.4033 15.75 25H17.75C17.75 24.9337 17.7763 24.8701 17.8232 24.8232L16.409 23.409ZM15.75 25V33.75H17.75V25H15.75Z"
-                                                fill="currentColor" />
-                                        </svg>
-
-                                        <span class="custom-option-title">@lang('owner') /
-                                            @lang('Property Finder')
-                                            @if ($sitting->active_property_finder == 0)
-                                                <br>
-                                                <span class="badge rounded-pill bg-label-warning">
-                                                    {{ __('Soon') }}</span>
-                                            @endif
-                                        </span>
-
-                                    </span>
-                                    <input name="customRadioIcon" class="form-check-input"
-                                        {{ $sitting->active_property_finder == 1 ? '' : 'disabled' }} type="radio"
-                                        value="" id="customRadioFinder" checked />
-                                </label>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-<!--/ Add New user -->
-@include('Home.Auth.propertyFinder.create')
-
-
-<script>
-    function redirectToCreateBroker() {
-        window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
-    }
-
-    function redirectToCreatePropertyFinder() {
-        window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
-    }
-
-    function redirectToCreateOffice() {
-        window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
-
-    }
-</script>
-</script>
+@endsection

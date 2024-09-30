@@ -207,9 +207,17 @@ class SettingController extends Controller
 
     public function storeInterestType(Request $request)
     {
-        $this->settingService->createInterestType($request->all());
+        $result =$this->settingService->createInterestType($request->all());
+        if ($result['status'] === 'error') {
+            return redirect()->back()
+            ->withErrors($result['errors'])
+            ->withInput();
+    } else {
+        return redirect()->route('Admin.settings.index')
+        ->withSuccess(__('added successfully'));
+    }
 
-        return redirect()->route('Admin.settings.index')->withSuccess(__('added successfully'));
+        // return redirect()->route('Admin.settings.index')->withSuccess(__('added successfully'));
     }
     public function editInterestType($id)
     {
@@ -219,14 +227,27 @@ class SettingController extends Controller
 
     public function updateInterestType(Request $request, $id)
     {
-        $this->settingService->updateInterestType($id, $request->all());
-        return redirect()->route('Admin.settings.index')
+       $result = $this->settingService->updateInterestType( $request->all(),$id);
+        if ($result['status'] === 'error') {
+                return redirect()->back()
+                ->withErrors($result['errors'])
+                ->withInput();
+        } else {
+            return redirect()->route('Admin.settings.index')
             ->withSuccess(__('Update successfully'));
+        }
     }
 
     public function destroyInterestType($id)
     {
-        $this->settingService->deleteInterestType($id);
+        $deleted = $this->settingService->deleteInterestType($id);
+
+        if (!$deleted) {
+            // Redirect back with an error message if deletion was not allowed
+            return redirect()->back()->withSuccess(__('This interest type cannot be deleted as it is set as default.'));
+        }
+    
+        // Redirect to index with success message if deletion was successful
         return redirect()->route('Admin.settings.index')
             ->withSuccess(__('Deleted successfully'));
     }
@@ -279,4 +300,6 @@ class SettingController extends Controller
         $setting->update($request_data);
         return back()->withSuccess(__('Update successfully'));
     }
+
+
 }

@@ -30,8 +30,8 @@
                                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/Join-community-arrow.png') }}"
                                     style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
                                     alt="Join community arrow" class="scaleX-n1-rtl" /></span>
-                            <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal"
-                                data-bs-target="#addSubscriberModal">سجل معنا الأن</a>
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg"
+                               >سجل معنا الأن</a>
                         </div>
                     </div>
                     <div id="heroDashboardAnimation" class="hero-animation-img">
@@ -126,6 +126,8 @@
         </section>
         <!-- Useful features: End -->
 
+
+
         <!-- Real customers reviews: Start -->
         <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
             <!-- What people say slider: Start -->
@@ -133,31 +135,25 @@
                 <div class="row align-items-center gx-0 gy-4 g-lg-5">
                     <div class="col-md-6 col-lg-5 col-xl-3">
                         <div class="mb-3 pb-1">
-                            <span class="badge bg-label-primary">شركاء النجاح
-                            </span>
+                            <span class="badge bg-label-primary">شركاء النجاح</span>
                         </div>
                         <h3 class="mb-1">
                             <span class="position-relative fw-bold z-1">شركاء النجاح
-
                                 <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
-                                    style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
-                                    alt="laptop charging"
-                                    class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                                     style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                                     alt="laptop charging"
+                                     class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
                             </span>
                         </h3>
                         <p class="mb-3 mb-md-5">
                             نتشرف بثقة و دعم العديد من المؤسسات حول المملكة
-
                             <br class="d-none d-xl-block" />
-
                         </p>
                         <div class="landing-reviews-btns">
-                            <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl"
-                                type="button">
+                            <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl" type="button">
                                 <i class="ti ti-chevron-left ti-sm"></i>
                             </button>
-                            <button id="reviews-next-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl"
-                                type="button">
+                            <button id="reviews-next-btn" class="btn btn-label-primary reviews-btn scaleX-n1-rtl" type="button">
                                 <i class="ti ti-chevron-right ti-sm"></i>
                             </button>
                         </div>
@@ -166,78 +162,15 @@
                         <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
                             <div class="swiper" id="swiper-reviews">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/10.png') }}"
-                                                    alt="client logo" />
+                                    @foreach ($partnerSuccesses as $partner)
+                                        <div class="swiper-slide">
+                                            <div class="card h-100">
+                                                <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                                                    <img src="{{ url($partner->image) }}" alt="{{ $partner->name }}" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/1.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/2.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/3.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/4.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/5.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/6.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card h-100">
-                                            <div
-                                                class="card-body text-body d-flex flex-column justify-content-between h-100">
-                                                <img src="{{ url('HOME_PAGE/images/new/partners/7.png') }}"
-                                                    alt="client logo" />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
@@ -247,10 +180,205 @@
                 </div>
             </div>
             <!-- What people say slider: End -->
-
-            <!-- Logo slider: End -->
         </section>
 
+           <!-- Pricing plans: Start -->
+           <section id="landingPricing" class="section-py bg-body landing-pricing">
+            <div class="container">
+                <div class="text-center mb-3 pb-1">
+                    <span class="badge bg-label-primary">باقات وأسعار أملاك
+                    </span>
+                </div>
+                <h3 class="text-center mb-1">
+                    <span class="position-relative fw-bold z-1">توفر لك منصة أملاك باقات مميزة تمكنك من إدارة أعمالك بكل
+                        سهولة
+
+                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
+                            style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                            alt="laptop charging"
+                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
+                    </span>
+                </h3>
+                <p class="text-center mb-4 pb-3">
+
+                </p>
+                {{-- <div class="text-center mb-5">
+            <div class="position-relative d-inline-block pt-3 pt-md-0">
+              <label class="switch switch-primary me-0">
+                <span class="switch-label">ادفع شهري</span>
+                <input type="checkbox" class="switch-input price-duration-toggler" checked />
+                <span class="switch-toggle-slider">
+                  <span class="switch-on"></span>
+                  <span class="switch-off"></span>
+                </span>
+                <span class="switch-label">ادفع سنوي</span>
+              </label>
+              <div class="pricing-plans-item position-absolute d-flex">
+                <img
+                  src="{{ url('HOME_PAGE/img/front-pages/icons/pricing-plans-arrow.png')}}"
+                  alt="pricing plans arrow"
+                  class="scaleX-n1-rtl" />
+                <span class="fw-medium mt-2 ms-1"> وفر 25%</span>
+              </div>
+            </div>
+          </div> --}}
+                @guest
+
+                    <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
+                        <!-- Basic Plan: Start -->
+                        @foreach ($subscriptionTypes as $subscriptionType)
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="text-center">
+                                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png') }}"
+                                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                                                alt="paper airplane icon" class="mb-4 pb-2" />
+                                            <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <p>
+                                                    @foreach ($subscriptionType->roles as $role)
+                                                        <span> اشتراك {{ $role->name_ar }}</span>
+                                                    @endforeach
+                                                </p>
+                                            </div>
+                                            {{-- <div class="d-flex align-items-center justify-content-center">
+                      <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
+                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
+                      <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
+                    </div>
+                    <div class="position-relative pt-2">
+                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 168 / year</div>
+                    </div> --}}
+
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <sup
+                                                    class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                                                <span
+                                                    class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}
+                                                </span>
+                                                <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }}
+                                                    {{ __($subscriptionType->period_type) }}</sub>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            @foreach ($subscriptionType->sections as $section)
+                                            <li>
+                                                <h5>
+                                                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                                        <i class="ti ti-check ti-xs"></i>
+                                                    </span>
+                                                    {{ $section->name }}
+                                                </h5>
+                                            </li>
+                                        @endforeach
+
+                                        </ul>
+                                       <div class="d-grid mt-4 pt-3">
+                                        <a href="{{ route('login') }}" class="btn btn-label-primary" >ابدأ الأن</a>
+                                        </div>
+                                        {{-- <div class="d-grid mt-4 pt-3">
+                                            @if ($subscriptionType && $subscriptionType->roles->count() == 2)
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
+                                            @elseif ($role->name == 'RS-Broker')
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
+                                            @elseif ($role->name == 'Office-Admin')
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
+                                            @endif
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        <!-- Basic Plan: End -->
+
+                    </div>
+                @endguest
+
+                @auth
+
+                    <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
+                        <!-- Basic Plan: Start -->
+                        @foreach ($subscriptionTypesRoles as $subscriptionType)
+                            <div class="col-xl-3 col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="text-center">
+                                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png') }}"
+                                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
+                                                alt="paper airplane icon" class="mb-4 pb-2" />
+                                            <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <p>
+                                                    @foreach ($subscriptionType->roles as $role)
+                                                        <span> اشتراك {{ $role->name_ar }}</span>
+                                                    @endforeach
+                                                </p>
+                                            </div>
+                                            {{-- <div class="d-flex align-items-center justify-content-center">
+                      <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
+                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
+                      <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
+                    </div> --}}
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <sup
+                                                    class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                                                <span
+                                                    class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}
+                                                </span>
+                                                <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }}
+                                                    {{ __($subscriptionType->period_type) }}</sub>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled">
+                                            @foreach ($subscriptionType->sections as $section)
+                                            <li>
+                                                <h5>
+                                                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
+                                                        <i class="ti ti-check ti-xs"></i>
+                                                    </span>
+                                                    {{ $section->name }}
+                                                </h5>
+                                            </li>
+                                        @endforeach
+
+                                        </ul>
+                                          <div class="d-grid mt-4 pt-3">
+                                                <a href="{{ route('login') }}" class="btn btn-label-primary" >ابدأ الأن</a>
+                                          </div>
+                                        {{-- <div class="d-grid mt-4 pt-3">
+                                            @if ($subscriptionType && $subscriptionType->roles->count() == 2)
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
+                                            @elseif ($role->name == 'RS-Broker')
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
+                                            @elseif ($role->name == 'Office-Admin')
+                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
+                                                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
+                                            @endif
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        <!-- Basic Plan: End -->
+
+                    </div>
+                @endauth
+
+            </div>
+        </section>
+        <!-- Pricing plans: End -->
 
         {{-- <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
         <!-- What people say slider: Start -->
@@ -619,215 +747,7 @@
 
         <!-- Our great team: End -->
 
-        <!-- Pricing plans: Start -->
-        <section id="landingPricing" class="section-py bg-body landing-pricing">
-            <div class="container">
-                <div class="text-center mb-3 pb-1">
-                    <span class="badge bg-label-primary">باقات وأسعار أملاك
-                    </span>
-                </div>
-                <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">توفر لك منصة أملاك باقات مميزة تمكنك من إدارة أعمالك بكل
-                        سهولة
 
-                        <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
-                            style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
-                            alt="laptop charging"
-                            class="section-title-img position-absolute object-fit-contain bottom-0 z-n1" />
-                    </span>
-                </h3>
-                <p class="text-center mb-4 pb-3">
-
-                </p>
-                {{-- <div class="text-center mb-5">
-            <div class="position-relative d-inline-block pt-3 pt-md-0">
-              <label class="switch switch-primary me-0">
-                <span class="switch-label">ادفع شهري</span>
-                <input type="checkbox" class="switch-input price-duration-toggler" checked />
-                <span class="switch-toggle-slider">
-                  <span class="switch-on"></span>
-                  <span class="switch-off"></span>
-                </span>
-                <span class="switch-label">ادفع سنوي</span>
-              </label>
-              <div class="pricing-plans-item position-absolute d-flex">
-                <img
-                  src="{{ url('HOME_PAGE/img/front-pages/icons/pricing-plans-arrow.png')}}"
-                  alt="pricing plans arrow"
-                  class="scaleX-n1-rtl" />
-                <span class="fw-medium mt-2 ms-1"> وفر 25%</span>
-              </div>
-            </div>
-          </div> --}}
-                @guest
-
-                    <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
-                        <!-- Basic Plan: Start -->
-                        @foreach ($subscriptionTypes as $subscriptionType)
-                            <div class="col-xl-3 col-lg-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="text-center">
-                                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png') }}"
-                                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
-                                                alt="paper airplane icon" class="mb-4 pb-2" />
-                                            <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <p>
-                                                    @foreach ($subscriptionType->roles as $role)
-                                                        <span> اشتراك {{ $role->name_ar }}</span>
-                                                    @endforeach
-                                                </p>
-                                            </div>
-                                            {{-- <div class="d-flex align-items-center justify-content-center">
-                      <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
-                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
-                      <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
-                    </div>
-                    <div class="position-relative pt-2">
-                      <div class="price-yearly text-muted price-yearly-toggle d-none">$ 168 / year</div>
-                    </div> --}}
-
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <sup
-                                                    class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
-                                                <span
-                                                    class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}
-                                                </span>
-                                                <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }}
-                                                    {{ __($subscriptionType->period_type) }}</sub>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="list-unstyled">
-                                            @foreach ($subscriptionType->sections as $section)
-                                            <li>
-                                                    <h5>
-
-                                                        @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                                                            <span
-                                                                class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                                                <i class="ti ti-check ti-xs"></i>
-                                                            </span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-center rounded-pill bg-label-danger p-0 me-2">
-                                                                <i class="ti ti-minus ti-xs"></i>
-                                                        @endif
-                                                        </span>
-                                                        {{ $section->name }}
-                                                    </h5>
-                                                </li>
-                                            @endforeach
-
-                                        </ul>
-                                        <div class="d-grid mt-4 pt-3">
-                                            @if ($subscriptionType && $subscriptionType->roles->count() == 2)
-                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
-                                            @elseif ($role->name == 'RS-Broker')
-                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                                                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
-                                            @elseif ($role->name == 'Office-Admin')
-                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                                                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        <!-- Basic Plan: End -->
-
-                    </div>
-                @endguest
-
-                @auth
-
-                    <div class="row gy-4 pt-lg-3 d-flex justify-content-center">
-                        <!-- Basic Plan: Start -->
-                        @foreach ($subscriptionTypesRoles as $subscriptionType)
-                            <div class="col-xl-3 col-lg-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="text-center">
-                                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/paper-airplane.png') }}"
-                                                style="filter: brightness(0) saturate(100%) invert(36%) sepia(96%) saturate(425%) hue-rotate(132deg) brightness(95%) contrast(100%);"
-                                                alt="paper airplane icon" class="mb-4 pb-2" />
-                                            <h4 class="mb-1">{{ $subscriptionType->name }}</h4>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <p>
-                                                    @foreach ($subscriptionType->roles as $role)
-                                                        <span> اشتراك {{ $role->name_ar }}</span>
-                                                    @endforeach
-                                                </p>
-                                            </div>
-                                            {{-- <div class="d-flex align-items-center justify-content-center">
-                      <span class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}</span>
-                      <span class="price-yearly h1 text-primary fw-bold mb-0 d-none">$14</span>
-                      <sub class="h6 text-muted mb-0 ms-1">/رس</sub>
-                    </div> --}}
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <sup
-                                                    class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
-                                                <span
-                                                    class="price-monthly h1 text-primary fw-bold mb-0">{{ $subscriptionType->price }}
-                                                </span>
-                                                <sub class="h6 text-muted mb-0 ms-1">/{{ $subscriptionType->period }}
-                                                    {{ __($subscriptionType->period_type) }}</sub>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="list-unstyled">
-                                            @foreach ($sections as $section)
-                                                <li>
-                                                    <h5>
-
-                                                        @if ($subscriptionType->SectionData->contains('section_id', $section->id))
-                                                            <span
-                                                                class="badge badge-center rounded-pill bg-label-primary p-0 me-2">
-                                                                <i class="ti ti-check ti-xs"></i>
-                                                            </span>
-                                                        @else
-                                                            <span
-                                                                class="badge badge-center rounded-pill bg-label-danger p-0 me-2">
-                                                                <i class="ti ti-minus ti-xs"></i>
-                                                        @endif
-                                                        </span>
-                                                        {{ $section->name }}
-                                                    </h5>
-                                                </li>
-                                            @endforeach
-
-                                        </ul>
-                                        <div class="d-grid mt-4 pt-3">
-                                            @if ($subscriptionType && $subscriptionType->roles->count() == 2)
-                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#addSubscriberModal">ابدأ الأن</a>
-                                            @elseif ($role->name == 'RS-Broker')
-                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                                                    onclick="redirectToCreateBroker()">ابدأ الأن</a>
-                                            @elseif ($role->name == 'Office-Admin')
-                                                <a href="" class="btn btn-label-primary" data-bs-toggle="modal"
-                                                    onclick="redirectToCreateOffice()">ابدأ الأن</a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        <!-- Basic Plan: End -->
-
-                    </div>
-                @endauth
-
-            </div>
-        </section>
-        <!-- Pricing plans: End -->
 
         <!-- Fun facts: Start -->
         {{-- <section id="landingFunFacts" class="section-py landing-fun-facts">
@@ -885,7 +805,194 @@
         </div>
       </section> --}}
         <!-- Fun facts: End -->
+    <!-- CTA: Start -->
+    <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
+        <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/cta-bg-light.png') }}" style=""
+            class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1" alt="cta image"
+            data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
+            data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
+        <div class="container">
+            <div class="row align-items-center gy-5 gy-lg-0" >
 
+                <div class="col-lg-7 pt-lg-7 text-center text-lg-start">
+                    @guest
+                    <div class="col-lg-12" style="padding: 10px">
+                            <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-md-4 mb-2 col-12">
+                                            <label class="form-label">@lang('Property type') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" name="property_type_id" required>
+                                                <option disabled selected value="">@lang('Property type')</option>
+                                                @foreach ($types as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-2 col-12">
+                                            <label class="form-label">@lang('city') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" id="CityDiv" name="city_id" required>
+                                                <option disabled value="" selected>@lang('city')</option>
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}"
+                                                        data-url="{{ route('GetDistrictsByCity', $city->id) }}">
+                                                        {{ $city->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4 mb-2 col-12">
+                                            <label class="form-label">@lang('district') <span
+                                                    class="required-color"></span></label>
+                                            <select class="form-select" name="district_id" id="DistrictDiv"
+                                                ></select>
+                                        </div>
+                                        <div class="col-12 mb-2 col-md-4">
+                                            <label class="form-label">@lang('Ad type') <span
+                                                    class="required-color">*</span>
+                                            </label>
+                                            <select class="form-select" name="ad_type" id="type" required>
+                                                <option disabled value="">@lang('Ad type') </option>
+                                                @foreach (['rent', 'sale'] as $type)
+                                                    <option value="{{ $type }}">
+                                                        {{ __($type) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 mb-2">
+                                            <label class="form-label">@lang('Area (square metres)')</label>
+                                            <input type="number" name="area" class="form-control"
+                                                placeholder="@lang('Area (square metres)')"
+                                                value="{{ old('Area (square metres)') }}" />
+                                        </div>
+
+
+                                        <div class="col-sm-12 col-md-4 mb-2">
+                                            <label class="form-label">@lang('number rooms') </label>
+                                            <input type="number" name="rooms" class="form-control"
+                                                placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <label class="form-label" for="contact-form-message">@lang('Description') <span
+                                                    class="required-color"></span></label>
+                                            <textarea name="description" class="form-control"  rows="4"
+                                                placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
+                                        </div>
+                                        {{-- <div class="col-12">
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalToggle">ارسال</button>
+                                        </div> --}}
+                                    </div>
+                            </div>
+                    </div>
+                    @endguest
+                    @auth
+                    <div class="col-lg-12" style="padding: 10px">
+                        <div class="card-body">
+
+                                <form id="a-form" action="{{ route('Home.createRequest') }}" method="POST">
+                                    @csrf
+
+                                    <div class="row g-3">
+                                        <div class="col-md-4 mb-2 col-12">
+                                            <label class="form-label">@lang('Property type') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" name="property_type_id" required>
+                                                <option disabled selected value="">@lang('Property type')</option>
+                                                @foreach ($types as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-2 col-12">
+                                            <label class="form-label">@lang('city') <span
+                                                    class="required-color">*</span></label>
+                                            <select class="form-select" id="CityDiv" name="city_id" required>
+                                                <option disabled value="" selected>@lang('city')</option>
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}"
+                                                        data-url="{{ route('PropertyFinder.GetDistrictsByCity', $city->id) }}">
+                                                        {{ $city->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4 mb-2 col-12">
+                                            <label class="form-label">@lang('district') <span
+                                                    class="required-color"></span></label>
+                                            <select class="form-select" name="district_id" id="DistrictDiv"
+                                                ></select>
+                                        </div>
+                                        <div class="col-12 mb-2 col-md-4">
+                                            <label class="form-label">@lang('Ad type') <span
+                                                    class="required-color">*</span>
+                                            </label>
+                                            <select class="form-select" name="ad_type" id="type" required>
+                                                <option disabled value="">@lang('Ad type') </option>
+                                                @foreach (['rent', 'sale'] as $type)
+                                                    <option value="{{ $type }}">
+                                                        {{ __($type) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 mb-2">
+                                            <label class="form-label">@lang('Area (square metres)')</label>
+                                            <input type="number" name="area" class="form-control"
+                                                placeholder="@lang('Area (square metres)')"
+                                                value="{{ old('Area (square metres)') }}" />
+                                        </div>
+
+
+                                        <div class="col-sm-12 col-md-4 mb-2">
+                                            <label class="form-label">@lang('number rooms') </label>
+                                            <input type="number" name="rooms" class="form-control"
+                                                placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <label class="form-label" for="contact-form-message">@lang('Description') <span
+                                                    class="required-color"></span></label>
+                                            <textarea id="contact-form-message" name="description" class="form-control"  rows="4"
+                                                placeholder="@lang('اكتب تفاصيل طلبك مثل:  السعر، عدد دورات المياة ، الخ..')"></textarea>
+                                        </div>
+                                        <div class="col-12">
+
+                                            {{-- @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder))
+                                            <button type="submit" class="btn btn-primary">ارسال</button>
+                                            @endif --}}
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+                    @endauth
+                </div>
+
+                <div class="col-lg-5 text-center text-lg-start" style="    padding: 16px 0px;">
+                    <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
+                    </h6>
+                    <h6 class="h2 text-primary fw-bold mb-1">اطلب عقارك الآن
+                    </h6>
+                    <p class="fw-medium mb-4">قم بتعبئة النموذج التالي وسيتواصل معك احد الوسطاء العقاريين لتنفيذ طلبك
+
+                    </p>
+                        @if(auth()->check() && (auth()->user()->is_renter || auth()->user()->is_property_finder || auth()->user()->is_owner))
+                        <button form="a-form" type="submit" class="btn btn-lg btn-primary">@lang('Send Request')</button>
+                        @else
+                        <a form="a-form" class="btn btn-primary" href="{{ route('login') }}">@lang('Send Request')</a>
+                        @endif
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- CTA: End -->
         <!-- FAQ: Start -->
         <section id="landingFAQ" class="section-py bg-body landing-faq">
             <div class="container">
@@ -1005,32 +1112,11 @@
         </section>
         <!-- FAQ: End -->
 
-        <!-- CTA: Start -->
-        <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
-            <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/cta-bg-light.png') }}" style=""
-                class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1" alt="cta image"
-                data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
-                data-app-dark-img="front-pages/backgrounds/cta-bg-dark.png" />
-            <div class="container">
-                <div class="row align-items-center gy-5 gy-lg-0">
-                    <div class="col-lg-6 text-center text-lg-start" style="    padding: 16px 0px;">
-                        <h6 class="h2 text-primary fw-bold mb-1">ماذا تنتظر !؟
-                        </h6>
-                        <h6 class="h2 text-primary fw-bold mb-1">انضم لنا الآن
-                        </h6>
-                        <p class="fw-medium mb-4">واجهة سهلة الإستخدام بمميزات متعددة
 
-                        </p>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#addSubscriberModal"
-                            class="btn btn-lg btn-primary">سجل معنا الأن</a>
-                    </div>
-                    <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
 
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- CTA: End -->
+         <!-- Real Estat Requests: Start -->
+
+        <!--  Real Estat Requests: End -->
 
         <!-- Contact Us: Start -->
         <section id="landingContact" class="section-py bg-body landing-contact">
@@ -1171,9 +1257,9 @@
         function redirectToCreateBroker() {
             window.location.href = "{{ route('Home.Brokers.CreateBroker') }}";
         }
-        // function redirectToCreatePropertyFinder() {
-        //     window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
-        // }
+        function redirectToCreatePropertyFinder() {
+            window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+        }
         function redirectToCreateOffice() {
             window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
 
@@ -1194,5 +1280,26 @@
                 $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
             });
         });
+
+            //
+    </script>
+    <script>
+        $('#CityDiv').on('change', function() {
+                var selectedOption = $(this).find(':selected');
+                var url = selectedOption.data('url');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#DistrictDiv').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#DistrictDiv').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            });
     </script>
 @endsection

@@ -86,7 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-2 col-12 mb-3">
                             <p>@lang('status')</p>
 
                             <div class="form-check form-check-primary">
@@ -102,7 +102,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-12 mb-3">
+                        <div class="col-md-2 col-12 mb-3">
                             <p>@lang('appear')</p>
                             <div class="form-check form-check-primary mt-1">
                                 <input name="is_show" class="form-check-input" type="radio"
@@ -116,6 +116,21 @@
                                     value="{{ 0 }}" id="hide"
                                     {{ $SubscriptionType->is_show == 0 ? 'checked' : '' }}>
                                 <label class="form-check-label" for="hide"> @lang('hide') </label>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <p>@lang('New Subscription')</p>
+                            <div class="form-check form-check-primary mt-1">
+                                <input name="new_subscriber" class="form-check-input" type="radio"
+                                    value="{{ 1 }}" id="Yes" {{ $SubscriptionType->new_subscriber == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="Yes">{{ __('Yes') }}</label>
+                            </div>
+
+                            <div class="form-check form-check-primary mt-1">
+                                <input name="new_subscriber" class="form-check-input" type="radio"
+                                    value="{{ 0 }}" id="No" {{ $SubscriptionType->new_subscriber == 0 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="No"> {{ __('No') }}</label>
                             </div>
 
                         </div>

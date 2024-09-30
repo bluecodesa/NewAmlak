@@ -139,7 +139,7 @@
                 </div>
                 <!--/ User List Style -->
                 <!-- Progress Style -->
-                @if ($ticket->status != 'Closed')
+                @if ($ticket->status != 'Closed' && $ticket->ticket_type_id != 39)
                     <div class="row">
                         <div class="col-12 col-lg-10 mb-4 mb-xl-0">
                             <div class="card mb-4">

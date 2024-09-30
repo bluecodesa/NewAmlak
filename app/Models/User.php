@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasOne(Broker::class, 'user_id');
     }
 
+    public function UserOwnerData()
+    {
+        return $this->hasOne(Owner::class, 'user_id');
+    }
+
     public function UserEmployeeData()
     {
         return $this->hasOne(Employee::class, 'user_id');
@@ -68,6 +73,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Renter::class, 'user_id');
     }
+
+    public function UserFalData()
+    {
+        return $this->hasOne(FalLicenseUser::class, 'user_id');
+    }
+
     public static function getAdmins()
     {
         return self::where('is_admin', 1)->paginate(100);
@@ -134,7 +145,7 @@ class User extends Authenticatable
 
     public function unitInterests()
     {
-        return $this->hasMany(UnitInterest::class);
+        return $this->hasMany(UnitInterest::class, 'interested_id');
     }
 
     public function FavFinders()
@@ -146,5 +157,9 @@ class User extends Authenticatable
     public function FavOwners()
     {
         return $this->hasMany(FavoriteUnit::class, 'owner_id');
+    }
+    public function requestStatuses()
+    {
+        return $this->hasMany(RequestStatus::class);
     }
 }

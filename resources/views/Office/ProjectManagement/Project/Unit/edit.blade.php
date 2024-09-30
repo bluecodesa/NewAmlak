@@ -82,16 +82,41 @@
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <div class="col-md-3 col-12 mb-3">
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('Project') <span class="required-color"></span></label>
+                                <select class="form-select" name="project_id" id="projectSelect">
+                                    <option disabled selected value="">@lang('Choose')</option>
+                                    <option  value="">@lang('without')</option>
+                                    @foreach ($projects as $project)
+                                        <option value="{{ $project->id }}" {{ $Unit->project_id == $project->id ? 'selected' : '' }}>
+                                            {{ $project->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('property') <span class="required-color"></span></label>
+                                <select class="form-select" name="property_id" id="propertySelect">
+                                    <option  value="">@lang('without')</option>
+                                    @foreach ($properties as $property)
+                                        <option value="{{ $property->id }}" {{ $Unit->property_id == $property->id ? 'selected' : '' }}>
+                                            {{ $property->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 col-12 mb-3">
                                 <label class="form-label">
                                     {{ __('Residential number') }} <span class="required-color">*</span></label>
-                                <input type="text" value="{{ $Unit->number_unit }}" required id="modalRoleName"
-                                    name="number_unit" class="form-control"
+                                <input type="text" value="{{ $Unit->number_unit }}" required
+                                    id="modalRoleName" name="number_unit" class="form-control"
                                     placeholder="{{ __('Residential number') }}">
 
                             </div>
 
-                            <div class="col-12 mb-3 col-md-3">
+                            <div class="col-12 mb-3 col-md-4">
                                 <label class="form-label">@lang('Region') <span class="required-color">*</span>
                                 </label>
                                 <select class="form-select" id="Region_id" required>
@@ -105,7 +130,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-12 mb-3 col-md-3">
+                            <div class="col-12 mb-3 col-md-4">
                                 <label class="form-label">@lang('city') <span class="required-color">*</span>
                                 </label>
                                 <select class="form-select" name="city_id" id="CityDiv" required>
@@ -119,7 +144,7 @@
                             </div>
 
 
-                            <div class="col-12 mb-3 col-md-3">
+                            <div class="col-12 mb-3 col-md-4">
                                 <label class="form-label">@lang('district') <span class="required-color">*</span>
                                 </label>
                                 <select class="form-select" name="district_id" id="DistrictDiv" required>
@@ -242,7 +267,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label class="form-label">@lang('services')</label>
+                                    <label class="form-label">@lang('Amenities')</label>
                                     <select class="select2 form-select" name="service_id[]" multiple="multiple">
                                         <option disabled value="">@lang('services')</option>
                                         @foreach ($services as $service)
@@ -302,32 +327,32 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3 col-12">
-                                    <label class="form-label mb-2">@lang('Description')</label>
-                                    <div>
-                                        {{-- <textarea name="note" class="form-control" rows="5">{{ $Unit->note }}</textarea> --}}
-                                        <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""
-                                        >{!! $Unit->note !!}</textarea>
-                                    </div>
+                                <div class="col-12" style="text-align: center;">
+                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
+                                        {{ __('Next') }}
+                                    </button>
                                 </div>
 
-                                <div class="col-sm-12 col-md-12 mb-3">
-                                    <label class="form-label mb-2">@lang('Pictures property') </label>
-                                    <input type="file" name="images[]"
-                                        data-url="{{ route('Office.Unit.deleteImage', $Unit->id) }}"
-                                        @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif
-                                        multiple class="dropify" accept="image/jpeg, image/png" />
-                                </div>
-
-
-
+          
 
                     </div>
                     <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                         <div class="row">
 
+
+                            <div class="col-md-4 col-12 mb-3">
+
+                                <label class="form-label">
+                                    {{ __('ad name') }} <span class="required-color">*</span></label>
+                                <input type="text" required name="ad_name" value="{{ $Unit->ad_name }}"
+                                    class="form-control" placeholder="{{ __('ad name') }}">
+
+                            </div>
+
+
                             <div class="col-12 mb-3 col-md-4">
-                                <label class="form-label">@lang('Ad type') <span class="required-color">*</span>
+                                <label class="form-label">@lang('Ad type') <span
+                                        class="required-color">*</span>
                                 </label>
                                 <select class="form-select" name="type" id="type" required>
                                     <option disabled value="">@lang('Ad type') </option>
@@ -339,10 +364,11 @@
                                 </select>
                             </div>
 
-                            <div class="col-sm-12 col-md-2 mb-3">
+                            <div class="col-sm-12 col-md-4 mb-3">
                                 <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
                                 <label class="switch switch-primary">
-                                    <input type="checkbox" name="show_gallery" class="switch-input toggleHomePage"
+                                    <input type="checkbox" name="show_gallery"
+                                        class="switch-input toggleHomePage"
                                         {{ $Unit->show_gallery == 1 ? 'checked' : '' }}>
                                     <span class="switch-toggle-slider">
                                         <span class="switch-on">
@@ -355,8 +381,63 @@
 
                                 </label>
                             </div>
+                            <div class="mb-3 col-12">
+                                <label class="form-label mb-2">@lang('Description')</label>
+                                <div>
+                                    {{-- <textarea name="note" class="form-control" rows="5">{{ $Unit->note }}</textarea> --}}
+                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">{!! $Unit->note !!}</textarea>
+                                </div>
+                            </div>
+                         
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Unit Images')</label>
+                                <div class="input-group">
+                                <input class="form-control" type="file" id="imageInput" name="images[]" multiple accept="image/jpeg, image/png" />
+                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon1"><i class="ti ti-refresh"></i></button>
+                                </div>
+                                @if(!$Unit->UnitImages->isEmpty())
+                                    <div class="mt-3" id="currentImages">
+                                        <h5>@lang('Current Images')</h5>
+                                        <div class="d-flex flex-wrap">
+                                            @foreach($Unit->UnitImages as $image)
+                                                <div class="position-relative m-2 image-container">
+                                                    <img src="{{ asset($image->image) }}" alt="Unit Image" class="img-thumbnail" style="height: 150px; object-fit: contain;">
+                                                    <button type="button" class="btn btn-danger btn-sm remove-image" data-id="{{ $image->id }}" style="position: absolute; top: 5px; right: 5px;">X</button>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Unit Video')</label>
+                                <div class="input-group">
+                                <input class="form-control" type="file" id="videoInput" name="video" accept="video/mp4, video/webm, video/ogg" />
+                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon2"><i class="ti ti-refresh"></i></button>
+                                </div>
+                                @if($Unit->video)
+                                    <div class="mt-3" id="currentVideo">
+                                        <h5>@lang('Current Video')</h5>
+                                        <div class="position-relative m-2 video-container">
+                                            <video controls class="d-block w-100" style="height: 350px; object-fit: contain;">
+                                                <source src="{{ asset($Unit->video) }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                            <button type="button" class="btn btn-danger btn-sm remove-video" style="position: absolute; top: 5px; right: 5px;">X</button>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            
 
 
+                        </div>
+
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
+                                {{ __('Next') }}
+                            </button>
                         </div>
 
                     </div>
@@ -464,27 +545,35 @@
 
 
                         </div>
-
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-messages">
+                                {{ __('Next') }}
+                            </button>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
-                                <input class="form-control" type="file" name="unit_masterplan" id="projectMasterplan" accept="image/*,application/pdf" multiple>
-                                @if($Unit->unit_masterplan)
+                                <div class="input-group">
+                                    <input class="form-control" type="file" name="unit_masterplan"
+                                        id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                        <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                    </div>
+                                @if ($Unit->unit_masterplan)
                                     <div class="mt-2">
                                         <label>@lang('Unit Masterplan'):</label>
-                                        <a href="{{ url($Unit->unit_masterplan) }}" target="_blank">@lang('View')</a>
+                                        <a href="{{ url($Unit->unit_masterplan) }}"
+                                            target="_blank">@lang('View')</a>
                                     </div>
                                 @endif
                             </div>
 
                         </div>
-
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary waves-effect waves-light"
-                            type="submit">@lang('save')</button>
+                        <div class="col-12" style="text-align: center;" >
+                            <button class="btn btn-primary col-4 waves-effect waves-light"
+                                type="submit">@lang('save')</button>
+                        </div>
                     </div>
 
 
@@ -677,6 +766,122 @@
             });
         });
 
+    </script>
+
+
+<script>
+    $(document).ready(function() {
+        var allProperties = {!! json_encode($properties) !!};
+        function refreshProperties(properties, selectedPropertyId = null) {
+            var propertySelect = $('#propertySelect');
+            propertySelect.empty();
+            propertySelect.append('<option value="">@lang('without')</option>');
+
+            $.each(properties, function(key, property) {
+                propertySelect.append('<option value="' + property.id + '"' + (property.id == selectedPropertyId ? ' selected' : '') + '>' + property.name + '</option>');
+            });
+        }
+
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+
+            if (projectId) {
+                $.ajax({
+                    url: '{{ route('Office.GetPropertiesByProject', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                    refreshProperties(response.properties, '{{ $Unit->property_id }}');
+                },
+                    error: function(error) {
+                        console.error('Error fetching properties:', error);
+                    }
+                });
+            } else {
+                refreshProperties(allProperties);
+            }
+        });
+
+        var initialProjectId = $('#projectSelect').val();
+        if (initialProjectId) {
+            $('#projectSelect').trigger('change');
+        } else {
+            refreshProperties(allProperties, '{{ $Unit->property_id }}');
+        }
+    });
+</script>
+
+            
+    <script>
+               document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.remove-image').forEach(button => {
+                    button.addEventListener('click', function () {
+                        var imageId = this.getAttribute('data-id');
+                        this.closest('.image-container').remove();
+                        $.ajax({
+                            url: '{{ route('Broker.UnitImage.destroy', '') }}/' + imageId,
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                console.log('Image deleted');
+                            }
+                        });
+                    });
+                });
+
+                document.querySelector('.remove-video').addEventListener('click', function () {
+                    this.closest('.video-container').remove();
+                    $.ajax({
+                        url: '{{ route('Broker.UnitVideo.destroy', $Unit->id) }}',
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            console.log('Video deleted');
+                        }
+                    });
+                });
+
+                document.querySelector('#imageInput').addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        document.querySelector('#currentImages').innerHTML = '';
+                    }
+                });
+
+                document.querySelector('#videoInput').addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        document.querySelector('#currentVideo').innerHTML = '';
+                    }
+                });
+            });
+
+    </script>
+      <script>
+        document.querySelectorAll('.next-tab').forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTab = this.getAttribute('data-next');
+                const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+                nextTabButton.click();
+            });
+        });
+    </script>
+      <script>
+        $('#button-addon1').click(function() {
+            $('#imageInput').val('');
+
+        });
+    </script>
+     <script>
+        $('#button-addon2').click(function() {
+            $('#videoInput').val('');
+        });
+    </script>
+     <script>
+        $('#button-addon3').click(function() {
+            $('#projectMasterplan').val('');
+        });
     </script>
     @endpush
 @endsection

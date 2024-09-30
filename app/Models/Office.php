@@ -69,4 +69,29 @@ class Office extends Model
     {
         return $this->hasMany(Wallet::class);
     }
+
+    public function OfficeHasUnits()
+    {
+
+        return $this->hasMany(Unit::class, 'office_id');
+    }
+
+    public function owners()
+    {
+        return $this->belongsToMany(Owner::class, 'owner_office_broker')
+                    ->withPivot('broker_id', 'balance')
+                    ->withTimestamps();
+    }
+
+    public function ownerOffices()
+    {
+        return $this->hasMany(OwnerOfficeBroker::class, 'office_id');
+    }
+
+    public function GalleryData()
+    {
+
+        return $this->hasOne(Gallery::class, 'office_id');
+    }
+
 }

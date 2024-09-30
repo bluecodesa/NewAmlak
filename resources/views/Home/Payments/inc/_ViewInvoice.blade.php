@@ -3,9 +3,12 @@
 
     {{-- {{ Auth::user()->UserBrokerData->UserSystemInvoicePaid ?? '' !== '' ? 'تجديد إشتراك' : 'اشتراك جديد' }} --}}
 
+
     <p>(رقم الفاتورة -
-        {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? '' }}
-        )</p>
+        {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? Auth::user()->UserOfficeData->UserSystemInvoicePending->invoice_ID }}
+    )</p>
+
+
 </div>
 <div class="row text-center">
     <div class="col-6">
@@ -33,7 +36,7 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <table class="table mb-0">
+        <table class="table mb-2">
             <tbody>
                 <tr>
                     <th>@lang('subscription')</th>
@@ -80,7 +83,6 @@
 
             </tbody>
         </table>
-        <hr>
         <form action="{{ route('Payment.store') }}" method="POST">
             @csrf
             <button type="submit" class="btn btn-success btn-lg btn-block waves-effect waves-light">أكمل

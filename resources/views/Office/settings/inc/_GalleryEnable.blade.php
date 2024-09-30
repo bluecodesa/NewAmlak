@@ -17,7 +17,7 @@ $sectionsIds = Auth::user()
                             value="0" data-toggle="toggle" data-onstyle="primary">
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('Broker.Gallery.create') }}" method="post" id="galleryForm">
+                        <form action="{{ route('Office.Gallery.create') }}" method="post" id="galleryForm">
                             @csrf
                             <input type="hidden" name="broker_id"
                                 value="{{ auth()->user()->broker ? auth()->user()->broker->id : '' }}">

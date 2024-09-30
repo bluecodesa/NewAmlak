@@ -4,7 +4,11 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
+use App\Models\Property;
+use App\Models\PropertyUsage;
 use App\Models\Unit;
+use App\Models\UnitImage;
 use App\Models\UnitInterest;
 use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
@@ -88,9 +92,32 @@ class UnitController extends Controller
         $this->middleware(['role_or_permission:delete-unit'])->only(['destroy']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
+             // Apply filters
+             if ($request->status) {
+                $units = $units->where('status', $request->status);
+            }
+            if ($request->project) {
+                $units = $units->where('project_id', $request->project);
+            }
+            if ($request->property) {
+                $propertyId = (int) $request->property;
+                $units = $units->where('property_id', $propertyId);
+            }
+            if ($request->property_type) {
+                $units = $units->where('property_type_id', $request->property_type);
+            }
+            if ($request->usage) {
+                $units = $units->where('property_usage_id', $request->usage);
+            }
+    
+            $projects = $units->pluck('ProjectData')->filter()->unique();
+            $properties = $units->pluck('PropertyData')->filter()->unique();
+            $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
+            $usages = $units->pluck('PropertyUsageData')->filter()->unique();
+            $statuses = $units->pluck('status')->unique()->filter();
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         return view('Office.ProjectManagement.Project.Unit.index',  get_defined_vars());
     }
@@ -108,6 +135,8 @@ class UnitController extends Controller
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        $projects = $this->officeDataService->getProjects();
+        $properties = $this->officeDataService->getProperties();
         return view('Office.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 
@@ -194,7 +223,8 @@ class UnitController extends Controller
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
-
+        $projects = $this->officeDataService->getProjects();
+        $properties = $this->officeDataService->getProperties();
         return view('Office.ProjectManagement.Project.Unit.edit', get_defined_vars());
     }
 
@@ -236,4 +266,98 @@ class UnitController extends Controller
             'rent_type_show' => $request->rent_type_show
         ]);
     }
+
+    public function getPropertiesByProject($projectId)
+    {
+        $properties = Property::where('project_id', $projectId)->get();
+        return response()->json(['properties' => $properties]);
+    }
+    public function getPropertyDetail($id)
+    {
+        $property = Property::findOrFail($id); // Example assuming Property model exists
+
+        return response()->json(['property' => $property]);
+    }
+
+
+    public function getProjectDetails($projectId)
+    {
+        $project = Project::findOrFail($projectId);
+        if ($project) {
+            $project->load('CityData','CityData.RegionData', 'CityData.DistrictsCity');
+            return response()->json(['project' => $project]);
+        } else {
+            return response()->json(['error' => 'Project not found'], 404);
+        }
+    }
+
+    public function getPropertyDetails($propertyId)
+    {
+
+        $property = Property::findOrFail($propertyId);
+
+        if ($property) {
+            $property->load('CityData','CityData.RegionData', 'CityData.DistrictsCity');
+
+            return response()->json(['property' => $property]);
+        } else {
+            return response()->json(['error' => 'Property not found'], 404);
+        }
+    }
+
+    public function destroyImage($id)
+    {
+        $image = UnitImage::find($id);
+        if ($image) {
+            $image->delete();
+            return response()->json(['success' => 'Image deleted']);
+        }
+        return response()->json(['error' => 'Image not found'], 404);
+    }
+    
+    public function destroyVideo($id)
+    {
+        $unit = Unit::find($id);
+        if ($unit && $unit->video) {
+            $unit->video = null;
+            $unit->save();
+            return response()->json(['success' => 'Video deleted']);
+        }
+        return response()->json(['error' => 'Video not found'], 404);
+    }
+
+    function IndexByStatus($type)
+    {
+        $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
+
+        $projects = $units->pluck('ProjectData')->filter()->unique();
+        $properties = $units->pluck('PropertyData')->filter()->unique();
+        $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
+        $usages = $units->pluck('PropertyUsageData')->filter()->unique();
+        $statuses = $units->pluck('status')->unique()->filter();
+        $units = $units->where('status', $type);
+
+        return view('Office.ProjectManagement.Project.Unit.index', get_defined_vars());
+    }
+
+    function IndexByUsage($usage)
+    {
+        $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
+        if ($usage == '5') {
+            $units = $units->where('property_usage_id', '!=', $usage);
+        } else {
+
+            $units = $units->where('property_usage_id', $usage);
+        }
+
+        $projects = $units->pluck('ProjectData')->filter()->unique();
+        $properties = $units->pluck('PropertyData')->filter()->unique();
+        $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
+        $usages = $units->pluck('PropertyUsageData')->filter()->unique();
+        $statuses = $units->pluck('status')->unique()->filter();
+
+        $usage = PropertyUsage::find($usage);
+        return view('Office.ProjectManagement.Project.Unit.index', get_defined_vars());
+    }
+
 }

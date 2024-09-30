@@ -1,9 +1,14 @@
 
     <!-- Core JS -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places"
+    defer></script>
     <!-- build:js assets/vendor/js/core.js -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="{{ url('HOME_PAGE/vendor/libs/popper/popper.js')}}"></script>
     <script src="{{ url('HOME_PAGE/vendor/js/bootstrap.js')}}"></script>
     <script src="{{ url('HOME_PAGE/vendor/libs/node-waves/node-waves.js')}}"></script>
+    <script src="{{ url('dashboard_files/plugins/summernote/summernote-bs4.min.js') }}"></script>
 
     <!-- endbuild -->
     <script src="{{ url('dashboard_files/assets/js/dropify.js') }}"></script>
@@ -16,6 +21,8 @@
     <script src="{{ url('dashboard_files/assets/js/bootstrap4-toggle.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/jquery-ui.min.js') }}"></script>
     <script src="{{ url('dashboard_files/assets/js/printThis.js') }}"></script>
+    <script src="{{ url('assets/vendor/libs/select2/select2.js') }}"></script>
+
 
     <!-- Vendors JS -->
     <script src="{{ url('HOME_PAGE/vendor/libs/nouislider/nouislider.js')}}"></script>
@@ -29,7 +36,21 @@
     <script src="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+        $(document).ready(function() {
+            // Add click event listener to menu items
+            $('.menu-item').click(function() {
+                // Remove 'active' class from all menu items
+                $('.menu-item').removeClass('active');
 
+                // Add 'active' class to the clicked menu item
+                $(this).addClass('active');
+            });
+        });
+    </script>
     <script>
         // $('.dropify').dropify();
 

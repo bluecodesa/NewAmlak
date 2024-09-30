@@ -16,15 +16,56 @@
             </div>
 
             <div class="row">
-                <div class="col-12">
-                    <div class="card m-b-30">
-                        @include('Admin.layouts.Inc._errors')
-                        <div class="card-body">
+                <div class="card">
+                    @include('Admin.layouts.Inc._errors')
+                <div class="nav-align-top nav-tabs-shadow mb-4">
+                  <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link active"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-home"
+                        aria-controls="navs-justified-home"
+                        aria-selected="true">
+                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">9</span>
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                            aria-selected="false">
+                            <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
+                            <span
+                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-profile"
+                        aria-controls="navs-justified-profile"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Attachments')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
+                      </button>
+                    </li>
+
+                  </ul>
 
                             <form action="{{ route('Broker.Property.update', $Property->id) }}" method="POST"
                                 class="row" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
+                            <div class="tab-content">
+
+                                    <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                                        <div class="row">
                                 <div class="col-md-3 col-12 mb-3">
 
                                     <label class="form-label">
@@ -167,6 +208,72 @@
                                     </select>
                                 </div>
 
+                                <div class="col-12" style="text-align: center;">
+                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                        data-next="#navs-justified-gallery">
+                                        {{ __('Next') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
+                                    <label class="switch switch-primary">
+                                        <input type="checkbox" name="show_in_gallery"
+                                            class="switch-input toggleHomePage"
+                                            {{ $Property->show_in_gallery == 1 ? 'checked' : '' }}>
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-on">
+                                                <i class="ti ti-check"></i>
+                                            </span>
+                                            <span class="switch-off">
+                                                <i class="ti ti-x"></i>
+                                            </span>
+                                        </span>
+
+                                    </label>
+                                </div>
+                                <div class="row" id="gallery-fields">
+
+                                    {{-- <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('FalLicense type') <span
+                                                class="required-color">*</span></label>
+                                        <select class="form-select" name="fal_id" required>
+                                            <option disabled selected value="">@lang('FalLicense type')</option>
+                                            @foreach ($Faltypes as $Faltype)
+                                                <option value="{{ $Faltype->id }}"
+                                                    {{ $Faltype->id == $Property->fal_id ? 'selected' : '' }}>
+                                                    {{ $Faltype->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div> --}}
+
+                                    <div class="col-sm-12 col-md-4 mb-3">
+                                        <label class="form-label">@lang('Ad License Number')<span
+                                            class="required-color">*</span></label>
+                                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Property->ad_license_number }}" required />
+                                    </div>
+                                  
+                                    <div class="col-sm-12 col-md-4 mb-3">
+                                        <label class="form-label">@lang('Ad License Expiry')<span
+                                            class="required-color">*</span></label>
+                                        <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ $Property->ad_license_expiry }}" required />
+                                        <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="mb-3 col-12">
+                                    <label class="form-label mb-2">@lang('Description')</label>
+                                    <div>
+                                        {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
+                                        <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""
+                                        >{{ !!$Property->note }}</textarea>
+                                    </div>
+                                </div>
 
                                 <div class="col-12 mb-3">
                                     <label class="form-label">@lang('Pictures property') </label>
@@ -176,8 +283,6 @@
                                         multiple class="dropify" accept="image/jpeg, image/png" />
                                 </div>
 
-                                {{-- $Property->PropertyImages --}}
-
                                 <div class="col-sm-12 col-md-6 mb-3" hidden>
                                     <label class="form-label">@lang('lat&long')</label>
                                     <input type="text" required readonly name="lat_long" id="location_tag"
@@ -185,10 +290,46 @@
                                         value="{{ $Property->lat_long }}" />
                                 </div>
 
-                                <div class="col-12">
-                                    <button class="btn btn-primary waves-effect waves-light"
-                                        type="submit">@lang('save')</button>
+
+
+
+                                <div class="col-12" style="text-align: center;">
+                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                        data-next="#navs-justified-profile">
+                                        {{ __('Next') }}
+                                    </button>
                                 </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="formFileMultiple" class="form-label">@lang('Property Masterplan')</label>
+                                <input class="form-control" type="file" name="property_masterplan" id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                @if($Property->property_masterplan)
+                                    <div class="mt-2">
+                                        <label>@lang('Project Masterplan'):</label>
+                                        <a href="{{ url($Property->property_masterplan) }}" target="_blank">@lang('View')</a>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="formFileMultiple" class="form-label">@lang('Property Brochure')</label>
+                                <input class="form-control" type="file" name="property_brochure" id="projectBrochure" accept="image/*,application/pdf" multiple>
+                                @if($Property->property_brochure)
+                                    <div class="mt-2">
+                                        <label>@lang('Project Brochure'):</label>
+                                        <a href="{{ url($Property->property_brochure) }}" target="_blank">@lang('View')</a>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-12" style="text-align: center;">
+                            <button class="btn btn-primary col-4 waves-effect waves-light"
+                                type="submit">@lang('save')</button>
+                        </div>
+
+                    </div>
                             </form>
 
                         </div>
@@ -198,7 +339,6 @@
         </div> <!-- end row -->
         @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
 
-    </div>
     <!-- container-fluid -->
 
     @push('scripts')
@@ -312,6 +452,134 @@
                     // Log the details to the console (or do something else with them)
                 });
             });
+
+            $(document).ready(function() {
+        $('#textarea').summernote({
+            height: 100, // set editor height
+            minHeight: null, // set minimum height of editor
+            maxHeight: null, // set maximum height of editor
+            focus: true, // set focus to editable area after initializing summernote
+            toolbar: [
+                // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                ['style', ['bold', 'underline']],
+                ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                ['para', ['ul', 'ol']],
+                ['misc', ['fullscreen', 'undo', 'redo']],
+                // Any other toolbar groups and options you want to include...
+            ],
+            // Explicitly remove table and font name options by not including them in the toolbar
+        });
+        $('.card-body .badge').click(function() {
+            var variableValue = $(this).attr('data-variable');
+            var $textarea = $('#textarea');
+            var summernoteEditor = $textarea.summernote('code');
+
+            // Check if Summernote editor is focused
+            if ($('.note-editable').is(':focus')) {
+                var node = document.createElement("span");
+                node.innerHTML = variableValue;
+                $('.note-editable').append(
+                    node); // This line appends the variable as a new node to the editor
+                var range = document.createRange();
+                var sel = window.getSelection();
+                range.setStartAfter(node);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else {
+                var currentContent = $textarea.summernote('code');
+                $textarea.summernote('code', currentContent + variableValue);
+            }
+        });
+    });
+
+
         </script>
-    @endpush
+
+<script>
+    document.querySelectorAll('.next-tab').forEach(button => {
+        button.addEventListener('click', function() {
+            const nextTab = this.getAttribute('data-next');
+            const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+            nextTabButton.click();
+        });
+    });
+</script>
+
+<script>
+    document.getElementById('show_in_gallery').addEventListener('change', function () {
+        var galleryFields = document.getElementById('gallery-fields');
+        if (this.checked) {
+            galleryFields.style.display = 'block';
+            document.getElementById('ad_license_number').required = true;
+            document.getElementById('ad_license_expiry').required = true;
+        } else {
+            galleryFields.style.display = 'none';
+            document.getElementById('ad_license_number').required = false;
+            document.getElementById('ad_license_expiry').required = false;
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        adLicenseExpiryInput.addEventListener('change', function() {
+            var selectedDate = new Date(this.value);
+            if (selectedDate > licenseDate) {
+                errorMessage.style.display = 'block';
+                adLicenseExpiryInput.setCustomValidity('');
+            } else {
+                errorMessage.style.display = 'none';
+                adLicenseExpiryInput.setCustomValidity(''); /
+            }
+        });
+
+        adLicenseExpiryInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+        });
+    });
+</script>
+
+<script>
+    var licenseDate = new Date("{{ $licenseDate }}");
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        var submitButton = document.getElementById('submit_button');
+        var form = document.getElementById('unit-form');
+
+        function validateDate() {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Show error message if the selected date is after the license date
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true; // Disable submit button
+            } else {
+                // Hide error message if the date is valid
+                errorMessage.style.display = 'none';
+                submitButton.disabled = false; // Enable submit button
+            }
+        }
+
+        adLicenseExpiryInput.addEventListener('change', validateDate);
+
+        form.addEventListener('submit', function(event) {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Prevent form submission if the selected date is invalid
+                event.preventDefault();
+                errorMessage.style.display = 'block';
+            } else {
+                // Allow form submission if the date is valid
+                errorMessage.style.display = 'none';
+            }
+        });
+    });
+</script>
+@endpush
 @endsection

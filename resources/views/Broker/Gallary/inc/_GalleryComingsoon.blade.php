@@ -71,8 +71,21 @@
         <div class="misc-wrapper">
             <h2 class="mb-1 mx-2">@lang('This Gallery is not available now / contact the Broker')!</h2>
             <br>
-            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile }}"
-                class="btn btn-primary mb-4" target="_blank">@lang('Connect by whats app')</a>
+            @php
+                $phoneNumber = null;
+                if ($gallery && $gallery->BrokerData && $gallery->BrokerData->userData) {
+                    $phoneNumber = $gallery->BrokerData->userData->full_phone;
+                }
+                elseif ($gallery && $gallery->OfficeData && $gallery->OfficeData->userData) {
+                    $phoneNumber = $gallery->OfficeData->userData->full_phone;
+                }
+            @endphp
+            @if($phoneNumber)
+            <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $phoneNumber }}"
+            class="btn btn-primary mb-4" target="_blank">@lang('Connect by whats app')</a>
+            @endif
+            {{-- <a href="https://web.whatsapp.com/send?phone={{ env('COUNTRY_CODE') . $broker->mobile }}"
+                class="btn btn-primary mb-4" target="_blank">@lang('Connect by whats app')</a> --}}
             <div class="mt-4">
                 <img src="{{ url('assets/img/illustrations/page-misc-under-maintenance.png') }}"
                     alt="page-misc-under-maintenance" width="550" class="img-fluid" />

@@ -86,10 +86,13 @@ class UnitInterestController extends Controller
         $projectFilter = $request->input('prj_filter', 'all');
         $clientFilter = $request->input('client_filter', 'all');
 
-        $userId = auth()->user()->UserBrokerData->user_id;
-        $unitInterests = UnitInterest::with('unit', 'user')
-            ->where('user_id', $userId)
-            ->get();
+        $userId = auth()->user()->id;
+        // $unitInterests = UnitInterest::with('unit', 'user')
+        //     ->where('user_id', $userId)
+        //     ->get();
+        $unitInterests = UnitInterest::where('user_id', $userId)
+        ->get();
+
 
         $unitInterests = $this->getFilteredUnitInterests(
             $userId,
@@ -245,43 +248,119 @@ class UnitInterestController extends Controller
 
 
     public function addToFav(Request $request)
-    {
-
-        $data = $request->validate([
-            'unit_id' => 'required|integer',
-            'owner_id' => 'required|integer',
-        ]);
+{
 
 
-        $favorite = new FavoriteUnit();
-        $favorite->unit_id = $data['unit_id'];
-        $favorite->owner_id = $data['owner_id'];
-        $favorite->finder_id = auth()->user()->id;
-        $favorite->status = "1";
+    $data = $request->validate([
+        'unit_id' => 'required|integer',
+        'owner_id' => 'required|integer',
+        'type' => 'required|string', // Add type validation
+    ]);
 
-        $favorite->save();
+    $favorite = new FavoriteUnit();
+    
+    $favorite->owner_id = $data['owner_id'];
+    $favorite->finder_id = auth()->user()->id;
+    $favorite->status = "1";
 
-
-        return redirect()->back()->with('success', __('added successfully'));
+    switch ($data['type']) {
+        case 'unit':
+            $favorite->unit_id = $data['unit_id'];
+            break;
+        case 'project':
+            $favorite->project_id = $data['unit_id']; 
+            break;
+        case 'property':
+            $favorite->property_id = $data['unit_id']; 
+            break;
+        default:
+            return redirect()->back()->with('error', __('Invalid favorite type'));
     }
 
-    public function removeFromFav(Request $request)
-    {
-        $data = $request->validate([
-            'unit_id' => 'required|integer',
-        ]);
+    $favorite->save();
 
-        $favorite = FavoriteUnit::where('unit_id', $data['unit_id'])
-            ->where('finder_id', auth()->user()->id)
-            ->first();
+    return redirect()->back()->with('success', __('Added to favorites successfully'));
+}
 
-        if ($favorite) {
-            $favorite->delete();
-            $message = 'Unit removed from favorites!';
-        } else {
-            $message = 'Unit not found in favorites.';
-        }
 
-        return redirect()->back()->with('success', 'Unit removed from favorites successfully.');
+//     public function addToFav(Request $request)
+//     {
+// dd($request);
+//         $data = $request->validate([
+//             'unit_id' => 'required|integer',
+//             'owner_id' => 'required|integer',
+//         ]);
+
+
+//         $favorite = new FavoriteUnit();
+//         $favorite->unit_id = $data['unit_id'];
+//         $favorite->owner_id = $data['owner_id'];
+//         $favorite->finder_id = auth()->user()->id;
+//         $favorite->status = "1";
+
+//         $favorite->save();
+
+
+//         return redirect()->back()->with('success', __('added successfully'));
+//     }
+
+
+public function removeFromFav(Request $request)
+{
+    // Validate the request data
+    $data = $request->validate([
+        'unit_id' => 'required|integer',
+        'type' => 'required|string', // Add type validation
+    ]);
+
+    // Initialize the query
+    $query = FavoriteUnit::where('finder_id', auth()->user()->id);
+
+    // Adjust query based on the type
+    switch ($data['type']) {
+        case 'unit':
+            $query->where('unit_id', $data['unit_id']);
+            break;
+        case 'project':
+            $query->where('project_id', $data['unit_id']); // Assuming unit_id maps to project_id
+            break;
+        case 'property':
+            $query->where('property_id', $data['unit_id']); // Assuming unit_id maps to property_id
+            break;
+        default:
+            return redirect()->back()->with('error', __('Invalid favorite type'));
     }
+
+    // Find the favorite entry
+    $favorite = $query->first();
+
+    // Check if the favorite exists and delete it
+    if ($favorite) {
+        $favorite->delete();
+        return redirect()->back()->with('success', __('Item removed from favorites successfully.'));
+    } else {
+        return redirect()->back()->with('error', __('Item not found in favorites.'));
+    }
+}
+
+
+    // public function removeFromFav(Request $request)
+    // {
+    //     $data = $request->validate([
+    //         'unit_id' => 'required|integer',
+    //     ]);
+
+    //     $favorite = FavoriteUnit::where('unit_id', $data['unit_id'])
+    //         ->where('finder_id', auth()->user()->id)
+    //         ->first();
+
+    //     if ($favorite) {
+    //         $favorite->delete();
+    //         $message = 'Unit removed from favorites!';
+    //     } else {
+    //         $message = 'Unit not found in favorites.';
+    //     }
+
+    //     return redirect()->back()->with('success', 'Unit removed from favorites successfully.');
+    // }
 }

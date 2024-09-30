@@ -33,6 +33,38 @@
                                     placeholder="{{ __('Name') }} {{ __($locale) }}">
                             </div>
                         @endforeach
+
+                        <div class="col-sm-12 col-md-4 mb-3">
+                            <label class="form-label" style="display: block !important;">@lang('Show For Real Estate')</label>
+                            <label class="switch switch-lg">
+                                <input type="checkbox" name="show_for_realEaste" class="switch-input"
+                                    value="1" {{ $Interest->show_for_realEaste ? 'checked' : '' }} />
+                                <span class="switch-toggle-slider">
+                                    <span class="switch-on">
+                                        <i class="ti ti-check"></i>
+                                    </span>
+                                    <span class="switch-off">
+                                        <i class="ti ti-x"></i>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="col-sm-12 col-md-4 mb-3">
+                            <label class="form-label" style="display: block !important;">@lang('Default')</label>
+                            <label class="switch switch-lg">
+                                <input type="checkbox" name="default" class="switch-input"
+                                    value="1" {{ $Interest->default ? 'checked' : '' }} />
+                                <span class="switch-toggle-slider">
+                                    <span class="switch-on">
+                                        <i class="ti ti-check"></i>
+                                    </span>
+                                    <span class="switch-off">
+                                        <i class="ti ti-x"></i>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary me-1">
                                 {{ __('save') }}

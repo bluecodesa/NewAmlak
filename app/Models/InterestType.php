@@ -14,4 +14,9 @@ class InterestType extends Model
     public $translatedAttributes = ['name'];
     protected $guarded = [];
 
+    public function requestStatuses()
+    {
+        return $this->hasMany(RequestStatus::class);
+    }
+
 }

@@ -148,34 +148,6 @@ class ProjectController extends Controller
         return view('Office.ProjectManagement.Project.CreateProperty', get_defined_vars());
     }
 
-    // public function storeProperty(Request $request, $id)
-    // {
-    //     $rules = [
-    //         'name' => 'required|string|max:255',
-    //         'location' => 'required|string|max:255',
-    //         'city_id' => 'required|exists:cities,id',
-    //         'property_type_id' => 'required|exists:property_types,id',
-    //         'property_usage_id' => 'required|exists:property_usages,id',
-    //         'employee_id' => 'required|exists:employees,id',
-    //         'owner_id' => 'required|exists:owners,id',
-    //     ];
-    //     $request->validate($rules);
-    //     $request_data = $request->except('images');
-    //     $request_data['office_id'] = Auth::user()->UserOfficeData->id;
-    //     $request_data['project_id'] = $id;
-
-    //     $Property = Property::create($request_data);
-    //     if ($request->images) {
-    //         foreach ($request->images as  $item) {
-    //             $ext  =  uniqid() . '.' . $item->clientExtension();
-    //             $item->move(public_path() . '/Offices/Projects/Property/', $ext);
-    //             $request_image['image'] = '/Offices/Projects/Property/' .  $ext;
-    //             $request_image['property_id'] = $Property->id;
-    //             PropertyImage::create($request_image);
-    //         }
-    //     }
-    //     return redirect()->route('Office.Project.show', $id)->with('success', __('added successfully'));
-    // }
 
     public function storeProperty(Request $request, $id)
     {
@@ -196,6 +168,7 @@ class ProjectController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $employees = $this->officeDataService->getEmployees();
         return view('Office.ProjectManagement.Project.CreateUnit', get_defined_vars());
     }
 

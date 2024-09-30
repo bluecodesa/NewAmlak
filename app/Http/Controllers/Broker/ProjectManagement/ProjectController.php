@@ -4,7 +4,10 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\FalLicenseUser;
+use App\Models\Project;
 use App\Models\Subscription;
+use App\Models\TicketType;
 use App\Models\User;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
@@ -18,6 +21,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\AllServiceService;
 use App\Services\FeatureService;
+use App\Services\Admin\FalLicenseService;
+
 
 
 class ProjectController extends Controller
@@ -32,6 +37,8 @@ class ProjectController extends Controller
     protected $AdminProjectService;
     protected $AllServiceService;
     protected $FeatureService;
+    protected $FalLicenseService;
+
 
 
 
@@ -46,7 +53,9 @@ class ProjectController extends Controller
         BrokerDataService $brokerDataService,
         PropertyTypeService $propertyTypeService,
         ServiceTypeService $ServiceTypeService,
-        PropertyUsageService $propertyUsageService
+        PropertyUsageService $propertyUsageService,
+        FalLicenseService $FalLicenseService
+
     ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -59,8 +68,11 @@ class ProjectController extends Controller
         $this->AdminProjectService = $AdminProjectService;
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
+        $this->FalLicenseService = $FalLicenseService;
+
         //
-        $this->middleware(['role_or_permission:read-project'])->only(['index']);
+
+        $this->middleware(['role_or_permission:read-project'])->only(['index','show']);
         $this->middleware(['role_or_permission:create-project'])->only(['create', 'store']);
         $this->middleware(['role_or_permission:update-project'])->only(['edit', 'update']);
         $this->middleware(['role_or_permission:delete-project'])->only(['destroy']);
@@ -76,6 +88,7 @@ class ProjectController extends Controller
     public function create()
     {
         $Regions = $this->regionService->getAllRegions();
+        $Faltypes = $this->FalLicenseService->getAll();
         $cities = $this->cityService->getAllCities();
         $services = $this->ServiceTypeService->getAllServiceTypes();
         $advisors = $this->brokerDataService->getAdvisors();
@@ -83,6 +96,15 @@ class ProjectController extends Controller
         $owners = $this->brokerDataService->getOwners();
         $projectStatuses = $this->AdminProjectService->getAllProjectStatus();
         $deliveryCases = $this->AdminProjectService->getAllDeliveryCases();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
         return view('Broker.ProjectManagement.Project.create', get_defined_vars());
     }
 
@@ -110,6 +132,7 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $project = $this->projectService->findProjectById($id);
+        $Faltypes = $this->FalLicenseService->getAll();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
         $advisors = $this->brokerDataService->getAdvisors();
@@ -118,6 +141,15 @@ class ProjectController extends Controller
         $services = $this->ServiceTypeService->getAllServiceTypes();
         $projectStatuses = $this->AdminProjectService->getAllProjectStatus();
         $deliveryCases = $this->AdminProjectService->getAllDeliveryCases();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
         return view('Broker.ProjectManagement.Project.edit', get_defined_vars());
     }
 
@@ -145,6 +177,14 @@ class ProjectController extends Controller
         $developers = $this->brokerDataService->getDevelopers();
         $owners = $this->brokerDataService->getOwners();
         $services = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.CreateProperty', get_defined_vars());
     }
 
@@ -192,6 +232,14 @@ class ProjectController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.CreateUnit', get_defined_vars());
     }
 
@@ -217,9 +265,38 @@ class ProjectController extends Controller
         $projects = $this->projectService->getAllProjectsValidForBrokers();
         return view('Home.Projects.index',  get_defined_vars());
     }
-    public function showPubllicProject($id)
+    public function showPubllicProject($gallery_name, $id)
     {
         $project = $this->projectService->ShowPublicProject($id);
-        return view('Home.Projects.show',  get_defined_vars());
+        $user_id=$project->BrokerData->UserData->id;
+        $falLicense = FalLicenseUser::where('user_id', $user_id)
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        if(!empty($project) && $falLicense->ad_license_status == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 ){
+            $ticketTypes =  TicketType::paginate(100);
+
+            $cityId = $project->city_id;
+            $districtId  = $project->district_id  ;
+            $moreProjects = Project::where('id', '!=', $id)
+            ->where('ad_license_status', 'Valid')
+            ->where(function($query) use ($cityId, $districtId, $project) {
+                $query->where('city_id', $cityId)
+                      ->orWhere('district_id', $districtId);
+            })
+            ->paginate(3);
+
+            $allProjects = Project::take(6)->paginate(3);
+            return view('Home.Projects.show',  get_defined_vars());
+
+        }
+        else {
+            $project = Project::findOrFail($id);
+            $broker=$project->BrokerData;
+            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+        }
     }
 }

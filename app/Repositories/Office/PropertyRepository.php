@@ -109,7 +109,13 @@ class PropertyRepository implements PropertyRepositoryInterface
             $unitMasterplan->move(public_path('/Offices/Projects/Units/'), $masterplanName);
             $unit_data['unit_masterplan'] = '/Offices/Projects/Units/' . $masterplanName;
         }
-
+        if (isset($unit_data['video'])) {
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Offices/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Offices/Projects/Unit/Video/' . $videoName;
+        }
 
         $unit = Unit::create($unit_data);
 

@@ -73,7 +73,6 @@ class TicketController extends Controller
             'image.mimes' => 'Only JPEG, PNG, JPG, and GIF formats are allowed for the image.',
             'image.max' => 'The image size must not exceed 2048 kilobytes.',
         ]);
-
         // Handle file upload if an image is provided
 
         if ($request->hasFile('image')) {
@@ -92,6 +91,10 @@ class TicketController extends Controller
         $ticket->content = $validatedData['content'];
         $ticket->image = $validatedData['image'] ?? null; // If no image provided, set to null
         $ticket->ticket_type_id = $validatedData['type'];
+        $ticket->unit_id = $request['unit_id'] ?? null;
+        $ticket->project_id = $request['project_id'] ?? null;
+        $ticket->property_id = $request['property_id'] ?? null;
+
         $ticket->save();
         $this->notifyAdmins($ticket);
 
@@ -161,4 +164,6 @@ class TicketController extends Controller
             Notification::send($admin, new NewTicketNotification($ticket));
         }
     }
+
+   
 }

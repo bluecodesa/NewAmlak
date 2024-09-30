@@ -1,5 +1,5 @@
 @extends('Home.layouts.home.app')
-@section('title', __('Gallary'))
+@section('title', __('Real Estate Projects'))
 @section('content')
     <section class="section-py first-section-pt">
         <div class="container">
@@ -29,7 +29,7 @@
                     <div class="row g-4">
 
                         @foreach ($projects as $project)
-                            {{-- @if ($project->BrokerData->license_validity == 'valid') --}}
+                            @if ($project->BrokerData->license_validity == 'valid' && $project->BrokerData->GalleryData->gallery_status != 0 )
                                 <div class="col-xl-4 col-lg-6 col-md-6">
                                     <div class="card">
                                         <div class="card-body text-center">
@@ -102,8 +102,10 @@
                                                 {{-- @php
                                                     $gallery_name = $unit->gallery->gallery_name;
                                                 @endphp --}}
-                                                <a href="{{ route('Home.showPublicProject', $project->id) }}"
-                                                    class="card-hover-border-default">
+                                                <a href="{{ route('Home.showPublicProject', [
+                                                    'gallery_name' => $project->BrokerData->GalleryData->gallery_name,
+                                                    'id' => $project->id
+                                                        ]) }}" class="card-hover-border-default">
                                                     @if ($project->ProjectImages->isNotEmpty())
                                                         <img src="{{ url($project->ProjectImages->first()->image) }}"
                                                             alt="Avatar Image" class="rounded-square" width="100%"
@@ -163,21 +165,21 @@
                                                 </div>
                                             @endauth
                                             @guest
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <a target="_blank"
-                                                        class="btn btn-primary d-flex align-items-center me-3"><i
-                                                            class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
-                                                    <a target="_blank" class="btn btn-label-secondary btn-icon"><i
-                                                            class="ti ti-message ti-sm"></i></a>
-                                                </div>
-                                            @endguest
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
+                                                    style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
+                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
+                                                <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
+                                                    data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a>
+                                            </div>
+                                        @endguest
 
                                         </div>
                                     </div>
                                 </div>
                                 {{-- @include('Home.Gallery.inc.share')
                                 @include('Home.Gallery.inc.unitInterest') --}}
-                            {{-- @endif --}}
+                            @endif
                         @endforeach
 
                     </div>

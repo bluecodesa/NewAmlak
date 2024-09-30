@@ -14,6 +14,10 @@ class Project extends Model
         return $this->belongsTo(City::class, 'city_id');
     }
 
+    public function DistrictData()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
     public function DeveloperData()
     {
         return $this->belongsTo(Developer::class, 'developer_id');
@@ -82,7 +86,7 @@ class Project extends Model
     {
         return $this->belongsTo(Broker::class, 'broker_id');
     }
- 
+
 
     public function OfficeData()
     {
