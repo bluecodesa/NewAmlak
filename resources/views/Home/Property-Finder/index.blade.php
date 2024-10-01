@@ -19,6 +19,7 @@
             ->toArray();
     @endphp
 @endif
+
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
@@ -438,6 +439,12 @@ $('#Region_id').on('change', function() {
  });
 
 </script>
+    {{-- <script>
+        window.$zoho = window.$zoho || {};
+        $zoho.salesiq = $zoho.salesiq || { ready: function(){} };
+    </script>
+    <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq1d83b8cbfb60b3119713dd68fd1635735f23b20cfb5907da94a25b9d4e5c6911" defer></script>
+ --}}
 
     @endpush
 @endsection

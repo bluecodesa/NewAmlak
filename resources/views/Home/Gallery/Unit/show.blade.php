@@ -317,14 +317,14 @@
                             @auth
                             <div class="d-flex align-items-center justify-content-center">
                                 @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                                    <a href="tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile }}"
+                                    <a href="tel:+{{ $Unit->BrokerData->key_phone }} {{ $Unit->BrokerData->mobile }}"
                                         target="_blank"
                                         class="btn btn-primary d-flex align-items-center me-3"><i
                                             class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                 @endif
                                 @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                         Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile }}"
+                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $Unit->BrokerData->key_phone }} {{ $Unit->BrokerData->mobile }}"
                                         target="_blank" class="btn btn-label-secondary btn-icon"><i
                                             class="ti ti-message ti-sm"></i></a>
                                 @endif

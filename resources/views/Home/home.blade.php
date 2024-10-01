@@ -1302,4 +1302,5 @@
                 });
             });
     </script>
+    
 @endsection

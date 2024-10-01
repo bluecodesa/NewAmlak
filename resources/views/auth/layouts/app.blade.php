@@ -5,7 +5,7 @@
     data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
 
 <head>
-    {!! $sitting->google_tag !!}
+    {{-- {!! $sitting->google_tag !!} --}}
 
     <meta charset="utf-8" />
     <meta name="viewport"
@@ -128,7 +128,6 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {!! $sitting->zoho_salesiq !!}
 
     <script>
         @if(Session::has('success'))
@@ -189,6 +188,14 @@
             return true;
         }
 </script>
+    {{-- {!! $sitting->zoho_salesiq !!} --}}
+    {{-- <script>
+        window.$zoho = window.$zoho || {};
+        $zoho.salesiq = $zoho.salesiq || { ready: function(){} };
+    </script>
+    <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq1d83b8cbfb60b3119713dd68fd1635735f23b20cfb5907da94a25b9d4e5c6911" defer></script>
+ --}}
+
 </body>
 
 </html>
