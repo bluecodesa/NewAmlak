@@ -19,7 +19,33 @@
 
             </div>
             <div class="nav-align-top nav-tabs-shadow mb-4">
-
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                  <li class="nav-item">
+                    <button
+                      type="button"
+                      class="nav-link active"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#navs-justified-home"
+                      aria-controls="navs-justified-home"
+                      aria-selected="true">
+                      <i class="tf-icons ti ti-users ti-xs me-1"></i> @lang('Real Estate Brokers')
+                      <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button
+                      type="button"
+                      class="nav-link"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#navs-justified-profile"
+                      aria-controls="navs-justified-profile"
+                      aria-selected="false">
+                      <i class="tf-icons ti ti-users ti-xs me-1"></i> @lang('Clients')
+                    </button>
+                  </li>
+                </ul>
                 <div class="tab-content">
                   <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
                         {{-- header --}}
@@ -83,10 +109,14 @@
                                         {{-- <th>#</th> --}}
                                         <th>@lang('Customer ID')</th>
                                         <th>@lang('Subscriber Name')</th>
-                                        <th>@lang('Email')</th>
-                                        <th>@lang('phone')</th>
                                         <th>@lang('Account Type')</th>
+                                        {{-- <th>@lang('Subscription Type')</th> --}}
+                                        {{-- <th>@lang('Subscription Time')</th> --}}
+                                        <th>@lang('Subscription Status')</th>
+                                        {{-- <th>@lang('Number of Clients')</th> --}}
+                                        <th>@lang('Subscriber City')</th>
                                         <th>@lang('Subscription Start')</th>
+                                        {{-- <th>@lang('Subscription End')</th> --}}
                                         <th>@lang('Action')</th>
                                     </tr>
                                 </thead>
@@ -98,29 +128,67 @@
 
 
                                             <td>
-                                                    {{ $subscriber->customer_id ?? '-' }}
-
+                                                @if ($subscriber->office_id)
+                                                    {{ $subscriber->OfficeData->UserData->customer_id ?? '-' }}
+                                                @elseif ($subscriber->broker_id)
+                                                    {{ $subscriber->BrokerData->UserData->customer_id ?? '-' }}
+                                                @elseif ($subscriber->owner_id)
+                                                    {{ $subscriber->OwnerData->UserData->customer_id ?? '-' }}
+                                                @endif
                                             </td>
 
                                             <td>
-                                                    {{ $subscriber->name ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $subscriber->email ?? '' }}
-                                             </td>
-                                            <td>
-                                                    {{ $subscriber->full_phone ?? '' }}
-                                            </td>
-                                            <td class="align-middle">
-                                                @foreach ($subscriber->roles as $role)
-                                                    <span class="badge bg-primary">{{ __($role->name) ?? '' }}</span>
-                                                    @if (!$loop->last)
-                                                        ,
-                                                    @endif
-                                                @endforeach
+                                                @if ($subscriber->office_id)
+                                                    {{ $subscriber->OfficeData->UserData->name ?? '' }}
+                                                @elseif ($subscriber->broker_id)
+                                                    {{ $subscriber->BrokerData->UserData->name ?? '' }}
+                                                @elseif ($subscriber->owner_id)
+                                                    {{ $subscriber->OwnerData->UserData->name ?? '' }}
+                                                @endif
                                             </td>
 
-                                            <td>{{ $subscriber->created_at }}</td>
+
+                                            <td>
+                                                @if ($subscriber->office_id)
+                                                    @lang('Office')
+                                                @elseif ($subscriber->broker_id)
+                                                    @lang('Broker')
+                                                @elseif ($subscriber->owner_id)
+                                                    @lang('owner')
+                                                @endif
+                                            </td>
+                                            {{-- <td>
+                                                @if ($subscriber->SubscriptionTypeData->price > 0)
+                                                    <span class="badge rounded-pill bg-success">@lang('paid')</span>
+                                                @else
+                                                    <span class="badge rounded-pill bg-secondary">@lang('free')</span>
+                                                @endif
+                                            </td> --}}
+                                            {{-- <td> {{ $subscriber->SubscriptionTypeData->period }}
+                                                {{ __($subscriber->SubscriptionTypeData->period_type) }}
+                                            </td> --}}
+                                            <td>
+
+                                                <span
+                                                    class=" badge bg-{{ $subscriber->is_suspend == 1 || $subscriber->status == 'pending' ? 'danger' : 'primary' }}">
+                                                    {{ $subscriber->is_suspend == 1 ? __('Subscription suspend') : __($subscriber->status) }}
+                                                </span>
+
+                                            </td>
+                                            {{-- <td>{{ $subscriber->number_of_clients }}</td> --}}
+                                            <td>
+                                                @if ($subscriber->office_id)
+                                                    {{ $subscriber->OfficeData->CityData->name ?? '' }}
+                                                @endif
+                                                @if ($subscriber->broker_id)
+                                                    {{ $subscriber->BrokerData->CityData->name ?? '' }}
+                                                @endif
+                                                @if ($subscriber->owner_id)
+                                                {{ $subscriber->OwnerData->CityData->name ?? '' }}
+                                                @endif
+                                            </td>
+
+                                            <td>{{ $subscriber->start_date }}</td>
                                             {{-- <td>{{ $subscriber->end_date }}</td> --}}
                                             <td>
                                                 <div class="dropdown">
@@ -130,8 +198,17 @@
                                                     </button>
                                                     <div class="dropdown-menu" style="">
                                                         @if (Auth::user()->hasPermission('log-in-as-user'))
+                                                            @if ($subscriber->office_id)
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->id) }}">@lang('login')</a>
+                                                                    href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->OfficeData->UserData->id) }}">@lang('login')</a>
+                                                            @elseif ($subscriber->broker_id)
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->BrokerData->UserData->id) }}">@lang('login')</a>
+                                                            @elseif ($subscriber->owner_id)
+                                                                <a class="dropdown-item"
+                                                                    href="{{ route('Admin.Subscribers.LoginByUser', $subscriber->OwnerData->UserData->id) }}">@lang('login')</a>
+
+                                                            @endif
                                                         @endif
 
                                                         @if (Auth::user()->hasPermission('suspend-user-subscriber'))
@@ -194,7 +271,9 @@
 
                         {{ $subscribers->links() }}
                     </div>
-
+                  <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                          @include('Admin.subscribers.Clients.index')
+                  </div>
 
                 </div>
               </div>
@@ -203,6 +282,30 @@
         <div class="content-backdrop fade"></div>
     </div>
 
+
+    {{-- <div class="modal animate__animated animate__zoomIn" id="largeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3">@lang('Add New Subscriber')</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <a href="{{ route('Admin.Subscribers.create') }}"
+                                class="btn btn-primary">@lang('Office')</a>
+                        </div>
+                        <div class="col-6 text-center">
+                            <a href="{{ route('Admin.Subscribers.CreateBroker') }}"
+                                class="btn btn-primary">@lang('Broker')</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div> --}}
 
     @push('scripts')
         <script>

@@ -69,6 +69,7 @@ class Owner extends Model
     {
         return $this->hasOne(Subscription::class, 'owner_id');
     }
+    
 
 
 }

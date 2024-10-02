@@ -4,17 +4,27 @@ namespace App\Repositories\Admin;
 
 use App\Models\Subscription;
 use App\Interfaces\Admin\SubscriptionRepositoryInterface;
+use App\Models\User;
 
 class SubscriptionRepository implements SubscriptionRepositoryInterface
 {
     public function getAllSubscribers()
     {
-        return Subscription::with(['OfficeData.UserData', 'BrokerData.UserData', 'SubscriptionTypeData'])->orderBy('updated_at', 'desc')->paginate(100);
+        return Subscription::with(['OfficeData.UserData', 'BrokerData.UserData','OwnerData.UserData', 'SubscriptionTypeData'])->orderBy('updated_at', 'desc')->paginate(100);
+    }
+
+    public function getAllUsers()
+    {
+        return User::where('is_admin',0)->orderBy('updated_at', 'desc')->paginate(20);
     }
 
     public function findSubscriberById(int $id)
     {
         return Subscription::find($id);
+    }
+    public function findUserById(int $id)
+    {
+        return User::find($id);
     }
 
     public function createOfficeSubscriber(array $data)

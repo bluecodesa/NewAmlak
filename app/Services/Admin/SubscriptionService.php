@@ -46,6 +46,16 @@ class SubscriptionService
         return $this->subscriptionRepository->getAllSubscribers();
     }
 
+    public function getAllUsers()
+    {
+        return $this->subscriptionRepository->getAllUsers();
+    }
+
+    public function findUserById($id)
+    {
+        return $this->subscriptionRepository->findUserById($id);
+    }
+
     public function findSubscriptionById($id)
     {
         return $this->subscriptionRepository->findSubscriberById($id);

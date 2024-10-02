@@ -64,11 +64,13 @@ class SubscriptionController extends Controller
 
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
-        $subscribers = $this->subscriptionService->getAllSubscribers();
-        $clients = User::where('is_admin', 0)
-        ->where('is_broker', 0)
-        ->where('is_office', 0)
-        ->get();
+        // $subscribers = $this->subscriptionService->getAllSubscribers();
+        $subscribers = $this->subscriptionService->getAllUsers();
+        // $clients = User::where('is_admin', 0)
+        // ->where('is_broker', 0)
+        // ->where('is_office', 0)
+        // ->get();
+
         return view('Admin.subscribers.index', get_defined_vars());
     }
 
@@ -89,24 +91,53 @@ class SubscriptionController extends Controller
         return redirect()->route('Admin.Subscribers.index')->withSuccess(__('added successfully'));
     }
 
+    // public function show(string $id)
+    // {
+
+    //     $subscriber = $this->subscriptionService->findSubscriptionById($id);
+    //     if (!$subscriber) {
+    //         return redirect()->route('Admin.Subscribers.index')->with('error', 'This account is deleted.');
+    //     }
+    //     $brokerId = $subscriber->broker_id;
+    //     $officeId = $subscriber->office_id;
+
+    //     if ($brokerId) {
+    //         $numberOfowners = $this->ownerService->getNumberOfOwners($brokerId);
+    //         $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
+    //         $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
+    //         $numberOfProperties = $this->UnitService->getAll($brokerId)->count();
+    //         $numberOfProjects = $subscriber->BrokerData->BrokerHasProjects->count();
+    //         return view('Admin.subscribers.ShowBroker', get_defined_vars());
+    //     } elseif ($officeId) {
+    //         $numberOfowners = $this->ownerService->getNumberOfOwners($officeId);
+    //         $numberOfUnits = $this->UnitService->getAllByOffice($officeId)->count();
+    //         $numberOfProjects = $this->UnitService->getAllByOffice($officeId)->count();
+    //         $numberOfProperties = $this->UnitService->getAll($officeId)->count();
+    //         $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
+    //         $employees = $this->EmployeeService->getAllByOfficeId($officeId);
+
+    //         return view('Admin.subscribers.show', get_defined_vars());
+    //     }
+    // }
+
     public function show(string $id)
     {
 
-        $subscriber = $this->subscriptionService->findSubscriptionById($id);
+        $subscriber = $this->subscriptionService->findUserById($id);
         if (!$subscriber) {
             return redirect()->route('Admin.Subscribers.index')->with('error', 'This account is deleted.');
         }
-        $brokerId = $subscriber->broker_id;
-        $officeId = $subscriber->office_id;
 
-        if ($brokerId) {
+        if ($subscriber->is_broker) {
+        $brokerId = $subscriber->UserBrokerData->id;
             $numberOfowners = $this->ownerService->getNumberOfOwners($brokerId);
             $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
             $numberOfProperties = $this->UnitService->getAll($brokerId)->count();
-            $numberOfProjects = $subscriber->BrokerData->BrokerHasProjects->count();
-            return view('Admin.subscribers.ShowBroker', get_defined_vars());
-        } elseif ($officeId) {
+            $numberOfProjects = $subscriber->UserBrokerData->BrokerHasProjects->count();
+            return view('Admin.subscribers.show', get_defined_vars());
+        } elseif ($subscriber->is_office) {
+        $officeId = $subscriber->UserOfficeData->id;
             $numberOfowners = $this->ownerService->getNumberOfOwners($officeId);
             $numberOfUnits = $this->UnitService->getAllByOffice($officeId)->count();
             $numberOfProjects = $this->UnitService->getAllByOffice($officeId)->count();
@@ -117,6 +148,7 @@ class SubscriptionController extends Controller
             return view('Admin.subscribers.show', get_defined_vars());
         }
     }
+
 
 
 
