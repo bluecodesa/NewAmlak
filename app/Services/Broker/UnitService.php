@@ -23,9 +23,9 @@ class UnitService
     {
         return $this->UnitRepository->getAll($brokerId);
     }
-    public function getAllByOffice($brokerId)
+    public function getAllByOffice($officeId)
     {
-        return $this->UnitRepository->getAll($brokerId);
+        return $this->UnitRepository->getAllByOffice($officeId);
     }
 
     public function store($data)

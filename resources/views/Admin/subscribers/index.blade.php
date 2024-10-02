@@ -83,7 +83,7 @@
                                         {{-- <th>#</th> --}}
                                         <th>@lang('Customer ID')</th>
                                         <th>@lang('Subscriber Name')</th>
-                                        <th>@lang('Email')</th>
+                                        {{-- <th>@lang('Email')</th> --}}
                                         <th>@lang('phone')</th>
                                         <th>@lang('Account Type')</th>
                                         <th>@lang('Subscription Start')</th>
@@ -103,24 +103,35 @@
                                             </td>
 
                                             <td>
-                                                    {{ $subscriber->name ?? '' }}
+                                                {{ $subscriber->name ?? '' }}
+                                                <br>
+                                                <span class="text-warning" style="font-size: smaller;">
+                                                    {{ $subscriber->email ?? '' }}
+                                                </span>
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 {{ $subscriber->email ?? '' }}
-                                             </td>
+                                             </td> --}}
                                             <td>
                                                     {{ $subscriber->full_phone ?? '' }}
                                             </td>
                                             <td class="align-middle">
                                                 @foreach ($subscriber->roles as $role)
-                                                    <span class="badge bg-primary">{{ __($role->name) ?? '' }}</span>
+                                                    <span class="badge bg-primary" style="font-size: 0.75rem; padding: 0.25em 0.5em;">
+                                                        {{ __($role->name) ?? '' }}
+                                                    </span>
                                                     @if (!$loop->last)
                                                         ,
                                                     @endif
                                                 @endforeach
                                             </td>
+                                            
 
-                                            <td>{{ $subscriber->created_at }}</td>
+                                            <td>
+                                                <span style="font-size: smaller;" >
+                                                {{ $subscriber->created_at }}
+                                                </span>
+                                            </td>
                                             {{-- <td>{{ $subscriber->end_date }}</td> --}}
                                             <td>
                                                 <div class="dropdown">

@@ -19,7 +19,10 @@ use App\Services\Broker\UnitService;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Models\Office;
+use App\Services\Broker\PropertyService;
 use App\Services\Office\EmployeeService;
+use App\Services\Broker\TicketService;
+
 
 
 class SubscriptionController extends Controller
@@ -29,10 +32,12 @@ class SubscriptionController extends Controller
     protected $cityService;
     protected $ownerService;
     protected $UnitService;
-
+    protected $PropertyService;
     protected $systemInvoiceRepository;
 
     protected $EmployeeService;
+    protected $ticketService;
+
 
 
     public function __construct(
@@ -42,7 +47,11 @@ class SubscriptionController extends Controller
         SubscriptionService $subscriptionService,
         RegionService $regionService,
         CityService $cityService,
-        EmployeeService $EmployeeService
+        EmployeeService $EmployeeService,
+        TicketService $ticketService,
+        PropertyService $PropertyService,
+
+
     ) {
         $this->subscriptionService = $subscriptionService;
         $this->regionService = $regionService;
@@ -51,6 +60,9 @@ class SubscriptionController extends Controller
         $this->UnitService = $UnitService;
         $this->systemInvoiceRepository = $systemInvoiceRepository;
         $this->EmployeeService = $EmployeeService;
+        $this->ticketService = $ticketService;
+        $this->PropertyService = $PropertyService;
+
 
         $this->middleware(['role_or_permission:read-subscribers'])->only('index');
         $this->middleware(['role_or_permission:read-subscriber-file'])->only('show');
@@ -70,7 +82,6 @@ class SubscriptionController extends Controller
         // ->where('is_broker', 0)
         // ->where('is_office', 0)
         // ->get();
-
         return view('Admin.subscribers.index', get_defined_vars());
     }
 
@@ -122,34 +133,97 @@ class SubscriptionController extends Controller
 
     public function show(string $id)
     {
-
         $subscriber = $this->subscriptionService->findUserById($id);
+        
         if (!$subscriber) {
             return redirect()->route('Admin.Subscribers.index')->with('error', 'This account is deleted.');
         }
-
+    
+        // Initialize common variables
+        $entityId = null;
+        $numberOfowners = 0;
+        $numberOfUnits = 0;
+        $numberOfProjects = 0;
+        $numberOfProperties = 0;
+        $invoices = [];
+        $employees = [];
+        $residentialCount = 0;
+        $nonResidentialCount = 0;
+    
+        // Get user type and set specific data
         if ($subscriber->is_broker) {
-        $brokerId = $subscriber->UserBrokerData->id;
-            $numberOfowners = $this->ownerService->getNumberOfOwners($brokerId);
-            $numberOfUnits = $this->UnitService->getAll($brokerId)->count();
-            $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
-            $numberOfProperties = $this->UnitService->getAll($brokerId)->count();
-            $numberOfProjects = $subscriber->UserBrokerData->BrokerHasProjects->count();
-            return view('Admin.subscribers.show', get_defined_vars());
+            $entity = $subscriber->UserBrokerData;
+            $entityId = $entity->id;
+            $numberOfProjects = $entity->BrokerHasProjects->count();
+            $invoices = $this->systemInvoiceRepository->findByBrokerId($entityId);
+            $numberOfowners = $this->ownerService->getNumberOfOwners($entityId);
+            $numberOfUnits = $this->UnitService->getAll($entityId)->count();
+            $numberOfProperties = $this->PropertyService->getAll($entityId)->count();
+
         } elseif ($subscriber->is_office) {
-        $officeId = $subscriber->UserOfficeData->id;
-            $numberOfowners = $this->ownerService->getNumberOfOwners($officeId);
-            $numberOfUnits = $this->UnitService->getAllByOffice($officeId)->count();
-            $numberOfProjects = $this->UnitService->getAllByOffice($officeId)->count();
-            $numberOfProperties = $this->UnitService->getAll($officeId)->count();
-            $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
-            $employees = $this->EmployeeService->getAllByOfficeId($officeId);
-
-            return view('Admin.subscribers.show', get_defined_vars());
+            $entity = $subscriber->UserOfficeData;
+            $entityId = $entity->id;
+            $invoices = $this->systemInvoiceRepository->findByOfficeId($entityId);
+            $employees = $this->EmployeeService->getAllByOfficeId($entityId);
+            $numberOfowners = $this->ownerService->getNumberOfOwners($entityId);
+            $numberOfUnits = $this->UnitService->getAllByOffice($entityId)->count();
+            $numberOfProjects = $this->UnitService->getAllByOffice($entityId)->count();
+            $numberOfProperties = $this->UnitService->getAll($entityId)->count();
+        } elseif ($subscriber->is_owner) {
+            $entity = $subscriber->UserOwnerData;
+            $entityId = $entity->id;
+            $invoices = $this->systemInvoiceRepository->findByOfficeId($entityId);
+            $employees = $this->EmployeeService->getAllByOfficeId($entityId);
+            $numberOfowners = $this->ownerService->getNumberOfOwners($entityId);
+            $numberOfUnits = $this->UnitService->getAllByOffice($entityId)->count();
+            $numberOfProjects = $this->UnitService->getAllByOffice($entityId)->count();
+            $numberOfProperties = $this->UnitService->getAll($entityId)->count();
         }
+    
+        // Fetch residential and non-residential counts
+        $tickets = $this->ticketService->getUserTickets($subscriber->id);
+        $residentialCount = $this->getPropertyCountByType($entityId, $subscriber, 'Residential');
+        $nonResidentialCount = $this->getPropertyCountByType($entityId, $subscriber, 'Non-Residential');
+    
+        return view('Admin.subscribers.show', get_defined_vars());
     }
-
-
+    
+    /**
+     * Get property count based on usage type (Residential or Non-Residential).
+     */
+    private function getPropertyCountByType($entityId, $subscriber, $type)
+    {
+        if ($type == 'Residential') {
+            return Unit::where($this->getEntityKey($subscriber), $entityId)
+                ->whereHas('PropertyUsageData.translations', function ($query) {
+                    $query->where('name', 'Residential');
+                })
+                ->count();
+        }
+    
+        return Unit::where($this->getEntityKey($subscriber), $entityId)
+            ->whereDoesntHave('PropertyUsageData.translations', function ($query) {
+                $query->where('name', 'Residential');
+            })
+            ->count();
+    }
+    
+    /**
+     * Get the entity key (broker_id, office_id, owner_id) based on subscriber type.
+     */
+    private function getEntityKey($subscriber)
+    {
+        if ($subscriber->is_broker) {
+            return 'broker_id';
+        } elseif ($subscriber->is_office) {
+            return 'office_id';
+        } elseif ($subscriber->is_owner) {
+            return 'owner_id';
+        }
+    
+        return null;
+    }
+    
 
 
     public function suspendSubscription(Request $request, $id)
