@@ -53,7 +53,8 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
         // } else {
         //     $subscription->BrokerData->UserData()->delete();
         // }
-        return User::destroy($id);
+        $subscription =  User::findOrFail($id);
+        $subscription->delete();
     }
 
 
