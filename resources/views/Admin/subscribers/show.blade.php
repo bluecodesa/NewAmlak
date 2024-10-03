@@ -648,23 +648,7 @@
                                                 <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                                     <div
                                                         class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
-                                                        <div class="dt-buttons btn-group flex-wrap d-flex">
-                                                            <div class="btn-group">
-                                                                <button onclick="exportToExcel()"
-                                                                    class="btn btn-outline-primary btn-sm waves-effect me-2"
-                                                                    type="button"><span><i
-                                                                            class="ti ti-download me-1 ti-xs"></i>Export</span></button>
-                                                            </div>
-                                                            {{-- @if (Auth::user()->hasPermission('create-sections')) --}}
-                                                                <div class="btn-group">
-                                                                    <a href="{{ route('Broker.Setting.createFalLicense') }}" type="button"
-                                                                        class="btn btn-primary">
-                                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                                class="d-none d-sm-inline-block">@lang('Add New')</span></span>
-                                                                    </a>
-                                                                </div>
-                                                            {{-- @endif --}}
-                                                        </div>
+                                                
                                                     </div>
                                                 </div>
                                             </div>
