@@ -99,24 +99,24 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
 
-        $rules = [];
-        $rules = [
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'service_type_id' => 'required|exists:service_types,id',
-            // 'is_divided' => 'required|boolean',
-            'city_id' => 'required|exists:cities,id',
-            'owner_id' => 'required|exists:owners,id',
-            'instrument_number' => [
-                'nullable',
-                Rule::unique('properties'),
-                'max:25'
-            ],
-        ];
-        $messages = [
-            'instrument_number.unique' => 'The instrument number has already been taken.',
-        ];
-        $request->validate($rules, $messages);
+        // $rules = [];
+        // $rules = [
+        //     'name' => 'required|string|max:255',
+        //     'location' => 'required|string|max:255',
+        //     'service_type_id' => 'required|exists:service_types,id',
+        //     // 'is_divided' => 'required|boolean',
+        //     'city_id' => 'required|exists:cities,id',
+        //     'owner_id' => 'required|exists:owners,id',
+        //     'instrument_number' => [
+        //         'nullable',
+        //         Rule::unique('properties'),
+        //         'max:25'
+        //     ],
+        // ];
+        // $messages = [
+        //     'instrument_number.unique' => 'The instrument number has already been taken.',
+        // ];
+        // $request->validate($rules, $messages);
 
         $images = $request->file('images');
         $this->PropertyService->store($request->except('images'), $images);

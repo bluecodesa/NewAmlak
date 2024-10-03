@@ -425,6 +425,40 @@
                     </div>
                     <!-- /About User -->
 
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <small class="card-text text-uppercase">@lang('عن المشروع')</small>
+                            <ul class="list-unstyled mb-4 mt-3">
+                                <li class="d-flex align-items-center mb-3">
+                                    <small class="card-text text-uppercase">
+                                       @lang('last update') {{ $project->updated_at->diffForHumans() }}
+                                    </small>
+                                </li>
+                                <li class="d-flex align-items-center mb-3">
+                                    <i class="ti ti-check text-heading"></i><span
+                                        class="fw-medium mx-2 text-heading">@lang('project name') :
+                                    </span> <span>{{ $project->name }}</span>
+                                </li>
+                              
+                                <li class="d-flex align-items-center mb-3">
+                                    <i class="ti ti-building text-heading"></i><span
+                                        class="fw-medium mx-2 text-heading">@lang('service type') : </span>
+                                    <span>{{ $project->ServiceTypeData->name ?? '' }}</span>
+                                </li>
+                                <li class="d-flex align-items-center mb-3">
+                                    <i class="ti ti-building text-heading"></i><span
+                                        class="fw-medium mx-2 text-heading">@lang('city') : </span>
+                                    <span>{{ $project->CityData->name ?? '' }}</span>
+                                </li>
+    
+                               
+                            
+                              
+                            </ul>
+                        </div>
+                    </div>
+    
+
                     @if ($project->ad_license_number)
                     <div class="card mb-4">
                         <div class="card-body">

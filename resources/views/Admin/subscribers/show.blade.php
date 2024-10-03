@@ -648,7 +648,7 @@
                                                 <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
                                                     <div
                                                         class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
-                                                
+
                                                     </div>
                                                 </div>
                                             </div>

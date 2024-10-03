@@ -188,6 +188,28 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-12 mb-3">
+                                <label class="form-label">@lang('Additional details')</label>
+                                <div id="features" class="row">
+                                    <div class="mb-3 col-4">
+                                        <input type="text" name="features_name[]" class="form-control search"
+                                            placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <input type="text" name="qty[]" class="form-control"
+                                            placeholder="@lang('value')" value="{{ old('qty*') }}" />
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn btn-outline-primary w-100"
+                                            onclick="addFeature()"><i
+                                                class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
+                                                class="d-none d-sm-inline-block">@lang('Add details')</span></button>
+                                    </div>
+                                </div>
+
+                            </div>
                             <div class="col-12" style="text-align: center;">
                                 <button type="button" class="btn btn-primary col-4 me-1 next-tab"
                                     data-next="#navs-justified-gallery">
@@ -551,6 +573,34 @@
             }
         });
     });
+
+    function addFeature() {
+                const featuresContainer = document.getElementById('features');
+                const newRow = document.createElement('div');
+                newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
+
+                // Use the exact same class names and structure as your existing rows
+                newRow.innerHTML = `
+        <div class="col-4">
+            <input type="text" required name="features_name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+        </div>
+        <div class="col-4">
+            <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+        </div>
+    `;
+
+                featuresContainer.appendChild(newRow);
+            }
+
+            function removeFeature(button) {
+                const rowToRemove = button.parentNode.parentNode;
+                rowToRemove.remove();
+            }
+
+
 </script>
 
 

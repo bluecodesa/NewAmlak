@@ -347,6 +347,11 @@
                             <small class="card-text text-uppercase">@lang('عن الوحدة')</small>
                             <ul class="list-unstyled mb-4 mt-3">
                                 <li class="d-flex align-items-center mb-3">
+                                    <small class="card-text text-uppercase">
+                                       @lang('last update') {{ $Unit->updated_at->diffForHumans() }}
+                                    </small>
+                                </li>
+                                <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-check text-heading"></i><span
                                         class="fw-medium mx-2 text-heading">@lang('Residential number') :
                                     </span> <span>{{ $Unit->number_unit }}</span>
@@ -381,7 +386,17 @@
                                         class="fw-medium mx-2 text-heading">@lang('Property type') : </span>
                                     <span>{{ $Unit->PropertyTypeData->name ?? '' }}</span>
                                 </li>
+                                <li class="d-flex align-items-center mb-3">
+                                    <i class="ti ti-building text-heading"></i><span
+                                        class="fw-medium mx-2 text-heading">@lang('Instrument number') : </span>
+                                    <span>{{ $Unit->instrument_number ?? '' }}</span>
+                                </li>
 
+                                <li class="d-flex align-items-center mb-3">
+                                    <i class="ti ti-building text-heading"></i><span
+                                        class="fw-medium mx-2 text-heading">@lang('property usages') : </span>
+                                    <span>{{ __($Unit->PropertyUsageData->name ?? '') }}</span>
+                                </li>
                                 <div class="d-flex justify-content-center">
                                     <a href="javascript:;" class="btn btn-outline-primary btn-sm waves-effect me-2"
                                         data-bs-toggle="modal" data-bs-target="#twoFactorAuth">@lang('Share')</a>

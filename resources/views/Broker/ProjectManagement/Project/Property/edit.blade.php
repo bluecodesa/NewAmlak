@@ -208,6 +208,34 @@
                                     </select>
                                 </div>
 
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">@lang('Additional details')</label>
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="addFeature()">@lang('Add details')</button>
+                                    @foreach ($Property->UnitFeatureData as $feature)
+                                        <div class="row p-1">
+                                            <div class="col">
+                                                <input type="text" name="features_name[]" class="form-control search"
+                                                    placeholder="@lang('Field name')"
+                                                    value="{{ $feature->FeatureData->name }}" />
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" name="qty[]" value="{{ $feature->qty }}"
+                                                    class="form-control" placeholder="@lang('value')"
+                                                    value="" />
+                                            </div>
+                                            <div class="col">
+                                                <button type="button"
+                                                    class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <div id="features" class="row p-2">
+
+                                    </div>
+                                </div>
+
                                 <div class="col-12" style="text-align: center;">
                                     <button type="button" class="btn btn-primary col-4 me-1 next-tab"
                                         data-next="#navs-justified-gallery">
@@ -580,6 +608,33 @@
             }
         });
     });
+
+
+    function addFeature() {
+                const featuresContainer = document.getElementById('features');
+                const newRow = document.createElement('div');
+                newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
+
+                // Use the exact same class names and structure as your existing rows
+                newRow.innerHTML = `
+<div class="col">
+<input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+</div>
+<div class="col">
+<input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+</div>
+<div class="col mr-2">
+<button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+</div>
+`;
+
+                featuresContainer.appendChild(newRow);
+            }
+
+            function removeFeature(button) {
+                const rowToRemove = button.parentNode.parentNode;
+                rowToRemove.remove();
+            }
 </script>
 @endpush
 @endsection

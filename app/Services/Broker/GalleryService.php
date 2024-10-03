@@ -21,6 +21,7 @@ use App\Interfaces\Admin\TicketTypeRepositoryInterface;
 use App\Models\Advertising;
 use App\Models\Office;
 use App\Models\Property;
+use Carbon\Carbon;
 
 class GalleryService
 {
@@ -171,7 +172,12 @@ class GalleryService
                 $newVisitor->visited_at = now();
                 $newVisitor->save();
             }
-            $unitVisitorsCount = Visitor::where('unit_id', $Unit->id)->distinct('ip_address')->count('ip_address');
+            // $unitVisitorsCount = Visitor::where('unit_id', $Unit->id)->distinct('ip_address')->count('ip_address');
+            $sevenDaysAgo = Carbon::now()->subDays(7);
+            $unitVisitorsCount = Visitor::where('unit_id', $Unit->id)
+            ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
+            ->distinct('ip_address')
+            ->count('ip_address');
             $ticketTypes = $this->ticketTypeRepository->all();
 
             return get_defined_vars();

@@ -29,6 +29,8 @@ class PropertyRepository implements PropertyRepositoryInterface
     public function store($data, $images)
     {
         $property_data = $data;
+        unset($property_data['features_name']);
+        unset($property_data['qty']);
 
           // Handle project_masterplan upload
           if (isset($property_data['property_masterplan'])) {
@@ -80,6 +82,16 @@ class PropertyRepository implements PropertyRepositoryInterface
 
         }
         $property =  Property::create($property_data);
+
+        if (isset($data['features_name'])) {
+            foreach ($data['features_name'] as $index => $Feature_name) {
+                $Feature =    Feature::where('name', $Feature_name)->first();
+                if (!$Feature) {
+                    $Feature =   Feature::create(['name' => $Feature_name, 'created_by' => Auth::id()]);
+                }
+                UnitFeature::create(['feature_id' => $Feature->id, 'property_id' => $property->id, 'qty' => $data['qty'][$index]]);
+            }
+        }
         if ($images) {
             foreach ($images as $image) {
                 $ext = uniqid() . '.' . $image->clientExtension();
@@ -99,6 +111,9 @@ class PropertyRepository implements PropertyRepositoryInterface
 
         $property = Property::findOrFail($id);
         $property_data = $data;
+        unset($property_data['features_name']);
+        unset($property_data['qty']);
+
 
         // Handle project_masterplan upload
         if (isset($property_data['property_masterplan'])) {
@@ -157,6 +172,17 @@ class PropertyRepository implements PropertyRepositoryInterface
         // $property_data['ad_license_expiry'] = null;
         // $property_data['ad_license_status'] ='InValid';
 
+    }
+
+    if (isset($data['features_name'])) {
+        $property->UnitFeatureData()->delete();
+        foreach ($data['features_name'] as $index => $Feature_name) {
+            $Feature =    Feature::where('name', $Feature_name)->first();
+            if (!$Feature) {
+                $Feature =   Feature::create(['name' => $Feature_name, 'created_by' => Auth::id()]);
+            }
+            UnitFeature::create(['feature_id' => $Feature->id, 'property_id' => $property->id, 'qty' => $data['qty'][$index]]);
+        }
     }
 
         if ($images) {

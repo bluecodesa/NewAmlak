@@ -69,5 +69,10 @@ class Property extends Model
         return $this->hasMany(Unit::class, 'property_id');
     }
 
+    public function UnitFeatureData()
+    {
+        return $this->hasMany(UnitFeature::class, 'property_id');
+    }
+
 
 }

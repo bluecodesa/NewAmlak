@@ -137,6 +137,28 @@
                     </div>
                     @endif
 
+                    @if ($property->UnitFeatureData->isNotEmpty() && $property->UnitFeatureData->whereNotNull('qty')->isNotEmpty())
+                    <div class="card card-action mb-4">
+                        <div class="card-body pb-0">
+                        <ul class="list-unstyled mb-4 mt-3">
+                            <h5 class="card-action-title mb-0">@lang('Additional details')</h5>
+                            <div class="d-flex align-items-center justify-content-start my-3 gap-2">
+                                <ol class="list-group list-group-numbered">
+                                    @foreach ($property->UnitFeatureData as $feature)
+                                        @if ($feature->qty)
+                                            <span>{{ $feature->FeatureData->name ?? '' }} :
+                                                {{ $feature->qty }}</span>
+                                        @endif
+                                    @endforeach
+                                </ol>
+                            </div>
+
+                        </ul>
+                   </div>
+                    </div>
+                    @endif
+
+
                  <!-- description of project -->
 
                   <!-- time line -->
@@ -220,6 +242,8 @@
                         @endif
 
 
+
+
                         <!-- /unit table -->
 
                     <!-- Project Masterplan -->
@@ -254,6 +278,9 @@
                     @endif
                     <!-- /Project Masterplan -->
                 </div>
+
+                   <!--/ Activity Timeline -->
+                  
 
                 <!-- About User -->
                 <div class="col-xl-4 col-lg-4 col-md-4">
@@ -312,6 +339,42 @@
                         </div>
                     </div>
                     <!-- /About User -->
+                    
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <small class="card-text text-uppercase">@lang('عن العقار')</small>
+                        <ul class="list-unstyled mb-4 mt-3">
+                            <li class="d-flex align-items-center mb-3">
+                                <small class="card-text text-uppercase">
+                                   @lang('last update') {{ $property->updated_at->diffForHumans() }}
+                                </small>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-check text-heading"></i><span
+                                    class="fw-medium mx-2 text-heading">@lang('property name') :
+                                </span> <span>{{ $property->name }}</span>
+                            </li>
+                          
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-building text-heading"></i><span
+                                    class="fw-medium mx-2 text-heading">@lang('Property type') : </span>
+                                <span>{{ $property->PropertyTypeData->name ?? '' }}</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-building text-heading"></i><span
+                                    class="fw-medium mx-2 text-heading">@lang('Instrument number') : </span>
+                                <span>{{ $property->instrument_number ?? '' }}</span>
+                            </li>
+
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="ti ti-building text-heading"></i><span
+                                    class="fw-medium mx-2 text-heading">@lang('property usages') : </span>
+                                <span>{{ __($property->PropertyUsageData->name ?? '') }}</span>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                </div>
 
                     @if ($property->ad_license_number)
                     <div class="card mb-4">
@@ -370,6 +433,7 @@
                     <!-- /Profile Overview -->
 
                 </div>
+
             </div>
             <!-- /User Profile Content -->
         </div>

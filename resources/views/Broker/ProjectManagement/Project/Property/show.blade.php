@@ -213,7 +213,37 @@
                                         </div>
                                     </div>
                                 </div>
-                          
+                            <hr>
+                                @if ($Property->UnitFeatureData->isNotEmpty())
+                                <div class="row">
+
+                                    <div class="col-lg-6 mb-1">
+                                        <div class="card">
+                                            <div class="card-body">
+    
+                                                <small class="text-light fw-medium">@lang('Additional details')</small>
+                                                <div class="demo-inline-spacing mt-3">
+                                                    <ul class="list-group">
+                                                        @forelse ($Property->UnitFeatureData as $feature)
+                                                            <li
+                                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                                {{ $feature->FeatureData->name ?? '' }}
+                                                                <span class="badge bg-primary">{{ $feature->qty }}</span>
+                                                            </li>
+                                                        @empty
+                                                        @endforelse
+    
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                            
+    
+                                </div>
+                                @endif
+                                
 
                             </div>
                             <!--/ User Content -->

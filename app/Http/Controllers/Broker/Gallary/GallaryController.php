@@ -38,6 +38,7 @@ use App\Services\Broker\UnitInterestService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
+use Carbon\Carbon;
 
 class GallaryController extends Controller
 {
@@ -404,20 +405,22 @@ class GallaryController extends Controller
         }
 
         $unitVisitorsCount = [];
-        // foreach ($data['units'] as $unit) {
-        //     $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)->distinct('ip_address')->count('ip_address');
-        // }
+
+        $sevenDaysAgo = Carbon::now()->subDays(7);
         foreach ($data['allItems'] as $unit) {
             if ($unit->isGalleryProject) {
                 $unitVisitorsCount[$unit->id] = Visitor::where('project_id', $unit->id)
+                    ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
                     ->distinct('ip_address')
                     ->count('ip_address');
             } elseif ($unit->isGalleryProperty) {
                 $unitVisitorsCount[$unit->id] = Visitor::where('property_id', $unit->id)
+                    ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
                     ->distinct('ip_address')
                     ->count('ip_address');
             } else {
                 $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)
+                    ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
                     ->distinct('ip_address')
                     ->count('ip_address');
             }
@@ -552,29 +555,43 @@ class GallaryController extends Controller
         }
 
         $unitVisitorsCount = [];
-        // foreach ($data['allItems'] as $unit) {
-        //     $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)
-        //         ->distinct('ip_address')
-        //         ->count('ip_address');
-        // }
 
+        $sevenDaysAgo = Carbon::now()->subDays(7);
         foreach ($data['allItems'] as $unit) {
             if ($unit->isGalleryProject) {
                 $unitVisitorsCount[$unit->id] = Visitor::where('project_id', $unit->id)
+                    ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
                     ->distinct('ip_address')
                     ->count('ip_address');
             } elseif ($unit->isGalleryProperty) {
                 $unitVisitorsCount[$unit->id] = Visitor::where('property_id', $unit->id)
+                    ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
                     ->distinct('ip_address')
                     ->count('ip_address');
             } else {
                 $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)
+                    ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
                     ->distinct('ip_address')
                     ->count('ip_address');
             }
         }
-        $advertisings = Advertising::where('status', 'Published')->get();
 
+        // foreach ($data['allItems'] as $unit) {
+        //     if ($unit->isGalleryProject) {
+        //         $unitVisitorsCount[$unit->id] = Visitor::where('project_id', $unit->id)
+        //             ->distinct('ip_address')
+        //             ->count('ip_address');
+        //     } elseif ($unit->isGalleryProperty) {
+        //         $unitVisitorsCount[$unit->id] = Visitor::where('property_id', $unit->id)
+        //             ->distinct('ip_address')
+        //             ->count('ip_address');
+        //     } else {
+        //         $unitVisitorsCount[$unit->id] = Visitor::where('unit_id', $unit->id)
+        //             ->distinct('ip_address')
+        //             ->count('ip_address');
+        //     }
+        // }
+        $advertisings = Advertising::where('status', 'Published')->get();
 
         $data['unitVisitorsCount'] = $unitVisitorsCount;
         $data['advertisings'] = $advertisings;
