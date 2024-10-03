@@ -306,7 +306,7 @@
                                                 <h4 class="ms-1 mb-0">{{ $numberOfUnits }}</h4>
                                             </div>
                                             <p class="mb-1">@lang('Number units')</p>
-                                            
+
                                             </div>
                                         </div>
                                         </div>
@@ -336,7 +336,7 @@
                                                 <h4 class="ms-1 mb-0">{{ $numberOfProjects }}</h4>
                                             </div>
                                             <p class="mb-1">@lang('Number projects')</p>
-                                            
+
                                             </div>
                                         </div>
                                         </div>
@@ -347,7 +347,7 @@
                                                     ($nonResidentialCount / $numberOfUnits) * 100,
                                                     1,
                                                 );
-                                        
+
                                                 $residentialCountPercentage = number_format(($residentialCount / $numberOfUnits) * 100, 1);
                                             @endphp
                                         <div class="col-sm-3 col-lg-3 mb-4">
@@ -383,22 +383,14 @@
                                                     <p class="mb-0">
                                                         <span class="fw-medium me-1">{{ $residentialCountPercentage }}%</span>
                                                     </p>
-                                                    
+
                                                     </div>
                                                 </div>
                                             </div>
                                         @endif
 
-                                        {{-- @if ($numberOfUnits > 0)
-                                            @php
+                                        @if ($galleryItems->isNotEmpty())
 
-                                                $nonResidentialCountPercentage = number_format(
-                                                    ($nonResidentialCount / $numberOfUnits) * 100,
-                                                    1,
-                                                );
-                                        
-                                                $residentialCountPercentage = number_format(($residentialCount / $numberOfUnits) * 100, 1);
-                                            @endphp
                                         <div class="col-sm-3 col-lg-3 mb-4">
                                             <div class="card card-border-shadow-warning">
                                                 <div class="card-body">
@@ -408,16 +400,13 @@
                                                         ><i class="ti ti-alert-triangle ti-md"></i
                                                     ></span>
                                                     </div>
-                                                    <h4 class="ms-1 mb-0">{{ $nonResidentialCount }}</h4>
+                                                    <h4 class="ms-1 mb-0">{{ $galleryItems->count() }}</h4>
                                                 </div>
                                                 <p class="mb-1">@lang('Valid Units in Gallery')</p>
-                                                <p class="mb-0">
-                                                    <span class="fw-medium me-1">{{ $nonResidentialCountPercentage }}%</span>
-                                                </p>
                                                 </div>
                                             </div>
                                             </div>
-                                        @endif --}}
+                                        @endif
                                         <div class="col-sm-3 col-lg-3 mb-4">
                                             <div class="card card-border-shadow-warning">
                                                 <div class="card-body">

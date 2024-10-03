@@ -19,11 +19,12 @@ use App\Services\Broker\UnitService;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Models\Office;
+use App\Services\Broker\ProjectService;
 use App\Services\Broker\PropertyService;
 use App\Services\Office\EmployeeService;
 use App\Services\Broker\TicketService;
-
-
+use App\Services\Office\ProjectService as OfficeProjectService;
+use App\Services\Office\PropertyService as OfficePropertyService;
 
 class SubscriptionController extends Controller
 {
@@ -33,10 +34,14 @@ class SubscriptionController extends Controller
     protected $ownerService;
     protected $UnitService;
     protected $PropertyService;
+    protected $ProjectService;
+
     protected $systemInvoiceRepository;
 
     protected $EmployeeService;
     protected $ticketService;
+    protected $OfficeProjectService;
+    protected $OfficePropertyService;
 
 
 
@@ -50,6 +55,10 @@ class SubscriptionController extends Controller
         EmployeeService $EmployeeService,
         TicketService $ticketService,
         PropertyService $PropertyService,
+        OfficePropertyService $OfficePropertyService,
+        ProjectService $ProjectService,
+
+        OfficeProjectService $OfficeProjectService,
 
 
     ) {
@@ -62,6 +71,10 @@ class SubscriptionController extends Controller
         $this->EmployeeService = $EmployeeService;
         $this->ticketService = $ticketService;
         $this->PropertyService = $PropertyService;
+        $this->ProjectService = $ProjectService;
+        $this->OfficePropertyService = $OfficePropertyService;
+        $this->OfficeProjectService = $OfficeProjectService;
+
 
 
         $this->middleware(['role_or_permission:read-subscribers'])->only('index');
@@ -134,12 +147,11 @@ class SubscriptionController extends Controller
     public function show(string $id)
     {
         $subscriber = $this->subscriptionService->findUserById($id);
-        
+
         if (!$subscriber) {
             return redirect()->route('Admin.Subscribers.index')->with('error', 'This account is deleted.');
         }
-    
-        // Initialize common variables
+
         $entityId = null;
         $numberOfowners = 0;
         $numberOfUnits = 0;
@@ -149,7 +161,8 @@ class SubscriptionController extends Controller
         $employees = [];
         $residentialCount = 0;
         $nonResidentialCount = 0;
-    
+        $galleryItems = collect();
+
         // Get user type and set specific data
         if ($subscriber->is_broker) {
             $entity = $subscriber->UserBrokerData;
@@ -159,6 +172,16 @@ class SubscriptionController extends Controller
             $numberOfowners = $this->ownerService->getNumberOfOwners($entityId);
             $numberOfUnits = $this->UnitService->getAll($entityId)->count();
             $numberOfProperties = $this->PropertyService->getAll($entityId)->count();
+            $units = $this->UnitService->getAll($entityId)
+            ->where('show_gallery',1)->where('ad_license_status','Valid');
+            $properties = $this->PropertyService->getAll($entityId)
+            ->where('show_in_gallery',1)->where('ad_license_status','Valid');
+            $projects = $this->ProjectService->getAllProjectsByBrokerId($entityId)
+            ->where('show_in_gallery',1)->where('ad_license_status','Valid');
+
+            $galleryItems = $galleryItems->merge($units)
+                                        ->merge($properties)
+                                        ->merge($projects);
 
         } elseif ($subscriber->is_office) {
             $entity = $subscriber->UserOfficeData;
@@ -169,6 +192,17 @@ class SubscriptionController extends Controller
             $numberOfUnits = $this->UnitService->getAllByOffice($entityId)->count();
             $numberOfProjects = $this->UnitService->getAllByOffice($entityId)->count();
             $numberOfProperties = $this->UnitService->getAll($entityId)->count();
+            $units = $this->UnitService->getAllByOffice($entityId)
+            ->where('show_gallery',1)->where('ad_license_status','Valid');
+            $properties = $this->OfficePropertyService->getAll($entityId)
+            ->where('show_in_gallery',1)->where('ad_license_status','Valid');
+            $projects = $this->OfficeProjectService->getAllProjectsByOfficeId($entityId)
+            ->where('show_in_gallery',1)->where('ad_license_status','Valid');
+
+            $galleryItems = $galleryItems->merge($units)
+                                        ->merge($properties)
+                                        ->merge($projects);
+
         } elseif ($subscriber->is_owner) {
             $entity = $subscriber->UserOwnerData;
             $entityId = $entity->id;
@@ -178,16 +212,17 @@ class SubscriptionController extends Controller
             $numberOfUnits = $this->UnitService->getAllByOffice($entityId)->count();
             $numberOfProjects = $this->UnitService->getAllByOffice($entityId)->count();
             $numberOfProperties = $this->UnitService->getAll($entityId)->count();
+            
         }
-    
+
         // Fetch residential and non-residential counts
         $tickets = $this->ticketService->getUserTickets($subscriber->id);
         $residentialCount = $this->getPropertyCountByType($entityId, $subscriber, 'Residential');
         $nonResidentialCount = $this->getPropertyCountByType($entityId, $subscriber, 'Non-Residential');
-    
+
         return view('Admin.subscribers.show', get_defined_vars());
     }
-    
+
     /**
      * Get property count based on usage type (Residential or Non-Residential).
      */
@@ -200,14 +235,14 @@ class SubscriptionController extends Controller
                 })
                 ->count();
         }
-    
+
         return Unit::where($this->getEntityKey($subscriber), $entityId)
             ->whereDoesntHave('PropertyUsageData.translations', function ($query) {
                 $query->where('name', 'Residential');
             })
             ->count();
     }
-    
+
     /**
      * Get the entity key (broker_id, office_id, owner_id) based on subscriber type.
      */
@@ -220,10 +255,10 @@ class SubscriptionController extends Controller
         } elseif ($subscriber->is_owner) {
             return 'owner_id';
         }
-    
+
         return null;
     }
-    
+
 
 
     public function suspendSubscription(Request $request, $id)
