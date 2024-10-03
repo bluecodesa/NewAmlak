@@ -46,13 +46,14 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
 
     public function deleteSubscriber(int $id)
     {
-        $subscription =  Subscription::findOrFail($id);
+        // $subscription =  Subscription::findOrFail($id);
 
-        if ($subscription->OfficeData) {
-            $subscription->OfficeData->UserData()->delete();
-        } else {
-            $subscription->BrokerData->UserData()->delete();
-        }
+        // if ($subscription->OfficeData) {
+        //     $subscription->OfficeData->UserData()->delete();
+        // } else {
+        //     $subscription->BrokerData->UserData()->delete();
+        // }
+        return User::destroy($id);
     }
 
 
