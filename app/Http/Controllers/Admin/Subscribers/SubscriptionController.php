@@ -18,6 +18,7 @@ use App\Services\OwnerService;
 use App\Services\Broker\UnitService;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
+use App\Models\FalLicenseUser;
 use App\Models\Office;
 use App\Services\Broker\ProjectService;
 use App\Services\Broker\PropertyService;
@@ -159,6 +160,7 @@ class SubscriptionController extends Controller
         $numberOfProperties = 0;
         $invoices = [];
         $employees = [];
+        $falLicenses=[];
         $residentialCount = 0;
         $nonResidentialCount = 0;
         $galleryItems = collect();
@@ -182,6 +184,8 @@ class SubscriptionController extends Controller
             $galleryItems = $galleryItems->merge($units)
                                         ->merge($properties)
                                         ->merge($projects);
+            $falLicenses=FalLicenseUser::where('user_id',$subscriber->id)->get();
+            $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
 
         } elseif ($subscriber->is_office) {
             $entity = $subscriber->UserOfficeData;
@@ -202,6 +206,8 @@ class SubscriptionController extends Controller
             $galleryItems = $galleryItems->merge($units)
                                         ->merge($properties)
                                         ->merge($projects);
+            $falLicenses=FalLicenseUser::where('user_id',$subscriber->id)->get();
+            $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
 
         } elseif ($subscriber->is_owner) {
             $entity = $subscriber->UserOwnerData;
@@ -212,7 +218,9 @@ class SubscriptionController extends Controller
             $numberOfUnits = $this->UnitService->getAllByOffice($entityId)->count();
             $numberOfProjects = $this->UnitService->getAllByOffice($entityId)->count();
             $numberOfProperties = $this->UnitService->getAll($entityId)->count();
-            
+            $falLicenses=FalLicenseUser::where('user_id',$subscriber->id)->get();
+            $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
+
         }
 
         // Fetch residential and non-residential counts
