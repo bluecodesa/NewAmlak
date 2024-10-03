@@ -167,7 +167,7 @@
                                                         </span>
                                                     </li>
                                                     @endif
-                                                    <li class="mb-2 pt-1">
+                                                    {{-- <li class="mb-2 pt-1">
                                                         <span class="fw-medium me-1">@lang('Account Type'):</span>
                                                         @foreach ($subscriber->roles as $role)
                                                         <span class="badge bg-primary">{{ __($role->name) ?? '' }}</span>
@@ -175,7 +175,7 @@
                                                             ,
                                                         @endif
                                                         @endforeach
-                                                    </li>
+                                                    </li> --}}
                                                     <li class="mb-2 pt-1">
                                                         <span class="fw-medium me-1">@lang('Subscriber City') :</span>
                                                         <span>
@@ -205,17 +205,7 @@
 
                                                         </span>
                                                     </li>
-                                                    <li class="pt-1">
-                                                        <span class="fw-medium me-1">@lang('license number') :</span>
-                                                        <span>
-                                                            @if ($subscriber->office_id)
-                                                                {{ $subscriber->OfficeData->office_license ?? '' }}
-                                                            @endif
-                                                            @if ($subscriber->broker_id)
-                                                                {{ $subscriber->BrokerData->broker_license ?? '' }}
-                                                            @endif
-                                                        </span>
-                                                    </li>
+
                                                     <li class="pt-1">
                                                         <span class="fw-medium me-1">@lang('Subscription Start join') :</span>
                                                         <span>
