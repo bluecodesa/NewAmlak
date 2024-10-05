@@ -347,7 +347,20 @@ class GallaryController extends Controller
 
         $allUnits = Unit::take(6)->paginate(3);
 
-        $data['allUnits'] = $moreUnits;
+        $unitLatLong = $unit->lat_long;
+
+        [$lat, $long] = explode(',', $unitLatLong);
+        $all5kiloUnits = Unit::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) )
+        * cos( radians( SUBSTRING_INDEX(lat_long, ',', -1) ) - radians(?) )
+        + sin( radians(?) ) * sin( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) ) ) ) AS distance", [$lat, $long, $lat])
+            ->having('distance', '<=', 5)
+            ->where('ad_license_status', 'Valid')
+            ->where('id', '!=', $id)
+            ->paginate(3);
+
+        $data['all5kiloUnits'] = $all5kiloUnits;
+
+        $data['allUnits'] = $allUnits;
 
         $data['moreUnits'] = $moreUnits;
 

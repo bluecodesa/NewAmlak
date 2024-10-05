@@ -290,6 +290,20 @@ class ProjectController extends Controller
             ->paginate(3);
 
             $allProjects = Project::take(6)->paginate(3);
+
+            $projectLatLong = $project->lat_long;
+
+            [$lat, $long] = explode(',', $projectLatLong);
+            $all5kiloProjects  = Project::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) )
+            * cos( radians( SUBSTRING_INDEX(lat_long, ',', -1) ) - radians(?) )
+            + sin( radians(?) ) * sin( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) ) ) ) AS distance", [$lat, $long, $lat])
+                ->having('distance', '<=', 5)
+                ->where('ad_license_status', 'Valid')
+                ->where('id', '!=', $id)
+                ->paginate(3);
+
+
+
             return view('Home.Projects.show',  get_defined_vars());
 
         }
