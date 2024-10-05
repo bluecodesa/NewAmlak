@@ -578,7 +578,7 @@
         <!-- Footer -->
         <hr>
         <div class="container">
-            <h4>عقارات مشابهة</h4>
+            <h4>وحدات مشابهة</h4>
             <div class="row g-4">
                 @if ($moreUnits->isNotEmpty())
                     @foreach ($moreUnits as $unit)
