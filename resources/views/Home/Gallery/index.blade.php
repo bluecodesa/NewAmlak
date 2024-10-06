@@ -570,10 +570,11 @@
                                         <h4 class="mb-0">{{ $unit->space }}</h4>
                                         <span>@lang('Area (m²)')</span>
                                     </div>
-                                    <div>
+                                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="عدد المشاهدات اخر 7 ايام">
                                         <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                         <span class="ti ti-eye"></span>
                                     </div>
+                                   
                                 </div>
                                 @endif
 
@@ -596,10 +597,11 @@
                                         <span>@lang('Number units')</span>
                                     </div>
 
-                                    <div>
+                                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="عدد المشاهدات اخر 7 ايام">
                                         <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                         <span class="ti ti-eye"></span>
                                     </div>
+                                    
                                 </div>
                                 @endif
 
@@ -617,10 +619,11 @@
                                         <span>@lang('Number units')</span>
                                     </div>
 
-                                    <div>
+                                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="عدد المشاهدات اخر 7 ايام">
                                         <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                         <span class="ti ti-eye"></span>
                                     </div>
+                                    
                                 </div>
                                 @endif
 

@@ -194,7 +194,7 @@
                                 <div id="features" class="row">
                                     <div class="mb-3 col-4">
                                         <input type="text" name="features_name[]" class="form-control search"
-                                            placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+                                            placeholder="@lang('Field name')" value="{{ old('features_name*') }}" />
 
                                     </div>
                                     <div class="mb-3 col-4">
@@ -444,7 +444,7 @@
                 });
             });
 
-
+           
 
             $(document).ready(function() {
         $('#textarea').summernote({
@@ -570,6 +570,31 @@
             } else {
                 // Allow form submission if the date is valid
                 errorMessage.style.display = 'none';
+            }
+        });
+    });
+
+    var path = "{{ route('Broker.Project.autocompleteProject') }}";
+
+    $(document).on("focus", ".search", function() {
+        $(this).autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: path,
+                    type: 'GET',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $(this).val(ui.item.label);
+                console.log(ui.item);
+                return false;
             }
         });
     });
