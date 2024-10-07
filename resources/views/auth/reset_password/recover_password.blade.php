@@ -57,9 +57,9 @@
     <script src="{{ asset('assets/js/config.js') }}"></script>
     <style>
         .template-customizer-open-btn {
-       display: none !important;
-   }
-</style>
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -90,7 +90,7 @@
                                             fill="#009490" />
                                     </svg>
                                 </span>
-                                <span class="app-brand-text demo text-body fw-bold">أملاك</span>
+                                <span class="app-brand-text demo text-body fw-bold">تاون</span>
                             </a>
                         </div>
                         <!-- /Logo -->

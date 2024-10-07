@@ -227,7 +227,7 @@
     "Activation successful.": "تم التفعيل",
     "Deactivation successful.": "تم التعطيل",
     "suspend": "تعليق الحساب",
-    "Coming soon... Amlak Real Estate Exhibition": "قريبا ... معرض أملاك العقاري",
+    "Coming soon... Town Real Estate Exhibition": "قريبا ... معرض تاون العقاري",
     "Please update your FAL license data to be able to advertise properties and display them in your gallery": "برجاء تحديث بيانات رخصة فال لتتمكن من الاعلان عن العقارات وعرضها بالمعرض الخاص بك",
     "Subscription suspend": "مُعلق (تواصل مع الدعم)",
     "Domain settings": "اعدادات الدومين",
@@ -237,7 +237,7 @@
     "Enable Property Finder Register": "تمكين تسجيل الباحث عن العقارات",
     "Enable Broker Register": "تمكين تسجيل الوسيط",
     "Enable Office Register": "تمكين تسجيل المكتب ادارة املاك",
-    "Share this unit from Amlak": "مشاركة هذه الوحدة من املاك",
+    "Share this unit from Town": "مشاركة هذه الوحدة من املاك",
     "General Settings": "الاعدادات العامة",
     "Real estate settings": "إعدادات العقارات",
     "This Gallery Coming Soon": "سيتوفر المعرض قريبا",
@@ -466,7 +466,7 @@
     "Subscription upgrade": "ترقية الاشتراك",
     "Discount applied": " الخصم المطبق عند الترقية",
     "Owners Management": "اداره الملاك",
-    "© Amlak -": "© أملاك -",
+    "© Town -": "© تاون -",
     " By Blue Code": " تم التطوير بواسطة بلوكود ",
     "Enable Gallery": "تفعيل المعرض",
     "Gallery Setting": "اعدادات المعرض",
@@ -491,7 +491,7 @@
     "Available": "متاح",
     "Not_Available": "غير متاح",
     "Type your 6 digit security code": "ادخل رمز الحماية المكون من 6 أرقام",
-    "Amlak": "أملاك",
+    "Town": "تاون",
     "Reset Password": "إعادة تعيين كلمة المرور",
     "Back to login": "الرجوع الي صفحة تسجيل الدخول",
     "Set new password": "تعيين كلمة مرور جديدة",
@@ -716,7 +716,4 @@
     "Sale price": "سعر البيع",
     "Valid Units in Gallery": "الوحدات المعروضة في المعرض",
     "last update": "  اخر تحديث"
-
-
-
 }

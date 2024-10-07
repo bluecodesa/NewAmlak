@@ -71,7 +71,7 @@
     <!--Under Maintenance -->
     <div class="container-xxl container-p-y">
         <div class="misc-wrapper">
-            <h2 class="mb-1 mx-2">@lang('Coming soon... Amlak Real Estate Exhibition')</h2>
+            <h2 class="mb-1 mx-2">@lang('Coming soon... Town Real Estate Exhibition')</h2>
             <br>
             <a href="{{ url('/') }}" class="btn btn-primary mb-4">{{ __('home page') }}</a>
             <div class="mt-4">

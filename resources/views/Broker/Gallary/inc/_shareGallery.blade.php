@@ -6,14 +6,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="text-center">
                         @php
-                        $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
-                        $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
-                        $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
-                        $shareLabel = $isGalleryUnit ? 'Unit' : ($isGalleryProject ? 'Project' : ($isGalleryProperty ? 'Property' : 'Item'));
-                        $routeName = $isGalleryUnit ? 'gallery.showUnitPublic' : ($isGalleryProject ? 'Home.showPublicProject' : 'Home.showPublicProperty');
+                            $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
+                            $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
+                            $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
+                            $shareLabel = $isGalleryUnit
+                                ? 'Unit'
+                                : ($isGalleryProject
+                                    ? 'Project'
+                                    : ($isGalleryProperty
+                                        ? 'Property'
+                                        : 'Item'));
+                            $routeName = $isGalleryUnit
+                                ? 'gallery.showUnitPublic'
+                                : ($isGalleryProject
+                                    ? 'Home.showPublicProject'
+                                    : 'Home.showPublicProperty');
                         @endphp
-                    <h3 class="mb-2">@lang('Share the ' . $shareLabel)</h3>
-                </div>
+                        <h3 class="mb-2">@lang('Share the ' . $shareLabel)</h3>
+                    </div>
                     <div class="card text-center mb-3 shadow-none bg-transparent">
                         <div class="card-header pt-0">
                             <ul class="nav nav-tabs card-header-tabs row" role="tablist">
@@ -48,8 +58,11 @@
                                     </div>
                                     <div class="col-12" style="">
                                         @php
-                                        $gallery_name = $unit->BrokerData->GalleryData->gallery_name;
-                                        $url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $unit->id]);
+                                            $gallery_name = $unit->BrokerData->GalleryData->gallery_name;
+                                            $url = route($routeName, [
+                                                'gallery_name' => $gallery_name,
+                                                'id' => $unit->id,
+                                            ]);
                                         @endphp
                                         <br>
                                         <a class="btn-sm btn btn-success"
@@ -63,12 +76,15 @@
                                     <h6>@lang('Share the link')</h6>
                                     <p>@lang('Share the property link or copy it on your site')</p>
                                     <div class="input-group">
-                                        <input type="text" class="form-control galleryNameCopy" id="{{ 'galleryNameCopy_' . $unit->id }}" readonly
+                                        <input type="text" class="form-control galleryNameCopy"
+                                            id="{{ 'galleryNameCopy_' . $unit->id }}" readonly
                                             value="{{ route($routeName, ['gallery_name' => $gallery_name, 'id' => $unit->id]) }}">
-                                        <button onclick="copyToClipboard('galleryNameCopy_{{ $unit->id }}')" class="btn btn-outline-primary waves-effect" type="button">
+                                        <button onclick="copyToClipboard('galleryNameCopy_{{ $unit->id }}')"
+                                            class="btn btn-outline-primary waves-effect" type="button">
                                             <i class="ti ti-copy"></i>
                                         </button>
-                                        <button class="whatsapp-share-btn btn btn-outline-primary waves-effect" data-unit-id="{{ $unit->id }}" type="button">
+                                        <button class="whatsapp-share-btn btn btn-outline-primary waves-effect"
+                                            data-unit-id="{{ $unit->id }}" type="button">
                                             <i class="ti ti-brand-whatsapp"></i>
                                         </button>
                                     </div>
@@ -103,7 +119,7 @@
                     var inputId = "galleryNameCopy_" + unitId;
                     var urlToShare = $("#" + inputId).val();
 
-                    var textToShare = @json(__('Share this unit from Amlak'));
+                    var textToShare = @json(__('Share this unit from Town'));
                     var whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(textToShare +
                         " " + urlToShare);
 

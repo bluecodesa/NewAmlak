@@ -29,9 +29,9 @@
 
     var firebaseConfig = {
         apiKey: "AIzaSyDaTlIrCFY1OnaNersOjgsgjmZl1AABgJo",
-        authDomain: "tryamlak.firebaseapp.com",
-        projectId: "tryamlak",
-        storageBucket: "tryamlak.appspot.com",
+        authDomain: "tryTown.firebaseapp.com",
+        projectId: "tryTown",
+        storageBucket: "tryTown.appspot.com",
         messagingSenderId: "1093059573465",
         appId: "1:1093059573465:web:72d961e08cc94daab270c8"
     };

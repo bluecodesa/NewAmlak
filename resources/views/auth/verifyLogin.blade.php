@@ -9,60 +9,62 @@
                 <div class="card-body">
                     <!-- Logo -->
                     <div class="app-brand justify-content-center mb-4 mt-2">
-                                <a href="index.html" class="app-brand-link gap-2">
-                                    <span class="app-brand-logo demo">
-                                        <a href="{{ route('welcome') }}" class="logo logo-admin"><img
-                                                src="{{ url($sitting->icon) }}" alt="" height="50"></a>
-                                    </span>
-                            <span class="app-brand-text demo text-body fw-bold ms-1">أملاك</span>
+                        <a href="index.html" class="app-brand-link gap-2">
+                            <span class="app-brand-logo demo">
+                                <a href="{{ route('welcome') }}" class="logo logo-admin"><img src="{{ url($sitting->icon) }}"
+                                        alt="" height="50"></a>
+                            </span>
+                            <span class="app-brand-text demo text-body fw-bold ms-1">تاون</span>
                     </div>
                     <!-- /Logo -->
 
                     <p class="mb-2 fw-medium">@lang('Enter OTP received :')</p>
                     @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
 
                     <form id="loginForm" method="POST" action="{{ route('login') }}">
                         @csrf
-                          <div class="mb-1">
+                        <div class="mb-1">
                             <label for="user_name" class="form-label">@lang('Email')/@lang('mobile')</label>
                             <input type="text" class="form-control" id="user_name" name="user_name"
-                                   value="{{ isset($email) ? $email : $fullPhone }}" autofocus disabled />
-                            <input type="hidden" id="hidden_user_name" name="user_name" value="{{ isset($email) ? $email : $fullPhone }}" />
+                                value="{{ isset($email) ? $email : $fullPhone }}" autofocus disabled />
+                            <input type="hidden" id="hidden_user_name" name="user_name"
+                                value="{{ isset($email) ? $email : $fullPhone }}" />
                         </div>
 
                         <div class="mb-2">
                             <label for="otp" class="form-label">@lang('OTP')</label>
-                            <input type="text" class="form-control" id="otp" name="otp" placeholder="@lang('OTP')" />
+                            <input type="text" class="form-control" id="otp" name="otp"
+                                placeholder="@lang('OTP')" />
                         </div>
                         <div class="mb-2">
                             <label class="form-label">
-                             <a href="{{ route('Home.auth.loginByPassword') }}" type="submit" >@lang('Login by Password?')</a>
+                                <a href="{{ route('Home.auth.loginByPassword') }}" type="submit">@lang('Login by Password?')</a>
                             </label>
                         </div>
                         <button type="submit" class="btn btn-primary d-grid w-100 mb-3">@lang('Verify')</button>
                     </form>
                     <div class="row">
                         <!-- Countdown Timer and Buttons -->
-                <div class="mt-3" id="countdown-timer">
-                    <p>@lang('You can resend the OTP in') <span id="countdown">60</span> @lang('second')</p>
-                </div>
-                <div class="col-md-6 col-12 mb-1" id="resend-otp-button" style="display: none;">
-                    <form method="POST" action="{{ route('Home.sendOtp') }}">
-                        @csrf
-                        <input type="hidden" name="email" value="{{ $email }}" />
-                        <button type="submit" class="btn btn-secondary">@lang('Resend OTP')</button>
-                    </form>
-                </div>
+                        <div class="mt-3" id="countdown-timer">
+                            <p>@lang('You can resend the OTP in') <span id="countdown">60</span> @lang('second')</p>
+                        </div>
+                        <div class="col-md-6 col-12 mb-1" id="resend-otp-button" style="display: none;">
+                            <form method="POST" action="{{ route('Home.sendOtp') }}">
+                                @csrf
+                                <input type="hidden" name="email" value="{{ $email }}" />
+                                <button type="submit" class="btn btn-secondary">@lang('Resend OTP')</button>
+                            </form>
+                        </div>
 
-            </div>
+                    </div>
                 </div>
 
             </div>

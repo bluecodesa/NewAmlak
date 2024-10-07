@@ -123,6 +123,7 @@
     --bs-form-invalid-border-color: #ea5455;
 }
 
+
 *,
 *::before,
 *::after {
@@ -138,6 +139,7 @@
         scroll-behavior: smooth;
     }
 }
+
 
 body {
     margin: 0;

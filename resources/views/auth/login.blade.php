@@ -12,7 +12,7 @@
                                     <a href="{{ route('welcome') }}" class="logo logo-admin"><img
                                             src="{{ url($sitting->icon) }}" alt="" height="50"></a>
                                 </span>
-                                <span class="app-brand-text demo text-body fw-bold ms-1">أملاك</span>
+                                <span class="app-brand-text demo text-body fw-bold ms-1">تاون</span>
                             </a>
                         </div>
                         <div class="col-12 mb-2" style="text-align: center;">
@@ -24,56 +24,63 @@
                             <ul class="nav nav-pills mb-3 justify-content-center" role="tablist">
                                 <li class="nav-item">
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
-                                            aria-selected="false">@lang('mobile')</button>
+                                        data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                                        aria-selected="false">@lang('mobile')</button>
                                 </li>
                                 <li class="nav-item">
                                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
-                                            aria-selected="true">@lang('Email')</button>
+                                        data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home"
+                                        aria-selected="true">@lang('Email')</button>
                                 </li>
 
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade " id="navs-pills-top-home" role="tabpanel">
-                                    <form id="emailAuthentication" class="mb-3" method="POST" action="{{ route('Home.sendOtp') }}">
+                                    <form id="emailAuthentication" class="mb-3" method="POST"
+                                        action="{{ route('Home.sendOtp') }}">
                                         @csrf
                                         <input type="hidden" name="otp_type" value="email">
                                         <div class="mb-3">
                                             <label for="email" class="form-label">
                                                 @lang('Email')<span class="text-danger">*</span>
                                             </label>
-                                            <input type="email" class="form-control" id="email" name="user_name" placeholder="@lang('Email')" required autofocus />
+                                            <input type="email" class="form-control" id="email" name="user_name"
+                                                placeholder="@lang('Email')" required autofocus />
                                         </div>
-                                        <button type="submit" class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
+                                        <button type="submit"
+                                            class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
                                     </form>
                                 </div>
                                 <div class="tab-pane fade show active" id="navs-pills-top-profile" role="tabpanel">
                                     <form id="phoneAuthentication" class="mb-3" method="POST"
-                                          action="{{ route('Home.sendOtp') }}">
+                                        action="{{ route('Home.sendOtp') }}">
                                         @csrf
                                         <input type="hidden" name="otp_type" value="phone">
                                         <input type="hidden" id="full_phone" name="full_phone">
-                                        <input type="hidden" id="key_phone" name="key_phone" value="966"> <!-- Default country code -->
+                                        <input type="hidden" id="key_phone" name="key_phone" value="966">
+                                        <!-- Default country code -->
                                         <div class="mb-3">
                                             <label class="form-label" for="mobile">@lang('Mobile Whats app')<span
                                                     class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <input type="text" placeholder="123456789" id="phone" name="mobile"
-                                                       class="form-control" required maxlength="9"
-                                                       pattern="\d{1,9}" oninput="updateFullPhone(this)"
-                                                       aria-label="Text input with dropdown button">
+                                                    class="form-control" required maxlength="9" pattern="\d{1,9}"
+                                                    oninput="updateFullPhone(this)"
+                                                    aria-label="Text input with dropdown button">
                                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect"
-                                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     966
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
-                                                    <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
+                                                    <li><a class="dropdown-item" data-key="971"
+                                                            href="javascript:void(0);">971</a></li>
+                                                    <li><a class="dropdown-item" data-key="966"
+                                                            href="javascript:void(0);">966</a></li>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
+                                        <button type="submit"
+                                            class="btn btn-primary d-grid w-100">@lang('دخول / تسجيل')</button>
                                     </form>
                                 </div>
                             </div>

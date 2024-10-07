@@ -49131,7 +49131,7 @@ class CitiesTableSeeder extends Seeder
                 "district_id" => 10902213002,
                 "city_id" => 2213,
                 "region_id" => 9,
-                "name_ar" => "أملاك الحرس الوطني",
+                "name_ar" => "تاون الحرس الوطني",
                 "name_en" => "National Guard Property",
             ],
             [

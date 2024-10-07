@@ -21,7 +21,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
         rel="stylesheet" />
-        <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
 
     <!--Morris Chart CSS -->
     <link rel="stylesheet" href="{{ url('assets/vendor/fonts/tabler-icons.css') }}" />
@@ -31,10 +31,59 @@
         <!-- Core CSS -->
         <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/core.css') }}" />
         <link rel="stylesheet" href="{{ url('assets/vendor/css/rtl/theme-default.css') }}" />
+        <style>
+            @font-face {
+                font-family: "NewArabic";
+                src: url('{{ url('assets/vendor/fonts/arabic_font/Medium.otf') }}') format('opentype');
+            }
+
+            body,
+            h4,
+            h1,
+            h2,
+            h5,
+            h6,
+            h3,
+            span,
+            .dropify-clear,
+            small,
+            b,
+            strong,
+            label,
+            * {
+                font-family: "NewArabic", sans-serif !important;
+            }
+        </style>
     @else
+        <style>
+            @font-face {
+                font-family: "NewEnglish";
+                src: url('{{ url('assets/vendor/fonts/english_font/Poppins-Medium.ttf') }}') format('opentype');
+            }
+
+            body,
+            h4,
+            h1,
+            h2,
+            h5,
+            h6,
+            h3,
+            span,
+            .dropify-clear,
+            small,
+            b,
+            strong,
+            label,
+            * {
+                font-family: "NewEnglish", sans-serif !important;
+            }
+        </style>
+
+
         <link rel="stylesheet" href="{{ url('assets/vendor/css/core.css') }}" />
         <link rel="stylesheet" href="{{ url('assets/vendor/css/theme-default.css') }}" />
     @endif
+
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ url('assets/css/demo.css') }}" />
@@ -72,59 +121,10 @@
         </style>
     @endif
     <style>
-
-@font-face{
-    font-family: "GE ss Two Arabic";
-    src:url('assets/vendor/fonts/arabic_font/alfont_com_AlFont_com_GE_SS_TWO_MEDIUM_5.otf')
-}
-
         .required-color {
             color: red;
         }
 
-        /*
-        .sub-input {
-            position: absolute;
-            left: 1px;
-            top: 0;
-            background-color: #2f419c;
-            height: 100%;
-            color: white;
-            line-height: 2.6;
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-            padding: 0px 20px;
-            border: 1px solid #2f419c;
-        }
-
-        .border-info {
-            border: 1px solid #2F3C49 !important;
-        }
-
-        .border-success {
-            border: 1px solid #2F3C49 !important
-        } */
-
-        body,
-        h4,
-        h1,
-        h2,
-        h5,
-        h6,
-        h3,
-        span,
-        .dropify-clear,
-        small,
-        b,
-        strong,
-        label,
-        * {
-            font-family: "Noto Kufi Arabic", sans-serif !important;
-            /* font-optical-sizing: auto;
-            font-weight: <weight>;
-            font-style: normal; */
-            /* text-transform: capitalize !important; */
-        }
 
         .dropify-message p {
             font-size: 18px !important;
@@ -395,7 +395,6 @@
                 }
             });
         }
-
     </script>
     {!! $sitting->zoho_salesiq !!}
 

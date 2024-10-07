@@ -12,7 +12,7 @@
                     <div class="img-smm">
                         <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}" class="img-fluid" />
                     </div>
-                    <h6 class="heading mb-3 mt-2 ArFont">أملاك خيارك الأول لإدارة الأملاك العقارية</h6>
+                    <h6 class="heading mb-3 mt-2 ArFont">تاون خيارك الأول لإدارة التاون العقارية</h6>
                     <p class="">منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين</p>
                     <p class="">* التسجيل لا يتطلب بطاقة ائتمانية</p>
                     <div class="mt-4">
@@ -55,7 +55,7 @@
     <section class="system container">
         <div class="row align-items-center">
             <div class="sec-title">
-                <h4>أملاك نظام إدارة متطور</h4>
+                <h4>تاون نظام إدارة متطور</h4>
                 <p>حلول تقنية متطورة تلبي جميع أعمالك</p>
             </div>
             <div class="row-cols">
@@ -109,7 +109,7 @@
                         </div>
                         <div class="content">
                             <h5>دعم فني متقدم 24/7</h5>
-                            <p>تقدم أملاك دعم فني متقدم خلال 24/7 لجميع التحديات التقنية التي تواجه أعمالك.</p>
+                            <p>تقدم تاون دعم فني متقدم خلال 24/7 لجميع التحديات التقنية التي تواجه أعمالك.</p>
                         </div>
                     </div>
                 </div>
@@ -146,8 +146,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="sec-title">
-                    <h4>مميزات أملاك</h4>
-                    <p>تم تصميم نظام أملاك وفق خطوات مدروسة بعناية ليوفر أعلى درجات الاحترافية في إدارة متطلبات القطاع
+                    <h4>مميزات تاون</h4>
+                    <p>تم تصميم نظام تاون وفق خطوات مدروسة بعناية ليوفر أعلى درجات الاحترافية في إدارة متطلبات القطاع
                         العقاري</p>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                                 <img src="{{ asset('HOME_PAGE/images/new/dashboard-_3_.png') }}" class="img-fluid" />
                             </div>
                             <h4>لوحة تحكم سهلة الإستخدام</h4>
-                            <p>يقدم لك نظام أملاك أفضل الطرق الاحترافية لإدارة علاقات العملاء من خلال استقبال طلبات
+                            <p>يقدم لك نظام تاون أفضل الطرق الاحترافية لإدارة علاقات العملاء من خلال استقبال طلبات
                                 الصيانة والشكاوى من المنصة ومعرفة حالة الطلب لدي العميل من غير التواصل معه بشكل مباشر
                                 .</p>
                         </div>
@@ -199,7 +199,7 @@
                                 <img src="{{ asset('HOME_PAGE/images/new/building-_5_.png') }}" class="img-fluid" />
                             </div>
                             <h4>إدارة المشاريع بكل تفاصيلها</h4>
-                            <p>يتيح لك نظام أملاك إضافة كافة تفاصيل مشاريعك على جميع المستويات حتى العقارات و الوحدات
+                            <p>يتيح لك نظام تاون إضافة كافة تفاصيل مشاريعك على جميع المستويات حتى العقارات و الوحدات
                                 أيضاً.</p>
                         </div>
                     </div>
@@ -238,7 +238,7 @@
                                 <img src="{{ asset('HOME_PAGE/images/new/real-estate-agent.png') }}" class="img-fluid" />
                             </div>
                             <h4>إدارة علاقات العملاء</h4>
-                            <p>يقدم لك نظام أملاك أفضل الطرق الاحترافية لإدارة علاقات العملاء من خلال استقبال طلبات
+                            <p>يقدم لك نظام تاون أفضل الطرق الاحترافية لإدارة علاقات العملاء من خلال استقبال طلبات
                                 الصيانة والشكاوى من المنصة ومعرفة حالة الطلب دون الحاجة إلى التواصل مع العملاء بشكل
                                 مباشر.</p>
                         </div>
@@ -264,7 +264,7 @@
                                 <img src="{{ asset('HOME_PAGE/images/new/dashboard-_3_.png') }}" class="img-fluid" />
                             </div>
                             <h4>إدارة التنبيهات</h4>
-                            <p>يقدم لك نظام أملاك خيارات مختلفة لإرسال الإشعارات ورسائل التذكير التلقائية لعملائك عبر
+                            <p>يقدم لك نظام تاون خيارات مختلفة لإرسال الإشعارات ورسائل التذكير التلقائية لعملائك عبر
                                 خدمة الواتس اب أو البريد الإلكتروني أو ال SMS.</p>
                         </div>
                     </div>
@@ -279,7 +279,7 @@
                                 <img src="{{ asset('HOME_PAGE/images/new/Group103560.png') }}" class="img-fluid" />
                             </div>
                             <h4>شارك عروض التأجير مع عملائك</h4>
-                            <p>من خلال منصة أملاك تستطيع إعداد عروض التأجير ومشاركتها مع عملائك المحتملين بطريقة
+                            <p>من خلال منصة تاون تستطيع إعداد عروض التأجير ومشاركتها مع عملائك المحتملين بطريقة
                                 احترافية و تفصيلية.</p>
                         </div>
                     </div>
@@ -297,8 +297,8 @@
     <section class="pricing container" id="pricing">
         <div class="row align-items-center">
             <div class="sec-title">
-                <h4>باقات وأسعار أملاك</h4>
-                <p>توفر لكم منصة أملاك باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
+                <h4>باقات وأسعار تاون</h4>
+                <p>توفر لكم منصة تاون باقات مميزة تمكنك من إدارة المستأجرين بكل سهولة</p>
             </div>
         </div>
 
@@ -800,7 +800,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="sec-title">
-                    <h4>خدمات أملاك</h4>
+                    <h4>خدمات تاون</h4>
                     <p>نحرص على تطوير خدمات تقنية متميزة واحترافية تساهم في تبسيط ادارة اعمالك العقارية، كما تضمن املاك سرية
                         وتوافرية بياناتك بشكل دائم عبر استخدام احدث التقنيات المبتكرة.</p>
                 </div>
@@ -826,7 +826,7 @@
                                 <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                             </ol>
                             <span class="yel-price">
-                                نظام أملاك
+                                نظام تاون
                             </span>
                             <div class="carousel-inner">
 
@@ -883,7 +883,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <h4>ماذا تنتظر !؟</h4>
-                    <h4>انضم إلى أملاك الآن</h4>
+                    <h4>انضم إلى تاون الآن</h4>
                     <p>واجهة سهلة الإستخدام بمميزات متعددة</p>
                 </div>
                 <div class="col-md-4">
@@ -912,14 +912,14 @@
                     <h2 class="accordion-header" id="flush-headingOne">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                            ما هي منصة أملاك؟ </button>
+                            ما هي منصة تاون؟ </button>
                     </h2>
                     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
                         data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
                             هي منصة إلكترونية تم تصميمها بإتقان لتوفير حلول متكاملة لجميع الخدمات العقارية بطريقة سهلة
                             وشاملة لكافة المهام والإجراءات الخاصة بالمكاتب العقارية و إدارة العقارات والوحدات السكنية
-                            والتجارية على السواء. تهدف أملاك إلى إدارة جميع مستويات المشروعات العقارية بدءا من الوحدات
+                            والتجارية على السواء. تهدف تاون إلى إدارة جميع مستويات المشروعات العقارية بدءا من الوحدات
                             وصولا إلى المشروعات عبر نظام متطور وحلول تقنية مبتكرة تهدف إلى القيام بجميع الاعمال عن بعد
                             بجودة وموثوقية عالية، عبر استقطاب العديد من الخبرات الإدارية و التسويقية والمحاسبية ذات
                             الكفاءة العالية.
@@ -930,12 +930,12 @@
                     <h2 class="accordion-header" id="flush-headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                            ما هي خطط الأسعار المتاحة للاشتراك في منصة أملاك؟</button>
+                            ما هي خطط الأسعار المتاحة للاشتراك في منصة تاون؟</button>
                     </h2>
                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
                         data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
-                            توفر منصة أملاك مجموعة متنوعة من خطط الأسعار لتناسب منشأتك بشكل متكامل وتلبي جميع الخدمات
+                            توفر منصة تاون مجموعة متنوعة من خطط الأسعار لتناسب منشأتك بشكل متكامل وتلبي جميع الخدمات
                             التي تحتاجها.
                             <ul style="list-style:none">
                                 <li>- اشتراك مجاني (فترة تجريبية)</li>
@@ -950,13 +950,13 @@
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapseThree" aria-expanded="false"
                             aria-controls="flush-collapseThree">
-                            ما هي الاجراءات اللازمة للتسجيل على منصة أملاك؟
+                            ما هي الاجراءات اللازمة للتسجيل على منصة تاون؟
                         </button>
                     </h2>
                     <div id="flush-collapseThree" class="accordion-collapse collapse"
                         aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
-                            للتسجيل و الانضمام إلى نظام أملاك يجب مليء فورم التسجيل عبر الضغط على زر "سجل معنا الآن" و
+                            للتسجيل و الانضمام إلى نظام تاون يجب مليء فورم التسجيل عبر الضغط على زر "سجل معنا الآن" و
                             ادخال بيانات شركتك:
                             <ul style="list-style:none;">
                                 <li>-اسم الشركة</li>
@@ -976,7 +976,7 @@
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapseFour" aria-expanded="false"
                             aria-controls="flush-collapseFour">
-                            ماذا أفعل عندما تواجهني مشكلة أثناء استخدامي لمنصة أملاك؟ </button>
+                            ماذا أفعل عندما تواجهني مشكلة أثناء استخدامي لمنصة تاون؟ </button>
                     </h2>
                     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour"
                         data-bs-parent="#accordionFlushExample">

@@ -168,13 +168,13 @@
                             <div class="form-group">
                                 <label>@lang('user name')</label>
                                 <input type="text" name="user_name" value="{{ $EmailSettingService->user_name }}"
-                                    class="form-control" required="" placeholder="info@tryamlak.com">
+                                    class="form-control" required="" placeholder="info@tryTown.com">
                             </div>
 
                             <div class="form-group">
                                 <label>@lang('name')</label>
                                 <input type="text" name="name" value="{{ $EmailSettingService->name }}"
-                                    class="form-control" required="" placeholder="tryamlak system">
+                                    class="form-control" required="" placeholder="tryTown system">
                             </div>
 
                             <div class="form-group">

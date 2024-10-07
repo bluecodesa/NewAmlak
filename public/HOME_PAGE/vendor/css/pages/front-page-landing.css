@@ -37,7 +37,7 @@
 }
 
 .landing-hero .hero-title {
-    background: linear-gradient(to right, #2F3C49 0%, #79b9bb 47.92%, #dc572a 100%);
+    background: linear-gradient(to right, #622713 0%, #e36d45 47.92%, #dc572a 100%);
     background-size: 200% auto;
     color: #5d596c;
     background-clip: text;
@@ -248,7 +248,8 @@
 .light-style .landing-hero {
     padding-top: 14rem;
     /* background: linear-gradient(138.18deg, #cbe6e9 0%, #fce5e6 94.44%); */
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(88, 169, 172, 1) 100%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(220, 87, 42, 1) 100%);
+
 }
 
 .light-style .landing-hero::after {
