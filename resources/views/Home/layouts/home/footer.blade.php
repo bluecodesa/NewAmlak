@@ -8,8 +8,8 @@
             <div class="row gx-0 gy-4 g-md-5">
                 <div class="col-lg-5">
                     <a href="/" class="app-brand-link mb-4">
-                        <img src="{{ url($sitting->icon) }}" width="30" alt="">
-                        <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">تاون</span>
+                        <img src="{{ url($sitting->icon) }}" width="80" alt="">
+                        {{-- <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">تاون</span> --}}
                     </a>
                     <p class="footer-text footer-logo-description mb-4">
                         خيارك الأول لإدارة العقارات عبر منصة متكاملة تخدم مدراء العقارات، والملاك والمستأجرين
