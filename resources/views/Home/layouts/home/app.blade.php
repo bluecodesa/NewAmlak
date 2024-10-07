@@ -34,7 +34,7 @@
                     </button>
                     <!-- Mobile menu toggle: End-->
                     <a href="{{ route('welcome') }}" class="app-brand-link">
-                        <img src="{{ url($sitting->icon) }}" width="30" alt="">
+                        <img src="{{ url($sitting->icon) }}" width="80" alt="">
                         <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">تاون</span>
                     </a>
                 </div>
