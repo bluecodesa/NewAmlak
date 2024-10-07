@@ -8,7 +8,6 @@
                     <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
                         style="border: 1px solid;
            border-radius: 50%;"> {{ $sitting->title }}
-
                 </span>
                 <span class="logo-sm">
                     <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"

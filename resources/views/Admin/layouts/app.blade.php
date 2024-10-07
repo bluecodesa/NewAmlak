@@ -72,6 +72,12 @@
         </style>
     @endif
     <style>
+
+@font-face{
+    font-family: "GE ss Two Arabic";
+    src:url('assets/vendor/fonts/arabic_font/alfont_com_AlFont_com_GE_SS_TWO_MEDIUM_5.otf')
+}
+
         .required-color {
             color: red;
         }
