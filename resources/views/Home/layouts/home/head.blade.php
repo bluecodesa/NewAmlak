@@ -15,7 +15,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
         rel="stylesheet" />
-        <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url($sitting->icon) }}" />
 
@@ -73,11 +73,10 @@
     {{-- <link href="{{ url('dashboard_files/assets/fonts/tajawal.css') }}" rel="stylesheet"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
-
     <style>
-        .template-customizer-open-btn {
-            display: none !important;
+        @font-face {
+            font-family: "NewArabic";
+            src: url('{{ url('assets/vendor/fonts/arabic_font/Medium.otf') }}') format('opentype');
         }
 
         body,
@@ -93,9 +92,8 @@
         b,
         strong,
         label,
-
         * {
-            font-family: "Noto Kufi Arabic", sans-serif !important;
+            font-family: "NewArabic", sans-serif !important;
         }
     </style>
 
