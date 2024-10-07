@@ -11,6 +11,7 @@ use App\Models\ProjectStatus;
 use App\Models\ProjectTimeLine;
 use App\Models\Property;
 use App\Models\PropertyImage;
+use App\Models\TicketType;
 use App\Models\Unit;
 use App\Models\UnitFeature;
 use App\Models\UnitImage;
@@ -18,6 +19,8 @@ use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
+
 
 
 class ProjectRepository implements ProjectRepositoryInterface
@@ -53,10 +56,36 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         $project_data['broker_id'] = Auth::user()->UserBrokerData->id;
 
+        $license_date = auth()->user()->UserBrokerData->license_date;
+
         if (isset($data['show_in_gallery'])) {
             $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => ['required', 'numeric', Rule::unique('projects')],
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.unique' => __('The license number has already been taken.'),
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $project_data['ad_license_number'] = $data['ad_license_number'];
+                $project_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $project_data['ad_license_status'] = 'Valid';
+                // $project_data['ad_license_status'] = (strtotime($data['ad_license_expiry']) <= strtotime($license_date)) ? 'Valid' : 'Expired';
+
         } else {
             $project_data['show_in_gallery'] = 0;
+            $project_data['ad_license_status'] ='InValid';
+
         }
         unset($project_data['time_line']);
         unset($project_data['date']);
@@ -99,8 +128,36 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         if (isset($data['show_in_gallery'])) {
             $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => [
+                    'required',
+                    'numeric',
+                    Rule::unique('projects', 'ad_license_number')->ignore($id),
+                ],
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.unique' => __('The license number has already been taken.'),
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $project_data['ad_license_number'] = $data['ad_license_number'];
+                $project_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $project_data['ad_license_status'] = 'Valid';
+                // $project_data['ad_license_status'] = (strtotime($data['ad_license_expiry']) <= strtotime($license_date)) ? 'Valid' : 'Expired';
+
         } else {
             $project_data['show_in_gallery'] = 0;
+            // $project_data['ad_license_status'] ='InValid';
+
         }
 
           // Handle project_masterplan upload
@@ -174,7 +231,9 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     function ShowPublicProject($id)
     {
-        return Project::where('show_in_gallery', 1)->find($id);
+        $project = Project::where('show_in_gallery', 1)->find($id);
+        return $project;
+
     }
     public function delete($id)
     {
@@ -183,18 +242,76 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function storeProperty($data, $id, $images)
     {
-        $property =  Property::create($data);
-        if ($images) {
-            foreach ($images as $image) {
-                $ext = uniqid() . '.' . $image->clientExtension();
-                $image->move(public_path() .  '/Brokers/Projects/Property/', $ext);
-                PropertyImage::create([
-                    'image' =>  '/Brokers/Projects/Property/' . $ext,
-                    'property_id' => $property->id,
-                ]);
-            }
-        }
-        return $property;
+        $property_data = $data;
+
+        // Handle project_masterplan upload
+        if (isset($property_data['property_masterplan'])) {
+          $propertyMasterplan = $property_data['property_masterplan'];
+          $ext = $propertyMasterplan->getClientOriginalExtension();
+          $masterplanName = uniqid() . '.' . $ext;
+          $propertyMasterplan->move(public_path('/Brokers/Properties/pdfs'), $masterplanName);
+          $property_data['property_masterplan'] = '/Brokers/Properties/pdfs/' . $masterplanName;
+      }
+
+      // Handle project_brochure upload
+      if (isset($property_data['property_brochure'])) {
+          $propertyBrochure = $property_data['property_brochure'];
+          $ext = $propertyBrochure->getClientOriginalExtension();
+          $brochureName = uniqid() . '.' . $ext;
+          $propertyBrochure->move(public_path('/Brokers/Properties/pdfs'), $brochureName);
+          $property_data['property_brochure'] = '/Brokers/Properties/pdfs/' . $brochureName;
+      }
+
+
+      $property_data['broker_id'] = Auth::user()->UserBrokerData->id;
+
+    //   if (isset($data['show_in_gallery'])) {
+    //       $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+    //   } else {
+    //       $property_data['show_in_gallery'] = 0;
+    //   }
+    if (isset($data['show_in_gallery'])) {
+        $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+
+        $rules = [
+            'ad_license_number' => ['required', 'numeric', Rule::unique('properties')],
+            'ad_license_expiry' => 'required|date|after_or_equal:today',
+        ];
+
+        $messages = [
+            'ad_license_number.required' => 'The license number is required.',
+            'ad_license_number.unique' => __('The license number has already been taken.'),
+            'ad_license_number.numeric' => 'The license number must be a number.',
+            'ad_license_expiry.required' => 'The license expiry date is required.',
+            'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+            'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+        ];
+
+        validator($data, $rules ,$messages)->validate();
+
+            $property_data['ad_license_number'] = $data['ad_license_number'];
+            $property_data['ad_license_expiry'] = $data['ad_license_expiry'];
+            $property_data['ad_license_status'] = 'Valid';
+
+    } else {
+        $property_data['show_in_gallery'] = 0;
+        $property_data['ad_license_status'] ='InValid';
+
+    }
+
+      $property =  Property::create($property_data);
+      if ($images) {
+          foreach ($images as $image) {
+              $ext = uniqid() . '.' . $image->clientExtension();
+              $image->move(public_path() . '/Brokers/Projects/Property/', $ext);
+              PropertyImage::create([
+                  'image' => '/Brokers/Projects/Property/' . $ext,
+                  'property_id' => $property->id,
+              ]);
+          }
+      }
+
+      return $property;
     }
 
     function StoreUnit($id, $data)
@@ -207,14 +324,42 @@ class ProjectRepository implements ProjectRepositoryInterface
         unset($unit_data['monthly']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         $unit_data['project_id'] = $id;
+        // if (isset($data['show_gallery'])) {
+        //     if ($data['show_gallery'] == 'on') {
+        //         $unit_data['show_gallery'] = 1;
+        //     } else {
+        //         $unit_data['show_gallery'] = 0;
+        //     }
+        // } else {
+        //     $unit_data['show_gallery'] = 0;
+        // }
         if (isset($data['show_gallery'])) {
-            if ($data['show_gallery'] == 'on') {
-                $unit_data['show_gallery'] = 1;
-            } else {
-                $unit_data['show_gallery'] = 0;
-            }
+            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.unique' => __('The license number has already been taken.'),
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $unit_data['ad_license_number'] = $data['ad_license_number'];
+                $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $unit_data['ad_license_status'] = 'Valid';
+
         } else {
             $unit_data['show_gallery'] = 0;
+            $unit_data['ad_license_status'] ='InValid';
+
         }
 
         if (isset($data['daily_rent'])) {
@@ -268,9 +413,9 @@ class ProjectRepository implements ProjectRepositoryInterface
             if ($images) {
                 foreach ($images as $image) {
                     $ext = uniqid() . '.' . $image->clientExtension();
-                    $image->move(public_path() . '/Brokers/Projects/Unit', $ext);
+                    $image->move(public_path() . '/Brokers/Projects/Unit/Images/', $ext);
                     UnitImage::create([
-                        'image' => '/Brokers/Projects/Unit/Images' . $ext,
+                        'image' => '/Brokers/Projects/Unit/Images/' . $ext,
                         'unit_id' => $unit->id,
                     ]);
                 }

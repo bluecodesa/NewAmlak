@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\Office\Gallary\RealEstateRequestController;
 use App\Http\Controllers\Office\ProjectManagement\AdvisorController;
 use App\Http\Controllers\Office\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Office\ProjectManagement\EmployeeController;
 use App\Http\Controllers\Office\ProjectManagement\OwnerController;
 use App\Http\Controllers\Admin\Subscribers\SubscriptionController;
+use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Office\FinancialManagment\WalletController;
+use App\Http\Controllers\Office\Gallary\GallaryController;
 use App\Http\Controllers\Office\HomeController;
 use App\Http\Controllers\Office\ProjectManagement\Contract\ContractController;
 use App\Http\Controllers\Office\ProjectManagement\ProjectController;
@@ -48,6 +51,8 @@ Route::group(
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
        Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
        Route::resource('Wallet', WalletController::class)->middleware('CheckSubscription');
+       route::resource('RealEstateRequest', RealEstateRequestController::class)->middleware('CheckSubscription');
+       Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
 
        //contract
        Route::resource('Contract', ContractController::class)->middleware('CheckSubscription');
@@ -86,6 +91,8 @@ Route::group(
         Route::get('/UnitdeleteImage/{id}', 'ProjectManagement\UnitController@deleteImage')->name('Unit.deleteImage')->middleware('CheckSubscription');
         Route::get('/UpdateRentPriceByType/{id}', 'ProjectManagement\UnitController@UpdateRentPriceByType')->name('Unit.UpdateRentPriceByType')->middleware('CheckSubscription');
         Route::delete('/gallery/unit/{id}', [UnitController::class, 'destroyUnitGallery'])->name('gallery.unit.destroy');
+        Route::get('/IndexByStatus/{id}', [UnitController::class, 'IndexByStatus'])->name('Unit.IndexByStatus')->middleware('CheckSubscription');
+        Route::get('/IndexByUsage/{id}', [UnitController::class, 'IndexByUsage'])->name('Unit.IndexByUsage')->middleware('CheckSubscription');
        //end of Unit routes
 
        Route::resource('Receipt', VoucherController::class)->middleware('CheckSubscription');
@@ -106,6 +113,22 @@ Route::group(
             Route::get('GetCitiesByRegion/{id}', [HomeController::class, 'GetCitiesByRegion'])->name('Office.GetCitiesByRegion')->middleware('CheckSubscription');
             Route::get('GetDistrictsByCity/{id}', [HomeController::class, 'GetDistrictsByCity'])->name('Office.GetDistrictsByCity')->middleware('CheckSubscription');
 
+            Route::get('GetPropertiesByProject/{projectId}', [UnitController::class, 'getPropertiesByProject'])->name('GetPropertiesByProject');
+            Route::get('property/details/{id}', [UnitController::class, 'getPropertyDetail'])->name('GetPropertyDetail');
+            Route::get('GetProjectDetails/{projectId}', [UnitController::class, 'getProjectDetails'])->name('GetProjectDetails');
+            Route::get('GetPropertyDetails/{propertyId}', [UnitController::class, 'getPropertyDetails'])->name('GetPropertyDetails');
+    
+               //
+               route::resource('Gallery', GallaryController::class)->middleware('CheckSubscription');
+               Route::post('/update-cover', [GallaryController::class, 'updateCover'])->name('Gallery.update-cover');
+               Route::post('/gallery/create', [GallaryController::class, 'createGallery'])->name('Gallery.create');
+               Route::post('/gallery/custom-update/{gallery}', [GallaryController::class, 'customUpdate'])->name('Gallery.customUpdate')->middleware('CheckSubscription');
+               Route::get('Gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showGalleryUnit'])->name('Gallary.showUnit')->middleware('CheckSubscription');
+               Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity')->middleware('CheckSubscription');
+               //
+               Route::get('Interests', [UnitInterestController::class, 'index'])->name('Gallary.showInterests')->middleware('CheckSubscription');
+
+
         });
         Route::get('/get-project-details/{project}', [ContractController::class, 'getProjectDetails']);
         Route::get('/get-units-by-property/{property}', [ContractController::class, 'getUnitsByProperty']);
@@ -117,7 +140,9 @@ Route::group(
         Route::get('/get-all-properties-and-units', [ContractController::class, 'getAllPropertiesAndUnits']);
         Route::get('/get-all-units', [ContractController::class, 'getAllUnits']);
         Route::get('/units/{id}/status', [ContractController::class, 'getStatus']);
+        
 
+     
 
     }
 );

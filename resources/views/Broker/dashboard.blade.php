@@ -15,6 +15,22 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <!-- DataTable with Buttons -->
+            @if( !auth()->user()->UserBrokerData->city_id)
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <span class="alert-icon text-danger me-2">
+                    <i class="ti ti-ban ti-xs"></i>
+                </span>
+                @lang(' الرجاء التوجه الي الاعدادات/الملف الشخصي  .. لاكمال البيانات الشخصية الخاصه بحسابكم   ')
+            </div>
+            @endif
+            @if(!auth()->user()->UserFalData)
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <span class="alert-icon text-danger me-2">
+                    <i class="ti ti-ban ti-xs"></i>
+                </span>
+                @lang('الرجاء ادخال رخصة هيئه العقار الخاصة بكم لكي تتمكن من تفعيل المعرض واضافة العقارات')
+            </div>
+            @endif
             {{-- <div class="card">
                 <div class="card-body">
                     <h4 class="mt-0 header-title">
@@ -362,6 +378,48 @@
                         </div>
                     </a>
                 </div>
+
+                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                    <a href="{{ route('PropertyFinder.RealEstateRequest.index') }}" class="card h-100">
+                        <div class="card-header pb-3">
+                            <div class="d-flex align-items-center mb-2 pb-1">
+                                <div class="avatar me-2">
+                                    <span class="avatar-initial rounded bg-label-primary"><i
+                                            class="ti ti-ticket ti-md"></i></span>
+                                </div>
+                                <h4 class="ms-1 mb-0">@lang('Real Estate Requests')</h4>
+                            </div>
+                            <small class="text-muted"></small>
+                        </div>
+                        <div class="card-body">
+                            <div id="ordersLastWeek"></div>
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                    @php
+                                        $count = 0;
+                                    @endphp
+                                    @if(!$requests)
+                                    @foreach($requests as $request)
+                                        @foreach($request->requestStatuses as $status)
+                                            @if ($status->interestType && $status->interestType->default === 1)
+                                                @php
+                                                    $count++;
+                                                    break;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                    @endif
+
+                                <h4 class="mb-0">{{ $count }}</h4>
+                                <span class="text-success"></span>
+                            </div>
+                            <div class="d-flex align-items-center mt-1">
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
                     <a href="{{ route('Broker.Tickets.index') }}" class="card h-100">

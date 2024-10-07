@@ -94,7 +94,7 @@ return [
         // 'address' => env('MAIL_DRIVER', $email->user_name),
         'address' => env('MAIL_DRIVER', 'info@bluecode.sa'),
 
-        'name' => env('MAIL_USERNAME', 'Amlak'),
+        'name' => env('MAIL_USERNAME', 'Town'),
     ],
 
     /*

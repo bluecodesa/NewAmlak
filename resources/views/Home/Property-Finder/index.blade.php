@@ -12,8 +12,13 @@
     </div>
 </section> --}}
 
-
-
+@if(auth()->user()->is_owner )
+    @php
+        $sectionsIds = Auth::user()
+            ->UserOwnerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+            ->toArray();
+    @endphp
+@endif
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
@@ -50,10 +55,12 @@
                                             class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                             <li class="list-inline-item d-flex gap-1">
                                                 <i class="ti ti-color-swatch"></i>
-                                                @if ($finder->is_renter)
+                                                @if (session('active_role') == 'Renter')
                                                     @lang('Renter')
-                                                @elseif($finder->is_property_finder)
+                                                @elseif(session('active_role') == 'Property-Finder')
                                                     @lang('Property Finder')
+                                                @elseif(session('active_role') == 'Owner')
+                                                @lang('owner')
                                                 @endif
                                             </li>
                                             <li class="list-inline-item d-flex gap-1">
@@ -61,9 +68,46 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    {{-- <a href="javascript:void(0)" class="btn btn-primary">
-                    <i class="ti ti-check me-1"></i>Connected
-                  </a> --}}
+                                    @php
+                                        $activeRole = session('active_role') ?? 'Switch Account';
+
+                                        $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker']);
+
+                                        $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
+                                    @endphp
+
+
+                                {{-- <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="roleDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @lang($activeRole) <!-- Display the active role as the button label -->
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="roleDropdown">
+                                        @foreach ($roles as $role)
+                                            @if ($userRoles->contains('name', $role->name) && $role->name !== $activeRole)
+                                                <li><a class="dropdown-item" href="{{ route('switch.role', $role->name) }}">@lang($role->name)</a></li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div> --}}
+
+                                <!-- Add New Account Button -->
+                                {{-- @if ($availableRoles->isNotEmpty())
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="addAccountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @lang('Add New Account')
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="addAccountDropdown">
+                                            @foreach ($availableRoles as $role)
+                                                <li><a class="dropdown-item" href="#" onclick="handleRoleRedirect('{{ $role }}')">@lang($role)</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif --}}
+
+
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -93,6 +137,43 @@
                         </button>
                     </li>
                 @endif
+                @if (Auth::user()->hasPermission('Read-favorite-properties') ||
+                Auth::user()->hasPermission('Read-favorite-properties-admin'))
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-requests" aria-controls="navs-justified-requests"
+                        aria-selected="false" tabindex="-1">
+                        <i class="tf-icons ti ti-heart ti-xs me-1"></i>الطلبات العقارية
+                    </button>
+                </li>
+                @endif
+                @if (session('active_role') === 'Owner')
+                <li class="nav-item" role="presentation">
+                    <button type="button" class="nav-link" role="tab"
+                            data-bs-toggle="tab" data-bs-target="#navs-justified-My_Properties"
+                            aria-controls="navs-justified-My_Properties" aria-selected="false" tabindex="-1">
+                        <i class="tf-icons ti ti-building-arch ti-xs me-1"></i>@lang('My Properties')
+                    </button>
+                </li>
+                @endif
+                @if(auth()->user()->is_owner )
+                @if (in_array(12, $sectionsIds))
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-Subscription_Management" aria-controls="navs-justified-Subscription_Management"
+                            aria-selected="false" tabindex="-1">
+                            <i class="tf-icons ti ti-file-invoice ti-xs me-1"></i>@lang('Subscription Management')
+                        </button>
+                    </li>
+                @endif
+                @endif
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-Technical" aria-controls="navs-justified-Technical"
+                            aria-selected="false" tabindex="-1">
+                            <i class="tf-icons ti ti-heart ti-xs me-1"></i>الدعم الفني
+                        </button>
+                    </li>
                 @if (Auth::user()->hasPermission('update-user-profile'))
                     <li class="nav-item" role="presentation">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
@@ -107,11 +188,42 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                    @if (auth()->user()->is_owner)
+                        @if(!auth()->user()->UserOwnerData->city_id)
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <span class="alert-icon text-danger me-2">
+                                <i class="ti ti-ban ti-xs"></i>
+                            </span>
+                            @lang(' الرجاء اكمال البيانات الشخصية الخاصه بحسابكم')
+                        </div>
+                        @endif
+                    @endif
                     @include('Home.Property-Finder.inc._profile')
 
                 </div>
                 <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                     @include('Home.Property-Finder.inc._favorite')
+
+                </div>
+                <div class="tab-pane fade" id="navs-justified-requests" role="tabpanel">
+                    @include('Home.Property-Finder.inc._requests')
+
+                </div>
+                @if ($finder->is_owner && Auth::user()->hasPermission('read-building'))
+
+                <div class="tab-pane fade" id="navs-justified-My_Properties" role="tabpanel">
+                    @include('Home.Property-Finder.inc._myProperties')
+
+                </div>
+                @endif
+
+                <div class="tab-pane fade" id="navs-justified-Subscription_Management" role="tabpanel">
+                    @include('Home.Property-Finder.inc._subscription_show')
+
+                </div>
+
+                <div class="tab-pane fade" id="navs-justified-Technical" role="tabpanel">
+                    @include('Home.Property-Finder.inc._technicalSupport')
 
                 </div>
                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
@@ -183,5 +295,149 @@
                 });
             });
         </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.dropdown-menu .dropdown-item').on('click', function() {
+            var status = $(this).data('status');
+            var requestId = $(this).closest('.card').data('id');
+
+            if (requestId && status) {
+                $.ajax({
+                    url: '{{ route('PropertyFinder.updateRequestStatus', '') }}/' + requestId,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert('Failed to update request status');
+                        }
+                    },
+                    error: function() {
+                        alert('Error occurred while updating status');
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+//     function handleRoleRedirect(role) {
+//         if (role === 'Office') {
+//             redirectToCreateOffice();
+//         } else if (role === 'RS-Broker') {
+//             redirectToCreateBroker();
+//         } else if (role === 'Owner' || role === 'Property-Finder') {
+//             redirectToCreatePropertyFinder();
+//         } else {
+//             alert('No redirection available for this role.');
+//         }
+//     }
+
+//     function redirectToCreateBroker() {
+//         let formData = {
+//         name: document.getElementById('name').value,
+//         id_number: document.getElementById('id_number').value,
+//         email: document.getElementById('email').value,
+//         phone: document.getElementById('phone').value,
+//         key_phone: document.getElementById('key_phone').value,
+//         avatar: document.querySelector('input[name="avatar"]').files[0]
+//     };
+
+//     // Store form data and role in session storage
+//     sessionStorage.setItem('formData', JSON.stringify(formData));
+//     sessionStorage.setItem('role', role);
+
+//     window.location.href = "{{ route('Home.Broker.CreateNewBroker') }}";
+//     }
+
+//     function redirectToCreatePropertyFinder() {
+//         window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
+//     }
+
+//     function redirectToCreateOffice() {
+//         window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
+//     }
+
+//     function handleRoleRedirect(role) {
+//     if (role === 'Office') {
+//         redirectToCreateOffice();
+//     } else if (role === 'RS-Broker') {
+//         redirectToCreateBroker();
+//     } else if (role === 'Owner' || role === 'Property-Finder') {
+//         redirectToCreatePropertyFinder();
+//     } else {
+//         alert('No redirection available for this role.');
+//     }
+// }
+
+function handleRoleRedirect(role) {
+    if (role === 'Office-Admin') {
+        redirectToCreateOffice();
+    } else if (role === 'RS-Broker') {
+        redirectToCreateBroker();
+    } else if (role === 'Owner' || role === 'Property-Finder') {
+        redirectToCreatePropertyFinder();
+    } else {
+        alert('No redirection available for this role.');
+    }
+}
+
+function redirectToCreateOffice() {
+    // storeFormData();
+    window.location.href = "{{ route('Home.Offices.CreateNewOffice') }}";
+}
+
+function redirectToCreateBroker() {
+    // storeFormData();
+    window.location.href = "{{ route('Home.Broker.CreateNewBroker') }}";
+}
+
+function redirectToCreatePropertyFinder() {
+    // storeFormData();
+    window.location.href = "{{ route('Home.PropertyFinder.CreateNewPropertyFinder') }}";
+}
+
+function storeFormData() {
+    let formData = {
+        name: document.getElementById('name').value,
+        id_number: document.getElementById('id_number').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        key_phone: document.getElementById('key_phone').value,
+        avatar: document.querySelector('input[name="avatar"]').files[0]
+    };
+
+    sessionStorage.setItem('formData', JSON.stringify(formData));
+}
+
+
+
+$('#Region_id').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function() {
+                    $('#CityDiv').fadeOut('fast');
+                },
+                success: function(data) {
+                    $('#CityDiv').fadeOut('fast', function() {
+                        $(this).empty().append(data);
+                        $(this).fadeIn('fast');
+                    });
+                },
+            });
+ });
+
+</script>
+
     @endpush
 @endsection

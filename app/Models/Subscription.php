@@ -21,6 +21,11 @@ class Subscription extends Model
         return $this->belongsTo(Broker::class, 'broker_id');
     }
 
+    public function OwnerData()
+    {
+        return $this->belongsTo(Owner::class, 'owner_id');
+    }
+
     public function SubscriptionTypeData()
     {
         return $this->belongsTo(SubscriptionType::class, 'subscription_type_id');

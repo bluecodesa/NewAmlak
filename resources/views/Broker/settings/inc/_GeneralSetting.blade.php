@@ -6,6 +6,8 @@
     @include('Admin.layouts.Inc._errors')
 
     <input type="text" name="key_phone" hidden id="key_phone" value="{{ $broker->key_phone ?? '966' }}">
+    <input type="text" hidden name="full_phone" id="full_phone"
+    value="{{ $broker->UserData->full_phone ?? ($broker->key_phone ?? '966') }}">
 
     <div class="col-md-4 col-12 mb-3">
         <label for="name">
@@ -15,7 +17,7 @@
             required>
     </div>
 
-    <div class="col-md-4 col-12 mb-3">
+    {{-- <div class="col-md-4 col-12 mb-3">
         <label for="license_number">
             @lang('license number')<span class="text-danger">*</span></label>
 
@@ -31,7 +33,7 @@
             @lang('License expiration date')<span class="text-danger">*</span></label>
         <input type="date" class="form-control" id="license_number" name="license_date"
             value="{{ $broker->license_date }}" required>
-    </div>
+    </div> --}}
 
 
     <div class="col-md-4 col-12 mb-3">
@@ -43,17 +45,16 @@
 
 
     <div class="col-12 mb-3 col-md-4">
-        <label for="color" class="form-label">@lang('Mobile Whats app') <span class="required-color">*</span></label>
+        <label for="color" class="form-label">@lang('phone') <span class="required-color">*</span></label>
         <div class="input-group">
-            <input type="text" placeholder="123456789" name="mobile" value="{{ $broker->mobile }}"
-                class="form-control" maxlength="9" pattern="\d{1,9}"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                aria-label="Text input with dropdown button">
+            <input type="text" placeholder="123456789" name="mobile" id="phone"
+            value="{{ $broker->UserData->phone }}" class="form-control" maxlength="9" pattern="\d{1,9}"
+                oninput="updateFullPhone(this)" aria-label="Text input with dropdown button">
             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{ $broker->key_phone ?? '966' }}
+                {{ $Owner->key_phone ?? '966' }}
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" style="">
+            <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                 <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
             </ul>
@@ -65,7 +66,7 @@
     <div class="col-md-4 col-12 mb-3">
 
         <label for="id_number" class="form-label">@lang('id number')</label>
-        <input type="text" class="form-control" id="id_number" name="id_number" value="{{ $broker->id_number }}">
+        <input type="text" class="form-control" id="id_number" name="id_number" value="{{ $broker->userData->id_number }}">
     </div>
 
 
@@ -124,3 +125,5 @@
         <button type="submit" class="btn btn-primary">@lang('save')</button>
     </div>
 </form>
+
+

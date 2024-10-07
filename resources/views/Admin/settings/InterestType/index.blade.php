@@ -15,6 +15,7 @@
                 <tr>
                     {{-- <th>#</th> --}}
                     <th>@lang('Name')</th>
+                    <th>@lang('Default')</th>
                     <th>@lang('Action')</th>
                 </tr>
             </thead>
@@ -24,6 +25,7 @@
                     <tr>
                         {{-- <th>{{ $index + 1 }}</th> --}}
                         <td>{{ $interest->name }} </td>
+                        <td>{{ $interest->default ? __('Yes') : __('No') }}</td>
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

@@ -46,6 +46,16 @@ class SubscriptionService
         return $this->subscriptionRepository->getAllSubscribers();
     }
 
+    public function getAllUsers()
+    {
+        return $this->subscriptionRepository->getAllUsers();
+    }
+
+    public function findUserById($id)
+    {
+        return $this->subscriptionRepository->findUserById($id);
+    }
+
     public function findSubscriptionById($id)
     {
         return $this->subscriptionRepository->findSubscriberById($id);
@@ -171,7 +181,7 @@ class SubscriptionService
             'status' => $status,
             'is_start' => ($status == 'pending') ? 0 : 1,
             'is_new' => 1,
-            'start_date' => now()->format('Y-m-d'),
+            'start_date' => now()->format('Y-m-d H:i:s'),
             'end_date' => $endDate,
             'total' => '200'
         ]);
@@ -366,6 +376,16 @@ class SubscriptionService
 
     protected function createSystemInvoice($office, $subscriptionType, $status)
     {
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+
+        $delimiter = '-';
+        if (!$Last_invoice_ID) {
+            $new_invoice_ID = '00001';
+        } else {
+            $result = explode($delimiter, $Last_invoice_ID);
+            $number = (int)$result[1] + 1;
+            $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+        }
         SystemInvoice::create([
             'office_id' => $office->id,
             'subscription_name' => $subscriptionType->name,
@@ -374,12 +394,22 @@ class SubscriptionService
             'period' => $subscriptionType->period,
             'period_type' => $subscriptionType->period_type,
             'status' => $status,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
     }
 
     protected function createSystemInvoiceBroker($broker, $subscriptionType, $status)
     {
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+
+        $delimiter = '-';
+        if (!$Last_invoice_ID) {
+            $new_invoice_ID = '00001';
+        } else {
+            $result = explode($delimiter, $Last_invoice_ID);
+            $number = (int)$result[1] + 1;
+            $new_invoice_ID = str_pad($number % 10000, 5, '0', STR_PAD_LEFT);
+        }
         SystemInvoice::create([
             'broker_id' => $broker->id,
             'subscription_name' => $subscriptionType->name,
@@ -388,7 +418,7 @@ class SubscriptionService
             'period' => $subscriptionType->period,
             'period_type' => $subscriptionType->period_type,
             'status' => $status,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
     }
 

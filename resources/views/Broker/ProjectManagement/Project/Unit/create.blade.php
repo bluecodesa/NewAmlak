@@ -71,26 +71,23 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('post')
-                                     
+
 
                                         <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('Project') <span
-                                                    class="required-color"></span></label>
+                                            <label class="form-label">@lang('Project') <span class="required-color"></span></label>
                                             <select class="form-select projectSelect" name="project_id" id="projectSelect">
-                                                <option disabled selected value="">@lang('Project')</option>
+                                                <option selected value="">@lang('without')</option>
                                                 @foreach ($projects as $project)
-                                                    <option value="{{ $project->id }}"
-                                                        data-url="{{ route('Broker.GetProjectDetails', $project->id) }}">
+                                                    <option value="{{ $project->id }}" data-url="{{ route('Broker.GetProjectDetails', $project->id) }}">
                                                         {{ $project->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
 
                                         <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('property') <span
-                                                    class="required-color"></span></label>
+                                            <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                             <select class="form-select" name="property_id" id="propertySelect">
-                                                <option disabled selected value="">@lang('property')</option>
+                                                <option selected value="">@lang('without')</option>
                                                 @foreach ($properties as $property)
                                                     <option value="{{ $property->id }}">{{ $property->name }}</option>
                                                 @endforeach
@@ -182,9 +179,11 @@
                                                         <option value="{{ $owner->id }}">{{ $owner->name }}</option>
                                                     @endforeach
                                                 </select>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                                <a href="{{ route('Broker.Owner.index') }}" target="_blank" class="btn btn-outline-primary"
+                                                type="button">@lang('Add New Owner')</a>
+                                                {{-- <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                                     data-bs-target="#addNewCCModal"
-                                                    type="button">@lang('Add New Owner')</button>
+                                                    type="button">@lang('Add New Owner')</button> --}}
                                             </div>
                                         </div>
 
@@ -323,24 +322,67 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label"
-                                                style="display: block !important;">@lang('Show in Gallery')
-                                            </label>
+                                        {{-- @php
+                                            // Fetch all Fal licenses for the authenticated user
+                                            $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
+                                                ->whereHas('falData', function ($query) {
+                                                    $query->whereTranslation('name', 'Real State FalLicense', 'en');
+                                                })
+                                                ->where('ad_license_status', 'valid')
+                                                ->first();
+                                                // dd($falLicense);
 
-                                            <label class="switch switch-lg">
-                                                <input type="checkbox" name="show_gallery" class="switch-input"
-                                                    checked />
-                                                <span class="switch-toggle-slider">
-                                                    <span class="switch-on">
-                                                        <i class="ti ti-check"></i>
-                                                    </span>
-                                                    <span class="switch-off">
-                                                        <i class="ti ti-x"></i>
-                                                    </span>
-                                                </span>
-                                            </label>
-                                        </div>
+                                            // $licenseDate = Auth::user()->UserFalData->falData->name;
+                                            $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
+                                        @endphp --}}
+
+                                            @if($falLicense)
+                                                <!-- Show the "Show in Gallery" switch if the user has a valid license -->
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                                    <label class="switch switch-lg">
+                                                        <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery"
+                                                            @if($falLicense->ad_license_status != 'valid') disabled @endif
+                                                            @if($falLicense->ad_license_status == 'valid') checked @endif />
+                                                        <span class="switch-toggle-slider">
+                                                            <span class="switch-on"><i class="ti ti-check"></i></span>
+                                                            <span class="switch-off"><i class="ti ti-x"></i></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+
+                                                <!-- Show gallery fields only if the license status is "valid" -->
+                                                <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
+                                                    <div class="col-sm-12 col-md-4 mb-3">
+                                                        <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
+                                                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number"
+                                                            @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                                    </div>
+
+                                                    <div class="col-sm-12 col-md-4 mb-3">
+                                                        <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
+                                                        <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry"
+                                                            @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                                        <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <!-- Display a message if the license is not valid or doesn't exist -->
+                                                <div class="col-sm-12 col-md-4 mb-3">
+                                                    <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                                    <label class="switch switch-lg">
+                                                        <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" disabled />
+                                                        <span class="switch-toggle-slider">
+                                                            <span class="switch-off"><i class="ti ti-x"></i></span>
+                                                        </span>
+                                                    </label>
+                                                    <!-- Add a message to indicate the license has expired -->
+                                                    <div class="alert alert-warning mt-2">
+                                                        @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                                                    </div>
+                                                </div>
+                                            @endif
 
                                         <div class="col-12 mb-3">
                                             <label class="form-label mb-2">@lang('Description')</label>
@@ -443,10 +485,10 @@
                                                 <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
                                             </div>
                                         </div>
-                            
+
                                     </div>
                                     <div class="col-12" style="text-align: center;">
-                                        <button class="btn btn-primary col-4 waves-effect waves-light"
+                                        <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
                                             type="submit">@lang('save')</button>
                                     </div>
                                 </div>
@@ -659,39 +701,60 @@
             });
         </script>
 
-        <script>
-            $(document).ready(function() {
-                $('#projectSelect').on('change', function() {
-                    var projectId = $(this).val();
-                    var propertySelect = $('#propertySelect');
+<script>
+    $(document).ready(function() {
+        function populateAllProperties() {
+            var propertySelect = $('#propertySelect');
+            propertySelect.empty();
+            propertySelect.append('<option selected value="">@lang('without')</option>');
+            @foreach ($properties as $property)
+                propertySelect.append('<option value="{{ $property->id }}">{{ $property->name }}</option>');
+            @endforeach
+        }
 
-                    // Clear previous options
-                    propertySelect.empty();
-                    propertySelect.append('<option disabled selected value="">@lang('property')</option>');
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            var propertySelect = $('#propertySelect');
 
-                    if (projectId) {
-                        $.ajax({
-                            url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
-                            type: 'GET',
-                            success: function(response) {
-                                $.each(response.properties, function(key, property) {
-                                    propertySelect.append('<option value="' + property.id +
-                                        '">' + property.name + '</option>');
-                                });
-                            },
-                            error: function(error) {
-                                console.error('Error fetching properties:', error);
-                            }
+            if (projectId) {
+                // Clear previous options
+                propertySelect.empty();
+                propertySelect.append('<option selected value="">@lang('without')</option>');
+
+                $.ajax({
+                    url: '{{ route('Broker.GetPropertiesByProject', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        $.each(response.properties, function(key, property) {
+                            propertySelect.append('<option value="' + property.id + '">' + property.name + '</option>');
                         });
+                    },
+                    error: function(error) {
+                        console.error('Error fetching properties:', error);
                     }
                 });
-            });
-        </script>
+            } else {
+                // Reset to show all properties when "without" is selected
+                populateAllProperties();
+            }
+        });
+
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (!propertyId) {
+                // Reset to show all properties when "without" is selected
+                populateAllProperties();
+            }
+        });
+
+        // Initial population of properties
+        populateAllProperties();
+    });
+</script>
 
 <script>
     $(document).ready(function() {
         function populateFields(data) {
-            // console.log(data);
             // Populate region select
             $('#Region_id').val(data.city_data.region_data.id).change();
 
@@ -700,12 +763,23 @@
             // $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
             // $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
 
-
             // Populate district select
             $('#DistrictDiv').empty();
             // $.each(data.city_data.districts_city, function(index, district) {
             //     $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
             // });
+        }
+
+        function resetFields() {
+            // $('#Region_id').val('').change();
+            $('#CityDiv').empty();
+            $('#DistrictDiv').empty();
+            $('#myAddressBar').val('');
+            $('select[name="property_type_id"]').val('').change();
+            $('select[name="property_usage_id"]').val('').change();
+            $('select[name="owner_id"]').val('').change();
+            // $('input[name="instrument_number"]').val('');
+            $('select[name="service_type_id"]').val('').change();
         }
 
         $('#projectSelect').on('change', function() {
@@ -727,6 +801,8 @@
                         console.error('Error fetching project details:', error);
                     }
                 });
+            } else {
+                resetFields();
             }
         });
 
@@ -749,76 +825,15 @@
                         console.error('Error fetching property details:', error);
                     }
                 });
+            } else {
+                resetFields();
             }
         });
-
     });
 </script>
 
 
-        {{-- <script>
-            $(document).ready(function() {
-                $('.projectSelect').on('change', function() {
-                    var selectedOption = $(this).find(':selected');
-                    var url = selectedOption.data('url');
-                    var projectId = $(this).val();
-                    alert(projectId);
-                    if (projectId) {
-                        $.ajax({
-                            url: url,
-                            type: 'GET',
-                            success: function(response) {
-                                var project = response.project;
-                                $('#myAddressBar').val(project.location);
-                                $('select[name="property_type_id"]').val(project.property_type_id)
-                                    .change();
-                                $('select[name="property_usage_id"]').val(project.property_usage_id)
-                                    .change();
-                                $('select[name="owner_id"]').val(project.owner_id).change();
-                                $('input[name="instrument_number"]').val(project.instrument_number);
-                                $('select[name="service_type_id"]').val(project.service_type_id)
-                                    .change();
-                                $('#Region_id').val(project.CityData - > RegionData - > id)
-                                    .change();
-                                $('#CityDiv').val(project.city_id).change();
 
-                            },
-                            error: function(error) {
-                                console.error('Error fetching project details:', error);
-                            }
-                        });
-                    }
-                });
-
-                $('#propertySelect').on('change', function() {
-                    var propertyId = $(this).val();
-                    if (propertyId) {
-                        $.ajax({
-                            url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
-                            type: 'GET',
-                            success: function(response) {
-                                var property = response.property;
-                                // $('#Region_id').val(property.CityData.RegionData.id).change();
-                                $('#CityDiv').val(property.city_id).change();
-                                $('#myAddressBar').val(property.location);
-                                $('select[name="property_type_id"]').val(property.property_type_id)
-                                    .change();
-                                $('select[name="property_usage_id"]').val(property
-                                    .property_usage_id).change();
-                                $('select[name="owner_id"]').val(property.owner_id).change();
-                                $('input[name="instrument_number"]').val(property
-                                    .instrument_number);
-                                $('select[name="service_type_id"]').val(property.service_type_id)
-                                    .change();
-                            },
-                            error: function(error) {
-                                console.error('Error fetching property details:', error);
-                            }
-                        });
-                    }
-                });
-            });
-        </script> --}}
 
         <script>
             $('#button-addon1').click(function() {
@@ -836,5 +851,82 @@
                 $('#projectMasterplan').val('');
             });
         </script>
+
+<script>
+    document.getElementById('show_gallery').addEventListener('change', function () {
+        var galleryFields = document.getElementById('gallery-fields');
+        if (this.checked) {
+            galleryFields.style.display = 'block';
+            document.getElementById('ad_license_number').disabled = false;
+            document.getElementById('ad_license_expiry').disabled = false;
+        } else {
+            galleryFields.style.display = 'none';
+            document.getElementById('ad_license_number').disabled = true;
+            document.getElementById('ad_license_expiry').disabled = true;
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        adLicenseExpiryInput.addEventListener('change', function() {
+            var selectedDate = new Date(this.value);
+            if (selectedDate > licenseDate) {
+                errorMessage.style.display = 'block';
+                adLicenseExpiryInput.setCustomValidity('');
+            } else {
+                errorMessage.style.display = 'none';
+                adLicenseExpiryInput.setCustomValidity(''); /
+            }
+        });
+
+        adLicenseExpiryInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+        });
+    });
+</script>
+
+<script>
+    var licenseDate = new Date("{{ $licenseDate }}");
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        var submitButton = document.getElementById('submit_button');
+        var form = document.getElementById('unit-form');
+
+        function validateDate() {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Show error message if the selected date is after the license date
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true; // Disable submit button
+            } else {
+                // Hide error message if the date is valid
+                errorMessage.style.display = 'none';
+                submitButton.disabled = false; // Enable submit button
+            }
+        }
+
+        adLicenseExpiryInput.addEventListener('change', validateDate);
+
+        form.addEventListener('submit', function(event) {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Prevent form submission if the selected date is invalid
+                event.preventDefault();
+                errorMessage.style.display = 'block';
+            } else {
+                // Allow form submission if the date is valid
+                errorMessage.style.display = 'none';
+            }
+        });
+    });
+</script>
+
     @endpush
 @endsection

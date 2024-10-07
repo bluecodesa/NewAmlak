@@ -15,6 +15,11 @@ class Property extends Model
         return $this->belongsTo(City::class, 'city_id');
     }
 
+    public function DistrictData()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+
     public function PropertyTypeData()
     {
         return $this->belongsTo(PropertyType::class, 'property_type_id');
@@ -54,4 +59,20 @@ class Property extends Model
     {
         return $this->hasMany(Unit::class, 'property_id');
     }
+    public function BrokerData()
+    {
+        return $this->belongsTo(Broker::class, 'broker_id');
+    }
+
+    public function UnitsProperty()
+    {
+        return $this->hasMany(Unit::class, 'property_id');
+    }
+
+    public function UnitFeatureData()
+    {
+        return $this->hasMany(UnitFeature::class, 'property_id');
+    }
+
+
 }

@@ -18,4 +18,6 @@ interface PropertyRepositoryInterface
     public function findById($id);
 
     public function delete($id);
+    public function ShowPublicProperty($id);
+
 }

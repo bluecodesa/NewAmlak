@@ -49,6 +49,11 @@
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
     <script src="{{ asset('assets/js/config.js') }}"></script>
+    <style>
+        .template-customizer-open-btn {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -78,7 +83,7 @@
                                         fill="#009490" />
                                 </svg>
                             </span>
-                            <span class="app-brand-text demo text-body fw-bold ms-1">أملاك</span>
+                            <span class="app-brand-text demo text-body fw-bold ms-1">تاون</span>
                         </a>
                     </div>
                     <!-- /Logo -->
@@ -166,7 +171,7 @@
             startCountdown();
         });
     </script>
-        {!! $sitting->zoho_salesiq !!}
+    {!! $sitting->zoho_salesiq !!}
 
 </body>
 

@@ -30,16 +30,29 @@ class NewPropertyFinderNotification extends Notification
 
     public function toDatabase($notifiable)
     {
-        $user_id=$this->user->id;
-        $user=User::where('id',$user_id)->first();
+        $user_id = $this->user->id;
+        $user = User::where('id', $user_id)->first();
+
+        if ($user->is_property_finder) {
+            $type_noty = 'New Property Finder';
+            $service_name = 'NewPropertyFinder';
+        } elseif ($user->is_owner) {
+            $type_noty = 'New Owner Registered';
+            $service_name = 'NewOwner';
+        } else {
+            $type_noty = 'New User';
+            $service_name = 'NewUser';
+        }
+
         return [
-            'msg' => __('') . ' ' . ($user->name) ,
+            'msg' => __('') . ' ' . ($user->name),
             'url' => route('Admin.Subscribers.show', $user->id),
-            'type_noty' => 'NewPropertyFinder',
-            'service_name' => 'NewPropertyFinder',
+            'type_noty' => $type_noty,
+            'service_name' => $service_name,
             'created_at' => now(),
         ];
     }
+
 
     public function toArray(object $notifiable): array
     {

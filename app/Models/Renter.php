@@ -24,6 +24,11 @@ class Renter extends Model
     {
         return $this->hasMany(OfficeRenter::class, 'renter_id');
     }
+    public function ContractData()
+    {
+        return $this->hasMany(Contract::class, 'renter_id');
+    }
+
 
     public function latestOfficeRenter()
     {

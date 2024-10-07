@@ -36,11 +36,12 @@
                                     </button>
                                 </li>
                             @endif
-                            <li class="nav-item" role="presentation">
+                            <li class="nav-item">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                    data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
-                                    aria-selected="false" tabindex="-1">
-                                    <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
+                                    data-bs-target="#navs-justified-fal" aria-controls="navs-justified-fal"
+                                    aria-selected="false">
+                                    <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
+                                    @lang('REGA License')
                                 </button>
                             </li>
 
@@ -50,6 +51,15 @@
                                     aria-selected="false">
                                     <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
                                     @lang('Gallary Mange')
+                                </button>
+                            </li>
+
+
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
+                                    aria-selected="false" tabindex="-1">
+                                    <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
                                 </button>
                             </li>
 
@@ -89,6 +99,11 @@
                                 @endif
                             </div>
 
+                            <div class="tab-pane fade" id="navs-justified-fal" role="tabpanel">
+                                    @include('Broker.settings.inc.FalLicense.index')
+
+                            </div>
+
 
                         </div>
                     </div>
@@ -118,13 +133,7 @@
                     });
                 });
                 //
-                $(document).ready(function() {
-                    $('.dropdown-item').on('click', function() {
-                        var key = $(this).data('key');
-                        $('#key_phone').val(key);
-                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                    });
-                });
+
 
 
                 $(document).ready(function() {
@@ -199,6 +208,26 @@
                         timer: 1000,
                     });
                 }
+            </script>
+
+            <script>
+                function updateFullPhone(input) {
+                            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+                            var key_phone = $('#key_phone').val();
+                            var fullPhone = key_phone + input.value;
+                            document.getElementById('full_phone').value = fullPhone;
+                        }
+                        $(document).ready(function() {
+                            $('.dropdown-item').on('click', function() {
+                                var key = $(this).data('key');
+                                var phone = $('#phone').val();
+                                $('#key_phone').val(key);
+                                $('#full_phone').val(key + phone);
+                                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                            });
+                        });
+
+
             </script>
         @endpush
 

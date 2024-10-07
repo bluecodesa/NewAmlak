@@ -61,7 +61,7 @@ class SettingController extends Controller
         $office = auth()->user()->UserOfficeData;
         $settings = $this->settingService->getOfficeSettings($office);
         $city = $office->CityData;
-        $region = $city->RegionData;
+        $region = $city->RegionData ?? [];
         $gallery = $settings['gallery'];
         $NotificationSetting = $settings['notificationSettings'];
         $subscriber = $this->subscriptionService->findSubscriptionByOfficeId(auth()->user()->UserOfficeData->id);

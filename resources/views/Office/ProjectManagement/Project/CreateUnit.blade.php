@@ -33,7 +33,7 @@
                         aria-controls="navs-justified-home"
                         aria-selected="true">
                         <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
-                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">10</span>
                       </button>
                     </li>
                     <li class="nav-item">
@@ -46,6 +46,8 @@
                           aria-controls="navs-justified-gallery"
                           aria-selected="false">
                           <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Gallery')
+                          <span
+                           class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">2</span>
                         </button>
                       </li>
                     <li class="nav-item">
@@ -248,6 +250,17 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <div class="col-12 mb-2 col-md-4">
+                                                <label class="form-label">@lang('The Responsible Employee')
+                                                </label>
+                                                <select class="form-select" name="employee_id" id="type">
+                                                    <option disabled selected value="">@lang('The Responsible Employee') </option>
+                                                    @foreach ($employees as $employee)
+                                                    <option value="{{ $employee->id }}">
+                                                        {{ $employee->UserData->name }}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
 
                                             <div class="col-sm-12 col-md-6 mb-3" hidden>
                                                 <label class="form-label">@lang('lat&long')</label>
@@ -274,33 +287,33 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 mb-3">
-                                                <label class="form-label mb-2">@lang('Description')</label>
-                                                <div>
-                                                    {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
-                                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
+                                       
 
-                                                    </textarea>
-                                                </div>
+                                            <div class="col-12" style="text-align: center;">
+                                                <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
+                                                    {{ __('Next') }}
+                                                </button>
                                             </div>
-                                            <div class="col-sm-12 col-md-12 mb-3">
-                                                <label class="form-label mb-2">@lang('Pictures property') </label>
-                                                <input type="file" name="images[]" multiple class="dropify"
-                                                    accept="image/jpeg, image/png" />
-                                            </div>
-
-
-
-
-
-
 
                     </div>
                     <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                         <div class="row">
 
+
+                            <div class="col-md-4 col-12 mb-3">
+
+                                <label class="form-label">
+                                    {{ __('ad name') }} <span class="required-color">*</span></label>
+                                <input type="text" required name="ad_name" class="form-control"
+                                    placeholder="{{ __('ad name') }}">
+
+                            </div>
+
+
+
                             <div class="col-12 mb-2 col-md-4">
-                                <label class="form-label">@lang('Ad type') <span class="required-color">*</span>
+                                <label class="form-label">@lang('Ad type') <span
+                                        class="required-color">*</span>
                                 </label>
                                 <select class="form-select" name="type" id="type" required>
                                     <option disabled value="">@lang('Ad type') </option>
@@ -311,14 +324,14 @@
                                 </select>
                             </div>
 
-                            <div class="col-sm-12 col-md-2 mb-3">
-                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label"
+                                    style="display: block !important;">@lang('Show in Gallery')
                                 </label>
-                                {{-- <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
-                                        data-toggle="toggle" data-onstyle="primary"> --}}
 
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_gallery" class="switch-input" checked />
+                                    <input type="checkbox" name="show_gallery" class="switch-input"
+                                        checked />
                                     <span class="switch-toggle-slider">
                                         <span class="switch-on">
                                             <i class="ti ti-check"></i>
@@ -329,10 +342,39 @@
                                     </span>
                                 </label>
                             </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label mb-2">@lang('Description')</label>
+                                <div>
+                                    {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
+                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
+
+                                        </textarea>
+                                </div>
+                            </div>
+                     
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Unit Images') </label>
+                                <div class="input-group">
+                                <input class="form-control" id="upload" type="file" name="images[]" multiple accept="image/jpeg, image/png" />
+                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon1"><i class="ti ti-refresh"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Unit Video')</label>
+                                <div class="input-group">
+                                <input class="form-control" id="uploadVideo" type="file" name="video"  accept="video/mp4, video/webm, video/ogg" />
+                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon2"><i class="ti ti-refresh"></i></button>
+                                </div>
+                            </div>
 
 
                         </div>
-
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
+                                {{ __('Next') }}
+                            </button>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                         <div class="row">
@@ -368,21 +410,30 @@
                         </div>
 
                         </div>
-
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-messages">
+                                {{ __('Next') }}
+                            </button>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                         <div class="row">
                             <div class=" col-6 mb-3">
                                 <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
-                                <input class="form-control" type="file" name="unit_masterplan" id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                <div class="input-group">
+                                <input class="form-control" type="file" name="unit_masterplan"
+                                    id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                    <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                </div>
                             </div>
 
                         </div>
+                        <div class="col-12" style="text-align: center;" >
+                            <button class="btn btn-primary col-4 waves-effect waves-light"
+                                type="submit">@lang('save')</button>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary waves-effect waves-light"
-                            type="submit">@lang('save')</button>
-                    </div>
+
 
 
                 </form>
@@ -560,5 +611,32 @@
 
 
         </script>
+
+<script>
+    document.querySelectorAll('.next-tab').forEach(button => {
+        button.addEventListener('click', function() {
+            const nextTab = this.getAttribute('data-next');
+            const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+            nextTabButton.click();
+        });
+    });
+</script>
+
+<script>
+$('#button-addon1').click(function() {
+    $('#upload').val('');
+
+});
+</script>
+<script>
+$('#button-addon2').click(function() {
+    $('#uploadVideo').val('');
+});
+</script>
+<script>
+$('#button-addon3').click(function() {
+    $('#projectMasterplan').val('');
+});
+</script>
     @endpush
 @endsection

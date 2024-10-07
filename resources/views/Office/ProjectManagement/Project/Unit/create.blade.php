@@ -47,7 +47,7 @@
                           aria-controls="navs-justified-gallery"
                           aria-selected="false">
                           <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Gallery')
-                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
+                          <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">2</span>
                         </button>
                       </li>
                     <li class="nav-item">
@@ -88,16 +88,36 @@
                         enctype="multipart/form-data">
                         @csrf
                         @method('post')
-                                            <div class="col-md-3 col-12 mb-3">
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('Project') <span class="required-color"></span></label>
+                                        <select class="form-select projectSelect" name="project_id" id="projectSelect">
+                                            <option selected value="">@lang('without')</option>
+                                            @foreach ($projects as $project)
+                                                <option value="{{ $project->id }}" data-url="{{ route('Office.GetProjectDetails', $project->id) }}">
+                                                    {{ $project->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3 col-12">
+                                        <label class="form-label">@lang('property') <span class="required-color"></span></label>
+                                        <select class="form-select" name="property_id" id="propertySelect">
+                                            <option selected value="">@lang('without')</option>
+                                            @foreach ($properties as $property)
+                                                <option value="{{ $property->id }}">{{ $property->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 col-12 mb-3">
 
-                                                <label class="form-label">
-                                                    {{ __('Residential number') }} <span class="required-color">*</span></label>
-                                                <input type="text" required id="modalRoleName" name="number_unit"
-                                                    class="form-control" placeholder="{{ __('Residential number') }}">
+                                        <label class="form-label">
+                                            {{ __('Residential number') }} <span class="required-color">*</span></label>
+                                        <input type="text" required id="modalRoleName" name="number_unit"
+                                            class="form-control" placeholder="{{ __('Residential number') }}">
 
-                                            </div>
+                                    </div>
 
-                                            <div class="col-md-3 mb-3 col-12">
+                                            <div class="col-md-4 mb-3 col-12">
                                                 <label class="form-label">@lang('Region') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select" id="Region_id" required>
@@ -110,7 +130,7 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-3 mb-3 col-12">
+                                            <div class="col-md-4 mb-3 col-12">
                                                 <label class="form-label">@lang('city') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select " id="CityDiv" name="city_id" required>
@@ -123,7 +143,7 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-3 mb-3 col-12">
+                                            <div class="col-md-4 mb-3 col-12">
                                                 <label class="form-label">@lang('district') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select" name="district_id" id="DistrictDiv" required>
@@ -279,33 +299,102 @@
                                                             placeholder="@lang('value')" value="{{ old('qty*') }}" />
                                                     </div>
                                                     <div class="col">
-                                                        <button type="button" class="btn btn-primary w-100"
+                                                        <button type="button" class="btn btn-outline-primary w-100"
                                                             onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
                                                                 class="d-none d-sm-inline-block">@lang('Add details')</span></button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 mb-3">
-                                                <label class="form-label mb-2">@lang('Description')</label>
-                                                <div>
-                                                    {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
-                                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
-
-                                                    </textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-12 mb-3">
-                                                <label class="form-label mb-2">@lang('Unit Images') </label>
-                                                <input type="file" name="images[]" multiple class="dropify"
-                                                    accept="image/jpeg, image/png" />
-                                            </div>
+                                          
+                                        <div class="col-12" style="text-align: center;">
+                                            <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                                data-next="#navs-justified-gallery">
+                                                {{ __('Next') }}
+                                            </button>
+                                        </div>
 
 
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+                        <div class="row">
+
+                            <div class="col-md-3 col-12 mb-3">
+
+                                <label class="form-label">
+                                    {{ __('ad name') }} <span class="required-color">*</span></label>
+                                <input type="text" required name="ad_name" class="form-control"
+                                    placeholder="{{ __('ad name') }}">
+
+                            </div>
 
 
 
+                            <div class="col-12 mb-2 col-md-4">
+                                <label class="form-label">@lang('Ad type') <span
+                                        class="required-color">*</span>
+                                </label>
+                                <select class="form-select" name="type" id="type" required>
+                                    <option disabled value="">@lang('Ad type') </option>
+                                    @foreach (['rent', 'sale', 'rent and sale'] as $type)
+                                        <option value="{{ $type }}">
+                                            {{ __($type) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label"
+                                    style="display: block !important;">@lang('Show in Gallery')
+                                </label>
+
+                                <label class="switch switch-lg">
+                                    <input type="checkbox" name="show_gallery" class="switch-input"
+                                        checked />
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on">
+                                            <i class="ti ti-check"></i>
+                                        </span>
+                                        <span class="switch-off">
+                                            <i class="ti ti-x"></i>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label class="form-label mb-2">@lang('Description')</label>
+                                <div>
+                                    {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
+                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
+
+                                    </textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Unit Images') </label>
+                                <div class="input-group">
+                                <input class="form-control" id="upload" type="file" name="images[]" multiple accept="image/jpeg, image/png" />
+                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon1"><i class="ti ti-refresh"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Unit Video')</label>
+                                <div class="input-group">
+                                <input class="form-control" id="uploadVideo" type="file" name="video"  accept="video/mp4, video/webm, video/ogg" />
+                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon2"><i class="ti ti-refresh"></i></button>
+                                </div>
+                            </div>
 
 
+                        </div>
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                data-next="#navs-justified-profile">
+                                {{ __('Next') }}
+                            </button>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                         <div class="row">
@@ -379,22 +468,30 @@
                         </div>
 
                         </div>
-
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                data-next="#navs-justified-messages">
+                                {{ __('Next') }}
+                            </button>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                         <div class="row">
                             <div class=" col-6 mb-3">
                                 <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
-                                <input class="form-control" type="file" name="unit_masterplan" id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                <div class="input-group">
+                                <input class="form-control" type="file" name="unit_masterplan"
+                                    id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                    <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                </div>
                             </div>
-
+                
+                        </div>
+                        <div class="col-12" style="text-align: center;">
+                            <button class="btn btn-primary col-4 waves-effect waves-light"
+                                type="submit">@lang('save')</button>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary waves-effect waves-light"
-                            type="submit">@lang('save')</button>
-                    </div>
-
 
                 </form>
                   </div>
@@ -417,6 +514,33 @@
 
 {{-- نهايه الوصف --}}
     @push('scripts')
+    <script>
+
+$(document).ready(function() {
+        // Intercept form submission
+        $('#OwnerForm').submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'), // Form action URL
+                data: formData, // Form data
+                success: function(data) {
+                    $('#OwnersDiv').empty();
+                    $('#OwnersDiv').append(data);
+                    $('#addNewCCModal').modal('hide');
+                    alertify.success(@json(__('added successfully')));
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response here
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+
+
+    </script>
         <script>
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
@@ -572,6 +696,164 @@
 
 
         </script>
+        <script>
+            $('#button-addon1').click(function() {
+                $('#upload').val('');
+
+            });
+        </script>
+         <script>
+            $('#button-addon2').click(function() {
+                $('#uploadVideo').val('');
+            });
+        </script>
+          <script>
+            $('#button-addon3').click(function() {
+                $('#projectMasterplan').val('');
+            });
+        </script>
+
+<script>
+    document.querySelectorAll('.next-tab').forEach(button => {
+        button.addEventListener('click', function() {
+            const nextTab = this.getAttribute('data-next');
+            const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+            nextTabButton.click();
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        function populateAllProperties() {
+            var propertySelect = $('#propertySelect');
+            propertySelect.empty();
+            propertySelect.append('<option selected value="">@lang('without')</option>');
+            @foreach ($properties as $property)
+                propertySelect.append('<option value="{{ $property->id }}">{{ $property->name }}</option>');
+            @endforeach
+        }
+
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            var propertySelect = $('#propertySelect');
+
+            if (projectId) {
+                // Clear previous options
+                propertySelect.empty();
+                propertySelect.append('<option selected value="">@lang('without')</option>');
+
+                $.ajax({
+                    url: '{{ route('Office.GetPropertiesByProject', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        $.each(response.properties, function(key, property) {
+                            propertySelect.append('<option value="' + property.id + '">' + property.name + '</option>');
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error fetching properties:', error);
+                    }
+                });
+            } else {
+                // Reset to show all properties when "without" is selected
+                populateAllProperties();
+            }
+        });
+
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (!propertyId) {
+                // Reset to show all properties when "without" is selected
+                populateAllProperties();
+            }
+        });
+
+        // Initial population of properties
+        populateAllProperties();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        function populateFields(data) {
+            // Populate region select
+            $('#Region_id').val(data.city_data.region_data.id).change();
+
+            // Populate city select
+            $('#CityDiv').empty();
+            // $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
+            // $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
+
+            // Populate district select
+            $('#DistrictDiv').empty();
+            // $.each(data.city_data.districts_city, function(index, district) {
+            //     $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
+            // });
+        }
+
+        function resetFields() {
+            // $('#Region_id').val('').change();
+            $('#CityDiv').empty();
+            $('#DistrictDiv').empty();
+            $('#myAddressBar').val('');
+            $('select[name="property_type_id"]').val('').change();
+            $('select[name="property_usage_id"]').val('').change();
+            $('select[name="owner_id"]').val('').change();
+            // $('input[name="instrument_number"]').val('');
+            $('select[name="service_type_id"]').val('').change();
+        }
+
+        $('#projectSelect').on('change', function() {
+            var projectId = $(this).val();
+            if (projectId) {
+                $.ajax({
+                    url: '{{ route('Office.GetProjectDetails', '') }}/' + projectId,
+                    type: 'GET',
+                    success: function(response) {
+                        populateFields(response.project);
+                        $('#myAddressBar').val(response.project.location);
+                        $('select[name="property_type_id"]').val(response.project.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
+                        $('select[name="owner_id"]').val(response.project.owner_id).change();
+                        // $('input[name="instrument_number"]').val(response.project.instrument_number);
+                        $('select[name="service_type_id"]').val(response.project.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching project details:', error);
+                    }
+                });
+            } else {
+                resetFields();
+            }
+        });
+
+        $('#propertySelect').on('change', function() {
+            var propertyId = $(this).val();
+            if (propertyId) {
+                $.ajax({
+                    url: '{{ route('Office.GetPropertyDetails', '') }}/' + propertyId,
+                    type: 'GET',
+                    success: function(response) {
+                        populateFields(response.property);
+                        $('#myAddressBar').val(response.property.location);
+                        $('select[name="property_type_id"]').val(response.property.property_type_id).change();
+                        $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
+                        $('select[name="owner_id"]').val(response.property.owner_id).change();
+                        // $('input[name="instrument_number"]').val(response.property.instrument_number);
+                        $('select[name="service_type_id"]').val(response.property.service_type_id).change();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching property details:', error);
+                    }
+                });
+            } else {
+                resetFields();
+            }
+        });
+    });
+</script>
 
     @endpush
 @endsection

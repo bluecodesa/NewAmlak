@@ -15,7 +15,7 @@
                     @if (Auth::user()->is_broker)
                         <h4 class="card-title w-100 text-center">@lang('Welcome') {{ Auth::user()->name }}</h4>
                     @elseif (Auth::user()->is_office)
-                        <h4 class="card-title w-100 text-center">@lang('Welcome') {{ Auth::user()->company_name }}</h4>
+                        <h4 class="card-title w-100 text-center">@lang('Welcome') {{ Auth::user()->name }}</h4>
                     @endif
                 @endif
 

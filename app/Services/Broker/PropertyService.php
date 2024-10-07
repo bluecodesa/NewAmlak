@@ -3,8 +3,12 @@
 namespace App\Services\Broker;
 
 use App\Interfaces\Broker\PropertyRepositoryInterface;
+use App\Models\Broker;
+use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Rules\UniqueAcrossTables;
+
 
 class PropertyService
 {
@@ -36,6 +40,11 @@ class PropertyService
                 Rule::unique('properties'),
                 'max:25'
             ],
+            // 'ad_license_number' => [
+            //     'required',
+            //     new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
+            //     'max:25'
+            //     ],
         ];
 
         // Validate data
@@ -56,6 +65,10 @@ class PropertyService
             'owner_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('owner')]),
             'instrument_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('instrument number')]),
             'instrument_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('instrument number'), 'max' => 25]),
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
         ];
 
         validator($data, $rules, $messages)->validate();
@@ -105,12 +118,17 @@ class PropertyService
             'monthly' => 'digits_between:0,8',
             'instrument_number' => [
                 'nullable',
-                Rule::unique('properties')->ignore($id),
+                Rule::unique('units')->ignore($id),
                 'max:25'
             ],
             'service_type_id' => 'required',
             "show_gallery" => 'sometimes',
             'type' => ['required', Rule::in(['sale', 'rent', 'rent and sale'])],
+            'ad_license_number' => [
+                'required',
+                new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
+                'max:25'
+                ],
 
         ];
         $messages = [
@@ -126,6 +144,12 @@ class PropertyService
             'type.in' => 'The selected type is invalid.',
             'price' => 'price must be smaller than or equal to 10 numbers.',
             'monthly' => 'Monthly price must be smaller than or equal to 8.',
+
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+
         ];
 
         // Validate data
@@ -134,5 +158,10 @@ class PropertyService
         $unit = $this->PropertyRepository->StoreUnit($id, $data);
 
         return $unit;
+    }
+
+    function ShowPublicProject($id)
+    {
+        return   $this->PropertyRepository->ShowPublicProperty($id);
     }
 }

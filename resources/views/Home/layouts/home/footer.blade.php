@@ -8,8 +8,8 @@
             <div class="row gx-0 gy-4 g-md-5">
                 <div class="col-lg-5">
                     <a href="/" class="app-brand-link mb-4">
-                        <img src="{{ url($sitting->icon) }}" width="30" alt="">
-                        <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">أملاك</span>
+                        <img src="{{ url($sitting->icon) }}" width="80" alt="">
+                        {{-- <span class="app-brand-text demo footer-link fw-bold ms-2 ps-1">تاون</span> --}}
                     </a>
                     <p class="footer-text footer-logo-description mb-4">
                         خيارك الأول لإدارة العقارات عبر منصة متكاملة تخدم مدراء العقارات، والملاك والمستأجرين
@@ -20,7 +20,7 @@
                         <div class="d-flex mt-1">
                             <input type="email" class="form-control rounded-0 rounded-start-bottom rounded-start-top"
                                 id="footer-email" placeholder="بريدك الالكتروني" />
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#addSubscriberModal" type="submit"
+                            <a href="{{ route('login') }}" type="submit"
                                 class="btn btn-primary shadow-none rounded-0 rounded-end-bottom rounded-end-top">
                                 سجل
                             </a>
@@ -28,16 +28,17 @@
                     </form>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-6">
-                    <h6 class="footer-title mb-4">أملاك</h6>
+                    <h6 class="footer-title mb-4">تاون</h6>
                     <ul class="list-unstyled">
 
-                        <li class="mb-3"><a href="{{ route('welcome') }}#landingFeatures"  class="footer-link">المميزات</a></li>
+                        <li class="mb-3"><a href="{{ route('welcome') }}#landingFeatures"
+                                class="footer-link">المميزات</a></li>
                         <li class="mb-3"><a href="{{ route('welcome') }}#landingPricing"
                                 class="footer-link">الباقات</a></li>
                         <li class="mb-3"><a href="{{ route('gallery.showAllGalleries') }}"
                                 class="footer-link">المعرض</a></li>
-                        <li class="mb-3"><a href="{{ route('brokers') }}"
-                                class="footer-link">الوسطاء العقاريين</a></li>
+                        <li class="mb-3"><a href="{{ route('brokers') }}" class="footer-link">الوسطاء العقاريين</a>
+                        </li>
 
                     </ul>
                 </div>
@@ -92,7 +93,7 @@
                 جميع الحقوق محفوظه ©
                 <a href="{{ env('COMPANY_URL', 'https://bluecode.sa') }}" target="_blank" class="text-reset"> لشركة
                     بلوكود</a> -
-                أملاك {{ env('APP_VERSION', 'V1.1') }}</p>
+                تاون {{ env('APP_VERSION', 'V1.1') }}</p>
             </div>
             <div>
                 <a href="https://github.com/pixinvent" class="footer-link me-3" target="_blank">

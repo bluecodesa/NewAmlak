@@ -50,6 +50,12 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         $project_data['office_id'] = Auth::user()->UserOfficeData->id;
 
+        if (isset($data['show_in_gallery'])) {
+            $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+        } else {
+            $project_data['show_in_gallery'] = 0;
+        }
+
         unset($project_data['time_line']);
         unset($project_data['date']);
         unset($project_data['images']);
@@ -184,9 +190,18 @@ class ProjectRepository implements ProjectRepositoryInterface
             $unitMasterplan = $unit_data['unit_masterplan'];
             $ext = $unitMasterplan->getClientOriginalExtension();
             $masterplanName = uniqid() . '.' . $ext;
-            $unitMasterplan->move(public_path('/Brokers/Projects/Units/'), $masterplanName);
-            $unit_data['unit_masterplan'] = '/Brokers/Projects/Units/' . $masterplanName;
+            $unitMasterplan->move(public_path('/Offices/Projects/Units/'), $masterplanName);
+            $unit_data['unit_masterplan'] = '/Offices/Projects/Units/' . $masterplanName;
         }
+
+        if (isset($unit_data['video'])) {
+            $video = $unit_data['video'];
+            $ext = $video->getClientOriginalExtension();
+            $videoName = uniqid() . '.' . $ext;
+            $video->move(public_path('/Offices/Projects/Unit/Video/'), $videoName);
+            $unit_data['video'] = '/Offices/Projects/Unit/Video/' . $videoName;
+        }
+
 
         $unit = Unit::create($unit_data);
 

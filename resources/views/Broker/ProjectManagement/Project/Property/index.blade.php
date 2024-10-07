@@ -69,7 +69,7 @@
                                 <th>@lang('Property type')</th>
                                 <th>@lang('Type use')</th>
                                 <th>@lang('owner name')</th>
-                                {{-- <th>@lang('Instrument number')</th> --}}
+                                {{-- <th>@lang('Ad Status')</th> --}}
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -83,7 +83,7 @@
                                     <td>{{ $property->PropertyTypeData->name ?? '' }}</td>
                                     <td>{{ $property->PropertyUsageData->name ?? '' }}</td>
                                     <td>{{ $property->OwnerData->name ?? '' }}</td>
-                                    {{-- <td>{{ $property->instrument_number ?? '' }}</td> --}}
+                                    {{-- <td>{{ __($property->ad_license_status ?? '') }}</td> --}}
 
                                     <td>
 

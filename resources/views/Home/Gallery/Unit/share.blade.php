@@ -91,7 +91,7 @@
                 var inputId = "galleryNameCopy_" + unitId;
                 var urlToShare = $("#" + inputId).val();
 
-                var textToShare = @json(__('Share this unit from Amlak'));
+                var textToShare = @json(__('Share this unit from Town'));
                 var whatsappUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(textToShare +
                     " " + urlToShare);
 

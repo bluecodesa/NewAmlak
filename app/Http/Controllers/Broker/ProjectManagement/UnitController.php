@@ -4,12 +4,14 @@
 namespace App\Http\Controllers\Broker\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\FalLicenseUser;
 use App\Models\Project;
 use App\Models\Property;
 use App\Models\PropertyUsage;
 use App\Models\Unit;
 use App\Models\UnitImage;
 use App\Models\UnitInterest;
+use App\Services\Admin\FalLicenseService;
 use App\Services\Admin\SettingService;
 use App\Services\AllServiceService;
 use App\Services\CityService;
@@ -46,6 +48,10 @@ class UnitController extends Controller
 
     protected $subscriptionService;
 
+    protected $FalLicenseService;
+
+
+
 
 
 
@@ -63,7 +69,8 @@ class UnitController extends Controller
         PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
         SubscriptionTypeService $SubscriptionTypeService,
-        SubscriptionService $subscriptionService
+        SubscriptionService $subscriptionService,
+        FalLicenseService $FalLicenseService
     ) {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -79,6 +86,8 @@ class UnitController extends Controller
         $this->unitInterestService = $unitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
+        $this->FalLicenseService = $FalLicenseService;
+
         //
         $this->middleware(['role_or_permission:read-unit'])->only(['show']);
         $this->middleware(['role_or_permission:read-all-units'])->only(['index']);
@@ -156,6 +165,7 @@ class UnitController extends Controller
     public function create()
     {
         $types = $this->propertyTypeService->getAllPropertyTypes();
+        $Faltypes = $this->FalLicenseService->getAll();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
@@ -167,6 +177,17 @@ class UnitController extends Controller
         $features = $this->FeatureService->getAllFeature();
         $projects = $this->brokerDataService->getProjects();
         $properties = $this->brokerDataService->getProperties();
+
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
         return view('Broker.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 
@@ -243,6 +264,7 @@ class UnitController extends Controller
     {
         $Unit = $this->UnitService->findById($id);
         $types = $this->propertyTypeService->getAllPropertyTypes();
+        $Faltypes = $this->FalLicenseService->getAll();
         $usages =  $this->propertyUsageService->getAllPropertyUsages();
         $Regions = $this->regionService->getAllRegions();
         $cities = $this->cityService->getAllCities();
@@ -254,6 +276,14 @@ class UnitController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Broker.ProjectManagement.Project.Unit.edit', get_defined_vars());
     }
 
@@ -263,6 +293,9 @@ class UnitController extends Controller
         $this->UnitService->update($id, $request->all());
         if ($Unit->property_id != null) {
             return redirect()->route('Broker.Property.show', $Unit->property_id)->with('success', __('Update successfully'));
+        }
+        if ($Unit->property_id != null && $Unit->project_id != null) {
+            return redirect()->route('Broker.Project.show', $Unit->project_id)->with('success', __('Update successfully'));
         }
         return redirect()->route('Broker.Unit.show', $Unit->id)->with('success', __('Update successfully'));
     }
@@ -301,6 +334,13 @@ class UnitController extends Controller
         $properties = Property::where('project_id', $projectId)->get();
         return response()->json(['properties' => $properties]);
     }
+    public function getPropertyDetail($id)
+    {
+        $property = Property::findOrFail($id); // Example assuming Property model exists
+
+        return response()->json(['property' => $property]);
+    }
+
 
     public function getProjectDetails($projectId)
     {
@@ -336,7 +376,7 @@ class UnitController extends Controller
         }
         return response()->json(['error' => 'Image not found'], 404);
     }
-    
+
     public function destroyVideo($id)
     {
         $unit = Unit::find($id);

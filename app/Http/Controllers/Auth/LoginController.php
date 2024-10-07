@@ -32,44 +32,116 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    public function login(Request $request)
+//     public function login(Request $request)
+// {
+//     $input = $request->all();
+
+//     $this->validate($request, [
+//         'user_name' => 'required',
+//         'password' => 'required',
+//     ]);
+
+//     $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
+
+//     // Check if the email exists in the database
+//     $userExists = User::where($fieldType, $input['user_name'])->exists();
+
+//     if (!$userExists) {
+//         $errors = [
+//             'user_name' => __('The provided data is incorrect.'),
+//         ];
+//         return back()->withInput()->withErrors($errors);
+//     }
+
+//     $credentials = array($fieldType => $input['user_name'], 'password' => $input['password']);
+
+//     if (auth()->attempt($credentials)) {
+//         return redirect()->route('Admin.home');
+//     } else {
+//         $errors = [];
+
+//         if (!filter_var($request->user_name, FILTER_VALIDATE_EMAIL)) {
+//             $errors['email'] = __('The provided data is incorrect.');
+//         } else {
+//             $errors['password'] = __('The provided password is incorrect.');
+//         }
+
+//         return back()->withInput()->withErrors($errors);
+//     }
+// }
+
+
+public function login(Request $request)
 {
     $input = $request->all();
 
     $this->validate($request, [
         'user_name' => 'required',
-        'password' => 'required',
+        'password' => 'nullable',
+        'otp' => 'nullable',
+    ], [
+        'user_name.required' => 'The email field is required.',
     ]);
 
-    $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_name';
+    $fieldType = filter_var($request->user_name, FILTER_VALIDATE_EMAIL) ? 'email' : 'full_phone';
+    $user = User::where($fieldType, $input['user_name'])->first();
 
-    // Check if the email exists in the database
-    $userExists = User::where($fieldType, $input['user_name'])->exists();
-
-    if (!$userExists) {
-        $errors = [
-            'user_name' => __('The provided data is incorrect.'),
-        ];
-        return back()->withInput()->withErrors($errors);
-    }
-
-    $credentials = array($fieldType => $input['user_name'], 'password' => $input['password']);
-
-    if (auth()->attempt($credentials)) {
-        return redirect()->route('Admin.home');
-    } else {
-        $errors = [];
-
-        if (!filter_var($request->user_name, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = __('The provided data is incorrect.');
+    if (!$user && !empty($input['otp'])) {
+        $sessionOtp = session('otp');
+        if ($input['otp'] == $sessionOtp) {
+            return view('auth.chooseAcount')->with('success', __('OTP is correct, but user does not exist. Please register.'));
         } else {
-            $errors['password'] = __('The provided password is incorrect.');
+            return back()->withInput()->withErrors(['otp' => 'The provided OTP is incorrect.']);
         }
-
-        return back()->withInput()->withErrors($errors);
     }
+
+    // If OTP is provided, verify it
+    if (!empty($input['otp'])) {
+        $sessionOtp = session('otp');
+        if ($input['otp'] == $sessionOtp) {
+            Auth::login($user);
+            session()->forget('otp'); // clear OTP session
+
+            // if($user->is_owner == 1  && $user->hasRole('Owner')){
+            //     session(['active_role' => 'Owner']);
+
+            // }
+            $this->storeUserRoleInSession(auth()->user());
+
+            return redirect()->route('Admin.home')->withSuccess('Logged in successfully with OTP');
+        } else {
+            return back()->withInput()->withErrors(['otp' => 'The provided OTP is incorrect.']);
+        }
+    }
+
+    if (!empty($input['password'])) {
+        $credentials = [$fieldType => $input['user_name'], 'password' => $input['password']];
+        if (auth()->attempt($credentials)) {
+
+            $this->storeUserRoleInSession(auth()->user());
+
+            return redirect()->route('Admin.home')->withSuccess(__('Login successfully'));
+        } else {
+            return back()->withInput()->withErrors(['password' => __('The provided password is incorrect.')]);
+        }
+    }
+
+    return back()->withInput()->withErrors(['login' => 'Please provide either an OTP or a password to log in.']);
 }
 
+/**
+ * Store the user's first role in the session as 'active_role'.
+ *
+ * @param \App\Models\User $user
+ */
+protected function storeUserRoleInSession(User $user)
+{
+    $roles = $user->roles()->pluck('name');
+
+    if ($roles->isNotEmpty()) {
+        session(['active_role' => $roles->first()]);
+    }
+}
 
 
 

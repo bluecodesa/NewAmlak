@@ -8,9 +8,12 @@ interface SubscriptionRepositoryInterface
 {
 
     public function getAllSubscribers();
+    public function getAllUsers();
+
 
 
     public function findSubscriberById(int $id);
+    public function findUserById(int $id);
 
 
     public function createOfficeSubscriber(array $data);

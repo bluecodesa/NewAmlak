@@ -55,6 +55,11 @@
     <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
+    <style>
+        .template-customizer-open-btn {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -85,7 +90,7 @@
                                             fill="#009490" />
                                     </svg>
                                 </span>
-                                <span class="app-brand-text demo text-body fw-bold">أملاك</span>
+                                <span class="app-brand-text demo text-body fw-bold">تاون</span>
                             </a>
                         </div>
                         <!-- /Logo -->

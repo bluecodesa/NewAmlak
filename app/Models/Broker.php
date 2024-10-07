@@ -44,10 +44,14 @@ class Broker extends Model
     }
 
 
+    // public function UserSystemInvoicePending()
+    // {
+    //     return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status', 'pending')->latest();
+    // }
 
     public function UserSystemInvoicePending()
     {
-        return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status', 'pending')->latest();
+        return $this->hasOne(SystemInvoice::class, 'broker_id')->where('status','!=', 'active')->latest();
     }
 
     public function UserSystemInvoicePaid()
@@ -94,4 +98,17 @@ class Broker extends Model
     {
         return 'AMK1-' . $this->user->customer_id ?? '';
     }
+
+    public function owners()
+    {
+        return $this->belongsToMany(Owner::class, 'owner_office_broker')
+                    ->withPivot('office_id', 'balance')
+                    ->withTimestamps();
+    }
+
+    public function ownerBrokers()
+    {
+        return $this->hasMany(OwnerOfficeBroker::class, 'broker_id');
+    }
+
 }

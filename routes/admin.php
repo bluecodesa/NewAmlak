@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdvertisingController;
+use App\Http\Controllers\Admin\FalLicenseController;
 use App\Http\Controllers\Admin\General\CityController;
 use App\Http\Controllers\Admin\General\DistrictController;
 use App\Http\Controllers\Admin\General\PropertyTypeController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\Admin\General\ServiceController;
 use App\Http\Controllers\Admin\General\ServiceTypeController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\OfficeController;
+use App\Http\Controllers\Admin\PartnerSuccessController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProjectManagement\AdvisorController;
 use App\Http\Controllers\Admin\ProjectManagement\DeveloperController;
@@ -67,6 +70,7 @@ Route::group(
             Route::put('/update-broker-subscribers/{id}', [SubUserController::class, 'updatebroker'])->name('update-broker-subscribers');
             Route::delete('delete-broker-subscribers/{id}', [SubUserController::class, 'deletebroker'])->name('delete-broker-subscribers');
             Route::delete('delete-client/{id}', [SubscriptionController::class, 'deleteClient'])->name('delete-client');
+            Route::get('show-client/{id}', [SubscriptionController::class, 'showClient'])->name('show-client');
             Route::put('/ChangeAds', [SettingController::class, 'updateAds'])->name('Setting.updateAds');
 
             Route::put('/taxs/{setting}', [SettingController::class, 'updateTax'])->name('update-tax');
@@ -122,6 +126,7 @@ Route::group(
             Route::put('/project-DelviryCases/{id}/update', [ProjectController::class, 'updateDeliveryCase'])->name('ProjectSettings.updateDelivery-case');
             Route::delete('/project-DelviryCases/{id}/destroy', [ProjectController::class, 'deleteDeliveryCase'])->name('ProjectSettings.destroyDelivery-case');
 
+            Route::resource('PartnerSuccess', PartnerSuccessController::class);
 
 
 
@@ -149,6 +154,9 @@ Route::group(
                 'Service' => ServiceController::class,
                 'SupportTickets' => SupportController::class,
                 'ProjectSettings' => ProjectController::class,
+                'Advertisings' => AdvertisingController::class,
+                'FalLicense' => FalLicenseController::class,
+
 
 
 

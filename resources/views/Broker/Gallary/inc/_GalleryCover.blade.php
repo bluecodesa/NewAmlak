@@ -3,7 +3,7 @@
         @lang('Edit') @lang('Image') <i class="ti ti-camera"></i>
     </button>
 
-    <button onclick="copyToClipboard(this)"
+    <button onclick="copyToClipboardAll(this)"
         data-url="{{ route('gallery.showByName', ['name' => $gallery->gallery_name]) }}"
         class="btn btn-outline-primary btn-sm waves-effect mb-2" type="button">
         @lang('Share the link') <i class="ti ti-copy"></i>

@@ -133,6 +133,14 @@ class SettingRepository implements SettingRepositoryInterface
 
     public function deleteInterestType($id)
     {
-        return InterestType::findOrFail($id)->delete();
+        $interestType = InterestType::findOrFail($id);
+
+        // Check if the interest type is set as default
+        if ($interestType->default === 1) {
+            return false; // Indicate that deletion was not successful
+        }
+    
+        // Proceed with deletion
+        return $interestType->delete();
     }
 }

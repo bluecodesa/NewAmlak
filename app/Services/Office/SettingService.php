@@ -53,6 +53,17 @@ class SettingService
                 'max:25'
             ],
             'office_license' => 'nullable|numeric',
+            'id_number' => [
+                'nullable',
+                'numeric',
+                'digits:10',
+                Rule::unique('users')->ignore($office->user_id),
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                    }
+                },
+            ],
 
         ];
 
@@ -72,6 +83,9 @@ class SettingService
             'phone.unique' => __('The Company mobile number has already been taken.'),
             'phone.max' => __('The Company mobile number may not be greater than :max characters.'),
             'office_license.numeric' => __('The license number must be a number.'),
+            'id_number.numeric' => 'The ID number must be a number.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+            'id_number.unique' => 'The ID number has already been taken.', // Cus
 
         ];
 
@@ -165,15 +179,15 @@ class SettingService
     public function updatePassword(Request $request, $id)
     {
         $office = Office::findOrFail($id);
-    
+
         // Fetch the associated user
         $user = $office->userData;
-    
+
         $rules = [
             'current_password' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
         ];
-    
+
         // Define custom error messages
         $messages = [
             'current_password.required' => __('The current password field is required.'),
@@ -181,24 +195,24 @@ class SettingService
             'password.min' => __('The new password must be at least 8 characters.'),
             'password.confirmed' => __('The new password confirmation does not match.'),
         ];
-    
+
         // Validate the request
         $request->validate($rules, $messages);
-    
+
         // Verify the current password
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => __('The current password is incorrect.')]);
         }
-    
+
         // Update the password
         $user->update([
             'password' => Hash::make($request->password),
         ]);
-    
+
         // Redirect with success message
         return redirect()->route('Office.Setting.index')->withSuccess(__('Password updated successfully.'));
     }
-    
+
 
     public function getSettings()
     {

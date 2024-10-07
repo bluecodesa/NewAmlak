@@ -35,6 +35,11 @@
                                             <span class="fw-medium me-1">@lang('Client Name'):</span>
                                             <span>{{ $ticket->UserData->name }}</span>
                                         </li>
+                                        <li class="mb-2">
+                                            @foreach ( $ticket->UserData->roles as $role )
+                                            <span class="badge bg-label-primary" >{{ __($role->name) }}</span>
+                                            @endforeach()
+                                        </li>
                                         <li class="mb-2 pt-1">
                                             <span class="fw-medium me-1">@lang('Ticket Type'):</span>
                                             <span>{{ $ticket->ticketType->name }}</span>
@@ -57,6 +62,14 @@
                                             <span class="fw-medium me-1">@lang('Create Date'):</span>
                                             <span>{{ $ticket->created_at }}</span>
                                         </li>
+
+                                        <li class="mb-2 pt-1">
+                                            <span class="fw-medium me-1">@lang('Ad Url'):</span>
+                                            <a class="d-flex align-items-center me-3" href="{{ $ticket->ad_url }}" target="_blank">
+                                                {{ $ticket->ad_url }}
+                                            </a>
+                                        </li>
+
                                     </ul>
                                 </div>
                                 <div class="col-sm-6">

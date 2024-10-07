@@ -29,6 +29,11 @@ class Unit extends Model
         return $this->belongsTo(PropertyType::class, 'property_type_id');
     }
 
+    public function FalTypeData()
+    {
+        return $this->belongsTo(Fal::class, 'fal_id');
+    }
+
     public function PropertyUsageData()
     {
         return $this->belongsTo(PropertyUsage::class, 'property_usage_id');

@@ -8,7 +8,6 @@
                     <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
                         style="border: 1px solid;
            border-radius: 50%;"> {{ $sitting->title }}
-
                 </span>
                 <span class="logo-sm">
                     <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
@@ -112,7 +111,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
+                            document.getElementById('logout-form').submit();">
 
                                 <i class="mdi mdi-power text-danger"></i>
                                 تسحيل الخروج</a>
