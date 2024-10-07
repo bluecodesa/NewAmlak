@@ -13,7 +13,7 @@
 
         <a href="{{ route('Office.home') }}" class="app-brand-link">
             <img src="{{ url($sitting->icon) }}" width="80" alt="">
-            <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">{{ $sitting->title }}</span>
+            {{-- <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">{{ $sitting->title }}</span> --}}
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">

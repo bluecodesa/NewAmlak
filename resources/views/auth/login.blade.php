@@ -10,9 +10,9 @@
                             <a href="index.html" class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo">
                                     <a href="{{ route('welcome') }}" class="logo logo-admin"><img
-                                            src="{{ url($sitting->icon) }}" alt="" height="50"></a>
+                                            src="{{ url($sitting->icon) }}" alt="" height="100"></a>
                                 </span>
-                                <span class="app-brand-text demo text-body fw-bold ms-1">تاون</span>
+                                {{-- <span class="app-brand-text demo text-body fw-bold ms-1">تاون</span> --}}
                             </a>
                         </div>
                         <div class="col-12 mb-2" style="text-align: center;">

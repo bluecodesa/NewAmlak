@@ -43,7 +43,7 @@
                         <!-- Logo -->
                         <div class="app-brand justify-content-center mb-4 mt-2">
                             <a href="{{ route('welcome') }}" class="logo logo-admin"><img
-                                    src="{{ url($sitting->icon) }}" alt="" height="50"></a>
+                                    src="{{ url($sitting->icon) }}" alt="" height="100"></a>
                         </div>
                         <!-- /Logo -->
                         @include('Admin.layouts.Inc._errors')
