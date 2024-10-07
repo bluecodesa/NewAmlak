@@ -144,7 +144,7 @@
 
         <a href="{{ route('Admin.home') }}" class="app-brand-link">
             {{-- <span class="app-brand-logo demo"> --}}
-            <img src="{{ url($sitting->icon) }}" width="40" alt="">
+            <img src="{{ url($sitting->icon) }}" width="80" alt="">
             {{-- </span> --}}
             <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">{{ $sitting->title }}</span>
         </a>
