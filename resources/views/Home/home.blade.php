@@ -20,7 +20,7 @@
                     data-speed="1" />
                 <div class="container">
                     <div class="hero-text-box text-center">
-                        <h1 class="text-primary hero-title display-6 fw-bold">تاون خيارك الأول لإدارة التاون العقارية
+                        <h1 class="text-primary hero-title display-6 fw-bold">تاون خيارك الأول لإدارة الأملاك العقارية
                         </h1>
                         <h2 class="hero-sub-title h6 mb-4 pb-1">
                             منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين<br class="d-none d-lg-block" />
@@ -59,7 +59,7 @@
                     </span>
                 </div>
                 <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">تميز معنا في إدارة التاون والتسويق العقاري
+                    <span class="position-relative fw-bold z-1">تميز معنا في إدارة الأملاك والتسويق العقاري
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                             style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
