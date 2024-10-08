@@ -230,11 +230,11 @@
                                 @endif
 
 
-                                <a href="javascript:;" data-bs-toggle="tooltip" data-bs-placement="top" title="عدد المشاهدات اخر 7 ايام">
+                                {{-- <a href="javascript:;" data-bs-toggle="tooltip" data-bs-placement="top" title="عدد المشاهدات اخر 7 ايام">
                                     <span class="badge bg-label-info">
                                         <i class="ti ti-eye"></i> {{ $unitVisitorsCount ?? 0 }}
                                     </span>
-                                </a>
+                                </a> --}}
 
 
                                 <a href="javascript:;" class="me-1"
@@ -1065,8 +1065,9 @@
 
         </div>
 
-        <hr>
         @if ($all5kiloUnits->isNotEmpty())
+        <hr>
+
         <div class="container">
             <h4> الوحدات المجاورة على بعد 5 كم </h4>
             <div class="row g-4">
