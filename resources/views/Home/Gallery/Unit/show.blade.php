@@ -60,6 +60,19 @@
 
                         {{-- Button for Download (displayed below the carousel) --}}
                         <div class="row">
+                            @if($unitVisitorsCount)
+
+                            <div class="col-5 btn-group mt-3">
+                                <button type="button" class="btn btn-outline-primary">
+                                    <span>
+                                        <span class="d-none d-sm-inline-block">@lang(' عدد المشاهدات اخر 7 ايام')</span>
+                                        <i class="ti ti-eye me-0 me-sm-1 ti-xs"> </i>
+                                        {{ $unitVisitorsCount ?? 0 }}
+                                    </span>
+                                </button>
+                            </div>
+
+                            @endif
                                 @if($Unit->unit_masterplan)
                                 <div class="col-4 btn-group mt-3">
                                     <a href="{{ $Unit->unit_masterplan }}" target="_blank" class="btn btn-primary" aria-expanded="false">
@@ -73,7 +86,7 @@
 
                             {{-- Button to Show Video in Modal --}}
                             @if($Unit->video)
-                                <div class="col-4 btn-group mt-3">
+                                <div class="col-3 btn-group mt-3">
                                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#videoModal">
                                         <span>
                                             <i class="ti ti-video me-0 me-sm-1 ti-xs"></i>
