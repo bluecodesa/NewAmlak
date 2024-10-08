@@ -46,7 +46,7 @@ return [
 
             'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
             // 'username' => $email->user_name,
-            'username' =>  'info@bluecode.sa',
+            'username' =>  'info@townapp.sa',
             'password' => '46554655Amr@',
             'timeout' => null,
             'auth_mode' => null,
@@ -92,7 +92,7 @@ return [
 
     'from' => [
         // 'address' => env('MAIL_DRIVER', $email->user_name),
-        'address' => env('MAIL_DRIVER', 'info@bluecode.sa'),
+        'address' => env('MAIL_DRIVER', 'info@townapp.sa'),
 
         'name' => env('MAIL_USERNAME', 'Town'),
     ],
