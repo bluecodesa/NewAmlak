@@ -356,7 +356,7 @@ class GallaryController extends Controller
             ->having('distance', '<=', 5)
             ->where('ad_license_status', 'Valid')
             ->where('id', '!=', $id)
-            ->paginate(3);
+            ->get();
 
         $data['all5kiloUnits'] = $all5kiloUnits;
 
