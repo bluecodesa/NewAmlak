@@ -43,16 +43,16 @@
                                         {{-- <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span> --}}
                                     </button>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
-                                        aria-selected="false" tabindex="-1">
-                                        <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
-                                    </button>
-                                </li>
-                            @endif
+                               @endif
 
-
+                               <li class="nav-item">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-fal" aria-controls="navs-justified-fal"
+                                    aria-selected="false">
+                                    <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
+                                    @lang('REGA License')
+                                </button>
+                            </li>
                             <li class="nav-item">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
@@ -61,6 +61,16 @@
                                     @lang('Gallary Mange')
                                 </button>
                             </li>
+
+                            @if (Auth::user()->hasPermission('update-user-profile'))
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
+                                    aria-selected="false" tabindex="-1">
+                                    <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
+                                </button>
+                            </li>
+                            @endif
 
                         </ul>
 
@@ -77,6 +87,10 @@
                                 @include('Office.settings.inc._security')
                             </div>
                             {{-- @endif --}}
+                            <div class="tab-pane fade" id="navs-justified-fal" role="tabpanel">
+                                @include('Office.settings.inc.FalLicense.index')
+
+                            </div>
                             @if ($gallery)
                                 <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                                     @include('Office.settings.inc._GalleryMange')

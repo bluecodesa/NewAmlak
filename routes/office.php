@@ -102,6 +102,11 @@ Route::group(
 
 
        Route::resource('Setting', SettingController::class)->middleware('CheckSubscription');
+       route::get('createFalLicense', [SettingController::class, 'createFalLicense'])->name('Setting.createFalLicense')->middleware('CheckSubscription');
+       route::post('createFalLicense', [SettingController::class, 'storeFalLicense'])->name('Setting.createFalLicense')->middleware('CheckSubscription');
+       route::get('editFalLicense/{id}', [SettingController::class, 'editFalLicense'])->name('Setting.editFalLicense')->middleware('CheckSubscription');
+       route::put('updateFalLicense/{id}', [SettingController::class, 'updateFalLicense'])->name('Setting.updateFalLicense')->middleware('CheckSubscription');
+       route::delete('deleteFalLicense/{id}', [SettingController::class, 'deleteFalLicense'])->name('Setting.deleteFalLicense')->middleware('CheckSubscription');
 
 
 

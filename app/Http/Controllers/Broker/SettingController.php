@@ -92,19 +92,6 @@ class SettingController extends Controller
     }
 
 
-
-
-protected function notifyBroker(FalLicenseUser $license, $message)
-{
-    $broker = $license->userData;
-    if ($broker && $broker->is_broker) {
-        Notification::send($broker, new LicenseExpiryNotification($message));
-    }
-}
-
-
-
-
     /**
      * Show the form for creating a new resource.
      */

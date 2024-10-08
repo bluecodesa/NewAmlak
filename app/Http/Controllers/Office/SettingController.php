@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Office;
 
 use App\Http\Controllers\Controller;
+use App\Models\Fal;
+use App\Models\FalLicenseUser;
 use App\Models\Gallery;
 use App\Models\NotificationSetting;
 use App\Models\Office;
@@ -17,7 +19,7 @@ use App\Services\Broker\UnitService;
 use App\Services\Office\SettingService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
-
+use App\Services\Admin\FalLicenseService;
 
 
 
@@ -31,6 +33,8 @@ class SettingController extends Controller
     protected $settingService;
     protected $subscriptionService;
     protected $SubscriptionTypeService;
+    protected $FalLicenseService;
+
 
 
     public function __construct(
@@ -40,7 +44,9 @@ class SettingController extends Controller
         RegionService $regionService,
         CityService $cityService,
         EmailSettingService $EmailSettingService,
-        SubscriptionTypeService $SubscriptionTypeService
+        SubscriptionTypeService $SubscriptionTypeService,
+        FalLicenseService $FalLicenseService
+
     ) {
         $this->UnitService = $UnitService;
         $this->regionService = $regionService;
@@ -49,6 +55,8 @@ class SettingController extends Controller
         $this->settingService = $settingService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
+        $this->FalLicenseService = $FalLicenseService;
+
 
         $this->middleware(['role_or_permission:read-building'])->only(['index']);
     }
@@ -73,6 +81,11 @@ class SettingController extends Controller
         }
 
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getGallerySubscriptionTypes();
+        $Faltypes = $this->FalLicenseService->getAll();
+
+        $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+        $Licenses = FalLicenseUser::where('ad_license_status', 'valid')->get();
+
         return view('Office.settings.index', get_defined_vars());
     }
 
@@ -149,4 +162,112 @@ class SettingController extends Controller
         $this->settingService->updateOffice($data, $id);
         return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully.'));
     }
+
+    public function createFalLicense()
+    {
+        //
+        // $Faltypes = $this->FalLicenseService->getAll();
+        $createdTypes = FalLicenseUser::where('user_id', auth()->user()->id)->pluck('fal_id');
+        $Faltypes = Fal::whereNotIn('id', $createdTypes)->get();
+        $falLicenses=FalLicenseUser::where('user_id',auth()->user()->id)->get();
+
+        // return Auth::user()->UserBrokerData->UserSubscription->subscription_type_id;
+        return view('Office.settings.inc.FalLicense.create', get_defined_vars());
+    }
+
+    public function editFalLicense($id)
+    {
+
+        $Faltypes = $this->FalLicenseService->getAll();
+        $falLicense = FalLicenseUser::findOrFail($id);
+
+        return view('Office.settings.inc.FalLicense.edit', get_defined_vars());
+    }
+
+    public function storeFalLicense(Request $request)
+    {
+        $user = auth()->user();
+
+        $rules = [
+            'ad_license_number' => [
+                'required',
+                'numeric',
+                Rule::unique('fallicenseusers')
+            ],
+            'ad_license_expiry' => 'required|date|after_or_equal:today',
+            'fal_id' => 'required|exists:fals,id',
+        ];
+
+        $messages = [
+            'ad_license_number.required' => 'The license number is required.',
+            'ad_license_number.unique' => 'The license number has already been taken.',
+            'ad_license_number.numeric' => 'The license number must be a number.',
+            'ad_license_expiry.required' => 'The license expiry date is required.',
+            'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+            'ad_license_expiry.after_or_equal' => 'The license expiry date must be today or a future date.',
+            'fal_id.required' => 'The Fal License type is required.',
+            'fal_id.exists' => 'The selected Fal License type is invalid.',
+        ];
+
+        $validatedData = $request->validate($rules, $messages);
+
+        FalLicenseUser::create([
+            'user_id' => $user->id,
+            'fal_id' => $validatedData['fal_id'],
+            'ad_license_number' => $validatedData['ad_license_number'],
+            'ad_license_expiry' => $validatedData['ad_license_expiry'],
+            'ad_license_status' => 'valid',
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('Office.Setting.index')->withSuccess(__('License created successfully.'));
+    }
+
+
+    public function updateFalLicense(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        $rules = [
+            'ad_license_number' => [
+                'required',
+                'numeric',
+                Rule::unique('fallicenseusers')->ignore($id)
+            ],
+            'ad_license_expiry' => 'required|date|after_or_equal:today',
+            'fal_id' => 'required|exists:fals,id',
+        ];
+
+        $messages = [
+            'ad_license_number.required' => 'The license number is required.',
+            'ad_license_number.unique' => 'The license number has already been taken.',
+            'ad_license_number.numeric' => 'The license number must be a number.',
+            'ad_license_expiry.required' => 'The license expiry date is required.',
+            'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+            'ad_license_expiry.after_or_equal' => 'The license expiry date must be today or a future date.',
+            'fal_id.required' => 'The Fal License type is required.',
+            'fal_id.exists' => 'The selected Fal License type is invalid.',
+        ];
+
+        $validatedData = $request->validate($rules, $messages);
+
+        $falLicenseUser = FalLicenseUser::findOrFail($id);
+
+        $falLicenseUser->update([
+            'fal_id' => $validatedData['fal_id'],
+            'ad_license_number' => $validatedData['ad_license_number'],
+            'ad_license_expiry' => $validatedData['ad_license_expiry'],
+            'ad_license_status' => 'valid',
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('Office.Setting.index')->withSuccess(__('License updated successfully.'));
+    }
+    public function deleteFalLicense($id)
+    {
+        $falLicense = FalLicenseUser::destroy($id);
+
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Deleted successfully'));
+    }
+
 }
