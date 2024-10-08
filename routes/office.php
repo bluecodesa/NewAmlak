@@ -107,12 +107,13 @@ Route::group(
        route::get('editFalLicense/{id}', [SettingController::class, 'editFalLicense'])->name('Setting.editFalLicense')->middleware('CheckSubscription');
        route::put('updateFalLicense/{id}', [SettingController::class, 'updateFalLicense'])->name('Setting.updateFalLicense')->middleware('CheckSubscription');
        route::delete('deleteFalLicense/{id}', [SettingController::class, 'deleteFalLicense'])->name('Setting.deleteFalLicense')->middleware('CheckSubscription');
+       route::put('createPassword/{id}', [SettingController::class, 'createPassword'])->name('Setting.createPassword')->middleware('CheckSubscription');
 
 
 
        //
             route::put('updateOffice/{id}', [SettingController::class, 'updateProfileSetting'])->name('Setting.updateProfileSetting')->middleware('CheckSubscription');
-            Route::put('/office/setting/password/{id}', [SettingController::class, 'updatePassword'])->name('Setting.updatePassword')->middleware('CheckSubscription');
+            route::put('updatePassword/{id}', [SettingController::class, 'updatePassword'])->name('Setting.updatePassword')->middleware('CheckSubscription');
             // Route::get('/CreateProperty/{id}', 'ProjectManagement\ProjectController@CreateProperty')->name('Project.CreateProperty');
             // Route::post('/StoreProperty/{id}', 'ProjectManagement\ProjectController@StoreProperty')->name('Project.StoreProperty');
             Route::get('GetCitiesByRegion/{id}', [HomeController::class, 'GetCitiesByRegion'])->name('Office.GetCitiesByRegion')->middleware('CheckSubscription');

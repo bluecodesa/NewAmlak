@@ -20,9 +20,7 @@ use App\Services\Office\SettingService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
 use App\Services\Admin\FalLicenseService;
-
-
-
+use Illuminate\Support\Facades\Hash;
 
 class SettingController extends Controller
 {
@@ -140,12 +138,72 @@ class SettingController extends Controller
         return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
     }
 
-    public function updatePassword(Request $request, string $id)
+    // public function updatePassword(Request $request, string $id)
+    // {
+    //     $data = $request->all();
+    //     $this->settingService->updatePassword($request, $id);
+    //     return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
+    // }
+
+    public function updatePassword(Request $request, $id)
     {
-        $data = $request->all();
-        $this->settingService->updatePassword($request, $id);
-        return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
+        $office = Office::findOrFail($id);
+
+        $user = $office->userData;
+
+        $rules = [
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ];
+
+        $messages = [
+            'current_password.required' => __('The current password field is required.'),
+            'password.required' => __('The new password field is required.'),
+            'password.min' => __('The new password must be at least 8 characters.'),
+            'password.confirmed' => __('The new password confirmation does not match.'),
+        ];
+
+        $request->validate($rules, $messages);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => __('The current password is incorrect.')]);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Password updated successfully.'));
     }
+
+    public function createPassword(Request $request, $id)
+    {
+        $office = Office::findOrFail($id);
+
+        $user = $office->userData;
+
+        $rules = [
+            'password' => 'required|string|min:8|confirmed',
+        ];
+
+        $messages = [
+            'password.required' => __('The new password field is required.'),
+            'password.min' => __('The new password must be at least 8 characters.'),
+            'password.confirmed' => __('The new password confirmation does not match.'),
+        ];
+
+        $request->validate($rules, $messages);
+
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Password updated successfully.'));
+    }
+
 
     /**
      * Remove the specified resource from storage.

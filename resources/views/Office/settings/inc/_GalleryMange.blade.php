@@ -29,7 +29,7 @@
 
                     @if (Auth::user()->hasPermission('update-gallery-url'))
                         <div class="col-12 col-md-12 mb-3">
-                            <input hidden name="broker_id_for_gallery" value="{{ $gallery->id }}" />
+                            <input hidden name="office_id_for_gallery" value="{{ $gallery->id }}" />
                             <label for="editGalleryName">@lang('Edit Gallery Name')</label>
                             <div class="input-group">
                                 <div class="col-4">
@@ -51,25 +51,60 @@
                     @endif
                 </div>
                 @if (Auth::user()->hasPermission('activate-gallery'))
+
+                
+                        @php
+                            $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
+                                ->whereHas('falData', function ($query) {
+                                    $query->where('for_gallery', 1);
+                                })
+                                ->where('ad_license_status', 'valid')
+                                ->first();
+                                // dd($falLicense);
+                            $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
+                        @endphp
+
                     <div class="col-12 col-md-6 mb-3">
+
                         <label for="editGalleryName">@lang('Enable Gallery')</label>
+                        @if ($falLicense)
+                            <div class="d-flex" style="margin-top: 10px">
+                                @if ($gallery->gallery_status == 0)
+                                    <input type="checkbox" class="toggleHomePage gallery_status"
+                                    {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }} name="gallery_status"
+                                        value="0" data-toggle="toggle">
+                                @else
+                                    <input type="checkbox" class="toggleHomePage gallery_status"
+                                    {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }} name="gallery_status"
+                                        value="1" {{ $gallery->gallery_status == 1 ? 'checked' : '' }}
+                                        data-toggle="toggle" data-onstyle="primary">
+                                @endif
+
+                            </div>
+                        @else
                         <div class="d-flex" style="margin-top: 10px">
-                            @if ($gallery->gallery_status == 0)
-                                <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status"
-                                    value="0" data-toggle="toggle">
-                            @else
-                                <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status"
-                                    value="1" checked data-toggle="toggle" data-onstyle="primary">
-                            @endif
+                            <input type="checkbox" class="toggleHomePage gallery_status"
+                            disabled name="gallery_status"
+                                value="0" data-toggle="toggle">
                         </div>
+                        @endif
+                
                     </div>
                 @endif
-
-
-
+                @if ($falLicense)
+                    @if ($falLicense->ad_license_status != 'valid')
+                    <div class="col-12 mb-1">
+                        <span class="badge bg-label-danger">@lang('Please update your FAL license data to be able to advertise properties and display them in your gallery')</span>
+                    </div>
+                    @endif
+                @else
+                <div class="col-12 mb-1">
+                    <span class="badge bg-label-danger">@lang('Please update your FAL license data to be able to advertise properties and display them in your gallery')</span>
+                </div>
+                @endif
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">@lang('save')</button>
-
                 </div>
             </form>
 
@@ -98,7 +133,7 @@
 
                 </div>
                 <div class="col-12 col-md-12 mb-3">
-                    <input hidden name="broker_id_for_gallery" value="{{ $gallery->id }}" />
+                    <input hidden name="office_id_for_gallery" value="{{ $gallery->id }}" />
                     <label for="editGalleryName">@lang('Edit Gallery Name')</label>
                     <div class="d-flex">
                         <div class="input-group">
@@ -119,7 +154,8 @@
 
                     <div class="form-check form-switch mb-2">
                         <input class="form-check-input" disabled type="checkbox" id="flexSwitchCheckChecked"
-                            value="0" name="gallery_status" class="gallery_status" checked="">
+                            value="0" name="gallery_status" class="gallery_status"
+                            {{ $falLicense->ad_license_status != 'valid' ? 'disabled' : '' }}>
                         <label class="form-check-label" for="flexSwitchCheckChecked">@lang('Enable Gallery')</label>
                     </div>
 
