@@ -7,7 +7,7 @@
 
     <input type="text" name="key_phone" hidden id="key_phone" value="{{ $office->key_phone ?? '966' }}">
 
-    <div class="col-md-6 col-12 mb-3">
+    <div class="col-md-4 col-12 mb-3">
         <label class="form-label" for="company_name"> @lang('Company Name')<span
             class="text-danger">*</span></label>
 
@@ -15,24 +15,9 @@
             required>
     </div>
 
-    <div class="col-md-3 col-12 mb-3">
-        <label class="form-label" for="name"> @lang('Commercial Registration No')<span
-            class="text-danger">*</span></label>
-                <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
-                 name="CRN"  value="{{ $office->CRN }}" required>
+  
 
-    </div>
-    <div class="col-md-3 col-12 mb-3">
-        <label for="license_number">
-            @lang('license number')</label>
-
-        <input type="text" class="form-control" id="license_number" name="office_license"
-            value="{{ $office->office_license }}" required>
-    </div>
-
-
-
-    <div class="col-md-6 col-12 mb-3">
+    <div class="col-md-4 col-12 mb-3">
         <label for="email">@lang('Email')<span class="text-danger">*</span></label>
 
         <input type="email" class="form-control" id="email" name="email" value="{{ $office->UserData->email }}">
@@ -40,7 +25,7 @@
 
 
 
-    <div class="col-12 mb-3 col-md-6">
+    <div class="col-12 mb-3 col-md-4">
         <label for="color" class="form-label">@lang('Company Mobile') <span class="required-color">*</span></label>
         <div class="input-group">
             <input type="text" placeholder="123456789" name="phone" value="{{ $office->UserData->phone }}"
@@ -59,6 +44,34 @@
     </div>
 
 
+    <div class="col-md-4 col-12 mb-3">
+        <label class="form-label" for="name"> @lang('Commercial Registration No')<span
+            class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
+                 name="CRN"  value="{{ $office->CRN }}" required>
+
+    </div>
+
+
+    <div class="col-md-4 col-12 mb-3">
+        <label>@lang('Region') <span class="text-danger">*</span></label>
+        <select type="package" class="form-select" id="Region_id" required>
+            <option selected value="{{ $region->id ?? '' }}">
+                {{ $region->name ?? '' }}</option>
+            @foreach ($Regions as $Region)
+                <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
+                    {{ $Region->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-4 col-12 mb-3">
+        <label>@lang('city') <span class="text-danger">*</span></label>
+        <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
+            <option selected value="{{ $city->id ?? '' }}">
+                {{ $city->name ?? '' }}</option>
+        </select>
+    </div>
 
     <div class="col-md-4 col-12 mb-3">
         <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -80,26 +93,6 @@
                 <div class="text-muted">Allowed JPG,PNG. Max size 800K</div>
             </div>
         </div>
-    </div>
-
-    <div class="col-md-4 col-12 mb-3">
-        <label>@lang('Region') <span class="text-danger">*</span></label>
-        <select type="package" class="form-select" id="Region_id" required>
-            <option selected value="{{ $region->id ?? '' }}">
-                {{ $region->name ?? '' }}</option>
-            @foreach ($Regions as $Region)
-                <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
-                    {{ $Region->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-md-4 col-12 mb-3">
-        <label>@lang('city') <span class="text-danger">*</span></label>
-        <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
-            <option selected value="{{ $city->id ?? '' }}">
-                {{ $city->name ?? '' }}</option>
-        </select>
     </div>
 
 
