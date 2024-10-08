@@ -41,13 +41,9 @@
                                                             class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
                                             @if (Auth::user()->hasPermission('create-owner'))
-                                                <div class="btn-group">
-                                                    <a href="{{ route('Office.Owner.create') }}" class="btn btn-primary">
-                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add New Owner')</span></span>
-                                                    </a>
-
-                                                </div>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                                                @lang('Add New Owner')
+                                            </button>
                                             @endif
                                         </div>
                                     </div>
@@ -116,7 +112,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <td colspan="6">
+                                <td colspan="7">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <span class="alert-icon text-danger me-2">
                                             <i class="ti ti-ban ti-xs"></i>
@@ -133,6 +129,35 @@
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
+            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1"> برجاء ادخال رقم هوية المالك
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        @include('Admin.layouts.Inc._errors')
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <input type="text" name="id_number" id="idNumberInput" class="form-control" placeholder="Enter ID Number" />
+                                    <div class="invalid-feedback" id="idNumberError"></div>
+                                </div>
+                            </div>
+                            <div id="searchResults"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                @lang('Cancel')
+                            </button>
+                            <button type="button" class="btn btn-primary" id="searchBtn">@lang('Search')</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @include('Office.ProjectManagement.Owner.inc._serach')
 
 
         </div>
