@@ -243,7 +243,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function storeProperty($data, $id, $images)
     {
         $property_data = $data;
-
+        unset($property_data['features_name']);
+        unset($property_data['qty']);
         // Handle project_masterplan upload
         if (isset($property_data['property_masterplan'])) {
           $propertyMasterplan = $property_data['property_masterplan'];
@@ -300,6 +301,15 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
       $property =  Property::create($property_data);
+      if (isset($data['features_name'])) {
+        foreach ($data['features_name'] as $index => $Feature_name) {
+            $Feature =    Feature::where('name', $Feature_name)->first();
+            if (!$Feature) {
+                $Feature =   Feature::create(['name' => $Feature_name, 'created_by' => Auth::id()]);
+            }
+            UnitFeature::create(['feature_id' => $Feature->id, 'property_id' => $property->id, 'qty' => $data['qty'][$index]]);
+        }
+    }
       if ($images) {
           foreach ($images as $image) {
               $ext = uniqid() . '.' . $image->clientExtension();
