@@ -287,40 +287,40 @@ class GalleryService
         return $units;
     }
 
-    public function filterUnits($units, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter)
+    public function filterUnits($allItems, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter)
     {
         // Filter by advertisement type if not 'all'
         if ($adTypeFilter !== 'all') {
-            $units = $units->where('type', $adTypeFilter);
+            $allItems = $allItems->where('type', $adTypeFilter);
         }
         if ($propertyTypeFilter !== 'all') {
-            $units = $units->where('PropertyTypeData.id', $propertyTypeFilter);
+            $allItems = $allItems->where('PropertyTypeData.id', $propertyTypeFilter);
         }
 
 
         // Filter by property usage if not 'all'
         if ($typeUseFilter !== 'all') {
-            $units = $units->where('property_usage_id', $typeUseFilter);
+            $allItems = $allItems->where('property_usage_id', $typeUseFilter);
         }
 
         // Filter by city if not 'all'
         if ($cityFilter !== 'all') {
-            $units = $units->where('city_id', $cityFilter);
+            $allItems = $allItems->where('city_id', $cityFilter);
         }
 
         // Filter by district if not 'all'
         if ($districtFilter !== 'all') {
-            $units = $units->where('district_id', $districtFilter);
+            $allItems = $allItems->where('district_id', $districtFilter);
         }
         if ($projectFilter !== 'all') {
-            $units = $units->where('PropertyData.ProjectData.id', $projectFilter);
+            $allItems = $allItems->where('PropertyData.ProjectData.id', $projectFilter);
         }
 
         if ($dailyFilter !== 'all') {
             $dailyRentValue = ($dailyFilter === 'Available') ? 1 : 0;
-            $units = $units->where('daily_rent', $dailyRentValue);
+            $allItems = $allItems->where('daily_rent', $dailyRentValue);
         }
 
-        return $units;
+        return $allItems;
     }
 }

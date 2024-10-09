@@ -29,6 +29,10 @@ use App\Services\Broker\UnitInterestService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
+use App\Services\Office\ProjectService;
+use App\Services\Office\PropertyService;
+
+
 
 class GallaryController extends Controller
 {
@@ -48,6 +52,10 @@ class GallaryController extends Controller
     protected $SubscriptionTypeService;
 
     protected $subscriptionService;
+    protected $ProjectService;
+    protected $PropertyService;
+
+
 
 
 
@@ -69,7 +77,10 @@ class GallaryController extends Controller
         PropertyUsageService $propertyUsageService,
         UnitInterestService $unitInterestService,
         SubscriptionTypeService $SubscriptionTypeService,
-        SubscriptionService $subscriptionService
+        SubscriptionService $subscriptionService,
+        ProjectService $ProjectService,
+        PropertyService $PropertyService
+
 
     ) {
         $this->UnitService = $UnitService;
@@ -88,6 +99,10 @@ class GallaryController extends Controller
         $this->unitInterestService = $unitInterestService;
         $this->subscriptionService = $subscriptionService;
         $this->SubscriptionTypeService = $SubscriptionTypeService;
+        $this->ProjectService = $ProjectService;
+        $this->PropertyService = $PropertyService;
+
+
     }
     public function index()
     {
@@ -106,7 +121,21 @@ class GallaryController extends Controller
         $officeId = auth()->user()->UserOfficeData->id;
 
         // Get all units for the broker
+        $allItems = collect();
         $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
+        $projects = $this->ProjectService->getAllProjectsByOfficeId(auth()->user()->UserOfficeData->id);
+        $properties = $this->PropertyService->getAll(auth()->user()->UserOfficeData->id);
+        $units->each(function ($unit) {
+            $unit->isGalleryUnit = true;
+        });
+        $projects->each(function ($project) {
+            $project->isGalleryProject = true;
+        });
+        $properties->each(function ($propertie) {
+            $propertie->isGalleryProperty = true;
+        });
+        $galleryItems = $projects->merge($properties)->merge($units);
+        $allItems = $allItems->merge($galleryItems);
         $uniqueIds = $units->pluck('CityData.id')->unique();
         $uniqueNames = $units->pluck('CityData.name')->unique();
         $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
@@ -121,15 +150,30 @@ class GallaryController extends Controller
         $districtFilter = request()->input('district_filter', 'all');
         $projectFilter = request()->input('project_filter', 'all');
         $dailyFilter = request()->input('daily_filter', 'all');
-        $units = $this->galleryService->filterUnits($units, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter);
+        $allItems = $this->galleryService->filterUnits($allItems, $adTypeFilter, $propertyTypeFilter, $typeUseFilter, $cityFilter, $districtFilter, $projectFilter, $dailyFilter);
         // Retrieve the gallery associated with the broker
         $gallery = $this->galleryService->findByOfficeId($officeId);
         $galleries = $this->galleryService->all();
         $districts = $this->galleryService->findById($gallery->id)->OfficeData->OfficeHasUnits;
         $districtsIds = $districts->pluck('district_id')->toArray();
         $numberOfVisitorsForEachUnit = [];
-        foreach ($units as $unit) {
-            $numberOfVisitorsForEachUnit[$unit->id] = $unit->visitors()->count();
+        // foreach ($units as $unit) {
+        //     $numberOfVisitorsForEachUnit[$unit->id] = $unit->visitors()->count();
+        // }
+        foreach ($allItems as $unit) {
+            if ($unit->isGalleryProject) {
+                $numberOfVisitorsForEachUnit[$unit->id] = Visitor::where('project_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            } elseif ($unit->isGalleryProperty) {
+                $numberOfVisitorsForEachUnit[$unit->id] = Visitor::where('property_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            } else {
+                $numberOfVisitorsForEachUnit[$unit->id] = Visitor::where('unit_id', $unit->id)
+                    ->distinct('ip_address')
+                    ->count('ip_address');
+            }
         }
 
 
@@ -194,7 +238,7 @@ class GallaryController extends Controller
     public function showInterests()
     {
 
-        $gallery = $this->galleryService->findByBrokerId(auth()->user()->UserBrokerData->id) ?? null;
+        $gallery = $this->galleryService->findByOfficeId(auth()->user()->UserBrokerData->id) ?? null;
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $interests = $this->settingService->getAllInterestTypes();
         return view('Broker.Gallary.unit-interest', get_defined_vars());
