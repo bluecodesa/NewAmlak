@@ -83,6 +83,7 @@ class Office extends Model
                     ->withTimestamps();
     }
 
+
     public function ownerOffices()
     {
         return $this->hasMany(OwnerOfficeBroker::class, 'office_id');

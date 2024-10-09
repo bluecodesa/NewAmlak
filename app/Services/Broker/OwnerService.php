@@ -59,7 +59,7 @@ class OwnerService
         // ];
 
         // validator($data, $rules, $messages)->validate();
-        $data['broker_id'] = Auth::user()->UserBrokerData->id;
+        $data['broker_id'] = auth()->user()->UserBrokerData->id;
         $Owner = $this->OwnerRepository->create($data);
 
         return $Owner;

@@ -63,8 +63,7 @@
                                 <th scope="col">@lang('Email')</th>
                                 <th scope="col">@lang('phone')</th>
                                 <th scope="col">@lang('city')</th>
-                                <th scope="col">@lang('Office')</th>
-                                <th scope="col">@lang('Financial Dues')</th>
+                                {{-- <th scope="col">@lang('Office')</th> --}}
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>
@@ -74,11 +73,9 @@
 
                                     <td>{{ $owner->name }}</td>
                                     <td>{{ $owner->email }}</td>
-                                    <td>{{ $owner->full_phone }}</td>
-                                    <td>{{ $owner->CityData->name }}</td>
-                                    <td>{{ $owner->OfficeData->UserData->name }}</td>
-                                    <td>{{ $owner->balance }}</td>
-
+                                    <td>{{ $owner->UserData->full_phone }}</td>
+                                    <td>{{ $owner->CityData->name ?? '-' }}</td>
+                                    {{-- <td>{{ $owner->OfficeData->name }}</td> --}}
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -88,7 +85,7 @@
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Office.Owner.edit', $owner->id) }}">@lang('Edit')</a>
+                                                        href="{{ route('Office.Owner.show', $owner->id) }}">@lang('Show')</a>
                                                 @endif
 
 
@@ -112,7 +109,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <td colspan="7">
+                                <td colspan="6">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <span class="alert-icon text-danger me-2">
                                             <i class="ti ti-ban ti-xs"></i>
@@ -169,19 +166,49 @@
     @push('scripts')
         <script>
             function exportToExcel() {
-                // Get the table by ID
                 var table = document.getElementById('table');
 
 
-                // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {
                     sheet: "Sheet1"
                 });
 
-                // Save the workbook as an Excel file
                 XLSX.writeFile(wb, @json(__('owners')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
+        </script>
+
+        <script>
+                $(document).ready(function () {
+                $('#searchBtn').click(function (e) {
+                    e.preventDefault(); 
+                    var idNumber = $('#idNumberInput').val();
+
+                    $.ajax({
+                        url: '{{ route('Office.Owner.searchByIdNumber') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id_number: idNumber
+                        },
+                        success: function (response) {
+                            $('#idNumberInput').removeClass('is-invalid');
+                            $('#idNumberError').text('');
+                            $('#searchResults').html(response.html); // Inject the result content into the modal
+                        },
+                        error: function (xhr) {
+                            var errors = xhr.responseJSON.errors;
+                            if (errors.id_number) {
+                                $('#idNumberInput').addClass('is-invalid');
+                                $('#idNumberError').text(errors.id_number[0]);
+                            } else {
+                                $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                            }
+                        }
+                    });
+                });
+            });
+
         </script>
     @endpush
 @endsection

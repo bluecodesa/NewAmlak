@@ -49,10 +49,17 @@ Route::group(
        //resources
        Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
        Route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');
-       Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
        Route::resource('Wallet', WalletController::class)->middleware('CheckSubscription');
        route::resource('RealEstateRequest', RealEstateRequestController::class)->middleware('CheckSubscription');
        Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
+
+
+       //owner 
+
+       Route::resource('Owner', OwnerController::class)->middleware('CheckSubscription');
+       Route::post('/owner-search', [OwnerController::class, 'searchByIdNumber'])->name('Owner.searchByIdNumber');
+       Route::post('/owner/add/{id}', [OwnerController::class, 'addAsOwner'])->name('Owner.addAsOwner');
+     
 
        //contract
        Route::resource('Contract', ContractController::class)->middleware('CheckSubscription');

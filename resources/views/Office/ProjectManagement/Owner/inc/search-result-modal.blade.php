@@ -13,7 +13,7 @@
 <p>@lang('City'): {{ $user->UserEmployeeData->CityData->name }}</p>
 @endif --}}
 
-<form id="addAsOwnerForm" action="{{ route('Broker.Owner.addAsOwner', $user->id) }}" method="POST">
+<form id="addAsOwnerForm" action="{{ route('Office.Owner.addAsOwner', $user->id) }}" method="POST">
     @csrf
     <input type="hidden" name="id_number" value="{{ $user->id_number }}">
     <button type="submit" class="btn btn-primary">@lang('Add as Owner')</button>
