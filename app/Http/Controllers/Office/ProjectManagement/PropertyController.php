@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\FalLicenseUser;
 use App\Models\PropertyImage;
 use App\Services\AllServiceService;
 use App\Services\CityService;
@@ -63,30 +64,39 @@ class PropertyController extends Controller
         $developers = $this->officeDataService->getDevelopers();
         $owners = $this->officeDataService->getOwners();
         $services = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.Property.create', get_defined_vars());
     }
 
     public function store(Request $request)
     {
 
-        $rules = [];
-        $rules = [
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'service_type_id' => 'required|exists:service_types,id',
-            // 'is_divided' => 'required|boolean',
-            'city_id' => 'required|exists:cities,id',
-            'owner_id' => 'required|exists:owners,id',
-            'instrument_number' => [
-                'nullable',
-                Rule::unique('properties'),
-                'max:25'
-            ],
-        ];
-        $messages = [
-            'instrument_number.unique' => 'The instrument number has already been taken.',
-        ];
-        $request->validate($rules, $messages);
+        // $rules = [];
+        // $rules = [
+        //     'name' => 'required|string|max:255',
+        //     'location' => 'required|string|max:255',
+        //     'service_type_id' => 'required|exists:service_types,id',
+        //     // 'is_divided' => 'required|boolean',
+        //     'city_id' => 'required|exists:cities,id',
+        //     'owner_id' => 'required|exists:owners,id',
+        //     'instrument_number' => [
+        //         'nullable',
+        //         Rule::unique('properties'),
+        //         'max:25'
+        //     ],
+        // ];
+        // $messages = [
+        //     'instrument_number.unique' => 'The instrument number has already been taken.',
+        // ];
+        // $request->validate($rules, $messages);
 
         $images = $request->file('images');
         $this->PropertyService->store($request->except('images'), $images);
@@ -110,6 +120,14 @@ class PropertyController extends Controller
         $developers = $this->officeDataService->getDevelopers();
         $owners = $this->officeDataService->getOwners();
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.Property.edit', get_defined_vars());
     }
 
@@ -150,7 +168,12 @@ class PropertyController extends Controller
 
         $images = $request->images;
         $this->PropertyService->update($id, $request->except('images'), $images);
-        return redirect()->route('Office.Property.index')->with('success', __('Update successfully'));
+        $Property = $this->PropertyService->findById($id);
+        if ($Property->project_id != null) {
+            return redirect()->route('Office.Project.show', $Property->project_id)->with('success', __('Update successfully'));
+        } else {
+            return redirect()->route('Office.Property.index')->with('success', __('Update successfully'));
+        }
     }
 
     public function destroy(string $id)

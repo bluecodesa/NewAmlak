@@ -598,8 +598,8 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-12" style="text-align: center;" >
-                                        <button class="btn btn-primary col-4 waves-effect waves-light"
+                                    <div class="col-12" style="text-align: center;">
+                                        <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
                                             type="submit">@lang('save')</button>
                                     </div>
                                 </div>

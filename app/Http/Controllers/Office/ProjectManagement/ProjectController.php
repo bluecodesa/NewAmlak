@@ -6,6 +6,7 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\FalLicenseUser;
 use App\Services\CityService;
 use App\Services\Office\OfficeDataService;
 use App\Services\Office\ProjectService;
@@ -88,15 +89,28 @@ class ProjectController extends Controller
         $projectStatuses = $this->AdminProjectService->getAllProjectStatus();
         $deliveryCases = $this->AdminProjectService->getAllDeliveryCases();
         $services = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
         return view('Office.ProjectManagement.Project.create', get_defined_vars());
     }
 
     public function store(Request $request)
     {
-        $images = $request->image;
-        $this->projectService->createProject($request->except('image'), $images);
-        return redirect()->route('Office.Project.index')->with('success', __('added successfully'));
+        $files = [
+            'images' => $request->file('images'),
+            'project_masterplan' => $request->file('project_masterplan'),
+            'project_brochure' => $request->file('project_brochure')
+        ];
+
+        $this->projectService->createProject($request->except(['image', 'project_masterplan', 'project_brochure']), $files);
+       return redirect()->route('Office.Project.index')->with('success', __('added successfully'));
     }
 
     public function show($id)
@@ -117,13 +131,21 @@ class ProjectController extends Controller
         $employees = $this->officeDataService->getEmployees();
         $projectStatuses = $this->AdminProjectService->getAllProjectStatus();
         $deliveryCases = $this->AdminProjectService->getAllDeliveryCases();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.edit', get_defined_vars());
     }
 
     public function update(Request $request, $id)
     {
-        $images = $request->image;
-        $this->projectService->updateProject($id, $request->except('image'), $images);
+        $images = $request->images;
+        $this->projectService->updateProject($id, $request->except('images'), $images);
         return redirect()->route('Office.Project.index')->with('success', __('Update successfully'));
     }
 

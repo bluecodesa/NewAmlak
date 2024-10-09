@@ -541,32 +541,6 @@
 
 
 
-//     $(document).ready(function() {
-//     // Add Stage Button Click Event
-//     $('.add-stage').click(function() {
-//         var newRow = $('.stage-row').first().clone(); // Clone the first row
-//         newRow.find('select').val(''); // Clear select value
-//         newRow.find('input').val(''); // Clear input value
-//         $('#features').append(newRow); // Append cloned row to the container
-//     });
-
-//     // Submit Button Click Event
-//     $('#submit-btn').click(function() {
-//         var data = {
-//             time_line: [],
-//             date: []
-//         };
-//         $('.stage-row').each(function() {
-//             var status = $(this).find('select').val();
-//             var date = $(this).find('input').val();
-//             data.time_line.push(status);
-//             data.date.push(date);
-//         });
-//         // Now 'data' contains the array of stage data, you can send it via AJAX or any other method
-//         console.log(data);
-//     });
-// });
-
 
 </script>
 <script>

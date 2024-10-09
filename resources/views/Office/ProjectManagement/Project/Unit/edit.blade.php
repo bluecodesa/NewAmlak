@@ -202,12 +202,12 @@
                                         <option disabled selected value="">@lang('owner name')</option>
                                         @foreach ($owners as $owner)
                                             <option value="{{ $owner->id }}"
-                                                {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
+                                                {{ $owner->id == $project->owner_id ? 'selected' : '' }}>
                                                 {{ $owner->name }}</option>
                                         @endforeach
                                     </select>
-                                    <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addNewCCModal" type="button">@lang('Add New Owner')</button>
+                                    <a href="{{ route('Office.Owner.index') }}" target="_blank" class="btn btn-outline-primary"
+                                    type="button">@lang('Add New Owner')</a>
                                 </div>
                             </div>
 
@@ -380,6 +380,36 @@
                                     </span>
 
                                 </label>
+                            </div>
+
+                            <div class="row" id="gallery-fields">
+
+                                {{-- <div class="col-md-4 mb-3 col-12">
+                                    <label class="form-label">@lang('FalLicense type') <span
+                                            class="required-color">*</span></label>
+                                    <select class="form-select" name="fal_id" required>
+                                        <option disabled selected value="">@lang('FalLicense type')</option>
+                                        @foreach ($Faltypes as $Faltype)
+                                            <option value="{{ $Faltype->id }}"
+                                                {{ $Faltype->id == $Unit->fal_id ? 'selected' : '' }}>
+                                                {{ $Faltype->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div> --}}
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Ad License Number')<span
+                                        class="required-color">*</span></label>
+                                    <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Unit->ad_license_number }}" required />
+                                </div>
+                             
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Ad License Expiry')<span
+                                        class="required-color">*</span></label>
+                                    <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ $Unit->ad_license_expiry }}" required />
+                                    <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
+                                </div>
+
                             </div>
                             <div class="mb-3 col-12">
                                 <label class="form-label mb-2">@lang('Description')</label>
@@ -570,8 +600,8 @@
                             </div>
 
                         </div>
-                        <div class="col-12" style="text-align: center;" >
-                            <button class="btn btn-primary col-4 waves-effect waves-light"
+                        <div class="col-12" style="text-align: center;">
+                            <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
                                 type="submit">@lang('save')</button>
                         </div>
                     </div>
@@ -883,5 +913,81 @@
             $('#projectMasterplan').val('');
         });
     </script>
+
+<script>
+    document.getElementById('show_gallery').addEventListener('change', function () {
+        var galleryFields = document.getElementById('gallery-fields');
+        if (this.checked) {
+            galleryFields.style.display = 'block';
+            document.getElementById('ad_license_number').required = true;
+            document.getElementById('ad_license_expiry').required = true;
+        } else {
+            galleryFields.style.display = 'none';
+            document.getElementById('ad_license_number').required = false;
+            document.getElementById('ad_license_expiry').required = false;
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        adLicenseExpiryInput.addEventListener('change', function() {
+            var selectedDate = new Date(this.value);
+            if (selectedDate > licenseDate) {
+                errorMessage.style.display = 'block';
+                adLicenseExpiryInput.setCustomValidity('');
+            } else {
+                errorMessage.style.display = 'none';
+                adLicenseExpiryInput.setCustomValidity(''); /
+            }
+        });
+
+        adLicenseExpiryInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+        });
+    });
+</script>
+
+<script>
+    var licenseDate = new Date("{{ $licenseDate }}");
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        var submitButton = document.getElementById('submit_button');
+        var form = document.getElementById('unit-form');
+
+        function validateDate() {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Show error message if the selected date is after the license date
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true; // Disable submit button
+            } else {
+                // Hide error message if the date is valid
+                errorMessage.style.display = 'none';
+                submitButton.disabled = false; // Enable submit button
+            }
+        }
+
+        adLicenseExpiryInput.addEventListener('change', validateDate);
+
+        form.addEventListener('submit', function(event) {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Prevent form submission if the selected date is invalid
+                event.preventDefault();
+                errorMessage.style.display = 'block';
+            } else {
+                // Allow form submission if the date is valid
+                errorMessage.style.display = 'none';
+            }
+        });
+    });
+</script>
     @endpush
 @endsection

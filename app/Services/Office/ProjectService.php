@@ -22,7 +22,7 @@ class ProjectService
         return $this->projectRepository->getAllByOfficeId($officeId);
     }
 
-    public function createProject($data, $images)
+    public function createProject($data, $files)
     {
         // Validation rules
         $rules = [
@@ -31,15 +31,13 @@ class ProjectService
             'city_id' => 'required|exists:cities,id',
             'project_masterplan' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
             'project_brochure' => 'nullable|file|mimes:jpeg,png,jpg,gif,pdf|max:2048',
-            // 'name' => 'required|string|max:255',
-            // 'location' => 'required|string|max:255',
-            // 'city_id' => 'required|exists:cities,id',
-            // 'developer_id' => 'required|exists:developers,id',
-            // 'advisor_id' => 'required|exists:advisors,id',
-            // 'employee_id' => 'required|exists:employees,id',
-            // 'owner_id' => 'required|exists:owners,id',
-        ];
+            // 'ad_license_number' => [
+            //     'required',
+            //     new UniqueAcrossTables('ad_license_number'), // Custom rule to check uniqueness across tables
+            //     'max:25'
+            //     ],
 
+        ];
         $messages = [
             'name.required' => __('The project name is required.'),
             'name.string' => __('The project name must be a string.'),
@@ -60,25 +58,29 @@ class ProjectService
             'project_brochure.mimes' => __('The project brochure must be a file of type: jpeg, png, jpg, gif, pdf.'),
             'project_brochure.max' => __('The project brochure may not be greater than :max kilobytes.', ['max' => 2048]),
 
+
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+
+
         ];
 
         // Validate data
-        validator($data, $rules,$messages)->validate();
+        validator($data, $rules ,$messages)->validate();
 
-        // Set office_id from logged in user
         $data['office_id'] = Auth::user()->UserOfficeData->id;
 
         // Create project
-        $project = $this->projectRepository->create($data, $images);
-
-        return $project;
+        return $this->projectRepository->create($data, $files);
     }
-
     public function findProjectById($id)
     {
         return $this->projectRepository->ShowProject($id);
     }
 
+   
     public function updateProject($id, $data, $images)
     {
         // Validation rules
@@ -86,45 +88,40 @@ class ProjectService
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'city_id' => 'required|exists:cities,id',
-            // 'name' => 'required|string|max:255',
-            // 'location' => 'required|string|max:255',
-            // 'city_id' => 'required|exists:cities,id',
             // 'developer_id' => 'required|exists:developers,id',
             // 'advisor_id' => 'required|exists:advisors,id',
-            // 'employee_id' => 'required|exists:employees,id',
             // 'owner_id' => 'required|exists:owners,id',
-        ];
-        $messages = [
-            'name.required' => __('The project name is required.'),
-            'name.string' => __('The project name must be a string.'),
-            'name.max' => __('The project name may not be greater than :max characters.', ['max' => 255]),
-
-            'location.required' => __('The location is required.'),
-            'location.string' => __('The location must be a string.'),
-            'location.max' => __('The location may not be greater than :max characters.', ['max' => 255]),
-
-            'city_id.required' => __('The city is required.'),
-            'city_id.exists' => __('The selected city is invalid.'),
-
-            'project_masterplan.file' => __('The project masterplan must be a file.'),
-            'project_masterplan.mimes' => __('The project masterplan must be a file of type: jpeg, png, jpg, gif, pdf.'),
-            'project_masterplan.max' => __('The project masterplan may not be greater than :max kilobytes.', ['max' => 2048]),
-
-            'project_brochure.file' => __('The project brochure must be a file.'),
-            'project_brochure.mimes' => __('The project brochure must be a file of type: jpeg, png, jpg, gif, pdf.'),
-            'project_brochure.max' => __('The project brochure may not be greater than :max kilobytes.', ['max' => 2048]),
-
+            'ad_license_number' => [
+                'required',
+                Rule::unique('projects')->ignore($id),
+                'max:25'
+            ],
         ];
 
         // Validate data
-        validator($data, $rules,$messages)->validate();
+        $messages = [
+            'name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
+            'name.string' => __('The :attribute must be a string.', ['attribute' => __('name')]),
+            'name.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('name'), 'max' => 255]),
+            'location.required' => __('The :attribute field is required.', ['attribute' => __('location')]),
+            'location.string' => __('The :attribute must be a string.', ['attribute' => __('location')]),
+            'location.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('location'), 'max' => 255]),
+            'city_id.required' => __('The :attribute field is required.', ['attribute' => __('city')]),
+            'city_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('city')]),
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
+
+       ];
+
+        validator($data, $rules, $messages)->validate();
 
         // Update project
         $project = $this->projectRepository->update($id, $data, $images);
 
         return $project;
     }
-
     function ShowProject($id)
     {
         return   $this->projectRepository->ShowProject($id);
