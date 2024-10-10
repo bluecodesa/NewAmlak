@@ -14,6 +14,8 @@ use App\Services\PropertyUsageService;
 use App\Services\ServiceTypeService;
 use App\Http\Controllers\Controller;
 use App\Models\Broker;
+use App\Models\Project;
+use App\Models\Property;
 use App\Models\Setting;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
@@ -429,4 +431,83 @@ class GallaryController extends Controller
             return view('Home.Gallery.ComingSoon');
         }
     }
+
+    public function showInteractiveMap()
+    {
+        $allItems = collect();
+        $units = $this->UnitService->getAll(auth()->user()->UserOfficeData->id);
+        $projects = $this->ProjectService->getAllProjectsByOfficeId(auth()->user()->UserOfficeData->id);
+        $properties = $this->PropertyService->getAll(auth()->user()->UserOfficeData->id);
+
+        $units->each(function ($unit) {
+            $unit->isGalleryUnit = true;
+            $unit->rentPrice =$unit->getRentPriceByType() ?? '';
+            $unit->rent_type_show =  __($unit->rent_type_show) ?? null;
+            $unit->ProjectData =$unit->ProjectData ?? null;
+            $unit->PropertyData =$unit->PropertyData ?? null;
+
+
+        });
+        $projects->each(function ($project) {
+            $project->isGalleryProject = true;
+        });
+        $properties->each(function ($property) {
+            $property->isGalleryProperty = true;
+            $property->ProjectData =$property->ProjectData ?? null;
+        });
+
+        $galleryItems = $projects->merge($properties)->merge($units);
+        $allItems = $allItems->merge($galleryItems);
+
+        $propertyTypes = $allItems->pluck('PropertyTypeData')->filter()->unique();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
+        $cities = $allItems->pluck('CityData')->unique();
+        $districts = $allItems->pluck('DistrictData')->unique();
+        $projects = Project::all();
+
+        $allItemsProperties = collect();
+
+        $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
+
+        foreach ($galleries as $gallery) {
+            $projects = $this->ProjectService->getAllProjectsByOfficeId($gallery['office_id'])->where('show_in_gallery', 1);
+            $properties = $this->PropertyService->getAll($gallery['office_id'])->where('show_in_gallery', 1);
+            $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
+                ->where('show_gallery', 1)
+                ->get();
+
+            $galleryUnits->each(function ($unit) {
+                $unit->isGalleryUnit = true;
+            });
+            $projects->each(function ($project) {
+                $project->isGalleryProject = true;
+            });
+            $properties->each(function ($property) {
+                $property->isGalleryProperty = true;
+            });
+
+            $galleryItems = $projects->merge($properties)->merge($galleryUnits);
+            $allItemsProperties = $allItemsProperties->merge($galleryItems);
+            $propertyTypesAll = $allItemsProperties->pluck('PropertyTypeData')->filter()->unique();
+            $usagesAll =  $this->propertyUsageService->getAllPropertyUsages();
+            $citiesAll = $allItemsProperties->pluck('CityData')->unique();
+            $districtsAll = $allItemsProperties->pluck('DistrictData')->unique();
+        }
+
+        $this->updateAdLicenseStatus(Project::all());
+        $this->updateAdLicenseStatus(Property::all());
+        $this->updateAdLicenseStatus(Unit::all());
+
+        return view('Office.Gallary.InteractiveMap.index', get_defined_vars());
+    }
+
+    protected function updateAdLicenseStatus($allItemsProperties)
+    {
+        foreach ($allItemsProperties as $item) {
+            if (isset($item->ad_license_expiry) && $item->ad_license_expiry < now()->format('Y-m-d')) {
+                $item->update(['ad_license_status' => 'InValid']);
+            }
+        }
+    }
+
 }

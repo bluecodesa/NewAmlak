@@ -178,6 +178,13 @@
                         </a>
                     </li>
                     @endif
+                    @if (Auth::user()->hasPermission('read-requests-interest'))
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Gallery.InteractiveMap') }}" class="menu-link">
+                            <div data-i18n="@lang('Interactive Map')">@lang('Interactive Map')</div>
+                        </a>
+                    </li>
+                @endif
 
                 </ul>
             </li>
