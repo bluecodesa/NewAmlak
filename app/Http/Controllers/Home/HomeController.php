@@ -41,6 +41,7 @@ use App\Services\CityService;
 use App\Services\PropertyTypeService;
 use App\Services\Admin\DistrictService;
 use App\Http\Traits\Email\MailSendCode;
+use App\Http\Traits\WhatsApp\WhatsappSendCode;
 use App\Models\Advertising;
 use App\Models\Owner;
 use App\Models\Ticket;
@@ -52,6 +53,8 @@ class HomeController extends Controller
     use MailWelcomeBroker;
 
     use MailSendCode;
+    use WhatsappSendCode;
+
 
 
     protected $subscriptionTypeService;
@@ -113,32 +116,61 @@ class HomeController extends Controller
         }
     }
 
-
-
     public function sendOtp(Request $request)
     {
-
-        // $otp = mt_rand(100000, 999999);
-        $otp=555555;
+        $otp = 555555;
         session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
 
         session(['otp' => $otp]);
 
         if ($request->input('otp_type') === 'email') {
+            // Send OTP via Email
             $email = $request->input('user_name');
             session(['email' => $email]);
             $this->MailSendCode($email, $otp);
         } else if ($request->input('otp_type') === 'phone') {
+            // Send OTP via WhatsApp
             $fullPhone = $request->input('full_phone');
             $phone = $request->input('mobile');
             $keyPhone = $request->input('key_phone');
 
             session(['phone' => $fullPhone, 'mobile' => $phone, 'key_phone' => $keyPhone]);
-            // $this->SmsSendCode($fullPhone, $otp);
+
+            // Send WhatsApp Message
+            $this->WhatsappSendCode([
+                'phone' => 201119978333,
+                'otp' => $otp,
+            ]);
         }
 
         return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
     }
+
+
+    // public function sendOtp(Request $request)
+    // {
+
+    //     // $otp = mt_rand(100000, 999999);
+    //     $otp=555555;
+    //     session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
+
+    //     session(['otp' => $otp]);
+
+    //     if ($request->input('otp_type') === 'email') {
+    //         $email = $request->input('user_name');
+    //         session(['email' => $email]);
+    //         $this->MailSendCode($email, $otp);
+    //     } else if ($request->input('otp_type') === 'phone') {
+    //         $fullPhone = $request->input('full_phone');
+    //         $phone = $request->input('mobile');
+    //         $keyPhone = $request->input('key_phone');
+
+    //         session(['phone' => $fullPhone, 'mobile' => $phone, 'key_phone' => $keyPhone]);
+    //         // $this->SmsSendCode($fullPhone, $otp);
+    //     }
+
+    //     return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
+    // }
 
 
     public function loginByPassword()
