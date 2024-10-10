@@ -130,14 +130,6 @@
         </div>
         @push('scripts')
             <script>
-                $(document).ready(function() {
-                    $('.dropdown-item').on('click', function() {
-                        var key = $(this).data('key');
-                        $('#key_phone').val(key);
-                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                    });
-                });
-
 
                 $(document).ready(function() {
                     $('#Region_id').on('change', function() {
@@ -209,6 +201,46 @@
                     });
                 }
             </script>
+
+<script>
+    function updateFullPhone1(input) {
+                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+                var key_phone = $('#key_phone1').val();
+                var fullPhone = key_phone + input.value;
+                document.getElementById('full_phone1').value = fullPhone;
+            }
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    var phone = $('#company_number').val();
+                    $('#key_phone1').val(key);
+                    $('#full_phone1').val(key + phone);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
+            });
+
+
+</script>
+<script>
+    function updateFullPhone2(input) {
+                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+                var key_phone = $('#key_phone2').val();
+                var fullPhone = key_phone + input.value;
+                document.getElementById('full_phone2').value = fullPhone;
+            }
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    var phone = $('#phone1').val();
+                    $('#key_phone2').val(key);
+                    $('#full_phone2').val(key + phone);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
+            });
+
+
+</script>
+
         @endpush
 
     @endsection

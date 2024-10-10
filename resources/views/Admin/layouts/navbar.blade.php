@@ -81,7 +81,13 @@
                     <div class="dropdown notification-list nav-pro-img">
                         <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#"
                             role="button" aria-haspopup="false" aria-expanded="false">
-                            @if (Auth::user()->avatar)
+                            @if(auth()->user()->is_office)
+                            <img src="{{ auth()->user()->UserOfficeData->company_logo != null ? url(Auth::user()->UserOfficeData->company_logo) : 'HOME_PAGE/img/avatars/14.png' }}"
+                            alt class="h-auto rounded-circle" />
+                            @elseif (auth()->user()->is_office)
+                            <img src="{{ auth()->user()->UserBrokerData->broker_logo != null ? url(Auth::user()->UserBrokerData->broker_logo) : 'HOME_PAGE/img/avatars/14.png' }}"
+                            alt class="h-auto rounded-circle" />
+                            @elseif (Auth::user()->avatar)
                                 <img src="{{ Auth::user()->avatar }}" alt="user" class="rounded-circle">
                             @else
                                 <img src="url('HOME_PAGE/img/avatars/14.png')" alt="user" class="rounded-circle">

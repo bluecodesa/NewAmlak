@@ -2073,9 +2073,12 @@ private function handleOffice($request, $user)
         'user_id' => $user->id,
         'CRN' => $request->CRN ?? null,
         // 'phone' => $request->phone,
-        // 'key_phone' => $request->key_phone,
-        // 'full_phone' => $request->full_phone,
-        'company_name' => $user->name,
+        // 'company_name' => $user->name,
+        'company_email' => $request->email,
+        'company_name' => $user->customer_id .' Office',
+        'company_number' => $request->phone,
+        'key_phone' => $request->key_phone,
+        'full_phone' => $request->full_phone,
         'created_by' => $user->id,
         'company_logo' => $request->company_logo ?? null,
     ]);
@@ -2441,12 +2444,22 @@ public function addAccount (Request $request)
         $subscription_type_id = $subscriptionType->id;
 
         $office = Office::create([
+            // 'user_id' => $user->id,
+            // 'CRN' => $request->CRN ?? null,
+            // 'phone' => $request->phone,
+            // 'key_phone' => $request->key_phone,
+            // 'full_phone' => $request->full_phone,
+            // 'company_name' => $user->name,
+            // 'created_by' => $user->id,
+            // 'company_logo' => $request->company_logo ?? null,
+
             'user_id' => $user->id,
             'CRN' => $request->CRN ?? null,
-            'phone' => $request->phone,
+            'company_email' => $request->email,
+            'company_name' => $user->customer_id .' Office',
+            'company_number' => $request->phone,
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
-            'company_name' => $user->name,
             'created_by' => $user->id,
             'company_logo' => $request->company_logo ?? null,
         ]);
