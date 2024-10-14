@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
 use App\Http\Controllers\Broker\ProjectManagement\PropertyController;
+use App\Http\Controllers\Home\Gallary\GallaryController as HomeGallaryController;
 use App\Http\Controllers\Property_Finder\RealEstateRequestController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Property_Finder\HomeController as Property_FinderHomeController;
@@ -102,8 +103,10 @@ Route::group(
         Auth::routes();
 
         Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
-        Route::get('/gallery', [GallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
-        Route::get('gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
+        // Route::get('/gallery', [GallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
+        Route::get('/gallery', [HomeGallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
+
+        Route::get('gallery/{gallery_name}/unit/{id}', [HomeGallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
         Route::post('/unit_interests',  [UnitInterestController::class, 'store'])->name('unit_interests.store');
         Route::get('/download-qrcode/{link}', [GallaryController::class, 'downloadQRCode'])->name('download.qrcode');
         Route::get('/filtered-units', [GallaryController::class, 'fetchFilteredUnits'])->name('filtered.units');

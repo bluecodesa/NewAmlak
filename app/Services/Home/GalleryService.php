@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Home;
 
-use App\Interfaces\Broker\GalleryRepositoryInterface;
+use App\Interfaces\Home\GalleryRepositoryInterface;
 use App\Interfaces\Broker\UnitRepositoryInterface;
 use App\Models\Broker;
 use App\Models\City;
@@ -18,9 +18,13 @@ use App\Repositories\Broker\PropertyRepository;
 use App\Services\Admin\PropertyUsageService;
 use Illuminate\Validation\Rule;
 use App\Interfaces\Admin\TicketTypeRepositoryInterface;
+use App\Interfaces\Office\UnitRepositoryInterface as OfficeUnitRepositoryInterface;
 use App\Models\Advertising;
 use App\Models\Office;
 use App\Models\Property;
+use App\Repositories\Office\ProjectRepository as OfficeProjectRepository;
+use App\Repositories\Office\PropertyRepository as OfficePropertyRepository;
+use App\Repositories\Office\UnitRepository as OfficeUnitRepository;
 use Carbon\Carbon;
 
 class GalleryService
@@ -37,12 +41,22 @@ class GalleryService
 
     protected $ticketTypeRepository;
 
+    protected $OfficeProjectRepository;
+
+    protected $OfficePropertyRepository;
+
+    protected $OfficeUnitRepository;
+
+
 
     public function __construct(
         UnitRepositoryInterface $UnitRepository,
         UnitRepository $unitRepository,
         PropertyRepository $PropertyRepository,
         ProjectRepository $ProjectRepository,
+        OfficeUnitRepository $OfficeUnitRepository,
+        OfficePropertyRepository $OfficePropertyRepository,
+        OfficeProjectRepository $OfficeProjectRepository,
         GalleryRepositoryInterface $galleryRepository,
         PropertyUsageService  $propertyUsageService,
         TicketTypeRepositoryInterface $ticketTypeRepository
@@ -55,6 +69,10 @@ class GalleryService
         $this->PropertyRepository = $PropertyRepository;
         $this->propertyUsageService = $propertyUsageService;
         $this->ticketTypeRepository = $ticketTypeRepository;
+
+        $this->OfficeProjectRepository = $OfficeProjectRepository;
+        $this->OfficeUnitRepository = $OfficeUnitRepository;
+        $this->OfficePropertyRepository = $OfficePropertyRepository;
 
     }
 
@@ -69,102 +87,66 @@ class GalleryService
         return $this->galleryRepository->findById($galleryId);
     }
 
-    public function create(array $data)
-    {
-
-        return $this->galleryRepository->create($data);
-    }
-
-    public function update(array $data, $galleryId)
-    {
-        $request = request();
-        $data = $request->validate([
-            'gallery_name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('galleries')->ignore($galleryId),
-            ],
-            'gallery_status' => 'nullable|in:0,1',
-        ], [
-            'gallery_name.required' => __('The gallery name field is required.'),
-            'gallery_name.unique' => __('The gallery name has already been taken.'),
-        ]);
-
-        $gallery = $this->galleryRepository->findById($galleryId);
-
-        $gallery->update([
-            'gallery_name' => $data['gallery_name'],
-            'gallery_status' => $request->has('gallery_status') ? '1' : '0',
-        ]);
-
-        return $this->galleryRepository->update($data, $galleryId);
-    }
-
-    public function delete($galleryId)
-    {
-        return $this->galleryRepository->delete($galleryId);
-    }
-
     public function findByBrokerId($brokerId)
     {
         return $this->galleryRepository->findByBrokerId($brokerId);
     }
 
-
-
-    public function updateCover(array $data)
+    public function findByOfficeId($officeId)
     {
-        $request = request();
-        $data = $request->validate([
-            'gallery_id' => 'required',
-            'gallery_cover' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ], [
-            'gallery_id.required' => 'Please select a gallery.',
-            'gallery_cover.required' => 'Please upload a gallery cover image.',
-            'gallery_cover.image' => 'The gallery cover must be an image.',
-            'gallery_cover.mimes' => 'The gallery cover must be a valid image file (JPEG, PNG, JPG).',
-            'gallery_cover.max' => 'The gallery cover must not exceed 2048 kilobytes in size.',
-        ]);
-
-
-        return $this->galleryRepository->updateCover($data);
+        return $this->galleryRepository->findByOfficeId($officeId);
     }
+
 
 
     public function showUnitPublic($galleryName, $id)
     {
         $gallery = $this->galleryRepository->findByGalleryName($galleryName);
+
         if ($gallery->gallery_status == 0) {
             $brokerId = $gallery->broker_id;
             $broker = Broker::findOrFail($brokerId);
-            $gallery = $this->galleryRepository->findByGalleryName($galleryName);
+
+            $officeId = $gallery->office_id;
+            $office = Office::findOrFail($officeId);
+
             return get_defined_vars();
         } else {
+            $units = $this->UnitRepository->getAll($gallery->broker_id)
+                ->where('show_gallery', 1);
 
-            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            if ($gallery->office_id) {
+                $officeUnits = $this->OfficeUnitRepository->getAll($gallery->office_id)
+                    ->where('show_gallery', 1);
+                $units = $units->merge($officeUnits);
+            }
+
             $Unit = $this->UnitRepository->findById($id);
-
             if (!$Unit) {
                 abort(404);
             }
+            $broker = Broker::find($Unit->broker_id);
+            $office = $Unit->office_id ? Office::find($Unit->office_id) : null; // Check if the unit has an office ID
 
-            $gallery = $this->galleryRepository->findByBrokerId($gallery->broker_id);
+            // Use either broker or office to get user data
+            $userId = null;
+            if ($broker) {
+                $userId = $broker->user_id;
+                $brokers = User::findOrFail($userId);
+            } elseif ($office) {
+                $userId = $office->user_id; // Assuming office also has a user_id
+                $brokers = User::findOrFail($userId);
+            }
 
-            $broker = Broker::findOrFail($Unit->broker_id);
-            $brokers = User::findOrFail($broker->user_id);
             $unit_id = $Unit->id;
-            $user_id = $broker->user_id;
 
-
-
+            // Record visitor data
             $visitor = Visitor::where('unit_id', $id)
                 ->where('ip_address', request()->ip())
                 ->where('visited_at', '>=', now()->subHour())
                 ->first();
 
             if (!$visitor) {
-
                 $newVisitor = new Visitor();
                 $newVisitor->unit_id = $id;
                 $newVisitor->gallery_id = $gallery->id;
@@ -172,17 +154,20 @@ class GalleryService
                 $newVisitor->visited_at = now();
                 $newVisitor->save();
             }
-            // $unitVisitorsCount = Visitor::where('unit_id', $Unit->id)->distinct('ip_address')->count('ip_address');
+
+            // Count unique visitors in the last 7 days
             $sevenDaysAgo = Carbon::now()->subDays(7);
             $unitVisitorsCount = Visitor::where('unit_id', $Unit->id)
-            ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
-            ->distinct('ip_address')
-            ->count('ip_address');
+                ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
+                ->distinct('ip_address')
+                ->count('ip_address');
+
             $ticketTypes = $this->ticketTypeRepository->all();
 
             return get_defined_vars();
         }
     }
+
 
     public function showByName($name, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent)
 
@@ -283,14 +268,37 @@ class GalleryService
         $units = collect();
         $districts = collect();
         $allItems = collect();
-        $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
+        // $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
+        $galleries = Gallery::where(function ($query) {
+            $query->whereNotNull('broker_id')
+                  ->orWhereNotNull('office_id');
+        })
+        ->where('gallery_status', 1)
+        ->get();
         foreach ($galleries as $gallery) {
-            $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
-            $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
-            $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                ->where('show_gallery', 1)
-                ->get();
+            // $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
+            // $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
+            // $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
+            //     ->where('show_gallery', 1)
+            //     ->get();
             // $units = $units->merge($galleryUnits);
+
+            if (!empty($gallery['broker_id'])) {
+                $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
+                $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
+                $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
+                    ->where('show_gallery', 1)
+                    ->get();
+            }
+            // If office_id is present, get projects and properties by office_id
+            else if (!empty($gallery['office_id'])) {
+                $projects = $this->OfficeProjectRepository->getAllByOfficeId($gallery['office_id'])->where('show_in_gallery', 1);
+                $properties = $this->OfficePropertyRepository->getAll($gallery['office_id'])->where('show_in_gallery', 1);
+                $galleryUnits = Unit::where('office_id', $gallery->office_id)
+                    ->where('show_gallery', 1)
+                    ->get();
+            }
+
             $galleryUnits->each(function ($unit) {
                 $unit->isGalleryUnit = true;
             });

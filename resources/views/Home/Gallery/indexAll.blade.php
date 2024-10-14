@@ -242,8 +242,15 @@
                 @foreach ($allItems as $index => $unit)
 
                     @php
-                        $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
+                        // $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
+
+                        if ($unit->BrokerData) {
+                            $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
+                        } elseif ($unit->OfficeData) {
+                            $falLicenseUser = $unit->OfficeData->UserData->UserFalData;
+                        }
                     @endphp
+
                     @if (
                         $falLicenseUser &&
                             $falLicenseUser->ad_license_status == 'valid' &&
@@ -364,8 +371,19 @@
                                                             </button>
                                                             <input type="hidden" name="unit_id"
                                                                 value="{{ $unit->id }}">
-                                                            <input type="hidden" name="owner_id"
-                                                                value="{{ $unit->BrokerData->user_id }}">
+                                                            {{-- <input type="hidden" name="owner_id"
+                                                                value="{{ $unit->BrokerData->user_id }}"> --}}
+                                                                @php
+
+                                                                $ownerId = null;
+                                                                if ($unit->BrokerData) {
+                                                                    $ownerId = $unit->BrokerData->user_id;
+                                                                } elseif ($unit->OfficeData) {
+                                                                    $ownerId = $unit->OfficeData->user_id;
+                                                                }
+                                                                @endphp
+
+                                                            <input type="hidden" name="owner_id" value="{{ $ownerId }}">
 
                                                             <!-- Send type as hidden input -->
                                                             <input type="hidden" name="type"
@@ -393,28 +411,36 @@
                                     </div>
                                     <div class="mx-auto my-3">
                                         @php
+
                                             $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
                                             $isGalleryProject =
                                                 isset($unit->isGalleryProject) && $unit->isGalleryProject;
                                             $isGalleryProperty =
                                                 isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
+
+                                            if( $unit->BrokerData){
+                                               $GalleryData= $unit->BrokerData->GalleryData;
+                                            }elseif( $unit->OfficeData){
+                                               $GalleryData= $unit->OfficeData->GalleryData;
+
+                                            }
                                         @endphp
 
                                         @if ($isGalleryUnit)
                                             <a href="{{ route('gallery.showUnitPublic', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $unit->id,
                                             ]) }}"
                                                 class="card-hover-border-default">
                                             @elseif ($isGalleryProject)
                                                 <a href="{{ route('Home.showPublicProject', [
-                                                    'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                    'gallery_name' => optional($GalleryData)->gallery_name,
                                                     'id' => $unit->id,
                                                 ]) }}"
                                                     class="card-hover-border-default">
                                                 @elseif ($isGalleryProperty)
                                                     <a href="{{ route('Home.showPublicProperty', [
-                                                        'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                        'gallery_name' => optional($GalleryData)->gallery_name,
                                                         'id' => $unit->id,
                                                     ]) }}"
                                                         class="card-hover-border-default">
@@ -462,22 +488,30 @@
 
 
                                     <h4 class="mb-1 card-title">
+                                        @php
+                                             if( $unit->BrokerData){
+                                               $GalleryData= $unit->BrokerData->GalleryData;
+                                            }elseif( $unit->OfficeData){
+                                               $GalleryData= $unit->OfficeData->GalleryData;
+
+                                            }
+                                        @endphp
 
                                         @if ($isGalleryUnit)
                                             <a href="{{ route('gallery.showUnitPublic', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $unit->id,
                                             ]) }}"
                                                 class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
                                         @elseif ($isGalleryProject)
                                             <a href="{{ route('Home.showPublicProject', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $unit->id,
                                             ]) }}"
                                                 class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
                                         @elseif ($isGalleryProperty)
                                             <a href="{{ route('Home.showPublicProperty', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $unit->id,
                                             ]) }}"
                                                 class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
@@ -595,15 +629,27 @@
                                         </div>
                                     @endif
                                     @auth
+                                    @php
+                                         if( $unit->BrokerData){
+                                               $key_phone= $unit->BrokerData->UserData->key_phone;
+                                               $phone= $unit->BrokerData->userData->phone;
+
+                                            }elseif( $unit->OfficeData){
+                                               $key_phone= $unit->OfficeData->UserData->key_phone;
+                                               $phone= $unit->OfficeData->userData->phone;
+
+
+                                            }
+                                    @endphp
                                         <div class="d-flex align-items-center justify-content-center">
                                             @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                                                <a href="tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile }}"
+                                                <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                                     target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
                                                         class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                             @endif
                                             @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                     Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                                                <a href="https://web.whatsapp.com/send?phone=tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile }}"
+                                                <a href="https://web.whatsapp.com/send?phone=tel:+{{ $key_phone }} {{ $phone }}"
                                                     target="_blank" class="btn btn-label-secondary btn-icon"><i
                                                         class="ti ti-message ti-sm"></i></a>
                                             @endif

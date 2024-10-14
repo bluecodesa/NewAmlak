@@ -38,6 +38,7 @@ use App\Services\Broker\UnitInterestService;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
+use App\Services\Home\GalleryService as HomeGalleryService;
 use Carbon\Carbon;
 
 class GallaryController extends Controller
@@ -65,10 +66,9 @@ class GallaryController extends Controller
 
     public function __construct(
         SettingService $settingService,
-        GalleryService $galleryService,
+        HomeGalleryService $galleryService,
         ProjectService $ProjectService,
         PropertyService $PropertyService,
-
         UnitService $UnitService,
         RegionService $regionService,
         DistrictService $districtService,
@@ -104,9 +104,6 @@ class GallaryController extends Controller
         $this->PropertyService = $PropertyService;
 
     }
-    public function index()
-    {
-    }
 
 
     protected function updateAdLicenseStatus($allItemsProperties)
@@ -121,7 +118,6 @@ class GallaryController extends Controller
 
     public function showUnitPublic($gallery_name, $id)
     {
-
         $data = $this->galleryService->showUnitPublic($gallery_name, $id);
 
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
@@ -151,7 +147,6 @@ class GallaryController extends Controller
         $allUnits = Unit::take(6)->paginate(3);
 
         $unitLatLong = $unit->lat_long;
-
         [$lat, $long] = explode(',', $unitLatLong);
         $all5kiloUnits = Unit::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) )
         * cos( radians( SUBSTRING_INDEX(lat_long, ',', -1) ) - radians(?) )
@@ -167,18 +162,29 @@ class GallaryController extends Controller
 
         $data['moreUnits'] = $moreUnits;
 
-        $broker = $data['broker'];
-        $user_id=$broker->UserData->id;
-        // if ($broker->license_validity == 'valid') {
+        $broker = $data['broker'] ?? null;
+        $office = $data['office'] ?? null;
+        $user_id = null;
+
+        if ($broker) {
+            $user_id = $broker->UserData->id;
+        } elseif ($office) {
+            $user_id = $office->UserData->id;
+        }
+
+        if ($user_id) {
             $falLicense = FalLicenseUser::where('user_id', $user_id)
-            ->whereHas('falData', function ($query) {
-                $query->where('for_gallery', 1);
-            })
-            ->where('ad_license_status', 'valid')
-            ->first();
+                ->whereHas('falData', function ($query) {
+                    $query->where('for_gallery', 1);
+                })
+                ->where('ad_license_status', 'valid')
+                ->first();
+            }
+
             $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
             if ($falLicense->ad_license_status == 'valid') {
             $data['CheckUnitExist'] = UnitInterest::where(['interested_id' => Auth::id(), 'unit_id' => $id])->exists();
+            // dd($data);
             return view('Home.Gallery.Unit.show', $data);
         } else {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);

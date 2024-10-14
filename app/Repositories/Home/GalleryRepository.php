@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories\Broker;
+namespace App\Repositories\Home;
 
-use App\Interfaces\Broker\GalleryRepositoryInterface;
+use App\Interfaces\Home\GalleryRepositoryInterface;
 use App\Models\Gallery;
 
 class GalleryRepository implements GalleryRepositoryInterface
@@ -24,45 +24,17 @@ class GalleryRepository implements GalleryRepositoryInterface
         return Gallery::findOrFail($galleryId);
     }
 
-    public function create(array $data)
-    {
-        return Gallery::create($data);
-    }
 
-    public function update(array $data, $galleryId)
-    {
-        $gallery = Gallery::findOrFail($galleryId);
-
-        $gallery->update([
-            'gallery_name' => $data['gallery_name'],
-            'gallery_status' => isset($data['gallery_status']) ? '1' : '0',
-        ]);
-              return $gallery;
-    }
-
-    public function delete($galleryId)
-    {
-        $gallery = Gallery::findOrFail($galleryId);
-        $gallery->delete();
-    }
     public function findByBrokerId($brokerId)
     {
         return Gallery::where('broker_id', $brokerId)->first();
     }
 
-    public function updateCover(array $data)
+    public function findByOfficeId($officeId)
     {
-        $gallery = $this->findById($data['gallery_id']);
-
-        if (isset($data['gallery_cover'])) {
-            $file = $data['gallery_cover'];
-            $ext = uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('Gallery/cover/'), $ext);
-            $gallery->update(['gallery_cover' => 'Gallery/cover/' . $ext]);
-        }
-
-        return $gallery;
+        return Gallery::where('office_id', $officeId)->first();
     }
+
 
     public function findByGalleryName($galleryName)
     {

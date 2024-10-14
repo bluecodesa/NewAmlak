@@ -2,36 +2,48 @@
 
 namespace App\Http\Traits\WhatsApp;
 
-use Illuminate\Support\Facades\Auth;
-use MacsiDigital\Zoom\Facades\Zoom;
+use App\Models\WhatsAppSetting;
+use GuzzleHttp\Client;
 
 trait WhatsappSendCode
 {
     public function WhatsappSendCode($data)
     {
+        $whatsAppSetting = WhatsAppSetting::first();
 
-        $client = new \GuzzleHttp\Client();
+        if (!$whatsAppSetting) {
+            return 'No WhatsApp settings found for this user';
+        }
+
+        // Create a Guzzle client
+        $client = new Client();
+
         try {
+            // Make the request
             $response = $client->post(
-                'https://cloudwa.net/api/v2/messages/send-message',
+                $whatsAppSetting->url, // URL from the database
                 [
                     'headers' => [
-                        'Authorization' => 'Bearer 41|1r3C8pTrV86ueXNTc2PB3sqI5fmCLUD7RytOGjTc',
+                        'Authorization' => 'Bearer ' . $whatsAppSetting->api_key,
                         'Content-Type' => 'application/json',
                         'Accept' => 'application/json',
                     ],
 
                     'json' => [
-                        'session_uuid' => env('session_uuid', '9d33ea64-45e7-4dc2-87fb-66ec4ff15956'),
+                        'session_uuid' => $whatsAppSetting->session_uuid, // Use session UUID from database
                         'phone' => $data['phone'],
-                        'type' => 'TEXT',
-                        'message' => __('Your OTP code is') . ' : ' . $data['otp'],
+                        'type' => $whatsAppSetting->type,
+                        'message' => __('Welcome Your OTP code is') . ' : ' . $data['otp'],
                         'schedule_at' => now(),
                     ],
                 ]
             );
+
+            // Handle the response if necessary
+            return $response->getBody()->getContents();
         } catch (\Throwable $th) {
-            //throw $th;
+            // Handle any errors that occur during the request
+            return 'Error sending WhatsApp message: ' . $th->getMessage();
         }
     }
 }

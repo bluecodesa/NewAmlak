@@ -1,5 +1,5 @@
 <?php
-namespace App\Interfaces\Broker;
+namespace App\Interfaces\Home;
 
 interface GalleryRepositoryInterface
 {
@@ -9,14 +9,8 @@ interface GalleryRepositoryInterface
 
     public function findById($galleryId);
 
-    public function create(array $data);
-
-    public function update(array $data, $galleryId);
-
-    public function delete($galleryId);
-
-    public function updateCover(array $data);
     public function findByBrokerId($brokerId);
+    public function findByOfficeId($officeId);
     public function findByGalleryName($galleryName);
 
 

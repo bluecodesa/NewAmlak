@@ -83,6 +83,7 @@ use App\Interfaces\Admin\WalletTypeRepositoryInterface;
 use App\Interfaces\Employee\ProjectRepositoryInterface as EmployeeProjectRepositoryInterface;
 use App\Interfaces\Employee\SettingRepositoryInterface as EmployeeSettingRepositoryInterface;
 use App\Interfaces\Employee\UnitRepositoryInterface as EmployeeUnitRepositoryInterface;
+use App\Interfaces\Home\GalleryRepositoryInterface as InterfacesHomeGalleryRepositoryInterface;
 use App\Interfaces\Home\RealEstateRequestRepositoryInterface;
 use App\Interfaces\Office\ContractRepositoryInterface;
 use App\Interfaces\Office\GalleryRepositoryInterface as OfficeGalleryRepositoryInterface;
@@ -105,6 +106,9 @@ use App\Repositories\Office\PropertyRepository as OfficePropertyRepository;
 use App\Repositories\Office\SettingRepository as OfficeSettingRepository;
 use App\Repositories\Office\UnitInterestRepository as OfficeUnitInterestRepository;
 use App\Repositories\Office\UnitRepository as OfficeUnitRepository;
+
+use App\Repositories\Home\GalleryRepository as homeGalleryRepository;
+
 use App\Services\NafathService;
 
 
@@ -191,6 +195,12 @@ class AppServiceProvider extends ServiceProvider
             OfficeGalleryRepositoryInterface::class,
             OfficeGalleryRepository::class
         );
+
+        $this->app->bind(
+            InterfacesHomeGalleryRepositoryInterface::class,
+            HomeGalleryRepository::class
+        );
+
 
 
         $this->app->bind(
