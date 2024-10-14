@@ -301,7 +301,7 @@
                             <ul class="list-unstyled mb-4 mt-3">
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-check text-heading"></i><span class="fw-medium mx-2 text-heading">
-                                    </span> <span>{{ $brokers->name }}</span>
+                                    </span> <span>{{ $brokers->name ?? $office->UserData->name }}</span>
                                 </li>
                                 @if ($brokers->is_broker)
                                     <li class="list-inline-item d-flex gap-1"><i class="ti ti-user-check"></i>
@@ -311,19 +311,32 @@
                                         @lang('Office')</li>
                                 @endif
                                 <li class="list-inline-item d-flex gap-1">
-                                    <i class="ti ti-color-swatch"></i>رقم رخصة فال : {{ $broker->broker_license }}
+                                    <i class="ti ti-color-swatch"></i>رقم رخصة فال : {{ $broker->UserData->UserFalData->ad_license_number ?? $office->UserData->UserFalData->ad_license_number }}
                                 </li>
 
                                 <li class="list-inline-item d-flex gap-1">
                                     @php
-                                        $createdAt = new DateTime($brokers->created_at);
+                                        if($brokers){
+                                            $createdAt = new DateTime($brokers->created_at);
 
-                                        // Get the month name
-                                        $monthName = $createdAt->format('F');
+                                            // Get the month name
+                                            $monthName = $createdAt->format('F');
 
-                                        // Get the number of days in the month
-                                        $numDay = $createdAt->format('d');
-                                        $yearName = $createdAt->format('Y');
+                                            // Get the number of days in the month
+                                            $numDay = $createdAt->format('d');
+                                            $yearName = $createdAt->format('Y');
+
+                                        }elseif($office){
+                                            $createdAt = new DateTime($office->created_at);
+
+                                                // Get the month name
+                                                $monthName = $createdAt->format('F');
+
+                                                // Get the number of days in the month
+                                                $numDay = $createdAt->format('d');
+                                                $yearName = $createdAt->format('Y');
+
+                                        }
 
                                     @endphp
                                     <i class="ti ti-calendar"></i> عضو منذ {{ $monthName }} {{ $numDay }}
@@ -334,14 +347,14 @@
                             @auth
                             <div class="d-flex align-items-center justify-content-center">
                                 @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                                    <a href="tel:+{{ $Unit->BrokerData->key_phone }} {{ $Unit->BrokerData->mobile }}"
+                                    <a href="tel:+{{ $Unit->BrokerData->key_phone ?? $Unit->OfficeData->key_phone }} {{ $Unit->BrokerData->mobile ?? $Unit->OfficeData->phone }}"
                                         target="_blank"
                                         class="btn btn-primary d-flex align-items-center me-3"><i
                                             class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                 @endif
                                 @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                         Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $Unit->BrokerData->key_phone }} {{ $Unit->BrokerData->mobile }}"
+                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $Unit->BrokerData->key_phone ?? $Unit->OfficeData->key_phone }} {{ $Unit->BrokerData->mobile ?? $Unit->OfficeData->phone }}"
                                         target="_blank" class="btn btn-label-secondary btn-icon"><i
                                             class="ti ti-message ti-sm"></i></a>
                                 @endif
@@ -428,7 +441,7 @@
                                             @csrf
 
                                             <input hidden name="unit_id" value="{{ $Unit->id }}" />
-                                            <input hidden name="user_id" value="{{ $Unit->BrokerData->user_id }}" />
+                                            <input hidden name="user_id" value="{{ $Unit->BrokerData->user_id ?? $Unit->OfficeData->user_id }}" />
                                             <input hidden name="finder_id" value="{{ auth()->user()->id }}" />
                                             <input hidden name="interested_id" value="{{ auth()->user()->id }}" />
                                             <input hidden type="text" name="key_phone" hidden
@@ -473,7 +486,7 @@
                                                     <div class="modal-body">
 
                                                         <input hidden name="unit_id" value="{{ $unit_id }}" />
-                                                        <input hidden name="user_id" value="{{ $user_id }}" />
+                                                        <input hidden name="user_id" value="{{ $$broker->UserData->id ?? $office->UserData->id  }}" />
                                                         <div class="row">
                                                             <div class="col mb-3">
                                                                 <label for="nameBasic"

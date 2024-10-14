@@ -21,7 +21,14 @@
 
             $routeName ='Home.showPublicProperty';
 
-            $gallery_name = $property->BrokerData->GalleryData->gallery_name;
+            // $gallery_name = $property->BrokerData->GalleryData->gallery_name;
+            if( $property->BrokerData){
+                    $gallery_name= $property->BrokerData->GalleryData->gallery_name;
+                }elseif( $property->OfficeData){
+                    $gallery_name= $property->OfficeData->GalleryData->gallery_name;
+
+                }
+
             $ad_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $property->id]);
             @endphp
             <input type="hidden" name="ad_url" value="{{ $ad_url }}" class="form-control" required>

@@ -12,6 +12,9 @@ interface GalleryRepositoryInterface
     public function findByBrokerId($brokerId);
     public function findByOfficeId($officeId);
     public function findByGalleryName($galleryName);
+    public function ShowPublicProperty($id);
+    public function ShowPublicProject($id);
+
 
 
 

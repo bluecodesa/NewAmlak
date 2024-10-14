@@ -24,6 +24,7 @@ use App\Models\PropertyType;
 use App\Models\Setting;
 use App\Models\Subscription;
 use App\Models\SubscriptionType;
+use App\Models\TicketType;
 use App\Models\Unit;
 use App\Models\UnitInterest;
 use App\Models\Visitor;
@@ -358,5 +359,133 @@ class GallaryController extends Controller
             echo file_get_contents($dataUri);
         }, 200, $headers);
     }
+
+    public function showPubllicProperty($gallery_name, $id)
+    {
+        $property = $this->galleryService->ShowPublicProperty($id);
+        if($property->BrokerData){
+            $user_id=$property->BrokerData->UserData->id;
+            $gallery_status=$property->BrokerData->GalleryData->gallery_status;
+
+        }elseif($property->OfficeData){
+            $user_id=$property->OfficeData->UserData->id;
+            $gallery_status=$property->OfficeData->GalleryData->gallery_status;
+        }
+        $falLicense = FalLicenseUser::where('user_id', $user_id)
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        if(!empty($property) && $falLicense->ad_license_status == 'valid' && $gallery_status != 0 ){
+            $ticketTypes =  TicketType::paginate(100);
+
+            $sevenDaysAgo = Carbon::now()->subDays(7);
+            $propertyVisitorsCount = Visitor::where('property_id', $property->id)
+            ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
+            ->distinct('ip_address')
+            ->count('ip_address');
+
+            $cityId = $property->city_id;
+            $propertyTypeId = $property->property_type_id;
+            $moreProperties = Property::where('id', '!=', $id)
+            ->where('ad_license_status', 'Valid')
+            ->where(function($query) use ($cityId, $propertyTypeId, $property) {
+                $query->where('city_id', $cityId)
+                      ->orWhere('property_type_id', $propertyTypeId)
+                      ->orWhere('type', $property->type);
+            })
+            ->paginate(3);
+
+            $allProperties = Property::take(6)->paginate(3);
+            $propertyLatLong = $property->lat_long;
+
+            [$lat, $long] = explode(',', $propertyLatLong);
+            $all5kiloProperties = Property::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) )
+            * cos( radians( SUBSTRING_INDEX(lat_long, ',', -1) ) - radians(?) )
+            + sin( radians(?) ) * sin( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) ) ) ) AS distance", [$lat, $long, $lat])
+                ->having('distance', '<=', 5)
+                ->where('ad_license_status', 'Valid')
+                ->where('id', '!=', $id)
+                ->paginate(3);
+
+
+
+
+            return view('Home.Gallery.Property.show',  get_defined_vars());
+        }
+        else {
+            $property = Property::findOrFail($id);
+            if($property->BrokerData){
+                $broker=$property->BrokerData;
+
+            }elseif($property->OfficeData){
+                $office=$property->OfficeData;
+
+            }
+            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+        }
+
+
+    }
+
+    public function showPubllicProject($gallery_name, $id)
+    {
+        $project = $this->galleryService->ShowPublicProject($id);
+        if($project->BrokerData){
+            $user_id=$project->BrokerData->UserData->id;
+            $gallery_status=$project->BrokerData->GalleryData->gallery_status;
+
+        }elseif($project->OfficeData){
+            $user_id=$project->OfficeData->UserData->id;
+            $gallery_status=$project->OfficeData->GalleryData->gallery_status;
+        }
+        // $user_id=$project->BrokerData->UserData->id;
+        $falLicense = FalLicenseUser::where('user_id', $user_id)
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+        if(!empty($project) && $falLicense->ad_license_status == 'valid' && $gallery_status != 0 ){
+            $ticketTypes =  TicketType::paginate(100);
+
+            $cityId = $project->city_id;
+            $districtId  = $project->district_id  ;
+            $moreProjects = Project::where('id', '!=', $id)
+            ->where('ad_license_status', 'Valid')
+            ->where(function($query) use ($cityId, $districtId, $project) {
+                $query->where('city_id', $cityId)
+                      ->orWhere('district_id', $districtId);
+            })
+            ->paginate(3);
+
+            $allProjects = Project::take(6)->paginate(3);
+
+            $projectLatLong = $project->lat_long;
+
+            [$lat, $long] = explode(',', $projectLatLong);
+            $all5kiloProjects  = Project::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) )
+            * cos( radians( SUBSTRING_INDEX(lat_long, ',', -1) ) - radians(?) )
+            + sin( radians(?) ) * sin( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) ) ) ) AS distance", [$lat, $long, $lat])
+                ->having('distance', '<=', 5)
+                ->where('ad_license_status', 'Valid')
+                ->where('id', '!=', $id)
+                ->paginate(3);
+
+
+
+            return view('Home.Projects.show',  get_defined_vars());
+
+        }
+        else {
+            $project = Project::findOrFail($id);
+            $broker=$project->BrokerData;
+            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+        }
+    }
+
 
 }

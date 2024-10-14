@@ -308,7 +308,7 @@
                                         {{ $property->BrokerData->UserData->name ?? $property->OfficeData->UserData->name ?? '' }}
                                     </span>
                                 </li>
-                                @if ($property->BrokerData->UserData->is_broker)
+                                @if ($property->BrokerData)
                                     <li class="list-inline-item d-flex gap-1">
                                         <i class="ti ti-user-check"></i>@lang('Broker')
                                     </li>
@@ -319,7 +319,8 @@
                                 @endif
                                 <li class="list-inline-item d-flex gap-1">
                                     <i class="ti ti-color-swatch"></i>
-                                    رقم رخصة فال : {{ $property->BrokerData->broker_license ?? '' }}
+                                    {{-- رقم رخصة فال : {{ $property->BrokerData->broker_license ?? '' }} --}}
+                                    رقم رخصة فال : {{ $property->BrokerData->UserData->UserFalData->ad_license_number ?? $property->OfficeData->UserData->UserFalData->ad_license_number }}
                                 </li>
                                 <li class="list-inline-item d-flex gap-1">
                                     <i class="ti ti-calendar"></i>
@@ -329,14 +330,14 @@
                             @auth
                             <div class="d-flex align-items-center justify-content-center">
                                 @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                                    <a href="tel:+{{ $property->BrokerData->key_phone }} {{ $property->BrokerData->mobile }}"
+                                    <a href="tel:+{{ $property->BrokerData->key_phone ?? $property->OfficeData->key_phone }} {{ $property->BrokerData->mobile ?? $property->OfficeData->phone }}"
                                         target="_blank"
                                         class="btn btn-primary d-flex align-items-center me-3"><i
                                             class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                                 @endif
                                 @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                         Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $property->BrokerData->key_phone }} {{ $property->BrokerData->mobile }}"
+                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $property->BrokerData->key_phone ?? $property->OfficeData->key_phone }} {{ $property->BrokerData->mobile ?? $property->OfficeData->phone }}"
                                         target="_blank" class="btn btn-label-secondary btn-icon"><i
                                             class="ti ti-message ti-sm"></i></a>
                                 @endif
@@ -615,7 +616,7 @@
                                 @auth
                                     <div class="d-flex align-items-center justify-content-center">
                                         @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                                            <a href="tel:+{{ $property->BrokerData->UserData->key_phone }} {{ $property->BrokerData->mobile }}" target="_blank"
+                                            <a href="tel:+{{ $property->BrokerData->UserData->key_phone ?? $property->OfficeData->key_phone }} {{ $property->BrokerData->mobile ?? $property->OfficeData->phone }}" target="_blank"
                                                 class="btn btn-primary d-flex align-items-center me-3"
                                                 style="color: white;"><i
                                                     class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
@@ -627,7 +628,7 @@
                                         @endif
                                         @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                 Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                                            <a href="https://web.whatsapp.com/send?phone=tel:+{{ $property->BrokerData->UserData->key_phone }} {{ $property->BrokerData->mobile }}"
+                                            <a href="https://web.whatsapp.com/send?phone=tel:+{{ $property->BrokerData->UserData->key_phone ?? $property->OfficeData->key_phone }} {{ $property->BrokerData->mobile ?? $property->OfficeData->phone }}"
                                                 target="_blank" class="btn btn-label-secondary btn-icon"><i
                                                     class="ti ti-message ti-sm"></i></a>
                                         @else
@@ -893,47 +894,47 @@
                                             <div class="col-xl-4 col-lg-6 col-md-6">
                                                 <div class="card h-200">
                                                     <div class="card-body text-center">
-                        
+
                                                         <div class="d-flex align-items-center justify-content-start">
                                                             <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#onboardHorizontalImageModal{{ $unit->id }}"><i
                                                                     class="ti ti-share ti-sm"></i></a>
                                                             @guest
-                        
+
                                                                 {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                                                                     data-bs-toggle="modal" data-bs-target="#modalToggle">
                                                                     <i class="ti ti-heart ti-sm"></i>
-                        
+
                                                                 </a> --}}
-                        
+
                                                                 <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                                                                  href="{{ route('login') }}">
                                                                 <i class="ti ti-heart ti-sm"></i>
-                        
+
                                                                 </a>
                                                                 {{-- <a class=" d-flex align-items-center me-3"
                                                                  href="{{ route('login') }}">
                                                                 <i class="ti ti-report ti-sm"></i>
                                                                     @lang('الابلاغ عن الاعلان')
                                                                 </a> --}}
-                        
+
                                                             @endguest
-                        
+
                                                             @auth
                                                             @if (auth()->user())
                                                                 @php
                                                                     $isFavorite = App\Models\FavoriteUnit::where('unit_id', $unit->id)->orwhere('property_id', $unit->id)->orwhere('project_id', $unit->id)
                                                                         ->where('finder_id', auth()->user()->id)
                                                                         ->exists();
-                        
+
                                                                     // Determine the type (unit, property, or project)
                                                                     $type = 'property';
                                                                 @endphp
                                                                     @if (Auth::user()->hasPermission('Add-property-as-favorite') ||
                                                                             Auth::user()->hasPermission('Add-property-as-favorite-admin'))
                                                                         @if ($isFavorite)
-                                                                            < <form method="POST" action="{{ route('remove-from-favorites') }}">
+                                                                             <form method="POST" action="{{ route('remove-from-favorites') }}">
                                                                                 @csrf
                                                                                 <button type="submit" class="btn btn-label-danger btn-icon d-flex align-items-center me-3">
                                                                                     <i class="ti ti-heart ti-sm"></i>
@@ -950,7 +951,7 @@
                                                                             </button>
                                                                             <input type="hidden" name="unit_id" value="{{ $unit->id }}">
                                                                             <input type="hidden" name="owner_id" value="{{ $unit->BrokerData->user_id }}">
-                        
+
                                                                             <!-- Send type as hidden input -->
                                                                             <input type="hidden" name="type" value="{{ $type }}">
                                                                         </form>
@@ -971,16 +972,16 @@
                                                                    @lang('الابلاغ عن الاعلان')
                                                                </a> --}}
                                                             @endauth
-                        
+
                                                         </div>
-                        
+
                                                         <div class="mx-auto my-3">
-                        
+
                                                                 <a href="{{ route('Home.showPublicProperty', [
                                                                         'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
                                                                         'id' => $unit->id
                                                                     ]) }}" class="card-hover-border-default">
-                        
+
                                                             <div class="image-container" style="position: relative; width: 100%; height: 200px;">
                                                                 @if ($unit->PropertyImages && $unit->PropertyImages->isNotEmpty())
                                                                     <img src="{{ url($unit->PropertyImages->first()->image) }}"
@@ -996,12 +997,12 @@
                                                             </a>
                                                         </div>
                                                         <h4 class="mb-1 card-title">
-                        
+
                                                                 <a href="{{ route('Home.showPublicProperty', [
                                                                         'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
                                                                         'id' => $unit->id
                                                                     ]) }}" class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
-                        
+
                                                     </h4>
                                                         {{-- <h4 class="mb-1 card-title"> <a
                                                                 href="{{ route('gallery.showUnitPublic', ['gallery_name' => $gallery->gallery_name, 'id' => $unit->id]) }}">
@@ -1009,34 +1010,34 @@
                                                             </a>
                                                         </h4> --}}
                                                         <div class="d-flex align-items-center justify-content-center my-3 gap-2">
-                        
+
                                                             <span class="pb-1"><i
                                                                     class="ti ti-map-pin"></i>{{ $unit->CityData->name ?? '' }}</span>
                                                         </div>
-                        
-                        
+
+
                                                         <div class="d-flex align-items-center justify-content-center my-3 gap-2" style="text-align: center;">
-                        
+
                                                             <a href="javascript:;"><span class="badge bg-label-primary">
                                                                     {{ __('property') ?? '' }}</span></a>
-                        
+
                                                         </div>
                                                         <div class="d-flex align-items-center justify-content-around my-3 py-1">
                                                             <div>
                                                                 <h4 class="mb-0">{{ $unit->UnitsProperty->count() ?? 0 }}</h4>
                                                                 <span>@lang('Number units')</span>
                                                             </div>
-                        
+
                                                             <div>
                                                                 <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
                                                                 <span class="ti ti-eye"></span>
                                                             </div>
                                                         </div>
-                        
+
                                                         @auth
                                                             <div class="d-flex align-items-center justify-content-center">
                                                                 @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                                                                    <a href="tel:+{{ $property->BrokerData->UserData->key_phone }} {{ $property->BrokerData->mobile }}" target="_blank"
+                                                                    <a href="tel:+{{ $property->BrokerData->UserData->key_phone ?? $property->OfficeData->key_phone }} {{ $property->BrokerData->mobile ?? $property->OfficeData->phone }}" target="_blank"
                                                                         class="btn btn-primary d-flex align-items-center me-3"
                                                                         style="color: white;"><i
                                                                             class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
@@ -1048,7 +1049,7 @@
                                                                 @endif
                                                                 @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                                         Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                                                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $property->BrokerData->UserData->key_phone }} {{ $property->BrokerData->mobile }}"
+                                                                    <a href="https://web.whatsapp.com/send?phone=tel:+{{ $property->BrokerData->UserData->key_phone ?? $property->OfficeData->key_phone }} {{ $property->BrokerData->mobile ?? $property->OfficeData->phone }}"
                                                                         target="_blank" class="btn btn-label-secondary btn-icon"><i
                                                                             class="ti ti-message ti-sm"></i></a>
                                                                 @else
@@ -1071,15 +1072,15 @@
                                                                 <a target="_blank" class="btn btn-label-secondary btn-icon" href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
                                                             </div>
                                                         @endguest
-                        
+
                                                     </div>
                                                 </div>
                                             </div>
-                        
+
                                             @include('Home.Gallery.inc.share')
                                             @include('Home.Gallery.inc.unitInterest')
                                             {{-- @include('Home.Gallery.inc._ad-report') --}}
-                        
+
                                             @endif
                                         @endforeach
                                     </div>
@@ -1097,8 +1098,8 @@
                     </div>
                 </div>
             </div>
-    
-    
+
+
                 <!-- Show more button -->
                 @if ($all5kiloProperties->count() > 6)
                     <div class="text-center my-3">
@@ -1107,14 +1108,14 @@
                         </button>
                     </div>
                 @endif
-    
+
                 <!-- Modal for showing all units -->
                 <div class="modal fade" id="moreUnitsModal" tabindex="-1" aria-labelledby="moreUnitsModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="moreUnitsModalLabel"> جميع العقارات المجاورة على بعد 5 كم </h5>
-    
+
                                 <small>{{ $all5kiloProperties->count() }} عقارات </small>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
@@ -1131,7 +1132,7 @@
                                     <div class="col-xl-4 col-lg-6 col-md-6">
                                         <div class="card h-200">
                                             <div class="card-body text-center">
-                                            
+
                                                 <div class="mx-auto my-3">
                                                     <a href="{{ route('gallery.showUnitPublic', [
                                                         'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,

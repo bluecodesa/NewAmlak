@@ -31,7 +31,15 @@
             $shareLabel = $isGalleryUnit ? 'Unit' : ($isGalleryProject ? 'Project' : ($isGalleryProperty ? 'Property' : 'Item'));
             $routeName = $isGalleryUnit ? 'gallery.showUnitPublic' : ($isGalleryProject ? 'Home.showPublicProject' : 'Home.showPublicProperty');
 
-            $gallery_name = $Unit->BrokerData->GalleryData->gallery_name;
+            // $gallery_name = $Unit->BrokerData->GalleryData->gallery_name;
+
+                 if( $Unit->BrokerData){
+                    $gallery_name= $Unit->BrokerData->GalleryData->gallery_name;
+                }elseif( $Unit->OfficeData){
+                    $gallery_name= $Unit->OfficeData->GalleryData->gallery_name;
+
+                }
+
             $unit_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $Unit->id]);
             @endphp
             <input type="hidden" name="ad_url" value="{{ $unit_url }}" class="form-control" required>

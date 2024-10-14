@@ -275,6 +275,7 @@ class GalleryService
         })
         ->where('gallery_status', 1)
         ->get();
+
         foreach ($galleries as $gallery) {
             // $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
             // $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
@@ -290,7 +291,7 @@ class GalleryService
                     ->where('show_gallery', 1)
                     ->get();
             }
-            // If office_id is present, get projects and properties by office_id
+
             else if (!empty($gallery['office_id'])) {
                 $projects = $this->OfficeProjectRepository->getAllByOfficeId($gallery['office_id'])->where('show_in_gallery', 1);
                 $properties = $this->OfficePropertyRepository->getAll($gallery['office_id'])->where('show_in_gallery', 1);
@@ -434,5 +435,15 @@ class GalleryService
         }
 
         return $allItems;
+    }
+
+    function ShowPublicProperty($id)
+    {
+        return   $this->galleryRepository->ShowPublicProperty($id);
+    }
+
+    function ShowPublicProject($id)
+    {
+        return   $this->galleryRepository->ShowPublicProject($id);
     }
 }

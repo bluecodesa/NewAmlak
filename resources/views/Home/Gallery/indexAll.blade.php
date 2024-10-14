@@ -249,6 +249,7 @@
                         } elseif ($unit->OfficeData) {
                             $falLicenseUser = $unit->OfficeData->UserData->UserFalData;
                         }
+
                     @endphp
 
                     @if (
