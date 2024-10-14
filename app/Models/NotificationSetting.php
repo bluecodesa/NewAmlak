@@ -13,4 +13,9 @@ class NotificationSetting extends Model
     {
         return $this->hasOne(EmailTemplate::class, 'notification_setting_id');
     }
+
+    public function WhatsappTemplateData()
+    {
+        return $this->hasOne(WhatsappTemplate::class, 'notification_setting_id');
+    }
 }

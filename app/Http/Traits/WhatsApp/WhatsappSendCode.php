@@ -15,13 +15,11 @@ trait WhatsappSendCode
             return 'No WhatsApp settings found for this user';
         }
 
-        // Create a Guzzle client
         $client = new Client();
 
         try {
-            // Make the request
             $response = $client->post(
-                $whatsAppSetting->url, // URL from the database
+                $whatsAppSetting->url, 
                 [
                     'headers' => [
                         'Authorization' => 'Bearer ' . $whatsAppSetting->api_key,
@@ -30,7 +28,7 @@ trait WhatsappSendCode
                     ],
 
                     'json' => [
-                        'session_uuid' => $whatsAppSetting->session_uuid, // Use session UUID from database
+                        'session_uuid' => $whatsAppSetting->session_uuid, 
                         'phone' => $data['phone'],
                         'type' => $whatsAppSetting->type,
                         'message' => __('Welcome Your OTP code is') . ' : ' . $data['otp'],
@@ -39,7 +37,6 @@ trait WhatsappSendCode
                 ]
             );
 
-            // Handle the response if necessary
             return $response->getBody()->getContents();
         } catch (\Throwable $th) {
             // Handle any errors that occur during the request

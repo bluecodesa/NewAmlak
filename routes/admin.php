@@ -78,7 +78,11 @@ Route::group(
             Route::post('UpdateEmailSetting', [SettingController::class, 'UpdateEmailSetting'])->name('update.UpdateEmailSetting');
             Route::post('UpdateWhatsAppSetting', [SettingController::class, 'UpdateWhatsAppSetting'])->name('update.UpdateWhatsAppSetting');
             Route::get('EditEmailTemplate/{id}', [SettingController::class, 'EditEmailTemplate'])->name('update.EditEmailTemplate');
+            Route::get('EditWhatsAppTemplate/{id}', [SettingController::class, 'EditWhatsAppTemplate'])->name('update.EditWhatsAppTemplate');
+        
             Route::post('StoreEmailTemplate/{id}', [SettingController::class, 'StoreEmailTemplate'])->name('update.StoreEmailTemplate');
+            Route::post('StoreWhatsAppTemplate/{id}', [SettingController::class, 'StoreWhatsAppTemplate'])->name('update.StoreWhatsAppTemplate');
+           
             Route::post('StoreNewNotification', [SettingController::class, 'StoreNewNotification'])->name('StoreNewNotification');
             Route::get('TestSendMail', [SettingController::class, 'TestSendMail'])->name('update.TestSendMail');
 

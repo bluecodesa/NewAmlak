@@ -11,7 +11,7 @@
                                 href="{{ route('Admin.settings.index') }}">@lang('General Settings')</a> / @lang('Notifications Management') /
                         </span>
 
-                        {{ $notification->EmailTemplateData->subject ?? __($notification->notification_name) }}
+                        {{ $notification->WhatsappTemplateData->subject ?? __($notification->notification_name) }}
                     </h4>
                 </div>
 
@@ -70,25 +70,25 @@
                             data-variable="$data[variable_subscription_invoice_download_link]">@lang('variable_subscription_invoice_download_link')</span>
                     </div>
 
-                    <form action="{{ route('Admin.update.StoreEmailTemplate', $notification->id) }}" method="post"
+                    <form action="{{ route('Admin.update.StoreWhatsAppTemplate', $notification->id) }}" method="post"
                         class="row">
                         @csrf
                         <div class="col-12 mb-3 mt-2">
                             <label>@lang('topic')</label>
-                            <input type="text" name="subject" class="form-control" value="{{ $template->subject ?? '' }}"
+                            <input type="text" name="subject" class="form-control" value="{{ $WhatsappTemplate->subject ?? '' }}"
                                 placeholder="@lang('topic')">
                         </div>
                         <div class="col-12 mb-3">
                             <label for="">@lang('Email content')</label>
-                            {{-- <textarea name="content" id="textarea" class="summernote">{{ $template->content ?? null }}</textarea> --}}
-                            <textarea id="textarea" class="form-control" name="content" cols="30" rows="30" placeholder=""> {{ $template->content ?? null }} </textarea>
+                            {{-- <textarea name="content" id="textarea" class="summernote">{{ $WhatsappTemplate->content ?? null }}</textarea> --}}
+                            <textarea id="textarea" class="form-control" name="content" cols="30" rows="30" placeholder=""> {{ $WhatsappTemplate->content ?? null }} </textarea>
                         </div>
 
                         <div class="col-12 mb-3">
 
                             <div class="form-check form-switch mb-2">
                                 <input class="form-check-input toggleHomePage" type="checkbox"
-                                    {{ $template->is_login ?? '' == 1 ? 'checked' : '' }} id="flexSwitchCheckChecked"
+                                    {{ $WhatsappTemplate->is_login ?? '' == 1 ? 'checked' : '' }} id="flexSwitchCheckChecked"
                                     name="is_login">
                                 <label class="form-check-label" for="flexSwitchCheckChecked">@lang('login')</label>
                             </div>

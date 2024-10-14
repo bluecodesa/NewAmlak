@@ -10,6 +10,7 @@ use App\Models\EmailTemplate;
 use App\Models\InterestType;
 use App\Models\InterestTypeTranslation;
 use App\Models\NotificationSetting;
+use App\Models\WhatsappTemplate;
 use App\Services\Admin\SettingService;
 use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
@@ -208,8 +209,17 @@ class SettingController extends Controller
     {
         $notification = NotificationSetting::find($id);
         $template = EmailTemplate::where('notification_setting_id', $notification->id)->first();
+        $WhatsappTemplate = WhatsappTemplate::where('notification_setting_id', $notification->id)->first();
         return view('Admin.settings.Notification.edit', get_defined_vars());
     }
+
+    function EditWhatsAppTemplate($id)
+    {
+        $notification = NotificationSetting::find($id);
+        $WhatsappTemplate = WhatsappTemplate::where('notification_setting_id', $notification->id)->first();
+        return view('Admin.settings.Notification.edit-whatsapp', get_defined_vars());
+    }
+
 
 
     function StoreEmailTemplate(Request $request, $id)
@@ -220,6 +230,18 @@ class SettingController extends Controller
             $is_login = 0;
         }
         EmailTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content, 'is_login' => $is_login, 'subject' => $request->subject]);
+        return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
+    }
+
+    function StoreWhatsAppTemplate(Request $request, $id)
+    {
+
+        if ($request->is_login == 'on') {
+            $is_login = 1;
+        } else {
+            $is_login = 0;
+        }
+        WhatsappTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content, 'is_login' => $is_login, 'subject' => $request->subject]);
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
 

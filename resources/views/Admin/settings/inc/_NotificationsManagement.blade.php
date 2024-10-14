@@ -96,7 +96,9 @@
 
 
 
-                                            <a class="dropdown-item" href="#">@lang('Whatsapp')</a>
+                                            <a class="dropdown-item" 
+                                            href="{{ route('Admin.update.EditWhatsAppTemplate', $Notification->id) }}">
+                                            @lang('Whatsapp')</a>
 
 
 
