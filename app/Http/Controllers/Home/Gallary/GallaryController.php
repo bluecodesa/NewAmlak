@@ -482,8 +482,13 @@ class GallaryController extends Controller
         }
         else {
             $project = Project::findOrFail($id);
-            $broker=$project->BrokerData;
-            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+            if($project->BrokerData){
+                $broker=$project->BrokerData;
+
+            }elseif($project->OfficeData){
+                $office=$project->OfficeData;
+
+            }            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
         }
     }
 

@@ -21,7 +21,13 @@
 
             $routeName ='Home.showPublicProject';
 
-            $gallery_name = $project->BrokerData->GalleryData->gallery_name;
+            // $gallery_name = $project->BrokerData->GalleryData->gallery_name;
+            if( $project->BrokerData){
+                    $gallery_name= $project->BrokerData->GalleryData->gallery_name;
+                }elseif( $project->OfficeData){
+                    $gallery_name= $project->OfficeData->GalleryData->gallery_name;
+
+                }
             $ad_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $project->id]);
             @endphp
             <input type="hidden" name="ad_url" value="{{ $ad_url }}" class="form-control" required>

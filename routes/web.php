@@ -73,7 +73,7 @@ Route::group(
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
               //projects
             Route::get('gallery/projects', [ProjectController::class, 'showAllProjetcs'])->name('showAllProjects');
-            Route::get('gallery/{gallery_name}/project/{id}', [ProjectController::class, 'showPubllicProject'])->name('showPublicProject');
+            Route::get('gallery/{gallery_name}/project/{id}', [HomeGallaryController::class, 'showPubllicProject'])->name('showPublicProject');
             Route::get('gallery/{gallery_name}/property/{id}', [HomeGallaryController::class, 'showPubllicProperty'])->name('showPublicProperty');
             route::resource('Real-Estate-Requests', RealEstateRequestController::class)->middleware('CheckSubscription');
             Route::post('/store-request', [HomeController::class, 'createRequest'])->name('createRequest');
