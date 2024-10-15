@@ -13,14 +13,23 @@ trait WhatsappSendCode
     {
         $whatsAppSetting = WhatsAppSetting::first();
 
-        $notification_id = DB::table('notification_settings')->where('notification_name', 'add-new-property-finder')->where('whatsapp',1)->value('id');
+        // Get the WhatsApp template for the specific notification
+        $notification_id = DB::table('notification_settings')
+            ->where('notification_name', 'add-new-property-finder')
+            ->where('whatsapp', 1)
+            ->value('id');
         $whatsappTemplate = WhatsappTemplate::where('notification_setting_id', $notification_id)->first();
-    if (!$whatsAppSetting) {
-        return 'No WhatsApp settings found for this user';
-    }
+
+        if (!$whatsAppSetting) {
+            return 'No WhatsApp settings found for this user';
+        }
 
         if ($whatsappTemplate) {
-
+            $plainContent = strip_tags($whatsappTemplate->content, '<br><p>');
+            $plainContent = preg_replace('/<br\s*\/?>/i', "\n", $plainContent);
+            $plainContent = preg_replace('/<\/p>/i', "\n\n", $plainContent);
+            $plainContent = preg_replace('/<p[^>]*>/i', '', $plainContent);
+            $plainContent = html_entity_decode($plainContent);
 
             $client = new Client();
 
@@ -33,12 +42,11 @@ trait WhatsappSendCode
                             'Content-Type' => 'application/json',
                             'Accept' => 'application/json',
                         ],
-
                         'json' => [
                             'session_uuid' => $whatsAppSetting->session_uuid,
                             'phone' => $data['phone'],
                             'type' => $whatsAppSetting->type,
-                            'message' => __($whatsappTemplate->content) . __('This is the OTP code:') . $data['otp'],
+                            'message' => $plainContent . $data['otp'],
                             'schedule_at' => now(),
                         ],
                     ]
