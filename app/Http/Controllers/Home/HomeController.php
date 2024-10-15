@@ -42,6 +42,7 @@ use App\Services\PropertyTypeService;
 use App\Services\Admin\DistrictService;
 use App\Http\Traits\Email\MailSendCode;
 use App\Http\Traits\WhatsApp\WhatsappSendCode;
+use App\Http\Traits\WhatsApp\WhatsappWelcomeUser;
 use App\Models\Advertising;
 use App\Models\Owner;
 use App\Models\Ticket;
@@ -54,6 +55,8 @@ class HomeController extends Controller
 
     use MailSendCode;
     use WhatsappSendCode;
+    use WhatsappWelcomeUser;
+
 
 
 
@@ -477,6 +480,8 @@ class HomeController extends Controller
         $this->notifyAdminsForOffice($office);
 
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+        $this->WhatsappWelcomeUser($user, $subscription, $subscriptionType, $Invoice);
+
         auth()->loginUsingId($user->id);
 
         return redirect()->route('login')->with('success', __('registerd successfully'));
@@ -1995,6 +2000,7 @@ class HomeController extends Controller
         }
 
         // Log the user in
+
         auth()->login($newUser);
 
         // Redirect the user after successful registration
@@ -2097,6 +2103,8 @@ private function handleBroker($request, $user)
 
     $this->notifyAdmins($broker);
     $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+    $this->WhatsappWelcomeUser($user, $subscription, $subscriptionType, $Invoice);
+
 }
 
 private function handleOffice($request, $user)
@@ -2176,6 +2184,7 @@ private function handleOffice($request, $user)
     $this->notifyAdminsForOffice($office);
 
     $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+    $this->WhatsappWelcomeUser($user, $subscription, $subscriptionType, $Invoice);
 
 
 }
