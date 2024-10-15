@@ -1692,35 +1692,35 @@ class HomeController extends Controller
 
     }
     protected function notifyAllBrokers(RealEstateRequest $realEstateRequest)
-{
-    $cityId = $realEstateRequest->city_id;
+    {
+        $cityId = $realEstateRequest->city_id;
 
-    // Find users who are brokers or belong to an office in the same city as the request
-    $users = User::where(function($query) use ($cityId) {
-        $query->whereHas('UserBrokerData', function ($q) use ($cityId) {
-            $q->where('city_id', $cityId);
-        })->orWhereHas('UserOfficeData', function ($q) use ($cityId) {
-            $q->where('city_id', $cityId);
-        });
-    })->get();
+        // Find users who are brokers or belong to an office in the same city as the request
+        $users = User::where(function ($query) use ($cityId) {
+            $query->whereHas('UserBrokerData', function ($q) use ($cityId) {
+                $q->where('city_id', $cityId);
+            })->orWhereHas('UserOfficeData', function ($q) use ($cityId) {
+                $q->where('city_id', $cityId);
+            });
+        })->get();
 
-    // Notify each user
-    foreach ($users as $user) {
-        Notification::send($user, new NewRealEstateRequestNotification($realEstateRequest));
+        // Notify each user
+        foreach ($users as $user) {
+            Notification::send($user, new NewRealEstateRequestNotification($realEstateRequest, $user));
 
-        $defaultInterestType = InterestType::where('default', 1)->first();
+            $defaultInterestType = InterestType::where('default', 1)->first();
 
-        if ($defaultInterestType) {
-            RequestStatus::create([
-                'user_id' => $user->id,
-                'request_id' => $realEstateRequest->id,
-                'request_status_id' => $defaultInterestType->id
-            ]);
-        } else {
-            return redirect()->back()->withErrors(['default' => __('No default interest type found.')]);
+            if ($defaultInterestType) {
+                RequestStatus::create([
+                    'user_id' => $user->id,
+                    'request_id' => $realEstateRequest->id,
+                    'request_status_id' => $defaultInterestType->id
+                ]);
+            } else {
+                return redirect()->back()->withErrors(['default' => __('No default interest type found.')]);
+            }
         }
     }
-}
 
 
     public function GetDistrictsByCity($id)

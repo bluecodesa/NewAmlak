@@ -243,7 +243,7 @@ class GallaryController extends Controller
         $gallery = $this->galleryService->findByOfficeId(auth()->user()->UserBrokerData->id) ?? null;
         $gallrays = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
         $interests = $this->settingService->getAllInterestTypes();
-        return view('Broker.Gallary.unit-interest', get_defined_vars());
+        return view('Office.Gallary.unit-interest', get_defined_vars());
     }
 
 
