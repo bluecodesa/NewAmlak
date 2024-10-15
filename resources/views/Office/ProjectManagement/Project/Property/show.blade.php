@@ -33,7 +33,7 @@
                         <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
                       </button>
                     </li>
-                    
+
                     <li class="nav-item">
                       <button
                         type="button"
@@ -73,7 +73,7 @@
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
-                
+
                         <div class="row">
 
                             <!-- User Sidebar -->
@@ -220,7 +220,7 @@
                                     <div class="col-lg-6 mb-1">
                                         <div class="card">
                                             <div class="card-body">
-    
+
                                                 <small class="text-light fw-medium">@lang('Additional details')</small>
                                                 <div class="demo-inline-spacing mt-3">
                                                     <ul class="list-group">
@@ -232,18 +232,18 @@
                                                             </li>
                                                         @empty
                                                         @endforelse
-    
+
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-    
-                            
-    
+
+
+
                                 </div>
                                 @endif
-                                
+
 
                             </div>
                             <!--/ User Content -->
@@ -304,7 +304,7 @@
                                                     <th>@lang('owner name')</th>
                                                     <th>@lang('number rooms')</th>
 
-                                                    <th>@lang('price')</th>
+                                                    {{-- <th>@lang('price')</th> --}}
                                                     <th>@lang('Ad type')</th>
                                                     <th>@lang('Action')</th>
                                                 </tr>
@@ -316,7 +316,7 @@
                                                         <td>{{ $unit->number_unit ?? '' }}</td>
                                                         <td>{{ $unit->OwnerData->name ?? '' }}</td>
                                                         <td>{{ $unit->rooms ?? '' }}</td>
-                                                        <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td>
+                                                        {{-- <td>{{ $unit->price ?? '' }} <sup>@lang('SAR')</sup> </td> --}}
                                                         <td>{{ __($unit->type) ?? '' }}</td>
 
                                                         <td>
@@ -373,7 +373,7 @@
                         <!-- /unit table -->
                   </div>
                   <div class="tab-pane fade" id="navs-justified-license" role="tabpanel">
-                    
+
                         <div class="row">
                             <div class="col-lg-6 mb-1">
                                 <div class="card">
@@ -401,7 +401,7 @@
 
                   </div>
                   <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                
+
                   </div>
                 </div>
               </div>
