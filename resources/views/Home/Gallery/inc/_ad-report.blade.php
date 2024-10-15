@@ -29,20 +29,20 @@
             $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
             $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
             $shareLabel = $isGalleryUnit ? 'Unit' : ($isGalleryProject ? 'Project' : ($isGalleryProperty ? 'Property' : 'Item'));
-            $routeName = $isGalleryUnit ? 'gallery.showUnitPublic' : ($isGalleryProject ? 'Home.showPublicProject' : 'Home.showPublicProperty');
+            // $routeName = $isGalleryUnit ? 'gallery.showUnitPublic' : ($isGalleryProject ? 'Home.showPublicProject' : 'Home.showPublicProperty');
+            $routeName ='gallery.showUnitPublic';
 
             // $gallery_name = $Unit->BrokerData->GalleryData->gallery_name;
-
-                 if( $Unit->BrokerData){
+            if( $Unit->BrokerData){
                     $gallery_name= $Unit->BrokerData->GalleryData->gallery_name;
                 }elseif( $Unit->OfficeData){
                     $gallery_name= $Unit->OfficeData->GalleryData->gallery_name;
 
                 }
 
-            $unit_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $Unit->id]);
+            $ad_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $Unit->id]);
             @endphp
-            <input type="hidden" name="ad_url" value="{{ $unit_url }}" class="form-control" required>
+            <input type="hidden" name="ad_url" value="{{ $ad_url }}" class="form-control" required>
 
 
             <input type="hidden" name="type" value="39" required>
