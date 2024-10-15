@@ -167,6 +167,14 @@ class ProjectController extends Controller
         $owners = $this->officeDataService->getOwners();
         $employees = $this->officeDataService->getEmployees();
         $services = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.CreateProperty', get_defined_vars());
     }
 
@@ -191,6 +199,14 @@ class ProjectController extends Controller
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
         $employees = $this->officeDataService->getEmployees();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.CreateUnit', get_defined_vars());
     }
 

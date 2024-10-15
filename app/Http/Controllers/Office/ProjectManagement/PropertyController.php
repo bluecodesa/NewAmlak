@@ -17,6 +17,8 @@ use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Services\Office\EmployeeService;
+
 
 class PropertyController extends Controller
 {
@@ -29,7 +31,13 @@ class PropertyController extends Controller
     protected $ServiceTypeService;
     protected $AllServiceService;
     protected $FeatureService;
-    public function __construct(PropertyService $PropertyService, AllServiceService $AllServiceService, FeatureService $FeatureService, RegionService $regionService, CityService $cityService, OfficeDataService $officeDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    protected $EmployeeService;
+
+    public function __construct(PropertyService $PropertyService, AllServiceService $AllServiceService, FeatureService $FeatureService, RegionService $regionService, CityService $cityService, OfficeDataService $officeDataService, PropertyTypeService $propertyTypeService,
+    ServiceTypeService $ServiceTypeService,
+    PropertyUsageService $propertyUsageService,
+    EmployeeService $EmployeeService
+    )
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -40,6 +48,8 @@ class PropertyController extends Controller
         $this->ServiceTypeService = $ServiceTypeService;
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
+        $this->EmployeeService = $EmployeeService;
+
 
         $this->middleware(['role_or_permission:read-building'])->only(['index']);
         $this->middleware(['role_or_permission:create-building'])->only(['create', 'store']);
@@ -197,6 +207,16 @@ class PropertyController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.Property.CreateUnit', get_defined_vars());
     }
 

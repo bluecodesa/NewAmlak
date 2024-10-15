@@ -287,7 +287,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                       
+
 
                                             <div class="col-12" style="text-align: center;">
                                                 <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
@@ -299,8 +299,7 @@
                     <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                         <div class="row">
 
-
-                            <div class="col-md-4 col-12 mb-3">
+                            <div class="col-md-3 col-12 mb-3">
 
                                 <label class="form-label">
                                     {{ __('ad name') }} <span class="required-color">*</span></label>
@@ -324,34 +323,63 @@
                                 </select>
                             </div>
 
+                            @if($falLicense)
+                            <!-- Show the "Show in Gallery" switch if the user has a valid license -->
                             <div class="col-sm-12 col-md-4 mb-3">
-                                <label class="form-label"
-                                    style="display: block !important;">@lang('Show in Gallery')
-                                </label>
-
+                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_gallery" class="switch-input"
-                                        checked />
+                                    <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery"
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif
+                                        @if($falLicense->ad_license_status == 'valid') checked @endif />
                                     <span class="switch-toggle-slider">
-                                        <span class="switch-on">
-                                            <i class="ti ti-check"></i>
-                                        </span>
-                                        <span class="switch-off">
-                                            <i class="ti ti-x"></i>
-                                        </span>
+                                        <span class="switch-on"><i class="ti ti-check"></i></span>
+                                        <span class="switch-off"><i class="ti ti-x"></i></span>
                                     </span>
                                 </label>
                             </div>
+
+                            <!-- Show gallery fields only if the license status is "valid" -->
+                            <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
+                                    <input type="number" name="ad_license_number" class="form-control" id="ad_license_number"
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                </div>
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
+                                    <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry"
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                    <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
+                                </div>
+                            </div>
+                        @else
+                            <!-- Display a message if the license is not valid or doesn't exist -->
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                <label class="switch switch-lg">
+                                    <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" disabled />
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-off"><i class="ti ti-x"></i></span>
+                                    </span>
+                                </label>
+                                <!-- Add a message to indicate the license has expired -->
+                                <div class="alert alert-warning mt-2">
+                                    @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                                </div>
+                            </div>
+                        @endif
+
                             <div class="col-12 mb-3">
                                 <label class="form-label mb-2">@lang('Description')</label>
                                 <div>
                                     {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
                                     <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
 
-                                        </textarea>
+                                    </textarea>
                                 </div>
                             </div>
-                     
+
                             <div class="col-sm-12 col-md-12 mb-3">
                                 <label class="form-label mb-2">@lang('Unit Images') </label>
                                 <div class="input-group">
@@ -371,7 +399,8 @@
 
                         </div>
                         <div class="col-12" style="text-align: center;">
-                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                data-next="#navs-justified-profile">
                                 {{ __('Next') }}
                             </button>
                         </div>
@@ -637,6 +666,82 @@ $('#button-addon2').click(function() {
 $('#button-addon3').click(function() {
     $('#projectMasterplan').val('');
 });
+</script>
+
+<script>
+    document.getElementById('show_gallery').addEventListener('change', function () {
+        var galleryFields = document.getElementById('gallery-fields');
+        if (this.checked) {
+            galleryFields.style.display = 'block';
+            document.getElementById('ad_license_number').disabled = false;
+            document.getElementById('ad_license_expiry').disabled = false;
+        } else {
+            galleryFields.style.display = 'none';
+            document.getElementById('ad_license_number').disabled = true;
+            document.getElementById('ad_license_expiry').disabled = true;
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        adLicenseExpiryInput.addEventListener('change', function() {
+            var selectedDate = new Date(this.value);
+            if (selectedDate > licenseDate) {
+                errorMessage.style.display = 'block';
+                adLicenseExpiryInput.setCustomValidity('');
+            } else {
+                errorMessage.style.display = 'none';
+                adLicenseExpiryInput.setCustomValidity(''); /
+            }
+        });
+
+        adLicenseExpiryInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+        });
+    });
+</script>
+
+<script>
+    var licenseDate = new Date("{{ $licenseDate }}");
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        var submitButton = document.getElementById('submit_button');
+        var form = document.getElementById('unit-form');
+
+        function validateDate() {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Show error message if the selected date is after the license date
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true; // Disable submit button
+            } else {
+                // Hide error message if the date is valid
+                errorMessage.style.display = 'none';
+                submitButton.disabled = false; // Enable submit button
+            }
+        }
+
+        adLicenseExpiryInput.addEventListener('change', validateDate);
+
+        form.addEventListener('submit', function(event) {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Prevent form submission if the selected date is invalid
+                event.preventDefault();
+                errorMessage.style.display = 'block';
+            } else {
+                // Allow form submission if the date is valid
+                errorMessage.style.display = 'none';
+            }
+        });
+    });
 </script>
     @endpush
 @endsection

@@ -227,13 +227,32 @@ class PropertyRepository implements PropertyRepositoryInterface
         $unit_data['office_id'] = Auth::user()->UserOfficeData->id;
         $unit_data['property_id'] = $id;
         if (isset($data['show_gallery'])) {
-            if ($data['show_gallery'] == 'on') {
-                $unit_data['show_gallery'] = 1;
-            } else {
-                $unit_data['show_gallery'] = 0;
-            }
+            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.unique' => __('The license number has already been taken.'),
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $unit_data['ad_license_number'] = $data['ad_license_number'];
+                $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $unit_data['ad_license_status'] = 'Valid';
+
         } else {
             $unit_data['show_gallery'] = 0;
+            $unit_data['ad_license_status'] ='InValid';
+
         }
 
         if (isset($data['daily_rent'])) {
