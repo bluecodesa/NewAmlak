@@ -184,9 +184,21 @@ class GalleryService
             return get_defined_vars(); // Return data to be passed to the view
         } else {
 
-            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
-            $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
-            $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
+            if (!empty($gallery['broker_id'])) {
+                $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
+                $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
+                $units = Unit::where('broker_id', $gallery->broker_id)
+                    ->where('show_gallery', 1)
+                    ->get();
+            }
+
+            else if (!empty($gallery['office_id'])) {
+                $projects = $this->OfficeProjectRepository->getAllByOfficeId($gallery['office_id'])->where('show_in_gallery', 1);
+                $properties = $this->OfficePropertyRepository->getAll($gallery['office_id'])->where('show_in_gallery', 1);
+                $units = Unit::where('office_id', $gallery->office_id)
+                    ->where('show_gallery', 1)
+                    ->get();
+            }
 
             $units->each(function ($unit) {
                 $unit->isGalleryUnit = true;
@@ -201,7 +213,6 @@ class GalleryService
 
             $uniqueIds = $units->pluck('CityData.id')->unique();
             $uniqueNames = $units->pluck('CityData.name')->unique();
-            // $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
             $gallery = Gallery::where('id', $gallery->id)->first();
             $brokerDistricts = $gallery->BrokerData?->BrokerHasUnits ?? collect();
             $officeDistricts = $gallery->OfficeData?->OfficeHasUnits ?? collect();
@@ -212,26 +223,18 @@ class GalleryService
             $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
             $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
             $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
-            $unit = $units->first();
-            // if ($unit) {
-            //     $id = $unit->id;
-            //     $unit_id = $unit->id;
-            //     $broker = Broker::findOrFail($unit->broker_id);
-            //     $user_id = $broker->user_id;
-            // } else {
-            //     $unit_id = null;
-            //     $unitDetails = null;
-            //     $user_id = null;
-            //     $broker = Broker::findOrFail($brokerId);
-            // }
+            $unit = $allItems->first();
+
             if ($unit) {
                 $id = $unit->id;
                 $unit_id = $unit->id;
                 if ($unit->broker_id) {
+                    $office=null;
                     $broker = Broker::findOrFail($unit->broker_id);
                     $user_id = $broker->user_id;
                     $user=$broker->UserData;
                 } else {
+                    $broker=null;
                     $office = Office::findOrFail($unit->office_id);
                     $user_id = $office->user_id;
                     $user=$office->UserData;

@@ -102,7 +102,7 @@ Route::group(
         Route::get('/Terms&Conditions', 'Home\HomeController@Terms')->name('Terms');
         Auth::routes();
 
-        Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
+        Route::get('/gallery/{name}', [HomeGallaryController::class, 'showByName'])->name('gallery.showByName');
         // Route::get('/gallery', [GallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
         Route::get('/gallery', [HomeGallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
 
