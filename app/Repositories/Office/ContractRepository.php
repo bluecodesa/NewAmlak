@@ -26,6 +26,11 @@ class ContractRepository implements ContractRepositoryInterface
     }
 
 
+    public function getContractByRenterId($id)
+    {
+
+        return Contract::where('renter_id', $id)->get();
+    }
     public function create($data)
     {
         $rules = [

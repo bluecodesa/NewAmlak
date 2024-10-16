@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Str;
 use App\Http\Traits\Email\MailOwnerCredentials;
+use App\Http\Traits\WhatsApp\WhatsAppAccountCredentials;
 use App\Models\OwnerOfficeBroker;
 use App\Models\Role;
 use App\Models\Subscription;
@@ -22,6 +23,7 @@ use Carbon\Carbon;
 class OwnerRepository implements OwnerRepositoryInterface
 {
     use MailOwnerCredentials;
+    use WhatsAppAccountCredentials;
 
     public function getAllByOfficeId($officeId)
     {
@@ -194,6 +196,7 @@ class OwnerRepository implements OwnerRepositoryInterface
             ]);
 
             $this->MailOwnerCredentials($user, $password);
+            $this->WhatsAppAccountCredentials($user, $password);
 
             return response()->json([
                 'message' => __('New owner has been successfully created and associated with the current Office.'),

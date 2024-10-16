@@ -717,5 +717,9 @@
     "Sale price": "سعر البيع",
     "Valid Units in Gallery": "الوحدات المعروضة في المعرض",
     "last update": "  اخر تحديث",
-    "Show Video": "عرض الفيديو"
+    "Show Video": "عرض الفيديو",
+    "Your new account has been created successfully. Here are your login details:": "تم إنشاء حسابك الجديد بنجاح. فيما يلي تفاصيل تسجيل الدخول الخاصة بك:",
+    "Please log in and change your password as soon as possible.": "يرجى تسجيل الدخول وتغيير كلمة المرور الخاصة بك في أقرب وقت ممكن.",
+    "Your New Account Credentials": "بيانات حسابك الجديد"
+
 }

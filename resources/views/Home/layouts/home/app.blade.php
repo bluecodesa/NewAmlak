@@ -142,6 +142,11 @@
                                     $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
 
                                     // Check the current role to exclude conflicting roles
+                                    if ($user->hasRole('Renter')) {
+                                        $availableRoles = $availableRoles->filter(function ($role) {
+                                            return $role !== 'Property-Finder';
+                                        });
+                                    }
                                     if ($user->hasRole('Owner')) {
                                         $availableRoles = $availableRoles->filter(function ($role) {
                                             return $role !== 'Property-Finder';
@@ -318,11 +323,11 @@
                     <div class="row justify-content-around">
                         <form id="roleForm" action="{{ route('Home.addAccount') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="key_phone" id="key_phone"
+                            <input type="hidden" name="key_phone" 
                                 value="{{ auth()->user()->key_phone ?? '' }}">
-                            <input type="hidden" name="phone" id="phone"
+                            <input type="hidden" name="phone"
                                 value="{{ auth()->user()->phone ?? '' }}">
-                            <input type="hidden" name="full_phone" id="full_phone"
+                            <input type="hidden" name="full_phone"
                                 value="{{ auth()->user()->full_phone ?? '' }}">
 
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10"
@@ -375,7 +380,8 @@
                                 const roleToAccountTypeMap = {
                                     'RS-Broker': 'broker',
                                     'Office-Admin': 'office',
-                                    'Owner': 'owner'
+                                    'Owner': 'owner',
+                                    'Renter':'renter'
                                 };
 
                                 const accountType = roleToAccountTypeMap[roleId] || 'owner';

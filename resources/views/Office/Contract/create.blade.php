@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="owner_id" id="hiddenOwnerId" />
-                             
+
                                 <div class="col-md-4 mb-3">
                                     <label for="price" class="form-label">@lang('yearly rental price') <span
                                             class="required-color">*</span></label>
@@ -272,9 +272,9 @@
                                         </select>
                                     </div>
                                 </div>
-                     
 
-                          
+
+
                                 <div style="text-align: left;">
                                     <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-profile">
                                         {{ __('Next') }}
@@ -298,7 +298,7 @@
                                             {{ __('Next') }}
                                         </button>
                                     </div>
-                                
+
 
                                 </div>
                                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
@@ -323,10 +323,10 @@
                                     </div>
                                     <div style="text-align: left;">
                                         <button type="submit" class="btn btn-primary me-1">
-            
+
                                             {{ __('save') }}
                                         </button>
-            
+
                                     </div>
                                 </div>
                         </form>
@@ -776,10 +776,10 @@
 
             if (serviceTypeId) {
                 $('#serviceTypeSelect').val(serviceTypeId);
-                $('#serviceTypeSelect').prop('disabled', true); 
+                $('#serviceTypeSelect').prop('disabled', true);
             } else {
                 $('#serviceTypeSelect').val('');
-                $('#serviceTypeSelect').prop('disabled', false); 
+                $('#serviceTypeSelect').prop('disabled', false);
             }
 
             if (serviceTypeId == 3) {
@@ -788,7 +788,7 @@
                 $('#propertyManagementFields').hide();
             }
 
-            $('#hiddenServiceTypeId').val(serviceTypeId); 
+            $('#hiddenServiceTypeId').val(serviceTypeId);
 
         });
 
@@ -826,7 +826,6 @@
                     success: function(data) {
                         $('#OwnersDiv').val(data.owner_id);
                         $('#OwnersDiv').prop('disabled', true);
-
                         var yearlySalary = data.unit_rental_price.yearly;
                         $('#unitSalary').val(yearlySalary);
 
@@ -883,7 +882,7 @@
         document.getElementById('unitSelect').addEventListener('change', function() {
             var unitId = this.value;
             var unitStatusSpan = document.getElementById('unitStatus');
-    
+
             if (unitId) {
                 fetch(`/units/${unitId}/status`)
                     .then(response => response.json())

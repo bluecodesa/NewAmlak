@@ -12,6 +12,8 @@ interface ContractRepositoryInterface
     public function create($data);
 
     public function getContractById($id);
+    public function getContractByRenterId($id);
+
 
     public function updateContract($id, $data);
 

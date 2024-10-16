@@ -187,7 +187,6 @@ class HomeController extends Controller
             });
 
             $allFavorites = $units->merge($properties)->merge($projects);
-
             $user = auth()->user();
 
         //requests
@@ -232,7 +231,6 @@ class HomeController extends Controller
             $allItems = $allItems->merge($Items);
             $city = $finder->UserOwnerData->CityData ?? null;
             $region = $city->RegionData ?? [];
-
 
         }
 

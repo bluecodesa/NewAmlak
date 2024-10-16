@@ -3,6 +3,7 @@
 namespace App\Repositories\Office;
 
 use App\Http\Traits\Email\MailOwnerCredentials;
+use App\Http\Traits\WhatsApp\WhatsAppAccountCredentials;
 use App\Interfaces\Office\RenterRepositoryInterface;
 use App\Models\Office;
 use App\Models\Renter;
@@ -17,6 +18,7 @@ use Str;
 class RenterRepository implements RenterRepositoryInterface
 {
     use MailOwnerCredentials;
+    use WhatsAppAccountCredentials;
 
     public function getAllByOfficeId($officeId)
     {
@@ -121,7 +123,7 @@ class RenterRepository implements RenterRepositoryInterface
         $office->RenterData()->attach($renter->id);
 
         $this->MailOwnerCredentials($user, $password);
-
+        $this->WhatsAppAccountCredentials($user, $password);
 
         return $renter;
 

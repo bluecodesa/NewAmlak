@@ -84,7 +84,7 @@
                         {{-- الوصف --}}
 
 
-                        <form action="{{ route('Office.Unit.store') }}" method="POST" class="row"
+                        <form action="{{ route('Office.Unit.store') }}" method="POST" class="row" id="yourFormID"
                         enctype="multipart/form-data">
                         @csrf
                         @method('post')
@@ -98,7 +98,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    
+
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                         <select class="form-select" name="property_id" id="propertySelect">
@@ -154,12 +154,12 @@
 
 
 
-                                <div class="col-sm-12 col-md-4 mb-3">
-                                    <label class="form-label">@lang('location') <span
-                                            class="required-color">*</span></label>
-                                    <input type="text" required name="location" id="myAddressBar" class="form-control"
-                                        placeholder="@lang('Address')" value="{{ old('location') }}" />
-                                </div>
+                                            <div class="col-sm-12 col-md-4 mb-3">
+                                                <label class="form-label">@lang('location') <span class="required-color">*</span></label>
+                                                <input type="text" required name="location" id="myAddressBar" class="form-control"
+                                                    placeholder="@lang('Address or Latitude,Longitude')" value="{{ old('location') }}" />
+                                                <span id="addressError" style="color: red;"></span> <!-- Error message placeholder -->
+                                            </div>
 
 
                                 <div class="col-md-4 mb-3 col-12">
@@ -185,7 +185,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                
+
                                 <div class="col-12 col-md-4 mb-3">
                                     <label class="col-md-6 form-label">@lang('owner name') <span
                                             class="required-color">*</span></label>
@@ -200,7 +200,7 @@
                                         </select>
                                         <a href="{{ route('Office.Owner.index') }}" target="_blank" class="btn btn-outline-primary"
                                         type="button">@lang('Add New Owner')</a>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-4 mb-3">
@@ -306,7 +306,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                          
+
                                         <div class="col-12" style="text-align: center;">
                                             <button type="button" class="btn btn-primary col-4 me-1 next-tab"
                                                 data-next="#navs-justified-gallery">
@@ -514,7 +514,7 @@
                                     <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
                                 </div>
                             </div>
-                
+
                         </div>
                         <div class="col-12" style="text-align: center;">
                             <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
@@ -959,6 +959,72 @@ $(document).ready(function() {
         });
     });
 </script>
+
+
+<script>
+    $(document).ready(function() {
+        // Initialize Google Places Autocomplete for the address input
+        var input = document.getElementById("myAddressBar");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // To track if a place was selected
+        var placeSelected = false;
+
+        // Listen for the place_changed event when a place is selected
+        google.maps.event.addListener(autocomplete, "place_changed", function() {
+            // Get the selected place
+            var place = autocomplete.getPlace();
+
+            // Check if the place contains geometry (lat, lng)
+            if (place.geometry) {
+                var lat = place.geometry.location.lat();
+                var long = place.geometry.location.lng();
+
+                // Set the lat, long values into the hidden input field
+                $("#location_tag").val(lat + "," + long);
+
+                // Mark that a valid place was selected
+                placeSelected = true;
+
+                // Clear any previous error messages
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+
+        // Listen for changes in the address input to validate
+        $("#myAddressBar").on("input", function() {
+            placeSelected = false; // Reset flag if user is typing
+            $("#location_tag").val(''); // Clear lat_long when typing
+            $("#addressError").text(''); // Clear error message while typing
+            $("#myAddressBar").removeClass("is-invalid"); // Remove error styling
+        });
+
+        // Add a blur event to trigger validation when the user leaves the input field
+        $("#myAddressBar").on("blur", function() {
+            var addressValue = $("#myAddressBar").val();
+
+            // Regular expression to check if the input matches a lat/long format
+            var latLongPattern = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
+
+            // Check if the place was selected or if the input follows the lat,long pattern
+            if (!placeSelected && !latLongPattern.test(addressValue)) {
+                // Display an error message and add a visual cue
+                $("#addressError").text("Please select a valid address or enter valid lat,long coordinates.");
+                $("#myAddressBar").addClass("is-invalid"); // Add error styling (bootstrap class)
+            } else {
+                // Clear the error message if a valid place was selected or input is in lat,long format
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid"); // Remove error styling
+                if (!placeSelected) {
+                    // If input is valid lat,long, set it in the hidden input
+                    $("#location_tag").val(addressValue);
+                }
+            }
+        });
+    });
+</script>
+
 
     @endpush
 @endsection

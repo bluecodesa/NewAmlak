@@ -505,10 +505,10 @@
 
                                                 if( $unit->BrokerData){
                                                $GalleryData= $unit->BrokerData->GalleryData;
-                                            }elseif( $unit->OfficeData){
-                                               $GalleryData= $unit->OfficeData->GalleryData;
+                                                }elseif( $unit->OfficeData){
+                                                $GalleryData= $unit->OfficeData->GalleryData;
 
-                                            }
+                                                }
                                         @endphp
 
                                         @if ($isGalleryUnit)

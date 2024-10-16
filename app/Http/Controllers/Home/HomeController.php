@@ -45,6 +45,7 @@ use App\Http\Traits\WhatsApp\WhatsappSendCode;
 use App\Http\Traits\WhatsApp\WhatsappWelcomeUser;
 use App\Models\Advertising;
 use App\Models\Owner;
+use App\Models\Renter;
 use App\Models\Ticket;
 use App\Services\NafathService;
 
@@ -1996,7 +1997,14 @@ class HomeController extends Controller
             $newUser->assignRole('Property-Finder');
 
             session(['active_role' => 'Property-Finder']);
+
             $this->notifyAdmins2($newUser);
+            $subscription=null;
+            $subscriptionType=null;
+            $Invoice=null;
+            $this->MailWelcomeBroker($newUser, $subscription, $subscriptionType, $Invoice);
+            $this->WhatsappWelcomeUser($newUser, $subscription, $subscriptionType, $Invoice);
+
         }
 
         // Log the user in
@@ -2251,13 +2259,15 @@ private function handleOwner($request, $user)
 
     session(['active_role' => 'Owner']);
     $this->notifyAdmins2($user);
+    $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+    $this->WhatsappWelcomeUser($user, $subscription, $subscriptionType, $Invoice);
+
 
 
 }
 
 public function addAccount (Request $request)
 {
-
         $currentUser = auth()->user();
 
         if ($request->account_type == 'broker') {
@@ -2266,6 +2276,8 @@ public function addAccount (Request $request)
             $newUser =  $this->handleNewOffice($request, $currentUser);
         } elseif ($request->account_type == 'owner') {
             $newUser = $this->handleNewOwner($request, $currentUser);
+        }elseif ($request->account_type == 'renter') {
+            $newUser = $this->handleNewRenter($request, $currentUser);
         }
 
         auth()->login($newUser);
@@ -2352,6 +2364,24 @@ public function addAccount (Request $request)
         $user->assignRole('Owner');
 
         session(['active_role' => 'Owner']);
+        $this->notifyAdmins2($user);
+
+        return $user;
+
+    }
+
+    private function handleNewRenter($request, $user)
+    {
+        $user->update(['is_renter' => 1]);
+
+        $role = Role::firstOrCreate(['name' => 'Renter']);
+        $user->assignRole($role);
+
+        $renter = Renter::create([
+            'user_id' => $user->id,
+        ]);
+
+        session(['active_role' => 'Renter']);
         $this->notifyAdmins2($user);
 
         return $user;

@@ -334,8 +334,13 @@
                         $availableRoles = $roles->filter(function ($role) use ($user, $activeRole) {
                             return $user->hasRole($role->name) && $role->name !== $activeRole;
                         });
+                        if(auth()->user()->is_office){
+                            $specificRoles = collect(['Owner','Renter']);
 
-                        $specificRoles = collect(['Owner']);
+                        }else{
+                            $specificRoles = collect(['Owner']);
+
+                        }
                         // Get the roles that the user does not have yet
                         $Roles = $specificRoles->diff($availableRoles->pluck('name'));
                         $accountRoute = ($activeRole == 'Office-Admin' || $activeRole == 'RS-Broker')
@@ -471,16 +476,16 @@
                 <div class="row justify-content-center">
                     <form id="roleForm" action="{{ route('Home.addAccount') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="key_phone" id="key_phone" value="{{ auth()->user()->key_phone }}">
-                        <input type="hidden" name="phone" id="phone" value="{{ auth()->user()->phone }}">
-                        <input type="hidden" name="full_phone" id="full_phone" value="{{ auth()->user()->full_phone }}">
+                        <input type="hidden" name="key_phone"  value="{{ auth()->user()->key_phone }}">
+                        <input type="hidden" name="phone" value="{{ auth()->user()->phone }}">
+                        <input type="hidden" name="full_phone" value="{{ auth()->user()->full_phone }}">
 
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10" id="id_number" name="id_number" value="{{ auth()->user()->id_number }}"  required>
 
                             <input type="text" hidden class="form-control" id="email" name="email" required value="{{ auth()->user()->email }}" placeholder="@lang('Email')" autofocus>
 
                             <input type="text" hidden class="form-control" id="name" name="name" value="{{ auth()->user()->name }}" required placeholder="@lang('Name')" autofocus>
-                            <input type="text" hidden name="account_type" value="owner">
+                            <input type="text" hidden name="account_type" id='account_type'>
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10"
                             id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id ?? '' }}">
 
@@ -503,12 +508,23 @@
                         @endforeach
                     </form>
 
-                    <script>
-                        function submitRoleForm(roleId) {
-                            document.querySelector('input[name="role_id"][value="' + roleId + '"]').checked = true;
-                            document.getElementById('roleForm').submit();
-                        }
-                    </script>
+                       <script>
+                            function submitRoleForm(roleId) {
+                                const roleToAccountTypeMap = {
+                                    'RS-Broker': 'broker',
+                                    'Office-Admin': 'office',
+                                    'Owner': 'owner',
+                                    'Renter':'renter'
+                                };
+
+                                const accountType = roleToAccountTypeMap[roleId] || 'owner';
+                                document.querySelector('input[name="role_id"][value="' + roleId + '"]').checked = true;
+                                document.getElementById('account_type').value = accountType;
+
+                                // Submit the form
+                                document.getElementById('roleForm').submit();
+                            }
+                        </script>
 
 
 

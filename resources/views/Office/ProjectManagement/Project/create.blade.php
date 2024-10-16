@@ -124,11 +124,12 @@
                                 </div>
 
                                 <div class="col-sm-12 col-md-4 mb-3">
-                                    <label class="form-label">@lang('location name') <span
-                                            class="required-color">*</span></label>
+                                    <label class="form-label">@lang('location') <span class="required-color">*</span></label>
                                     <input type="text" required name="location" id="myAddressBar" class="form-control"
                                         placeholder="@lang('Address')" value="{{ old('location') }}" />
+                                    <span id="addressError" style="color: red;"></span> <!-- Error message placeholder -->
                                 </div>
+
 
                                 <div class="col-md-4 col-12 mb-3">
                                     <label class="form-label">@lang('Developer name')</label>
@@ -627,6 +628,72 @@
         });
     });
 </script>
+
+
+<script>
+    $(document).ready(function() {
+        // Initialize Google Places Autocomplete for the address input
+        var input = document.getElementById("myAddressBar");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // To track if a place was selected
+        var placeSelected = false;
+
+        // Listen for the place_changed event when a place is selected
+        google.maps.event.addListener(autocomplete, "place_changed", function() {
+            // Get the selected place
+            var place = autocomplete.getPlace();
+
+            // Check if the place contains geometry (lat, lng)
+            if (place.geometry) {
+                var lat = place.geometry.location.lat();
+                var long = place.geometry.location.lng();
+
+                // Set the lat, long values into the hidden input field
+                $("#location_tag").val(lat + "," + long);
+
+                // Mark that a valid place was selected
+                placeSelected = true;
+
+                // Clear any previous error messages
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+
+        // Listen for changes in the address input to validate
+        $("#myAddressBar").on("input", function() {
+            placeSelected = false; // Reset flag if user is typing
+            $("#location_tag").val(''); // Clear lat_long when typing
+            $("#addressError").text(''); // Clear error message while typing
+            $("#myAddressBar").removeClass("is-invalid"); // Remove error styling
+        });
+
+        // Add a blur event to trigger validation when the user leaves the input field
+        $("#myAddressBar").on("blur", function() {
+            var addressValue = $("#myAddressBar").val();
+
+            // Regular expression to check if the input matches a lat/long format
+            var latLongPattern = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
+
+            // Check if the place was selected or if the input follows the lat,long pattern
+            if (!placeSelected && !latLongPattern.test(addressValue)) {
+                // Display an error message and add a visual cue
+                $("#addressError").text("Please select a valid address or enter valid lat,long coordinates.");
+                $("#myAddressBar").addClass("is-invalid"); // Add error styling (bootstrap class)
+            } else {
+                // Clear the error message if a valid place was selected or input is in lat,long format
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid"); // Remove error styling
+                if (!placeSelected) {
+                    // If input is valid lat,long, set it in the hidden input
+                    $("#location_tag").val(addressValue);
+                }
+            }
+        });
+    });
+</script>
+
 
 
 @endpush

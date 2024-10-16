@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your New Owner Account Credentials</title>
+    <title>@lang('Your New Account Credentials')</title>
 </head>
 <body>
-    <h1>Hello {{ $user->name }},</h1>
-    <p>Your new owner account has been created successfully. Here are your login details:</p>
-    <p><strong>Email:</strong> {{ $user->email }}</p>
-    <p><strong>Password:</strong> {{ $password }}</p>
-    <p>Please log in and change your password as soon as possible.</p>
-    <p>Thank you!</p>
+    <h1>{{ $user->name }},</h1>
+    <p>@lang('Your new account has been created successfully. Here are your login details:')</p>
+    <p><strong>@lang('Email'):</strong> {{ $user->email }}</p>
+    <p><strong>@lang('password'):</strong> {{ $password }}</p>
+    <p>@lang('Please log in and change your password as soon as possible.')</p>
+    <a class="btn btn-primary" href="env('APP_URL')">@lang('login')</a>
 </body>
 </html>
 

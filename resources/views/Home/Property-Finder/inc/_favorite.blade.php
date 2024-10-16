@@ -133,21 +133,28 @@
                         $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
                         $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
                         $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
+                        if( $unit->BrokerData){
+                        $GalleryData= $unit->BrokerData->GalleryData;
+                        }elseif( $unit->OfficeData){
+                        $GalleryData= $unit->OfficeData->GalleryData;
+                        }elseif( $unit->OwnerSata){
+                            $GalleryData= $unit->OwnerData->GalleryData;
+                        }
                     @endphp
 
                     @if ($isGalleryUnit)
                         <a href="{{ route('gallery.showUnitPublic', [
-                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                'gallery_name' => optional($GalleryData)->gallery_name,
                                 'id' => $unit->id
                             ]) }}" class="card-hover-border-default">
                     @elseif ($isGalleryProject)
                         <a href="{{ route('Home.showPublicProject', [
-                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                'gallery_name' => optional($GalleryData)->gallery_name,
                                 'id' => $unit->id
                             ]) }}" class="card-hover-border-default">
                     @elseif ($isGalleryProperty)
                         <a href="{{ route('Home.showPublicProperty', [
-                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                'gallery_name' => optional($GalleryData)->gallery_name,
                                 'id' => $unit->id
                             ]) }}" class="card-hover-border-default">
                     @endif
@@ -185,17 +192,17 @@
 
                     @if ($isGalleryUnit)
                         <a href="{{ route('gallery.showUnitPublic', [
-                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                'gallery_name' => optional($GalleryData)->gallery_name,
                                 'id' => $unit->id
                             ]) }}" class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
                     @elseif ($isGalleryProject)
                         <a href="{{ route('Home.showPublicProject', [
-                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                'gallery_name' => optional($GalleryData)->gallery_name,
                                 'id' => $unit->id
                             ]) }}" class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
                     @elseif ($isGalleryProperty)
                         <a href="{{ route('Home.showPublicProperty', [
-                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                'gallery_name' => optional($GalleryData)->gallery_name,
                                 'id' => $unit->id
                             ]) }}" class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
                     @endif
@@ -302,16 +309,34 @@
                 </div>
                 @endif
                 @auth
+                @php
+                    if( $unit->BrokerData){
+                        $key_phone = $unit->BrokerData->UserData->key_phone;
+                        $phone = $unit->BrokerData->UserData->phone;
+                    }
+                    if( $unit->OfficeData){
+                        $key_phone = $unit->OfficeData->UserData->key_phone;
+                        $phone = $unit->OfficeData->UserData->phone;
+                    }
+                    if( $unit->OwnerData){
+                        $key_phone = $unit->OwnerData->UserData->key_phone;
+                        $phone = $unit->OwnerData->UserData->phone;
+                    }
+                    else{
+                        $key_phone = $unit->BrokerData->UserData->key_phone;
+                        $phone = $unit->BrokerData->UserData->phone;
+                    }
+                @endphp
                     <div class="d-flex align-items-center justify-content-center">
                         @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                            <a href="tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile }}"
+                            <a href="tel:+{{ $key_phone }} {{ $phone }}"
                                 target="_blank"
                                 class="btn btn-primary d-flex align-items-center me-3"><i
                                     class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
                         @endif
                         @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                 Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                            <a href="https://web.whatsapp.com/send?phone=tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile }}"
+                            <a href="https://web.whatsapp.com/send?phone=tel:+{{ $key_phone }} {{ $phone }}"
                                 target="_blank" class="btn btn-label-secondary btn-icon"><i
                                     class="ti ti-message ti-sm"></i></a>
                         @endif
