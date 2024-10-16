@@ -157,7 +157,6 @@ public function addAsRenter($id)
         // $contracts =null;
         $contracts = $this->ContractService->getContractByRenterId($id);
 
-        $installments = $this->ContractService->getContractByRenterId($id);
         $installmentsPerRenter = Installment::join('contracts', 'installments.contract_id', '=', 'contracts.id')
         ->select(
             'contracts.renter_id',

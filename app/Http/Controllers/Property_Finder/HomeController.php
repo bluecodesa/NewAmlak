@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Redis;
 use App\Http\Traits\Email\MailSendCode;
 use  App\Email\Admin\SendOtpMail;
 use App\Models\City;
+use App\Models\Contract;
 use App\Models\District;
 use App\Models\Feature;
+use App\Models\Installment;
 use App\Models\Owner;
 use App\Models\RealEstateRequest;
 use Illuminate\Support\Facades\Auth;
@@ -207,6 +209,25 @@ class HomeController extends Controller
         });
 
         //
+
+        if($finder->is_renter == 1){
+            $contracts = Contract::where('renter_id',$finder->id)->get();
+            $installmentsPerRenter = Installment::join('contracts', 'installments.contract_id', '=', 'contracts.id')
+            ->select(
+                'contracts.renter_id',
+                'installments.id as installment_id',
+                'installments.Installment_number',
+                'installments.price',
+                'installments.commission',
+                'installments.final_price',
+                'installments.status',
+                'installments.start_date',
+                'installments.end_date'
+            )
+            ->orderBy('contracts.renter_id')
+            ->get();
+
+        }
 
         if($finder->is_owner == 1 ){
             $allItems = collect();
