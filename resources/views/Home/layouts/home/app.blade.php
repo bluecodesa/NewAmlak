@@ -136,7 +136,7 @@
                                     $activeRole = session('active_role') ?? 'Switch Account';
 
                                     // Define specific roles
-                                    $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker', 'Property-Finder']);
+                                    $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker', 'Property-Finder','Renter']);
 
                                     // Filter available roles based on current user roles
                                     $availableRoles = $specificRoles->diff($userRoles->pluck('name'));

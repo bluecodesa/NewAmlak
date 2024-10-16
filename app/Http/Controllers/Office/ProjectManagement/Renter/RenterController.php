@@ -95,10 +95,10 @@ public function searchByIdNumber(Request $request)
             return response()->json(['html' => view('Office.ProjectManagement.Renter.inc.search-result-modal', ['message' => __('User is already registered'), 'user' => $user])->render()]);
         }
         else {
-            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => __('User is not registered')])->render()]);
+            return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => __('User is not registered'),session(['id_number' => $idNumber]),])->render()]);
         }
     } else {
-        return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => __('User is not registered')])->render()]);
+        return response()->json(['html' => view('Office.ProjectManagement.Renter.inc._addRenter', ['message' => __('User is not registered'),session(['id_number' => $idNumber]),])->render()]);
     }
 }
 

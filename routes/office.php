@@ -52,6 +52,7 @@ Route::group(
        Route::resource('Wallet', WalletController::class)->middleware('CheckSubscription');
        route::resource('RealEstateRequest', RealEstateRequestController::class)->middleware('CheckSubscription');
        Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
+       Route::post('/Interest/status/{id}', [UnitInterestController::class, 'update'])->name('Interest.status.update')->middleware('CheckSubscription');
 
 
        //owner

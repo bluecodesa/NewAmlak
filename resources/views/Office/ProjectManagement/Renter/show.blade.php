@@ -101,7 +101,7 @@
                                         <div class="info-container">
                                             <ul class="list-unstyled">
                                                 <li class="mb-2">
-                                                    <span class="fw-medium me-1">@lang('Renter Name'):</span>
+                                                    <span class="fw-medium me-1">@lang('Name'):</span>
                                                     <span>
                                                         {{ $renter->UserData->name ?? '' }}
                                                     </span>

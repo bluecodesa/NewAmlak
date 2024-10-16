@@ -19,10 +19,12 @@
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
                     <form action="{{ route('Office.Renter.store') }}" method="POST" class="row">
-                        <input type="text" name="key_phone" hidden value="966" id="key_phone">
-                        <input type="text" name="full_phone" hidden id="full_phone" value="966">
+                        <input type="text" name="key_phone" hidden value="966" id="key_phone3">
+                        <input type="text" name="full_phone" hidden id="full_phone3" >
                         @csrf
                         @method('post')
+                        <input type="hidden" name="id_number" value="{{ session('id_number') }}">
+
                         <div class="col-md-6 col-12 mb-3">
 
                             <label class="form-label">
@@ -42,7 +44,7 @@
                             <label for="color" class="form-label">@lang('phone') <span
                                     class="required-color">*</span></label>
                             <div class="input-group">
-                                <input type="text" placeholder="123456789" name="phone" id="phone" value=""
+                                <input type="text" placeholder="123456789" name="phone" id="phone3" value=""
                                     class="form-control" maxlength="9" pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                     aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
@@ -60,43 +62,7 @@
 
                             <label for="id_number" class="form-label">@lang('id number')<span
                                 class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="id_number" name="id_number" required>
-                        </div>
-
-                        <div class="mb-3 row">
-
-                            <div class="col-md-6">
-
-                                <div class="mb-3 form-password-toggle">
-                                    <label class="form-label" for="password">@lang('password') <span
-                                            class="text-danger">*</span></label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="password" id="password" class="form-control"
-                                            name="password"
-                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                            aria-describedby="password" required />
-                                        <span class="input-group-text cursor-pointer"><i
-                                                class="ti ti-eye-off"></i></span>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <div class="mb-3 form-password-toggle">
-                                    <label class="form-label" for="password">@lang('Confirm Password') <span
-                                            class="text-danger">*</span></label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="password" id="password_confirmation" class="form-control"
-                                            name="password_confirmation"
-                                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                            aria-describedby="password" required />
-                                        <span class="input-group-text cursor-pointer"><i
-                                                class="ti ti-eye-off"></i></span>
-                                    </div>
-                                </div>
-                            </div>
+                            <input type="text" class="form-control" id="id_number" name="id_number" disabled value="{{ session('id_number') ?? '' }}" required>
                         </div>
 
                         <div class="col-12">
@@ -120,21 +86,23 @@
     </div>
     @push('scripts')
         <script>
-            function updateFullPhone(input) {
-                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
-                var key_phone = $('#key_phone').val();
-                var fullPhone = key_phone + input.value;
-                document.getElementById('full_phone').value = fullPhone;
-            }
-            $(document).ready(function() {
-                $('.dropdown-item').on('click', function() {
-                    var key = $(this).data('key');
-                    var phone = $('#phone').val();
-                    $('#key_phone').val(key);
-                    $('#full_phone').val(key + phone);
-                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                });
+     function updateFullPhone(input) {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+            var key_phone = $('#key_phone3').val();
+            var fullPhone = key_phone + input.value;
+            document.getElementById('full_phone3').value = fullPhone;
+        }
+
+        $(document).ready(function() {
+            $('.dropdown-item').on('click', function() {
+                var key = $(this).data('key');
+                var phone = $('#phone3').val();
+                $('#key_phone3').val(key);
+                $('#full_phone3').val(key + phone);
+                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
             });
+        });
+
 
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
