@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
 use App\Models\FalLicenseUser;
 use App\Models\Project;
 use App\Models\Property;
@@ -113,7 +114,7 @@ class UnitController extends Controller
             if ($request->usage) {
                 $units = $units->where('property_usage_id', $request->usage);
             }
-    
+
             $projects = $units->pluck('ProjectData')->filter()->unique();
             $properties = $units->pluck('PropertyData')->filter()->unique();
             $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
@@ -138,7 +139,7 @@ class UnitController extends Controller
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $projects = $this->officeDataService->getProjects();
         $properties = $this->officeDataService->getProperties();
-        
+
         $falLicense = FalLicenseUser::where('user_id', auth()->id())
         ->whereHas('falData', function ($query) {
             $query->where('for_gallery', 1);
@@ -192,8 +193,8 @@ class UnitController extends Controller
               'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
               'price' => 'price must be smaller than or equal to 10 numbers.',
               'monthly' => 'Monthly price must be smaller than or equal to 8.',
-  
-  
+
+
           ];
           $request->validate($rules, $messages);
 
@@ -206,7 +207,7 @@ class UnitController extends Controller
         $Unit = $this->UnitService->findById($id);
         $officeId = auth()->user()->UserOfficeData->id;
         $subscription = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
-       
+
         if ($subscription) {
             $sectionsIds = auth()->user()
                 ->UserOfficeData?->UserSubscription?->SubscriptionTypeData?->sections()
@@ -219,6 +220,8 @@ class UnitController extends Controller
             }
         }
         if (auth()->user()->UserOfficeData->id === $Unit->office_id) {
+        $contracts = Contract::where('unit_id',$id)->get();
+
             return view('Office.ProjectManagement.Project.Unit.show', get_defined_vars());
         } else {
             abort(403, 'Unauthorized action.');
@@ -342,7 +345,7 @@ class UnitController extends Controller
         }
         return response()->json(['error' => 'Image not found'], 404);
     }
-    
+
     public function destroyVideo($id)
     {
         $unit = Unit::find($id);

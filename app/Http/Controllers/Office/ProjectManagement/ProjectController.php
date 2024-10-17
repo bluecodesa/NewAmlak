@@ -6,6 +6,7 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
 use App\Models\FalLicenseUser;
 use App\Services\CityService;
 use App\Services\Office\OfficeDataService;
@@ -116,6 +117,8 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = $this->projectService->ShowProject($id);
+        $contracts = Contract::where('project_id',$id)->get();
+
         return view('Office.ProjectManagement.Project.show', get_defined_vars());
     }
 

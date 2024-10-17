@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
 use App\Models\FalLicenseUser;
 use App\Models\PropertyImage;
 use App\Services\AllServiceService;
@@ -116,6 +117,8 @@ class PropertyController extends Controller
     public function show($id)
     {
         $Property = $this->PropertyService->findById($id);
+        $contracts = Contract::where('property_id',$id)->get();
+
         return view('Office.ProjectManagement.Project.Property.show',  get_defined_vars());
     }
 

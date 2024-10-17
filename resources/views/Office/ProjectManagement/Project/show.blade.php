@@ -34,7 +34,7 @@
                       <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
                     </button>
                   </li>
-                  
+
                   <li class="nav-item">
                     <button
                       type="button"
@@ -94,10 +94,10 @@
                                 <!-- project Card -->
                                 <div class="card mb-4">
                                     <div class="card-body">
-            
+
                                         <div class="user-avatar-section">
                                             <div class="d-flex align-items-center flex-column">
-            
+
                                                 <div class="row">
                                                     @forelse($project->ProjectImages as $image)
                                                         <div class="col-6 mb-1">
@@ -105,7 +105,7 @@
                                                                 alt="{{ $project->name }}" height="100" width="100">
                                                         </div>
                                                     @empty
-            
+
                                                         <img class="img-fluid rounded mb-3 pt-1 mt-4"
                                                             src="{{ url('Offices/Projects/default.svg') }}" alt="{{ $project->name }}"
                                                             height="100" width="100">
@@ -117,9 +117,9 @@
                                                 </div>
                                             </div>
                                         </div>
-            
-            
-            
+
+
+
                                         <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
                                             <div class="d-flex align-items-start me-4 mt-3 gap-2">
                                                 <span class="badge bg-label-primary p-2 rounded"><i
@@ -178,12 +178,12 @@
                                                     <span>{{ $project->PropertiesProject->count() }}
                                                         @lang('property')</span>
                                                 </li>
-            
+
                                             </ul>
                                             <div class="d-flex justify-content-center">
                                                 <a href="{{ route('Office.Project.edit', $project->id) }}"
                                                     class="btn btn-secondary add-new btn-primary ms-2 ms-sm-0 waves-effect waves-light me-3">@lang('Edit')</a>
-            
+
                                                 <div class="btn-group">
                                                     <button type="button"
                                                         class="btn btn-outline-primary btn-sm waves-effect me-2 dropdown-toggle"
@@ -197,58 +197,58 @@
                                                                     class="dropdown-item">@lang('Download') @lang('المخطط الرئيسي')</a>
                                                             </li>
                                                         @endif
-            
+
                                                         @if ($project->project_brochure)
                                                             <li>
-            
+
                                                                 <a href="{{ $project->project_brochure }}" target="_blank"
                                                                     class="dropdown-item">@lang('Download') @lang('البروشور')</a>
                                                             </li>
                                                         @endif
-            
-            
+
+
                                                     </ul>
                                                 </div>
-            
+
                                                 {{-- @if ($project->project_masterplan)
                                                     <a href="{{ $project->project_masterplan }}" target="_blank"
                                                         class="btn btn-primary me-3">@lang('Download') @lang('المخطط الرئيسي')</a>
                                                 @endif
                                                 @if ($project->project_brochure)
-            
+
                                                 <a href="{{ $project->project_brochure }}" target="_blank"
                                                     class="btn btn-primary me-3">@lang('Download') @lang('البروشور')</a>
                                                     @endif --}}
-            
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- /project Card -->
                                 <!-- Plan Card -->
-            
+
                             </div>
-            
+
                             <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
                                 <div class="col-12">
                                     <div class="card">
                                         <div class="card-body">
-            
+
                                             <iframe width="100%" height="200" frameborder="0" style="border:0"
                                                 src="https://www.google.com/maps/embed/v1/place?q={{ $project->lat_long }}&amp;key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E"></iframe>
-            
+
                                         </div>
                                     </div>
                                 </div>
-                           
-                          
-            
+
+
+
                             </div>
                             <!--/ User Content -->
                         </div>
 
                   </div>
-                
+
                   <div class="tab-pane fade" id="navs-justified-units" role="tabpanel">
                         <!-- unit table -->
                         <div class="card">
@@ -573,11 +573,12 @@
                     </div>
                   </div>
                   <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                    @include('Office.ProjectManagement.Project.Unit.inc._contracts')
                    
                   </div>
                 </div>
               </div>
-        
+
 
             <!-- Modal -->
 

@@ -401,6 +401,7 @@
 
                   </div>
                   <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                    @include('Office.ProjectManagement.Project.Unit.inc._contracts')
 
                   </div>
                 </div>
