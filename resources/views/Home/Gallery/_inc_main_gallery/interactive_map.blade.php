@@ -1,5 +1,5 @@
 <!-- Home/Gallery/_inc_main_gallery/interactive_map.blade.php -->
-<div id="map" style="height: 500px;"></div>
+<div id="map" style="height: 100vh;"></div>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
 
 <!-- Include Mapbox JS -->
