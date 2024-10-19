@@ -134,10 +134,10 @@
                                     <select class="form-select" id="district_filter" name="district_filter">
                                         <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
-                                        @foreach ($districts->unique('district_id') as $index => $district)
-                                            <option value="{{ $district->district_id }}"
-                                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
-                                                {{ $district->DistrictData->name }}
+                                            @foreach ($uniqueIdIistricts as $index => $id)
+                                            <option value="{{ $id }}"
+                                                {{ $districtFilter == $id ? 'selected' : '' }}>
+                                                {{ $uniqueDistrictNames[$index] }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -445,5 +445,28 @@
 
             alertify.success(@json(__('copy done')));
         }
+
+
+        $('#city_filter').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            if (selectedOption.val() === 'all') {
+                $('#district_filter').val('all');
+            } else {
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#district_filter').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#district_filter').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            }
+        });
     </script>
 @endpush

@@ -24,9 +24,10 @@ document.querySelector('button[data-bs-target="#navs-justified-gallery"]').addEv
 
         // Optional: Add map controls
         map.addControl(new mapboxgl.NavigationControl());
-
+console.log(items);
         // Optional: Add markers based on your items
         function addMarkers(filteredItems) {
+            console.log(allItems);
             filteredItems.forEach(function(item) {
                 if (item.lat_long) {
                     var coordinates = item.lat_long.split(',');
@@ -77,13 +78,13 @@ document.querySelector('button[data-bs-target="#navs-justified-gallery"]').addEv
                                             ` <span class="badge bg-label-secondary mt-1">@lang('Unit')</span>`
                                         : item.isGalleryProperty ?
                                             (item.ProjectData ? `<span class="badge bg-label-secondary mt-1">${item.ProjectData.name}</span>` : '') +
-                                            ` <span class="badge bg-label-secondary mt-1">@lang('Property')</span>`
+                                            ` <span class="badge bg-label-secondary mt-1">@lang('property')</span>`
                                         : item.isGalleryProject ?
                                             `<span class="badge bg-label-secondary mt-1">@lang('Project')</span>`
                                         : ''}
                                     </p>
                                     <p>
-                                        <i class="ti ti-map-pin"></i> ${item.city_data ? item.city_data.name : ''} / ${item.district_data ? item.district_data.name : ''}
+                                        <i class="ti ti-map-pin"></i> ${item.city_data ? item.city_data.name : ''}
                                     </p>
                                     <a href="${showRoute}" target="_blank" class="btn btn-primary mt-2">@lang('Show')</a>
                                 </div>

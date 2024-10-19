@@ -210,18 +210,34 @@ class GalleryService
                 $propertie->isGalleryProperty = true;
             });
             $allItems = $projects->merge($properties)->merge($units);
-
-            $uniqueIds = $units->pluck('CityData.id')->unique();
-            $uniqueNames = $units->pluck('CityData.name')->unique();
+            $uniqueIds = $allItems->pluck('CityData.id')->unique();
+            $uniqueNames = $allItems->pluck('CityData.name')->unique();
             $gallery = Gallery::where('id', $gallery->id)->first();
-            $brokerDistricts = $gallery->BrokerData?->BrokerHasUnits ?? collect();
-            $officeDistricts = $gallery->OfficeData?->OfficeHasUnits ?? collect();
-            $districts = $brokerDistricts->merge($officeDistricts)->unique('id');
+            // $brokerDistricts = $gallery->BrokerData?->BrokerHasUnits ?? collect();
+            // $officeDistricts = $gallery->OfficeData?->OfficeHasUnits ?? collect();
+            // $districts = $brokerDistricts->merge($officeDistricts)->unique('id');
+            // $districtsIds = $districts->pluck('district_id')->toArray();
+
+            $brokerDistrictsFromUnits = $gallery->BrokerData?->BrokerHasUnits ?? collect();
+            $brokerDistrictsFromProjects = $gallery->BrokerData?->BrokerHasProjects ?? collect();
+            $brokerDistrictsFromProperties = $gallery->BrokerData?->BrokerHasPropweries ?? collect();
+
+            $officeDistrictsFromUnits = $gallery->OfficeData?->OfficeHasUnits ?? collect();
+            $officeDistrictsFromProjects = $gallery->OfficeData?->OfficeHasProjects ?? collect();
+            $officeDistrictsFromProperties = $gallery->OfficeData?->OfficeHasProperties ?? collect();
+
+            $districts = $brokerDistrictsFromUnits->merge($brokerDistrictsFromProjects)
+                                                     ->merge($brokerDistrictsFromProperties)
+                                                     ->merge($officeDistrictsFromUnits)
+                                                     ->merge($officeDistrictsFromProjects)
+                                                     ->merge($officeDistrictsFromProperties)
+                                                     ->unique(); // Remove duplicates
             $districtsIds = $districts->pluck('district_id')->toArray();
-            $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
-            $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
-            $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
-            $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
+
+            $projectuniqueIds = $allItems->pluck('ProjectData.id')->filter()->unique();
+            $projectUniqueNames = $allItems->pluck('ProjectData.name')->unique();
+            $propertyuniqueIds = $allItems->pluck('PropertyTypeData.id')->filter()->unique();
+            $propertyUniqueNames = $allItems->pluck('PropertyTypeData.name')->unique();
             $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
             $unit = $allItems->first();
 
@@ -323,11 +339,13 @@ class GalleryService
 
         $uniqueIds = $allItems->pluck('CityData.id')->unique();
         $uniqueNames = $allItems->pluck('CityData.name')->unique();
+        $uniqueIdIistricts = $allItems->pluck('DistrictData.id')->unique();
+        $uniqueDistrictNames = $allItems->pluck('DistrictData.name')->unique();
         $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
-        $projectuniqueIds = $units->pluck('PropertyData.ProjectData.id')->filter()->unique();
-        $projectUniqueNames = $units->pluck('PropertyData.ProjectData.name')->unique();
-        $propertyuniqueIds = $units->pluck('PropertyTypeData.id')->filter()->unique();
-        $propertyUniqueNames = $units->pluck('PropertyTypeData.name')->unique();
+        $projectuniqueIds = $allItems->pluck('PropertyData.ProjectData.id')->filter()->unique();
+        $projectUniqueNames = $allItems->pluck('PropertyData.ProjectData.name')->unique();
+        $propertyuniqueIds = $allItems->pluck('PropertyTypeData.id')->filter()->unique();
+        $propertyUniqueNames = $allItems->pluck('PropertyTypeData.name')->unique();
         $districtsuniqueIds = $allItems->pluck('DistrictData.id')->filter()->unique();
         $districtsUniqueNames = $allItems->pluck('DistrictData.name')->unique();
         $ticketTypes = $this->ticketTypeRepository->all();

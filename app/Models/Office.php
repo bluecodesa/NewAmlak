@@ -76,6 +76,18 @@ class Office extends Model
         return $this->hasMany(Unit::class, 'office_id');
     }
 
+    public function OfficeHasProjects()
+    {
+
+        return $this->hasMany(Project::class, 'office_id');
+    }
+
+    public function OfficeHasProperties()
+    {
+
+        return $this->hasMany(Property::class, 'office_id');
+    }
+
     public function owners()
     {
         return $this->belongsToMany(Owner::class, 'owner_office_broker')

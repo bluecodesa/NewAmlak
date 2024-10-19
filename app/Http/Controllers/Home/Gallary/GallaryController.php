@@ -493,4 +493,12 @@ class GallaryController extends Controller
     }
 
 
+
+    function GetDistrictByCity($id)
+    {
+        $districts = $this->districtService->getDistrictsByCity($id);
+        return view('Admin.settings.Region.inc._district', get_defined_vars());
+    }
+
+
 }

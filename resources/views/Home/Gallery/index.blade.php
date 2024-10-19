@@ -137,7 +137,7 @@
 
                                             <li class="list-inline-item d-flex gap-1">
                                                 @php
-                                                    if($broker){
+                                                    if($user->is_broker){
                                                         $createdAt = new DateTime($broker->created_at);
 
                                                         // Get the month name
@@ -147,7 +147,7 @@
                                                         $numDay = $createdAt->format('d');
                                                         $yearName = $createdAt->format('Y');
 
-                                                    }elseif($office){
+                                                    }elseif($user->is_office){
                                                         $createdAt = new DateTime($office->created_at);
 
                                                             // Get the month name
@@ -352,6 +352,37 @@
                 $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
             @endphp
+
+<div class="nav-align-top nav-tabs-shadow mb-4">
+    <ul class="nav nav-tabs nav-fill" role="tablist">
+        <li class="nav-item">
+            <button
+                type="button"
+                class="nav-link active"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs-justified-home"
+                aria-controls="navs-justified-home"
+                aria-selected="true">
+                <i class="tf-icons ti ti-list ti-xs me-1"></i> @lang('List')
+                <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">{{ $allItems->count() }}</span>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                aria-selected="false">
+                <i class="tf-icons ti ti-map ti-xs me-1"></i> @lang('Interactive Map')
+                <span
+                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">{{ $allItems->count() }}</span>
+            </button>
+        </li>
+    </ul>
+
+    <!-- Wrapping tab content -->
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+
 
             <div class="row g-4">
                 @foreach ($allItems as $unit)
@@ -752,6 +783,15 @@
                     @endif
                 @endforeach
             </div>
+
+
+        </div>
+        <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+            @include('Home.Gallery._inc_main_gallery.interactive_map')
+        </div>
+    </div>
+</div>
+
 
         </div>
 

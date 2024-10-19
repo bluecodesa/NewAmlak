@@ -83,6 +83,10 @@ class Broker extends Model
         return $this->hasMany(Project::class, 'broker_id');
     }
 
+    public function BrokerHasPropweries()
+    {
+        return $this->hasMany(Property::class, 'broker_id');
+    }
 
     public function UserDataCustomer()
     {
