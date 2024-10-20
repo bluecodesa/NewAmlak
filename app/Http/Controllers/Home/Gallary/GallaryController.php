@@ -500,5 +500,37 @@ class GallaryController extends Controller
         return view('Admin.settings.Region.inc._district', get_defined_vars());
     }
 
+    public function saveHomeWorkDetails(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'propertyId' => 'required|integer',
+            'details' => 'required|string',
+        ]);
+
+        // Store the details in the session
+        session([
+            'home_work_details' => [
+                'propertyId' => $validatedData['propertyId'],
+                'details' => $validatedData['details'],
+            ],
+        ]);
+
+        // Optionally return a success response
+        return response()->json(['message' => 'Details saved successfully in session!'], 200);
+    }
+    // Controller Method to Retrieve Home/Work Location
+        public function getHomeWorkLocation()
+        {
+            $location = session('home_work_location', null);
+
+            if ($location) {
+                return response()->json(['homeWorkCoordinates' => $location]);
+            }
+
+            return response()->json(['error' => 'Location not found'], 404);
+        }
+
+
 
 }

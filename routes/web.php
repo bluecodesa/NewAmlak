@@ -121,6 +121,8 @@ Route::group(
 
         Route::get('/brokers',  [HomeController::class, 'showAllBrokers'])->name('brokers');
         Route::get('Gallery/GetDistrictByCity/{id}', [HomeGallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity');
+        Route::post('/save-home-work-details', [HomeGallaryController::class, 'saveHomeWorkDetails'])->name('saveHomeWorkDetails');
+        Route::get('/get-home-work-location', [HomeGallaryController::class, 'getHomeWorkLocation'])->name('getHomeWorkLocation');
 
         Route::post('StoreContactUs',  [HomeController::class, 'StoreContactUs'])->name('home.StoreContactUs');
 
