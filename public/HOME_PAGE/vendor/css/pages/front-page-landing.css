@@ -247,9 +247,8 @@
 
 .light-style .landing-hero {
     padding-top: 14rem;
-    /* background: linear-gradient(138.18deg, #cbe6e9 0%, #fce5e6 94.44%); */
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(220, 87, 42, 1) 100%);
-
+    background: linear-gradient(138.18deg, #cbe6e9 0%, #fce5e6 94.44%);
+    /* background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(220, 87, 42, 1) 100%); */
 }
 
 .light-style .landing-hero::after {
