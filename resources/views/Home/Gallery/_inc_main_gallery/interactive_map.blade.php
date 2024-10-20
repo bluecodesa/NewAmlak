@@ -104,7 +104,6 @@
                     });
                 }
 
-                // Initial markers for My Properties
                 addMarkers(items);
 
                 mapInitialized = true;
@@ -112,12 +111,10 @@
         });
     });
 
-    // Show inputs for home and work
     function showDecisionInputs(id) {
         document.getElementById(`decision-inputs-${id}`).style.display = 'block';
     }
 
-    // Calculate distance between coordinates
     function calculateDistance(id, itemCoordinates) {
     const workCoordinates = document.getElementById(`work-coordinates-${id}`).value.split(',');
     const homeCoordinates = document.getElementById(`home-coordinates-${id}`).value.split(',');
@@ -126,21 +123,16 @@
     const workDistance = calculateLatLongDistance(parseFloat(workCoordinates[0]), parseFloat(workCoordinates[1]), parseFloat(itemLatLong[0]), parseFloat(itemLatLong[1]));
     const homeDistance = calculateLatLongDistance(parseFloat(homeCoordinates[0]), parseFloat(homeCoordinates[1]), parseFloat(itemLatLong[0]), parseFloat(itemLatLong[1]));
 
-    // سرعة السيارة بالكم/ساعة (على سبيل المثال 60 كم/ساعة)
-    const speed = 60; // كم/ساعة
+    const speed = 60;
 
-    // حساب الزمن المستغرق
-    const workTime = workDistance / speed; // بالساعة
-    const homeTime = homeDistance / speed; // بالساعة
-
-    // تحويل الزمن إلى ساعات ودقائق
+    const workTime = workDistance / speed;
+    const homeTime = homeDistance / speed;
     const workTimeInHours = Math.floor(workTime);
     const workTimeInMinutes = Math.round((workTime - workTimeInHours) * 60);
 
     const homeTimeInHours = Math.floor(homeTime);
     const homeTimeInMinutes = Math.round((homeTime - homeTimeInHours) * 60);
 
-    // عرض المسافة والزمن المستغرق
     document.getElementById(`distance-output-${id}`).innerHTML = `
         <p>المسافة من مكان العمل: ${workDistance.toFixed(2)} كم</p>
         <p>الزمن المستغرق من مكان العمل: ${workTimeInHours} ساعات و ${workTimeInMinutes} دقائق</p>
@@ -149,9 +141,8 @@
     `;
 }
 
-    // Haversine formula to calculate distance in kilometers
     function calculateLatLongDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radius of the earth in km
+        const R = 6371; 
         const dLat = deg2rad(lat2 - lat1);
         const dLon = deg2rad(lon2 - lon1);
         const a =
@@ -160,7 +151,7 @@
             Math.sin(dLon / 2) * Math.sin(dLon / 2)
         ;
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c; // Distance in km
+        const distance = R * c;
         return distance;
     }
 
