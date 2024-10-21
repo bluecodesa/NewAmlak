@@ -257,6 +257,7 @@
                     @include('Home.Property-Finder.inc._security')
 
                 </div>
+                @if (session('active_role') === 'Renter')
 
                 <div class="tab-pane fade show " id="navs-justified-gallery" role="tabpanel">
 
@@ -514,8 +515,9 @@
                             </div>
                         </div>
                     </div>
-                
+
                 </div>
+                @endif
             </div>
 
 

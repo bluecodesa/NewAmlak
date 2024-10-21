@@ -209,7 +209,8 @@ class HomeController extends Controller
         });
 
         //
-
+    $contracts=collect();
+    $installmentsPerRenter =collect();
         if($finder->is_renter == 1){
             $contracts = Contract::where('renter_id',$finder->id)->get();
             $installmentsPerRenter = Installment::join('contracts', 'installments.contract_id', '=', 'contracts.id')

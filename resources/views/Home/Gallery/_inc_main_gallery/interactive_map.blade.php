@@ -41,10 +41,9 @@
         mapboxgl.accessToken = mapboxAccessToken;
 
         let mapInitialized = false;
-        let map; // Define map variable in the outer scope
+        let map;
         var items = @json($allItems);
 
-        // Add event listener for initializing map when the tab is clicked
         document.querySelector('button[data-bs-target="#navs-justified-gallery"]').addEventListener('click', function () {
             if (!mapInitialized) {
                 map = new mapboxgl.Map({
@@ -55,10 +54,8 @@
                 });
 
 
-                // Optional: Add map controls
                 map.addControl(new mapboxgl.NavigationControl());
 
-                // Function to add markers and popups
                 function addMarkers(filteredItems) {
                     filteredItems.forEach(function(item) {
                         if (item.lat_long) {
@@ -79,13 +76,12 @@
                             }
                             console.log(item);
 
-                            // Create marker and popup with "ساعدني في اتخاذ القرار" button and inputs
                             new mapboxgl.Marker()
                                 .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
                                 .setPopup(new mapboxgl.Popup({ offset: 25 })
                                 .setHTML(`
-                                    <a href="${showRoute}" target="_blank" class="card-popup" style="text-decoration: none;">
-                                        <div id="popup-${item.id}" style="width: 230px; cursor: pointer; display: flex; flex-direction: row; align-items: center;">
+                                      <a href="${showRoute}" target="_blank" class="card-popup" style="text-decoration: none;">
+                                        <div id="popup-${item.id}" style="width: 230px;     display: flex; gap: 1rem; cursor: pointer; display: flex; flex-direction: row; align-items: center;">
                                             <div style="flex: 1;">
                                                 <img src="${item.unit_images && item.unit_images.length > 0 ? item.unit_images[0].image : 'Offices/Projects/default.svg'}" alt="${item.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
                                             </div>
@@ -119,6 +115,7 @@
                                             <div id="distance-output-${item.id}" class="mt-2"></div>
                                         </div>
                                     </div>
+
                                 `))
                             .addTo(map);
                         }
@@ -145,11 +142,10 @@
         const homeLatLng = [parseFloat(homeCoordinates[1]), parseFloat(homeCoordinates[0])];
         const itemLatLng = [parseFloat(itemLatLong[1]), parseFloat(itemLatLong[0])];
 
-        // حساب المسافة
         const workDistance = calculateLatLongDistance(parseFloat(workCoordinates[0]), parseFloat(workCoordinates[1]), parseFloat(itemLatLong[0]), parseFloat(itemLatLong[1]));
         const homeDistance = calculateLatLongDistance(parseFloat(homeCoordinates[0]), parseFloat(homeCoordinates[1]), parseFloat(itemLatLong[0]), parseFloat(itemLatLong[1]));
 
-        const speed = 60; // السرعة بالكيلومترات في الساعة
+        const speed = 60;
         const workTime = workDistance / speed;
         const homeTime = homeDistance / speed;
 
@@ -159,7 +155,6 @@
         const homeTimeInHours = Math.floor(homeTime);
         const homeTimeInMinutes = Math.round((homeTime - homeTimeInHours) * 60);
 
-        // عرض المسافة والزمن
         document.getElementById(`distance-output-${id}`).innerHTML = `
             <p>المسافة من مكان العمل: ${workDistance.toFixed(2)} كم</p>
             <p>الزمن المستغرق من مكان العمل: ${workTimeInHours} ساعات و ${workTimeInMinutes} دقائق</p>
@@ -167,12 +162,10 @@
             <p>الزمن المستغرق من المنزل: ${homeTimeInHours} ساعات و ${homeTimeInMinutes} دقائق</p>
         `;
 
-        // رسم الخطوط على الخريطة
         drawRoute(id, itemLatLng, workLatLng, homeLatLng);
     }
 
     function drawRoute(id, itemLatLng, workLatLng, homeLatLng) {
-        // مسار العمل
         map.addLayer({
             id: `route-work-${id}`,
             type: 'line',
@@ -197,7 +190,6 @@
             }
         });
 
-        // مسار المنزل
         map.addLayer({
             id: `route-home-${id}`,
             type: 'line',
@@ -224,7 +216,7 @@
     }
 
     function calculateLatLongDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // نصف قطر الأرض بالكيلومترات
+        const R = 6371;
         const dLat = deg2rad(lat2 - lat1);
         const dLon = deg2rad(lon2 - lon1);
         const a =
@@ -232,7 +224,7 @@
             Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c; // المسافة بالكيلومترات
+        return R * c;
     }
 
     function deg2rad(deg) {

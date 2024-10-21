@@ -202,7 +202,7 @@
                                         <option disabled selected value="">@lang('owner name')</option>
                                         @foreach ($owners as $owner)
                                             <option value="{{ $owner->id }}"
-                                                {{ $owner->id == $project->owner_id ? 'selected' : '' }}>
+                                                {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
                                                 {{ $owner->name }}</option>
                                         @endforeach
                                     </select>
@@ -333,7 +333,7 @@
                                     </button>
                                 </div>
 
-          
+
 
                     </div>
                     <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
@@ -402,7 +402,7 @@
                                         class="required-color">*</span></label>
                                     <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Unit->ad_license_number }}" required />
                                 </div>
-                             
+
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Ad License Expiry')<span
                                         class="required-color">*</span></label>
@@ -418,7 +418,7 @@
                                     <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">{!! $Unit->note !!}</textarea>
                                 </div>
                             </div>
-                         
+
                             <div class="col-sm-12 col-md-12 mb-3">
                                 <label class="form-label mb-2">@lang('Unit Images')</label>
                                 <div class="input-group">
@@ -439,7 +439,7 @@
                                     </div>
                                 @endif
                             </div>
-                            
+
                             <div class="col-sm-12 col-md-12 mb-3">
                                 <label class="form-label mb-2">@lang('Unit Video')</label>
                                 <div class="input-group">
@@ -459,7 +459,7 @@
                                     </div>
                                 @endif
                             </div>
-                            
+
 
 
                         </div>
@@ -840,7 +840,7 @@
     });
 </script>
 
-            
+
     <script>
                document.addEventListener('DOMContentLoaded', function () {
                 document.querySelectorAll('.remove-image').forEach(button => {
