@@ -315,10 +315,10 @@ class ProjectRepository implements ProjectRepositoryInterface
         $license_date = auth()->user()->UserOfficeData->license_date;
 
         if (isset($data['show_gallery'])) {
-            $project_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
-                'ad_license_number' => ['required', 'numeric', Rule::unique('projects')],
+                'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
                 'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
 
@@ -333,14 +333,13 @@ class ProjectRepository implements ProjectRepositoryInterface
 
             validator($data, $rules ,$messages)->validate();
 
-                $project_data['ad_license_number'] = $data['ad_license_number'];
-                $project_data['ad_license_expiry'] = $data['ad_license_expiry'];
-                $project_data['ad_license_status'] = 'Valid';
-                // $project_data['ad_license_status'] = (strtotime($data['ad_license_expiry']) <= strtotime($license_date)) ? 'Valid' : 'Expired';
+                $unit_data['ad_license_number'] = $data['ad_license_number'];
+                $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $unit_data['ad_license_status'] = 'Valid';
 
         } else {
-            $project_data['show_gallery'] = 0;
-            $project_data['ad_license_status'] ='InValid';
+            $unit_data['show_gallery'] = 0;
+            $unit_data['ad_license_status'] ='InValid';
 
         }
 

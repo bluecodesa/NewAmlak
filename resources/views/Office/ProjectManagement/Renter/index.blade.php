@@ -120,7 +120,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col mb-3">
-                                <input type="text" name="id_number" id="idNumberInput" class="form-control" placeholder="Enter ID Number" />
+                                <input type="text" name="id_number" id="idNumberInput" minlength="1" maxlength="10" class="form-control" placeholder="Enter ID Number" />
                                 <div class="invalid-feedback" id="idNumberError"></div>
                             </div>
                         </div>

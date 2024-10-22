@@ -482,7 +482,6 @@
                                         <th>@lang('status')</th>
                                         <th>@lang('Installment Start Date')</th>
                                         <th>@lang('Installment End Date')</th>
-                                <th scope="col">@lang('Action')</th>
 
                                     </tr>
                                 </thead>
@@ -498,39 +497,7 @@
                                         <td>{{ $installment->start_date }}</td>
                                         <td>{{ $installment->end_date }}</td>
 
-                                        <td>
-                                            <div class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ti ti-dots-vertical"></i>
-                                                </button>
-                                                <div class="dropdown-menu" style="">
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
-                                                    @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
-                                                    @endif
 
-
-                                                    @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
-                                                        <a href="javascript:void(0);"
-                                                            onclick="handleDelete('{{ $contract->id }}')"
-                                                            class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                        <form id="delete-form-{{ $contract->id }}"
-                                                            action="{{ route('Office.Contract.destroy', $contract->id) }}"
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    @endif
-
-                                                </div>
-                                            </div>
-
-
-
-                                        </td>
                                     </tr>
                                 @empty
                                     <td colspan="8">

@@ -8,8 +8,8 @@
                 <th>@lang('Occupancy')</th>
                 <th>@lang('Ad type')</th>
                 <th>@lang('city')</th>
-                <th>@lang('Show in Gallery')</th>
                 <th>@lang('Ad Status')</th>
+                <th>@lang('Ad validity')</th>
                 <th>@lang('views')</th>
                 <th>@lang('Action')</th>
             </tr>
@@ -41,7 +41,7 @@
                     <td>
                         {{ $unit->CityData->name ?? '-' }}
                     </td>
-                    <td>{{ $unit->show_gallery == 1 || $unit->show_in_gallery == 1 ? __('show') : __('hide') }}</td>
+                    <td>{{ $unit->show_gallery == 1 || $unit->show_in_gallery == 1 ? __('Published') : __('Unpublished') }}</td>
                     <td> {{ __($unit->ad_license_status)}}
                     </td>
                     <td> {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}</td>

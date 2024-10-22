@@ -31,7 +31,7 @@
                         aria-controls="navs-justified-home"
                         aria-selected="true">
                         <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
-                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
                       </button>
                     </li>
                     <li class="nav-item">
@@ -43,8 +43,14 @@
                           data-bs-target="#navs-justified-gallery"
                           aria-controls="navs-justified-gallery"
                           aria-selected="false">
-                          <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Gallery')
-                        </button>
+                          @if ($Unit->show_gallery != 1)
+                          <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')"></i>
+                          <span class=" text-danger animate-alarm">@lang('Gallery')</span>
+                      @else
+                          <i class="tf-icons ti ti-alarm ti-xs me-1 text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة منشوره في المعرض')"></i>
+                          <span class="text-success">@lang('Gallery')</span>
+                      @endif
+                    </button>
                       </li>
                     <li class="nav-item">
                       <button
@@ -157,13 +163,13 @@
                             </div>
 
 
-                            <div class="col-sm-12 col-md-4 mb-3">
-                                <label class="form-label">@lang('location') <span
-                                        class="required-color">*</span></label>
-                                <input type="text" required name="location" id="myAddressBar" class="form-control"
-                                    placeholder="@lang('location name')" value="{{ $Unit->location }}" />
-                            </div>
 
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('location') <span class="required-color">*</span></label>
+                                <input type="text" required name="location" id="myAddressBar" class="form-control"
+                                    placeholder="@lang('Address')"  value="{{ $Unit->location }}" />
+                                <span id="addressError" style="color: red;"></span> <!-- Error message placeholder -->
+                            </div>
 
                             <div class="col-12 mb-3 col-md-4">
                                 <label class="form-label">@lang('Property type') <span class="required-color">*</span>
@@ -683,26 +689,26 @@
             });
         });
         //
-        $("#myAddressBar").on("keyup", function() {
-            // This function will be called every time a key is pressed in the input field
-            var input = document.getElementById("myAddressBar");
-            var autocomplete = new google.maps.places.Autocomplete(input);
-            var place = autocomplete.getPlace();
+        // $("#myAddressBar").on("keyup", function() {
+        //     // This function will be called every time a key is pressed in the input field
+        //     var input = document.getElementById("myAddressBar");
+        //     var autocomplete = new google.maps.places.Autocomplete(input);
+        //     var place = autocomplete.getPlace();
 
-            // Listen for the place_changed event
-            google.maps.event.addListener(autocomplete, "place_changed", function() {
-                // Get the selected place
-                var place = autocomplete.getPlace();
+        //     // Listen for the place_changed event
+        //     google.maps.event.addListener(autocomplete, "place_changed", function() {
+        //         // Get the selected place
+        //         var place = autocomplete.getPlace();
 
-                // Get the details of the selected place
-                var address = place.formatted_address;
-                var lat = place.geometry.location.lat();
-                var long = place.geometry.location.lng();
-                // $("#address").val(address);
-                $("#location_tag").val(lat + "," + long);
-                // Log the details to the console (or do something else with them)
-            });
-        });
+        //         // Get the details of the selected place
+        //         var address = place.formatted_address;
+        //         var lat = place.geometry.location.lat();
+        //         var long = place.geometry.location.lng();
+        //         // $("#address").val(address);
+        //         $("#location_tag").val(lat + "," + long);
+        //         // Log the details to the console (or do something else with them)
+        //     });
+        // });
 
         var path = "{{ route('Office.Property.autocomplete') }}";
 
@@ -989,5 +995,64 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize Google Places Autocomplete for the address input once
+        var input = document.getElementById("myAddressBar");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // To track if a place was selected from Google Places
+        var placeSelected = false;
+
+        // Listen for the place_changed event when a place is selected
+        google.maps.event.addListener(autocomplete, "place_changed", function() {
+            // Get the selected place
+            var place = autocomplete.getPlace();
+
+            // Check if the place contains geometry (lat, lng)
+            if (place.geometry) {
+                var lat = place.geometry.location.lat();
+                var long = place.geometry.location.lng();
+
+                // Set the lat, long values into the hidden input field
+                $("#location_tag").val(lat + "," + long);
+
+                // Mark that a valid place was selected
+                placeSelected = true;
+
+                // Clear any previous error messages
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+
+        // When user types manually, reset placeSelected flag
+        $("#myAddressBar").on("input", function() {
+            placeSelected = false; // Reset place selection
+            $("#location_tag").val(''); // Clear hidden input
+            $("#addressError").text(''); // Clear any previous error
+            $("#myAddressBar").removeClass("is-invalid");
+        });
+
+        // On blur, check if a valid place was selected from Google Places
+        $("#myAddressBar").on("blur", function() {
+            var addressValue = $("#myAddressBar").val().trim(); // Get the input value
+
+            // If no place was selected from Google Places
+            if (!placeSelected) {
+                // Show an error message indicating that the address must be selected from the suggestions
+                $("#addressError").text("Please select a valid address from the suggestions.");
+                $("#myAddressBar").addClass("is-invalid");
+            } else {
+                // If a valid place was selected, clear the error message
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+    });
+</script>
+
+
     @endpush
 @endsection

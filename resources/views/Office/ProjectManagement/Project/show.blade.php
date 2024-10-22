@@ -3,7 +3,33 @@
 @section('content')
 
 
+<style>
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
 
+    .animate-alarm {
+        color: red; /* Change the color to red */
+        animation: pulse 1s infinite; /* Add pulse animation */
+    }
+
+    .icon-large {
+        font-size: 35px; /* Adjust the size of the icon here */
+        transition: transform 0.2s; /* Smooth scale effect on hover */
+    }
+
+    .icon-large:hover {
+        transform: scale(1.2); /* Enlarge the icon slightly on hover */
+    }
+    </style>
 
     <div class="content-wrapper">
         <!-- Content -->
@@ -31,7 +57,7 @@
                       aria-controls="navs-justified-home"
                       aria-selected="true">
                       <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Basic Details')
-                      <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
+                      <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
                     </button>
                   </li>
 
@@ -44,7 +70,7 @@
                       data-bs-target="#navs-justified-units"
                       aria-controls="navs-justified-units"
                       aria-selected="false">
-                      <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('Units')
+                      <i class="tf-icons ti ti-building-arch ti-xs me-1"></i> @lang('Units')
                     </button>
                   </li>
                   <li class="nav-item">
@@ -56,21 +82,30 @@
                       data-bs-target="#navs-justified-properties"
                       aria-controls="navs-justified-properties"
                       aria-selected="false">
-                      <i class="tf-icons ti ti-message-dots ti-xs me-1"></i> @lang('properties')
+                      <i class="tf-icons ti ti-building-warehouse ti-xs me-1"></i> @lang('properties')
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button
-                      type="button"
-                      class="nav-link"
-                      role="tab"
-                      data-bs-toggle="tab"
-                      data-bs-target="#navs-justified-license"
-                      aria-controls="navs-justified-license"
-                      aria-selected="false">
-                      <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang(' الاعلان العقاري')
-                    </button>
-                  </li>
+                        <button
+                            type="button"
+                            class="nav-link"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-license"
+                            aria-controls="navs-justified-license"
+                            aria-selected="false">
+
+                            @if ($project->show_in_gallery != 1)
+                                <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')"></i>
+                                <span class=" text-danger animate-alarm">@lang(' الاعلان العقاري')</span>
+                            @else
+                                <i class="tf-icons ti ti-alarm ti-xs me-1 text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة منشوره في المعرض')"></i>
+                                <span class="text-success">@lang(' الاعلان العقاري')</span>
+                            @endif
+
+
+                        </button>
+                    </li>
                   <li class="nav-item">
                     <button
                       type="button"
@@ -80,7 +115,19 @@
                       data-bs-target="#navs-justified-profile"
                       aria-controls="navs-justified-profile"
                       aria-selected="false">
-                      <i class="tf-icons ti ti-user ti-xs me-1"></i> @lang('عقود إيجار')
+                      <i class="tf-icons ti ti-list-check ti-xs me-1"></i> @lang('عقود إيجار')
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button
+                      type="button"
+                      class="nav-link"
+                      role="tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#navs-justified-services"
+                      aria-controls="navs-justified-services"
+                      aria-selected="false">
+                      <i class="tf-icons ti ti-list-details ti-xs me-1"></i> @lang('Additional services')
                     </button>
                   </li>
                 </ul>
@@ -98,6 +145,18 @@
                                         <div class="user-avatar-section">
                                             <div class="d-flex align-items-center flex-column">
 
+                                                @if ($project->show_in_gallery != 1)
+                                                    <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذا الاعلان غير منشورة في المعرض اضغط هنا للنشر')">
+                                                    <span class="text-danger">@lang('Unpublished')</span>
+
+                                                    </i>
+
+                                                @else
+                                                    <i class="tf-icons ti ti-alarm me-1 text-success icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذا الاعلان منشوره في المعرض')">
+                                                    <span class="text-success">@lang('Published')</span>
+
+                                                    </i>
+                                                @endif
                                                 <div class="row">
                                                     @forelse($project->ProjectImages as $image)
                                                         <div class="col-6 mb-1">
@@ -574,7 +633,7 @@
                   </div>
                   <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                     @include('Office.ProjectManagement.Project.Unit.inc._contracts')
-                   
+
                   </div>
                 </div>
               </div>

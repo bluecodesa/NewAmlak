@@ -608,26 +608,26 @@ $(document).ready(function() {
                 });
             });
             //
-            $("#myAddressBar").on("keyup", function() {
-                // This function will be called every time a key is pressed in the input field
-                var input = document.getElementById("myAddressBar");
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                var place = autocomplete.getPlace();
+            // $("#myAddressBar").on("keyup", function() {
+            //     // This function will be called every time a key is pressed in the input field
+            //     var input = document.getElementById("myAddressBar");
+            //     var autocomplete = new google.maps.places.Autocomplete(input);
+            //     var place = autocomplete.getPlace();
 
-                // Listen for the place_changed event
-                google.maps.event.addListener(autocomplete, "place_changed", function() {
-                    // Get the selected place
-                    var place = autocomplete.getPlace();
+            //     // Listen for the place_changed event
+            //     google.maps.event.addListener(autocomplete, "place_changed", function() {
+            //         // Get the selected place
+            //         var place = autocomplete.getPlace();
 
-                    // Get the details of the selected place
-                    var address = place.formatted_address;
-                    var lat = place.geometry.location.lat();
-                    var long = place.geometry.location.lng();
-                    // $("#address").val(address);
-                    $("#location_tag").val(lat + "," + long);
-                    // Log the details to the console (or do something else with them)
-                });
-            });
+            //         // Get the details of the selected place
+            //         var address = place.formatted_address;
+            //         var lat = place.geometry.location.lat();
+            //         var long = place.geometry.location.lng();
+            //         // $("#address").val(address);
+            //         $("#location_tag").val(lat + "," + long);
+            //         // Log the details to the console (or do something else with them)
+            //     });
+            // });
 
             var path = "{{ route('Office.Project.autocompleteProject') }}";
 
@@ -963,11 +963,11 @@ $(document).ready(function() {
 
 <script>
     $(document).ready(function() {
-        // Initialize Google Places Autocomplete for the address input
+        // Initialize Google Places Autocomplete for the address input once
         var input = document.getElementById("myAddressBar");
         var autocomplete = new google.maps.places.Autocomplete(input);
 
-        // To track if a place was selected
+        // To track if a place was selected from Google Places
         var placeSelected = false;
 
         // Listen for the place_changed event when a place is selected
@@ -992,39 +992,30 @@ $(document).ready(function() {
             }
         });
 
-        // Listen for changes in the address input to validate
+        // When user types manually, reset placeSelected flag
         $("#myAddressBar").on("input", function() {
-            placeSelected = false; // Reset flag if user is typing
-            $("#location_tag").val(''); // Clear lat_long when typing
-            $("#addressError").text(''); // Clear error message while typing
-            $("#myAddressBar").removeClass("is-invalid"); // Remove error styling
+            placeSelected = false; // Reset place selection
+            $("#location_tag").val(''); // Clear hidden input
+            $("#addressError").text(''); // Clear any previous error
+            $("#myAddressBar").removeClass("is-invalid");
         });
 
-        // Add a blur event to trigger validation when the user leaves the input field
+        // On blur, check if a valid place was selected from Google Places
         $("#myAddressBar").on("blur", function() {
-            var addressValue = $("#myAddressBar").val();
+            var addressValue = $("#myAddressBar").val().trim(); // Get the input value
 
-            // Regular expression to check if the input matches a lat/long format
-            var latLongPattern = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
-
-            // Check if the place was selected or if the input follows the lat,long pattern
-            if (!placeSelected && !latLongPattern.test(addressValue)) {
-                // Display an error message and add a visual cue
-                $("#addressError").text("Please select a valid address or enter valid lat,long coordinates.");
-                $("#myAddressBar").addClass("is-invalid"); // Add error styling (bootstrap class)
+            // If no place was selected from Google Places
+            if (!placeSelected) {
+                // Show an error message indicating that the address must be selected from the suggestions
+                $("#addressError").text("Please select a valid address from the suggestions.");
+                $("#myAddressBar").addClass("is-invalid");
             } else {
-                // Clear the error message if a valid place was selected or input is in lat,long format
+                // If a valid place was selected, clear the error message
                 $("#addressError").text('');
-                $("#myAddressBar").removeClass("is-invalid"); // Remove error styling
-                if (!placeSelected) {
-                    // If input is valid lat,long, set it in the hidden input
-                    $("#location_tag").val(addressValue);
-                }
+                $("#myAddressBar").removeClass("is-invalid");
             }
         });
     });
 </script>
-
-
     @endpush
 @endsection

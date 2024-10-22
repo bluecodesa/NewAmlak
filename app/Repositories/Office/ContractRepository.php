@@ -103,6 +103,29 @@ class ContractRepository implements ContractRepositoryInterface
         $totalcommission = $data['price'] * ($data['commissions_rate'] / 100);
 
 
+        $office_id = auth()->user()->UserOfficeData->id;
+
+        // إنشاء رقم العقد
+        $customer_id = auth()->user()->customer_id;
+
+        // استرجاع آخر رقم عقد للمكتب
+        $lastContract = Contract::where('office_id', $office_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($lastContract) {
+            // تقسيم رقم العقد الأخير وزيادة الجزء الأخير
+            $lastContractNumber = $lastContract->contract_number;
+            $parts = explode('-', $lastContractNumber);
+            $lastPart = (int)$parts[2]; // الجزء الأخير
+            $newPart = $lastPart + 1; // زيادة الجزء الأخير
+            $contractNumber = "{$parts[0]}-{$parts[1]}-{$newPart}"; // رقم العقد الجديد
+        } else {
+            // إذا لم يوجد أي عقود، نبدأ من قيمة افتراضية
+            $contractNumber = "{$customer_id}-1"; // تخصيص هذا حسب الحاجة
+        }
+
+
         $contractData = [
             'office_id' => auth()->user()->UserOfficeData->id,
             'project_id' => $data['project_id'] ?? null,
@@ -123,6 +146,8 @@ class ContractRepository implements ContractRepositoryInterface
             'auto_renew' => $data['auto_renew'],
             'date_concluding_contract' => $data['date_concluding_contract'],
             'calendarTypeSelect' => $data['calendarTypeSelect'],
+            'contract_number' => $contractNumber, // إضافة رقم العقد
+
 
 
         ];
@@ -145,7 +170,6 @@ class ContractRepository implements ContractRepositoryInterface
         }
 
         $contractData['end_contract_date'] = $endDate;
-
         $contract = Contract::create($contractData);
         // // Update renter balance
         // $renter = Renter::find($data['renter_id']);
@@ -176,10 +200,10 @@ class ContractRepository implements ContractRepositoryInterface
             }
         }
 
-        $customer_id = auth()->user()->customer_id;
-        $contractNumber = $customer_id .'-'. $contract->id;
+        // $customer_id = auth()->user()->customer_id;
+        // $contractNumber = $customer_id .'-'. $contract->id;
 
-        $contract->update(['contract_number' => $contractNumber]);
+        // $contract->update(['contract_number' => $contractNumber]);
 
         $this->createInstallments($contract, $data);
 

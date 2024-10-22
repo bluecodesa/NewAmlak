@@ -15,7 +15,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col mb-3">
-                <input type="number" required name="id_number" id="nameBasic" class="form-control" placeholder="Enter ID Number" pattern="\d*" />
+                <input type="number" required name="id_number" id="nameBasic" class="form-control" minlength="1" maxlength="10" placeholder="Enter ID Number" pattern="\d*" />
             </div>
 
           </div>
