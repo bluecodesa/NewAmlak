@@ -61,7 +61,7 @@ trait WhatsappUnitPublished
                         ],
                         'json' => [
                             'session_uuid' => $whatsAppSetting->session_uuid,
-                            'phone' => 201205693178, // تأكد من استخدام الرقم الصحيح
+                            'phone' => 201119978333, // تأكد من استخدام الرقم الصحيح
                             'type' => $whatsAppSetting->type,
                             'message' => $plainContent, // استخدم المحتوى المعدل هنا
                             'schedule_at' => now(),
