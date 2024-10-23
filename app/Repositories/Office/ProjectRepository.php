@@ -131,6 +131,7 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
 
         $project_data = $data;
+        $old_project = Project::findOrFail($id);
 
         $project = Project::findOrFail($id);
 
@@ -220,7 +221,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             }
         }
 
-        if ($data['show_in_gallery'] == 0 && $project->show_in_gallery == 1) {
+        if ($old_project->show_in_gallery == 0 && $project->show_in_gallery == 1) {
             $this->MailUnitPublished($project);
             $this->WhatsappUnitPublished($project);
         }

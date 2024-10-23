@@ -21,7 +21,9 @@ use App\Interfaces\Admin\TicketTypeRepositoryInterface;
 use App\Interfaces\Office\UnitRepositoryInterface as OfficeUnitRepositoryInterface;
 use App\Models\Advertising;
 use App\Models\Office;
+use App\Models\ProjectImage;
 use App\Models\Property;
+use App\Models\PropertyImage;
 use App\Repositories\Office\ProjectRepository as OfficeProjectRepository;
 use App\Repositories\Office\PropertyRepository as OfficePropertyRepository;
 use App\Repositories\Office\UnitRepository as OfficeUnitRepository;
@@ -399,10 +401,27 @@ class GalleryService
 
         if ($hasImageFilter) {
             $unitIdsWithImages = UnitImage::pluck('unit_id')->toArray();
-            $allItems = $allItems->filter(function ($unit) use ($unitIdsWithImages) {
-                return in_array($unit->id, $unitIdsWithImages);
+
+            $propertyIdsWithImages = PropertyImage::pluck('property_id')->toArray();
+
+            $projectIdsWithImages = ProjectImage::pluck('project_id')->toArray();
+
+            $allItems = $allItems->filter(function ($unit) use ($unitIdsWithImages, $propertyIdsWithImages, $projectIdsWithImages) {
+                $hasUnitImage = in_array($unit->id, $unitIdsWithImages);
+
+                $hasPropertyImage = in_array($unit->property_id, $propertyIdsWithImages);
+                $hasProjectImage = in_array($unit->project_id, $projectIdsWithImages);
+
+                return $hasUnitImage || $hasPropertyImage || $hasProjectImage;
             });
         }
+
+        // if ($hasImageFilter) {
+        //     $unitIdsWithImages = UnitImage::pluck('unit_id')->toArray();
+        //     $allItems = $allItems->filter(function ($unit) use ($unitIdsWithImages) {
+        //         return in_array($unit->id, $unitIdsWithImages);
+        //     });
+        // }
 
 
         // Filter by units with price

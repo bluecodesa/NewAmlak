@@ -114,6 +114,7 @@ class PropertyRepository implements PropertyRepositoryInterface
 
     public function update($id, $data, $images)
     {
+        $old_property = Property::findOrFail($id);
 
         $property = Property::findOrFail($id);
         $property_data = $data;
@@ -203,7 +204,7 @@ class PropertyRepository implements PropertyRepositoryInterface
             }
         };
         $property->update($property_data);
-        if ($data['show_in_gallery'] == 0 && $property->show_in_gallery == 1) {
+        if ($old_property->show_in_gallery == 0 && $property->show_in_gallery == 1) {
             $this->MailUnitPublished($property);
             $this->WhatsappUnitPublished($property);
         }

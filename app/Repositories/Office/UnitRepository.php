@@ -163,6 +163,7 @@ class UnitRepository implements UnitRepositoryInterface
 
     public function update($id, $data)
     {
+        $old_unit = Unit::findOrFail($id);
         $rules = [
             'monthly' => 'digits_between:0,8',
             'daily' => 'digits_between:0,8',
@@ -304,7 +305,7 @@ class UnitRepository implements UnitRepositoryInterface
         }
 
 
-        if ($data['show_in_gallery'] == 0 && $unit->show_in_gallery == 1) {
+        if ($old_unit->show_in_gallery == 0 && $unit->show_in_gallery == 1) {
             $this->MailUnitPublished($unit);
             $this->WhatsappUnitPublished($unit);
         }

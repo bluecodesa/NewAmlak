@@ -174,11 +174,19 @@
                         @if($project->PropertiesProject->isNotEmpty())
                            @foreach ($project->PropertiesProject as $property)
                                @if ($property->PropertyUnits->isNotEmpty())
+                               @php
+                                    if( $property->BrokerData){
+                                            $GalleryData= $property->BrokerData->GalleryData;
+                                        }elseif( $property->OfficeData){
+                                            $GalleryData= $property->OfficeData->GalleryData;
+
+                                        }
+                                @endphp
                                    <div class="card card-action mb-4">
                                        <div class="card-header align-items-center">
                                            <h5 class="card-action-title mb-0">
                                             <a  href="{{ route('Home.showPublicProperty', [
-                                                'gallery_name' => optional($property->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $property->id
                                                 ]) }}">
                                                    {{ $property->name }}
@@ -236,7 +244,15 @@
                                                                        </thead>
                                                                        <tbody>
                                                                            @foreach ($units as $index => $unit)
-                                                                           <tr class="clickable-row" data-href="{{ route('gallery.showUnitPublic', ['gallery_name' => $unit->gallery->gallery_name, 'id' => $unit->id]) }}">
+                                                                           @php
+                                                                                if( $unit->BrokerData){
+                                                                                        $GalleryData= $unit->BrokerData->GalleryData;
+                                                                                    }elseif( $unit->OfficeData){
+                                                                                        $GalleryData= $unit->OfficeData->GalleryData;
+
+                                                                                    }
+                                                                            @endphp
+                                                                           <tr class="clickable-row" data-href="{{ route('gallery.showUnitPublic', ['gallery_name' => $GalleryData->gallery_name, 'id' => $unit->id]) }}">
                                                                                <td>{{ $index + 1 }}</td>
                                                                                    <td>{{ $unit->number_unit ?? '' }}</td>
                                                                                    <td>{{ $unit->space ?? '' }}</td>
