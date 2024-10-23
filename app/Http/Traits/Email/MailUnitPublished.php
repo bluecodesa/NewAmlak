@@ -26,7 +26,7 @@ trait MailUnitPublished
             $data['city'] = $unit->CityData->name ?? null;
             $data['district'] = $unit->DistrictData->name ?? null;
             $data['variable_broker_name'] = $unit->OfficeData->UserData->name ?? $unit->BrokerData->UserData->name ?? '';
-            $data['property_type_data_name'] = $unit->PropertyTypeData->name != null ? $unit->PropertyTypeData->name : $unit->name;
+            $data['property_type_data_name'] =  $unit->PropertyTypeData->name ?? $unit->name;
             $content = $EmailTemplate->content;
             $email = $unit->OwnerData->email;
             foreach ($data as $key => $value) {
