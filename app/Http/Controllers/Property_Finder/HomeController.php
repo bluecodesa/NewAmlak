@@ -674,7 +674,7 @@ public function createUnit()
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
 
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             $unit_data['ad_license_status'] ='InValid';
 
 
@@ -819,7 +819,7 @@ public function createUnit()
         unset($unit_data['midterm']);
         unset($unit_data['yearly']);
 
-        $unit_data['show_gallery'] = 0;
+        $unit_data['show_in_gallery'] = 0;
         $unit_data['ad_license_status'] = 'InValid';
 
         if (isset($unit_data['daily_rent'])) {

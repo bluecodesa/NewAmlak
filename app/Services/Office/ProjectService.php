@@ -80,7 +80,7 @@ class ProjectService
         return $this->projectRepository->ShowProject($id);
     }
 
-   
+
     public function updateProject($id, $data, $images)
     {
         // Validation rules
@@ -171,7 +171,7 @@ class ProjectService
                 'max:25'
             ],
             'service_type_id' => 'required',
-            "show_gallery" => 'sometimes',
+            "show_in_gallery" => 'sometimes',
             'type' => ['required', Rule::in(['sale', 'rent','rent and sale'])],
 
         ];

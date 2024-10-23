@@ -328,7 +328,7 @@
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery"
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
                                         @if($falLicense->ad_license_status != 'valid') disabled @endif
                                         @if($falLicense->ad_license_status == 'valid') checked @endif />
                                     <span class="switch-toggle-slider">
@@ -358,7 +358,7 @@
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" disabled />
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" disabled />
                                     <span class="switch-toggle-slider">
                                         <span class="switch-off"><i class="ti ti-x"></i></span>
                                     </span>
@@ -669,7 +669,7 @@ $('#button-addon3').click(function() {
 </script>
 
 <script>
-    document.getElementById('show_gallery').addEventListener('change', function () {
+    document.getElementById('show_in_gallery').addEventListener('change', function () {
         var galleryFields = document.getElementById('gallery-fields');
         if (this.checked) {
             galleryFields.style.display = 'block';

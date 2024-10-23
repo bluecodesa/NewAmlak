@@ -41,7 +41,7 @@
                     <td>
                         {{ $unit->CityData->name ?? '' }}
                     </td>
-                    <td>{{ $unit->show_gallery == 1 || $unit->show_in_gallery == 1 ? __('show') : __('hide') }}</td>
+                    <td>{{ $unit->show_in_gallery == 1 || $unit->show_in_gallery == 1 ? __('show') : __('hide') }}</td>
                     <td> {{ __($unit->ad_license_status)}}
                     </td>
                     <td> {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}</td>

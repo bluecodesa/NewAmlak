@@ -123,7 +123,7 @@ class GalleryService
             return get_defined_vars();
         } else {
 
-            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
             $Unit = $this->UnitRepository->findById($id);
 
             if (!$Unit) {
@@ -173,7 +173,7 @@ class GalleryService
             return get_defined_vars(); // Return data to be passed to the view
         } else {
 
-            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
             $uniqueIds = $units->pluck('CityData.id')->unique();
             $uniqueNames = $units->pluck('CityData.name')->unique();
             $districts = Gallery::where('id', $gallery->id)->first()->BrokerData->BrokerHasUnits;
@@ -211,7 +211,7 @@ class GalleryService
         $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
         foreach ($galleries as $gallery) {
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                ->where('show_gallery', 1)
+                ->where('show_in_gallery', 1)
                 ->get();
             $units = $units->merge($galleryUnits);
         }

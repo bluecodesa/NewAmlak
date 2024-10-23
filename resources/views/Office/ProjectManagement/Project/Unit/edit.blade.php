@@ -43,7 +43,7 @@
                           data-bs-target="#navs-justified-gallery"
                           aria-controls="navs-justified-gallery"
                           aria-selected="false">
-                          @if ($Unit->show_gallery != 1)
+                          @if ($Unit->show_in_gallery != 1)
                           <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')"></i>
                           <span class=" text-danger animate-alarm">@lang('Gallery')</span>
                       @else
@@ -373,9 +373,9 @@
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
                                 <label class="switch switch-primary">
-                                    <input type="checkbox" name="show_gallery"
+                                    <input type="checkbox" name="show_in_gallery"
                                         class="switch-input toggleHomePage"
-                                        {{ $Unit->show_gallery == 1 ? 'checked' : '' }}>
+                                        {{ $Unit->show_in_gallery == 1 ? 'checked' : '' }}>
                                     <span class="switch-toggle-slider">
                                         <span class="switch-on">
                                             <i class="ti ti-check"></i>
@@ -921,7 +921,7 @@
     </script>
 
 <script>
-    document.getElementById('show_gallery').addEventListener('change', function () {
+    document.getElementById('show_in_gallery').addEventListener('change', function () {
         var galleryFields = document.getElementById('gallery-fields');
         if (this.checked) {
             galleryFields.style.display = 'block';

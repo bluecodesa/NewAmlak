@@ -359,9 +359,9 @@
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
                                             <label class="switch switch-primary">
-                                                <input type="checkbox" name="show_gallery"
+                                                <input type="checkbox" name="show_in_gallery"
                                                     class="switch-input toggleHomePage"
-                                                    {{ $Unit->show_gallery == 1 ? 'checked' : '' }}>
+                                                    {{ $Unit->show_in_gallery == 1 ? 'checked' : '' }}>
                                                 <span class="switch-toggle-slider">
                                                     <span class="switch-on">
                                                         <i class="ti ti-check"></i>
@@ -394,7 +394,7 @@
                                                     class="required-color">*</span></label>
                                                 <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Unit->ad_license_number }}" required />
                                             </div>
-                                         
+
                                             <div class="col-sm-12 col-md-4 mb-3">
                                                 <label class="form-label">@lang('Ad License Expiry')<span
                                                     class="required-color">*</span></label>
@@ -1002,7 +1002,7 @@
 
 
 <script>
-    document.getElementById('show_gallery').addEventListener('change', function () {
+    document.getElementById('show_in_gallery').addEventListener('change', function () {
         var galleryFields = document.getElementById('gallery-fields');
         if (this.checked) {
             galleryFields.style.display = 'block';

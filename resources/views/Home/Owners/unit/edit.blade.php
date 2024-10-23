@@ -356,9 +356,9 @@
                                         {{-- <div class="col-sm-12 col-md-4 mb-3">
                                             <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
                                             <label class="switch switch-primary">
-                                                <input type="checkbox" name="show_gallery"
+                                                <input type="checkbox" name="show_in_gallery"
                                                     class="switch-input toggleHomePage"
-                                                    {{ $Unit->show_gallery == 1 ? 'checked' : '' }}>
+                                                    {{ $Unit->show_in_gallery == 1 ? 'checked' : '' }}>
                                                 <span class="switch-toggle-slider">
                                                     <span class="switch-on">
                                                         <i class="ti ti-check"></i>
@@ -373,7 +373,7 @@
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                             <label class="switch switch-lg">
-                                                <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" disabled />
+                                                <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" disabled />
                                                 <span class="switch-toggle-slider">
                                                     <span class="switch-on"><i class="ti ti-check"></i></span>
                                                     <span class="switch-off"><i class="ti ti-x"></i></span>

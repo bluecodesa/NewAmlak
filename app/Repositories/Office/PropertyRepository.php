@@ -3,6 +3,8 @@
 
 namespace App\Repositories\Office;
 
+use App\Http\Traits\Email\MailUnitPublished;
+use App\Http\Traits\WhatsApp\WhatsappUnitPublished;
 use App\Interfaces\Office\PropertyRepositoryInterface;
 use App\Models\Feature;
 use App\Models\Property;
@@ -18,6 +20,8 @@ use Illuminate\Validation\Rule;
 
 class PropertyRepository implements PropertyRepositoryInterface
 {
+    use MailUnitPublished;
+    use WhatsappUnitPublished;
     public function getAll($officeId)
     {
         return Property::where('office_id', $officeId)->get();
@@ -98,6 +102,11 @@ class PropertyRepository implements PropertyRepositoryInterface
                     'property_id' => $property->id,
                 ]);
             }
+        }
+
+        if ($property->show_in_gallery == 1) {
+            $this->MailUnitPublished($property);
+            $this->WhatsappUnitPublished($property);
         }
 
         return $property;
@@ -194,6 +203,11 @@ class PropertyRepository implements PropertyRepositoryInterface
             }
         };
         $property->update($property_data);
+        if ($data['show_in_gallery'] == 0 && $property->show_in_gallery == 1) {
+            $this->MailUnitPublished($property);
+            $this->WhatsappUnitPublished($property);
+        }
+
         return $property;
     }
 
@@ -218,6 +232,7 @@ class PropertyRepository implements PropertyRepositoryInterface
 
     function StoreUnit($id, $data)
     {
+
         $unit_data = $data;
         unset($unit_data['name']);
         unset($unit_data['qty']);
@@ -226,8 +241,8 @@ class PropertyRepository implements PropertyRepositoryInterface
         unset($unit_data['monthly']);
         $unit_data['office_id'] = Auth::user()->UserOfficeData->id;
         $unit_data['property_id'] = $id;
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
                 'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
@@ -250,7 +265,7 @@ class PropertyRepository implements PropertyRepositoryInterface
                 $unit_data['ad_license_status'] = 'Valid';
 
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             $unit_data['ad_license_status'] ='InValid';
 
         }

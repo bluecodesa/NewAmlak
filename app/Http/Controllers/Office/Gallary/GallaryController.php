@@ -473,7 +473,7 @@ class GallaryController extends Controller
             $projects = $this->ProjectService->getAllProjectsByOfficeId($gallery['office_id'])->where('show_in_gallery', 1);
             $properties = $this->PropertyService->getAll($gallery['office_id'])->where('show_in_gallery', 1);
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                ->where('show_gallery', 1)
+                ->where('show_in_gallery', 1)
                 ->get();
 
             $galleryUnits->each(function ($unit) {

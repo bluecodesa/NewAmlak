@@ -82,7 +82,7 @@
                             aria-controls="navs-justified-license"
                             aria-selected="false">
 
-                            @if ($Unit->show_gallery != 1)
+                            @if ($Unit->show_in_gallery != 1)
                                 <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')"></i>
                                 <span class=" text-danger animate-alarm">@lang(' الاعلان العقاري')</span>
                             @else
@@ -132,7 +132,7 @@
                                 <div class="card-body">
                                     <div class="user-avatar-section">
                                         <div class="d-flex align-items-center flex-column">
-                                            @if ($Unit->show_gallery != 1)
+                                            @if ($Unit->show_in_gallery != 1)
                                                 <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')">
                                                 <span class="text-danger">@lang('Unpublished')</span>
 
@@ -243,7 +243,7 @@
 
                                             <li class="mb-2 pt-1">
                                                 <span class="fw-medium me-1">@lang('Show in Gallery') :</span>
-                                                <span> {{ $Unit->show_gallery == 1 ? __('Published') : __('Unpublished') }}</span>
+                                                <span> {{ $Unit->show_in_gallery == 1 ? __('Published') : __('Unpublished') }}</span>
                                             </li>
 
                                                 @if ($Unit->type == 'rent')

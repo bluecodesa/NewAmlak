@@ -23,7 +23,7 @@
                     <td>
                         {{ $unit->CityData->name ?? '' }}
                     </td>
-                    <td> {{ $unit->show_gallery == 1 ? __('Show') : __('hide') }}
+                    <td> {{ $unit->show_in_gallery == 1 ? __('Show') : __('hide') }}
                     </td>
                     <td> {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}</td>
 

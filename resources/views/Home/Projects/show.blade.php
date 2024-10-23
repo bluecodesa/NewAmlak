@@ -194,7 +194,7 @@
 
                                                @foreach ($propertyTypes as $propertyTypeId)
                                                    @php
-                                                       $units = $property->PropertyUnits->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
+                                                       $units = $property->PropertyUnits->where('property_type_id', $propertyTypeId)->where('show_in_gallery', 1);
                                                    @endphp
 
                                                    @if ($units->count() > 0)
@@ -270,7 +270,7 @@
 
                                        @foreach ($propertyTypes as $propertyTypeId)
                                            @php
-                                               $units = $project->UnitsProject->where('property_type_id', $propertyTypeId)->where('show_gallery', 1);
+                                               $units = $project->UnitsProject->where('property_type_id', $propertyTypeId)->where('show_in_gallery', 1);
                                            @endphp
 
                                            @if ($units->count() > 0)

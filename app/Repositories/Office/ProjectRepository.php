@@ -3,6 +3,8 @@
 
 namespace App\Repositories\Office;
 
+use App\Http\Traits\Email\MailUnitPublished;
+use App\Http\Traits\WhatsApp\WhatsappUnitPublished;
 use App\Interfaces\Office\ProjectRepositoryInterface;
 use App\Models\Feature;
 use App\Models\Project;
@@ -22,6 +24,10 @@ use Illuminate\Validation\Rule;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
+
+    use MailUnitPublished;
+    use WhatsappUnitPublished;
+
     public function getAllByOfficeId($officeId)
     {
         return Project::where('office_id', $officeId)->get();
@@ -114,6 +120,10 @@ class ProjectRepository implements ProjectRepositoryInterface
             }
         }
 
+        if ($project->show_in_gallery == 1) {
+            $this->MailUnitPublished($project);
+            $this->WhatsappUnitPublished($project);
+        }
         return $project;
     }
 
@@ -208,6 +218,11 @@ class ProjectRepository implements ProjectRepositoryInterface
                     ]);
                 }
             }
+        }
+
+        if ($data['show_in_gallery'] == 0 && $project->show_in_gallery == 1) {
+            $this->MailUnitPublished($project);
+            $this->WhatsappUnitPublished($project);
         }
         return $project;
     }
@@ -314,8 +329,8 @@ class ProjectRepository implements ProjectRepositoryInterface
         $unit_data['project_id'] = $id;
         $license_date = auth()->user()->UserOfficeData->license_date;
 
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
                 'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
@@ -338,7 +353,7 @@ class ProjectRepository implements ProjectRepositoryInterface
                 $unit_data['ad_license_status'] = 'Valid';
 
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             $unit_data['ad_license_status'] ='InValid';
 
         }

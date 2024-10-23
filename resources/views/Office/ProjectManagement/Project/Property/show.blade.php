@@ -86,7 +86,7 @@
 
                             @if ($Property->show_in_gallery != 1)
                                 <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')"></i>
-                                <span class=" text-danger animate-alarm">@lang(' الاعلان العقاري')</span>
+                                <span class=" text-danger">@lang(' الاعلان العقاري')</span>
                             @else
                                 <i class="tf-icons ti ti-alarm ti-xs me-1 text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة منشوره في المعرض')"></i>
                                 <span class="text-success">@lang(' الاعلان العقاري')</span>

@@ -3,6 +3,8 @@
 
 namespace App\Repositories\Office;
 
+use App\Http\Traits\Email\MailUnitPublished;
+use App\Http\Traits\WhatsApp\WhatsappUnitPublished;
 use App\Interfaces\Office\UnitRepositoryInterface;
 use App\Models\Feature;
 use App\Models\Property;
@@ -19,6 +21,9 @@ use Illuminate\Validation\Rule;
 
 class UnitRepository implements UnitRepositoryInterface
 {
+    use MailUnitPublished;
+    use WhatsappUnitPublished;
+
     public function getAll($officeId)
     {
         return Unit::where('office_id', $officeId)->get();
@@ -60,8 +65,8 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
         $unit_data['office_id'] = Auth::user()->UserOfficeData->id;
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
                 'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
@@ -84,7 +89,7 @@ class UnitRepository implements UnitRepositoryInterface
                 $unit_data['ad_license_status'] = 'Valid';
 
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             $unit_data['ad_license_status'] ='InValid';
 
         }
@@ -113,7 +118,7 @@ class UnitRepository implements UnitRepositoryInterface
 
 
         $unit = Unit::create($unit_data);
-        
+
         if (isset($data['service_id'])) {
             foreach ($data['service_id'] as  $service) {
                 UnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
@@ -149,6 +154,11 @@ class UnitRepository implements UnitRepositoryInterface
                 }
             }
         }
+        if ($unit->show_in_gallery == 1) {
+            $this->MailUnitPublished($unit);
+            $this->WhatsappUnitPublished($unit);
+        }
+
     }
 
     public function update($id, $data)
@@ -188,8 +198,8 @@ class UnitRepository implements UnitRepositoryInterface
 
 
         $unit_data['office_id'] = Auth::user()->UserOfficeData->id;
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
                 'ad_license_number' => [
@@ -215,7 +225,7 @@ class UnitRepository implements UnitRepositoryInterface
                 $unit_data['ad_license_status'] = 'Valid';
 
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             // $unit_data['ad_license_status'] ='InValid';
 
         }
@@ -292,6 +302,15 @@ class UnitRepository implements UnitRepositoryInterface
                 }
             }
         }
+
+
+        if ($data['show_in_gallery'] == 0 && $unit->show_in_gallery == 1) {
+            $this->MailUnitPublished($unit);
+            $this->WhatsappUnitPublished($unit);
+        }
+
+
+
     }
 
 

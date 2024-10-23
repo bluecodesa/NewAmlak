@@ -325,7 +325,7 @@
                                         <div class="col-sm-12 col-md-4 mb-3">
                                             <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                             <label class="switch switch-lg">
-                                                <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" checked />
+                                                <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" checked />
                                                 <span class="switch-toggle-slider">
                                                     <span class="switch-on"><i class="ti ti-check"></i></span>
                                                     <span class="switch-off"><i class="ti ti-x"></i></span>
@@ -664,7 +664,7 @@
 
 
 <script>
-    document.getElementById('show_gallery').addEventListener('change', function () {
+    document.getElementById('show_in_gallery').addEventListener('change', function () {
         var galleryFields = document.getElementById('gallery-fields');
         if (this.checked) {
             galleryFields.style.display = 'block';

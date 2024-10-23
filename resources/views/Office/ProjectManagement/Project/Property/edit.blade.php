@@ -1,5 +1,33 @@
 @extends('Admin.layouts.app')
 @section('title', __('Edit') . ' ' . $Property->name)
+
+<style>
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .animate-alarm {
+        color: red; /* Change the color to red */
+        animation: pulse 1s infinite; /* Add pulse animation */
+    }
+
+    .icon-large {
+        font-size: 35px !important; /* Adjust the size of the icon here */
+        transition: transform 0.2s; /* Smooth scale effect on hover */
+    }
+
+    .icon-large:hover {
+        transform: scale(1.5); /* Enlarge the icon slightly on hover */
+    }
+</style>
 @section('content')
 
     <div class="content-wrapper">
@@ -34,17 +62,26 @@
                       </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                        <button
+                            type="button"
+                            class="nav-link"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-gallery"
+                            aria-controls="navs-justified-gallery"
                             aria-selected="false">
+
                             @if ($Property->show_in_gallery != 1)
-                            <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')"></i>
-                            <span class=" text-danger animate-alarm">@lang('Gallery')</span>
-                        @else
-                            <i class="tf-icons ti ti-alarm ti-xs me-1 text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة منشوره في المعرض')"></i>
-                            <span class="text-success">@lang('Gallery')</span>
-                        @endif                            <span
-                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
+                                <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')">
+
+                                </i>
+                                <span class=" text-danger">@lang('Gallery')</span>
+                            @else
+                                <i class="tf-icons ti ti-alarm ti-xs me-1 text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة منشوره في المعرض')"></i>
+                                <span class="text-success">@lang('Gallery')</span>
+                            @endif
+
+
                         </button>
                     </li>
                     <li class="nav-item">

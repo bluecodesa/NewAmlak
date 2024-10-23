@@ -222,7 +222,7 @@ class GallaryController extends Controller
             $projects = $this->ProjectService->getAllProjectsByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
             $properties = $this->PropertyService->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                ->where('show_gallery', 1)
+                ->where('show_in_gallery', 1)
                 ->get();
 
             $galleryUnits->each(function ($unit) {
@@ -324,7 +324,7 @@ class GallaryController extends Controller
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
-        if (empty($data) || (isset($data['Unit']) && $data['Unit']->show_gallery == 0)) {
+        if (empty($data) || (isset($data['Unit']) && $data['Unit']->show_in_gallery == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
 

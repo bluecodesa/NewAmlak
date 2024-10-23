@@ -68,6 +68,32 @@
                         <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_subscription_invoice_download_link')"
                             data-variable="$data[variable_subscription_invoice_download_link]">@lang('variable_subscription_invoice_download_link')</span>
+
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('unit_name')"
+                            data-variable="$data[unit_name]">@lang('unit name')
+                             </span>
+
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('city')"
+                            data-variable="$data[city]">@lang('city')
+                            </span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('district')"
+                            data-variable="$data[district]">@lang('district')
+                            </span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('property_type_data_name')"
+                            data-variable="$data[property_type_data_name]">@lang('property_type_data_name')
+                            </span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('variable_home')"
+                            data-variable="$data[variable_home]">@lang('variable_home')
+                            </span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('variable_login')"
+                            data-variable="$data[variable_login]">@lang('variable_login')
+                            </span>
                     </div>
 
                     <form action="{{ route('Admin.update.StoreWhatsAppTemplate', $notification->id) }}" method="post"

@@ -164,14 +164,14 @@ class ProjectRepository implements ProjectRepositoryInterface
         unset($unit_data['monthly']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         $unit_data['project_id'] = $id;
-        if (isset($data['show_gallery'])) {
-            if ($data['show_gallery'] == 'on') {
-                $unit_data['show_gallery'] = 1;
+        if (isset($data['show_in_gallery'])) {
+            if ($data['show_in_gallery'] == 'on') {
+                $unit_data['show_in_gallery'] = 1;
             } else {
-                $unit_data['show_gallery'] = 0;
+                $unit_data['show_in_gallery'] = 0;
             }
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
         }
 
         if (isset($data['daily_rent'])) {

@@ -122,7 +122,7 @@ class PropertyService
                 'max:25'
             ],
             'service_type_id' => 'required',
-            "show_gallery" => 'sometimes',
+            "show_in_gallery" => 'sometimes',
             'type' => ['required', Rule::in(['sale', 'rent', 'rent and sale'])],
             'ad_license_number' => [
                 'required',

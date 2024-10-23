@@ -2,13 +2,12 @@
     <table class="table" id="table">
         <thead class="table-dark">
             <tr>
-
+                <th>@lang('Ad Status')</th>
                 <th>@lang('ad name') / @lang('Name')</th>
                 <th>@lang('Type')</th>
                 <th>@lang('Occupancy')</th>
                 <th>@lang('Ad type')</th>
                 <th>@lang('city')</th>
-                <th>@lang('Ad Status')</th>
                 <th>@lang('Ad validity')</th>
                 <th>@lang('views')</th>
                 <th>@lang('Action')</th>
@@ -22,6 +21,17 @@
             $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
             @endphp
                 <tr>
+                    <td>
+                        @if ($unit->show_in_gallery != 1)
+                            <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذا الاعلان غير منشور في المعرض اضغط هنا للنشر')">
+                            </i>
+                            <span class="text-danger">@lang('Unpublished')</span>
+                        @else
+                            <i class="tf-icons ti ti-alarm me-1 text-success icon" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذا الاعلان منشور في المعرض')">
+                            </i>
+                            <span class="text-success">@lang('Published')</span>
+                        @endif
+                    </td>
 
                     <td>{{ $unit->ad_name ?? $unit->name }}</td>
                     <td >
@@ -41,7 +51,6 @@
                     <td>
                         {{ $unit->CityData->name ?? '-' }}
                     </td>
-                    <td>{{ $unit->show_gallery == 1 || $unit->show_in_gallery == 1 ? __('Published') : __('Unpublished') }}</td>
                     <td> {{ __($unit->ad_license_status)}}
                     </td>
                     <td> {{ $numberOfVisitorsForEachUnit[$unit->id] ?? 0 }}</td>

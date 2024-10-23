@@ -17,7 +17,7 @@ trait WhatsappWelcomeUser
 
         $notification_id = DB::table('notification_settings')
         ->where('notification_name', 'Real_estate_marketer_welcome_email')
-        ->where('email', 1)
+        ->where('whatsapp', 1)
         ->value('id');
         $whatsappTemplate = WhatsappTemplate::where('notification_setting_id', $notification_id)->first();
 

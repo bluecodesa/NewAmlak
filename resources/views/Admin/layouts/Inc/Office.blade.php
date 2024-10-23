@@ -190,6 +190,33 @@
             </li>
         @endif
 
+        @if (in_array(33, $sectionsIds))
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
+                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <div data-i18n="@lang('Additional services')">@lang('Additional services')</div>
+                </a>
+                <ul class="menu-sub">
+                    @if (Auth::user()->hasPermission('view-services'))
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <div data-i18n="@lang('Properties Gallary')">@lang('View Services')</div>
+                        </a>
+                    </li>
+                    @endif
+                    @if (Auth::user()->hasPermission('service-request'))
+                        <li class="menu-item">
+                            <a href="#" class="menu-link">
+                                <div data-i18n="@lang('Service Request')">@lang('Service Request')</div>
+                            </a>
+                        </li>
+                    @endif
+
+                </ul>
+            </li>
+        @endif
+
         @if (in_array(16, $sectionsIds))
             <li class="menu-item">
                 <a href="{{ route('Office.Owner.index') }}" class="menu-link">

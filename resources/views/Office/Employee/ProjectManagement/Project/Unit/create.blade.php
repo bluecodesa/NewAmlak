@@ -337,11 +337,11 @@
                             <div class="col-sm-12 col-md-2 mb-3">
                                 <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
                                 </label>
-                                {{-- <input type="checkbox" checked name="show_gallery" class="toggleHomePage"
+                                {{-- <input type="checkbox" checked name="show_in_gallery" class="toggleHomePage"
                                         data-toggle="toggle" data-onstyle="primary"> --}}
 
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_gallery" class="switch-input" checked />
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" checked />
                                     <span class="switch-toggle-slider">
                                         <span class="switch-on">
                                             <i class="ti ti-check"></i>
