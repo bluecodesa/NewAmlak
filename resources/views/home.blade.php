@@ -363,7 +363,7 @@
 
     <div class="row">
 
-        
+
         <div class="col-xl-6 col-md-6 col-6 mb-4">
             <div class="card">
                 <h5 class="card-header">@lang('Subscribers')</h5>

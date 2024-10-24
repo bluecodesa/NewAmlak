@@ -155,7 +155,7 @@
                     <i class="ti ti-bell ti-md"></i>
                     {{-- <i class="fa-solid fa-bell"></i> --}}
                     <span
-                        class="badge bg-danger rounded-pill badge-notifications">{{ Auth::user()->unreadNotifications->count() }}</span>
+                        class="badge bg-danger rounded-pill badge-notifications text-with-numbers">{{ Auth::user()->unreadNotifications->count() }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end py-0">
                     <li class="dropdown-menu-header border-bottom">

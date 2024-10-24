@@ -725,7 +725,21 @@
     "Ad validity": " صلاحية الاعلان ",
     "Additional services": "الخدمات الاضافية ",
     "Service Request": "طلب خدمة",
-    "View Services": "عرض الخدمات"
+    "View Services": "عرض الخدمات",
+    "Customer Management": "إدارة العملاء",
+    "Maintenance and operation management": "ادارة الصيانة والتشغيل",
+    "Maintenance and operation invoices": "فواتير الصيانة والتشغيل",
+    "Rent bills": "فواتير الإيجار",
+    "Financial summary dashboard": "لوحة الملخص المالي",
+    "Rent Contracts": "عقود الايجار",
+    "Sales contracts": "عقود البيع",
+    "Maintenance and operation contracts": "عقود الصيانة والتشغيل ",
+    "Requests dashboard": " لوحة بيانات الطلبات",
+    "Requests List": " قائمة الطلبات",
+    "Contracting companies": "الشركات المتعاقدة ",
+    "Reports and advanced search": "التقارير و البحث المتقدم"
+
+
 
 
 

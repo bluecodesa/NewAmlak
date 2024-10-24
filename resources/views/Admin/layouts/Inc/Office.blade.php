@@ -93,19 +93,29 @@
             </li>
         @endif
 
-        @if (in_array(19, $sectionsIds))
-            <li class="menu-item">
+        @if (in_array(19, $sectionsIds) || in_array(16, $sectionsIds))
+        <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
-                    <div data-i18n="@lang('Renter Management')">@lang('Renter Management')</div>
+                    <div data-i18n="@lang('Customer Management')">@lang('Customer Management')</div>
                 </a>
                 <ul class="menu-sub">
+                    @if (in_array(19, $sectionsIds))
                     <li class="menu-item">
                         <a href="{{ route('Office.Renter.index') }}" class="menu-link">
-                            <div data-i18n="@lang('Renters')">@lang('Renters')</div>
+                            <div data-i18n="@lang('Renter Management')">@lang('Renter Management')</div>
                         </a>
                     </li>
+                    @endif
+
+                    @if (in_array(16, $sectionsIds))
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Owner.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Owners Management')">@lang('Owners Management')</div>
+                        </a>
+                    </li>
+                @endif
                 </ul>
             </li>
         @endif
@@ -121,7 +131,19 @@
                 <ul class="menu-sub">
                     <li class="menu-item">
                         <a href="{{ route('Office.Contract.index') }}" class="menu-link">
-                            <div data-i18n="@lang('Contracts')">@lang('Contracts')</div>
+                            <div data-i18n="@lang('Rent Contracts')">@lang('Rent Contracts')</div>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Contract.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Sales contracts')">@lang('Sales contracts')</div>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Contract.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Maintenance and operation contracts')">@lang('Maintenance and operation contracts')</div>
                         </a>
                     </li>
                 </ul>
@@ -137,6 +159,12 @@
                 </a>
                 <ul class="menu-sub">
                     <li class="menu-item">
+                        <a href="{{ route('Office.Wallet.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Financial summary dashboard')">@lang('Financial summary dashboard')</div>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
                         <a href="{{ route('Office.Receipt.index') }}" class="menu-link">
                             <div data-i18n="@lang('Voucher and Payment Receipts')">@lang('Voucher and Payment Receipts')</div>
                         </a>
@@ -146,6 +174,20 @@
                             <div data-i18n="@lang('Wallets')">@lang('Wallets')</div>
                         </a>
                     </li>
+
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Wallet.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Rent bills')">@lang('Rent bills')</div>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="{{ route('Office.Wallet.index') }}" class="menu-link">
+                            <div data-i18n="@lang('Maintenance and operation invoices')">@lang('Maintenance and operation invoices')</div>
+                        </a>
+                    </li>
+
+
                 </ul>
             </li>
         @endif
@@ -195,33 +237,39 @@
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
-                    <div data-i18n="@lang('Additional services')">@lang('Additional services')</div>
+                    <div data-i18n="@lang('Maintenance and operation management')">@lang('Maintenance and operation management')</div>
                 </a>
                 <ul class="menu-sub">
                     @if (Auth::user()->hasPermission('view-services'))
                     <li class="menu-item">
                         <a href="#" class="menu-link">
-                            <div data-i18n="@lang('Properties Gallary')">@lang('View Services')</div>
+                            <div data-i18n="@lang('Requests dashboard')">@lang('Requests dashboard')</div>
                         </a>
                     </li>
                     @endif
                     @if (Auth::user()->hasPermission('service-request'))
                         <li class="menu-item">
                             <a href="#" class="menu-link">
-                                <div data-i18n="@lang('Service Request')">@lang('Service Request')</div>
+                                <div data-i18n="@lang('Requests List')">@lang('Requests List')</div>
                             </a>
                         </li>
                     @endif
+
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <div data-i18n="@lang('Contracting companies')">@lang('Contracting companies')</div>
+                        </a>
+                    </li>
 
                 </ul>
             </li>
         @endif
 
-        @if (in_array(16, $sectionsIds))
+        @if (in_array(34, $sectionsIds))
             <li class="menu-item">
-                <a href="{{ route('Office.Owner.index') }}" class="menu-link">
+                <a href="{{ route('Office.ShowSubscription') }}" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
-                    <div data-i18n="@lang('Owners Management')">@lang('Owners Management')</div>
+                    <div data-i18n="@lang('Reports and advanced search')">@lang('Reports and advanced search')</div>
                 </a>
             </li>
         @endif
