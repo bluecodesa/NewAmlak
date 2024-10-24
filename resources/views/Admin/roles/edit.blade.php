@@ -136,4 +136,31 @@
     </div>
 
 
+    @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.model-checkbox').on('click', function() {
+                var model = $(this).val();
+                var checkboxes = $('input[name="permission[]"][data-model="' + model + '"]');
+                checkboxes.prop('checked', $(this).prop('checked'));
+            });
+
+            $('.all-checkbox').on('click', function() {
+                var model = $(this).val();
+                var checkboxes = $('input[name="permission[]"]');
+                checkboxes.prop('checked', $(this).prop('checked'));
+            });
+
+            $('.TypeUser').on('click', function() {
+
+                var show = $(this).val();
+                var hide = $(this).data('hide');
+                $('.' + show).css('display', 'block')
+                $('.' + hide).css('display', 'none');
+            });
+
+        });
+    </script>
+@endpush
+
 @endsection
