@@ -51,7 +51,8 @@
             strong,
             label,
             * {
-                font-family: "NewArabic", sans-serif !important;
+                /* font-family: "NewArabic", sans-serif !important; */
+                font-family: 'Tajawal' !important
             }
         </style>
     @else
@@ -318,6 +319,50 @@
 
 
     @stack('scripts')
+    <script>
+
+$(document).ready(function() {
+    // Function to replace Arabic-Indic numerals with Western numerals
+    function replaceArabicNumerals(text) {
+        const arabicToWestern = {
+            '١': '1',
+            '٢': '2',
+            '٣': '3',
+            '٤': '4',
+            '٥': '5',
+            '٦': '6',
+            '٧': '7',
+            '٨': '8',
+            '٩': '9',
+            '٠': '0'
+        };
+
+        return text.replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(match) {
+            return arabicToWestern[match];
+        });
+    }
+
+    // Select the elements containing the text and replace the numbers
+    $('body',
+            'h4',
+            'h1',
+            'h2',
+            'h5',
+            'h6',
+            'h3',
+            'span',
+            '.dropify-clear',
+            'small',
+            'b',
+            'strong',
+            'label').each(function() {
+        const originalText = $(this).text();
+        const newText = replaceArabicNumerals(originalText);
+        $(this).text(newText);
+    });
+});
+
+    </script>
 
     <script>
         function handleDelete(id) {

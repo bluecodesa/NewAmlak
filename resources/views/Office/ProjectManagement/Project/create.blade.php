@@ -716,9 +716,24 @@
             if (allFilled) {
                 // Hide current tab
                 currentTab.classList.remove('show', 'active');
+
                 // Show next tab
                 const nextTab = document.querySelector(nextTabId);
                 nextTab.classList.add('show', 'active');
+
+                // Update the active tab button in the navigation
+                const currentNavButton = document.querySelector('.nav-link.active');
+                const nextNavButton = document.querySelector(`button[data-bs-target="${nextTabId}"]`);
+
+                // Remove active class from current tab button
+                if (currentNavButton) {
+                    currentNavButton.classList.remove('active');
+                }
+
+                // Add active class to next tab button
+                if (nextNavButton) {
+                    nextNavButton.classList.add('active');
+                }
             }
         }
 

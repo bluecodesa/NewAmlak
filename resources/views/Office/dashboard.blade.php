@@ -503,7 +503,7 @@
             </div>
             {{-- analytics --}}
             <div class="row">
-                <h4 class="ms-1 mb-0">@lang('Interactive Map') -  {{ $allItems->count() }} </h4>
+                {{-- <h4 class="ms-1 mb-0">@lang('Interactive Map') -  {{ $allItems->count() }} </h4> --}}
 
                 <div class="nav-align-top nav-tabs-shadow mb-4">
 

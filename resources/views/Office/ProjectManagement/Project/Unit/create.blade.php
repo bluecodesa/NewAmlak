@@ -91,9 +91,9 @@
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('Project') <span class="required-color"></span></label>
                                         <select class="form-select projectSelect" name="project_id" id="projectSelect">
-                                            <option selected value="">@lang('without')</option>
+                                            <option selected value="" {{ old('project_id') == '' ? 'selected' : '' }}>@lang('without')</option>
                                             @foreach ($projects as $project)
-                                                <option value="{{ $project->id }}" data-url="{{ route('Office.GetProjectDetails', $project->id) }}">
+                                                <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }} data-url="{{ route('Office.GetProjectDetails', $project->id) }}">
                                                     {{ $project->name }}</option>
                                             @endforeach
                                         </select>
@@ -102,9 +102,9 @@
                                     <div class="col-md-4 mb-3 col-12">
                                         <label class="form-label">@lang('property') <span class="required-color"></span></label>
                                         <select class="form-select" name="property_id" id="propertySelect">
-                                            <option selected value="">@lang('without')</option>
+                                            <option selected value="" value="" {{ old('property_id') == '' ? 'selected' : '' }}>@lang('without')</option>
                                             @foreach ($properties as $property)
-                                                <option value="{{ $property->id }}">{{ $property->name }}</option>
+                                                <option value="{{ $property->id }}" {{ old('property_id') == $property->id ? 'selected' : '' }}>{{ $property->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -112,7 +112,7 @@
 
                                         <label class="form-label">
                                             {{ __('Residential number') }} <span class="required-color">*</span></label>
-                                        <input type="text" required id="modalRoleName" name="number_unit"
+                                        <input type="text" required id="modalRoleName" name="number_unit" value="{{ old('number_unit') }}"
                                             class="form-control" placeholder="{{ __('Residential number') }}">
 
                                     </div>
@@ -121,9 +121,9 @@
                                                 <label class="form-label">@lang('Region') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select" id="Region_id" required>
-                                                    <option disabled value="">@lang('Region') </option>
+                                                    <option disabled value="" {{ old('Region_id') == '' ? 'selected' : '' }}>@lang('Region') </option>
                                                     @foreach ($Regions as $Region)
-                                                        <option value="{{ $Region->id }}"
+                                                        <option value="{{ $Region->id }}" {{ old('Region_id') == $Region->id ? 'selected' : '' }}
                                                             data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}">
                                                             {{ $Region->name }}</option>
                                                     @endforeach
@@ -134,9 +134,9 @@
                                                 <label class="form-label">@lang('city') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select " id="CityDiv" name="city_id" required>
-                                                    <option disabled value="" selected>@lang('city') </option>
+                                                    <option disabled value="" {{ old('city_id') == '' ? 'selected' : '' }} selected>@lang('city') </option>
                                                     @foreach ($cities as $city)
-                                                        <option value="{{ $city->id }}"
+                                                        <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}
                                                             data-url="{{ route('Office.Office.GetDistrictsByCity', $city->id) }}">
                                                             {{ $city->name }}</option>
                                                     @endforeach
@@ -166,9 +166,9 @@
                                     <label class="form-label">@lang('Property type') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" name="property_type_id" required>
-                                        <option disabled selected value="">@lang('Property type')</option>
+                                        <option disabled selected value="" {{ old('property_type_id') == '' ? 'selected' : '' }}>@lang('Property type')</option>
                                         @foreach ($types as $type)
-                                            <option value="{{ $type->id }}">
+                                            <option value="{{ $type->id }}" {{ old('property_type_id') == $type->id ? 'selected' : '' }}>
                                                 {{ $type->name }}</option>
                                         @endforeach
                                     </select>
@@ -178,9 +178,9 @@
                                     <label class="form-label">@lang('Type use') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" name="property_usage_id" required>
-                                        <option disabled selected value="">@lang('Type use')</option>
+                                        <option disabled selected value="" {{ old('property_usage_id') == '' ? 'selected' : '' }}>@lang('Type use')</option>
                                         @foreach ($usages as $usage)
-                                            <option value="{{ $usage->id }}">
+                                            <option value="{{ $usage->id }}" {{ old('property_usage_id') == $usage->id ? 'selected' : '' }}>
                                                 {{ $usage->name }}</option>
                                         @endforeach
                                     </select>
@@ -193,9 +193,10 @@
                                         <select class="form-select" id="OwnersDiv"
                                             aria-label="Example select with button addon" name="owner_id"
                                             required>
-                                            <option disabled selected value="">@lang('owner name')</option>
+                                            <option disabled selected value="" {{ old('owner_id') == '' ? 'selected' : '' }}>@lang('owner name')</option>
                                             @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}">{{ $owner->name }}</option>
+                                                <option value="{{ $owner->id }}" {{ old('owner_id') == $owner->id ? 'selected' : '' }}>
+                                                    {{ $owner->name }}</option>
                                             @endforeach
                                         </select>
                                         <a href="{{ route('Office.Owner.index') }}" target="_blank" class="btn btn-outline-primary"
@@ -214,9 +215,9 @@
                                     <label class="form-label">@lang('offered service') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" name="service_type_id" required>
-                                        <option disabled selected value="">@lang('offered service')</option>
+                                        <option disabled selected value="" value="" {{ old('service_type_id') == '' ? 'selected' : '' }}>@lang('offered service')</option>
                                         @foreach ($servicesTypes as $service)
-                                            <option value="{{ $service->id }}">
+                                            <option value="{{ $service->id }}" {{ old('service_type_id') == $service->id ? 'selected' : '' }}>
                                                 {{ $service->name }}</option>
                                         @endforeach
                                     </select>
@@ -247,9 +248,9 @@
                                     <label class="form-label">@lang('Status of Unit') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" name="status" id="type" required>
-                                        <option disabled value="">@lang('Status of Unit') </option>
+                                        <option disabled value="" {{ old('status') == '' ? 'selected' : '' }}>@lang('Status of Unit') </option>
                                         @foreach (['vacant', 'rented'] as $type)
-                                            <option value="{{ $type }}">
+                                            <option value="{{ $type }}" {{ old('status') == $type ? 'selected' : '' }}>
                                                 {{ __($type) }}</option>
                                         @endforeach
                                     </select>
@@ -261,7 +262,7 @@
                                                     name="service_id[]" multiple="multiple">
                                                     <option disabled value="">@lang('services')</option>
                                                     @foreach ($services as $service)
-                                                        <option value="{{ $service->id }}">
+                                                        <option value="{{ $service->id }}" {{ (collect(old('service_id'))->contains($service->id)) ? 'selected' : '' }}>
                                                             {{ $service->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -323,7 +324,7 @@
 
                                 <label class="form-label">
                                     {{ __('ad name') }} <span class="required-color">*</span></label>
-                                <input type="text" required name="ad_name" class="form-control"
+                                <input type="text" required name="ad_name" class="form-control" value="{{ old('ad_name') }}"
                                     placeholder="{{ __('ad name') }}">
 
                             </div>
@@ -1029,9 +1030,24 @@ $(document).ready(function() {
             if (allFilled) {
                 // Hide current tab
                 currentTab.classList.remove('show', 'active');
+
                 // Show next tab
                 const nextTab = document.querySelector(nextTabId);
                 nextTab.classList.add('show', 'active');
+
+                // Update the active tab button in the navigation
+                const currentNavButton = document.querySelector('.nav-link.active');
+                const nextNavButton = document.querySelector(`button[data-bs-target="${nextTabId}"]`);
+
+                // Remove active class from current tab button
+                if (currentNavButton) {
+                    currentNavButton.classList.remove('active');
+                }
+
+                // Add active class to next tab button
+                if (nextNavButton) {
+                    nextNavButton.classList.add('active');
+                }
             }
         }
 
@@ -1053,7 +1069,6 @@ $(document).ready(function() {
         });
     });
 </script>
-
 
     @endpush
 @endsection
