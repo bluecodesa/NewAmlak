@@ -145,8 +145,8 @@ class GallaryController extends Controller
         })
         ->paginate(3);
 
-        $allUnits = Unit::take(6)->paginate(3);
-
+        $allUnits = Unit::where('show_in_gallery',1)->take(6)->paginate(20);
+// dd($allUnits);
         $unitLatLong = $unit->lat_long;
         [$lat, $long] = explode(',', $unitLatLong);
         $all5kiloUnits = Unit::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) )
@@ -398,7 +398,7 @@ class GallaryController extends Controller
             })
             ->paginate(3);
 
-            $allProperties = Property::take(6)->paginate(3);
+            $allProperties = Property::where('ad_license_status','valid')->where('show_in_gallery',1)->take(6)->paginate(20);
             $propertyLatLong = $property->lat_long;
 
             [$lat, $long] = explode(',', $propertyLatLong);
@@ -462,7 +462,7 @@ class GallaryController extends Controller
             })
             ->paginate(3);
 
-            $allProjects = Project::take(6)->paginate(3);
+            $allProjects = Project::take(6)->paginate(20);
 
             $projectLatLong = $project->lat_long;
 

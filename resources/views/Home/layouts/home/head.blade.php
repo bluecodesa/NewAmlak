@@ -93,7 +93,9 @@
         strong,
         label,
         * {
-            font-family: "NewArabic", sans-serif !important;
+            /* font-family: "NewArabic", sans-serif !important; */
+            font-family: 'Tajawal' !important
+
         }
     </style>
 

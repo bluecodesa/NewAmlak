@@ -50,9 +50,11 @@
                         </div>
                     @endif
                 </div>
+
+
                 @if (Auth::user()->hasPermission('activate-gallery'))
 
-                
+
                         @php
                             $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
                                 ->whereHas('falData', function ($query) {
@@ -89,7 +91,7 @@
                                 value="0" data-toggle="toggle">
                         </div>
                         @endif
-                
+
                     </div>
                 @endif
                 @if ($falLicense)
@@ -151,7 +153,17 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
+                    @php
+                    $falLicense = \App\Models\FalLicenseUser::where('user_id', auth()->id())
+                        ->whereHas('falData', function ($query) {
+                            $query->where('for_gallery', 1);
+                        })
+                        ->where('ad_license_status', 'valid')
+                        ->first();
+                        // dd($falLicense);
+                    $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
+                @endphp
                     <div class="form-check form-switch mb-2">
                         <input class="form-check-input" disabled type="checkbox" id="flexSwitchCheckChecked"
                             value="0" name="gallery_status" class="gallery_status"

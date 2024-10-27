@@ -1185,7 +1185,7 @@ class HomeController extends Controller
             if ($falLicenseUser) {
                 $falLicenseUser->update(['ad_license_status' => 'invalid']);
                 // Check for galleries associated with the broker
-                $check_gallery = Gallery::where('broker_id', $user->UserBrokerData->id)->first(); // Assuming 'broker_id' relates to 'user_id'
+                $check_gallery = Gallery::where('broker_id', $user->UserBrokerData->id)->orwhere('office_id', $user->UserOfficeData->id)->first(); // Assuming 'broker_id' relates to 'user_id'
                 if ($check_gallery) {
                     $check_gallery->update(['gallery_status' => '0']);
                 }

@@ -24,7 +24,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link active"
+                        class="nav-link active link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-home"
@@ -37,7 +37,7 @@
                     <li class="nav-item">
                         <button
                           type="button"
-                          class="nav-link"
+                          class="nav-link link"
                           role="tab"
                           data-bs-toggle="tab"
                           data-bs-target="#navs-justified-gallery"
@@ -55,7 +55,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link"
+                        class="nav-link link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-profile"
@@ -67,7 +67,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link"
+                        class="nav-link link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-messages"
@@ -1056,7 +1056,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const nextButtons = document.querySelectorAll('.next-tab');
-        const navButtons = document.querySelectorAll('.nav-link');
+        const navButtons = document.querySelectorAll('.link');
 
         function validateAndProceed(nextTabId) {
             // Get the current tab content

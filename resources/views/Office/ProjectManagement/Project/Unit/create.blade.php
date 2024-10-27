@@ -27,7 +27,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link active"
+                        class="nav-link active link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-home"
@@ -40,7 +40,7 @@
                     <li class="nav-item">
                         <button
                           type="button"
-                          class="nav-link"
+                          class="nav-link link"
                           role="tab"
                           data-bs-toggle="tab"
                           data-bs-target="#navs-justified-gallery"
@@ -53,7 +53,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link"
+                        class="nav-link link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-profile"
@@ -66,7 +66,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link"
+                        class="nav-link link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-messages"
@@ -1004,54 +1004,43 @@ $(document).ready(function() {
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const nextButtons = document.querySelectorAll('.next-tab');
-        const navButtons = document.querySelectorAll('.nav-link');
+        const navButtons = document.querySelectorAll('.link');
 
         function validateAndProceed(nextTabId) {
-            // Get the current tab content
             const currentTab = document.querySelector('.tab-pane.active');
-            // Get all required fields in the current tab
             const requiredFields = currentTab.querySelectorAll('[required]');
             let allFilled = true;
 
-            // Reset red border styles
             requiredFields.forEach(field => {
                 field.classList.remove('is-invalid');
             });
 
-            // Check if all required fields are filled
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     allFilled = false;
-                    field.classList.add('is-invalid'); // Add red border
+                    field.classList.add('is-invalid');
                 }
             });
 
-            // If all required fields are filled, proceed to the next tab
             if (allFilled) {
-                // Hide current tab
                 currentTab.classList.remove('show', 'active');
 
-                // Show next tab
                 const nextTab = document.querySelector(nextTabId);
                 nextTab.classList.add('show', 'active');
 
-                // Update the active tab button in the navigation
                 const currentNavButton = document.querySelector('.nav-link.active');
                 const nextNavButton = document.querySelector(`button[data-bs-target="${nextTabId}"]`);
 
-                // Remove active class from current tab button
                 if (currentNavButton) {
                     currentNavButton.classList.remove('active');
                 }
 
-                // Add active class to next tab button
                 if (nextNavButton) {
                     nextNavButton.classList.add('active');
                 }
             }
         }
 
-        // Event listener for next buttons
         nextButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const nextTabId = button.getAttribute('data-next');
@@ -1059,11 +1048,9 @@ $(document).ready(function() {
             });
         });
 
-        // Event listener for nav buttons
         navButtons.forEach(navButton => {
             navButton.addEventListener('click', function() {
                 const nextTabId = navButton.getAttribute('data-bs-target');
-                // Call validateAndProceed with the target tab
                 validateAndProceed(nextTabId);
             });
         });
