@@ -1053,6 +1053,7 @@
 
                 @endif
 
+                
                     @endforeach
                 @elseif ($allUnits->isNotEmpty())
                 <h4>كل الوحدات المشابهة </h4>
