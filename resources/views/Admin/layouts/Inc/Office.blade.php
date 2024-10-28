@@ -1,7 +1,12 @@
-@php
+{{-- @php
     $sectionsIds = Auth::user()
         ->UserOfficeData?->UserSubscription?->SubscriptionTypeData?->sections()
         ->pluck('section_id')
+        ->toArray();
+@endphp --}}
+@php
+    $sectionsIds = Auth::user()
+        ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
         ->toArray();
 @endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
