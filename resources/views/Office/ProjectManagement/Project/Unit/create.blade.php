@@ -207,7 +207,7 @@
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Instrument number')</label>
                                     <input type="number" name="instrument_number" class="form-control"
-                                        placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
+                                        placeholder="@lang('Instrument number')" value="{{ old('instrument_number') }}" />
                                 </div>
 
 
@@ -215,7 +215,7 @@
                                     <label class="form-label">@lang('offered service') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" name="service_type_id" required>
-                                        <option disabled selected value="" value="" {{ old('service_type_id') == '' ? 'selected' : '' }}>@lang('offered service')</option>
+                                        <option disabled selected value="" {{ old('service_type_id') == '' ? 'selected' : '' }}>@lang('offered service')</option>
                                         @foreach ($servicesTypes as $service)
                                             <option value="{{ $service->id }}" {{ old('service_type_id') == $service->id ? 'selected' : '' }}>
                                                 {{ $service->name }}</option>
@@ -227,14 +227,14 @@
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Area (square metres)')</label>
                                     <input type="number" name="space" class="form-control"
-                                        placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
+                                        placeholder="@lang('Area (square metres)')" value="{{ old('space') }}" />
                                 </div>
 
 
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('number rooms') </label>
                                     <input type="number" name="rooms" class="form-control"
-                                        placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                        placeholder="@lang('number rooms')" value="{{ old('rooms') }}" />
                                 </div>
 
 
@@ -242,7 +242,7 @@
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Number bathrooms') </label>
                                     <input type="number" name="bathrooms" class="form-control"
-                                        placeholder="@lang('Number bathrooms')" value="{{ old('Number bathrooms') }}" />
+                                        placeholder="@lang('Number bathrooms')" value="{{ old('bathrooms') }}" />
                                 </div>
                                 <div class="col-12 mb-2 col-md-4">
                                     <label class="form-label">@lang('Status of Unit') <span class="required-color">*</span>
@@ -271,9 +271,9 @@
                                                 <label class="form-label">@lang('The Responsible Employee')
                                                 </label>
                                                 <select class="form-select" name="employee_id" id="type">
-                                                    <option disabled selected value="">@lang('The Responsible Employee') </option>
+                                                    <option disabled selected value="" {{ old('employee_id') == '' ? 'selected' : '' }}>@lang('The Responsible Employee') </option>
                                                     @foreach ($employees as $employee)
-                                                    <option value="{{ $employee->id }}">
+                                                    <option value="{{ $employee->id }}" {{ old('employee_id') == $employee ? 'selected' : '' }}>
                                                         {{ $employee->UserData->name }}</option>
                                                 @endforeach
                                                 </select>
@@ -336,9 +336,9 @@
                                         class="required-color">*</span>
                                 </label>
                                 <select class="form-select" name="type" id="type" required>
-                                    <option disabled value="">@lang('Ad type') </option>
+                                    <option disabled value="" {{ old('type') == '' ? 'selected' : '' }}>@lang('Ad type') </option>
                                     @foreach (['rent', 'sale', 'rent and sale'] as $type)
-                                        <option value="{{ $type }}">
+                                        <option value="{{ $type }}" {{ old('type') == $type ? 'selected' : '' }}>
                                             {{ __($type) }}</option>
                                     @endforeach
                                 </select>
@@ -349,7 +349,7 @@
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" value="{{ old('show_in_gallery') }}"
                                         @if($falLicense->ad_license_status != 'valid') disabled @endif
                                         @if($falLicense->ad_license_status == 'valid') checked @endif />
                                     <span class="switch-toggle-slider">
@@ -363,13 +363,13 @@
                             <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
-                                    <input type="number" name="ad_license_number" class="form-control" id="ad_license_number"
+                                    <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ old('ad_license_number') }}"
                                         @if($falLicense->ad_license_status != 'valid') disabled @endif required />
                                 </div>
 
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
-                                    <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry"
+                                    <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ old('ad_license_expiry') }}"
                                         @if($falLicense->ad_license_status != 'valid') disabled @endif required />
                                     <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
                                 </div>
@@ -396,7 +396,7 @@
                                 <div>
                                     {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
                                     <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
-
+                                        {!! old('note') !!}
                                     </textarea>
                                 </div>
                             </div>
@@ -453,7 +453,7 @@
                                 {{-- <input type="checkbox"  name="daily_rent" class="toggleHomePage"
                                         data-toggle="toggle" data-onstyle="primary"> --}}
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="daily_rent" class="switch-input" />
+                                    <input type="checkbox" name="daily_rent" class="switch-input" value="{{ old('daily_rent') }}" />
                                     <span class="switch-toggle-slider">
                                         <span class="switch-on">
                                             <i class="ti ti-check"></i>
@@ -475,7 +475,7 @@
                         <div class="col-sm-12 col-md-4 mb-3">
                             <label class="form-label">@lang('Monthly rental price')</label>
                             <input type="number" name="monthly" class="form-control"
-                                placeholder="@lang('Monthly rental price')" value="{{ old('price') }}" />
+                                placeholder="@lang('Monthly rental price')" value="{{ old('monthly') }}" />
                         </div>
 
                         </div>

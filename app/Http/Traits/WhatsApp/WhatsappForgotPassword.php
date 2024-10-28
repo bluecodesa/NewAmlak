@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 trait WhatsappForgotPassword
 {
-    public function WhatsappForgotPassword($phone, $code)
+    public function WhatsappForgotPassword($phone, $code,$user)
     {
         $whatsAppSetting = WhatsAppSetting::first();
 
@@ -30,6 +30,18 @@ trait WhatsappForgotPassword
             $plainContent = preg_replace('/<\/p>/i', "\n\n", $plainContent);
             $plainContent = preg_replace('/<p[^>]*>/i', '', $plainContent);
             $plainContent = html_entity_decode($plainContent);
+            // إعداد البيانات التي سيتم استبدالها
+            $data['variable_home'] = env('APP_URL');
+            $data['variable_login'] = route('Admin.home');
+            $data['variable_broker_name'] = $user->name != null ? $user->name : "";
+            $data['variable_subscriber_name'] = $user->name != null ? $user->name : "";;
+
+            // استبدال المتغيرات في النص
+            foreach ($data as $key => $value) {
+                // قم باستبدال المتغيرات داخل النص
+                $placeholder = '$data[' . $key . ']';
+                $plainContent = str_replace($placeholder, $value, $plainContent);
+            }
 
             $client = new Client();
 

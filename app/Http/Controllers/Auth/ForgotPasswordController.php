@@ -101,7 +101,7 @@ class ForgotPasswordController extends Controller
             if($user){
                 // $this->WhatsappForgotPassword($user->full_phone, $code);
                 $phone =201119978333;
-                $this->WhatsappForgotPassword($phone, $code);
+                $this->WhatsappForgotPassword($phone, $code,$user);
 
             }
 

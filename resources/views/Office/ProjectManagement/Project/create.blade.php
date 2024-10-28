@@ -88,7 +88,7 @@
 
                                     <label class="form-label">
                                         {{ __('project name') }} <span class="required-color">*</span></label>
-                                    <input type="text" required id="modalRoleName" name="name" class="form-control"
+                                    <input type="text" required id="modalRoleName" name="name" class="form-control" value="{{ old('name') }}"
                                         placeholder="{{ __('project name') }}">
 
                                 </div>
@@ -97,9 +97,9 @@
                                     <label class="form-label">@lang('Region') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" id="Region_id" required>
-                                        <option disabled selected value="">@lang('Region') </option>
+                                        <option disabled selected  value="" {{ old('Region_id') == '' ? 'selected' : '' }}>@lang('Region') </option>
                                         @foreach ($Regions as $Region)
-                                            <option value="{{ $Region->id }}"
+                                            <option value="{{ $Region->id }}" {{ old('Region_id') == $Region->id ? 'selected' : '' }}
                                                 data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}">
                                                 {{ $Region->name }}</option>
                                         @endforeach
@@ -140,9 +140,9 @@
                                 <div class="col-md-4 col-12 mb-3">
                                     <label class="form-label">@lang('Developer name')</label>
                                     <select class="form-select" name="developer_id">
-                                        <option disabled selected value="">@lang('Developer name')</option>
+                                        <option disabled selected value="" {{ old('developer_id') == '' ? 'selected' : '' }}>@lang('Developer name')</option>
                                         @foreach ($developers as $developer)
-                                            <option value="{{ $developer->id }}">
+                                            <option value="{{ $developer->id }}" {{ old('developer_id') == $developer->id ? 'selected' : '' }} >
                                                 {{ $developer->name }}</option>
                                         @endforeach
                                     </select>
@@ -152,9 +152,9 @@
                                 <div class="col-md-4 col-12 mb-3">
                                     <label class="form-label">@lang('Advisor name') </label>
                                     <select class="form-select" name="advisor_id">
-                                        <option disabled selected value="">@lang('Advisor name')</option>
+                                        <option disabled selected value="" {{ old('advisor_id') == '' ? 'selected' : '' }}>@lang('Advisor name')</option>
                                         @foreach ($advisors as $advisor)
-                                            <option value="{{ $advisor->id }}">
+                                            <option value="{{ $advisor->id }}" {{ old('advisor_id') == $advisor->id ? 'selected' : '' }}>
                                                 {{ $advisor->name }}</option>
                                         @endforeach
                                     </select>
@@ -167,9 +167,9 @@
                                     <div class="input-group">
                                         <select class="form-select" id="OwnersDiv"
                                             aria-label="Example select with button addon" name="owner_id" required>
-                                            <option disabled selected value="">@lang('owner name')</option>
+                                            <option disabled selected value="" {{ old('owner_id') == '' ? 'selected' : '' }}>@lang('owner name')</option>
                                             @foreach ($owners as $owner)
-                                                <option value="{{ $owner->id }}">
+                                                <option value="{{ $owner->id }}" {{ old('owner_id') == $owner->id ? 'selected' : '' }}>
                                                     {{ $owner->name }}</option>
                                             @endforeach
                                         </select>
@@ -184,9 +184,9 @@
                                     <label class="form-label">@lang('service type') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" name="service_type_id" required>
-                                        <option disabled selected value="">@lang('service type')</option>
+                                        <option disabled selected value="" {{ old('service_type_id') == '' ? 'selected' : '' }}>@lang('service type')</option>
                                         @foreach ($services as $service)
-                                            <option value="{{ $service->id }}">
+                                            <option value="{{ $service->id }}" {{ old('service_type_id') == $service->id ? 'selected' : '' }}>
                                                 {{ $service->name }}</option>
                                         @endforeach
                                     </select>
@@ -195,9 +195,10 @@
                                 <div class="col-md-6 col-12 mb-3">
                                     <label class="form-label">@lang('Project statu') <span class="required-color"></span></label>
                                     <select class="form-select" name="project_status_id">
-                                        <option disabled selected value="">@lang('Project statu')</option>
+                                        <option disabled selected value="" {{ old('project_status_id') == '' ? 'selected' : '' }}>@lang('Project statu')</option>
                                         @foreach ($projectStatuses as $status)
-                                            <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                            <option value="{{ $status->id }}" {{ old('project_status_id') == $status->id ? 'selected' : '' }}>
+                                                {{ $status->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -235,7 +236,7 @@
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                     <label class="switch switch-lg">
-                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
+                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" value="{{ old('show_in_gallery') }}"
                                             @if($falLicense->ad_license_status != 'valid') disabled @endif
                                             @if($falLicense->ad_license_status == 'valid') checked @endif />
                                         <span class="switch-toggle-slider">
@@ -249,13 +250,13 @@
                                 <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
                                     <div class="col-sm-12 col-md-4 mb-3">
                                         <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
-                                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number"
+                                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ old('ad_license_number') }}"
                                             @if($falLicense->ad_license_status != 'valid') disabled @endif required />
                                     </div>
 
                                     <div class="col-sm-12 col-md-4 mb-3">
                                         <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
-                                        <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry"
+                                        <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ old('ad_license_expiry') }}"
                                             @if($falLicense->ad_license_status != 'valid') disabled @endif required />
                                         <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
                                     </div>
@@ -280,10 +281,10 @@
                             <div class="mb-3 col-12">
                                 <label class="form-label mb-2">@lang('Description')</label>
                                 <div>
-                                    {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
-                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""
-                                    ></textarea>
+                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="5" placeholder="">
+                                        {!! old('note') !!}</textarea>
                                 </div>
+
                             </div>
 
 
@@ -308,7 +309,8 @@
                                             <select name="time_line[]" class="form-select w-100">
                                                 <option value="">@lang('Project status')</option>
                                                 @foreach ($projectStatuses as $status)
-                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    <option value="{{ $status->id }}"  {{ (collect(old('time_line'))->contains($status->id)) ? 'selected' : '' }}>
+                                                        {{ $status->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

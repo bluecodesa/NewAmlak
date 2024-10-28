@@ -57,6 +57,14 @@
                             data-original-title="@lang('Click to add it') : @lang('variable_subscriber_name')"
                             data-variable="$data[variable_subscriber_name]">@lang('variable_subscriber_name')</span>
 
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('variable_subscriber_email')"
+                            data-variable="$data[variable_subscriber_email]">@lang('variable_subscriber_email')</span>
+
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('variable_subscriber_password')"
+                            data-variable="$data[variable_subscriber_password]">@lang('variable_subscriber_password')</span>
+
                         <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_current_subscription')"
                             data-variable="$data[variable_current_subscription]">@lang('variable_current_subscription')</span>

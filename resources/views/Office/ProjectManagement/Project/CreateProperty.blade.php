@@ -27,7 +27,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link active"
+                        class="nav-link link active"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-home"
@@ -38,7 +38,7 @@
                       </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        <button type="button" class="nav-link link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
                             aria-selected="false">
                             <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
@@ -49,7 +49,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link"
+                        class="nav-link link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-profile"
@@ -76,7 +76,7 @@
 
                                     <label class="form-label">
                                         {{ __('property name') }} <span class="required-color">*</span></label>
-                                    <input type="text" required id="modalRoleName" name="name"
+                                    <input type="text" required id="modalRoleName" name="name" value="{{ old('name') }}"
                                         class="form-control" placeholder="{{ __('property name') }}">
 
                                 </div>
@@ -129,14 +129,20 @@
                                         value="{{ $project->location }}" />
                                 </div>
 
+                                <div class="col-md-6 col-12 mb-3" hidden>
+                                    <label class="form-label">@lang('lat&long')</label>
+                                    <input type="text" required readonly name="lat_long" id="location_tag"
+                                        class="form-control" placeholder="@lang('lat&long')"
+                                        value="{{ old('location_tag') }}" />
+                                </div>
 
                                 <div class="form-group col-12 col-md-4">
                                     <label class="form-label">@lang('Property type') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" name="property_type_id" required>
-                                        <option disabled selected value="">@lang('Property type')</option>
+                                        <option disabled selected value="" {{ old('property_type_id') == '' ? 'selected' : '' }}>@lang('Property type')</option>
                                         @foreach ($types as $type)
-                                            <option value="{{ $type->id }}">
+                                            <option value="{{ $type->id }}" {{ old('property_type_id') == $type->id ? 'selected' : '' }} >
                                                 {{ $type->name }}</option>
                                         @endforeach
                                     </select>
@@ -188,9 +194,9 @@
                                     <label class="form-label">@lang('offered service') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" name="service_type_id" required>
-                                        <option disabled selected value="">@lang('offered service')</option>
+                                        <option disabled selected value="" {{ old('service_type_id') == '' ? 'selected' : '' }}>@lang('offered service')</option>
                                         @foreach ($services as $service)
-                                            <option value="{{ $service->id }}">
+                                            <option value="{{ $service->id }}" {{ old('service_type_id') == $service->id ? 'selected' : '' }}>
                                                 {{ $service->name }}</option>
                                         @endforeach
                                     </select>
@@ -244,83 +250,75 @@
 
                         @endphp --}}
 
-                            @if($falLicense)
-                                <!-- Show the "Show in Gallery" switch if the user has a valid license -->
-                                <div class="col-sm-12 col-md-4 mb-3">
-                                    <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
-                                    <label class="switch switch-lg">
-                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
-                                            @if($falLicense->ad_license_status != 'valid') disabled @endif
-                                            @if($falLicense->ad_license_status == 'valid') checked @endif />
-                                        <span class="switch-toggle-slider">
-                                            <span class="switch-on"><i class="ti ti-check"></i></span>
-                                            <span class="switch-off"><i class="ti ti-x"></i></span>
-                                        </span>
-                                    </label>
-                                </div>
+                        @if($falLicense)
+                        <!-- Show the "Show in Gallery" switch if the user has a valid license -->
+                        <div class="col-sm-12 col-md-4 mb-3">
+                            <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                            <label class="switch switch-lg">
+                                <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" value="{{ old('show_in_gallery') }}"
+                                    @if($falLicense->ad_license_status != 'valid') disabled @endif
+                                    @if($falLicense->ad_license_status == 'valid') checked @endif />
+                                <span class="switch-toggle-slider">
+                                    <span class="switch-on"><i class="ti ti-check"></i></span>
+                                    <span class="switch-off"><i class="ti ti-x"></i></span>
+                                </span>
+                            </label>
+                        </div>
 
-                                <!-- Show gallery fields only if the license status is "valid" -->
-                                <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
-                                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number"
-                                            @if($falLicense->ad_license_status != 'valid') disabled @endif required />
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
-                                        <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry"
-                                            @if($falLicense->ad_license_status != 'valid') disabled @endif required />
-                                        <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
-                                    </div>
-                                </div>
-                            @else
-                                <!-- Display a message if the license is not valid or doesn't exist -->
-                                <div class="col-sm-12 col-md-4 mb-3">
-                                    <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
-                                    <label class="switch switch-lg">
-                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" disabled />
-                                        <span class="switch-toggle-slider">
-                                            <span class="switch-off"><i class="ti ti-x"></i></span>
-                                        </span>
-                                    </label>
-                                    <!-- Add a message to indicate the license has expired -->
-                                    <div class="alert alert-warning mt-2">
-                                        @lang('Show in Gallery is not available because your license has expired or is not valid.')
-                                    </div>
-                                </div>
-                            @endif
-
-                            <div class="mb-3 col-12">
-                                <label class="form-label mb-2">@lang('Description')</label>
-                                <div>
-                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder=""
-                                    ></textarea>
-                                </div>
+                        <!-- Show gallery fields only if the license status is "valid" -->
+                        <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
+                                <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ old('ad_license_number') }}"
+                                    @if($falLicense->ad_license_status != 'valid') disabled @endif required />
                             </div>
 
-                                <div class="col-sm-12 col-md-12 mb-3">
-                                    <label class="form-label">@lang('Pictures property') </label>
-                                    <input type="file" name="images[]" multiple class="dropify"
-                                        accept="image/jpeg, image/png" />
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
+                                <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ old('ad_license_expiry') }}"
+                                    @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Display a message if the license is not valid or doesn't exist -->
+                        <div class="col-sm-12 col-md-4 mb-3">
+                            <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                            <label class="switch switch-lg">
+                                <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" disabled />
+                                <span class="switch-toggle-slider">
+                                    <span class="switch-off"><i class="ti ti-x"></i></span>
+                                </span>
+                            </label>
+                            <!-- Add a message to indicate the license has expired -->
+                            <div class="alert alert-warning mt-2">
+                                @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                            </div>
+                        </div>
+                    @endif
 
-                                </div>
+                    <div class="mb-3 col-12">
+                        <label class="form-label mb-2">@lang('Description')</label>
+                        <div>
+                            <textarea id="textarea" class="form-control" name="note" cols="30" rows="5" placeholder="">
+                                {!! old('note') !!}</textarea>
+                        </div>
+
+                    </div>
 
 
+                    <div class="col-sm-12 col-md-12 mb-3">
+                        <label class="form-label mb-2">@lang('Pictures property') </label>
+                        <input type="file" name="images[]" multiple class="dropify"
+                        accept="image/jpeg, image/png" />
 
-                                <div class="col-sm-12 col-md-6 mb-3" hidden>
-                                    <label class="form-label">@lang('lat&long')</label>
-                                    <input type="text" required readonly name="lat_long" id="location_tag"
-                                        class="form-control" placeholder="@lang('lat&long')"
-                                        value="{{ old('location_tag') }}" />
-                                </div>
-                                <div class="col-12" style="text-align: center;">
-                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab"
-                                        data-next="#navs-justified-profile">
-                                        {{ __('Next') }}
-                                    </button>
-                                </div>
-
+                    </div>
+                    <div class="col-12" style="text-align: center;">
+                        <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                            data-next="#navs-justified-profile">
+                            {{ __('Next') }}
+                        </button>
+                    </div>
                         </div>
 
                         <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
