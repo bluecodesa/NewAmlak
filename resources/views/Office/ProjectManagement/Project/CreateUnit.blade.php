@@ -805,7 +805,7 @@ $('#button-addon3').click(function() {
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const nextButtons = document.querySelectorAll('.next-tab');
-        const navButtons = document.querySelectorAll('.nav-link');
+        const navButtons = document.querySelectorAll('.link');
 
         function validateAndProceed(nextTabId) {
             // Get the current tab content
