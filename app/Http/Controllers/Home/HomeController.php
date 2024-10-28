@@ -2149,6 +2149,13 @@ private function handleOffice($request, $user)
         'total' => '200'
     ]);
 
+    foreach ($subscriptionType->sections as $section) {
+        SubscriptionSection::create([
+            'section_id' => $section->id,
+            'subscription_id' => $subscription->id,
+        ]);
+    }
+
     $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
     $delimiter = '-';
     $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
