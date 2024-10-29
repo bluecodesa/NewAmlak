@@ -93,7 +93,7 @@
 
                             <div id="fixedDiscountSection" class="col-md-3 mb-3">
                                 <label for="fixedDiscount" class="form-label">@lang('Discount applied')</label>
-                                <input type="number" name="fixed_discount" id="fixedDiscount" class="form-control" placeholder="20%" min="0" max="100">
+                                <input type="text" name="upgrade_rate" id="fixedDiscount" class="form-control" placeholder="20%" min="0" max="100">
                             </div>
 
                             <div id="incentiveDiscountSection" style="display: none;">

@@ -163,7 +163,7 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         // return $request;
-          // return $request;
+        //   return $request;
           $rules = [];
           $rules = [
               'number_unit' => 'required|string|max:255',

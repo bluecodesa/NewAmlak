@@ -107,6 +107,37 @@ class UnitInterestController extends Controller
         return view('Broker.Gallary.unit-interest', get_defined_vars());
     }
 
+    public function unitInterestOffice(Request $request)
+    {
+
+        $interestsTypes = $this->settingService->getAllInterestTypes();
+        $statusFilter = $request->input('status_filter', 'all');
+        $propFilter = $request->input('prop_filter', 'all');
+        $unitFilter = $request->input('unit_filter', 'all');
+        $projectFilter = $request->input('prj_filter', 'all');
+        $clientFilter = $request->input('client_filter', 'all');
+
+        $userId = auth()->user()->id;
+        // $unitInterests = UnitInterest::with('unit', 'user')
+        //     ->where('user_id', $userId)
+        //     ->get();
+        $unitInterests = UnitInterest::where('user_id', $userId)
+        ->get();
+
+
+        $unitInterests = $this->getFilteredUnitInterests(
+            $userId,
+            $statusFilter,
+            $propFilter,
+            $unitFilter,
+            $projectFilter,
+            $clientFilter
+        );
+
+
+        return view('Office.Gallary.unit-interest', get_defined_vars());
+    }
+
 
     /**
      * Show the form for creating a new resource.

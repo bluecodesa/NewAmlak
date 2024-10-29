@@ -20,4 +20,8 @@ class UnitInterest extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function interestsData()
+    {
+        return $this->belongsTo(User::class ,'interested_id');
+    }
 }

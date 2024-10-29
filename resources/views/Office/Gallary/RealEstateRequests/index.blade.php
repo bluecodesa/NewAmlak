@@ -21,7 +21,7 @@
                     </ul>
                 </div>
             @endif
-  
+
             <hr>
             <div class="card">
 
@@ -50,7 +50,7 @@
                                                         type="button"><span><i
                                                                 class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                                 </div>
-                                           
+
                                             </div>
                                         </div>
                                     </div>
@@ -89,6 +89,7 @@
                                             @endif
                                         @endforeach --}}
                                     </td>
+
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -101,13 +102,21 @@
                                                         href="{{ route('Office.RealEstateRequest.show', $client->realEstateRequest->id) }}">@lang('Show')</a>
                                                 @endif
 
+                                                @if(!$client->realEstateRequest->user->UserRenterData->OfficeRenterData)
+                                                <form action="{{ route('Office.Renter.addAsRenter', $client->user_id ) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <a type="submit" class="dropdown-item">
+                                                        @lang('Add as Renter')
+                                                    </a>
+                                                </form>
+                                                @endif
                                             </div>
                                         </div>
 
 
 
                                     </td>
-                                   
+
                                     {{-- <td>
                                         @if (Auth::user()->hasPermission('update-requests-interest'))
                                             <form method="POST"

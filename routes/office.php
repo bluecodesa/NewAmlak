@@ -144,7 +144,7 @@ Route::group(
 
 
                //
-               Route::get('Interests', [UnitInterestController::class, 'index'])->name('Gallary.showInterests')->middleware('CheckSubscription');
+               Route::get('Interests', [UnitInterestController::class, 'unitInterestOffice'])->name('Gallary.showInterests')->middleware('CheckSubscription');
 
 
         });
