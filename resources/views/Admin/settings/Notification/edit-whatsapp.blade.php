@@ -108,7 +108,7 @@
                         class="row">
                         @csrf
                         <div class="col-12 mb-3 mt-2">
-                            <label>@lang('topic')</label>
+                            <label>@lang('whatsapp topic')</label>
                             <input type="text" name="subject" class="form-control" value="{{ $WhatsappTemplate->subject ?? '' }}"
                                 placeholder="@lang('topic')">
                         </div>

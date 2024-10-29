@@ -5,8 +5,8 @@
 
     @include('Admin.layouts.Inc._errors')
 
-    <input type="text" name="key_phone" hidden id="key_phone2" value="{{ $office->UserData->key_phone ?? '966' }}">
-    <input type="text" hidden name="full_phone" id="full_phone2"
+    <input type="text" name="key_phone" hidden id="representative_key_phone" value="{{ $office->UserData->key_phone ?? '966' }}">
+    <input type="text" hidden name="full_phone" id="representative_full_phone"
     value="{{ $office->UserData->full_phone ?? ($office->UserData->key_phone ?? '966') }}">
 
     <div class="col-md-6 col-12 mb-3">
@@ -25,10 +25,9 @@
     <div class="col-12 mb-3 col-md-6">
         <label for="phone" class="form-label">@lang('Company representative number') (@lang('WhatsApp'))</label>
         <div class="input-group">
-            <input type="text" placeholder="123456789" id="phone1" name="phone" value="{{ $office->UserData->phone }}"
+            <input type="text" placeholder="123456789" id="representative_phone" name="phone" value="{{ $office->UserData->phone }}"
                 class="form-control" maxlength="9" pattern="\d{1,9}"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                oninput="updateFullPhone2(this)" aria-label="Text input with dropdown button">
+                oninput="updateRepresentativeFullPhone(this)" aria-label="Text input with dropdown button">
             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 {{ $office->UserData->key_phone ?? '966' }}
@@ -54,3 +53,4 @@
         <button type="submit" class="btn btn-primary">@lang('save')</button>
     </div>
 </form>
+

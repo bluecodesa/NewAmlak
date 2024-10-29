@@ -222,16 +222,16 @@
 
 </script>
 <script>
-    function updateFullPhone2(input) {
+    function updateRepresentativeFullPhone(input) {
                 input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
-                var key_phone = $('#key_phone2').val();
+                var key_phone = $('#representative_key_phone').val();
                 var fullPhone = key_phone + input.value;
-                document.getElementById('full_phone2').value = fullPhone;
+                document.getElementById('representative_full_phone').value = fullPhone;
             }
             $(document).ready(function() {
                 $('.dropdown-item').on('click', function() {
                     var key = $(this).data('key');
-                    var phone = $('#phone1').val();
+                    var phone = $('#representative_phone').val();
                     $('#key_phone2').val(key);
                     $('#full_phone2').val(key + phone);
                     $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
@@ -240,7 +240,6 @@
 
 
 </script>
-
         @endpush
 
     @endsection

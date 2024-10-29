@@ -108,7 +108,7 @@
                         class="row">
                         @csrf
                         <div class="col-12 mb-3 mt-2">
-                            <label>@lang('topic')</label>
+                            <label>@lang('Email topic')</label>
                             <input type="text" name="subject" class="form-control" value="{{ $template->subject ?? '' }}"
                                 placeholder="@lang('topic')">
                         </div>

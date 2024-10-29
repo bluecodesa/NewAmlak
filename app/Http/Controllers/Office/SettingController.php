@@ -134,6 +134,7 @@ class SettingController extends Controller
     public function updateProfileSetting(Request $request, string $id)
     {
         $data = $request->all();
+        dd($data);
         $this->settingService->updateProfileSetting($request, $id);
         return redirect()->route('Office.Setting.index')->withSuccess(__('Update successfully'));
     }
