@@ -567,7 +567,7 @@
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
-            @include('Office.settings.inc._upgradePackage')
+            {{-- @include('Office.settings.inc._upgradePackage') --}}
 
 
         <div class="content-backdrop fade"></div>
