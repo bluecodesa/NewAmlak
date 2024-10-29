@@ -9,6 +9,8 @@ use App\Models\District;
 use App\Models\FalLicenseUser;
 use App\Models\Gallery;
 use App\Models\Owner;
+use App\Models\Project;
+use App\Models\Property;
 use App\Models\Role;
 use App\Models\Subscription;
 use App\Models\SubscriptionSection;
@@ -20,6 +22,7 @@ use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Unit;
+use App\Models\Visitor;
 use App\Services\Admin\RegionService as AdminRegionService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
@@ -190,6 +193,25 @@ class HomeController extends Controller
             }
         }
 
+           // اجلب عدد الإعلانات الصالحة المنشورة
+           $x = Project::where('office_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count()
+           + Property::where('office_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count()
+           + Unit::where('office_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count();
+       //             $x= Unit::where('office_id', $officeId)->where('ad_license_status', 'Valid')->count();
+       // dd($x);
+           // اجلب عدد المشاهدات لكل الإعلانات الخاصة بالمستخدم
+           $y = Visitor::where(function($query) use ($brokerId) {
+               $query->whereIn('project_id', Project::where('office_id', $brokerId)->pluck('id'))
+                       ->orWhereIn('property_id', Property::where('office_id', $brokerId)->pluck('id'))
+                       ->orWhereIn('unit_id', Unit::where('office_id', $brokerId)->pluck('id'));
+           })
+           ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
+           ->count();
+
+
         return view('Broker.dashboard',  get_defined_vars());
     }
 
@@ -294,6 +316,24 @@ class HomeController extends Controller
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
         $sections = $this->SectionService->getAll();
+             // اجلب عدد الإعلانات الصالحة المنشورة
+             $x = Project::where('office_id', $brokerId)
+             ->where('ad_license_status', 'Valid')->count()
+             + Property::where('office_id', $brokerId)
+             ->where('ad_license_status', 'Valid')->count()
+             + Unit::where('office_id', $brokerId)
+             ->where('ad_license_status', 'Valid')->count();
+         //             $x= Unit::where('office_id', $officeId)->where('ad_license_status', 'Valid')->count();
+         // dd($x);
+             // اجلب عدد المشاهدات لكل الإعلانات الخاصة بالمستخدم
+             $y = Visitor::where(function($query) use ($brokerId) {
+                 $query->whereIn('project_id', Project::where('office_id', $brokerId)->pluck('id'))
+                         ->orWhereIn('property_id', Property::where('office_id', $brokerId)->pluck('id'))
+                         ->orWhereIn('unit_id', Unit::where('office_id', $brokerId)->pluck('id'));
+             })
+             ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
+             ->count();
+
         return view('Broker.Subscription.show', get_defined_vars());
     }
 

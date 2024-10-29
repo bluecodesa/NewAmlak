@@ -39,7 +39,17 @@
                                             <div class="text-center h-px-100 mb-2">
                                                 <div class="d-flex justify-content-center">
                                                     <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                                                    @if ($type->discount_type == 'incentive')
+                                                    @php
+                                                    $publish_discount = ($x / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                    $views_discount = ($y / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                    $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
+                                                    $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                    @endphp
+                                                    <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
+                                                    @else
                                                     <h1 class="display-4 mb-0 text-primary">{{ $type->price - $type->price * $type->upgrade_rate }}</h1>
+                                                    @endif
                                                     <sub class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">/{{ $type->period }} {{ __($type->period_type) }}</sub>
                                                 </div>
                                                 <del><small class="price-yearly price-yearly-toggle text-muted">@lang('SAR') {{ $type->price }}</small></del>

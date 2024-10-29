@@ -234,6 +234,24 @@ class HomeController extends Controller
         }
 
         // end mapbox
+      // اجلب عدد الإعلانات الصالحة المنشورة
+        $x = Project::where('office_id', $officeId)
+        ->where('ad_license_status', 'Valid')->count()
+        + Property::where('office_id', $officeId)
+        ->where('ad_license_status', 'Valid')->count()
+        + Unit::where('office_id', $officeId)
+        ->where('ad_license_status', 'Valid')->count();
+    //             $x= Unit::where('office_id', $officeId)->where('ad_license_status', 'Valid')->count();
+    // dd($x);
+        // اجلب عدد المشاهدات لكل الإعلانات الخاصة بالمستخدم
+        $y = Visitor::where(function($query) use ($officeId) {
+            $query->whereIn('project_id', Project::where('office_id', $officeId)->pluck('id'))
+                    ->orWhereIn('property_id', Property::where('office_id', $officeId)->pluck('id'))
+                    ->orWhereIn('unit_id', Unit::where('office_id', $officeId)->pluck('id'));
+        })
+        ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
+        ->count();
+
 
 
         Auth::user()->assignRole('Office-Admin');
