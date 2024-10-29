@@ -71,8 +71,8 @@ trait WhatsAppAccountCredentials
                         'json' => [
                             'session_uuid' => $whatsAppSetting->session_uuid,
                             // 'phone' => $user->phone,
-                            // 'phone' => 201119978333,
-                            'phone' => 201205693178,
+                            'phone' => 201119978333,
+                            // 'phone' => 201205693178,
                             'type' => $whatsAppSetting->type,
                             'message' => $plainContent,
                             'schedule_at' => now(),
