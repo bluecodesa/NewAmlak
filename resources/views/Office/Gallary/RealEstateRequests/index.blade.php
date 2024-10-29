@@ -102,7 +102,14 @@
                                                         href="{{ route('Office.RealEstateRequest.show', $client->realEstateRequest->id) }}">@lang('Show')</a>
                                                 @endif
 
-                                                @if(!$client->realEstateRequest->user->UserRenterData->OfficeRenterData)
+                                                @if(
+                                                    isset($client->realEstateRequest) &&
+                                                    isset($client->realEstateRequest->user) &&
+                                                    isset($client->realEstateRequest->user->UserRenterData) &&
+                                                    isset($client->realEstateRequest->user->UserRenterData->OfficeRenterData)
+                                                )
+
+                                                @else
                                                 <form action="{{ route('Office.Renter.addAsRenter', $client->user_id ) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     <a type="submit" class="dropdown-item">
