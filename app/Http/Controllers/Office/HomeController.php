@@ -307,9 +307,11 @@ class HomeController extends Controller
             // اجلب عدد المشاهدات لكل الإعلانات الخاصة بالمستخدم
             $y = Visitor::where(function($query) use ($officeId) {
                 $query->whereIn('project_id', Project::where('office_id', $officeId)->pluck('id'))
-                    ->orWhereIn('property_id', Property::where('office_id', $officeId)->pluck('id'))
-                    ->orWhereIn('unit_id', Unit::where('office_id', $officeId)->pluck('id'));
-            })->count();
+                      ->orWhereIn('property_id', Property::where('office_id', $officeId)->pluck('id'))
+                      ->orWhereIn('unit_id', Unit::where('office_id', $officeId)->pluck('id'));
+            })
+            ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
+            ->count();
 
 
         return view('Office.SubscriptionManagement.show', get_defined_vars());
