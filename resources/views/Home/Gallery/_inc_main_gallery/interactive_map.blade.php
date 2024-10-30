@@ -51,6 +51,7 @@
         const showRoute = getShowRoute(item);
         const rentPriceAndType = item.isGalleryUnit ? `${item.rentPrice} @lang('SAR') / ${item.rent_type_show}` : '';
         return `
+        <div class="w-500">
             <a href="${showRoute}" target="_blank" class="card-popup">
                 <div style="display: flex; gap: 1rem;">
                     <img src="${item.unit_images?.[0]?.image || 'Offices/Projects/default.svg'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
@@ -64,12 +65,45 @@
             </a>
             <button class="btn btn-success mt-2" onclick="showDecisionInputs(${item.id})">ساعدني في اتخاذ القرار</button>
             <div id="decision-inputs-${item.id}" style="display:none;">
-                <div id="directions-work-${item.id}" class="mb-2"></div>
-                <div id="directions-home-${item.id}" class="mb-2"></div>
-                <button class="btn btn-info mt-2" onclick="calculateDistance(${item.id}, '${item.lat_long}')">احسب المسافة</button>
+                <input type="text" id="work-location-${item.id}" placeholder="مكان العمل" class="form-control mt-1" onclick="setActiveInput('work-location-${item.id}')" onkeyup="searchPlaces(event, 'work-location-${item.id}')">
+                <input type="text" id="home-location-${item.id}" placeholder="مكان المنزل" class="form-control mt-1" onclick="setActiveInput('home-location-${item.id}')" onkeyup="searchPlaces(event, 'home-location-${item.id}')">
+                <div id="search-results-${item.id}" class="search-results"></div>
+                <button class="btn btn-info mt-2" onclick="calculateDistance(${item.id})">احسب المسافة</button>
                 <div id="distance-output-${item.id}"></div>
             </div>
+            </div>
         `;
+    }
+
+    function setActiveInput(inputId) {
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => input.classList.remove('active-input-id'));
+        document.getElementById(inputId).classList.add('active-input-id');
+        document.getElementById(`search-results-${inputId.split('-')[2]}`).innerHTML = ''; // إفراغ نتائج البحث
+    }
+
+    function searchPlaces(event, inputId) {
+        const query = event.target.value;
+        const searchResultsDiv = document.getElementById(`search-results-${inputId.split('-')[2]}`);
+
+        if (query.length > 2) {
+            fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}`)
+                .then(response => response.json())
+                .then(data => {
+                    const results = data.features.map(feature => {
+                        return `<div class="result" onclick="selectPlace('${feature.place_name}', '${inputId}')">${feature.place_name}</div>`;
+                    }).join('');
+                    searchResultsDiv.innerHTML = results;
+                })
+                .catch(error => console.error('Error fetching places:', error));
+        } else {
+            searchResultsDiv.innerHTML = ''; // إفراغ نتائج البحث إذا كان الإدخال أقل من 3 أحرف
+        }
+    }
+
+    function selectPlace(placeName, inputId) {
+        document.getElementById(inputId).value = placeName;
+        document.getElementById(`search-results-${inputId.split('-')[2]}`).innerHTML = ''; // إفراغ نتائج البحث بعد الاختيار
     }
 
     function getShowRoute(item) {
@@ -84,61 +118,22 @@
     }
 
     function showDecisionInputs(id) {
-    const decisionInputs = document.getElementById(`decision-inputs-${id}`);
-
-    if (decisionInputs.style.display === 'block') {
-        // إذا كان القسم مفتوحًا، قم بإخفائه
-        decisionInputs.style.display = 'none';
-    } else {
-        // إذا كان القسم مخفيًا، قم بإظهاره وحذف المدخلات السابقة إن وجدت
-        decisionInputs.innerHTML = ''; // إزالة المدخلات السابقة
-        decisionInputs.style.display = 'block';
-
-        // إنشاء اتجاهات العمل مع تعطيل خاصية التحرك التلقائي
-        const directionsWork = new MapboxDirections({
-            accessToken: mapboxgl.accessToken,
-            unit: 'metric',
-            placeholderOrigin: 'ابحث عن مكان العمل',
-            controls: { inputs: true, instructions: false },
-            flyTo: false // تعطيل التحرك التلقائي
-        });
-        directionsWork.on('origin', () => calculateDistance(id));
-        decisionInputs.appendChild(directionsWork.onAdd(map));
-
-        // إنشاء اتجاهات المنزل مع تعطيل خاصية التحرك التلقائي
-        const directionsHome = new MapboxDirections({
-            accessToken: mapboxgl.accessToken,
-            unit: 'metric',
-            placeholderOrigin: 'ابحث عن مكان المنزل',
-            controls: { inputs: true, instructions: false },
-            flyTo: false // تعطيل التحرك التلقائي
-        });
-        directionsHome.on('origin', () => calculateDistance(id));
-        decisionInputs.appendChild(directionsHome.onAdd(map));
-
-        // إضافة زر "احسب المسافة" وحقل النتائج
-        const calculateButton = document.createElement('button');
-        calculateButton.className = 'btn btn-info mt-2';
-        calculateButton.textContent = 'احسب المسافة';
-        calculateButton.onclick = () => calculateDistance(id);
-        decisionInputs.appendChild(calculateButton);
-
-        const distanceOutput = document.createElement('div');
-        distanceOutput.id = `distance-output-${id}`;
-        decisionInputs.appendChild(distanceOutput);
+        document.getElementById(`decision-inputs-${id}`).style.display = 'block';
     }
-}
 
+    function calculateDistance(id) {
+        const workLocation = document.getElementById(`work-location-${id}`).value;
+        const homeLocation = document.getElementById(`home-location-${id}`).value;
 
-    function calculateDistance(id, itemCoordinates) {
-        const workCoords = document.querySelector(`#directions-work-${id} .mapbox-directions-origin input`).value.split(',').map(parseFloat);
-        const homeCoords = document.querySelector(`#directions-home-${id} .mapbox-directions-origin input`).value.split(',').map(parseFloat);
-        const itemCoords = itemCoordinates.split(',').map(parseFloat);
-
-        if (workCoords.length && homeCoords.length) {
-            getRoute(itemCoords, workCoords, id, 'work');
-            getRoute(itemCoords, homeCoords, id, 'home');
+        if (workLocation && homeLocation) {
+   getRoute(itemLatLng, workLatLng, id, 'work');
+            getRoute(itemLatLng, homeLatLng, id, 'home');
         }
+    }
+
+    function getLatLong(id, inputId) {
+        const value = document.getElementById(`${inputId}-${id}`).value;
+        return value.split(',').map(parseFloat);
     }
 
     function getRoute(start, end, id, type) {
@@ -150,13 +145,13 @@
                 if (data.routes && data.routes.length > 0) {
                     const route = data.routes[0].geometry.coordinates;
                     addLineLayer(`route-${type}-${id}`, route, type === 'work' ? '#FF5733' : '#33FF57');
-                    displayDistance(id, type, data.routes[0].distance);
+                    displayDistance(id, start, end, type, data.routes[0].distance);
                 }
             })
             .catch(error => console.error('Error fetching route:', error));
     }
 
-    function displayDistance(id, type, distance) {
+    function displayDistance(id, start, end, type, distance) {
         document.getElementById(`distance-output-${id}`).innerHTML += `
             <p>المسافة من ${type === 'work' ? 'مكان العمل' : 'المنزل'}: ${(distance / 1000).toFixed(2)} كم</p>
         `;
@@ -175,3 +170,21 @@
         });
     }
 </script>
+
+<style>
+    .search-results {
+        border: 1px solid #ccc;
+        max-height: 150px;
+        overflow-y: auto;
+        position: absolute;
+        background-color: white;
+        z-index: 1000;
+    }
+    .result {
+        padding: 10px;
+        cursor: pointer;
+    }
+    .result:hover {
+        background-color: #f0f0f0;
+    }
+</style>
