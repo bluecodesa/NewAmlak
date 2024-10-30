@@ -43,6 +43,7 @@ Route::group(
             ]);
             Route::put('/update-property-finder/{finder}', [HomeController::class, 'updatePropertyFinder'])->name('updatePropertyFinder');
             Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
+            Route::put('/create-password/{id}', [HomeController::class, 'createPassword'])->name('createPassword');
             Route::post('/PropertyFinder/verify-code-finder', [HomeController::class, 'verifyCode'])->name('verify-code-finder');
             Route::post('/PropertyFinder/complete-registration-finder', [HomeController::class, 'register'])->name('complete-registration-finder');
             Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsCity')->name('GetDistrictsByCity')->middleware('CheckSubscription');

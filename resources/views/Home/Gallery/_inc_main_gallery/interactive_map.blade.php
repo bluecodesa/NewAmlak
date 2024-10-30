@@ -5,32 +5,6 @@
 
 <div id="map" style="height: 100vh;"></div>
 
-<!-- Modal for Help Me Decide -->
-<div class="modal fade" id="helpMeDecideModal" tabindex="-1" aria-labelledby="helpMeDecideLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="helpMeDecideLabel">@lang('Enter Your Home and Work Locations')</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="homeCoordinates" class="form-label">@lang('Home Location (lat,long)')</label>
-                    <input type="text" class="form-control" id="homeCoordinates" placeholder="17.5486111,44.25125">
-                </div>
-                <div class="mb-3">
-                    <label for="workCoordinates" class="form-label">@lang('Work Location (lat,long)')</label>
-                    <input type="text" class="form-control" id="workCoordinates" placeholder="17.5486111,44.25125">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Close')</button>
-                <button type="button" id="calculateDistanceBtn" class="btn btn-primary">@lang('Calculate Distance')</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const mapboxAccessToken = 'pk.eyJ1IjoiYmx1ZWNvZGVrc2EiLCJhIjoiY20yZGRnYjdtMTFzYjJtcjF2bWZzYXI1MyJ9.S9E63v7J_e7I5iCuEiLZSw';
@@ -90,8 +64,8 @@
             </a>
             <button class="btn btn-success mt-2" onclick="showDecisionInputs(${item.id})">ساعدني في اتخاذ القرار</button>
             <div id="decision-inputs-${item.id}" style="display:none;">
-                <input type="text" id="work-coordinates-${item.id}" placeholder="مكان العمل" class="form-control mt-1">
-                <input type="text" id="home-coordinates-${item.id}" placeholder="مكان المنزل" class="form-control mt-1">
+                <div id="directions-work-${item.id}" class="mb-2"></div>
+                <div id="directions-home-${item.id}" class="mb-2"></div>
                 <button class="btn btn-info mt-2" onclick="calculateDistance(${item.id}, '${item.lat_long}')">احسب المسافة</button>
                 <div id="distance-output-${item.id}"></div>
             </div>
@@ -110,23 +84,61 @@
     }
 
     function showDecisionInputs(id) {
-        document.getElementById(`decision-inputs-${id}`).style.display = 'block';
+    const decisionInputs = document.getElementById(`decision-inputs-${id}`);
+
+    if (decisionInputs.style.display === 'block') {
+        // إذا كان القسم مفتوحًا، قم بإخفائه
+        decisionInputs.style.display = 'none';
+    } else {
+        // إذا كان القسم مخفيًا، قم بإظهاره وحذف المدخلات السابقة إن وجدت
+        decisionInputs.innerHTML = ''; // إزالة المدخلات السابقة
+        decisionInputs.style.display = 'block';
+
+        // إنشاء اتجاهات العمل مع تعطيل خاصية التحرك التلقائي
+        const directionsWork = new MapboxDirections({
+            accessToken: mapboxgl.accessToken,
+            unit: 'metric',
+            placeholderOrigin: 'ابحث عن مكان العمل',
+            controls: { inputs: true, instructions: false },
+            flyTo: false // تعطيل التحرك التلقائي
+        });
+        directionsWork.on('origin', () => calculateDistance(id));
+        decisionInputs.appendChild(directionsWork.onAdd(map));
+
+        // إنشاء اتجاهات المنزل مع تعطيل خاصية التحرك التلقائي
+        const directionsHome = new MapboxDirections({
+            accessToken: mapboxgl.accessToken,
+            unit: 'metric',
+            placeholderOrigin: 'ابحث عن مكان المنزل',
+            controls: { inputs: true, instructions: false },
+            flyTo: false // تعطيل التحرك التلقائي
+        });
+        directionsHome.on('origin', () => calculateDistance(id));
+        decisionInputs.appendChild(directionsHome.onAdd(map));
+
+        // إضافة زر "احسب المسافة" وحقل النتائج
+        const calculateButton = document.createElement('button');
+        calculateButton.className = 'btn btn-info mt-2';
+        calculateButton.textContent = 'احسب المسافة';
+        calculateButton.onclick = () => calculateDistance(id);
+        decisionInputs.appendChild(calculateButton);
+
+        const distanceOutput = document.createElement('div');
+        distanceOutput.id = `distance-output-${id}`;
+        decisionInputs.appendChild(distanceOutput);
     }
+}
+
 
     function calculateDistance(id, itemCoordinates) {
-        const workLatLng = getLatLong(id, 'work-coordinates');
-        const homeLatLng = getLatLong(id, 'home-coordinates');
-        const itemLatLng = itemCoordinates.split(',').map(parseFloat);
+        const workCoords = document.querySelector(`#directions-work-${id} .mapbox-directions-origin input`).value.split(',').map(parseFloat);
+        const homeCoords = document.querySelector(`#directions-home-${id} .mapbox-directions-origin input`).value.split(',').map(parseFloat);
+        const itemCoords = itemCoordinates.split(',').map(parseFloat);
 
-        if (workLatLng && homeLatLng) {
-            getRoute(itemLatLng, workLatLng, id, 'work');
-            getRoute(itemLatLng, homeLatLng, id, 'home');
+        if (workCoords.length && homeCoords.length) {
+            getRoute(itemCoords, workCoords, id, 'work');
+            getRoute(itemCoords, homeCoords, id, 'home');
         }
-    }
-
-    function getLatLong(id, inputId) {
-        const value = document.getElementById(`${inputId}-${id}`).value;
-        return value.split(',').map(parseFloat);
     }
 
     function getRoute(start, end, id, type) {
@@ -138,13 +150,13 @@
                 if (data.routes && data.routes.length > 0) {
                     const route = data.routes[0].geometry.coordinates;
                     addLineLayer(`route-${type}-${id}`, route, type === 'work' ? '#FF5733' : '#33FF57');
-                    displayDistance(id, start, end, type, data.routes[0].distance);
+                    displayDistance(id, type, data.routes[0].distance);
                 }
             })
             .catch(error => console.error('Error fetching route:', error));
     }
 
-    function displayDistance(id, start, end, type, distance) {
+    function displayDistance(id, type, distance) {
         document.getElementById(`distance-output-${id}`).innerHTML += `
             <p>المسافة من ${type === 'work' ? 'مكان العمل' : 'المنزل'}: ${(distance / 1000).toFixed(2)} كم</p>
         `;

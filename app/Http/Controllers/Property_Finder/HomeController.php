@@ -443,6 +443,33 @@ class HomeController extends Controller
         return redirect()->route('PropertyFinder.home')->withSuccess(__('Password updated successfully.'));
     }
 
+    public function createPassword(Request $request, $id)
+    {
+        $finder = User::findOrFail($id);
+
+
+        $rules = [
+            'password' => 'required|string|min:8|confirmed',
+        ];
+
+        $messages = [
+            'password.required' => __('The new password field is required.'),
+            'password.min' => __('The new password must be at least 8 characters.'),
+            'password.confirmed' => __('The new password confirmation does not match.'),
+        ];
+
+        $request->validate($rules, $messages);
+
+
+        $finder->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Password updated successfully.'));
+    }
+
+
     // public function updatePassword(Request $request, $id)
     // {
     //     $rules = [
