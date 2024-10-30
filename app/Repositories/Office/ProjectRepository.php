@@ -18,6 +18,7 @@ use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 
@@ -65,8 +66,25 @@ class ProjectRepository implements ProjectRepositoryInterface
             $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
-                'ad_license_number' => ['required', 'numeric', Rule::unique('projects')],
-                'ad_license_expiry' => 'required|date|after_or_equal:today',
+                'ad_license_number' => [
+                    'required',
+                    'numeric',
+                        function ($attribute, $value, $fail) {
+                            // Check in `properties` table
+                            if (DB::table('properties')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the properties table.");
+                            }
+                            // Check in `units` table
+                            if (DB::table('units')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the units table.");
+                            }
+                            // Check in `projects` table
+                            if (DB::table('projects')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the projects table.");
+                            }
+                        },
+                    ],
+                    'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
 
             $messages = [
@@ -139,11 +157,24 @@ class ProjectRepository implements ProjectRepositoryInterface
             $project_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
-                'ad_license_number' => [
-                    'required',
-                    'numeric',
-                    Rule::unique('projects', 'ad_license_number')->ignore($id),
-                ],
+               'ad_license_number' => [
+            'required',
+            'numeric',
+            function ($attribute, $value, $fail) use ($id) {
+                // Check in `properties` table, ignore current property ID
+                if (DB::table('properties')->where('ad_license_number', $value)->where('id', '<>', $id)->exists()) {
+                    return $fail("The $attribute has already been taken in the properties table.");
+                }
+                // Check in `units` table, ignore current property ID
+                if (DB::table('units')->where('ad_license_number', $value)->where('id', '<>', $id)->exists()) {
+                    return $fail("The $attribute has already been taken in the units table.");
+                }
+                // Check in `projects` table, ignore current property ID
+                if (DB::table('projects')->where('ad_license_number', $value)->where('id', '<>', $id)->exists()) {
+                    return $fail("The $attribute has already been taken in the projects table.");
+                }
+            },
+        ],
                 'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
 
@@ -269,8 +300,25 @@ class ProjectRepository implements ProjectRepositoryInterface
             $property_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
-                'ad_license_number' => ['required', 'numeric', Rule::unique('properties')],
-                'ad_license_expiry' => 'required|date|after_or_equal:today',
+                'ad_license_number' => [
+                    'required',
+                    'numeric',
+                        function ($attribute, $value, $fail) {
+                            // Check in `properties` table
+                            if (DB::table('properties')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the properties table.");
+                            }
+                            // Check in `units` table
+                            if (DB::table('units')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the units table.");
+                            }
+                            // Check in `projects` table
+                            if (DB::table('projects')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the projects table.");
+                            }
+                        },
+                    ],
+                    'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
 
             $messages = [
@@ -334,8 +382,25 @@ class ProjectRepository implements ProjectRepositoryInterface
             $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
-                'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
-                'ad_license_expiry' => 'required|date|after_or_equal:today',
+                'ad_license_number' => [
+                    'required',
+                    'numeric',
+                        function ($attribute, $value, $fail) {
+                            // Check in `properties` table
+                            if (DB::table('properties')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the properties table.");
+                            }
+                            // Check in `units` table
+                            if (DB::table('units')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the units table.");
+                            }
+                            // Check in `projects` table
+                            if (DB::table('projects')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the projects table.");
+                            }
+                        },
+                    ],
+                    'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
 
             $messages = [
