@@ -255,9 +255,9 @@
                         <div class="col-sm-12 col-md-4 mb-3">
                             <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                             <label class="switch switch-lg">
-                                <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"   {{ $project->show_in_gallery == 1 ? 'checked' : '' }}
-                                    @if($falLicense->ad_license_status != 'valid') disabled @endif
-                                    @if($falLicense->ad_license_status == 'valid') checked @endif />
+                                <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
+                                {{ $project->show_in_gallery == 1 ? 'checked' : '' }}
+                                    @if($falLicense->ad_license_status != 'valid') disabled @endif />
                                 <span class="switch-toggle-slider">
                                     <span class="switch-on"><i class="ti ti-check"></i></span>
                                     <span class="switch-off"><i class="ti ti-x"></i></span>

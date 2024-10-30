@@ -115,7 +115,6 @@ class PropertyRepository implements PropertyRepositoryInterface
     public function update($id, $data, $images)
     {
         $old_property = Property::findOrFail($id);
-
         $property = Property::findOrFail($id);
         $property_data = $data;
         unset($property_data['features_name']);

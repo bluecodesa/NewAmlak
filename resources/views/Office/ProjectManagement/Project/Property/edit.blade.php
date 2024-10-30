@@ -293,9 +293,10 @@
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                     <label class="switch switch-lg">
-                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"   {{ $Property->show_in_gallery == 1 ? 'checked' : '' }}
-                                            @if($falLicense->ad_license_status != 'valid') disabled @endif
-                                            @if($falLicense->ad_license_status == 'valid') checked @endif />
+                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
+                                        {{ $Property->show_in_gallery == 1 ? 'checked' : '' }}
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif />
+
                                         <span class="switch-toggle-slider">
                                             <span class="switch-on"><i class="ti ti-check"></i></span>
                                             <span class="switch-off"><i class="ti ti-x"></i></span>
@@ -304,7 +305,7 @@
                                 </div>
 
                                 <!-- Show gallery fields only if the license status is "valid" -->
-                                <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
+                                <div class="row" id="gallery-fields"  style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
                                     <div class="col-sm-12 col-md-4 mb-3">
                                         <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
                                         <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Property->ad_license_number }}"
