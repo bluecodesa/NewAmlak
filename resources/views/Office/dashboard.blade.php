@@ -29,6 +29,43 @@
             </div>
             @endif
 
+            <div class="card">
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                        @lang('استعلام')
+                    </button>
+                    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel1"> @lang('برجاء ادخال رقم الهوية')
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                @include('Admin.layouts.Inc._errors')
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <input type="text" name="id_number" id="idNumberInput" minlength="1" maxlength="10" class="form-control" placeholder="Enter ID Number" />
+                                            <div class="invalid-feedback" id="idNumberError"></div>
+                                        </div>
+                                    </div>
+                                    <div id="searchResults"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                        @lang('Cancel')
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="searchBtn">@lang('Search')</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('Office.Contract.create') }}" class="btn btn-secondary">اضافة عقد</a>
+                    <button class="btn btn-info">رفع الطلبات </button>
+                </div>
+            </div>
+
             <!-- DataTable with Buttons -->
             {{-- <div class="card">
                 <div class="card-body">
@@ -811,6 +848,38 @@
         // Add markers for All Properties
         addMarkers(allItemsProperties);
     });
+</script>
+<script>
+    $(document).ready(function () {
+    $('#searchBtn').click(function (e) {
+        e.preventDefault();
+        var idNumber = $('#idNumberInput').val();
+
+        $.ajax({
+            url: '{{ route('Office.Owner.searchByIdNumber') }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id_number: idNumber
+            },
+            success: function (response) {
+                $('#idNumberInput').removeClass('is-invalid');
+                $('#idNumberError').text('');
+                $('#searchResults').html(response.html); // Inject the result content into the modal
+            },
+            error: function (xhr) {
+                var errors = xhr.responseJSON.errors;
+                if (errors.id_number) {
+                    $('#idNumberInput').addClass('is-invalid');
+                    $('#idNumberError').text(errors.id_number[0]);
+                } else {
+                    $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                }
+            }
+        });
+    });
+});
+
 </script>
 
         {{-- end mapbox --}}
