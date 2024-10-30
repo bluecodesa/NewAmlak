@@ -288,53 +288,52 @@
                         </div>
 
                             <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+                                @if($falLicense)
+                                <!-- Show the "Show in Gallery" switch if the user has a valid license -->
                                 <div class="col-sm-12 col-md-4 mb-3">
-                                    <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
-                                    <label class="switch switch-primary">
-                                        <input type="checkbox" name="show_in_gallery"
-                                            class="switch-input toggleHomePage"
-                                            {{ $Property->show_in_gallery == 1 ? 'checked' : '' }}>
+                                    <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                    <label class="switch switch-lg">
+                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"   {{ $Property->show_in_gallery == 1 ? 'checked' : '' }}
+                                            @if($falLicense->ad_license_status != 'valid') disabled @endif
+                                            @if($falLicense->ad_license_status == 'valid') checked @endif />
                                         <span class="switch-toggle-slider">
-                                            <span class="switch-on">
-                                                <i class="ti ti-check"></i>
-                                            </span>
-                                            <span class="switch-off">
-                                                <i class="ti ti-x"></i>
-                                            </span>
+                                            <span class="switch-on"><i class="ti ti-check"></i></span>
+                                            <span class="switch-off"><i class="ti ti-x"></i></span>
                                         </span>
-
                                     </label>
                                 </div>
-                                <div class="row" id="gallery-fields">
 
-                                    {{-- <div class="col-md-4 mb-3 col-12">
-                                        <label class="form-label">@lang('FalLicense type') <span
-                                                class="required-color">*</span></label>
-                                        <select class="form-select" name="fal_id" required>
-                                            <option disabled selected value="">@lang('FalLicense type')</option>
-                                            @foreach ($Faltypes as $Faltype)
-                                                <option value="{{ $Faltype->id }}"
-                                                    {{ $Faltype->id == $Property->fal_id ? 'selected' : '' }}>
-                                                    {{ $Faltype->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div> --}}
-
+                                <!-- Show gallery fields only if the license status is "valid" -->
+                                <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Ad License Number')<span
-                                            class="required-color">*</span></label>
-                                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Property->ad_license_number }}" required />
+                                        <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
+                                        <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Property->ad_license_number }}"
+                                            @if($falLicense->ad_license_status != 'valid') disabled @endif required />
                                     </div>
 
                                     <div class="col-sm-12 col-md-4 mb-3">
-                                        <label class="form-label">@lang('Ad License Expiry')<span
-                                            class="required-color">*</span></label>
-                                        <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ $Property->ad_license_expiry }}" required />
-                                        <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
+                                        <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
+                                        <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ $Property->ad_license_expiry }}"
+                                            @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                        <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
                                     </div>
-
                                 </div>
-
+                            @else
+                                <!-- Display a message if the license is not valid or doesn't exist -->
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                    <label class="switch switch-lg">
+                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" disabled />
+                                        <span class="switch-toggle-slider">
+                                            <span class="switch-off"><i class="ti ti-x"></i></span>
+                                        </span>
+                                    </label>
+                                    <!-- Add a message to indicate the license has expired -->
+                                    <div class="alert alert-warning mt-2">
+                                        @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                                    </div>
+                                </div>
+                            @endif
 
                                 <div class="mb-3 col-12">
                                     <label class="form-label mb-2">@lang('Description')</label>

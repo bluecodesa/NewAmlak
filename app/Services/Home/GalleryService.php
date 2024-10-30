@@ -306,18 +306,18 @@ class GalleryService
             // $units = $units->merge($galleryUnits);
 
             if (!empty($gallery['broker_id'])) {
-                $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
-                $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
+                $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1)->where('ad_license_status', 'Valid');
+                $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1)->where('ad_license_status', 'Valid');
                 $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                    ->where('show_in_gallery', 1)
+                    ->where('show_in_gallery', 1)->where('ad_license_status', 'Valid')
                     ->get();
             }
 
             else if (!empty($gallery['office_id'])) {
-                $projects = $this->OfficeProjectRepository->getAllByOfficeId($gallery['office_id'])->where('show_in_gallery', 1);
-                $properties = $this->OfficePropertyRepository->getAll($gallery['office_id'])->where('show_in_gallery', 1);
+                $projects = $this->OfficeProjectRepository->getAllByOfficeId($gallery['office_id'])->where('show_in_gallery', 1)->where('ad_license_status', 'Valid');
+                $properties = $this->OfficePropertyRepository->getAll($gallery['office_id'])->where('show_in_gallery', 1)->where('ad_license_status', 'Valid');
                 $galleryUnits = Unit::where('office_id', $gallery->office_id)
-                    ->where('show_in_gallery', 1)
+                    ->where('show_in_gallery', 1)->where('ad_license_status', 'Valid')
                     ->get();
             }
 

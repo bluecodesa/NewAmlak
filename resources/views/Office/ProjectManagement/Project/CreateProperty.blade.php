@@ -129,11 +129,11 @@
                                         value="{{ $project->location }}" />
                                 </div>
 
-                                <div class="col-md-6 col-12 mb-3" hidden>
+                                <div class="col-sm-12 col-md-6 mb-3" hidden>
                                     <label class="form-label">@lang('lat&long')</label>
                                     <input type="text" required readonly name="lat_long" id="location_tag"
                                         class="form-control" placeholder="@lang('lat&long')"
-                                        value="{{ old('location_tag') }}" />
+                                        value="{{ $project->lat_long }}" />
                                 </div>
 
                                 <div class="form-group col-12 col-md-4">
@@ -231,7 +231,6 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
 
                             {{-- @php
@@ -255,7 +254,7 @@
                         <div class="col-sm-12 col-md-4 mb-3">
                             <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                             <label class="switch switch-lg">
-                                <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" 
+                                <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
                                     @if($falLicense->ad_license_status != 'valid') disabled @endif
                                     @if($falLicense->ad_license_status == 'valid') checked @endif />
                                 <span class="switch-toggle-slider">
@@ -319,8 +318,7 @@
                             {{ __('Next') }}
                         </button>
                     </div>
-                        </div>
-
+                    </div>
                         <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                             <div class="row">
                                 <div class=" col-6 mb-3">
@@ -760,7 +758,6 @@
         });
     });
 </script>
-
 
     @endpush
 @endsection
