@@ -298,40 +298,7 @@
     @include('Home.layouts.inc.__addSubscriberModal')
 
     <script>
-        function reloadUnits() {
-            // Get selected filter values
-            var city = document.getElementById('city_filter').value;
-            var project = document.getElementById('project_filter').value;
-            var type = document.getElementById('ad_type_filter').value;
-            var price_from = document.getElementById('price_from').value;
-            var price_to = document.getElementById('price_to').value;
-
-            // Make AJAX request to fetch filtered units
-            $.ajax({
-                url: "{{ route('filtered.units') }}",
-                type: "GET",
-                data: {
-                    city_filter: city,
-                    prj_filter: project,
-                    type_filter: type,
-                    price_from: price_from,
-                    price_to: price_to
-                },
-                success: function(data) {
-                    // Handle the received data (update the view with filtered units)
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        }
-
-        Attach event listeners to select elements
-        $(document).ready(function() {
-            $('#city_filter, #project_filter, #ad_type_filter, #price_from, #price_to').change(function() {
-                reloadUnits();
-            });
-        });
+ 
 
         $('#city_filter').on('change', function() {
             var selectedOption = $(this).find(':selected');

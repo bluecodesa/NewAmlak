@@ -339,6 +339,9 @@ class GalleryService
             $this->updateAdLicenseStatus(Unit::all());
 
         }
+        $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+
+        $mapItems  = $allItems; // Execute the query to get sorted items
 
         switch ($sortOrder) {
             case 'highest_price':
@@ -348,21 +351,25 @@ class GalleryService
                 $allItems = $allItems->sortBy('price');
                 break;
             case 'largest_space':
-                $allItems = $allItems->sortByDesc('space');
+                $allItems = $allItems->sortByDesc(function($item) {
+                    return $item->space ?? 0;
+                });
                 break;
             case 'smallest_space':
-                $allItems = $allItems->sortBy('space');
+                $allItems = $allItems->sortBy(function($item) {
+                    return $item->space ?? 0;
+                });
                 break;
             default:
                 $allItems = $allItems->sortByDesc('created_at');
                 break;
         }
 
+
         $uniqueIds = $allItems->pluck('CityData.id')->unique();
         $uniqueNames = $allItems->pluck('CityData.name')->unique();
         $uniqueIdIistricts = $allItems->pluck('DistrictData.id')->unique();
         $uniqueDistrictNames = $allItems->pluck('DistrictData.name')->unique();
-        $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
         $projectuniqueIds = $allItems->pluck('PropertyData.ProjectData.id')->filter()->unique();
         $projectUniqueNames = $allItems->pluck('PropertyData.ProjectData.name')->unique();
         $propertyuniqueIds = $allItems->pluck('PropertyTypeData.id')->filter()->unique();
