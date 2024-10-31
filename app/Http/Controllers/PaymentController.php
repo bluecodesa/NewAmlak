@@ -199,6 +199,9 @@ class PaymentController extends Controller
                 Gallery::where('broker_id', $brokerData->id)->orWhere('office_id', $officeData->id)->delete();
             }
         }
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+        $delimiter = '-';
+        $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
 
         $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
         SystemInvoice::create([
@@ -211,7 +214,7 @@ class PaymentController extends Controller
             'period' => $SubscriptionType->period,
             'period_type' => $SubscriptionType->period_type,
             'status' => 'active',
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
