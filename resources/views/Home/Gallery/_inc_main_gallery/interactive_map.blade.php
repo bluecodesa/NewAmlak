@@ -7,12 +7,12 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const mapboxAccessToken = 'pk.eyJ1IjoiYmx1ZWNvZGVrc2EiLCJhIjoiY20yZGRnYjdtMTFzYjJtcjF2bWZzYXI1MyJ9.S9E63v7J_e7I5iCuEiLZSw';
+        const mapboxAccessToken = 'pk.eyJ1IjoiYmx1ZWNvZGVrc2EiLCJhIjoiY2x6djJiaGZhMDNvdzJoc2djN2k4eHM0MiJ9.eOLXc1f7RLgcsbeIS4Us0Q';
         mapboxgl.accessToken = mapboxAccessToken;
 
         let mapInitialized = false;
         let map;
-        var items = @json($allItems);
+        var items = @json($mapItems);
 
         document.querySelector('button[data-bs-target="#navs-justified-gallery"]').addEventListener('click', function () {
             if (!mapInitialized) {
@@ -34,6 +34,7 @@
     }
 
     function addMarkers(filteredItems) {
+        console.log(filteredItems);
         filteredItems.forEach(function(item) {
             if (item.lat_long) {
                 const coordinates = item.lat_long.split(',').map(parseFloat);
