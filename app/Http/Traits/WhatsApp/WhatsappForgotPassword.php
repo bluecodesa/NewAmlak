@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 trait WhatsappForgotPassword
 {
-    public function WhatsappForgotPassword($phone, $code,$user)
+    public function WhatsappForgotPassword($phone, $code, $user)
     {
         $whatsAppSetting = WhatsAppSetting::first();
 

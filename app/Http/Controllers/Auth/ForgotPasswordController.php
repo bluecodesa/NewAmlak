@@ -97,10 +97,10 @@ class ForgotPasswordController extends Controller
 
             $this->MailForgotPassword($request->email, $code);
             $user_email=$request->email;
-            $user=User::where('email',$request->email)->get();
+            $user=User::where('email',$user_email)->first();
             if($user){
                 // $this->WhatsappForgotPassword($user->full_phone, $code);
-                $phone =201119978333;
+                $phone =201205693178;
                 $this->WhatsappForgotPassword($phone, $code,$user);
 
             }
