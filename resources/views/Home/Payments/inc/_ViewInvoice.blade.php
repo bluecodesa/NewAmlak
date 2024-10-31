@@ -41,7 +41,6 @@
                 <tr>
                     <th>@lang('subscription')</th>
                     <th>
-
                         {{ Auth::user()->UserOfficeData->UserSubscriptionPending->SubscriptionTypeData->name ?? (Auth::user()->UserBrokerData->UserSubscriptionPending->SubscriptionTypeData->name ?? '') }}
                     </th>
                 </tr>

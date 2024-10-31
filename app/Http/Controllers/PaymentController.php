@@ -141,37 +141,46 @@ class PaymentController extends Controller
 
     function callback_UpgradeSubscription($user)
     {
-        $data =  explode('&', $user);
+        $data = explode('&', $user);
         Auth::loginUsingId($data[1]);
 
         $officeData = Auth::user()->UserOfficeData;
         $brokerData = Auth::user()->UserBrokerData;
-        $SubscriptionType =  SubscriptionType::find($data[0]);
+        $SubscriptionType = SubscriptionType::find($data[0]);
 
         if ($officeData) {
             $subscription = $officeData->UserSubscription;
+            $galleryId = $officeData->id; // Use office ID
         } else {
             $subscription = $brokerData->UserSubscription;
+            $galleryId = $brokerData->id; // Use broker ID
         }
-
 
         $endDate = $SubscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
         $sections = $subscription->SubscriptionTypeData->sections()->get();
         $subscription->SubscriptionSectionData()->delete();
+
         foreach ($sections as $section_id) {
             SubscriptionSection::create([
                 'section_id' => $section_id->id,
                 'subscription_id' => $subscription->id,
             ]);
         }
+
         if ($subscription) {
-            $subscription->update(['subscription_type_id' => $SubscriptionType->id, 'status' => 'active', 'is_start' => 1, 'start_date' => now()->format('Y-m-d H:i:s'), 'end_date' => $endDate]);
-            // $this->updateSubscriptionHistory($subscription);
+            $subscription->update([
+                'subscription_type_id' => $SubscriptionType->id,
+                'status' => 'active',
+                'is_start' => 1,
+                'start_date' => now()->format('Y-m-d H:i:s'),
+                'end_date' => $endDate
+            ]);
+
             // Check if section 18 exists
             $hasSection18 = $sections->contains('id', 18);
 
-            // Check if a gallery exists
-            $hasGallery = Gallery::where('broker_id', $brokerData->id)->exists();
+            // Check if a gallery exists for the relevant ID
+            $hasGallery = Gallery::where('broker_id', $galleryId)->orWhere('office_id', $galleryId)->exists();
 
             if ($hasSection18 && !$hasGallery) {
                 // Create a new gallery if section 18 exists but there is no gallery
@@ -179,16 +188,18 @@ class PaymentController extends Controller
                 $defaultCoverImage = '/Gallery/cover/cover.png';
 
                 Gallery::create([
-                    'broker_id' => $brokerData->id,
+                    'broker_id' => $brokerData ? $brokerData->id : null, // Use broker ID if exists
+                    'office_id' => $officeData ? $officeData->id : null, // Use office ID if exists
                     'gallery_name' => $galleryName,
                     'gallery_status' => 1,
                     'gallery_cover' => $defaultCoverImage,
                 ]);
             } elseif (!$hasSection18 && $hasGallery) {
                 // Delete the gallery if section 18 does not exist but there is a gallery
-                Gallery::where('broker_id', $brokerData->id)->delete();
+                Gallery::where('broker_id', $brokerData->id)->orWhere('office_id', $officeData->id)->delete();
             }
         }
+
         $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
         SystemInvoice::create([
             'broker_id' => $subscription->broker_id,
@@ -204,8 +215,9 @@ class PaymentController extends Controller
         ]);
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
-        $redirectMessage = $officeData ? 'The subscription has been Upgraded successfully' : 'The subscription has been Upgraded successfully';
-        Auth::loginUsingId($data[1]);
+        $redirectMessage = 'The subscription has been upgraded successfully';
+
         return redirect()->route($redirectRoute)->with('success', __($redirectMessage));
     }
+
 }

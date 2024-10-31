@@ -100,29 +100,29 @@
                             <div id="fixedDiscountSection" class="col-md-3 mb-3">
                                 <label for="fixedDiscount" class="form-label">@lang('Discount applied')</label>
                                 <input type="text" name="upgrade_rate" id="fixedDiscount" class="form-control"
-                                value="{{ $SubscriptionType->upgrade_rate  }}" placeholder="20%" min="0" max="100">
+                                value="{{ $SubscriptionType->upgrade_rate * 100 }}" placeholder="20%" min="0" max="100">
                             </div>
 
                             <div id="incentiveDiscountSection" style="display: none;">
                                 <div class="col-md-2 m-1">
                                     <label for="adsCount" class="form-label">@lang('Number of Ads')</label>
-                                    <input type="number" name="ads_count" id="adsCount" class="form-control"
+                                    <input type="text" name="ads_count" id="adsCount" class="form-control"
                                     value="{{ $SubscriptionType->ads_count }}" placeholder="Enter number of ads">
                                 </div>
                                 <div class="col-md-3 m-1">
                                     <label for="adsDiscount" class="form-label">@lang('Discount of Ads (%)')</label>
-                                    <input type="number" name="ads_discount" id="adsDiscount" class="form-control"
-                                    value="{{ $SubscriptionType->ads_discount }}" placeholder="e.g., 3%">
+                                    <input type="text" name="ads_discount" id="adsDiscount" class="form-control"
+                                    value="{{ $SubscriptionType->ads_discount * 100 }}" placeholder="e.g., 3%">
                                 </div>
                                 <div class="col-md-3 m-1">
                                     <label for="viewsCount" class="form-label">@lang('Number of Views')</label>
-                                    <input type="number" name="views_count" id="viewsCount" class="form-control"
+                                    <input type="text" name="views_count" id="viewsCount" class="form-control"
                                     value="{{ $SubscriptionType->views_count }}" placeholder="Enter number of views">
                                 </div>
                                 <div class="col-md-3 m-1">
-                                    <label for="viewsDiscount" class="form-label">@lang('Discount for  Views (%)')</label>
-                                    <input type="number" name="views_discount" id="viewsDiscount" class="form-control"
-                                    value="{{ $SubscriptionType->views_discount  }}" placeholder="e.g., 5%">
+                                    <label for="viewsDiscount" class="form-label">@lang('Discount for Views (%)')</label>
+                                    <input type="text" name="views_discount" id="viewsDiscount" class="form-control"
+                                    value="{{ $SubscriptionType->views_discount * 100 }}" placeholder="e.g., 5%">
                                 </div>
                             </div>
 

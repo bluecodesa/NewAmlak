@@ -69,6 +69,8 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         $data = request();
         $Subscriptiondata = $data->except(['roles', 'sections']);
         $Subscriptiondata['upgrade_rate'] =  $data['upgrade_rate'] / 100;
+        $Subscriptiondata['ads_discount'] =  $data['ads_discount'] / 100;
+        $Subscriptiondata['views_discount'] =  $data['views_discount'] / 100;
         $subscriptionType->update($Subscriptiondata);
 
         // Sync sections

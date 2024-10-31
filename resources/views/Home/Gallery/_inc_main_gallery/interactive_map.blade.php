@@ -49,8 +49,7 @@
 
     function generatePopupHtml(item) {
         const showRoute = getShowRoute(item);
-        console.log(item);
-        const rentPriceAndType = item.isGalleryUnit ? `${item.unit_rent_price.monthly} @lang('SAR') / ${item.rent_type_show}` : '';
+        const rentPriceAndType = item.isGalleryUnit ? `${item.rentPrice} @lang('SAR') / ${item.rent_type_show}` : '';
         return `
         <div class="w-500">
             <a href="${showRoute}" target="_blank" class="card-popup">
@@ -60,19 +59,6 @@
                         <h6>${item.name || item.ad_name}</h6>
                         <p>${item.property_type_data?.name || ''} / ${item.type || ''}</p>
                         ${item.isGalleryUnit ? `<p>${rentPriceAndType}</p>` : ''}
-                           <p>
-                                ${item.isGalleryUnit ?
-                                    (item.ProjectData ? `<span class="badge bg-label-secondary mt-1">${item.ProjectData.name}</span>` : '') +
-                                    " " +
-                                    (item.PropertyData ? `<span class="badge bg-label-secondary mt-1">${item.PropertyData.name}</span>` : '') +
-                                    ` <span class="badge bg-label-secondary mt-1">@lang('Unit')</span>`
-                                : item.isGalleryProperty ?
-                                    (item.ProjectData ? `<span class="badge bg-label-secondary mt-1">${item.ProjectData.name}</span>` : '') +
-                                    ` <span class="badge bg-label-secondary mt-1">@lang('property')</span>`
-                                : item.isGalleryProject ?
-                                    `<span class="badge bg-label-secondary mt-1">@lang('Project')</span>`
-                                : ''}
-                            </p>
                         <p>${item.city_data?.name || ''}</p>
                     </div>
                 </div>

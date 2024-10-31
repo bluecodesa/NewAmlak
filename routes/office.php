@@ -43,6 +43,7 @@ Route::group(
         Route::prefix('office')->name('Office.')->group(function () {
             Route::get('/', 'HomeController@index')->name('home');
             Route::get('ViewInvoice', 'HomeController@ViewInvoice')->name('ViewInvoice');
+            Route::get('UpdateSubscription/{id}', 'HomeController@UpdateSubscription')->name('UpdateSubscription');
             Route::get('ShowSubscription', 'HomeController@showSubscription')->name('ShowSubscription')->middleware('CheckSubscription');
             Route::get('ShowInvoice/{id}', 'HomeController@ShowInvoice')->name('ShowInvoice');
 

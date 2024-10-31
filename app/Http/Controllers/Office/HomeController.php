@@ -270,6 +270,35 @@ class HomeController extends Controller
     {
         return view('Home.Payments.inc._ViewInvoice');
     }
+    function UpdateSubscription($id)
+    {
+        // $SubscriptionType = SubscriptionType::find($id);
+        $SubscriptionType = $this->SubscriptionTypeService->getSubscriptionTypeById($id);
+
+        $subscription = auth()->user()->UserOfficeData->UserSubscriptionPending;
+
+        $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price, 'status' => 'pending']);
+
+        $Invoice  =  auth()->user()->UserOfficeData->UserSystemInvoicePending;
+
+        $data = [
+            'broker_id' => $subscription->broker_id,
+            'office_id' => $subscription->office_id,
+            'amount' => $SubscriptionType->price,
+            'subscription_name' => $SubscriptionType->name,
+            'period' => $SubscriptionType->period,
+            'period_type' => $SubscriptionType->period_type,
+            'invoice_ID' => 'INV_' . uniqid(),
+            'status' => 'pending'
+        ];
+
+        if (!$Invoice) {
+            $this->systemInvoiceRepository->create($data);
+        } else {
+            $Invoice->update(['amount' => $SubscriptionType->price, 'subscription_name' => $SubscriptionType->name, 'period' => $SubscriptionType->period, 'period_type' => $SubscriptionType->period_type]);
+        }
+    }
+
     public function GetDistrictsByCity($id)
     {
         // $districts = District::where('city_id', $id)->get();
