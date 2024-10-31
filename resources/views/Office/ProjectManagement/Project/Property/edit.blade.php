@@ -589,7 +589,21 @@
             document.getElementById('ad_license_expiry').required = false;
         }
     });
+
+    // Initial state based on the checkbox value
+    document.addEventListener('DOMContentLoaded', function () {
+        var showInGalleryCheckbox = document.getElementById('show_in_gallery');
+        var galleryFields = document.getElementById('gallery-fields');
+
+        // Set initial visibility based on the checkbox state
+        if (showInGalleryCheckbox.checked) {
+            galleryFields.style.display = 'block';
+        } else {
+            galleryFields.style.display = 'none';
+        }
+    });
 </script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

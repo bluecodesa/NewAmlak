@@ -77,14 +77,57 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 col-12 mb-3">
+                        {{-- <div class="col-md-4 col-12 mb-3">
                             <label for="upgrade_rate">@lang('Discount applied')</label><br />
                             <div class="wrapper" style="position: relative; ">
                                 <input type="number" name="upgrade_rate" id="upgrade_rate"
                                     value="{{ $SubscriptionType->upgrade_rate * 100 }}" placeholder="20%"
                                     class="form-control" min="0" max="100" />
                             </div>
+                        </div> --}}
+
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="discountType" class="form-label">@lang('Discount Type')</label>
+                            <select id="discountType" name="discount_type" class="form-select" onchange="toggleDiscountSections()">
+                                <option value="fixed" {{ $SubscriptionType->discount_type == 'fixed' ? 'selected' : '' }}>@lang('Fixed Discount')</option>
+                                <option value="incentive" {{ $SubscriptionType->discount_type == 'incentive' ? 'selected' : '' }}>@lang('Incentive Discount')</option>
+                            </select>
                         </div>
+
+
+                        <div class="row">
+
+                            <div id="fixedDiscountSection" class="col-md-3 mb-3">
+                                <label for="fixedDiscount" class="form-label">@lang('Discount applied')</label>
+                                <input type="text" name="upgrade_rate" id="fixedDiscount" class="form-control"
+                                value="{{ $SubscriptionType->upgrade_rate  }}" placeholder="20%" min="0" max="100">
+                            </div>
+
+                            <div id="incentiveDiscountSection" style="display: none;">
+                                <div class="col-md-2 m-1">
+                                    <label for="adsCount" class="form-label">@lang('Number of Ads')</label>
+                                    <input type="number" name="ads_count" id="adsCount" class="form-control"
+                                    value="{{ $SubscriptionType->ads_count }}" placeholder="Enter number of ads">
+                                </div>
+                                <div class="col-md-3 m-1">
+                                    <label for="adsDiscount" class="form-label">@lang('Discount of Ads (%)')</label>
+                                    <input type="number" name="ads_discount" id="adsDiscount" class="form-control"
+                                    value="{{ $SubscriptionType->ads_discount }}" placeholder="e.g., 3%">
+                                </div>
+                                <div class="col-md-3 m-1">
+                                    <label for="viewsCount" class="form-label">@lang('Number of Views')</label>
+                                    <input type="number" name="views_count" id="viewsCount" class="form-control"
+                                    value="{{ $SubscriptionType->views_count }}" placeholder="Enter number of views">
+                                </div>
+                                <div class="col-md-3 m-1">
+                                    <label for="viewsDiscount" class="form-label">@lang('Discount for  Views (%)')</label>
+                                    <input type="number" name="views_discount" id="viewsDiscount" class="form-control"
+                                    value="{{ $SubscriptionType->views_discount  }}" placeholder="e.g., 5%">
+                                </div>
+                            </div>
+
+                        </div>
+
 
                         <div class="col-md-2 col-12 mb-3">
                             <p>@lang('status')</p>
@@ -198,6 +241,30 @@
                 });
             });
         </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const discountTypeSelect = document.getElementById('discountType');
+        const fixedDiscountSection = document.getElementById('fixedDiscountSection');
+        const incentiveDiscountSection = document.getElementById('incentiveDiscountSection');
+
+        // عرض القسم الافتراضي عند تحميل الصفحة
+        fixedDiscountSection.style.display = discountTypeSelect.value === 'fixed' ? 'block' : 'none';
+        incentiveDiscountSection.style.display = discountTypeSelect.value === 'incentive' ? 'block' : 'none';
+
+        discountTypeSelect.addEventListener('change', function() {
+            if (this.value === 'fixed') {
+                fixedDiscountSection.style.display = 'block';
+                incentiveDiscountSection.style.display = 'none';
+            } else if (this.value === 'incentive') {
+                fixedDiscountSection.style.display = 'none';
+                incentiveDiscountSection.style.display = 'block';
+            }
+        });
+    });
+
+            </script>
+
     @endpush
 
 @endsection

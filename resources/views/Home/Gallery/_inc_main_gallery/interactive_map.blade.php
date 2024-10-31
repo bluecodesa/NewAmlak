@@ -1,3 +1,6 @@
+
+
+
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css" rel="stylesheet" />
@@ -13,7 +16,6 @@
         let mapInitialized = false;
         let map;
         var items = @json($allItems);
-
         document.querySelector('button[data-bs-target="#navs-justified-gallery"]').addEventListener('click', function () {
             if (!mapInitialized) {
                 initializeMap();
@@ -22,6 +24,8 @@
             }
         });
     });
+    var items = @json($allItems);
+    console.log(items)
 
     function initializeMap() {
         map = new mapboxgl.Map({
@@ -32,9 +36,8 @@
         });
         map.addControl(new mapboxgl.NavigationControl());
     }
-
-    function addMarkers(filteredItems) {
-        filteredItems.forEach(function(item) {
+    function addMarkers(items) {
+        items.forEach(function(item) {
             if (item.lat_long) {
                 const coordinates = item.lat_long.split(',').map(parseFloat);
                 const popupHtml = generatePopupHtml(item);
@@ -65,45 +68,13 @@
             </a>
             <button class="btn btn-success mt-2" onclick="showDecisionInputs(${item.id})">ساعدني في اتخاذ القرار</button>
             <div id="decision-inputs-${item.id}" style="display:none;">
-                <input type="text" id="work-location-${item.id}" placeholder="مكان العمل" class="form-control mt-1" onclick="setActiveInput('work-location-${item.id}')" onkeyup="searchPlaces(event, 'work-location-${item.id}')">
-                <input type="text" id="home-location-${item.id}" placeholder="مكان المنزل" class="form-control mt-1" onclick="setActiveInput('home-location-${item.id}')" onkeyup="searchPlaces(event, 'home-location-${item.id}')">
-                <div id="search-results-${item.id}" class="search-results"></div>
-                <button class="btn btn-info mt-2" onclick="calculateDistance(${item.id})">احسب المسافة</button>
+                <input type="text" id="work-coordinates-${item.id}" placeholder="مكان العمل" class="form-control mt-1">
+                <input type="text" id="home-coordinates-${item.id}" placeholder="مكان المنزل" class="form-control mt-1">
+                <button class="btn btn-info mt-2" onclick="calculateDistance(${item.id}, '${item.lat_long}')">احسب المسافة</button>
                 <div id="distance-output-${item.id}"></div>
             </div>
             </div>
         `;
-    }
-
-    function setActiveInput(inputId) {
-        const inputs = document.querySelectorAll('input');
-        inputs.forEach(input => input.classList.remove('active-input-id'));
-        document.getElementById(inputId).classList.add('active-input-id');
-        document.getElementById(`search-results-${inputId.split('-')[2]}`).innerHTML = ''; // إفراغ نتائج البحث
-    }
-
-    function searchPlaces(event, inputId) {
-        const query = event.target.value;
-        const searchResultsDiv = document.getElementById(`search-results-${inputId.split('-')[2]}`);
-
-        if (query.length > 2) {
-            fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}`)
-                .then(response => response.json())
-                .then(data => {
-                    const results = data.features.map(feature => {
-                        return `<div class="result" onclick="selectPlace('${feature.place_name}', '${inputId}')">${feature.place_name}</div>`;
-                    }).join('');
-                    searchResultsDiv.innerHTML = results;
-                })
-                .catch(error => console.error('Error fetching places:', error));
-        } else {
-            searchResultsDiv.innerHTML = ''; // إفراغ نتائج البحث إذا كان الإدخال أقل من 3 أحرف
-        }
-    }
-
-    function selectPlace(placeName, inputId) {
-        document.getElementById(inputId).value = placeName;
-        document.getElementById(`search-results-${inputId.split('-')[2]}`).innerHTML = ''; // إفراغ نتائج البحث بعد الاختيار
     }
 
     function getShowRoute(item) {
@@ -121,12 +92,13 @@
         document.getElementById(`decision-inputs-${id}`).style.display = 'block';
     }
 
-    function calculateDistance(id) {
-        const workLocation = document.getElementById(`work-location-${id}`).value;
-        const homeLocation = document.getElementById(`home-location-${id}`).value;
+    function calculateDistance(id, itemCoordinates) {
+        const workLatLng = getLatLong(id, 'work-coordinates');
+        const homeLatLng = getLatLong(id, 'home-coordinates');
+        const itemLatLng = itemCoordinates.split(',').map(parseFloat);
 
-        if (workLocation && homeLocation) {
-   getRoute(itemLatLng, workLatLng, id, 'work');
+        if (workLatLng && homeLatLng) {
+            getRoute(itemLatLng, workLatLng, id, 'work');
             getRoute(itemLatLng, homeLatLng, id, 'home');
         }
     }
@@ -170,21 +142,3 @@
         });
     }
 </script>
-
-<style>
-    .search-results {
-        border: 1px solid #ccc;
-        max-height: 150px;
-        overflow-y: auto;
-        position: absolute;
-        background-color: white;
-        z-index: 1000;
-    }
-    .result {
-        padding: 10px;
-        cursor: pointer;
-    }
-    .result:hover {
-        background-color: #f0f0f0;
-    }
-</style>

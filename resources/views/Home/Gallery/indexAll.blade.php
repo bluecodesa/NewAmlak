@@ -88,11 +88,24 @@
 
 
             <!--/ Header -->
-            <div class="" style="text-align: center;">
+            <div class="row" style="text-align: center;">
+                <div class="col-8">
                 <a class="btn btn-primary mb-2" data-bs-toggle="collapse" href="#collapseExample" role="button"
                     aria-expanded="false" aria-controls="collapseExample">
                     @lang('Filter')
                 </a>
+            </div>
+            <div class="col-4">
+
+                <select id="sortDropdown" class="form-control" onchange="sortItems()">
+                    <option value="">ترتيب حسب...</option>
+                    <option value="newest">الأحدث إلى الأقدم</option>
+                    <option value="highest_price">الأعلى سعر</option>
+                    <option value="lowest_price">الأقل سعر</option>
+                    <option value="largest_space">الأكبر مساحة</option>
+                    <option value="smallest_space">الأقل مساحة</option>
+                </select>
+            </div>
             </div>
             <!-- filter  -->
             <div class="row mb-3" style="text-align: center;">
@@ -469,4 +482,13 @@
             }
         });
     </script>
+    <script>
+    function sortItems() {
+        const sortOrder = document.getElementById('sortDropdown').value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_order', sortOrder);
+        window.location.href = url;
+    }
+</script>
+
 @endpush

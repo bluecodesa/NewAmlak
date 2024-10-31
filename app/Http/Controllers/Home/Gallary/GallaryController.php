@@ -292,8 +292,12 @@ class GallaryController extends Controller
         $hasPriceFilter = $request->input('has_price_filter', false);
         $daily_rent = $request->input('daily_rent', false);
         $districtFilter = request()->input('district_filter', 'all');
+        $sortOrder = $request->input('sort_order', 'newest');
 
-        $data = $this->galleryService->showAllGalleries($cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+        $data = $this->galleryService->showAllGalleries($cityFilter, $propertyTypeFilter,
+         $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter,
+         $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent,$sortOrder);
+
         foreach ($data['galleries'] as $gallery) {
             $visitor = Visitor::where('gallery_id', $gallery->id)
                 ->where('ip_address', $request->ip())

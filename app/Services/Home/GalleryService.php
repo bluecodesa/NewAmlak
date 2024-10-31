@@ -281,7 +281,8 @@ class GalleryService
         }
     }
 
-    public function showAllGalleries($cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent)
+    public function showAllGalleries($cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom,
+     $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent,$sortOrder)
 
     {
         $usages =  $this->propertyUsageService->getAll();
@@ -337,6 +338,24 @@ class GalleryService
             $this->updateAdLicenseStatus(Property::all());
             $this->updateAdLicenseStatus(Unit::all());
 
+        }
+
+        switch ($sortOrder) {
+            case 'highest_price':
+                $allItems = $allItems->sortByDesc('price');
+                break;
+            case 'lowest_price':
+                $allItems = $allItems->sortBy('price');
+                break;
+            case 'largest_space':
+                $allItems = $allItems->sortByDesc('space');
+                break;
+            case 'smallest_space':
+                $allItems = $allItems->sortBy('space');
+                break;
+            default:
+                $allItems = $allItems->sortByDesc('created_at');
+                break;
         }
 
         $uniqueIds = $allItems->pluck('CityData.id')->unique();
