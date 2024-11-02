@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html>
 <head>
     <title>@lang('Your New Account Credentials')</title>
@@ -11,10 +11,10 @@
     <p>@lang('Please log in and change your password as soon as possible.')</p>
     <a class="btn btn-primary" href="env('APP_URL')">@lang('login')</a>
 </body>
-</html>
+</html> --}}
 
 
-{{-- <!DOCTYPE html
+<!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
     style="font-family: system-ui, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
@@ -126,5 +126,5 @@
     </table>
 </body>
 
-</html> --}}
+</html>
 

@@ -284,7 +284,7 @@
                                     <label class="form-label">@lang('lat&long')</label>
                                     <input type="text" readonly name="lat_long" id="location_tag"
                                         class="form-control" placeholder="@lang('lat&long')"
-                                        value="{{ old('location_tag') }}" />
+                                        value="{{ old('lat_long') }}" />
                                 </div>
 
 

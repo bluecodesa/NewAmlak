@@ -97,7 +97,7 @@
                                     <label class="form-label">@lang('Region') <span class="required-color">*</span>
                                     </label>
                                     <select class="form-select" id="Region_id" required>
-                                        <option disabled selected  value="" {{ old('Region_id') == '' ? 'selected' : '' }}>@lang('Region') </option>
+                                        <option disabled  value="" {{ old('Region_id') == '' ? 'selected' : '' }}>@lang('Region') </option>
                                         @foreach ($Regions as $Region)
                                             <option value="{{ $Region->id }}" {{ old('Region_id') == $Region->id ? 'selected' : '' }}
                                                 data-url="{{ route('Office.Office.GetCitiesByRegion', $Region->id) }}">
@@ -133,7 +133,7 @@
                                     <label class="form-label">@lang('lat&long')</label>
                                     <input type="text" required readonly name="lat_long" id="location_tag"
                                         class="form-control" placeholder="@lang('lat&long')"
-                                        value="{{ old('location_tag') }}" />
+                                        value="{{ old('lat_long') }}" />
                                 </div>
 
 
@@ -301,16 +301,40 @@
                                 </button>
                             </div>
                         </div>
-                            <div class="tab-pane fade" id="navs-justified-timeLine" role="tabpanel">
-                                <label class="form-label">@lang('قم بإضافة مراحل المشروع هنا')</label>
-                                <div id="features" class="row">
+                        <div class="tab-pane fade" id="navs-justified-timeLine" role="tabpanel">
+                            <label class="form-label">@lang('قم بإضافة مراحل المشروع هنا')</label>
+                            <div id="features" class="row">
+                                @if(old('time_line'))
+                                    @foreach(old('time_line') as $index => $time_line)
+                                        <div class="row mb-3 stage-row">
+                                            <div class="col-4">
+                                                <select name="time_line[]" class="form-select w-100">
+                                                    <option value="">@lang('Project status')</option>
+                                                    @foreach ($projectStatuses as $status)
+                                                        <option value="{{ $status->id }}" {{ $status->id == $time_line ? 'selected' : '' }}>
+                                                            {{ $status->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-4">
+                                                <input class="form-control" name="date[]" type="date" id="html5-date-input" value="{{ old('date.' . $index) }}">
+                                            </div>
+                                            <div class="col-4">
+                                                <button type="button" class="btn btn-primary w-100" onclick="addFeature()">
+                                                    <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                    <span class="d-none d-sm-inline-block">@lang('Add stage')</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
                                     <div class="row mb-3 stage-row">
                                         <div class="col-4">
                                             <select name="time_line[]" class="form-select w-100">
                                                 <option value="">@lang('Project status')</option>
                                                 @foreach ($projectStatuses as $status)
-                                                    <option value="{{ $status->id }}"  {{ (collect(old('time_line'))->contains($status->id)) ? 'selected' : '' }}>
-                                                        {{ $status->name }}</option>
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -318,19 +342,20 @@
                                             <input class="form-control" name="date[]" type="date" id="html5-date-input">
                                         </div>
                                         <div class="col-4">
-                                            <button type="button" class="btn btn-primary w-100"
-                                            onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                class="d-none d-sm-inline-block">@lang('Add stage')</span></button>
+                                            <button type="button" class="btn btn-primary w-100" onclick="addFeature()">
+                                                <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                <span class="d-none d-sm-inline-block">@lang('Add stage')</span>
+                                            </button>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12" style="text-align: center;">
-                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab"
-                                        data-next="#navs-justified-profile">
-                                        {{ __('Next') }}
-                                    </button>
-                                </div>
+                                @endif
                             </div>
+                            <div class="col-12" style="text-align: center;">
+                                <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
+                                    {{ __('Next') }}
+                                </button>
+                            </div>
+                        </div>
 
                             <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
                                 <div class="row">
@@ -427,23 +452,7 @@
     });
 
 
-    $('.Region_id').on('change', function() {
-        var selectedOption = $(this).find(':selected');
-        var url = selectedOption.data('url');
-        $.ajax({
-            type: "get",
-            url: url,
-            beforeSend: function() {
-                $('.CityDiv').fadeOut('fast');
-            },
-            success: function(data) {
-                $('.CityDiv').fadeOut('fast', function() {
-                    $(this).empty().append(data);
-                    $(this).fadeIn('fast');
-                });
-            },
-        });
-    });
+
 
     //
     // $("#myAddressBar").on("keyup", function() {

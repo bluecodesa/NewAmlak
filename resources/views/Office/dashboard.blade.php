@@ -856,7 +856,7 @@
         var idNumber = $('#idNumberInput').val();
 
         $.ajax({
-            url: '{{ route('Office.Owner.searchByIdNumber') }}',
+            url: '{{ route('Office.searchByIdNumber') }}',
             type: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',

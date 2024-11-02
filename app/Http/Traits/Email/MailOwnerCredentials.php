@@ -34,7 +34,7 @@ trait MailOwnerCredentials
             }
             // Mail::to($email)->send(new WelcomeBroker($data, $content, $subject, $EmailTemplate));
             try {
-                Mail::to($user->email)->send(mailable: new OwnerCredentials($user, $password));
+                Mail::to($user->email)->send(mailable: new OwnerCredentials($data, $content, $subject, $EmailTemplate, $password));
             } catch (\Throwable $th) {
             }
 

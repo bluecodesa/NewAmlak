@@ -1,8 +1,14 @@
 {{-- (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames)) --}}
-@php
+{{-- @php
 $sectionsIds = Auth::user()
     ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')
     ->toArray();
+@endphp --}}
+@php
+    $sectionsIds = Auth::user()
+        ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+        dd($sectionsIds);
 @endphp
 @if (in_array(18, $sectionsIds))
 

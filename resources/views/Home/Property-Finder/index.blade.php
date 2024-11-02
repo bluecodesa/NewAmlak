@@ -259,7 +259,7 @@
                 </div>
                 @if (session('active_role') === 'Renter')
 
-                <div class="tab-pane fade show " id="navs-justified-gallery" role="tabpanel">
+                <div class="tab-pane fade show " id="navs-justified-contract" role="tabpanel">
 
                     <div class="row p-1 mb-1">
                         <div class="col-12">
@@ -387,7 +387,7 @@
                 </div>
 
 
-                <div class="tab-pane fade show " id="navs-justified-profile" role="tabpanel">
+                <div class="tab-pane fade show " id="navs-justified-installment" role="tabpanel">
 
                     <div class="row p-1 mb-1">
                         <div class="col-12">

@@ -10,6 +10,7 @@ use App\Models\Gallery;
 use App\Models\Owner;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Renter;
 use App\Models\Subscription;
 use App\Models\SubscriptionSection;
 use App\Models\SubscriptionType;
@@ -19,6 +20,7 @@ use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Unit;
+use App\Models\User;
 use App\Models\Visitor;
 use App\Services\Admin\RegionService as AdminRegionService;
 use App\Services\Admin\SubscriptionService;
@@ -280,6 +282,9 @@ class HomeController extends Controller
         $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price, 'status' => 'pending']);
 
         $Invoice  =  auth()->user()->UserOfficeData->UserSystemInvoicePending;
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+        $delimiter = '-';
+        $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
 
         $data = [
             'broker_id' => $subscription->broker_id,
@@ -288,7 +293,7 @@ class HomeController extends Controller
             'subscription_name' => $SubscriptionType->name,
             'period' => $SubscriptionType->period,
             'period_type' => $SubscriptionType->period_type,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
             'status' => 'pending'
         ];
 
@@ -370,4 +375,87 @@ class HomeController extends Controller
 
         return view('Office.SubscriptionManagement.invoices.show', get_defined_vars());
     }
+
+    public function searchByIdNumber(Request $request)
+    {
+
+        // $this->OwnerService->searchByIdNumber($request);
+        $validatedData = $request->validate([
+            'id_number' => [
+                'required',
+                'numeric',
+                'digits:10',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                    }
+                },
+            ],
+        ], [
+            'id_number.required' => 'The ID number field is required.',
+            'id_number.numeric' => 'The ID number must be a number.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+        ]);
+
+        $idNumber = $validatedData['id_number'];
+        $officeId = auth()->user()->UserOfficeData->id;
+
+        $user = User::where('id_number', $idNumber)->first();
+        if ($user) {
+            if ($user->is_owner) {
+                $existingOwner = Owner::where('user_id', $user->id)
+                    ->whereHas('offices', function ($query) use ($officeId) {
+                        $query->where('office_id', $officeId);
+                    })
+                    ->first();
+
+                if ($existingOwner) {
+                    return response()->json([
+                        'html' => view('Office.inc._result_search', [
+                            'message' => __('User is already a Owner in this office.'),
+                            'user' => $user,
+                        'id_number'=>$idNumber
+
+                        ])->render()
+                    ]);
+                } else {
+                    return response()->json([
+                        'html' => view('Office.inc._no_data_search', [
+                            'message' => __('This id number is not registered in this account'),
+                            'user' => $user,
+                            'id_number'=>$idNumber
+                        ])->render()
+                    ]);
+                }
+            }elseif($user->is_renter) {
+                $existingRenter = Renter::where('user_id', $user->id)
+                    ->whereHas('OfficeData', function ($query) use ($officeId) {
+                        $query->where('office_id', $officeId);
+                    })
+                    ->first();
+                    if ($existingRenter) {
+                        return response()->json(['html' => view('Office.inc._result_search', ['message' => __('User is already a renter in this office.'), 'user' => $user])->render()]);
+                    }
+                return response()->json(['html' => view('Office.inc._no_data_search', ['message' => __('This id number is not registered in this account'), 'user' => $user])->render()]);
+            }
+             else {
+                return response()->json([
+                    'html' => view('Office.inc._no_data_search', [
+                        'message' => __('This id number is not registered in this account'),
+                        'user' => $user,
+                        'id_number'=>$idNumber
+                    ])->render()
+                ]);
+            }
+        } else {
+            return response()->json([
+                'html' => view('Office.inc._no_data_search', [
+                    'message' => __('This id number is not registered in this account'),
+                    session(['id_number' => $idNumber]),
+                    ])->render()
+            ]);
+        }
+
+    }
+
 }

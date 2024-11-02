@@ -127,7 +127,7 @@
                                     <label class="form-label">@lang('lat&long')</label>
                                     <input type="text" required readonly name="lat_long" id="location_tag"
                                         class="form-control" placeholder="@lang('lat&long')"
-                                        value="{{ old('location_tag') }}" />
+                                        value="{{ old('lat_long') }}" />
                                 </div>
 
                                 <div class="form-group col-12 col-md-4">
@@ -178,7 +178,7 @@
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label">@lang('Instrument number')</label>
                                     <input type="number" name="instrument_number" class="form-control"
-                                        placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
+                                        placeholder="@lang('Instrument number')" value="{{ old('instrument_number') }}" />
                                 </div>
 
 
@@ -230,7 +230,7 @@
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" 
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
                                         @if($falLicense->ad_license_status != 'valid') disabled @endif
                                         @if($falLicense->ad_license_status == 'valid') checked @endif />
                                     <span class="switch-toggle-slider">

@@ -12,6 +12,11 @@ class OwnerCredentials extends Mailable
 
     public $user;
     public $password;
+    public $data;
+    public $content;
+    public $subject;
+    public $EmailTemplate;
+
 
     /**
      * Create a new message instance.
@@ -20,15 +25,18 @@ class OwnerCredentials extends Mailable
      * @param  string  $password
      * @return void
      */
-    public function __construct($user, $password)
+    public function __construct($data, $content, $subject, $EmailTemplate, $password)
     {
-        $this->user = $user;
         $this->password = $password;
+        $this->data = $data;
+        $this->content = $content;
+        $this->subject = $subject;
+        $this->EmailTemplate = $EmailTemplate;
     }
 
     public function build()
     {
-        return $this->subject('Your New Owner Account Credentials')
+        return $this->subject($this->subject)
             ->view('emails.Admin.OwnerCredentials');
     }
 }

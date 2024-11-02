@@ -1,4 +1,12 @@
-@if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames))
+{{-- @if (in_array('Realestate-gallery', $sectionNames) || in_array('المعرض العقاري', $sectionNames))
+ --}}
+ @php
+    $sectionsIds = Auth::user()
+        ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+        ->toArray();
+        // dd($sectionsIds);
+@endphp
+@if (in_array(18, $sectionsIds))
     <div class="card shadow-none bg-transparent">
         <div class="card-header">
             <h5 class="card-title">@lang('Gallery setting')</h5>

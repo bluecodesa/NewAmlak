@@ -255,6 +255,9 @@ class HomeController extends Controller
         $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price, 'status' => 'pending']);
 
         $Invoice  =  auth()->user()->UserBrokerData->UserSystemInvoicePending;
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+        $delimiter = '-';
+        $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
 
         $data = [
             'broker_id' => $subscription->broker_id,
@@ -263,7 +266,7 @@ class HomeController extends Controller
             'subscription_name' => $SubscriptionType->name,
             'period' => $SubscriptionType->period,
             'period_type' => $SubscriptionType->period_type,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
             'status' => 'pending'
         ];
 

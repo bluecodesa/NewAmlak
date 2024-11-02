@@ -25,7 +25,7 @@ trait WhatsAppAccountCredentials
 
         $notification_id = DB::table('notification_settings')
         ->where('notification_name', 'Add_new_tenant')
-        ->where('whatsapp', 1)
+        ->where('whatsapp', operator: 1)
         ->value('id');
         $whatsappTemplate = WhatsappTemplate::where('notification_setting_id', $notification_id)->first();
 
@@ -71,8 +71,8 @@ trait WhatsAppAccountCredentials
                         'json' => [
                             'session_uuid' => $whatsAppSetting->session_uuid,
                             // 'phone' => $user->phone,
-                            'phone' => 201119978333,
-                            // 'phone' => 201205693178,
+                            // 'phone' => 201119978333,
+                            'phone' => 201205693178,
                             'type' => $whatsAppSetting->type,
                             'message' => $plainContent,
                             'schedule_at' => now(),

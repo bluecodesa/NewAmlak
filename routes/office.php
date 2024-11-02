@@ -46,6 +46,7 @@ Route::group(
             Route::get('UpdateSubscription/{id}', 'HomeController@UpdateSubscription')->name('UpdateSubscription');
             Route::get('ShowSubscription', 'HomeController@showSubscription')->name('ShowSubscription')->middleware('CheckSubscription');
             Route::get('ShowInvoice/{id}', 'HomeController@ShowInvoice')->name('ShowInvoice');
+            Route::post('/search', [HomeController::class, 'searchByIdNumber'])->name('searchByIdNumber');
 
        //resources
        Route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');

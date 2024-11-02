@@ -212,7 +212,7 @@ class HomeController extends Controller
     $contracts=collect();
     $installmentsPerRenter =collect();
         if($finder->is_renter == 1){
-            $contracts = Contract::where('renter_id',$finder->id)->get();
+            $contracts = Contract::where('renter_id',$finder->UserRenterData->id)->get();
             $installmentsPerRenter = Installment::join('contracts', 'installments.contract_id', '=', 'contracts.id')
             ->select(
                 'contracts.renter_id',
@@ -227,7 +227,6 @@ class HomeController extends Controller
             )
             ->orderBy('contracts.renter_id')
             ->get();
-
         }
 
         if($finder->is_owner == 1 ){
