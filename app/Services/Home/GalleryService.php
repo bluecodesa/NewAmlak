@@ -241,6 +241,8 @@ class GalleryService
             $propertyuniqueIds = $allItems->pluck('PropertyTypeData.id')->filter()->unique();
             $propertyUniqueNames = $allItems->pluck('PropertyTypeData.name')->unique();
             $allItems = $this->filterUnitsPublic($allItems, $cityFilter, $propertyTypeFilter, $districtFilter, $projectFilter, $typeUseFilter, $adTypeFilter, $priceFrom, $priceTo, $hasImageFilter, $hasPriceFilter, $daily_rent);
+            $mapItems  = $allItems; // Execute the query to get sorted items
+
             $unit = $allItems->first();
 
             if ($unit) {
