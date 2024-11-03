@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Office\ProjectManagement\Renter;
 use App\Http\Controllers\Controller;
 use App\Models\Installment;
 use App\Models\Office;
+use App\Models\OfficeRenter;
 use App\Models\Renter;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -196,9 +197,41 @@ public function addAsRenter($id)
         return redirect()->route('Office.Renter.index')->with('success', __('Update successfully'));
     }
 
+    // public function destroy(string $id)
+    // {
+    //     $this->RenterService->deleteRenter($id);
+    //     return redirect()->route('Office.Renter.index')->with('success', __('Deleted successfully'));
+    // }
     public function destroy(string $id)
     {
-        $this->RenterService->deleteRenter($id);
+        $renter = $this->RenterService->getRenterById($id);
+        $UserId = auth()->user()->id;
+        $officeId = auth()->user()->UserOfficeData->id;
+
+        if ($renter->user_id === $UserId) {
+            OfficeRenter::where('renter_id', $renter->id)
+                ->where('office_id', $officeId)
+                ->delete();
+
+            return redirect()->route('Office.Owner.index')->with('success', __('You have been removed as an owner from your Office account.'));
+        }
+
+        $ownerInOtherAccounts = OfficeRenter::where('renter_id', $renter->id)
+            ->where('office_id', '!=', $officeId)
+            ->exists();
+
+        if ($ownerInOtherAccounts) {
+            OfficeRenter::where('owner_id', $renter->id)
+                ->where('office_id', $officeId)
+                ->delete();
+
+            return redirect()->route('Office.Renter.index')->with('success', __('renter removed from your Office account.'));
+        }
+
+        OfficeRenter::where('renter_id', $renter->id)
+        ->where('office_id', $officeId)
+        ->delete();
+        // $this->ownerService->deleteOwner($id);
         return redirect()->route('Office.Renter.index')->with('success', __('Deleted successfully'));
     }
 }
