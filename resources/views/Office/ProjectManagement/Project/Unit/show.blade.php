@@ -544,6 +544,21 @@
                                             @lang(' صلاحية الاعلان')
                                             <span class="badge bg-primary">{{ __($Unit->ad_license_status) }}</span>
                                             </li>
+                                            @if ($Unit->show_in_gallery != 1)
+                                            <li
+                                            class="list-group-item d-flex justify-content-between align-items-center">
+                                            @lang('Ad Status')
+                                            <span class="badge bg-primary">@lang('Unpublished')</span>
+                                            </i>
+
+                                            @else
+                                            <li
+                                            class="list-group-item d-flex justify-content-between align-items-center">
+                                            @lang('Ad Status')
+                                            <span class="badge bg-primary">@lang('Published')</span>
+
+                                                </i>
+                                            @endif
                                     </ul>
                                 </div>
                             </div>
