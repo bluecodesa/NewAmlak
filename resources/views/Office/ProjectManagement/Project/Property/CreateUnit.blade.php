@@ -389,6 +389,7 @@
                             </div>
                         @endif
 
+
                             <div class="col-12 mb-3">
                                 <label class="form-label mb-2">@lang('Description')</label>
                                 <div>
@@ -439,24 +440,6 @@
                                 </select>
                             </div>
 
-                            <div class="col-sm-12 col-md-2 mb-3">
-                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')
-                                </label>
-                                {{-- <input type="checkbox" checked name="show_in_gallery" class="toggleHomePage"
-                                        data-toggle="toggle" data-onstyle="primary"> --}}
-
-                                <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_in_gallery" class="switch-input" checked />
-                                    <span class="switch-toggle-slider">
-                                        <span class="switch-on">
-                                            <i class="ti ti-check"></i>
-                                        </span>
-                                        <span class="switch-off">
-                                            <i class="ti ti-x"></i>
-                                        </span>
-                                    </span>
-                                </label>
-                            </div>
 
 
                         </div>

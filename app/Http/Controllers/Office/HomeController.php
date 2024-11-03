@@ -343,8 +343,8 @@ class HomeController extends Controller
 
         $subscription = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
         if ($officeId)
-            $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
-        $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
+        $invoices = $this->systemInvoiceRepository->findByOfficeId($officeId);
+        $UserSubscriptionTypes = $this->SubscriptionTypeService->getOfficeSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
         $sections = $this->SectionService->getAll();
 
         // اجلب عدد الإعلانات الصالحة المنشورة

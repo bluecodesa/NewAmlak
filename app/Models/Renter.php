@@ -34,4 +34,11 @@ class Renter extends Model
     {
         return $this->hasOne(OfficeRenter::class, 'renter_id')->latestOfMany();
     }
+
+    // In the Renter model
+    public function installments()
+    {
+        return $this->hasManyThrough(Installment::class, Contract::class, 'renter_id', 'contract_id', 'id', 'id');
+    }
+
 }

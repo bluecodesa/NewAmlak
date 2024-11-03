@@ -294,7 +294,8 @@ class PropertyRepository implements PropertyRepositoryInterface
                                 return $fail("The $attribute has already been taken in the projects table.");
                             }
                         },
-                    ],                'ad_license_expiry' => 'required|date|after_or_equal:today',
+                    ],
+                    'ad_license_expiry' => 'required|date|after_or_equal:today',
             ];
 
             $messages = [

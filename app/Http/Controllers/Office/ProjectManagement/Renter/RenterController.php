@@ -158,20 +158,8 @@ public function addAsRenter($id)
         // $contracts =null;
         $contracts = $this->ContractService->getContractByRenterId($id);
 
-        $installmentsPerRenter = Installment::join('contracts', 'installments.contract_id', '=', 'contracts.id')
-        ->select(
-            'contracts.renter_id',
-            'installments.id as installment_id',
-            'installments.Installment_number',
-            'installments.price',
-            'installments.commission',
-            'installments.final_price',
-            'installments.status',
-            'installments.start_date',
-            'installments.end_date'
-        )
-        ->orderBy('contracts.renter_id')
-        ->get();
+        $installmentsPerRenter = $renter->installments;
+
 
         if ($officeRenters->isNotEmpty()) {
             foreach ($officeRenters as $officeRenter) {

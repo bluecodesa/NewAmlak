@@ -213,20 +213,8 @@ class HomeController extends Controller
     $installmentsPerRenter =collect();
         if($finder->is_renter == 1){
             $contracts = Contract::where('renter_id',$finder->UserRenterData->id)->get();
-            $installmentsPerRenter = Installment::join('contracts', 'installments.contract_id', '=', 'contracts.id')
-            ->select(
-                'contracts.renter_id',
-                'installments.id as installment_id',
-                'installments.Installment_number',
-                'installments.price',
-                'installments.commission',
-                'installments.final_price',
-                'installments.status',
-                'installments.start_date',
-                'installments.end_date'
-            )
-            ->orderBy('contracts.renter_id')
-            ->get();
+            $installmentsPerRenter = $finder->UserRenterData->installments;
+
         }
 
         if($finder->is_owner == 1 ){

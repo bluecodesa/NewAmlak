@@ -105,10 +105,14 @@
                                                         $views_discount = ($y / $type->views_count) * $type->views_discount; // خصم المشاهدات
                                                         $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
                                                         $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                        $discounted_price = $discounted_price < 0 ? 0 : $discounted_price;
+
                                                         @endphp
                                                         <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
+                                                        <input type="number" class="display-4 mb-0 text-primary"  name="amount" hidden value="{{ $discounted_price }}"></input>
                                                         @else
                                                         <h1 class="display-4 mb-0 text-primary">{{ $type->price - $type->price * $type->upgrade_rate }}</h1>
+                                                        <input type="number" class="display-4 mb-0 text-primary"  name='amount' hidden value="{{ $type->price - $type->price * $type->upgrade_rate }}"></input>
                                                         @endif
                                                         <sub class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">/{{ $type->period }} {{ __($type->period_type) }}</sub>
                                                     </div>

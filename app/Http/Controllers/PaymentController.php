@@ -123,8 +123,9 @@ class PaymentController extends Controller
         }
 
         $SubscriptionType =  SubscriptionType::find($request->subscription_type);
+        $amount = $request->amount;
 
-        $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
+        // $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
 
         $last_record = SystemInvoice::latest()->first();
 
