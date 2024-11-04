@@ -48,6 +48,8 @@ trait WhatsappUnitPublished
             }
 
             // إرسال الرسالة باستخدام API الخاص بـ WhatsApp
+            $phone = $unit->OfficeData->UserData->full_phone ?? $unit->BrokerData->UserData->full_phone ?? '';
+
             $client = new Client();
 
             try {
@@ -61,7 +63,8 @@ trait WhatsappUnitPublished
                         ],
                         'json' => [
                             'session_uuid' => $whatsAppSetting->session_uuid,
-                            'phone' => 201119978333, // تأكد من استخدام الرقم الصحيح
+                            // 'phone' => 201119978333, // تأكد من استخدام الرقم الصحيح
+                            'phone' => $phone, // تأكد من استخدام الرقم الصحيح
                             'type' => $whatsAppSetting->type,
                             'message' => $plainContent, // استخدم المحتوى المعدل هنا
                             'schedule_at' => now(),
