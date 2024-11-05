@@ -13,7 +13,7 @@
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-4 text-left">
-                                            <img src="{{ url($sitting->icon) }}"
+                                            <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}"
                                                 style="border: 1px solid; border-radius: 10px;" width="190"
                                                 alt="">
                                         </div>

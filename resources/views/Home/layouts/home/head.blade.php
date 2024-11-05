@@ -9,7 +9,7 @@
     <title> {{ $sitting->title }} - @yield ('title')</title>
 
     <meta name="description" content="" />
-    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
+    <link rel="shortcut icon" href="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +17,7 @@
         rel="stylesheet" />
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
         <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url($sitting->icon) }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

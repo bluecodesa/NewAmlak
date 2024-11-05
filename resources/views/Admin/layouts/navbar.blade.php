@@ -5,12 +5,12 @@
         <div class="topbar-left">
             <a href="{{ route('welcome') }}" class="logo">
                 <span class="logo-light">
-                    <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
+                    <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
                         style="border: 1px solid;
            border-radius: 50%;"> {{ $sitting->title }}
                 </span>
                 <span class="logo-sm">
-                    <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
+                    <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
                         style="border: 1px solid;
            border-radius: 50%;">
                 </span>

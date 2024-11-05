@@ -16,7 +16,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
+    <link rel="shortcut icon" href="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

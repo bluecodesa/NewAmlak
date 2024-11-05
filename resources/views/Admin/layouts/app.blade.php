@@ -14,7 +14,8 @@
     <title> {{ $sitting->title }} - @yield ('title')</title>
     <meta content="{{ $sitting->title }}" name="description" />
     <meta content="Themesdesign" name="author" />
-    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
+    <link rel="shortcut icon"
+          href="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

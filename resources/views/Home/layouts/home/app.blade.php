@@ -34,7 +34,7 @@
                     </button>
                     <!-- Mobile menu toggle: End-->
                     <a href="{{ route('welcome') }}" class="app-brand-link">
-                        <img src="{{ url($sitting->icon) }}" width="80" alt="">
+                        <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80" alt="">
                         {{-- <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">تاون</span> --}}
                     </a>
                 </div>
@@ -323,7 +323,7 @@
                     <div class="row justify-content-around">
                         <form id="roleForm" action="{{ route('Home.addAccount') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="key_phone" 
+                            <input type="hidden" name="key_phone"
                                 value="{{ auth()->user()->key_phone ?? '' }}">
                             <input type="hidden" name="phone"
                                 value="{{ auth()->user()->phone ?? '' }}">

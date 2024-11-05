@@ -19,7 +19,7 @@
         {{-- </a> --}}
 
         <a href="{{ route('Office.home') }}" class="app-brand-link">
-            <img src="{{ url($sitting->icon) }}" width="80" alt="">
+            <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80" alt="">
             {{-- <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">{{ $sitting->title }}</span> --}}
         </a>
 

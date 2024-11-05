@@ -146,34 +146,40 @@
                                                         @endif
 
                                                         @if (Auth::user()->hasPermission('suspend-user-subscriber'))
-                                                        @if($subscriber->is_office || $subscriber->is_owner)
-                                                            @php
-                                                                // Determine which subscription to use based on office or owner
-                                                                $userSubscription = $subscriber->is_office ? $subscriber->UserOfficeData->UserSubscription : $subscriber->UserOwnerData->UserSubscription;
-                                                            @endphp
+                                                        @php
+                                                            // Determine subscription based on subscriber type
+                                                            $subscriptions = [];
+                                                            if ($subscriber->is_office) {
+                                                                $subscriptions[] = [
+                                                                    'subscription' => $subscriber->UserOfficeData->UserSubscription,
+                                                                    'label' => 'office account'
+                                                                ];
+                                                            }
+                                                            if ($subscriber->is_owner) {
+                                                                $subscriptions[] = [
+                                                                    'subscription' => $subscriber->UserOwnerData->UserSubscription,
+                                                                    'label' => 'owner account'
+                                                                ];
+                                                            }
+                                                            if ($subscriber->is_broker) {
+                                                                $subscriptions[] = [
+                                                                    'subscription' => $subscriber->UserBrokerData->UserSubscription,
+                                                                    'label' => 'broker account'
+                                                                ];
+                                                            }
+                                                        @endphp
 
-                                                                <form action="{{ route('Admin.Subscribers.SuspendSubscription', $userSubscription->id) }}" method="post">
-                                                                    @csrf
-                                                                    <input type="hidden" name="is_suspend" value="{{ $userSubscription->is_suspend ? 0 : 1 }}">
-                                                                    <button class="dropdown-item">
-                                                                        @lang($userSubscription->is_suspend ? 're active' : 'suspend')
-                                                                    </button>
-                                                                </form>
-                                                        @elseif($subscriber->is_broker || $subscriber->is_owner)
-                                                            @php
-                                                                // Determine which subscription to use based on office or owner
-                                                                $userSubscription = $subscriber->is_broker ? $subscriber->UserBrokerData->UserSubscription : $subscriber->UserOwnerData->UserSubscription;
-                                                            @endphp
+                                                        @foreach ($subscriptions as $data)
+                                                            <form action="{{ route('Admin.Subscribers.SuspendSubscription', $data['subscription']->id) }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="is_suspend" value="{{ $data['subscription']->is_suspend ? 0 : 1 }}">
+                                                                <button class="dropdown-item">
+                                                                    @lang($data['subscription']->is_suspend ? "re active {$data['label']}" : "suspend {$data['label']}")
+                                                                </button>
+                                                            </form>
+                                                        @endforeach
+                                                    @endif
 
-                                                                <form action="{{ route('Admin.Subscribers.SuspendSubscription', $userSubscription->id) }}" method="post">
-                                                                    @csrf
-                                                                    <input type="hidden" name="is_suspend" value="{{ $userSubscription->is_suspend ? 0 : 1 }}">
-                                                                    <button class="dropdown-item">
-                                                                        @lang($userSubscription->is_suspend ? 're active' : 'suspend')
-                                                                    </button>
-                                                                </form>
-                                                            @endif
-                                                        @endif
 
 
                                                         @if (Auth::user()->hasPermission('read-subscriber-file'))

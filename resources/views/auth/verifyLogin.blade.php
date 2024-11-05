@@ -11,7 +11,7 @@
                     <div class="app-brand justify-content-center mb-4 mt-2">
                         <a href="index.html" class="app-brand-link gap-2">
                             <span class="app-brand-logo demo">
-                                <a href="{{ route('welcome') }}" class="logo logo-admin"><img src="{{ url($sitting->icon) }}"
+                                <a href="{{ route('welcome') }}" class="logo logo-admin"><img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}"
                                         alt="" height="100"></a>
                             </span>
                             {{-- <span class="app-brand-text demo text-body fw-bold ms-1">تاون</span> --}}

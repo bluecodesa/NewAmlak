@@ -37,7 +37,8 @@ class SettingService
             'email' => 'nullable|email',
             'facebook' => 'nullable|url',
             'twitter' => 'nullable|url',
-            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'icon_ar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'icon_en' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'terms_pdf' => 'nullable|file',
             'phone' => 'nullable',
             'crn' => 'nullable',
@@ -52,12 +53,19 @@ class SettingService
             $data[$locale]['title'] = $request->input("$locale.title");
         }
 
-        if ($request->hasFile('icon')) {
-            $file = $request->file('icon');
+        if ($request->hasFile('icon_ar')) {
+            $file = $request->file('icon_ar');
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('logos');
             $file->move($destinationPath, $fileName);
-            $data['icon'] = 'logos/' . $fileName;
+            $data['icon_ar'] = 'logos/' . $fileName;
+        }
+        if ($request->hasFile('icon_en')) {
+            $file = $request->file('icon_en');
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('logos');
+            $file->move($destinationPath, $fileName);
+            $data['icon_en'] = 'logos/' . $fileName;
         }
 
         if ($request->hasFile('terms_pdf')) {
@@ -108,12 +116,12 @@ class SettingService
 
     public function createInterestType($data)
     {
-    
+
         $rules = [];
         foreach (config('translatable.locales') as $locale) {
             $rules += [$locale . '.name' => ['required', Rule::unique('interest_type_translations', 'name')]];
         }
-    
+
         $messages = [
             '*.name.required' => __('The :attribute field is required.', ['attribute' => __('name')]),
             '*.name.unique' => __('The :attribute has already been taken.', ['attribute' => __('name')]),
@@ -136,10 +144,10 @@ class SettingService
         }
         return $this->settingRepository->createInterestType($data);
 
-    
+
     }
-    
-    
+
+
 
     public function updateInterestType($data, $id)
 {
