@@ -2049,7 +2049,7 @@
                                                         @if ($unit->UnitImages && $unit->UnitImages->isNotEmpty())
                                                             <img src="{{ url($unit->UnitImages->first()->image) }}" alt="Unit Image" class="rounded-square" style="width: 100%; height: 100%;" />
                                                         @else
-                                                            <img src="{{ url('Offices/Projects/Unit/default.svg') }}" alt="Default Image" class="rounded-square" style="width: 100%; height: 100%;" />
+                                                            <img src="{{ url('Offices/Projects/Units/default.svg') }}" alt="Default Image" class="rounded-square" style="width: 100%; height: 100%;" />
                                                         @endif
                                                     </div>
                                                 </a>

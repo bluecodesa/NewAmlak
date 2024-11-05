@@ -13,7 +13,6 @@
         let mapInitialized = false;
         let map;
         var items = @json($mapItems);
-
         document.querySelector('button[data-bs-target="#navs-justified-gallery"]').addEventListener('click', function () {
             if (!mapInitialized) {
                 initializeMap();
@@ -49,13 +48,17 @@
     }
 
     function generatePopupHtml(item) {
-        const showRoute = getShowRoute(item);
-        const rentPriceAndType = item.isGalleryUnit ? `${item.rentPrice} @lang('SAR') / ${item.rent_type_show}` : '';
-        return `
+    const showRoute = getShowRoute(item);
+    const rentPriceAndType = item.isGalleryUnit ? `${item.rentPrice} @lang('SAR') / ${item.rent_type_show}` : '';
+    const imageUrl = item.unit_images?.[0]?.image
+                   || item.project_images?.[0]?.image
+                   || item.property_image
+                   || '{{ asset("Offices/Projects/default.svg") }}';
+    return `
         <div class="w-500">
             <a href="${showRoute}" target="_blank" class="card-popup">
                 <div style="display: flex; gap: 1rem;">
-                    <img src="${item.unit_images?.[0]?.image || 'Offices/Projects/default.svg'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+                    <img src="${imageUrl}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
                     <div>
                         <h6>${item.name || item.ad_name}</h6>
                         <p>${item.property_type_data?.name || ''} / ${item.type || ''}</p>
@@ -72,9 +75,11 @@
                 <button class="btn btn-info mt-2" onclick="calculateDistance(${item.id})">احسب المسافة</button>
                 <div id="distance-output-${item.id}"></div>
             </div>
-            </div>
-        `;
-    }
+        </div>
+    `;
+}
+
+
 
     function setActiveInput(inputId) {
         const inputs = document.querySelectorAll('input');

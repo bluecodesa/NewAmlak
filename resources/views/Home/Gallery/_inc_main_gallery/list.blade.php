@@ -223,7 +223,7 @@
                                         style="width: 100%; height: 100%;" />
                                 @else
                                     @if ($isGalleryUnit)
-                                        <img src="{{ url('Offices/Projects/Unit/default.svg') }}" alt="Avatar Image"
+                                        <img src="{{ url('Offices/Projects/Units/default.svg') }}" alt="Avatar Image"
                                             class="rounded-square" style="width: 100%; height: 100%;" />
                                     @elseif ($isGalleryProject)
                                         <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
