@@ -222,8 +222,16 @@
                                         alt="Avatar Image" class="rounded-square"
                                         style="width: 100%; height: 100%;" />
                                 @else
-                                    <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
+                                    @if ($isGalleryUnit)
+                                        <img src="{{ url('Offices/Projects/Unit/default.svg') }}" alt="Avatar Image"
+                                            class="rounded-square" style="width: 100%; height: 100%;" />
+                                    @elseif ($isGalleryProject)
+                                        <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
                                         class="rounded-square" style="width: 100%; height: 100%;" />
+                                    @elseif ($isGalleryProperty)
+                                    <img src="{{ url('Offices/Projects/Property/default.svg') }}" alt="Avatar Image"
+                                    class="rounded-square" style="width: 100%; height: 100%;" />
+                                    @endif
                                 @endif
                                 <div class="lable bg-label-primary"
                                     style="position: absolute; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.5); color: white; padding: 5px; border-radius: 5px;">

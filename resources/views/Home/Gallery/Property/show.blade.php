@@ -28,7 +28,7 @@
                                 @endphp
                                 @if($property->PropertyImages->isEmpty())
                                 <div class="carousel-item active">
-                                    <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
+                                    <img class="d-block w-100" src="{{ asset('Offices/Projects/Property/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
                                 </div>
                                 @else
                                 @foreach ($property->PropertyImages as $media)

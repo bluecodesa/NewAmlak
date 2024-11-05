@@ -153,7 +153,7 @@
                                                 @empty
 
                                                     <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                                        src="{{ url('Offices/Projects/default.svg') }}" alt="{{ $Unit->name }}"
+                                                        src="{{ url('Offices/Projects/Unit/default.svg') }}" alt="{{ $Unit->name }}"
                                                         height="100" width="100">
                                                 @endforelse
                                                 <div class="user-info text-center">
