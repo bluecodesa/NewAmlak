@@ -101,11 +101,16 @@
                                                         <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
                                                         @if ($type->discount_type == 'incentive')
                                                         @php
-                                                        $publish_discount = ($x / $type->ads_count) * $type->ads_discount; // خصم النشر
-                                                        $views_discount = ($y / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                        $publish_discount = ($numOfAds / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                        //1/3 * 3%
+                                                        $views_discount = ($numOfViews / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                        //1/5 * 5%
                                                         $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
+                                                        // x + y
                                                         $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                        // 100 -(100*2%)
                                                         $discounted_price = $discounted_price < 0 ? 0 : $discounted_price;
+                                                    
 
                                                         @endphp
                                                         <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
