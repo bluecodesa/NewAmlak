@@ -125,7 +125,7 @@
                                                     @endif
                                                 @endforeach
                                             </td>
-                                            
+
 
                                             <td>
                                                 <span style="font-size: smaller;" >
@@ -146,23 +146,31 @@
                                                         @endif
 
                                                         @if (Auth::user()->hasPermission('suspend-user-subscriber'))
-                                                            @if ($subscriber->is_suspend)
-                                                                <form
-                                                                    action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
-                                                                    method="post">
+                                                        @if($subscriber->is_office || $subscriber->is_owner)
+                                                            @php
+                                                                // Determine which subscription to use based on office or owner
+                                                                $userSubscription = $subscriber->is_office ? $subscriber->UserOfficeData->UserSubscription : $subscriber->UserOwnerData->UserSubscription;
+                                                            @endphp
+
+                                                                <form action="{{ route('Admin.Subscribers.SuspendSubscription', $userSubscription->id) }}" method="post">
                                                                     @csrf
-                                                                    <input type="text" hidden value="{{ 0 }}"
-                                                                        name="is_suspend">
-                                                                    <button class="dropdown-item">@lang('re active')</button>
+                                                                    <input type="hidden" name="is_suspend" value="{{ $userSubscription->is_suspend ? 0 : 1 }}">
+                                                                    <button class="dropdown-item">
+                                                                        @lang($userSubscription->is_suspend ? 're active' : 'suspend')
+                                                                    </button>
                                                                 </form>
-                                                            @else
-                                                                <form
-                                                                    action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
-                                                                    method="post">
+                                                        @elseif($subscriber->is_broker || $subscriber->is_owner)
+                                                            @php
+                                                                // Determine which subscription to use based on office or owner
+                                                                $userSubscription = $subscriber->is_broker ? $subscriber->UserBrokerData->UserSubscription : $subscriber->UserOwnerData->UserSubscription;
+                                                            @endphp
+
+                                                                <form action="{{ route('Admin.Subscribers.SuspendSubscription', $userSubscription->id) }}" method="post">
                                                                     @csrf
-                                                                    <input type="text" hidden value="{{ 1 }}"
-                                                                        name="is_suspend">
-                                                                    <button class="dropdown-item">@lang('suspend')</button>
+                                                                    <input type="hidden" name="is_suspend" value="{{ $userSubscription->is_suspend ? 0 : 1 }}">
+                                                                    <button class="dropdown-item">
+                                                                        @lang($userSubscription->is_suspend ? 're active' : 'suspend')
+                                                                    </button>
                                                                 </form>
                                                             @endif
                                                         @endif
