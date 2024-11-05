@@ -29,13 +29,20 @@ class PaymentController extends Controller
     {
         $user =  Auth::user();
 
+        // if ($user->UserOfficeData) {
+        //     $Subscription =  $user->UserOfficeData->UserSubscriptionPending;
+        // } else {
+        //     $Subscription = $user->UserBrokerData->UserSubscriptionPending;
+        // }
+
+        // $amount = $Subscription->total;
         if ($user->UserOfficeData) {
-            $Subscription =  $user->UserOfficeData->UserSubscriptionPending;
+            $Subscription =  $user->UserOfficeData->UserSystemInvoicePending;
         } else {
-            $Subscription = $user->UserBrokerData->UserSubscriptionPending;
+            $Subscription = $user->UserBrokerData->UserSystemInvoicePending;
         }
 
-        $amount = $Subscription->total;
+        $amount = $Subscription->amount;
 
         $last_record = SystemInvoice::latest()->first();
         $pay = Paypage::sendPaymentCode('all')

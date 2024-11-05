@@ -157,14 +157,13 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-4 col-12 mb-3">
+                                            <div class="col-md-4 mb-3 col-12">
                                                 <label class="form-label">@lang('Type use') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select" name="property_usage_id" required>
-                                                    <option disabled selected value="">@lang('Type use')</option>
+                                                    <option disabled selected value="" {{ old('property_usage_id') == '' ? 'selected' : '' }}>@lang('Type use')</option>
                                                     @foreach ($usages as $usage)
-                                                        <option value="{{ $usage->id }}"
-                                                            {{ $Project->Project_usage_id == $usage->id ? 'selected' : '' }}>
+                                                        <option value="{{ $usage->id }}" {{ old('property_usage_id') == $usage->id ? 'selected' : '' }}>
                                                             {{ $usage->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -273,21 +272,19 @@
                                                 <label class="form-label">@lang('Additional details')</label>
                                                 <div id="features" class="row">
                                                     <div class="mb-3 col-4">
-                                                        <input type="text" name="name[]" class="form-control search"
-                                                            placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+                                                        <input type="text" name="name[0]" class="form-control search" placeholder="@lang('Field name')" value="{{ old('name.0') }}" />
                                                     </div>
                                                     <div class="mb-3 col-4">
-                                                        <input type="text" name="qty[]" class="form-control"
-                                                            placeholder="@lang('value')" value="{{ old('qty*') }}" />
+                                                        <input type="text" name="qty[0]" class="form-control" placeholder="@lang('value')" value="{{ old('qty.0') }}" />
                                                     </div>
                                                     <div class="col">
-                                                        <button type="button" class="btn btn-primary w-100"
-                                                            onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add details')</span></button>
+                                                        <button type="button" class="btn btn-primary w-100" onclick="addFeature()">
+                                                            <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                            <span class="d-none d-sm-inline-block">@lang('Add details')</span>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
-
 
                                             <div class="col-12" style="text-align: center;">
                                                 <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
@@ -328,7 +325,7 @@
                             <div class="col-sm-12 col-md-4 mb-3">
                                 <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" 
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
                                         @if($falLicense->ad_license_status != 'valid') disabled @endif
                                         @if($falLicense->ad_license_status == 'valid') checked @endif />
                                     <span class="switch-toggle-slider">

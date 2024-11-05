@@ -215,43 +215,62 @@ class ContractRepository implements ContractRepositoryInterface
         $numberOfContracts = 1;
         $installments = [];
 
-        if ($data['duration_unit'] === 'year' && $data['payment_cycle'] === 'annual') {
-            $numberOfContracts = $data['contract_duration'];
-        } else if ($data['duration_unit'] === 'month' && $data['payment_cycle'] === 'monthly') {
-            $numberOfContracts = $data['contract_duration'];
-        } else if ($data['duration_unit'] === 'year' && $data['payment_cycle'] === 'monthly') {
-            $numberOfContracts = $data['contract_duration'] * 12;
+        // تحديد عدد الأقساط بناءً على مدة العقد ودورة الدفع
+        if ($data['duration_unit'] === 'year') {
+            if ($data['payment_cycle'] === 'annual') {
+                $numberOfContracts = $data['contract_duration'];
+            } else if ($data['payment_cycle'] === 'semi-annual') {
+                $numberOfContracts = $data['contract_duration'] * 2;
+            } else if ($data['payment_cycle'] === 'quarterly') {
+                $numberOfContracts = $data['contract_duration'] * 4;
+            } else if ($data['payment_cycle'] === 'monthly') {
+                $numberOfContracts = $data['contract_duration'] * 12;
+            }
+        } else if ($data['duration_unit'] === 'month') {
+            if ($data['payment_cycle'] === 'monthly') {
+                $numberOfContracts = $data['contract_duration'];
+            } else if ($data['payment_cycle'] === 'quarterly') {
+                $numberOfContracts = ceil($data['contract_duration'] / 3);
+            }
         }
 
-        // $startDate = new \DateTime($data['contract_date']);
-        if ($data['gregorian_contract_date']) {
+        // تحديد تاريخ بداية العقد
+        if (!empty($data['gregorian_contract_date'])) {
             $startDate = new \DateTime($data['gregorian_contract_date']);
-        } elseif ($data['hijri_contract_date']) {
-            $hijriDate = $data['hijri_contract_date'];
-            $startDate = new \DateTime($hijriDate);
+        } elseif (!empty($data['hijri_contract_date'])) {
+            $startDate = new \DateTime($data['hijri_contract_date']);
         } else {
             throw new \InvalidArgumentException('Invalid calendar type provided.');
         }
+
+        // حساب السعر والعمولة لكل قسط
         $pricePerContract = $data['price'] / $numberOfContracts;
         $commissionPerContract = 0;
 
         if ($data['service_type_id'] == 3) {
-            if ($data['collection_type'] == 'once with frist installment') {
+            if ($data['collection_type'] === 'once with frist installment') {
                 $commissionPerContract = ($data['commissions_rate'] / 100) * $data['price'];
-            } else if ($data['collection_type'] == 'divided with all installments') {
-                $commissionPerContract = ($data['commissions_rate'] / 100) * ($data['price'] / $numberOfContracts);
+            } else if ($data['collection_type'] === 'divided with all installments') {
+                $commissionPerContract = ($data['commissions_rate'] / 100) * $pricePerContract;
             }
         }
 
+        // إنشاء الأقساط
         for ($i = 0; $i < $numberOfContracts; $i++) {
             $endDate = clone $startDate;
-            if ($data['duration_unit'] === 'month') {
+
+            // تحديث تاريخ النهاية بناءً على دورة الدفع
+            if ($data['payment_cycle'] === 'monthly') {
                 $endDate->modify('+1 month');
-            } else if ($data['duration_unit'] === 'year') {
+            } else if ($data['payment_cycle'] === 'quarterly') {
+                $endDate->modify('+3 months');
+            } else if ($data['payment_cycle'] === 'semi-annual') {
+                $endDate->modify('+6 months');
+            } else if ($data['payment_cycle'] === 'annual') {
                 $endDate->modify('+1 year');
             }
-            $price = $pricePerContract;
 
+            // حساب السعر النهائي لكل قسط مع تضمين العمولة إذا كانت مطلوبة
             $finalPrice = $pricePerContract;
             if ($commissionPerContract !== 0) {
                 if ($data['collection_type'] === 'once with frist installment') {
@@ -265,21 +284,21 @@ class ContractRepository implements ContractRepositoryInterface
 
             $installments[] = [
                 'contract_id' => $contract->id,
-                'price' => $price,
+                'price' => $pricePerContract,
                 'final_price' => $finalPrice,
                 'start_date' => $startDate->format('Y-m-d'),
                 'end_date' => $endDate->format('Y-m-d'),
                 'Installment_number' => $contract->contract_number . '-' . ($i + 1),
-                'commission' => ($data['collection_type'] === 'once with frist installment' && $i === 0) ? $commissionPerContract : ($data['collection_type'] === 'divided with all installments' ? $commissionPerContract  : 0),
-
-
+                'commission' => ($data['collection_type'] === 'once with frist installment' && $i === 0) ? $commissionPerContract : ($data['collection_type'] === 'divided with all installments' ? $commissionPerContract : 0),
             ];
 
+            // تحديث تاريخ البداية للقسط التالي
             $startDate = clone $endDate;
         }
 
         Installment::insert($installments);
     }
+
 
     function getContractById($id)
     {

@@ -286,25 +286,23 @@
                                 </div>
 
 
-                                            <div class="col-12 mb-3">
-                                                <label class="form-label">@lang('Additional details')</label>
-                                                <div id="features" class="row">
-                                                    <div class="mb-3 col-4">
-                                                        <input type="text" name="name[]" class="form-control search"
-                                                            placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-
-                                                    </div>
-                                                    <div class="mb-3 col-4">
-                                                        <input type="text" name="qty[]" class="form-control"
-                                                            placeholder="@lang('value')" value="{{ old('qty*') }}" />
-                                                    </div>
-                                                    <div class="col">
-                                                        <button type="button" class="btn btn-outline-primary w-100"
-                                                            onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add details')</span></button>
-                                                    </div>
-                                                </div>
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label">@lang('Additional details')</label>
+                                        <div id="features" class="row">
+                                            <div class="mb-3 col-4">
+                                                <input type="text" name="name[0]" class="form-control search" placeholder="@lang('Field name')" value="{{ old('name.0') }}" />
                                             </div>
+                                            <div class="mb-3 col-4">
+                                                <input type="text" name="qty[0]" class="form-control" placeholder="@lang('value')" value="{{ old('qty.0') }}" />
+                                            </div>
+                                            <div class="col">
+                                                <button type="button" class="btn btn-primary w-100" onclick="addFeature()">
+                                                    <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                    <span class="d-none d-sm-inline-block">@lang('Add details')</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                         <div class="col-12" style="text-align: center;">
                                             <button type="button" class="btn btn-primary col-4 me-1 next-tab"

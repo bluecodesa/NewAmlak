@@ -2002,13 +2002,21 @@
                         <div class="modal-body">
                             <div class="row g-4">
                                 @foreach ($all5kiloUnits as $unit)
-                            @php
-                                $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
-                            @endphp
-                            @if ($falLicenseUser &&
-                                $falLicenseUser->ad_license_status == 'valid' &&
-                                $falLicenseUser->falData->for_gallery == 1 &&
-                                $unit->ad_license_status == 'Valid')
+                                @php
+                                        // $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
+
+                                        if ($unit->BrokerData) {
+                                            $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
+                                        } elseif ($unit->OfficeData) {
+                                            $falLicenseUser = $unit->OfficeData->UserData->UserFalData;
+                                        }
+
+                                    @endphp
+                                  @if (
+                                    $falLicenseUser &&
+                                        $falLicenseUser->ad_license_status == 'valid' &&
+                                        $falLicenseUser->falData->for_gallery == 1 &&
+                                        $unit->ad_license_status == 'Valid')
                                 <div class="col-xl-4 col-lg-6 col-md-6">
                                     <div class="card h-200">
                                         <div class="card-body text-center">
@@ -2017,10 +2025,24 @@
                                                     {{ $unit->getRentPriceByType() }} @lang('SAR') / {{ __($unit->rent_type_show) }}
                                                 </span>
                                             </div>
+                                            @php
 
+                                            $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
+                                            $isGalleryProject =
+                                                isset($unit->isGalleryProject) && $unit->isGalleryProject;
+                                            $isGalleryProperty =
+                                                isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
+
+                                            if( $unit->BrokerData){
+                                               $GalleryData= $unit->BrokerData->GalleryData;
+                                            }elseif( $unit->OfficeData){
+                                               $GalleryData= $unit->OfficeData->GalleryData;
+
+                                            }
+                                        @endphp
                                             <div class="mx-auto my-3">
                                                 <a href="{{ route('gallery.showUnitPublic', [
-                                                    'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                    'gallery_name' => optional($GalleryData)->gallery_name,
                                                     'id' => $unit->id
                                                 ]) }}" class="card-hover-border-default">
                                                     <div class="image-container" style="position: relative; width: 100%; height: 200px;">

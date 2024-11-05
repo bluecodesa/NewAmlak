@@ -33,7 +33,14 @@
                                 @else
                                 @foreach ($project->ProjectImages as $media)
                                     <div class="carousel-item @if ($i == 0) active @endif">
-                                        @if (Str::startsWith($media->image, '/Brokers/Projects'))
+                                        @if (Str::startsWith($media->image, '/Offices/Projects'))
+                                            <!-- Image -->
+                                            <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
+                                                src="{{ asset($media->image) }}"
+                                                alt="Slide {{ $i + 1 }}"
+                                                style="height: 350px; object-fit: contain"
+                                            >
+                                        @elseif (Str::startsWith($media->image, '/Brokers/Projects'))
                                             <!-- Image -->
                                             <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
                                                 src="{{ asset($media->image) }}"
@@ -471,11 +478,11 @@
                                     </span> <span>{{ $project->name }}</span>
                                 </li>
 
-                                <li class="d-flex align-items-center mb-3">
+                                {{-- <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-building text-heading"></i><span
                                         class="fw-medium mx-2 text-heading">@lang('service type') : </span>
                                     <span>{{ $project->ServiceTypeData->name ?? '' }}</span>
-                                </li>
+                                </li> --}}
                                 <li class="d-flex align-items-center mb-3">
                                     <i class="ti ti-building text-heading"></i><span
                                         class="fw-medium mx-2 text-heading">@lang('city') : </span>

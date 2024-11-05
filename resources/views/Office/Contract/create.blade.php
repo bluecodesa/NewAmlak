@@ -306,29 +306,24 @@
                                         <label class="form-label">@lang('Attachments')</label>
                                         <div id="features" class="row">
                                             <div class="mb-3 col-4">
-                                                <input type="text" name="name[]" class="form-control search"
-                                                    placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-
+                                                <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" />
                                             </div>
                                             <div class="mb-3 col-4">
-                                                <input class="form-control" type="file" name="attachment[]"
-                                                    id="projectMasterplan" accept="image/*,application/pdf">
+                                                <input class="form-control" type="file" name="attachment[]" accept="image/*,application/pdf" />
                                             </div>
-                                            <div class="col">
-                                                <button type="button" class="btn btn-primary w-100"
-                                                    onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                        class="d-none d-sm-inline-block">@lang('Add Attachment')</span></button>
+                                            <div class="col-4">
+                                                <button type="button" class="btn btn-primary w-100" onclick="addFeature()">
+                                                    <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                    <span class="d-none d-sm-inline-block">@lang('Add Attachment')</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="text-align: left;">
-                                        <button type="submit" class="btn btn-primary me-1">
-
-                                            {{ __('save') }}
-                                        </button>
-
+                                        <button type="submit" class="btn btn-primary me-1">{{ __('Save') }}</button>
                                     </div>
                                 </div>
+
                         </form>
                     </div>
 
@@ -454,32 +449,33 @@
             fetchAllUnits();
         }
 
-                function addFeature() {
-                const featuresContainer = document.getElementById('features');
-                const newRow = document.createElement('div');
-                newRow.classList.add('row', 'mb-3');
 
-                newRow.innerHTML = `
-                    <div class="mb-3 col-4">
-                        <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-                    </div>
-                    <div class="mb-3 col-4">
-                        <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
-                    </div>
-                    <div class="col-4">
-                        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-                    </div>
-                `;
+    </script>
+    <script>
+        function addFeature() {
+            const featuresContainer = document.getElementById('features');
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3');
 
-                featuresContainer.appendChild(newRow);
-            }
+            newRow.innerHTML = `
+                <div class="mb-3 col-4">
+                    <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" />
+                </div>
+                <div class="mb-3 col-4">
+                    <input class="form-control" type="file" name="attachment[]" accept="image/*,application/pdf" />
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+                </div>
+            `;
 
+            featuresContainer.appendChild(newRow);
+        }
 
-            function removeFeature(button) {
-                const rowToRemove = button.parentNode.parentNode;
-                rowToRemove.remove();
-            }
-
+        function removeFeature(button) {
+            const rowToRemove = button.parentNode.parentNode;
+            rowToRemove.remove();
+        }
     </script>
 
     <script>

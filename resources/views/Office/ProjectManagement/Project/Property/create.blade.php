@@ -199,13 +199,13 @@
                                 <label class="form-label">@lang('Additional details')</label>
                                 <div id="features" class="row">
                                     <div class="mb-3 col-4">
-                                        <input type="text" name="features_name[]" class="form-control search"
-                                            placeholder="@lang('Field name')" value="{{ old('features_name*') }}" />
+                                        <input type="text" name="features_name[0]" class="form-control search"
+                                            placeholder="@lang('Field name')" value="{{ old('features_name.0') }}" />
 
                                     </div>
                                     <div class="mb-3 col-4">
-                                        <input type="text" name="qty[]" class="form-control"
-                                            placeholder="@lang('value')" value="{{ old('qty*') }}" />
+                                        <input type="text" name="qty[0]" class="form-control"
+                                            placeholder="@lang('value')" value="{{ old('qty.0') }}" />
                                     </div>
                                     <div class="col">
                                         <button type="button" class="btn btn-outline-primary w-100"
