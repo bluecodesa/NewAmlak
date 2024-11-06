@@ -41,17 +41,17 @@ Route::group(
                 'RealEstateRequest' => RealEstateRequestController::class,
 
             ]);
-            Route::put('/update-property-finder/{finder}', [HomeController::class, 'updatePropertyFinder'])->name('updatePropertyFinder')->middleware('CheckSubscription');
-            Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword')->middleware('CheckSubscription');
-            Route::put('/create-password/{id}', [HomeController::class, 'createPassword'])->name('createPassword')->middleware('CheckSubscription');
-            Route::post('/PropertyFinder/verify-code-finder', [HomeController::class, 'verifyCode'])->name('verify-code-finder')->middleware('CheckSubscription');
-            Route::post('/PropertyFinder/complete-registration-finder', [HomeController::class, 'register'])->name('complete-registration-finder')->middleware('CheckSubscription');
-            Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsCity')->name('GetDistrictsByCity')->middleware('CheckSubscription')->middleware('CheckSubscription');
-            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('GetCitiesByRegion')->middleware('CheckSubscription')->middleware('CheckSubscription');
-            Route::post('/update-request-status/{id}', [RealEstateRequestController::class, 'updateStatus'])->name('updateRequestStatus')->middleware('CheckSubscription');
-            Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType')->middleware('CheckSubscription');
-            Route::Post('create-ticket', [HomeController::class, 'createTicket'])->name('create-ticket')->middleware('CheckSubscription');
-            Route::post('tickets/{ticketId}/add-response', [HomeController::class, 'addReplay'])->name('tickets.addResponse')->middleware('CheckSubscription');
+            Route::put('/update-property-finder/{finder}', [HomeController::class, 'updatePropertyFinder'])->name('updatePropertyFinder');
+            Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
+            Route::put('/create-password/{id}', [HomeController::class, 'createPassword'])->name('createPassword');
+            Route::post('/PropertyFinder/verify-code-finder', [HomeController::class, 'verifyCode'])->name('verify-code-finder');
+            Route::post('/PropertyFinder/complete-registration-finder', [HomeController::class, 'register'])->name('complete-registration-finder');
+            Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsCity')->name('GetDistrictsByCity');
+            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('GetCitiesByRegion');
+            Route::post('/update-request-status/{id}', [RealEstateRequestController::class, 'updateStatus'])->name('updateRequestStatus');
+            Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
+            Route::Post('create-ticket', [HomeController::class, 'createTicket'])->name('create-ticket');
+            Route::post('tickets/{ticketId}/add-response', [HomeController::class, 'addReplay'])->name('tickets.addResponse');
 
 
 
