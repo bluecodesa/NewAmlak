@@ -620,7 +620,7 @@
         @if ((Auth::user()->UserOfficeData->UserSubscriptionSuspend ?? null))
         <script>
             $(document).ready(function() {
-                $('#basicModal').modal('show');
+                $('#basicModal7').modal('show');
             });
         </script>
         @elseif (Auth::user()->UserOfficeData->UserSubscriptionPending ?? null)

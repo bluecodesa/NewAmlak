@@ -19,13 +19,36 @@
             ->toArray();
     @endphp
 @endif
+
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
             </h4>
+            <div class="modal fade" id="basicModal7" tabindex="-1" aria-hidden="false">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body ">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title mt-0"> @lang('Hello and welcome') : {{ Auth::user()->name }} </h5>
+                            </div>
+                            <div class="modal-body text-center">
+                                <h5>@lang('Your account is suspended')</h5>
+                                @lang('Sorry, your account has been suspended. Please contact technical support')
+                                <br>
+                                <div class="text-center my-4">
+                                    <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addTicketModal">
+                                        @lang('technical support')
+                                    </button>
+                                </div>
 
-
-
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+            </div>
             {{-- <h4 class="py-3 mb-4"><span class="text-muted fw-light">User Profile /</span> Profile</h4> --}}
 
             <!-- Header -->
@@ -115,9 +138,6 @@
                 </div>
             </div>
             <!--/ Header -->
-
-
-
 
             <ul class="nav nav-tabs nav-fill" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -521,13 +541,21 @@
                 @endif
             </div>
 
-
-
             <!--/ Navbar pills -->
         </div>
     </section>
 
+    {{-- @include('Home.Payments.pending_payment')
+    @include('Home.Payments._view_inv') --}}
+
     @push('scripts')
+    @if ((Auth::user()->UserOwnerData->UserSubscriptionSuspend ?? null))
+    <script>
+        $(document).ready(function() {
+            $('#basicModal7').modal('show');
+        });
+    </script>
+    @endif
         <script>
             function readURL(input) {
                 if (input.files && input.files[0]) {

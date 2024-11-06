@@ -81,7 +81,7 @@ class CheckSubscriptionMiddleware
 
         if (Auth::user()->is_owner) {
             $subscription =Auth::user()->UserOwnerData->UserSubscriptionPending;
-            $Suspend = Auth::user()->UserOwnereData->UserSubscriptionSuspend;
+            $Suspend = Auth::user()->UserOwnerData->UserSubscriptionSuspend;
             if ($subscription) {
                 return    redirect()->route('PropertyFinder.home');
             }

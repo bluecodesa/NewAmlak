@@ -97,7 +97,6 @@ class PaymentController extends Controller
         } elseif ($brokerData && $brokerData->UserSystemInvoicePending) {
             $invoice = $brokerData->UserSystemInvoicePending;
         }
-
         if ($invoice) {
             $invoice->update(['status' => 'active']);
         }
