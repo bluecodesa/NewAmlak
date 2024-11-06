@@ -33,6 +33,8 @@ class ContractRepository implements ContractRepositoryInterface
     }
     public function create($data)
     {
+
+        // dd($data);
         $rules = [
             'project_id' => 'nullable|exists:projects,id',
             'property_id' => 'nullable|exists:properties,id',
@@ -53,7 +55,7 @@ class ContractRepository implements ContractRepositoryInterface
             'duration_unit' => 'required|string',
             'payment_cycle' => 'required|string',
             'auto_renew' => 'required|string',
-            'name.*' => 'nullable|string',
+            // 'name.*' => 'nullable|string',
             'attachment.*' => 'nullable|file',
         ];
         $messages = [
@@ -171,39 +173,68 @@ class ContractRepository implements ContractRepositoryInterface
 
         $contractData['end_contract_date'] = $endDate;
         $contract = Contract::create($contractData);
-        // // Update renter balance
-        // $renter = Renter::find($data['renter_id']);
-        // $renter->balance -= $data['price'];
-        // $renter->save();
 
-        if (isset($data['name']) && isset($data['attachment'])) {
-            foreach ($data['name'] as $index => $attachment_name) {
-                $attachment = Attachment::where('name', $attachment_name)->first();
-                if (!$attachment) {
+        // if (isset($data['name']) && isset($data['attachment'])) {
+        //     foreach ($data['name'] as $index => $attachment_name) {
+        //         $attachment = Attachment::where('name', $attachment_name)->first();
+        //         if (!$attachment) {
+        //             $attachment = Attachment::create([
+        //                 'name' => $attachment_name,
+        //                 'created_by' => Auth::id()
+        //             ]);
+        //         }
+
+        //         $attachmentFile = $data['attachment'][$index];
+        //         $ext = $attachmentFile->getClientOriginalExtension();
+        //         $fileName = uniqid() . '.' . $ext;
+
+        //         $attachmentFile->move(public_path('/Offices/Contracts/' . $attachment->name), $fileName);
+
+        //         ContractAttachment::create([
+        //             'attachment_id' => $attachment->id,
+        //             'contract_id' => $contract->id,
+        //             'attachment' => '/Offices/Contracts/' . $attachment->name . '/' . $fileName
+        //         ]);
+        //     }
+        // }
+
+
+        if (isset($data['attachment'])) {
+            foreach ($data['attachment'] as $attachmentFile) {
+                // الحصول على الاسم الأصلي للملف
+                $originalFileNameWithExt = $attachmentFile->getClientOriginalName();
+
+                // إزالة الامتداد من الاسم الأصلي للملف
+                $originalFileName = pathinfo($originalFileNameWithExt, PATHINFO_FILENAME);
+
+                // تحقق مما إذا كان الاسم مسجلاً بالفعل
+                $existingAttachment = Attachment::where('name', $originalFileName)->first();
+
+                // إذا لم يكن الاسم مسجلاً، قم بإضافته إلى قاعدة البيانات
+                if (!$existingAttachment) {
+                    // إنشاء سجل جديد في جدول Attachment
                     $attachment = Attachment::create([
-                        'name' => $attachment_name,
+                        'name' => $originalFileName,
                         'created_by' => Auth::id()
                     ]);
+
+                    // الحصول على الامتداد وإنشاء اسم فريد للملف للتخزين
+                    $ext = $attachmentFile->getClientOriginalExtension();
+                    $fileName = uniqid() . '.' . $ext;
+
+                    // نقل الملف إلى المسار المحدد
+                    $attachmentFile->move(public_path('/Offices/Contracts/' . $originalFileName), $fileName);
+
+                    // إنشاء سجل في جدول ContractAttachment وربط الملف بالعقد
+                    ContractAttachment::create([
+                        'attachment_id' => $attachment->id,
+                        'contract_id' => $contract->id,
+                        'attachment' => '/Offices/Contracts/' . $originalFileName . '/' . $fileName,
+                    ]);
                 }
-
-                $attachmentFile = $data['attachment'][$index];
-                $ext = $attachmentFile->getClientOriginalExtension();
-                $fileName = uniqid() . '.' . $ext;
-
-                $attachmentFile->move(public_path('/Offices/Contracts/' . $attachment->name), $fileName);
-
-                ContractAttachment::create([
-                    'attachment_id' => $attachment->id,
-                    'contract_id' => $contract->id,
-                    'attachment' => '/Offices/Contracts/' . $attachment->name . '/' . $fileName
-                ]);
             }
         }
 
-        // $customer_id = auth()->user()->customer_id;
-        // $contractNumber = $customer_id .'-'. $contract->id;
-
-        // $contract->update(['contract_number' => $contractNumber]);
 
         $this->createInstallments($contract, $data);
 

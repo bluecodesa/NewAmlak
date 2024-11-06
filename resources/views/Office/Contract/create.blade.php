@@ -305,7 +305,7 @@
                                         <label class="form-label">@lang('Attachments')</label>
                                         <div id="features" class="row">
                                             <!-- حقل المرفق الأول -->
-                                            <div class="mb-3 col-4">
+                                            {{-- <div class="mb-3 col-4">
                                                 <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" />
                                             </div>
                                             <div class="mb-3 col-4">
@@ -316,11 +316,19 @@
                                                     <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                     <span class="d-none d-sm-inline-block">@lang('Add Attachment')</span>
                                                 </button>
+                                            </div> --}}
+                                            <div class=" col-6 mb-3">
+                                                <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
+                                                <div class="input-group">
+                                                <input class="form-control" type="file" name="attachment[]"
+                                                    id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                                    <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="text-align: left;">
-                                        <button type="submit" class="btn btn-primary me-1">{{ __('Save') }}</button>
+                                        <button type="submit" class="btn btn-primary me-1">{{ __('save') }}</button>
                                     </div>
                                 </div>
 
@@ -450,6 +458,7 @@
 
 
     </script>
+
     <script>
         function addFeatures() {
             const featuresContainer = document.getElementById('features');
