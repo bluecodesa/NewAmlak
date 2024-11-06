@@ -31,10 +31,10 @@
 
             <div class="card">
                 <div class="card-body">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal5">
                         @lang('استعلام')
                     </button>
-                    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal fade" id="basicModal5" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -612,18 +612,17 @@
     </div>
 
      @include('Home.Payments.pending_payment')
-    @include('Home.Payments._view_inv')
+        @include('Home.Payments._view_inv')
+    @include('Office.inc._SubscriptionSuspend')
 
-    {{-- @include('Office.inc._SubscriptionSuspend') --}}
 
     @push('scripts')
-        @if ((Auth::user()->UserOfficeData->UserSubscriptionSuspend ?? null) && (Auth::user()->UserOfficeData->UserSubscriptionPending ?? null))
-            <script>
-                $(document).ready(function() {
-                    $('.bs-example-modal-center').modal('show');
-                });
-            </script>
-
+        @if ((Auth::user()->UserOfficeData->UserSubscriptionSuspend ?? null))
+        <script>
+            $(document).ready(function() {
+                $('#basicModal').modal('show');
+            });
+        </script>
         @elseif (Auth::user()->UserOfficeData->UserSubscriptionPending ?? null)
         <script>
             $(document).ready(function() {
@@ -631,7 +630,7 @@
             });
 
         </script>
-    @endif
+        @endif
 
         <script>
             $('.view_inv').on('click', function() {

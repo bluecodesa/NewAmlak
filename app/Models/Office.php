@@ -64,6 +64,11 @@ class Office extends Model
     {
         return $this->hasOne(SystemInvoice::class, 'office_id')->latest();
     }
+    public function UserSubscriptionSuspend()
+    {
+        return $this->hasOne(Subscription::class, 'office_id')->where('is_suspend', 1);
+    }
+
 
     public function wallets()
     {

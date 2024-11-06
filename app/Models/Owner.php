@@ -69,7 +69,16 @@ class Owner extends Model
     {
         return $this->hasOne(Subscription::class, 'owner_id');
     }
-    
+
+    public function UserSubscriptionSuspend()
+    {
+        return $this->hasOne(Subscription::class, 'owner_id')->where('is_suspend', 1);
+    }
+
+    public function UserSubscriptionPending()
+    {
+        return $this->hasOne(Subscription::class, 'owner_id')->where('status', '!=', 'active');
+    }
 
 
 }

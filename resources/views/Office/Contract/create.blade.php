@@ -650,7 +650,8 @@
                     commissionPerContract = (formData.commissions_rate / 100) * (formData.price / numberOfContracts);
                 }
             }
-
+            // var priceOfmanth
+            // priceOfmanth * numofmonth  // 18 //12 //13   == total price     /  
             var contracts = [];
             for (var i = 0; i < numberOfContracts; i++) {
                 var pricePerContract = formData.price / numberOfContracts;

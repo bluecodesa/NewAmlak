@@ -519,8 +519,7 @@
 
     @push('scripts')
         @if (
-            (Auth::user()->UserBrokerData->UserSubscriptionSuspend ?? null) &&
-                (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null))
+            (Auth::user()->UserBrokerData->UserSubscriptionSuspend ?? null))
             <script>
                 $(document).ready(function() {
                     $('.bs-example-modal-center').modal('show');
