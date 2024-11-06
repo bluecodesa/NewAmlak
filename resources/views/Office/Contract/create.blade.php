@@ -844,12 +844,15 @@
             var unitId = this.value;
             var unitStatusSpan = document.getElementById('unitStatus');
             var messages = @json(__('This unit is rented. Start date:'));
+            var undefinedMessage = @json(__('null')); // ترجمة "غير محدد"
             if (unitId) {
                 fetch(`/units/${unitId}/status`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'rented') {
-                            unitStatusSpan.innerHTML = `${messages} ${data.start_date}`;
+                            // unitStatusSpan.innerHTML = `${messages} ${data.start_date}`;
+                            var startDate = data.start_date ? data.start_date : undefinedMessage;
+                            unitStatusSpan.innerHTML = `${messages} ${startDate}`;
                         } else {
                             unitStatusSpan.innerHTML = '';
                         }
