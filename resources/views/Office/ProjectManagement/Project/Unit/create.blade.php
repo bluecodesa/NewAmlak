@@ -639,16 +639,16 @@ $(document).ready(function() {
 
                 // Use the exact same class names and structure as your existing rows
                 newRow.innerHTML = `
-        <div class="col-4">
-            <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-        </div>
-        <div class="col-4">
-            <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
-        </div>
-        <div class="col-4">
-            <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-        </div>
-    `;
+                    <div class="col-4">
+                        <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+                    </div>
+                    <div class="col-4">
+                        <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+                    </div>
+                `;
 
                 featuresContainer.appendChild(newRow);
             }
