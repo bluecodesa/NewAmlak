@@ -215,6 +215,9 @@ class ContractRepository implements ContractRepositoryInterface
         $numberOfContracts = 1;
         $installments = [];
 
+        // Calculate monthly price based on the contract duration and payment cycle
+        $pricePerMonth = $data['price'] / 12;  // Assuming price is annual, so dividing by 12
+
         // تحديد عدد الأقساط بناءً على مدة العقد ودورة الدفع
         if ($data['duration_unit'] === 'year') {
             if ($data['payment_cycle'] === 'annual') {
@@ -244,7 +247,7 @@ class ContractRepository implements ContractRepositoryInterface
         }
 
         // حساب السعر والعمولة لكل قسط
-        $pricePerContract = $data['price'] / $numberOfContracts;
+        $pricePerContract = $pricePerMonth;  // Using monthly rent for installment price
         $commissionPerContract = 0;
 
         if ($data['service_type_id'] == 3) {
@@ -290,15 +293,16 @@ class ContractRepository implements ContractRepositoryInterface
                 'end_date' => $endDate->format('Y-m-d'),
                 'Installment_number' => $contract->contract_number . '-' . ($i + 1),
                 'commission' => ($data['collection_type'] === 'once with frist installment' && $i === 0) ? $commissionPerContract : ($data['collection_type'] === 'divided with all installments' ? $commissionPerContract : 0),
+
             ];
 
-            // تحديث تاريخ البداية للقسط التالي
-            $startDate = clone $endDate;
+            // Update start date for next installment
+            $startDate = $endDate;
         }
 
+        // Save installments to database
         Installment::insert($installments);
     }
-
 
     function getContractById($id)
     {

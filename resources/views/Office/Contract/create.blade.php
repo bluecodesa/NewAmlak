@@ -597,8 +597,6 @@
             var formData = {
                 price: parseFloat($('input[name="price"]').val()), // Convert price to float
                 contract_type: $('select[name="contract_type"]').val(),
-                contract_date_gregorian: null,
-                contract_date_hijri: null,
                 contract_duration: parseInt($('input[name="contract_duration"]').val()), // Convert duration to integer
                 duration_unit: $('select[name="duration_unit"]').val(),
                 payment_cycle: $('select[name="payment_cycle"]').val(),
@@ -607,59 +605,70 @@
                 collection_type: $('select[name="collection_type"]').val(),
             };
 
-            // Handle Gregorian or Hijri date
-            var startDate;
-            if ($('#calendarTypeSelect').val() === 'gregorian') {
-                formData.contract_date_gregorian = new Date($('input[name="gregorian_contract_date"]').val());
-                startDate = formData.contract_date_gregorian;
-            } else if ($('#calendarTypeSelect').val() === 'hijri') {
-                formData.contract_date_hijri = new Date($('input[name="hijri_contract_date"]').val());
-                startDate = formData.contract_date_hijri;
-            }
+            // Calculate monthly rental price from annual price
+            var monthlyRate = formData.price / 12;
 
-            // Calculate the number of contracts/installments
+            // Calculate the number of contracts/installments based on duration
             var numberOfContracts = 1;
-
-            // Handle yearly duration
             if (formData.duration_unit === 'year') {
                 if (formData.payment_cycle === 'annual') {
-                    numberOfContracts = formData.contract_duration; // One contract per year
+                    numberOfContracts = formData.contract_duration;
                 } else if (formData.payment_cycle === 'semi-annual') {
-                    numberOfContracts = formData.contract_duration * 2; // Two contracts per year (semi-annual)
+                    numberOfContracts = formData.contract_duration * 2;
                 } else if (formData.payment_cycle === 'quarterly') {
-                    numberOfContracts = formData.contract_duration * 4; // Four contracts per year (quarterly)
+                    numberOfContracts = formData.contract_duration * 4;
                 } else if (formData.payment_cycle === 'monthly') {
-                    numberOfContracts = formData.contract_duration * 12; // Twelve contracts per year (monthly)
+                    numberOfContracts = formData.contract_duration * 12;
                 }
-            }
-            // Handle monthly duration
-            else if (formData.duration_unit === 'month') {
+            } else if (formData.duration_unit === 'month') {
                 if (formData.payment_cycle === 'monthly') {
-                    numberOfContracts = formData.contract_duration; // One contract per month
+                    numberOfContracts = formData.contract_duration;
                 } else if (formData.payment_cycle === 'quarterly') {
-                    numberOfContracts = Math.ceil(formData.contract_duration / 3); // One contract every 3 months (quarterly)
+                    numberOfContracts = Math.ceil(formData.contract_duration / 3);
                 }
             }
 
             // Calculate commission per contract
             var commissionPerContract = 0;
-            if (formData.service_type_id == 3) {
-                if (formData.collection_type == 'once with frist installment') {
+            if (formData.service_type_id === 3) {
+                if (formData.collection_type === 'once with frist installment') {
                     commissionPerContract = (formData.commissions_rate / 100) * formData.price;
-                } else if (formData.collection_type == 'divided with all installments') {
+                } else if (formData.collection_type === 'divided with all installments') {
                     commissionPerContract = (formData.commissions_rate / 100) * (formData.price / numberOfContracts);
                 }
             }
-            // var priceOfmanth
-            // priceOfmanth * numofmonth  // 18 //12 //13   == total price     /  
-            var contracts = [];
-            for (var i = 0; i < numberOfContracts; i++) {
-                var pricePerContract = formData.price / numberOfContracts;
-                var finalPrice = pricePerContract;
-                var installmentStartDate = new Date(startDate);
-                var installmentEndDate = new Date(startDate);
 
-                // Adjust the end date based on the payment cycle and duration unit
+            // Initialize array to store installment details
+            var contracts = [];
+            var startDate = new Date();
+
+            // Generate each installment based on payment cycle
+            for (var i = 0; i < numberOfContracts; i++) {
+                var pricePerContract = 0;
+
+                // Calculate price per contract based on the payment cycle
+                if (formData.payment_cycle === 'annual') {
+                    pricePerContract = monthlyRate * 12;
+                } else if (formData.payment_cycle === 'semi-annual') {
+                    pricePerContract = monthlyRate * 6;
+                } else if (formData.payment_cycle === 'quarterly') {
+                    pricePerContract = monthlyRate * 3;
+                } else if (formData.payment_cycle === 'monthly') {
+                    pricePerContract = monthlyRate;
+                }
+
+                // Add commission if applicable
+                var finalPrice = pricePerContract;
+                if (commissionPerContract !== 0) {
+                    if (formData.collection_type === 'once with frist installment' && i === 0) {
+                        finalPrice += commissionPerContract;
+                    } else if (formData.collection_type === 'divided with all installments') {
+                        finalPrice += commissionPerContract;
+                    }
+                }
+
+                // Set installment start and end dates based on payment cycle
+                var installmentEndDate = new Date(startDate);
                 if (formData.payment_cycle === 'annual') {
                     installmentEndDate.setFullYear(installmentEndDate.getFullYear() + 1);
                 } else if (formData.payment_cycle === 'semi-annual') {
@@ -670,69 +679,54 @@
                     installmentEndDate.setMonth(installmentEndDate.getMonth() + 1);
                 }
 
-                if (commissionPerContract !== 0) {
-                    if (formData.collection_type === 'once with frist installment' && i === 0) {
-                        finalPrice += commissionPerContract;
-
-                    } else if (formData.collection_type === 'divided with all installments') {
-                        finalPrice += commissionPerContract;
-                    }
-                }
-
-                var contract = {
+                // Add installment to contracts array
+                contracts.push({
                     contractNumber: i + 1,
-                    startDate: installmentStartDate.toLocaleDateString('en-US'),
+                    startDate: startDate.toLocaleDateString('en-US'),
                     endDate: installmentEndDate.toLocaleDateString('en-US'),
-                    price: finalPrice.toFixed(2),
-                };
+                    price: finalPrice.toFixed(2)
+                });
 
-                contracts.push(contract);
-
-                // Update the start date for the next iteration
+                // Set start date for next installment
                 startDate = new Date(installmentEndDate);
             }
 
             // Display the calculated contracts
-            var contractsHTML = '<h4>@lang('Number of Installments'): ' + numberOfContracts + '</h4>';
-            contractsHTML += '<div class="row">';
-
+            var contractsHTML = '<h4>@lang('Number of Installments'): ' + numberOfContracts + '</h4><div class="row">';
             contracts.forEach(function(contract) {
-                contractsHTML += '<div class="col-md-12">';
-                contractsHTML += '<div class="card mb-3">';
-                contractsHTML += '<div class="card-body">';
-
-                contractsHTML += '<div class="row">';
-                contractsHTML += '<div class="col-md-2">';
-                contractsHTML += '<label class="form-label">@lang('Installment'):</label>';
-                contractsHTML += '<input type="text" class="form-control" value="' + contract.contractNumber + '" disabled>';
-                contractsHTML += '</div>';
-                contractsHTML += '<div class="col-md-3">';
-                contractsHTML += '<label class="form-label">@lang('Start Date'):</label>';
-                contractsHTML += '<input type="text" required class="form-control" value="' + contract.startDate + '" disabled>';
-                contractsHTML += '</div>';
-                contractsHTML += '<div class="col-md-3">';
-                contractsHTML += '<label class="form-label">@lang('End Date'):</label>';
-                contractsHTML += '<input type="text" required class="form-control" value="' + contract.endDate + '" disabled>';
-                contractsHTML += '</div>';
-                contractsHTML += '<div class="col-md-3">';
-                contractsHTML += '<label class="form-label">@lang('Price'):</label>';
-                contractsHTML += '<input type="text" required class="form-control" value="' + contract.price + '" disabled>';
-                contractsHTML += '</div>';
-                contractsHTML += '</div>';
-
-                contractsHTML += '</div>'; // end card-body
-                contractsHTML += '</div>'; // end card
-                contractsHTML += '</div>'; // end col-md-12
+                contractsHTML += `
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="form-label">@lang('Installment'):</label>
+                                        <input type="text" class="form-control" value="${contract.contractNumber}" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">@lang('Start Date'):</label>
+                                        <input type="text" class="form-control" value="${contract.startDate}" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">@lang('End Date'):</label>
+                                        <input type="text" class="form-control" value="${contract.endDate}" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">@lang('Price'):</label>
+                                        <input type="text" class="form-control" value="${contract.price}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
             });
 
-            contractsHTML += '</div>'; // end row
-
-            // Display contract details on the page
-            $('#contractDetails').html(contractsHTML);
-            $('#contractDetails').show();
+            contractsHTML += '</div>';
+            $('#contractDetails').html(contractsHTML).show();
         });
     });
 </script>
+
 
 
 {{-- <script>
