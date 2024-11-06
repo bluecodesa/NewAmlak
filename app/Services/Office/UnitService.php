@@ -72,11 +72,11 @@ class UnitService
                 Rule::unique('units')->ignore($id),
                 'max:25'
             ],
-            'ad_license_number' => [
-                'required',
-                Rule::unique('units')->ignore($id),
-                'max:25'
-            ],
+            // 'ad_license_number' => [
+            //     'required',
+            //     Rule::unique('units')->ignore($id),
+            //     'max:25'
+            // ],
             'price' => 'digits_between:0,10',
             'service_type_id' => 'required',
             "show_in_gallery" => 'sometimes',

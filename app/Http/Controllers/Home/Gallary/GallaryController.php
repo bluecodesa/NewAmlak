@@ -120,7 +120,7 @@ class GallaryController extends Controller
     public function showUnitPublic($gallery_name, $id)
     {
         $data = $this->galleryService->showUnitPublic($gallery_name, $id);
-
+        // dd($data);
         if (empty($data) || (isset($data['gallery']) && $data['gallery']->gallery_status == 0)) {
             return view('Broker.Gallary.inc._GalleryComingsoon', $data);
         }
@@ -437,63 +437,72 @@ class GallaryController extends Controller
     public function showPubllicProject($gallery_name, $id)
     {
         $project = $this->galleryService->ShowPublicProject($id);
-        if($project->BrokerData){
-            $user_id=$project->BrokerData->UserData->id;
-            $gallery_status=$project->BrokerData->GalleryData->gallery_status;
+        if(!empty($project)){
+            if($project->BrokerData){
+                $user_id=$project->BrokerData->UserData->id;
+                $gallery_status=$project->BrokerData->GalleryData->gallery_status;
 
-        }elseif($project->OfficeData){
-            $user_id=$project->OfficeData->UserData->id;
-            $gallery_status=$project->OfficeData->GalleryData->gallery_status;
-        }
-        // $user_id=$project->BrokerData->UserData->id;
-        $falLicense = FalLicenseUser::where('user_id', $user_id)
-        ->whereHas('falData', function ($query) {
-            $query->where('for_gallery', 1);
-        })
-        ->where('ad_license_status', 'valid')
-        ->first();
-        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
-        if(!empty($project) && $falLicense->ad_license_status == 'valid' && $gallery_status != 0 ){
-            $ticketTypes =  TicketType::paginate(100);
-
-            $cityId = $project->city_id;
-            $districtId  = $project->district_id  ;
-            $moreProjects = Project::where('id', '!=', $id)
-            ->where('ad_license_status', 'Valid')
-            ->where(function($query) use ($cityId, $districtId, $project) {
-                $query->where('city_id', $cityId)
-                      ->orWhere('district_id', $districtId);
+            }elseif($project->OfficeData){
+                $user_id=$project->OfficeData->UserData->id;
+                $gallery_status=$project->OfficeData->GalleryData->gallery_status;
+            }
+            // $user_id=$project->BrokerData->UserData->id;
+            $falLicense = FalLicenseUser::where('user_id', $user_id)
+            ->whereHas('falData', function ($query) {
+                $query->where('for_gallery', 1);
             })
-            ->paginate(3);
+            ->where('ad_license_status', 'valid')
+            ->first();
+            $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+            if(!empty($project) && $falLicense->ad_license_status == 'valid' && $gallery_status != 0 ){
+                $ticketTypes =  TicketType::paginate(100);
 
-            $allProjects = Project::take(6)->paginate(20);
-
-            $projectLatLong = $project->lat_long;
-
-            [$lat, $long] = explode(',', $projectLatLong);
-            $all5kiloProjects  = Project::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) )
-            * cos( radians( SUBSTRING_INDEX(lat_long, ',', -1) ) - radians(?) )
-            + sin( radians(?) ) * sin( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) ) ) ) AS distance", [$lat, $long, $lat])
-                ->having('distance', '<=', 5)
+                $cityId = $project->city_id;
+                $districtId  = $project->district_id  ;
+                $moreProjects = Project::where('id', '!=', $id)
                 ->where('ad_license_status', 'Valid')
-                ->where('id', '!=', $id)
+                ->where(function($query) use ($cityId, $districtId, $project) {
+                    $query->where('city_id', $cityId)
+                          ->orWhere('district_id', $districtId);
+                })
                 ->paginate(3);
 
+                $allProjects = Project::take(6)->paginate(20);
+
+                $projectLatLong = $project->lat_long;
+
+                [$lat, $long] = explode(',', $projectLatLong);
+                $all5kiloProjects  = Project::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) )
+                * cos( radians( SUBSTRING_INDEX(lat_long, ',', -1) ) - radians(?) )
+                + sin( radians(?) ) * sin( radians( SUBSTRING_INDEX(lat_long, ',', 1) ) ) ) ) AS distance", [$lat, $long, $lat])
+                    ->having('distance', '<=', 5)
+                    ->where('ad_license_status', 'Valid')
+                    ->where('id', '!=', $id)
+                    ->paginate(3);
 
 
-            return view('Home.Projects.show',  get_defined_vars());
 
-        }
-        else {
+                return view('Home.Projects.show',  get_defined_vars());
+
+            }
+        } else {
             $project = Project::findOrFail($id);
             if($project->BrokerData){
                 $broker=$project->BrokerData;
+                $user=$broker->UserData;
+                $gallery=$project->BrokerData->GalleryData;
+
 
             }elseif($project->OfficeData){
                 $office=$project->OfficeData;
+                $user=$office->UserData;
+                $gallery=$project->OfficeData->GalleryData;
 
-            }            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
+            }
+            return view('Broker.Gallary.inc._GalleryComingsoon', get_defined_vars());
         }
+
+
     }
 
 

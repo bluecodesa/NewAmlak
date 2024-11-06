@@ -170,6 +170,13 @@
                                     placeholder="@lang('Address')"  value="{{ $Unit->location }}" />
                                 <span id="addressError" style="color: red;"></span> <!-- Error message placeholder -->
                             </div>
+                            <div class="col-sm-12 col-md-6 mb-3" hidden>
+                                <label class="form-label">@lang('lat&long')</label>
+                                <input type="text" readonly name="lat_long" id="location_tag"
+                                    class="form-control" placeholder="@lang('lat&long')"
+                                    value="{{ $Unit->lat_long }}" />
+                            </div>
+
 
                             <div class="col-12 mb-3 col-md-4">
                                 <label class="form-label">@lang('Property type') <span class="required-color">*</span>
@@ -295,13 +302,6 @@
                                                 {{ $employee->UserData->name  }}</option>
                                     @endforeach
                                     </select>
-                                </div>
-
-                                <div class="col-sm-12 col-md-6 mb-3" hidden>
-                                    <label class="form-label">@lang('lat&long')</label>
-                                    <input type="text" readonly name="lat_long" id="location_tag"
-                                        class="form-control" placeholder="@lang('lat&long')"
-                                        value="{{ old('location_tag') }}" />
                                 </div>
 
 

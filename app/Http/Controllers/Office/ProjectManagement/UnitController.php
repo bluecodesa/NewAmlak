@@ -207,13 +207,11 @@ class UnitController extends Controller
         $Unit = $this->UnitService->findById($id);
         $officeId = auth()->user()->UserOfficeData->id;
         $subscription = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
-
+        $unitInterests = collect();
         if ($subscription) {
             $sectionsIds = auth()->user()
-                ->UserOfficeData?->UserSubscription?->SubscriptionTypeData?->sections()
-                ->pluck('section_id')
-                ->toArray();
-
+            ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+            ->toArray();
             if (in_array(18, $sectionsIds)) {
                 $unitInterests = $this->unitInterestService->getUnitInterestsByUnitId($id);
                 $interestsTypes = $this->settingService->getAllInterestTypes();
@@ -257,6 +255,8 @@ class UnitController extends Controller
 
     public function update(Request $request, $id)
     {
+        //  return $request;
+
         $Unit = $this->UnitService->findById($id);
         $this->UnitService->update($id, $request->all());
         if ($Unit->property_id != null) {

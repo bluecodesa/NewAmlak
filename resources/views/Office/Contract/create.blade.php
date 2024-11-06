@@ -843,13 +843,13 @@
         document.getElementById('unitSelect').addEventListener('change', function() {
             var unitId = this.value;
             var unitStatusSpan = document.getElementById('unitStatus');
-
+            var messages = @json(__('This unit is rented. Start date:'));
             if (unitId) {
                 fetch(`/units/${unitId}/status`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'rented') {
-                            unitStatusSpan.innerHTML = `This unit is rented. Start date: ${data.start_date}`;
+                            unitStatusSpan.innerHTML = `${messages} ${data.start_date}`;
                         } else {
                             unitStatusSpan.innerHTML = '';
                         }
