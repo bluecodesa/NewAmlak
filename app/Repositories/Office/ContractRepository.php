@@ -222,18 +222,24 @@ class ContractRepository implements ContractRepositoryInterface
         if ($data['duration_unit'] === 'year') {
             if ($data['payment_cycle'] === 'annual') {
                 $numberOfContracts = $data['contract_duration'];
+                $pricePerContract = $pricePerMonth * 12; // For annual, price is the full year's price
             } else if ($data['payment_cycle'] === 'semi-annual') {
                 $numberOfContracts = $data['contract_duration'] * 2;
+                $pricePerContract = $pricePerMonth * 6; // For semi-annual, price is 6 months
             } else if ($data['payment_cycle'] === 'quarterly') {
                 $numberOfContracts = $data['contract_duration'] * 4;
+                $pricePerContract = $pricePerMonth * 3; // For quarterly, price is 3 months
             } else if ($data['payment_cycle'] === 'monthly') {
                 $numberOfContracts = $data['contract_duration'] * 12;
+                $pricePerContract = $pricePerMonth; // For monthly, price is the monthly price
             }
         } else if ($data['duration_unit'] === 'month') {
             if ($data['payment_cycle'] === 'monthly') {
                 $numberOfContracts = $data['contract_duration'];
+                $pricePerContract = $pricePerMonth; // For monthly, price is the monthly price
             } else if ($data['payment_cycle'] === 'quarterly') {
                 $numberOfContracts = ceil($data['contract_duration'] / 3);
+                $pricePerContract = $pricePerMonth * 3; // For quarterly, price is 3 months
             }
         }
 
@@ -246,8 +252,7 @@ class ContractRepository implements ContractRepositoryInterface
             throw new \InvalidArgumentException('Invalid calendar type provided.');
         }
 
-        // حساب السعر والعمولة لكل قسط
-        $pricePerContract = $pricePerMonth;  // Using monthly rent for installment price
+        // حساب العمولة لكل قسط إذا كانت مطلوبة
         $commissionPerContract = 0;
 
         if ($data['service_type_id'] == 3) {
@@ -293,7 +298,6 @@ class ContractRepository implements ContractRepositoryInterface
                 'end_date' => $endDate->format('Y-m-d'),
                 'Installment_number' => $contract->contract_number . '-' . ($i + 1),
                 'commission' => ($data['collection_type'] === 'once with frist installment' && $i === 0) ? $commissionPerContract : ($data['collection_type'] === 'divided with all installments' ? $commissionPerContract : 0),
-
             ];
 
             // Update start date for next installment
@@ -303,6 +307,7 @@ class ContractRepository implements ContractRepositoryInterface
         // Save installments to database
         Installment::insert($installments);
     }
+
 
     function getContractById($id)
     {
