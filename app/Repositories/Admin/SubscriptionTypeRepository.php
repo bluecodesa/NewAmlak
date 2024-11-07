@@ -45,6 +45,23 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         $Subscriptiondata['upgrade_rate'] =  $data['upgrade_rate'] / 100;
         $Subscriptiondata['ads_discount'] =  $data['ads_discount'] / 100;
         $Subscriptiondata['views_discount'] =  $data['views_discount'] / 100;
+
+        if ($data['new_subscriber'] == '1') {
+            foreach ($data['roles'] as $role) {
+                $existingSubscription = SubscriptionType::where('new_subscriber', '1')
+                    ->whereHas('roles', function ($query) use ($role) {
+                        $query->where('role_id', $role);
+                    })
+                    ->first();
+
+
+                if ($existingSubscription) {
+                    return redirect()->route('Admin.SubscriptionTypes.create')
+                        ->withErrors(__('يوجد اشتراك بالفعل لهذا الدور للمشتركين الجدد. لا يمكن إضافة اشتراك جديد لهذا الدور.'));
+                }
+            }
+        }
+
         $subscriptionType = SubscriptionType::create($Subscriptiondata);
 
         foreach ($data['sections'] as $section) {
@@ -57,6 +74,7 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
 
         return $subscriptionType;
     }
+
 
     public function findById($id)
     {
@@ -71,6 +89,23 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         $Subscriptiondata['upgrade_rate'] =  $data['upgrade_rate'] / 100;
         $Subscriptiondata['ads_discount'] =  $data['ads_discount'] / 100;
         $Subscriptiondata['views_discount'] =  $data['views_discount'] / 100;
+
+        if ($data['new_subscriber'] == '1') {
+            // البحث عن اشتراك آخر بنفس الدور و new_subscriber = 1
+            foreach ($data['roles'] as $role) {
+                $existingSubscription = SubscriptionType::where('new_subscriber', '1')
+                    ->whereHas('roles', function ($query) use ($role) {
+                        $query->where('role_id', $role);
+                    })
+                    ->first();
+
+                // إذا وجدنا اشتراك بالفعل مع نفس الدور و new_subscriber = 1
+                if ($existingSubscription) {
+                    // جعل الاشتراك القديم new_subscriber = 0
+                    $existingSubscription->update(['new_subscriber' => '0']);
+                }
+            }
+        }
         $subscriptionType->update($Subscriptiondata);
 
         // Sync sections

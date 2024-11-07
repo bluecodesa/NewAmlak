@@ -18,4 +18,5 @@ class SubscriptionTypeRole extends Model
     {
         return $this->belongsToMany(Role::class, 'subscription_type_role', 'subscription_type_id', 'role_id');
     }
+
 }

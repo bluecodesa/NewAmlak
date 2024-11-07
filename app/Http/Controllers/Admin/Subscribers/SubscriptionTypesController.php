@@ -99,7 +99,10 @@ class SubscriptionTypesController extends Controller
         $request->validate($rules, $messages);
 
         $subscriptionType = $this->subscriptionTypeService->createSubscriptionType($request->all());
-
+        
+        if ($subscriptionType instanceof \Illuminate\Http\RedirectResponse) {
+            return $subscriptionType;
+        }
         return redirect()->route('Admin.SubscriptionTypes.index')
             ->withSuccess(__('added successfully'));
     }
