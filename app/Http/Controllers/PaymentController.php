@@ -43,7 +43,6 @@ class PaymentController extends Controller
         }
 
         $amount = $Subscription->amount;
-
         $last_record = SystemInvoice::latest()->first();
         $pay = Paypage::sendPaymentCode('all')
             ->sendTransaction('Auth')
@@ -130,6 +129,10 @@ class PaymentController extends Controller
 
         $SubscriptionType =  SubscriptionType::find($request->subscription_type);
         $amount = $request->amount;
+        if($amount == 0){
+            return $this->callback_UpgradeSubscription($SubscriptionType->id . '&' . Auth::id());
+
+        }
 
         // $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
 

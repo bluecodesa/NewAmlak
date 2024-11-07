@@ -111,7 +111,6 @@
                                                         // 100 -(100*2%)
                                                         $discounted_price = $discounted_price < 0 ? 0 : $discounted_price;
                                                     
-
                                                         @endphp
                                                         <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
                                                         <input type="number" class="display-4 mb-0 text-primary"  name="amount" hidden value="{{ $discounted_price }}"></input>

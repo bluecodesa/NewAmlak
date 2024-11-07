@@ -206,9 +206,9 @@
 
                                     <td>
                                         @if ($sub->new_subscriber == 1)
-                                        <span class="badge rounded-pill bg-success">@lang('yes')</span>
+                                        <span class="badge rounded-pill bg-success">@lang('Yes')</span>
                                     @else
-                                        <span class="badge rounded-pill bg-danger">@lang('no')</span>
+                                        <span class="badge rounded-pill bg-danger">@lang('No')</span>
                                     @endif
                                     </td>
 

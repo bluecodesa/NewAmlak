@@ -755,7 +755,17 @@
     "Email topic": "موضوع البريد الالكتروني",
     "This id number is not registered in this account": "رقم الهوية هذا غير مسجل في هذا الحساب",
     "This unit is rented. Start date:": "هذه الوحدة مؤجرة. تاريخ البدء:",
-    "null": "غير محدد"
+    "null": "غير محدد",
+    "Yes":"نعم",
+    "No":"لا",
+    "Discount Type":"نوع الخصم",
+    "Fixed Discount":"خصم ثابت",
+    "Incentive Discount":"خصم تحفيزي",
+    "Number of Ads":"عدد الاعلانات",
+    "Discount of Ads (%)":"نسبة الخصم علي الاعلانات %",
+    "Number of Views":"عدد المشاهدات",
+    "Discount for Views (%)":"نسبة الخصم علي المشاهدات %"
+
 
 
 
