@@ -62,6 +62,8 @@ Route::group(
             Route::get('/payment-gateways/{id}/edit', [SettingController::class, 'editPaymentGatewayForm'])->name('payment-gateways.edit');
             Route::put('/payment-gateways/{id}', [SettingController::class, 'updatePaymentGateway'])->name('update-payment-gateway');
             Route::post('/payment-gateways/create', [SettingController::class, 'createPaymentGateway'])->name('create-payment-gateway');
+            Route::post('/bank-accounts/create', [SettingController::class, 'createBankAccount'])->name('create-bank-account');
+            Route::put('/bank-accounts/{id}', [SettingController::class, 'updateBankAccount'])->name('update-bank-account');
             Route::get('/ChangeActiveHomePage', [SettingController::class, 'ChangeActiveHomePage'])->name('Setting.ChangeActiveHomePage');
             Route::get('/ChangeActiveGalleryPage', [SettingController::class, 'ChangeActiveGalleryPage'])->name('Setting.ChangeActiveGalleryPage');
             Route::get('/ChangeActiveRegisterUsers', [SettingController::class, 'ChangeActiveRegisterUsers'])->name('Setting.ChangeActiveRegisterUsers');
@@ -79,10 +81,10 @@ Route::group(
             Route::post('UpdateWhatsAppSetting', [SettingController::class, 'UpdateWhatsAppSetting'])->name('update.UpdateWhatsAppSetting');
             Route::get('EditEmailTemplate/{id}', [SettingController::class, 'EditEmailTemplate'])->name('update.EditEmailTemplate');
             Route::get('EditWhatsAppTemplate/{id}', [SettingController::class, 'EditWhatsAppTemplate'])->name('update.EditWhatsAppTemplate');
-        
+
             Route::post('StoreEmailTemplate/{id}', [SettingController::class, 'StoreEmailTemplate'])->name('update.StoreEmailTemplate');
             Route::post('StoreWhatsAppTemplate/{id}', [SettingController::class, 'StoreWhatsAppTemplate'])->name('update.StoreWhatsAppTemplate');
-           
+
             Route::post('StoreNewNotification', [SettingController::class, 'StoreNewNotification'])->name('StoreNewNotification');
             Route::get('TestSendMail', [SettingController::class, 'TestSendMail'])->name('update.TestSendMail');
 

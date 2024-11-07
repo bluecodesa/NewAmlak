@@ -4,6 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Models\Setting;
 use App\Interfaces\Admin\SettingRepositoryInterface;
+use App\Models\BankAccount;
 use App\Models\EmailSetting;
 use App\Models\InterestType;
 use App\Models\NotificationSetting;
@@ -16,11 +17,14 @@ class SettingRepository implements SettingRepositoryInterface
     {
         $settings = Setting::first();
         $paymentGateways = PaymentGateway::all();
+        $bankAccounts = BankAccount::all();
 
         if (!$settings) {
             $settings = new Setting();
         }
         $settings->paymentGateways = $paymentGateways;
+        $settings->bankAccounts = $bankAccounts;
+
 
         return $settings;
     }
@@ -61,9 +65,9 @@ class SettingRepository implements SettingRepositoryInterface
             'google_tag' => 'nullable|string',
             'zoho_salesiq' => 'nullable|string',
         ]);
-    
+
         $setting = Setting::first();
-    
+
         $setting->update([
             'google_tag' => $validatedData['google_tag'],
             'zoho_salesiq' => $validatedData['zoho_salesiq'],
@@ -139,7 +143,7 @@ class SettingRepository implements SettingRepositoryInterface
         if ($interestType->default === 1) {
             return false; // Indicate that deletion was not successful
         }
-    
+
         // Proceed with deletion
         return $interestType->delete();
     }

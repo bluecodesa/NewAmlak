@@ -55,6 +55,7 @@ class SettingController extends Controller
         $WhatsAppSettingService = $this->EmailSettingService->getAllWhatsApp();
         $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $paymentGateways = $settings->paymentGateways;
+        $bankAccounts = $settings->bankAccounts;
         $interests = $this->settingService->getAllInterestTypes();
         return view('Admin.settings.index', get_defined_vars());
     }
@@ -127,7 +128,7 @@ class SettingController extends Controller
     {
         // فين الفالديشن (amin)
         $this->paymentGateway->createPaymentGateway($request->all());
-        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
+        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway created successfully.'));
     }
 
     public function updatePaymentGateway(Request $request, $id)
@@ -137,6 +138,24 @@ class SettingController extends Controller
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
+
+    public function createBankAccount(Request $request)
+    {
+        // فين الفالديشن (amin)
+        $this->paymentGateway->createBankAccount($request->all());
+        return redirect()->route('Admin.settings.index')->with('success', __('Bank Account created successfully.'));
+    }
+
+
+
+    public function updateBankAccount(Request $request, $id)
+    {
+        // فين الفالديشن (amin)
+        $this->paymentGateway->updateBankAccount($id, $request->all());
+
+        return redirect()->route('Admin.settings.index')->with('success', __('Bank Account updated successfully.'));
+    }
+
 
     public function updateTax(Request $request, Setting $setting)
     {
