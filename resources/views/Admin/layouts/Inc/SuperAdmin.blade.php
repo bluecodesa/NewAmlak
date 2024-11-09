@@ -195,7 +195,7 @@
                         @endif
                         @if (Auth::user()->hasPermission('read-SystemInvoice'))
                         <li class="menu-item">
-                            <a href="{{ route('Admin.SystemInvoice.index') }}" class="menu-link">
+                            <a href="{{ route('Admin.Receipt.index') }}" class="menu-link">
                                 <div data-i18n="@lang('Subscriber Receipts')">@lang('Subscriber Receipts')</div>
                             </a>
                         </li>

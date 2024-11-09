@@ -10,7 +10,7 @@
 
 
 </div>
-<div class="row text-center">
+{{-- <div class="row text-center">
     <div class="col-6">
         <h5>من</h5>
         <p>{{ $sitting->title }}</p>
@@ -28,12 +28,10 @@
         <p class="location">
             {{ Auth::user()->UserBrokerData->CityData->name ?? (Auth::user()->UserOfficeData->CityData->name ?? '') }}
         </p>
-        {{-- <p class="id">
-            {{ Auth::user()->UserBrokerData->broker_license ?? (Auth::user()->UserOfficeData->CRN ?? '') }}
-        </p> --}}
+
     </div>
 
-</div>
+</div> --}}
 <div class="card">
     <div class="card-body">
         <table class="table mb-2">
@@ -82,11 +80,53 @@
 
             </tbody>
         </table>
-        <form action="{{ route('Payment.store') }}" method="POST">
+        {{-- <form action="{{ route('Payment.store') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-success btn-lg btn-block waves-effect waves-light">أكمل
-                الدفع</button>
-        </form>
+            <button type="submit" class="btn btn-success btn-lg btn-block waves-effect waves-light">
+                اكمل الدفع اون لاين</button>
+        </form> --}}
+
+        <div class="row">
+            <div class="col-4">
+                <form action="{{ route('Payment.store') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-lg btn-block waves-effect waves-light">
+                        اكمل الدفع اون لاين
+                    </button>
+                </form>
+            </div>
+            <div class="col-8">
+
+                    <div class="accordion-item card">
+                        <button
+                            type="button"
+                            class="btn btn-primary btn-lg btn-block waves-effect waves-light"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#accordionIcon-1"
+                            aria-controls="accordionIcon-1">
+                            اكمل الدفع عن طريق حواله بنكيه
+                        </button>
+                        <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+                                <form action="{{ route('Receipt.store') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <label for="formFileMultiple" class="form-label">@lang('Attach the receipt')</label>
+                                    <div class="input-group">
+                                    <input class="form-control" type="file" name="receipt" required
+                                        id="projectMasterplan" accept="image/*,application/pdf">
+                                        <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                    </div>
+                                    <div class="col-12" style="text-align: center;">
+                                        <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
+                                            type="submit">@lang('save')</button>
+                                    </div>
+                            </form>
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
 
 
     </div>

@@ -131,7 +131,6 @@ class PaymentController extends Controller
         $amount = $request->amount;
         if($amount == 0){
             return $this->callback_UpgradeSubscription($SubscriptionType->id . '&' . Auth::id());
-
         }
 
         // $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;

@@ -18,6 +18,7 @@ use App\Http\Controllers\Office\ProjectManagement\Renter\RenterController;
 use App\Http\Controllers\Office\ProjectManagement\UnitController;
 use App\Http\Controllers\Office\SettingController;
 use App\Http\Controllers\Office\TicketController;
+use App\Http\Controllers\ReceiptController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -148,6 +149,7 @@ Route::group(
                //
                Route::get('Interests', [UnitInterestController::class, 'unitInterestOffice'])->name('Gallary.showInterests')->middleware('CheckSubscription');
 
+               Route::put('/office/receipt/{id}', [HomeController::class, 'updateReceipt'])->name('Receipt.update');
 
         });
         Route::get('/get-project-details/{project}', [ContractController::class, 'getProjectDetails']);

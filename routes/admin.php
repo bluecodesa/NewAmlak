@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WalletTypeController;
 use App\Http\Controllers\Broker\TicketController;
+use App\Http\Controllers\ReceiptController;
 use App\Models\City;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
@@ -133,6 +134,17 @@ Route::group(
             Route::put('/project-DelviryCases/{id}/update', [ProjectController::class, 'updateDeliveryCase'])->name('ProjectSettings.updateDelivery-case');
             Route::delete('/project-DelviryCases/{id}/destroy', [ProjectController::class, 'deleteDeliveryCase'])->name('ProjectSettings.destroyDelivery-case');
 
+
+            //Receipts
+            Route::get('/receipts', [ReceiptController::class, 'indexReceipt'])->name('Receipt.index');
+            Route::get('/receipt/{id}', [ReceiptController::class, 'showReceipt'])->name('Receipt.show');
+            Route::put('/receipt/update-status/{id}', [ReceiptController::class, 'updateStatus'])->name('Receipt.updateStatus');
+
+
+
+
+
+            //
             Route::resource('PartnerSuccess', PartnerSuccessController::class);
 
 

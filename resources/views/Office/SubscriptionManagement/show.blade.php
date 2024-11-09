@@ -155,9 +155,130 @@
                 </div>
             </div>
             <!-- Modal to add new record -->
+            <div class="card">
+                <div class="row p-1 mb-1">
+                    <div class="col-12">
+                        <h5 class="card-header">@lang('Receipts') </h5>
+                    </div>
+                    <hr>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                        <input id="SearchInput" class="form-control" placeholder="@lang('search...')"
+                                            aria-controls="DataTables_Table_0"></label></div>
+                            </div>
 
+                            <div class="col-6">
+                                <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                    <div
+                                        class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                        <div class="dt-buttons btn-group flex-wrap d-flex">
+                                            <div class="btn-group">
+                                                <button onclick="exportToExcel()"
+                                                    class="btn btn-outline-primary btn-sm waves-effect me-2"
+                                                    type="button"><span><i
+                                                            class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive text-nowrap">
+                    <table class="table" id="table">
+                        <thead class="table-dark">
+                            <tr>
+
+                                <th>@lang('Subscriber Name')</th>
+                                <th>@lang('Receipt Number')</th>
+                                <th>@lang('Receipt Status')</th>
+                                <th>@lang('Created Date')</th>
+                                <th>@lang('Action')</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+
+                            @foreach ($receipts->unique('created_at') as $index => $receipt)
+                                <tr>
+
+                                    <td>{{ $receipt->OfficeData->UserData->name ?? ($receipt->BrokerData->UserData->name ?? '') }}
+                                    </td>
+                                    <td>
+                                        {{ $receipt->receipt_id }}
+                                    </td>
+                                    <td>{{ __($receipt->status) }}</td>
+
+                                    <td>{{ $receipt->created_at->format('M j, Y, g:i A') }}</td>
+                                    <td>
+
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+                                                <a class="dropdown-item" href="{{ $receipt->receipt }}" class="btn btn-success mt-3" download>
+                                                    @lang('Show')
+                                                </a>
+                                                @if($receipt->status == "Under review")
+                                                    @if (Auth::user()->hasPermission('read-project'))
+                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateReceiptModal" href="#">
+                                                        @lang('Edit')
+                                                    </a>
+                                                    @endif
+                                            @endif
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <!--/ DataTable with Buttons -->
+            <div class="modal fade" id="updateReceiptModal" tabindex="-1" aria-labelledby="updateReceiptModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{ route('Office.Receipt.update', $receipt->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
 
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateReceiptModalLabel">@lang('Update Receipt')</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <!-- Receipt File Input -->
+                                <div class="mb-3">
+                                    <label for="receipt" class="form-label">@lang('Attach New Receipt (PDF/Image)')</label>
+                                    <input class="form-control" type="file" name="receipt" accept="image/*,application/pdf" required>
+                                </div>
+
+                                <!-- Optional Comment Input -->
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label">@lang('Comment')</label>
+                                    <textarea class="form-control" name="comment" rows="3">{{ $receipt->comment }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
+                                <button type="submit" class="btn btn-primary">@lang('Update Receipt')</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
         </div>
 

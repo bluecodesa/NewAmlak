@@ -97,8 +97,9 @@
                         <form action="{{ route('Payment.store') }}" method="POST">
                             @csrf
                             <button type="submit"
-                                class="btn btn-success btn-lg btn-block waves-effect waves-light">أكمل
-                                الدفع</button>
+                                class="btn btn-success btn-lg btn-block waves-effect waves-light">
+                                اكمل الدفع اون لاين
+                                </button>
                         </form>
 
 

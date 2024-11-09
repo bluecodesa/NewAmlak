@@ -18,6 +18,7 @@ use App\Http\Controllers\Home\Gallary\GallaryController as HomeGallaryController
 use App\Http\Controllers\Property_Finder\RealEstateRequestController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Property_Finder\HomeController as Property_FinderHomeController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Middleware\PendingPaymentPopup;
 
 
@@ -180,6 +181,10 @@ Route::group(
         Route::get('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
         Route::post('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
         Route::get('/switch-role/{role}', [AdminHomeController::class, 'switchRole'])->name('switch.role');
+
+
+        //receipt
+        Route::post('create-receipt', [ReceiptController::class, 'storeReceipt'])->name('Receipt.store');
 
     }
 

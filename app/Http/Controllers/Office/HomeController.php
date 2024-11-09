@@ -10,6 +10,7 @@ use App\Models\Gallery;
 use App\Models\Owner;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Receipt;
 use App\Models\Renter;
 use App\Models\Subscription;
 use App\Models\SubscriptionSection;
@@ -366,10 +367,41 @@ class HomeController extends Controller
             ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
             ->count();
 // dd($numOfViews);
+        $receipts = Receipt::all();
 
 
         return view('Office.SubscriptionManagement.show', get_defined_vars());
     }
+
+    public function updateReceipt(Request $request, $id)
+    {
+        $receipt = Receipt::findOrFail($id);
+
+        if ($receipt->status !== 'Under review') {
+            return redirect()->back()->with('error', __('You can only update receipts that are under review.'));
+        }
+
+        $validatedData = $request->validate([
+            'receipt' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'comment' => 'nullable|string',
+        ]);
+        if ($request->hasFile('receipt')) {
+            $file = $request->file('receipt');
+            $ext = $file->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $ext;
+
+            $file->move(public_path('Admin/Receipt'), $filename);
+
+            $receipt->receipt = 'Admin/Receipt/' . $filename;
+        }
+
+        $receipt->comment = $validatedData['comment'] ?? $receipt->comment;
+
+        $receipt->save();
+
+        return redirect()->back()->with('success', __('Receipt updated successfully.'));
+    }
+
 
     public function ShowInvoice($id)
     {
@@ -377,6 +409,8 @@ class HomeController extends Controller
 
         return view('Office.SubscriptionManagement.invoices.show', get_defined_vars());
     }
+
+
 
     public function searchByIdNumber(Request $request)
     {
