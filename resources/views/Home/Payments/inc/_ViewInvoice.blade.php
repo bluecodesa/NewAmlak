@@ -8,7 +8,22 @@
         {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? Auth::user()->UserOfficeData->UserSystemInvoicePending->invoice_ID }}
     )</p>
 
+    <td>
+        @php
+        if(auth()->user->UserBrokerData){
+            $invoice = Auth::user()->UserBrokerData->UserSystemInvoicePending;
 
+        }else{
+            $invoice = Auth::user()->UserOfficeData->UserSystemInvoicePending;
+
+        }
+
+        @endphp
+        <a href="{{ route('Office.ShowInvoice', $invoice->id) }}"
+            class="btn btn-secondary add-new btn-primary btn-sm waves-effect waves-light">@lang('view')
+            @lang('Invoice')</a>
+
+    </td>
 </div>
 {{-- <div class="row text-center">
     <div class="col-6">

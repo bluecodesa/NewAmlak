@@ -61,6 +61,7 @@
                                 <th>@lang('Receipt Number')</th>
                                 <th>@lang('Receipt Status')</th>
                                 <th>@lang('Created Date')</th>
+                                <th>@lang('comment')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -77,6 +78,7 @@
                                     <td>{{ __($receipt->status) }}</td>
 
                                     <td>{{ $receipt->created_at->format('M j, Y, g:i A') }}</td>
+                                    <td>{!! ($receipt->comment) !!}</td>
                                     <td>
                                         @if (Auth::user()->hasPermission('read-invoice-details'))
                                             <a href="{{ route('Admin.Receipt.show', $receipt->id) }}"

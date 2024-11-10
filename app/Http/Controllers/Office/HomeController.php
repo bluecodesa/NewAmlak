@@ -367,7 +367,7 @@ class HomeController extends Controller
             ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
             ->count();
 // dd($numOfViews);
-        $receipts = Receipt::all();
+$receipts = Receipt::where('office_id',auth()->user()->UserOfficeData->id)->get();
 
 
         return view('Office.SubscriptionManagement.show', get_defined_vars());
@@ -400,6 +400,30 @@ class HomeController extends Controller
         $receipt->save();
 
         return redirect()->back()->with('success', __('Receipt updated successfully.'));
+    }
+    public function showReceipt($id){
+        $receipt = Receipt::findOrFail($id);
+        return view('Office.SubscriptionManagement.receipts.show' , get_defined_vars());
+    }
+
+    public function deleteReceipt($id)
+    {
+        $receipt = Receipt::findOrFail($id);
+
+        if (!in_array($receipt->status, ['Under review', 'rejected'])) {
+            return redirect()->back()->with('error', __('This receipt cannot be deleted as it has already been processed.'));
+        }
+
+        $user = Auth::user();
+        $officeData = $user->UserOfficeData;
+
+        if (!$officeData || $receipt->OfficeData->user_id !== $user->id) {
+            return redirect()->back()->with('error', __('You do not have permission to delete this receipt.'));
+        }
+
+        $receipt->delete();
+
+        return redirect()->back()->with('success', __('Receipt deleted successfully.'));
     }
 
 

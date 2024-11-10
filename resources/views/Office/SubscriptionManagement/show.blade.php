@@ -199,6 +199,7 @@
                                 <th>@lang('Receipt Number')</th>
                                 <th>@lang('Receipt Status')</th>
                                 <th>@lang('Created Date')</th>
+                                <th>@lang('comment')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -215,6 +216,7 @@
                                     <td>{{ __($receipt->status) }}</td>
 
                                     <td>{{ $receipt->created_at->format('M j, Y, g:i A') }}</td>
+                                    <td>{!! ($receipt->comment)   !!}</td>
                                     <td>
 
                                         <div class="dropdown">
@@ -223,16 +225,35 @@
                                                 <i class="ti ti-dots-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu" style="">
-                                                <a class="dropdown-item" href="{{ $receipt->receipt }}" class="btn btn-success mt-3" download>
+                                                {{-- <a class="dropdown-item" href="{{ $receipt->receipt }}" class="btn btn-success mt-3" download>
                                                     @lang('Show')
-                                                </a>
+                                                </a> --}}
+                                                @if (Auth::user()->hasPermission('read-unit'))
+                                                <a class="dropdown-item"
+                                                    href="{{ route('Office.Receipt.show', $receipt->id) }}"
+                                                    class="btn btn-outline-warning btn-sm waves-effect waves-light">@lang('Show')</a>
+                                                @endif
                                                 @if($receipt->status == "Under review")
                                                     @if (Auth::user()->hasPermission('read-project'))
                                                     <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateReceiptModal" href="#">
                                                         @lang('Edit')
                                                     </a>
                                                     @endif
-                                            @endif
+                                                 @endif
+                                                 @if (Auth::user()->hasPermission('delete-project'))
+                                                    @if ($receipt->status === 'Under review' || $receipt->status === 'rejected')
+
+                                                        <a href="javascript:void(0);"
+                                                            onclick="handleDelete('{{ $receipt->id }}')"
+                                                            class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                        <form id="delete-form-{{ $receipt->id }}"
+                                                            action="{{ route('Office.Receipt.delete', $receipt->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    @endif
+                                                @endif
 
                                             </div>
                                         </div>

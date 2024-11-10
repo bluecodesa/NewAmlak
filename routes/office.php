@@ -149,8 +149,9 @@ Route::group(
                //
                Route::get('Interests', [UnitInterestController::class, 'unitInterestOffice'])->name('Gallary.showInterests')->middleware('CheckSubscription');
 
+               Route::get('/receipt/{id}', [HomeController::class, 'showReceipt'])->name('Receipt.show');
                Route::put('/office/receipt/{id}', [HomeController::class, 'updateReceipt'])->name('Receipt.update');
-
+               Route::delete('/office/receipt/{id}', [HomeController::class, 'deleteReceipt'])->name('Receipt.delete');
         });
         Route::get('/get-project-details/{project}', [ContractController::class, 'getProjectDetails']);
         Route::get('/get-units-by-property/{property}', [ContractController::class, 'getUnitsByProperty']);

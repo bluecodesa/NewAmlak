@@ -18,8 +18,23 @@
                     <p>(رقم الفاتورة -
                         {{ Auth::user()->UserBrokerData->UserSystemInvoicePending->invoice_ID ?? Auth::user()->UserOfficeData->UserSystemInvoicePending->invoice_ID ?? '' }}
                         )</p>
+                        @php
+                        if(auth()->user()->UserBrokerData){
+                            $invoice = Auth::user()->UserBrokerData->UserSystemInvoicePending;
+
+                        }elseif(Auth::user()->UserOfficeData){
+                            $invoice = Auth::user()->UserOfficeData->UserSystemInvoicePending;
+                        }
+                        @endphp
+                        @if($invoice)
+                        <td>
+                            <a href="{{ route('Office.ShowInvoice', $invoice->id) }}"
+                                class="btn btn-secondary add-new btn-primary btn-sm waves-effect waves-light">@lang('view')
+                                @lang('Invoice')</a>
+                        </td>
+                        @endif
                 </div>
-                <div class="row text-center">
+                {{-- <div class="row text-center">
                     <div class="col-6">
                         <h5>الي</h5>
                         <p>{{ Auth::user()->name }}</p>
@@ -42,7 +57,7 @@
 
 
 
-                </div>
+                </div> --}}
                 <div class="card">
                     <div class="card-body">
                         <table class="table mb-0">
@@ -93,16 +108,55 @@
 
                             </tbody>
                         </table>
-                        <hr>
-                        <form action="{{ route('Payment.store') }}" method="POST">
+                        {{-- <form action="{{ route('Payment.store') }}" method="POST">
                             @csrf
                             <button type="submit"
                                 class="btn btn-success btn-lg btn-block waves-effect waves-light">
                                 اكمل الدفع اون لاين
                                 </button>
-                        </form>
+                        </form> --}}
 
+                        <div class="row">
+                            <div class="col-4">
+                                <form action="{{ route('Payment.store') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success btn-lg btn-block waves-effect waves-light">
+                                        اكمل الدفع اون لاين
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-8">
 
+                                    <div class="accordion-item card">
+                                        <button
+                                            type="button"
+                                            class="btn btn-primary btn-lg btn-block waves-effect waves-light"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#accordionIcon-1"
+                                            aria-controls="accordionIcon-1">
+                                            اكمل الدفع عن طريق حواله بنكيه
+                                        </button>
+                                        <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                                            <div class="accordion-body">
+                                                <form action="{{ route('Receipt.store') }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <label for="formFileMultiple" class="form-label">@lang('Attach the receipt')</label>
+                                                    <div class="input-group">
+                                                    <input class="form-control" type="file" name="receipt" required
+                                                        id="projectMasterplan" accept="image/*,application/pdf">
+                                                        <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                                    </div>
+                                                    <div class="col-12" style="text-align: center;">
+                                                        <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
+                                                            type="submit">@lang('save')</button>
+                                                    </div>
+                                            </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

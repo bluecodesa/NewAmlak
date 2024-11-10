@@ -139,6 +139,7 @@ Route::group(
             Route::get('/receipts', [ReceiptController::class, 'indexReceipt'])->name('Receipt.index');
             Route::get('/receipt/{id}', [ReceiptController::class, 'showReceipt'])->name('Receipt.show');
             Route::put('/receipt/update-status/{id}', [ReceiptController::class, 'updateStatus'])->name('Receipt.updateStatus');
+            Route::post('/receipts/{id}/comment', [ReceiptController::class, 'addComment'])->name('Receipt.addComment');
 
 
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Receipt;
 use App\Models\SubscriptionSection;
 use App\Models\User;
+use App\Notifications\Admin\ReceiptStatusUpdatedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 
 class ReceiptController extends Controller
@@ -79,26 +81,42 @@ class ReceiptController extends Controller
     {
         $receipt = Receipt::findOrFail($id);
 
-        // Check if the status can be updated
         if ($receipt->status === 'accepted' || $receipt->status === 'rejected') {
             return redirect()->back()->with('error', __('This receipt has already been processed.'));
         }
 
-        // Update the receipt status based on the input
         $newStatus = $request->input('status');
         $receipt->update(['status' => $newStatus]);
 
-        // If status is 'accepted', handle the subscription logic
         if ($newStatus === 'accepted') {
             $userId = $this->getUserIdFromReceipt($receipt);
             if ($userId) {
                 $this->activateSubscription($userId);
             }
         }
+        $this->notifyRelatedUser($receipt, $newStatus);
 
         return redirect()->back()->with('success', __('Receipt status updated successfully.'));
     }
+    protected function notifyRelatedUser($receipt, $newStatus)
+    {
+        $user = null;
 
+        if ($receipt->OfficeData && $receipt->OfficeData->UserData) {
+            $user = $receipt->OfficeData->UserData;
+        } elseif ($receipt->BrokerData && $receipt->BrokerData->UserData) {
+            $user = $receipt->BrokerData->UserData;
+        } elseif ($receipt->OwnerData && $receipt->OwnerData->UserData) {
+            $user = $receipt->OwnerData->UserData;
+        }
+
+        // Send notification if a user is found
+        if ($user) {
+            // $user->notify(new ReceiptStatusUpdatedNotification($receipt, $newStatus));
+            Notification::send($user, new ReceiptStatusUpdatedNotification($receipt, $newStatus));
+
+        }
+    }
     protected function getUserIdFromReceipt($receipt)
     {
         if ($receipt->OfficeData && $receipt->OfficeData->UserData) {
@@ -186,7 +204,19 @@ private function getPendingInvoice($officeData, $brokerData)
 }
 
 
+public function addComment(Request $request, $id)
+    {
+        $request->validate([
+            'comment' => 'required|string|max:500',
+        ]);
 
+        $receipt = Receipt::findOrFail($id);
 
+        $receipt->update([
+            'comment' => $request->input('comment'),
+        ]);
+
+        return redirect()->back()->with('success', __('Comment added successfully.'));
+    }
 
 }

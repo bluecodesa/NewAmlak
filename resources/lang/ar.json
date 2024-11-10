@@ -768,7 +768,15 @@
     "Bank Accounts":"الحسابات البنكية",
     "Add New Bank Account":"اضافة حساب بنكي جديد",
     "Subscribers Bills":"فواتير المشتركين",
-    "Subscriber Receipts":"إيصالات المشتركين"
+    "Subscriber Receipts":"إيصالات المشتركين",
+    "Under review":"قيد المراجعة",
+    "rejected":"مرفوض",
+    "accepted":"مقبول",
+    "Add comment":"اضافة تعليق",
+    "Receipt":"الايصال",
+    "Receipt Status":"حالة الايصال",
+    "Receipt Number":"رقم الايصال",
+    "Your subscription is active now!":"تم تفعيل اشتراكك الان!"
 
 
 
