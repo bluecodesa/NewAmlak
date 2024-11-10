@@ -90,8 +90,7 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         $Subscriptiondata['ads_discount'] =  $data['ads_discount'] / 100;
         $Subscriptiondata['views_discount'] =  $data['views_discount'] / 100;
 
-        if ($data['new_subscriber'] == '1') {
-            // البحث عن اشتراك آخر بنفس الدور و new_subscriber = 1
+        if (isset($data['new_subscriber']) && $data['new_subscriber'] == '1') {
             foreach ($data['roles'] as $role) {
                 $existingSubscription = SubscriptionType::where('new_subscriber', '1')
                     ->whereHas('roles', function ($query) use ($role) {
@@ -99,19 +98,16 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
                     })
                     ->first();
 
-                // إذا وجدنا اشتراك بالفعل مع نفس الدور و new_subscriber = 1
-                if ($existingSubscription) {
-                    // جعل الاشتراك القديم new_subscriber = 0
+                if ($existingSubscription && $existingSubscription->id !== $subscriptionType->id) {
                     $existingSubscription->update(['new_subscriber' => '0']);
                 }
             }
         }
+
         $subscriptionType->update($Subscriptiondata);
 
-        // Sync sections
         $subscriptionType->sections()->sync($data['sections']);
 
-        // Sync roles
         $subscriptionType->roles()->sync($data['roles']);
 
         return $subscriptionType;

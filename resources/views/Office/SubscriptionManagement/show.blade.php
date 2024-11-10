@@ -259,6 +259,40 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <div class="modal fade" id="updateReceiptModal" tabindex="-1" aria-labelledby="updateReceiptModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="{{ route('Office.Receipt.update', $receipt->id) }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="updateReceiptModalLabel">@lang('Update Receipt')</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <!-- Receipt File Input -->
+                                                    <div class="mb-3">
+                                                        <label for="receipt" class="form-label">@lang('Attach New Receipt (PDF/Image)')</label>
+                                                        <input class="form-control" type="file" name="receipt" accept="image/*,application/pdf" required>
+                                                    </div>
+
+                                                    <!-- Optional Comment Input -->
+                                                    <div class="mb-3">
+                                                        <label for="comment" class="form-label">@lang('Comment')</label>
+                                                        <textarea class="form-control" name="comment" rows="3">{{ $receipt->comment }}</textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
+                                                    <button type="submit" class="btn btn-primary">@lang('Update Receipt')</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
 
                         </tbody>
@@ -266,40 +300,7 @@
                 </div>
             </div>
             <!--/ DataTable with Buttons -->
-            <div class="modal fade" id="updateReceiptModal" tabindex="-1" aria-labelledby="updateReceiptModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="{{ route('Office.Receipt.update', $receipt->id) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
 
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="updateReceiptModalLabel">@lang('Update Receipt')</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-
-                            <div class="modal-body">
-                                <!-- Receipt File Input -->
-                                <div class="mb-3">
-                                    <label for="receipt" class="form-label">@lang('Attach New Receipt (PDF/Image)')</label>
-                                    <input class="form-control" type="file" name="receipt" accept="image/*,application/pdf" required>
-                                </div>
-
-                                <!-- Optional Comment Input -->
-                                <div class="mb-3">
-                                    <label for="comment" class="form-label">@lang('Comment')</label>
-                                    <textarea class="form-control" name="comment" rows="3">{{ $receipt->comment }}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
-                                <button type="submit" class="btn btn-primary">@lang('Update Receipt')</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
 
         </div>
 

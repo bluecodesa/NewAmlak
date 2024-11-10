@@ -165,19 +165,17 @@
                         <div class="col-md-2 mb-3">
                             <p>@lang('New Subscription')</p>
                             <div class="form-check form-check-primary mt-1">
-                                <input name="new_subscriber" class="form-check-input" type="radio"
-                                    value="{{ 1 }}" id="Yes" {{ $SubscriptionType->new_subscriber == 1 ? 'checked' : '' }}>
+                                <input name="new_subscriber" class="form-check-input" type="radio" value="1"
+                                    id="Yes" {{ $SubscriptionType->new_subscriber == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label" for="Yes">{{ __('Yes') }}</label>
                             </div>
 
                             <div class="form-check form-check-primary mt-1">
-                                <input name="new_subscriber" class="form-check-input" type="radio"
-                                    value="{{ 0 }}" id="No" {{ $SubscriptionType->new_subscriber == 0 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="No"> {{ __('No') }}</label>
+                                <input name="new_subscriber" class="form-check-input" type="radio" value="0"
+                                    id="No" {{ $SubscriptionType->new_subscriber == 0 ? 'checked' : '' }}>
+                                <label class="form-check-label" for="No">{{ __('No') }}</label>
                             </div>
-
                         </div>
-
                         <div class="col-md-3 col-12 mb-3">
                             <p>@lang('role name')</p>
                             @foreach ($roles as $role)

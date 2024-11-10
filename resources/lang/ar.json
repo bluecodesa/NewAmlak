@@ -774,9 +774,11 @@
     "accepted":"مقبول",
     "Add comment":"اضافة تعليق",
     "Receipt":"الايصال",
+    "Receipts":"الايصالات",
     "Receipt Status":"حالة الايصال",
     "Receipt Number":"رقم الايصال",
-    "Your subscription is active now!":"تم تفعيل اشتراكك الان!"
+    "Your subscription is active now!":"تم تفعيل اشتراكك الان!",
+    "send":"ارسال"
 
 
 
