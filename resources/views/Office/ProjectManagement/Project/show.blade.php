@@ -29,7 +29,7 @@
     .icon-large:hover {
         transform: scale(1.2); /* Enlarge the icon slightly on hover */
     }
-    </style>
+</style>
 
     <div class="content-wrapper">
         <!-- Content -->

@@ -185,7 +185,7 @@ Route::group(
 
         //receipt
         Route::post('create-receipt', [ReceiptController::class, 'storeReceipt'])->name('Receipt.store');
-
+        Route::get('/get-user-details', [HomeController::class, 'getUserDetails']);
     }
 
 );

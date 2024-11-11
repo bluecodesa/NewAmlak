@@ -17,724 +17,722 @@
 
             <div class="row">
                 <div class="col-12">
-                    @include('Admin.layouts.Inc._errors')
-                    <div class="col-xl-12">
-                        <div class="nav-align-top nav-tabs-shadow mb-4">
-                            <ul class="nav nav-tabs nav-fill" role="tablist">
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-home" aria-controls="navs-justified-home"
-                                        aria-selected="true">
-                                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Basic Details')
-                                        <span
-                                            class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span>
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
-                                        aria-selected="false">
-                                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Gallery')
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-profile" aria-controls="navs-justified-profile"
-                                        aria-selected="false">
-                                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('price')
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-messages" aria-controls="navs-justified-messages"
-                                        aria-selected="false">
-                                        <i class="tf-icons ti ti-file ti-xs me-1"></i> @lang('Attachments')
-                                    </button>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                        @include('Admin.layouts.Inc._errors')
+            <div class="col-xl-12">
+                <div class="nav-align-top nav-tabs-shadow mb-4">
+                  <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link active link"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-home"
+                        aria-controls="navs-justified-home"
+                        aria-selected="true">
+                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link link"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-justified-gallery"
+                          aria-controls="navs-justified-gallery"
+                          aria-selected="false">
+                          @if ($Unit->show_in_gallery != 1)
+                          <i class="tf-icons ti ti-alarm me-1 text-danger animate-alarm icon-large" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة غير منشورة في المعرض اضغط هنا للنشر')"></i>
+                          <span class=" text-danger animate-alarm">@lang('Gallery')</span>
+                      @else
+                          <i class="tf-icons ti ti-alarm ti-xs me-1 text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('هذه الوحدة منشوره في المعرض')"></i>
+                          <span class="text-success">@lang('Gallery')</span>
+                      @endif
+                    </button>
+                      </li>
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link link"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-profile"
+                        aria-controls="navs-justified-profile"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('price')
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                      <button
+                        type="button"
+                        class="nav-link link"
+                        role="tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-messages"
+                        aria-controls="navs-justified-messages"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-file ti-xs me-1"></i> @lang('Attachments')
+                      </button>
+                    </li>
+                  </ul>
+                  <div class="tab-content">
+                    <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
 
 
-                                    {{-- الوصف --}}
+                        {{-- الوصف --}}
 
 
-                                    <form action="{{ route('Broker.Unit.update', $Unit->id) }}" method="POST"
-                                        class="row" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
+                        <form action="{{ route('Broker.Unit.update', $Unit->id) }}" method="POST" class="row"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('Project') <span class="required-color"></span></label>
+                                <select class="form-select" name="project_id" id="projectSelect">
+                                    <option disabled selected value="">@lang('Choose')</option>
+                                    <option  value="">@lang('without')</option>
+                                    @foreach ($projects as $project)
+                                        <option value="{{ $project->id }}" {{ $Unit->project_id == $project->id ? 'selected' : '' }}>
+                                            {{ $project->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('Project') <span class="required-color"></span></label>
-                                            <select class="form-select" name="project_id" id="projectSelect">
-                                                <option disabled selected value="">@lang('Choose')</option>
-                                                <option  value="">@lang('without')</option>
-                                                @foreach ($projects as $project)
-                                                    <option value="{{ $project->id }}" {{ $Unit->project_id == $project->id ? 'selected' : '' }}>
-                                                        {{ $project->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                            <div class="col-md-4 mb-3 col-12">
+                                <label class="form-label">@lang('property') <span class="required-color"></span></label>
+                                <select class="form-select" name="property_id" id="propertySelect">
+                                    <option  value="">@lang('without')</option>
+                                    @foreach ($properties as $property)
+                                        <option value="{{ $property->id }}" {{ $Unit->property_id == $property->id ? 'selected' : '' }}>
+                                            {{ $property->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                        <div class="col-md-4 mb-3 col-12">
-                                            <label class="form-label">@lang('property') <span class="required-color"></span></label>
-                                            <select class="form-select" name="property_id" id="propertySelect">
-                                                <option  value="">@lang('without')</option>
-                                                @foreach ($properties as $property)
-                                                    <option value="{{ $property->id }}" {{ $Unit->property_id == $property->id ? 'selected' : '' }}>
-                                                        {{ $property->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                            <div class="col-md-4 col-12 mb-3">
+                                <label class="form-label">
+                                    {{ __('Residential number') }} <span class="required-color">*</span></label>
+                                <input type="text" value="{{ $Unit->number_unit }}" required
+                                    id="modalRoleName" name="number_unit" class="form-control"
+                                    placeholder="{{ __('Residential number') }}">
 
-                                        <div class="col-md-4 col-12 mb-3">
-                                            <label class="form-label">
-                                                {{ __('Residential number') }} <span class="required-color">*</span></label>
-                                            <input type="text" value="{{ $Unit->number_unit }}" required
-                                                id="modalRoleName" name="number_unit" class="form-control"
-                                                placeholder="{{ __('Residential number') }}">
+                            </div>
 
-                                        </div>
+                            <div class="col-12 mb-3 col-md-4">
+                                <label class="form-label">@lang('Region') <span class="required-color">*</span>
+                                </label>
+                                <select class="form-select" id="Region_id" required>
+                                    <option disabled value="">@lang('Region') </option>
+                                    @foreach ($Regions as $Region)
+                                        <option value="{{ $Region->id }}"
+                                            {{ $Region->id == $Unit->CityData->RegionData->id ? 'selected' : '' }}
+                                            data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
+                                            {{ $Region->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                        <div class="col-12 mb-3 col-md-4">
-                                            <label class="form-label">@lang('Region') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" id="Region_id" required>
-                                                <option disabled value="">@lang('Region') </option>
-                                                @foreach ($Regions as $Region)
-                                                    <option value="{{ $Region->id }}"
-                                                        {{ $Region->id == $Unit->CityData->RegionData->id ? 'selected' : '' }}
-                                                        data-url="{{ route('Broker.Broker.GetCitiesByRegion', $Region->id) }}">
-                                                        {{ $Region->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-12 mb-3 col-md-4">
-                                            <label class="form-label">@lang('city') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="city_id" id="CityDiv" required>
-                                                @foreach ($cities as $city)
-                                                    <option value="{{ $city->id }}"
-                                                        data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}"
-                                                        {{ $city->id == $Unit->city_id ? 'selected' : '' }}>
-                                                        {{ $city->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                            <div class="col-12 mb-3 col-md-4">
+                                <label class="form-label">@lang('city') <span class="required-color">*</span>
+                                </label>
+                                <select class="form-select" name="city_id" id="CityDiv" required>
+                                    @foreach ($cities as $city)
+                                        <option value="{{ $city->id }}"
+                                            data-url="{{ route('Broker.Broker.GetDistrictsByCity', $city->id) }}"
+                                            {{ $city->id == $Unit->city_id ? 'selected' : '' }}>
+                                            {{ $city->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
-                                        <div class="col-12 mb-3 col-md-4">
-                                            <label class="form-label">@lang('district') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="district_id" id="DistrictDiv" required>
-                                                @foreach ($Unit->CityData->DistrictsCity as $district)
-                                                    <option value="{{ $district->id }}"
-                                                        {{ $district->id == $Unit->district_id ? 'selected' : '' }}>
-                                                        {{ $district->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                            <div class="col-12 mb-3 col-md-4">
+                                <label class="form-label">@lang('district') <span class="required-color">*</span>
+                                </label>
+                                <select class="form-select" name="district_id" id="DistrictDiv" required>
+                                    @foreach ($Unit->CityData->DistrictsCity as $district)
+                                        <option value="{{ $district->id }}"
+                                            {{ $district->id == $Unit->district_id ? 'selected' : '' }}>
+                                            {{ $district->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('location') <span
-                                                    class="required-color">*</span></label>
-                                            <input type="text" required name="location" id="myAddressBar"
-                                                class="form-control" placeholder="@lang('location name')"
-                                                value="{{ $Unit->location }}" />
-                                        </div>
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('location') <span class="required-color">*</span></label>
+                                <input type="text" required name="location" id="myAddressBar" class="form-control"
+                                    placeholder="@lang('Address')"  value="{{ $Unit->location }}" />
+                                <span id="addressError" style="color: red;"></span> <!-- Error message placeholder -->
+                            </div>
+                            <div class="col-sm-12 col-md-6 mb-3" hidden>
+                                <label class="form-label">@lang('lat&long')</label>
+                                <input type="text" readonly name="lat_long" id="location_tag"
+                                    class="form-control" placeholder="@lang('lat&long')"
+                                    value="{{ $Unit->lat_long }}" />
+                            </div>
 
 
-                                        <div class="col-12 mb-3 col-md-4">
-                                            <label class="form-label">@lang('Property type') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="property_type_id" required>
-                                                <option disabled value="">@lang('Property type')</option>
-                                                @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}"
-                                                        {{ $type->id == $Unit->property_type_id ? 'selected' : '' }}>
-                                                        {{ $type->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                            <div class="col-12 mb-3 col-md-4">
+                                <label class="form-label">@lang('Property type') <span class="required-color">*</span>
+                                </label>
+                                <select class="form-select" name="property_type_id" required>
+                                    <option disabled value="">@lang('Property type')</option>
+                                    @foreach ($types as $type)
+                                        <option value="{{ $type->id }}"
+                                            {{ $type->id == $Unit->property_type_id ? 'selected' : '' }}>
+                                            {{ $type->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                                        <div class="col-12 mb-3 col-md-4">
-                                            <label class="form-label">@lang('Type use') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="property_usage_id" required>
-                                                <option disabled value="">@lang('Type use')</option>
-                                                @foreach ($usages as $usage)
-                                                    <option value="{{ $usage->id }}"
-                                                        {{ $usage->id == $Unit->property_usage_id ? 'selected' : '' }}>
-                                                        {{ $usage->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                            <div class="col-12 mb-3 col-md-4">
+                                <label class="form-label">@lang('Type use') <span class="required-color">*</span>
+                                </label>
+                                <select class="form-select" name="property_usage_id" required>
+                                    <option disabled value="">@lang('Type use')</option>
+                                    @foreach ($usages as $usage)
+                                        <option value="{{ $usage->id }}"
+                                            {{ $usage->id == $Unit->property_usage_id ? 'selected' : '' }}>
+                                            {{ $usage->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
-                                        <div class="col-md-4 col-12 mb-3">
-                                            <label class="col-md-6 form-label">@lang('owner name') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <div class="input-group">
-                                                <select class="form-select" id="OwnersDiv"
-                                                    aria-label="Example select with button addon" name="owner_id"
-                                                    required>
-                                                    <option disabled selected value="">@lang('owner name')</option>
-                                                    @foreach ($owners as $owner)
-                                                        <option value="{{ $owner->id }}"
-                                                            {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
-                                                            {{ $owner->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                                    data-bs-target="#addNewCCModal"
-                                                    type="button">@lang('Add New Owner')</button>
+                            <div class="col-md-4 col-12 mb-3">
+                                <label class="col-md-6 form-label">@lang('owner name') <span
+                                        class="required-color">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select class="form-select" id="OwnersDiv"
+                                        aria-label="Example select with button addon" name="owner_id" required>
+                                        <option disabled selected value="">@lang('owner name')</option>
+                                        @foreach ($owners as $owner)
+                                            <option value="{{ $owner->id }}"
+                                                {{ $owner->id == $Unit->owner_id ? 'selected' : '' }}>
+                                                {{ $owner->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <a href="{{ route('Broker.Owner.index') }}" target="_blank" class="btn btn-outline-primary"
+                                    type="button">@lang('Add New Owner')</a>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Instrument number')</label>
+                                <input type="number" name="instrument_number" class="form-control"
+                                    placeholder="@lang('Instrument number')" value="{{ $Unit->instrument_number }}" />
+                            </div>
+
+
+                            <div class="col-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('offered service') <span class="required-color">*</span>
+                                </label>
+                                <select class="form-select" name="service_type_id" required>
+                                    <option disabled selected value="">@lang('offered service')</option>
+                                    @foreach ($servicesTypes as $service)
+                                        <option value="{{ $service->id }}"
+                                            {{ $service->id == $Unit->service_type_id ? 'selected' : '' }}>
+                                            {{ $service->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Area (square metres)') </label>
+                                <input type="number" name="space" class="form-control"
+                                    placeholder="@lang('Area (square metres)')" value="{{ $Unit->space }}" />
+                            </div>
+
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('number rooms') </label>
+                                <input type="number" name="rooms" class="form-control"
+                                    placeholder="@lang('number rooms')" value="{{ $Unit->rooms }}" />
+                            </div>
+
+
+
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label">@lang('Number bathrooms') </label>
+                                <input type="number" name="bathrooms" class="form-control"
+                                    placeholder="@lang('Number bathrooms')" value="{{ $Unit->bathrooms }}" />
+                            </div>
+                                <div class="col-12 mb-2 col-md-4">
+                                    <label class="form-label">@lang('Status of Unit') <span class="required-color">*</span>
+                                    </label>
+                                    <select class="form-select" name="status" id="type" required>
+                                        <option disabled value="">@lang('Status of Unit') </option>
+                                        @foreach (['vacant', 'rented'] as $type)
+                                        <option value="{{ $type }}"
+                                        {{ $Unit->status == $type ? 'selected' : '' }}>
+                                        {{ __($type) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Amenities')</label>
+                                    <select class="select2 form-select" name="service_id[]" multiple="multiple">
+                                        <option disabled value="">@lang('services')</option>
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}"
+                                                {{ in_array($service->id, $Unit->UnitServicesData->pluck('service_id')->toArray()) == true ? 'selected' : '' }}>
+                                                {{ $service->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">@lang('Additional details')</label>
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="addFeature()">@lang('Add details')</button>
+                                    @foreach ($Unit->UnitFeatureData as $feature)
+                                        <div class="row p-1">
+                                            <div class="col">
+                                                <input type="text" name="name[]" class="form-control search"
+                                                    placeholder="@lang('Field name')"
+                                                    value="{{ $feature->FeatureData->name }}" />
+                                            </div>
+                                            <div class="col">
+                                                <input type="text" name="qty[]" value="{{ $feature->qty }}"
+                                                    class="form-control" placeholder="@lang('value')"
+                                                    value="" />
+                                            </div>
+                                            <div class="col">
+                                                <button type="button"
+                                                    class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
                                             </div>
                                         </div>
+                                    @endforeach
 
+                                    <div id="features" class="row p-2">
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Instrument number')</label>
-                                            <input type="number" name="instrument_number" class="form-control"
-                                                placeholder="@lang('Instrument number')"
-                                                value="{{ $Unit->instrument_number }}" />
-                                        </div>
+                                    </div>
+                                </div>
 
-
-                                        <div class="col-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('offered service') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="service_type_id" required>
-                                                <option disabled selected value="">@lang('offered service')</option>
-                                                @foreach ($servicesTypes as $service)
-                                                    <option value="{{ $service->id }}"
-                                                        {{ $service->id == $Unit->service_type_id ? 'selected' : '' }}>
-                                                        {{ $service->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Area (square metres)') </label>
-                                            <input type="number" name="space" class="form-control"
-                                                placeholder="@lang('Area (square metres)')" value="{{ $Unit->space }}" />
-                                        </div>
-
-
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('number rooms') </label>
-                                            <input type="number" name="rooms" class="form-control"
-                                                placeholder="@lang('number rooms')" value="{{ $Unit->rooms }}" />
-                                        </div>
+                                <div class="col-12" style="text-align: center;">
+                                    <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
+                                        {{ __('Next') }}
+                                    </button>
+                                </div>
 
 
 
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Number bathrooms') </label>
-                                            <input type="number" name="bathrooms" class="form-control"
-                                                placeholder="@lang('Number bathrooms')" value="{{ $Unit->bathrooms }}" />
-                                        </div>
-                                        <div class="col-12 mb-2 col-md-4">
-                                            <label class="form-label">@lang('Status of Unit') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="status" id="type" required>
-                                                <option disabled value="">@lang('Status of Unit') </option>
-                                                @foreach (['vacant', 'rented'] as $type)
-                                                    <option value="{{ $type }}"
-                                                        {{ $Unit->status == $type ? 'selected' : '' }}>
-                                                        {{ __($type) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-12 col-md-4 mb-3">
-                                            <label class="form-label">@lang('Amenities')</label>
-                                            <select class="select2 form-select" name="service_id[]" multiple="multiple">
-                                                <option disabled value="">@lang('services')</option>
-                                                @foreach ($services as $service)
-                                                    <option value="{{ $service->id }}"
-                                                        {{ in_array($service->id, $Unit->UnitServicesData->pluck('service_id')->toArray()) == true ? 'selected' : '' }}>
-                                                        {{ $service->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+                        <div class="row">
 
 
+                            <div class="col-md-4 col-12 mb-3">
 
-                                        <div class="col-sm-12 col-md-6 mb-3" hidden>
-                                            <label class="form-label">@lang('lat&long')</label>
-                                            <input type="text" readonly name="lat_long" id="location_tag"
-                                                class="form-control" placeholder="@lang('lat&long')"
-                                                value="{{ $Unit->lat_long }}" />
-                                        </div>
+                                <label class="form-label">
+                                    {{ __('ad name') }} <span class="required-color">*</span></label>
+                                <input type="text" required name="ad_name" value="{{ $Unit->ad_name }}"
+                                    class="form-control" placeholder="{{ __('ad name') }}">
+
+                            </div>
 
 
-                                        <div class="col-12 mb-3">
-                                            <label class="form-label">@lang('Additional details')</label>
-                                            <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="addFeature()">@lang('Add details')</button>
-                                            @foreach ($Unit->UnitFeatureData as $feature)
-                                                <div class="row p-1">
-                                                    <div class="col">
-                                                        <input type="text" name="name[]" class="form-control search"
-                                                            placeholder="@lang('Field name')"
-                                                            value="{{ $feature->FeatureData->name }}" />
-                                                    </div>
-                                                    <div class="col">
-                                                        <input type="text" name="qty[]" value="{{ $feature->qty }}"
-                                                            class="form-control" placeholder="@lang('value')"
-                                                            value="" />
-                                                    </div>
-                                                    <div class="col">
-                                                        <button type="button"
-                                                            class="btn btn-outline-danger w-100 remove-feature">@lang('Remove')</button>
-                                                    </div>
+                            <div class="col-12 mb-3 col-md-4">
+                                <label class="form-label">@lang('Ad type') <span
+                                        class="required-color">*</span>
+                                </label>
+                                <select class="form-select" name="type" id="type" required>
+                                    <option disabled value="">@lang('Ad type') </option>
+                                    @foreach (['rent', 'sale', 'rent and sale'] as $type)
+                                        <option value="{{ $type }}"
+                                            {{ $Unit->type == $type ? 'selected' : '' }}>
+                                            {{ __($type) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            @if($falLicense)
+                            <!-- Show the "Show in Gallery" switch if the user has a valid license -->
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                <label class="switch switch-lg">
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
+                                    {{ $Unit->show_in_gallery == 1 ? 'checked' : '' }}
+                                    @if($falLicense->ad_license_status != 'valid') disabled @endif />
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on"><i class="ti ti-check"></i></span>
+                                        <span class="switch-off"><i class="ti ti-x"></i></span>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <!-- Show gallery fields only if the license status is "valid" -->
+                            <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
+                                    <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Unit->ad_license_number }}"
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                </div>
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
+                                    <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ $Unit->ad_license_expiry }}"
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                    <div id="date_error_message" style="color: red; display: none;">The selected date cannot be later than the license date.</div>
+                                </div>
+                            </div>
+                        @else
+                            <!-- Display a message if the license is not valid or doesn't exist -->
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                <label class="switch switch-lg">
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" disabled value="0" />
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-off"><i class="ti ti-x"></i></span>
+                                    </span>
+                                </label>
+                                <!-- Add a message to indicate the license has expired -->
+                                <div class="alert alert-warning mt-2">
+                                    @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                                </div>
+                            </div>
+                        @endif
+
+
+
+                            <div class="mb-3 col-12">
+                                <label class="form-label mb-2">@lang('Description')</label>
+                                <div>
+                                    {{-- <textarea name="note" class="form-control" rows="5">{{ $Unit->note }}</textarea> --}}
+                                    <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">{!! $Unit->note !!}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Unit Images')</label>
+                                <div class="input-group">
+                                <input class="form-control" type="file" id="imageInput" name="images[]" multiple accept="image/jpeg, image/png" />
+                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon1"><i class="ti ti-refresh"></i></button>
+                                </div>
+                                @if(!$Unit->UnitImages->isEmpty())
+                                    <div class="mt-3" id="currentImages">
+                                        <h5>@lang('Current Images')</h5>
+                                        <div class="d-flex flex-wrap">
+                                            @foreach($Unit->UnitImages as $image)
+                                                <div class="position-relative m-2 image-container">
+                                                    <img src="{{ asset($image->image) }}" alt="Unit Image" class="img-thumbnail" style="height: 150px; object-fit: contain;">
+                                                    <button type="button" class="btn btn-danger btn-sm remove-image" data-id="{{ $image->id }}" style="position: absolute; top: 5px; right: 5px;">X</button>
                                                 </div>
                                             @endforeach
-
-                                            <div id="features" class="row p-2">
-
-                                            </div>
                                         </div>
-
-                                        {{-- <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Unit Images') </label>
-                                            <input type="file" name="images[]"
-                                                data-url="{{ route('Broker.Unit.deleteImage', $Unit->id) }}"
-                                                @if ($Unit->UnitImages->count() > 0) data-default-file="{{ url($Unit->UnitImages[0]->image) }}" @endif
-                                                multiple class="dropify" accept="image/jpeg, image/png" />
-                                        </div> --}}
-
-
-                                        <div class="col-12" style="text-align: center;">
-                                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
-                                                {{ __('Next') }}
-                                            </button>
-                                        </div>
-
-
-
-                                </div>
-                                <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
-                                    <div class="row">
-
-
-                                        <div class="col-md-4 col-12 mb-3">
-
-                                            <label class="form-label">
-                                                {{ __('ad name') }} <span class="required-color">*</span></label>
-                                            <input type="text" required name="ad_name" value="{{ $Unit->ad_name }}"
-                                                class="form-control" placeholder="{{ __('ad name') }}">
-
-                                        </div>
-
-
-                                        <div class="col-12 mb-3 col-md-4">
-                                            <label class="form-label">@lang('Ad type') <span
-                                                    class="required-color">*</span>
-                                            </label>
-                                            <select class="form-select" name="type" id="type" required>
-                                                <option disabled value="">@lang('Ad type') </option>
-                                                @foreach (['rent', 'sale', 'rent and sale'] as $type)
-                                                    <option value="{{ $type }}"
-                                                        {{ $Unit->type == $type ? 'selected' : '' }}>
-                                                        {{ __($type) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-4 mb-3">
-                                            <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
-                                            <label class="switch switch-primary">
-                                                <input type="checkbox" name="show_in_gallery"
-                                                    class="switch-input toggleHomePage"
-                                                    {{ $Unit->show_in_gallery == 1 ? 'checked' : '' }}>
-                                                <span class="switch-toggle-slider">
-                                                    <span class="switch-on">
-                                                        <i class="ti ti-check"></i>
-                                                    </span>
-                                                    <span class="switch-off">
-                                                        <i class="ti ti-x"></i>
-                                                    </span>
-                                                </span>
-
-                                            </label>
-                                        </div>
-
-                                        <div class="row" id="gallery-fields">
-
-                                            {{-- <div class="col-md-4 mb-3 col-12">
-                                                <label class="form-label">@lang('FalLicense type') <span
-                                                        class="required-color">*</span></label>
-                                                <select class="form-select" name="fal_id" required>
-                                                    <option disabled selected value="">@lang('FalLicense type')</option>
-                                                    @foreach ($Faltypes as $Faltype)
-                                                        <option value="{{ $Faltype->id }}"
-                                                            {{ $Faltype->id == $Unit->fal_id ? 'selected' : '' }}>
-                                                            {{ $Faltype->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div> --}}
-
-                                            <div class="col-sm-12 col-md-4 mb-3">
-                                                <label class="form-label">@lang('Ad License Number')<span
-                                                    class="required-color">*</span></label>
-                                                <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ $Unit->ad_license_number }}" required />
-                                            </div>
-
-                                            <div class="col-sm-12 col-md-4 mb-3">
-                                                <label class="form-label">@lang('Ad License Expiry')<span
-                                                    class="required-color">*</span></label>
-                                                <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ $Unit->ad_license_expiry }}" required />
-                                                <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
-                                            </div>
-
-                                        </div>
-                                        <div class="mb-3 col-12">
-                                            <label class="form-label mb-2">@lang('Description')</label>
-                                            <div>
-                                                {{-- <textarea name="note" class="form-control" rows="5">{{ $Unit->note }}</textarea> --}}
-                                                <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">{!! $Unit->note !!}</textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Unit Images')</label>
-                                            <div class="input-group">
-                                            <input class="form-control" type="file" id="imageInput" name="images[]" multiple accept="image/jpeg, image/png" />
-                                            <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon1"><i class="ti ti-refresh"></i></button>
-                                            </div>
-                                            @if(!$Unit->UnitImages->isEmpty())
-                                                <div class="mt-3" id="currentImages">
-                                                    <h5>@lang('Current Images')</h5>
-                                                    <div class="d-flex flex-wrap">
-                                                        @foreach($Unit->UnitImages as $image)
-                                                            <div class="position-relative m-2 image-container">
-                                                                <img src="{{ asset($image->image) }}" alt="Unit Image" class="img-thumbnail" style="height: 150px; object-fit: contain;">
-                                                                <button type="button" class="btn btn-danger btn-sm remove-image" data-id="{{ $image->id }}" style="position: absolute; top: 5px; right: 5px;">X</button>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-12 mb-3">
-                                            <label class="form-label mb-2">@lang('Unit Video')</label>
-                                            <div class="input-group">
-                                            <input class="form-control" type="file" id="videoInput" name="video" accept="video/mp4, video/webm, video/ogg" />
-                                            <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon2"><i class="ti ti-refresh"></i></button>
-                                            </div>
-                                            @if($Unit->video)
-                                                <div class="mt-3" id="currentVideo">
-                                                    <h5>@lang('Current Video')</h5>
-                                                    <div class="position-relative m-2 video-container">
-                                                        <video controls class="d-block w-100" style="height: 350px; object-fit: contain;">
-                                                            <source src="{{ asset($Unit->video) }}" type="video/mp4">
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                        <button type="button" class="btn btn-danger btn-sm remove-video" style="position: absolute; top: 5px; right: 5px;">X</button>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
-
-
-
                                     </div>
-
-                                    <div class="col-12" style="text-align: center;">
-                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
-                                            {{ __('Next') }}
-                                        </button>
-                                    </div>
-
-                                </div>
-                                <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
-                                    <div class="row">
-
-
-                                        <div class="col-sm-12 col-md-2 mb-3">
-
-                                            <label for="price" class="form-label">@lang('selling price')</label>
-                                            <div class="input-group">
-                                                <input type="text" name="price" value="{{ $Unit->price }}"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
-                                                    class="form-control" placeholder="@lang('selling price')"
-                                                    aria-label="@lang('selling price')" aria-describedby="button-addon2">
-                                                <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('SAR')</button>
-                                            </div>
-
-
-                                        </div>
-
-
-                                        <div class="col-sm-12 col-md-2 mb-3">
-                                            <label for="daily" class="form-label">@lang('daily rental price')</label>
-                                            <div class="input-group">
-                                                <input type="text" name="daily"
-                                                    value="{{ $Unit->UnitRentPrice->daily }}"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
-                                                    class="form-control" placeholder="@lang('daily rental price')"
-                                                    aria-label="@lang('daily rental price')" aria-describedby="button-addon2">
-                                                <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('SAR')</button>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-2 mb-3">
-                                            <label for="monthly" class="form-label">@lang('Monthly rental price')</label>
-                                            <div class="input-group">
-                                                <input type="text" name="monthly"
-                                                    value="{{ $Unit->UnitRentPrice->monthly }}"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
-                                                    class="form-control" placeholder="@lang('Monthly rental price')"
-                                                    aria-label="@lang('Monthly rental price')" aria-describedby="button-addon2">
-                                                <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('SAR')</button>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-2 mb-3">
-
-                                            <label for="quarterly" class="form-label">@lang('quarterly rental price')</label>
-                                            <div class="input-group">
-                                                <input type="text" name="quarterly"
-                                                    value="{{ $Unit->UnitRentPrice->quarterly }}"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
-                                                    class="form-control" placeholder="@lang('quarterly rental price')"
-                                                    aria-label="@lang('quarterly rental price')" aria-describedby="button-addon2">
-                                                <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('SAR')</button>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-2 mb-3">
-
-                                            <label for="midterm" class="form-label">@lang('midterm rental price')</label>
-                                            <div class="input-group">
-                                                <input type="text" name="midterm"
-                                                    value="{{ $Unit->UnitRentPrice->midterm }}"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
-                                                    class="form-control" placeholder="@lang('midterm rental price')"
-                                                    aria-label="@lang('midterm rental price')" aria-describedby="button-addon2">
-                                                <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('SAR')</button>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-2 mb-3">
-
-                                            <label for="yearly" class="form-label">@lang('yearly rental price')</label>
-                                            <div class="input-group">
-                                                <input type="text" name="yearly"
-                                                    value="{{ $Unit->UnitRentPrice->yearly }}"
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
-                                                    class="form-control" placeholder="@lang('yearly rental price')"
-                                                    aria-label="@lang('yearly rental price')" aria-describedby="button-addon2">
-                                                <button class="btn btn-outline-primary waves-effect" type="button"
-                                                    id="button-addon2">@lang('SAR')</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-2 mb-3">
-                                            <div class="small fw-medium mb-3">@lang('Daily Rent')</div>
-                                            <label class="switch switch-primary">
-                                                <input type="checkbox" name="daily_rent"
-                                                    class="switch-input toggleHomePage"
-                                                    {{ $Unit->daily_rent == 1 ? 'checked' : '' }}>
-                                                <span class="switch-toggle-slider">
-                                                    <span class="switch-on">
-                                                        <i class="ti ti-check"></i>
-                                                    </span>
-                                                    <span class="switch-off">
-                                                        <i class="ti ti-x"></i>
-                                                    </span>
-                                                </span>
-
-                                            </label>
-                                        </div>
-
-
-
-                                    </div>
-                                    <div class="col-12" style="text-align: center;">
-                                        <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-messages">
-                                            {{ __('Next') }}
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-6 mb-3">
-                                            <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
-                                            <div class="input-group">
-                                                <input class="form-control" type="file" name="unit_masterplan"
-                                                    id="projectMasterplan" accept="image/*,application/pdf" multiple>
-                                                    <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
-                                                </div>
-                                            @if ($Unit->unit_masterplan)
-                                                <div class="mt-2">
-                                                    <label>@lang('Unit Masterplan'):</label>
-                                                    <a href="{{ url($Unit->unit_masterplan) }}"
-                                                        target="_blank">@lang('View')</a>
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                    </div>
-                                    <div class="col-12" style="text-align: center;">
-                                        <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
-                                            type="submit">@lang('save')</button>
-                                    </div>
-                                </div>
-
-
-
-                                </form>
+                                @endif
                             </div>
+
+                            <div class="col-sm-12 col-md-12 mb-3">
+                                <label class="form-label mb-2">@lang('Unit Video')</label>
+                                <div class="input-group">
+                                <input class="form-control" type="file" id="videoInput" name="video" accept="video/mp4, video/webm, video/ogg" />
+                                <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon2"><i class="ti ti-refresh"></i></button>
+                                </div>
+                                @if($Unit->video)
+                                    <div class="mt-3" id="currentVideo">
+                                        <h5>@lang('Current Video')</h5>
+                                        <div class="position-relative m-2 video-container">
+                                            <video controls class="d-block w-100" style="height: 350px; object-fit: contain;">
+                                                <source src="{{ asset($Unit->video) }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                            <button type="button" class="btn btn-danger btn-sm remove-video" style="position: absolute; top: 5px; right: 5px;">X</button>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+
+
 
                         </div>
 
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
+                                {{ __('Next') }}
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                        <div class="row">
+
+
+                            <div class="col-sm-12 col-md-2 mb-3">
+
+                                <label for="price" class="form-label">@lang('selling price')</label>
+                                <div class="input-group">
+                                    <input type="text" name="price" value="{{ $Unit->price }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                        class="form-control" placeholder="@lang('selling price')"
+                                        aria-label="@lang('selling price')" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary waves-effect" type="button"
+                                        id="button-addon2">@lang('SAR')</button>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="col-sm-12 col-md-2 mb-3">
+                                <label for="daily" class="form-label">@lang('daily rental price')</label>
+                                <div class="input-group">
+                                    <input type="text" name="daily" value="{{ $Unit->UnitRentPrice->daily }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                        class="form-control" placeholder="@lang('daily rental price')"
+                                        aria-label="@lang('daily rental price')" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary waves-effect" type="button"
+                                        id="button-addon2">@lang('SAR')</button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-2 mb-3">
+                                <label for="monthly" class="form-label">@lang('Monthly rental price')</label>
+                                <div class="input-group">
+                                    <input type="text" name="monthly" value="{{ $Unit->UnitRentPrice->monthly }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                        class="form-control" placeholder="@lang('Monthly rental price')"
+                                        aria-label="@lang('Monthly rental price')" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary waves-effect" type="button"
+                                        id="button-addon2">@lang('SAR')</button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-2 mb-3">
+
+                                <label for="quarterly" class="form-label">@lang('quarterly rental price')</label>
+                                <div class="input-group">
+                                    <input type="text" name="quarterly"
+                                        value="{{ $Unit->UnitRentPrice->quarterly }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                        class="form-control" placeholder="@lang('quarterly rental price')"
+                                        aria-label="@lang('quarterly rental price')" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary waves-effect" type="button"
+                                        id="button-addon2">@lang('SAR')</button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-12 col-md-2 mb-3">
+
+                                <label for="midterm" class="form-label">@lang('midterm rental price')</label>
+                                <div class="input-group">
+                                    <input type="text" name="midterm" value="{{ $Unit->UnitRentPrice->midterm }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                        class="form-control" placeholder="@lang('midterm rental price')"
+                                        aria-label="@lang('midterm rental price')" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary waves-effect" type="button"
+                                        id="button-addon2">@lang('SAR')</button>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-12 col-md-2 mb-3">
+
+                                <label for="yearly" class="form-label">@lang('yearly rental price')</label>
+                                <div class="input-group">
+                                    <input type="text" name="yearly" value="{{ $Unit->UnitRentPrice->yearly }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);"
+                                        class="form-control" placeholder="@lang('yearly rental price')"
+                                        aria-label="@lang('yearly rental price')" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-primary waves-effect" type="button"
+                                        id="button-addon2">@lang('SAR')</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-2 mb-3">
+                                <div class="small fw-medium mb-3">@lang('Daily Rent')</div>
+                                <label class="switch switch-primary">
+                                    <input type="checkbox" name="daily_rent" class="switch-input toggleHomePage"
+                                        {{ $Unit->daily_rent == 1 ? 'checked' : '' }}>
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on">
+                                            <i class="ti ti-check"></i>
+                                        </span>
+                                        <span class="switch-off">
+                                            <i class="ti ti-x"></i>
+                                        </span>
+                                    </span>
+
+                                </label>
+                            </div>
+
+
+                        </div>
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-messages">
+                                {{ __('Next') }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
+                                <div class="input-group">
+                                    <input class="form-control" type="file" name="unit_masterplan"
+                                        id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                        <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                    </div>
+                                @if ($Unit->unit_masterplan)
+                                    <div class="mt-2">
+                                        <label>@lang('Unit Masterplan'):</label>
+                                        <a href="{{ url($Unit->unit_masterplan) }}"
+                                            target="_blank">@lang('View')</a>
+                                    </div>
+                                @endif
+                            </div>
+
+                        </div>
+                        <div class="col-12" style="text-align: center;">
+                            <button class="btn btn-primary col-4 waves-effect waves-light" id="submit_button"
+                                type="submit">@lang('save')</button>
+                        </div>
                     </div>
 
 
+                </form>
+                  </div>
+
+                </div>
+
+              </div>
 
 
-                </div> <!-- end row -->
 
-            </div>
-            <!-- container-fluid -->
 
-        </div>
+        </div> <!-- end row -->
+
     </div>
-    @include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
+    <!-- container-fluid -->
 
-    {{-- نهايه الوصف --}}
+</div>
+</div>
+@include('Broker.ProjectManagement.Project.Unit.inc._model_new_owners')
+
+{{-- نهايه الوصف --}}
     @push('scripts')
-        <script>
-            $(document).ready(function() {
-                $(document).on('click', '.remove-feature', function() {
-                    $(this).closest('.row').remove();
-                });
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.remove-feature', function() {
+                $(this).closest('.row').remove();
             });
+        });
 
-            $('.dropify-clear').click(function() {
-                var url = $('.dropify').data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    success: function(data) {
-                        alertify.success(@json(__('The image has been successfully deleted')));
-                    },
-                });
+        $('.dropify-clear').click(function() {
+            var url = $('.dropify').data('url');
+            $.ajax({
+                type: "get",
+                url: url,
+                success: function(data) {
+                    alertify.success(@json(__('The image has been successfully deleted')));
+                },
             });
+        });
 
-            $('#Region_id').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    beforeSend: function() {
-                        $('#CityDiv').fadeOut('fast');
-                    },
-                    success: function(data) {
-                        $('#CityDiv').fadeOut('fast', function() {
-                            $(this).empty().append(data);
-                            $(this).fadeIn('fast');
-                        });
-                    },
-                });
+        $('#Region_id').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function() {
+                    $('#CityDiv').fadeOut('fast');
+                },
+                success: function(data) {
+                    $('#CityDiv').fadeOut('fast', function() {
+                        $(this).empty().append(data);
+                        $(this).fadeIn('fast');
+                    });
+                },
             });
-            //
-            //
-            $('#CityDiv').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    beforeSend: function() {
-                        $('#DistrictDiv').fadeOut('fast');
-                    },
-                    success: function(data) {
-                        $('#DistrictDiv').fadeOut('fast', function() {
-                            $(this).empty().append(data);
-                            $(this).fadeIn('fast');
-                        });
-                    },
-                });
+        });
+        //
+        //
+        $('#CityDiv').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            $.ajax({
+                type: "get",
+                url: url,
+                beforeSend: function() {
+                    $('#DistrictDiv').fadeOut('fast');
+                },
+                success: function(data) {
+                    $('#DistrictDiv').fadeOut('fast', function() {
+                        $(this).empty().append(data);
+                        $(this).fadeIn('fast');
+                    });
+                },
             });
-            //
-            $("#myAddressBar").on("keyup", function() {
-                // This function will be called every time a key is pressed in the input field
-                var input = document.getElementById("myAddressBar");
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                var place = autocomplete.getPlace();
+        });
+        //
+        // $("#myAddressBar").on("keyup", function() {
+        //     // This function will be called every time a key is pressed in the input field
+        //     var input = document.getElementById("myAddressBar");
+        //     var autocomplete = new google.maps.places.Autocomplete(input);
+        //     var place = autocomplete.getPlace();
 
-                // Listen for the place_changed event
-                google.maps.event.addListener(autocomplete, "place_changed", function() {
-                    // Get the selected place
-                    var place = autocomplete.getPlace();
+        //     // Listen for the place_changed event
+        //     google.maps.event.addListener(autocomplete, "place_changed", function() {
+        //         // Get the selected place
+        //         var place = autocomplete.getPlace();
 
-                    // Get the details of the selected place
-                    var address = place.formatted_address;
-                    var lat = place.geometry.location.lat();
-                    var long = place.geometry.location.lng();
-                    // $("#address").val(address);
-                    $("#location_tag").val(lat + "," + long);
-                    // Log the details to the console (or do something else with them)
-                });
+        //         // Get the details of the selected place
+        //         var address = place.formatted_address;
+        //         var lat = place.geometry.location.lat();
+        //         var long = place.geometry.location.lng();
+        //         // $("#address").val(address);
+        //         $("#location_tag").val(lat + "," + long);
+        //         // Log the details to the console (or do something else with them)
+        //     });
+        // });
+
+        var path = "{{ route('Broker.Property.autocomplete') }}";
+
+        $(document).on("focus", ".search", function() {
+            $(this).autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: path,
+                        type: 'GET',
+                        dataType: "json",
+                        data: {
+                            search: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                select: function(event, ui) {
+                    $(this).val(ui.item.label);
+                    console.log(ui.item);
+                    return false;
+                }
             });
+        });
 
-            var path = "{{ route('Broker.Property.autocomplete') }}";
+        function addFeature() {
+            const featuresContainer = document.getElementById('features');
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
 
-            $(document).on("focus", ".search", function() {
-                $(this).autocomplete({
-                    source: function(request, response) {
-                        $.ajax({
-                            url: path,
-                            type: 'GET',
-                            dataType: "json",
-                            data: {
-                                search: request.term
-                            },
-                            success: function(data) {
-                                response(data);
-                            }
-                        });
-                    },
-                    select: function(event, ui) {
-                        $(this).val(ui.item.label);
-                        console.log(ui.item);
-                        return false;
-                    }
-                });
-            });
-
-            function addFeature() {
-                const featuresContainer = document.getElementById('features');
-                const newRow = document.createElement('div');
-                newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
-
-                // Use the exact same class names and structure as your existing rows
-                newRow.innerHTML = `
+            // Use the exact same class names and structure as your existing rows
+            newRow.innerHTML = `
 <div class="col">
 <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
 </div>
@@ -746,170 +744,58 @@
 </div>
 `;
 
-                featuresContainer.appendChild(newRow);
-            }
+            featuresContainer.appendChild(newRow);
+        }
 
-            function removeFeature(button) {
-                const rowToRemove = button.parentNode.parentNode;
-                rowToRemove.remove();
-            }
+        function removeFeature(button) {
+            const rowToRemove = button.parentNode.parentNode;
+            rowToRemove.remove();
+        }
 
 
-            $(document).ready(function() {
-                $('#textarea').summernote({
-                    height: 100, // set editor height
-                    minHeight: null, // set minimum height of editor
-                    maxHeight: null, // set maximum height of editor
-                    focus: true, // set focus to editable area after initializing summernote
-                    toolbar: [
-                        // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
-                        ['style', ['bold', 'underline']],
-                        ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
-                        ['para', ['ul', 'ol']],
-                        ['misc', ['fullscreen', 'undo', 'redo']],
-                        // Any other toolbar groups and options you want to include...
-                    ],
-                    // Explicitly remove table and font name options by not including them in the toolbar
-                });
-                $('.card-body .badge').click(function() {
-                    var variableValue = $(this).attr('data-variable');
-                    var $textarea = $('#textarea');
-                    var summernoteEditor = $textarea.summernote('code');
-
-                    // Check if Summernote editor is focused
-                    if ($('.note-editable').is(':focus')) {
-                        var node = document.createElement("span");
-                        node.innerHTML = variableValue;
-                        $('.note-editable').append(
-                            node); // This line appends the variable as a new node to the editor
-                        var range = document.createRange();
-                        var sel = window.getSelection();
-                        range.setStartAfter(node);
-                        range.collapse(true);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                    } else {
-                        var currentContent = $textarea.summernote('code');
-                        $textarea.summernote('code', currentContent + variableValue);
-                    }
-                });
-
-                $(document).ready(function() {
-                    // Intercept form submission
-                    $('#OwnerForm').submit(function(event) {
-                        event.preventDefault();
-                        var formData = $(this).serialize();
-                        $.ajax({
-                            type: 'POST',
-                            url: $(this).attr('action'), // Form action URL
-                            data: formData, // Form data
-                            success: function(data) {
-                                $('#OwnersDiv').empty();
-                                $('#OwnersDiv').append(data);
-                                $('#addNewCCModal').modal('hide');
-                                alertify.success(@json(__('added successfully')));
-                            },
-                            error: function(xhr, status, error) {
-                                // Handle error response here
-                                console.error(xhr.responseText);
-                            }
-                        });
-                    });
-                });
-
+        $(document).ready(function() {
+            $('#textarea').summernote({
+                height: 100, // set editor height
+                minHeight: null, // set minimum height of editor
+                maxHeight: null, // set maximum height of editor
+                focus: true, // set focus to editable area after initializing summernote
+                toolbar: [
+                    // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                    ['style', ['bold', 'underline']],
+                    ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                    ['para', ['ul', 'ol']],
+                    ['misc', ['fullscreen', 'undo', 'redo']],
+                    // Any other toolbar groups and options you want to include...
+                ],
+                // Explicitly remove table and font name options by not including them in the toolbar
             });
-        </script>
-        <script>
-            document.querySelectorAll('.next-tab').forEach(button => {
-                button.addEventListener('click', function() {
-                    const nextTab = this.getAttribute('data-next');
-                    const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
-                    nextTabButton.click();
-                });
-            });
-        </script>
-          <script>
-            $('#button-addon1').click(function() {
-                $('#imageInput').val('');
+            $('.card-body .badge').click(function() {
+                var variableValue = $(this).attr('data-variable');
+                var $textarea = $('#textarea');
+                var summernoteEditor = $textarea.summernote('code');
 
-            });
-        </script>
-         <script>
-            $('#button-addon2').click(function() {
-                $('#videoInput').val('');
-            });
-        </script>
-         <script>
-            $('#button-addon3').click(function() {
-                $('#projectMasterplan').val('');
-            });
-        </script>
-        {{-- <script>
-            $(document).ready(function() {
-                function populateFields(data) {
-                    // console.log(data);
-                    // Populate region select
-                    $('#Region_id').val(data.city_data.region_data.id).change();
-
-                    // Populate city select
-                    $('#CityDiv').empty();
-                    // $('#CityDiv').append('<option disabled value="">@lang('city')</option>');
-                    // $('#CityDiv').append('<option value="' + data.city_data.id + '">' + data.city_data.name + '</option>');
-
-
-                    // Populate district select
-                    $('#DistrictDiv').empty();
-                    // $.each(data.city_data.districts_city, function(index, district) {
-                    //     $('#DistrictDiv').append('<option value="' + district.id + '">' + district.name + '</option>');
-                    // });
+                // Check if Summernote editor is focused
+                if ($('.note-editable').is(':focus')) {
+                    var node = document.createElement("span");
+                    node.innerHTML = variableValue;
+                    $('.note-editable').append(
+                        node); // This line appends the variable as a new node to the editor
+                    var range = document.createRange();
+                    var sel = window.getSelection();
+                    range.setStartAfter(node);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                } else {
+                    var currentContent = $textarea.summernote('code');
+                    $textarea.summernote('code', currentContent + variableValue);
                 }
-
-                $('#projectSelect').on('change', function() {
-                    var projectId = $(this).val();
-                    if (projectId) {
-                        $.ajax({
-                            url: '{{ route('Broker.GetProjectDetails', '') }}/' + projectId,
-                            type: 'GET',
-                            success: function(response) {
-                                populateFields(response.project);
-                                $('#myAddressBar').val(response.project.location);
-                                $('select[name="property_type_id"]').val(response.project.property_type_id).change();
-                                $('select[name="property_usage_id"]').val(response.project.property_usage_id).change();
-                                $('select[name="owner_id"]').val(response.project.owner_id).change();
-                                // $('input[name="instrument_number"]').val(response.project.instrument_number);
-                                $('select[name="service_type_id"]').val(response.project.service_type_id).change();
-                            },
-                            error: function(error) {
-                                console.error('Error fetching project details:', error);
-                            }
-                        });
-                    }
-                });
-
-                $('#propertySelect').on('change', function() {
-                    var propertyId = $(this).val();
-                    if (propertyId) {
-                        $.ajax({
-                            url: '{{ route('Broker.GetPropertyDetails', '') }}/' + propertyId,
-                            type: 'GET',
-                            success: function(response) {
-                                populateFields(response.property);
-                                $('#myAddressBar').val(response.property.location);
-                                $('select[name="property_type_id"]').val(response.property.property_type_id).change();
-                                $('select[name="property_usage_id"]').val(response.property.property_usage_id).change();
-                                $('select[name="owner_id"]').val(response.property.owner_id).change();
-                                // $('input[name="instrument_number"]').val(response.property.instrument_number);
-                                $('select[name="service_type_id"]').val(response.property.service_type_id).change();
-                            },
-                            error: function(error) {
-                                console.error('Error fetching property details:', error);
-                            }
-                        });
-                    }
-                });
-
             });
-        </script> --}}
+        });
+
+    </script>
+
+
 <script>
     $(document).ready(function() {
         var allProperties = {!! json_encode($properties) !!};
@@ -999,7 +885,31 @@
             });
 
     </script>
+      {{-- <script>
+        document.querySelectorAll('.next-tab').forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTab = this.getAttribute('data-next');
+                const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+                nextTabButton.click();
+            });
+        });
+    </script> --}}
+      <script>
+        $('#button-addon1').click(function() {
+            $('#imageInput').val('');
 
+        });
+    </script>
+     <script>
+        $('#button-addon2').click(function() {
+            $('#videoInput').val('');
+        });
+    </script>
+     <script>
+        $('#button-addon3').click(function() {
+            $('#projectMasterplan').val('');
+        });
+    </script>
 
 <script>
     document.getElementById('show_in_gallery').addEventListener('change', function () {
@@ -1014,7 +924,21 @@
             document.getElementById('ad_license_expiry').required = false;
         }
     });
+
+    // Initial state based on the checkbox value
+    document.addEventListener('DOMContentLoaded', function () {
+        var showInGalleryCheckbox = document.getElementById('show_in_gallery');
+        var galleryFields = document.getElementById('gallery-fields');
+
+        // Set initial visibility based on the checkbox state
+        if (showInGalleryCheckbox.checked) {
+            galleryFields.style.display = 'block';
+        } else {
+            galleryFields.style.display = 'none';
+        }
+    });
 </script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -1076,5 +1000,134 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize Google Places Autocomplete for the address input once
+        var input = document.getElementById("myAddressBar");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // To track if a place was selected from Google Places
+        var placeSelected = false;
+
+        // Listen for the place_changed event when a place is selected
+        google.maps.event.addListener(autocomplete, "place_changed", function() {
+            // Get the selected place
+            var place = autocomplete.getPlace();
+
+            // Check if the place contains geometry (lat, lng)
+            if (place.geometry) {
+                var lat = place.geometry.location.lat();
+                var long = place.geometry.location.lng();
+
+                // Set the lat, long values into the hidden input field
+                $("#location_tag").val(lat + "," + long);
+
+                // Mark that a valid place was selected
+                placeSelected = true;
+
+                // Clear any previous error messages
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+
+        // When user types manually, reset placeSelected flag
+        $("#myAddressBar").on("input", function() {
+            placeSelected = false; // Reset place selection
+            $("#location_tag").val(''); // Clear hidden input
+            $("#addressError").text(''); // Clear any previous error
+            $("#myAddressBar").removeClass("is-invalid");
+        });
+
+        // On blur, check if a valid place was selected from Google Places
+        $("#myAddressBar").on("blur", function() {
+            var addressValue = $("#myAddressBar").val().trim(); // Get the input value
+
+            // If no place was selected from Google Places
+            if (!placeSelected) {
+                // Show an error message indicating that the address must be selected from the suggestions
+                $("#addressError").text("Please select a valid address from the suggestions.");
+                $("#myAddressBar").addClass("is-invalid");
+            } else {
+                // If a valid place was selected, clear the error message
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nextButtons = document.querySelectorAll('.next-tab');
+        const navButtons = document.querySelectorAll('.link');
+
+        function validateAndProceed(nextTabId) {
+            // Get the current tab content
+            const currentTab = document.querySelector('.tab-pane.active');
+            // Get all required fields in the current tab
+            const requiredFields = currentTab.querySelectorAll('[required]');
+            let allFilled = true;
+
+            // Reset red border styles
+            requiredFields.forEach(field => {
+                field.classList.remove('is-invalid');
+            });
+
+            // Check if all required fields are filled
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allFilled = false;
+                    field.classList.add('is-invalid'); // Add red border
+                }
+            });
+
+            // If all required fields are filled, proceed to the next tab
+            if (allFilled) {
+                // Hide current tab
+                currentTab.classList.remove('show', 'active');
+
+                // Show next tab
+                const nextTab = document.querySelector(nextTabId);
+                nextTab.classList.add('show', 'active');
+
+                // Update the active tab button in the navigation
+                const currentNavButton = document.querySelector('.nav-link.active');
+                const nextNavButton = document.querySelector(`button[data-bs-target="${nextTabId}"]`);
+
+                // Remove active class from current tab button
+                if (currentNavButton) {
+                    currentNavButton.classList.remove('active');
+                }
+
+                // Add active class to next tab button
+                if (nextNavButton) {
+                    nextNavButton.classList.add('active');
+                }
+            }
+        }
+
+        // Event listener for next buttons
+        nextButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTabId = button.getAttribute('data-next');
+                validateAndProceed(nextTabId);
+            });
+        });
+
+        // Event listener for nav buttons
+        navButtons.forEach(navButton => {
+            navButton.addEventListener('click', function() {
+                const nextTabId = navButton.getAttribute('data-bs-target');
+                // Call validateAndProceed with the target tab
+                validateAndProceed(nextTabId);
+            });
+        });
+    });
+</script>
+
+
+
     @endpush
 @endsection

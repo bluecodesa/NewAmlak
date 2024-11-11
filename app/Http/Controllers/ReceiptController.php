@@ -77,27 +77,65 @@ class ReceiptController extends Controller
     }
 
 
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     $receipt = Receipt::findOrFail($id);
+
+    //     if ($receipt->status === 'accepted' || $receipt->status === 'rejected') {
+    //         return redirect()->back()->with('error', __('This receipt has already been processed.'));
+    //     }
+
+    //     $newStatus = $request->input('status');
+    //     $receipt->update(['status' => $newStatus]);
+
+    //     if ($newStatus === 'accepted') {
+    //         $userId = $this->getUserIdFromReceipt($receipt);
+    //         if ($userId) {
+    //             $this->activateSubscription($userId);
+    //         }
+    //     }
+    //     $this->notifyRelatedUser($receipt, $newStatus);
+
+    //     return redirect()->back()->with('success', __('Receipt status updated successfully.'));
+    // }
+
     public function updateStatus(Request $request, $id)
-    {
-        $receipt = Receipt::findOrFail($id);
+{
+    $receipt = Receipt::findOrFail($id);
 
-        if ($receipt->status === 'accepted' || $receipt->status === 'rejected') {
-            return redirect()->back()->with('error', __('This receipt has already been processed.'));
-        }
-
-        $newStatus = $request->input('status');
-        $receipt->update(['status' => $newStatus]);
-
-        if ($newStatus === 'accepted') {
-            $userId = $this->getUserIdFromReceipt($receipt);
-            if ($userId) {
-                $this->activateSubscription($userId);
-            }
-        }
-        $this->notifyRelatedUser($receipt, $newStatus);
-
-        return redirect()->back()->with('success', __('Receipt status updated successfully.'));
+    // تحقق مما إذا كان الإيصال قد تمت معالجته بالفعل
+    if ($receipt->status === 'accepted' || $receipt->status === 'rejected') {
+        return redirect()->back()->with('error', __('This receipt has already been processed.'));
     }
+
+    // الحصول على الحالة الجديدة من النموذج
+    $newStatus = $request->input('status');
+
+    // تحديث حالة الإيصال مع حفظ التعليق إذا كانت الحالة "مرفوضة"
+    if ($newStatus === 'rejected') {
+        $comment = $request->input('comment'); // استلام التعليق من النموذج
+        $receipt->update([
+            'status' => $newStatus,
+            'comment' => $comment, // حفظ التعليق في قاعدة البيانات
+        ]);
+    } else {
+        $receipt->update(['status' => $newStatus]);
+    }
+
+    // إذا تم قبول الإيصال، تفعيل الاشتراك
+    if ($newStatus === 'accepted') {
+        $userId = $this->getUserIdFromReceipt($receipt);
+        if ($userId) {
+            $this->activateSubscription($userId);
+        }
+    }
+
+    // إرسال إشعار للمستخدم المرتبط بالإيصال
+    $this->notifyRelatedUser($receipt, $newStatus);
+
+    return redirect()->back()->with('success', __('Receipt status updated successfully.'));
+}
+
     protected function notifyRelatedUser($receipt, $newStatus)
     {
         $user = null;

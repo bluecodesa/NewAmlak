@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Broker\ProjectManagement\AdvisorController;
 use App\Http\Controllers\Broker\ProjectManagement\DeveloperController;
 use App\Http\Controllers\Broker\ProjectManagement\EmployeeController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Broker\ProjectManagement\UnitController;
 use App\Http\Controllers\Broker\TicketController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Broker\Gallary\RealEstateRequestController;
+use App\Http\Controllers\Broker\HomeController as BrokerHomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\PendingPaymentPopup;
 
@@ -44,6 +46,8 @@ Route::group(
             Route::get('ViewInvoice', 'HomeController@ViewInvoice')->name('ViewInvoice');
             Route::get('ShowSubscription', 'HomeController@showSubscription')->name('ShowSubscription')->middleware('CheckSubscription');
             Route::get('ShowInvoice/{id}', 'HomeController@ShowInvoice')->name('ShowInvoice');
+            Route::post('/search', [BrokerHomeController::class, 'searchByIdNumber'])->name('searchByIdNumber');
+
             //
             route::resource('Developer', DeveloperController::class)->middleware('CheckSubscription');
             route::resource('Advisor', AdvisorController::class)->middleware('CheckSubscription');

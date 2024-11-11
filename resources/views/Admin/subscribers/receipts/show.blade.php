@@ -17,19 +17,22 @@
                     </form>
 
                     <!-- Form for Rejecting the Receipt -->
-                    <form action="{{ route('Admin.Receipt.updateStatus', $receipt->id) }}" method="POST" style="display:inline;">
+                    {{-- <form action="{{ route('Admin.Receipt.updateStatus', $receipt->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="status" value="rejected">
                         <button type="submit" class="btn btn-danger">@lang('rejected')</button>
-                    </form>
-                    @endif
+                    </form> --}}
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#commentModal">
-                        @lang('Add comment')
+                        @lang('rejected')
                     </button>
+                    @endif
+                    {{-- <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#commentModal">
+                        @lang('Add comment')
+                    </button> --}}
                     {{-- comment --}}
 
-                    <!-- Comment Modal -->
+                    {{-- <!-- Comment Modal -->
                     <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -57,7 +60,35 @@
                                 </div>
                             </div>
                         </div>
+                    </div> --}}
+<!-- Modal -->
+<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentModalLabel">@lang('Add Comment')</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('Admin.Receipt.updateStatus', $receipt->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">@lang('Comment')</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="4" required></textarea>
                     </div>
+                    <!-- إضافة حقل مخفي لحالة الرفض -->
+                    <input type="hidden" name="status" value="rejected">
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('Cancel')</button>
+                        <button type="submit" class="btn btn-danger">@lang('Reject')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
