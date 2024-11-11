@@ -41,10 +41,20 @@
                                                     <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
                                                     @if ($type->discount_type == 'incentive')
                                                     @php
-                                                    $publish_discount = ($x / $type->ads_count) * $type->ads_discount; // خصم النشر
-                                                    $views_discount = ($y / $type->views_count) * $type->views_discount; // خصم المشاهدات
-                                                    $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
-                                                    $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                       
+                                                        $publish_discount = 0;
+                                                        $views_discount = 0;
+
+                                                        if ($type->ads_count != 0) {
+                                                            $publish_discount = ($x / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                        }
+
+                                                        if ($type->views_count != 0) {
+                                                            $views_discount = ($y / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                        }
+
+                                                        $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
+                                                        $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
                                                     @endphp
                                                     <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
                                                     @else
