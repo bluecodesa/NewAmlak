@@ -91,11 +91,11 @@ class ProjectService
             // 'developer_id' => 'required|exists:developers,id',
             // 'advisor_id' => 'required|exists:advisors,id',
             // 'owner_id' => 'required|exists:owners,id',
-            'ad_license_number' => [
-                'required',
-                Rule::unique('projects')->ignore($id),
-                'max:25'
-            ],
+            // 'ad_license_number' => [
+            //     'required',
+            //     Rule::unique('projects')->ignore($id),
+            //     'max:25'
+            // ],
         ];
 
         // Validate data
