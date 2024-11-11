@@ -63,6 +63,18 @@
 
             <div class="row g-4" @if ($users->count() == 0) style="min-height: 300px" @endif>
                 @foreach ($users as $broker)
+
+                @php
+                $galleryName = null;
+
+                if ($broker->UserBrokerData) {
+                    $galleryName = $broker->UserBrokerData->GalleryData->gallery_name ?? null;
+                } elseif ($broker->UserOfficeData) {
+                    $galleryName = $broker->UserOfficeData->GalleryData->gallery_name ?? null;
+                }
+            @endphp
+                                    @if ($galleryName)
+
                     <div class="col-xl-4 col-lg-6 col-md-6">
 
                         <div class="card h-100">
@@ -89,27 +101,19 @@
                                     </div>
                                 </div>
 
-                                @php
-                                    $galleryName = null;
 
-                                    if ($broker->UserBrokerData) {
-                                        $galleryName = $broker->UserBrokerData->GalleryData->gallery_name ?? null;
-                                    } elseif ($broker->UserOfficeData) {
-                                        $galleryName = $broker->UserOfficeData->GalleryData->gallery_name ?? null;
-                                    }
-                                @endphp
 
-                                <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 ">
-                                    <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4">
+                                <div class="d-flex justify-content-center">
                                         <a href="{{ route('gallery.showByName', ['name' => $galleryName]) }}"
                                             class="btn btn-primary waves-effect waves-light">زيارة المعرض</a>
-
-                                    </div>
                                 </div>
+                            </div>
 
                             </div>
                         </div>
                     </div>
+                    @endif
                 @endforeach
 
             </div>
