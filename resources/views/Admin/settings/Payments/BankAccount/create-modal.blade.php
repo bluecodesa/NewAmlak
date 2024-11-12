@@ -23,15 +23,15 @@
 
 
                     <div class="col-12 mb-3">
-                        <label for="international_account_number">@lang('International Account Number') <span class="required-color">*</span></label>
+                        <label for="international_account_number">@lang('International Account Number') <span class="required-color"></span></label>
                         <input name="international_account_number" class="form-control" type="text" id="international_account_number">
                     </div>
 
                     <div class="col-12 mb-3">
 
-                        <label class="form-label">@lang('id number') <span class="required-color">*</span></label>
-                        <input name="id_number" class="form-control" type="text" id="id_number" required
-                            maxlength="10" pattern="[0-10]*" inputmode="numeric">
+                        <label class="form-label">@lang('id number') <span class="required-color"></span></label>
+                        <input name="id_number" class="form-control" type="text" id="id_number"
+                             inputmode="numeric">
                     </div>
 
 
@@ -44,10 +44,13 @@
 
                     <div class="col-12 mb-3">
                         <button type="submit" class="btn btn-primary">@lang('save')</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
-                    </div>
+
+                        <button  type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-secondary"
+                            data-dismiss="modal">@lang('Cancel')</button>
+                        </div>
                 </form>
             </div>
+
 
         </div>
     </div>

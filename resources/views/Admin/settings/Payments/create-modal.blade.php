@@ -41,8 +41,10 @@
 
                     <div class="col-12 mb-3">
                         <button type="submit" class="btn btn-primary">@lang('save')</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
-                    </div>
+
+                        <button  type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-secondary"
+                            data-dismiss="modal">@lang('Cancel')</button>
+                        </div>
                 </form>
             </div>
 
