@@ -554,7 +554,7 @@
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
-            @include('Broker.settings.inc._upgradePackage')
+            {{-- @include('Broker.settings.inc._upgradePackage') --}}
 
 
             <div class="content-backdrop fade"></div>

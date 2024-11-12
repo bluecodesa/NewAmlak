@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
+use App\Models\BankAccount;
 use App\Models\City;
 use App\Models\District;
 use App\Models\FalLicenseUser;
@@ -420,6 +421,7 @@ class HomeController extends Controller
     public function ShowInvoice($id)
     {
         $invoice = $this->systemInvoiceRepository->find($id);
+        $bankAccount = BankAccount::where('is_default','1')->where('status','1')->first();
 
         return view('Broker.Subscription.invoices.show', get_defined_vars());
     }
@@ -512,7 +514,7 @@ class HomeController extends Controller
         $receipt = Receipt::findOrFail($id);
 
         if ($receipt->status !== 'Under review') {
-            return redirect()->back()->with('error', __('You can only update receipts that are under review.'));
+            return redirect()->back()->with('sorry', __('You can only update receipts that are under review.'));
         }
 
         $validatedData = $request->validate([

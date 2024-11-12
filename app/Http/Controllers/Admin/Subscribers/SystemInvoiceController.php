@@ -7,6 +7,7 @@ use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
 use App\Services\RegionService;
 use App\Services\CityService;
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\SubscriptionType;
 use App\Services\Admin\SubscriptionTypeService;
 use Illuminate\Http\Request;
@@ -60,7 +61,8 @@ class SystemInvoiceController extends Controller
     public function show($id)
     {
         $invoice = $this->systemInvoiceRepository->find($id);
-        return view('Admin.subscribers.invoices.show', compact('invoice'));
+        $bankAccount = BankAccount::where('is_default','1')->where('status','1')->first();
+        return view('Admin.subscribers.invoices.show', compact('invoice','bankAccount'));
     }
     /**
      * Show the form for editing the specified resource.

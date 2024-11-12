@@ -778,7 +778,11 @@
     "Receipt Status":"حالة الايصال",
     "Receipt Number":"رقم الايصال",
     "Your subscription is active now!":"تم تفعيل اشتراكك الان!",
-    "send":"ارسال"
+    "send":"ارسال",
+    "Bank Account Informations":"بيانات الحساب البنكي",
+    "Account Number":"رقم الحساب",
+    "International Account Number":"رقم الحساب الدولي",
+    "Invoice issuance time":"وقت اصدار الفاتورة"
 
 
 

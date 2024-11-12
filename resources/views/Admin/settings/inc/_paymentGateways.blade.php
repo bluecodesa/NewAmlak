@@ -37,7 +37,26 @@
                                 value="{{ $paymentGateway->profile_id ?? '' }}" disabled>
                         </div>
 
-                        <div>
+                        <div class="row mt-2">
+
+                            <div class="col-6">
+                                <label>@lang('Default')</label>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="is_default" value="1"
+                                        id="customradio1" {{ $paymentGateway->is_default == 1 ? 'checked' : '' }} disabled>
+                                    <label class="form-check-label" for="customradio1">@lang('Enable')</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="is_default" value="0"
+                                        id="customradio2" {{ $paymentGateway->is_default == 0 ? 'checked' : '' }} disabled>
+                                    <label class="form-check-label" for="customradio2">@lang('Disable')</label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-6">
+                                <label>@lang('status')</label>
+
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="status" value="1"
                                     id="customradio1" {{ $paymentGateway->status == 1 ? 'checked' : '' }} disabled>
@@ -48,11 +67,13 @@
                                     id="customradio2" {{ $paymentGateway->status == 0 ? 'checked' : '' }} disabled>
                                 <label class="form-check-label" for="customradio2">@lang('Disable')</label>
                             </div>
-                            <button type="button" class="btn btn-primary waves-effect waves-light"
-                                data-bs-toggle="modal" data-bs-target="#addNewPaymentModal_{{ $paymentGateway->id }}">
-                                @lang('Edit')
-                            </button>
+                            </div>
+
                         </div>
+                        <button type="button" class="btn btn-primary waves-effect waves-light"
+                        data-bs-toggle="modal" data-bs-target="#addNewPaymentModal_{{ $paymentGateway->id }}">
+                        @lang('Edit')
+                    </button>
                     </form>
                 </div>
             </div>
@@ -105,7 +126,26 @@
                                 value="{{ $bankAccount->id_number ?? '' }}" disabled>
                         </div>
 
-                        <div>
+                        <div class="row mt-2">
+
+                            <div class="col-6">
+                                <label>@lang('Default')</label>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="is_default" value="1"
+                                        id="customradio1" {{ $bankAccount->is_default == 1 ? 'checked' : '' }} disabled>
+                                    <label class="form-check-label" for="customradio1">@lang('Enable')</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="is_default" value="0"
+                                        id="customradio2" {{ $bankAccount->is_default == 0 ? 'checked' : '' }} disabled>
+                                    <label class="form-check-label" for="customradio2">@lang('Disable')</label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-6">
+                                <label>@lang('status')</label>
+
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="status" value="1"
                                     id="customradio1" {{ $bankAccount->status == 1 ? 'checked' : '' }} disabled>
@@ -116,11 +156,13 @@
                                     id="customradio2" {{ $bankAccount->status == 0 ? 'checked' : '' }} disabled>
                                 <label class="form-check-label" for="customradio2">@lang('Disable')</label>
                             </div>
+                            </div>
+
+                        </div>
                             <button type="button" class="btn btn-primary waves-effect waves-light"
                                 data-bs-toggle="modal" data-bs-target="#addNewBankAccountModal_{{ $bankAccount->id }}">
                                 @lang('Edit')
                             </button>
-                        </div>
                     </form>
                 </div>
             </div>

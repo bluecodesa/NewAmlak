@@ -128,6 +128,10 @@ class PaymentController extends Controller
         }
 
         $SubscriptionType =  SubscriptionType::find($request->subscription_type);
+        $total_discount=0;
+        if($SubscriptionType->discount_type == 'incentive'){
+                $total_discount=$request->total_discount;
+        }
         $amount = $request->amount;
         if($amount == 0){
             return $this->callback_UpgradeSubscription($SubscriptionType->id . '&' . Auth::id());
@@ -142,7 +146,7 @@ class PaymentController extends Controller
             ->sendCart($last_record['id'] ?? '0' + 1, $amount, 'Add to Walet')
             ->sendCustomerDetails(Auth::user()->name, Auth::user()->email, Auth::user()->phone, 'Makka', 'Makka', 'Makka', 'SA', '1234', \Request::ip())
             ->sendShippingDetails(Auth::user()->name, Auth::user()->email, Auth::user()->phone, 'Makka', 'Makka', 'Makka', 'SA', '1234', \Request::ip())
-            ->sendURLs(route('callback_UpgradeSubscription', $SubscriptionType->id . '&' . Auth::id()), route('callback_UpgradeSubscription', $SubscriptionType->id . '&' . Auth::id()))
+            ->sendURLs(route('callback_UpgradeSubscription', $SubscriptionType->id . '&' . Auth::id() . '&' . $amount. '&' . $total_discount), route('callback_UpgradeSubscription', $SubscriptionType->id . '&' . Auth::id() . '&' . $amount. '&' . $total_discount))
             ->sendLanguage('ar')
             ->create_pay_page();
         return $pay;
@@ -156,6 +160,9 @@ class PaymentController extends Controller
         $officeData = Auth::user()->UserOfficeData;
         $brokerData = Auth::user()->UserBrokerData;
         $SubscriptionType = SubscriptionType::find($data[0]);
+        $amount = $data[2];
+        $total_discount = $data[3];
+
 
         if ($officeData) {
             $subscription = $officeData->UserSubscription;
@@ -212,13 +219,20 @@ class PaymentController extends Controller
         $delimiter = '-';
         $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
 
-        $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
+        // $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
+       if($SubscriptionType->discount_type == 'incentive'){
+       $discount=$total_discount;
+        }else{
+            $discount =$SubscriptionType->upgrade_rate;
+        }
+
         SystemInvoice::create([
             'broker_id' => $subscription->broker_id,
             'office_id' => $subscription->office_id,
             'subscription_name' => $SubscriptionType->name,
             'amount' => $amount,
-            "discount" => $SubscriptionType->upgrade_rate,
+            // "discount" => $SubscriptionType->upgrade_rate,
+            "discount" => $discount,
             'subscription_type' => ($SubscriptionType->price > 0) ? 'paid' : 'free',
             'period' => $SubscriptionType->period,
             'period_type' => $SubscriptionType->period_type,

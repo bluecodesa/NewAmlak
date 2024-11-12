@@ -134,7 +134,15 @@ class SettingController extends Controller
     public function updatePaymentGateway(Request $request, $id)
     {
         // فين الفالديشن (amin)
-        $this->paymentGateway->updatePaymentGateway($id, $request->all());
+
+        $response = $this->paymentGateway->updatePaymentGateway($id, $request->all());
+
+
+        // Check if the response is a redirect response
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            return $response;
+        }
+
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
@@ -150,11 +158,18 @@ class SettingController extends Controller
 
     public function updateBankAccount(Request $request, $id)
     {
-        // فين الفالديشن (amin)
-        $this->paymentGateway->updateBankAccount($id, $request->all());
+        // Perform validation here if needed
+
+        $response = $this->paymentGateway->updateBankAccount($id, $request->all());
+
+        // Check if the response is a redirect response
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            return $response;
+        }
 
         return redirect()->route('Admin.settings.index')->with('success', __('Bank Account updated successfully.'));
     }
+
 
 
     public function updateTax(Request $request, Setting $setting)

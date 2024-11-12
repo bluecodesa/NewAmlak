@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('id_number')->nullable();  // ID Number with 9 characters
             $table->string('image')->nullable();  // Path to the Image file
             $table->tinyInteger('status')->default(0); // Status with default value of 0
+            $table->enum('is_default', ['0', '1'])->default('0');
             $table->timestamps();
         });
     }

@@ -44,6 +44,16 @@ class PaymentGatewayRepository implements PaymentGatewayRepositoryInterface
 
     public function updatePaymentGateway($id, array $data)
     {
+          // Check if is_default is set to 1
+          if (isset($data['is_default']) && $data['is_default'] == '1') {
+            // Check if there is already a default bank account
+            $existingDefault = PaymentGateway::where('is_default', '1')->where('id', '!=', $id)->first();
+            if ($existingDefault) {
+                // Return an error message
+                return redirect()->route('Admin.settings.index')->with('sorry', __('لا يمكن إضافة أكثر من حالة رئيسية في بوابات الدفع'));
+            }
+        }
+
         $payment = PaymentGateway::findOrFail($id);
         if (isset($data['image'])) {
             $image = $data['image'];
@@ -84,7 +94,18 @@ class PaymentGatewayRepository implements PaymentGatewayRepositoryInterface
 
     public function updateBankAccount($id, array $data)
     {
+        // Check if is_default is set to 1
+        if (isset($data['is_default']) && $data['is_default'] == '1') {
+            // Check if there is already a default bank account
+            $existingDefault = BankAccount::where('is_default', '1')->where('id', '!=', $id)->first();
+            if ($existingDefault) {
+                // Return an error message
+                return redirect()->route('Admin.settings.index')->with('sorry', __('لا يمكن إضافة أكثر من حالة رئيسية في الحسابات'));
+            }
+        }
+
         $payment = BankAccount::findOrFail($id);
+
         if (isset($data['image'])) {
             $image = $data['image'];
 
@@ -94,9 +115,11 @@ class PaymentGatewayRepository implements PaymentGatewayRepositoryInterface
             $image->move(public_path('/BankAccounts/'), $imageName);
             $data['image'] = '/BankAccounts/' . $imageName;
         }
+
         $payment->update($data);
         return $payment;
     }
+
 
 
 }
