@@ -360,8 +360,8 @@
             const durationMinutes = (duration / 60).toFixed(2);
             document.getElementById(`distance-output-${id}`).innerHTML += `
                 <p>المسافة من ${type === 'work' ? 'مكان العمل' : 'المنزل'}: ${distanceKm} كم</p>
-                <p>الزمن المتوقع: ${durationMinutes} دقيقة</p>
             `;
+            // <p>الزمن المتوقع: ${durationMinutes} دقيقة</p>
 
             // إضافة نصوص توضيحية على الخريطة
             new mapboxgl.Marker({ color: type === 'work' ? '#FF5733' : '#33FF57' })
