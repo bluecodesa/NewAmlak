@@ -5,7 +5,7 @@
     data-assets-path="{{ url('assets') }}/" data-template="vertical-menu-template-starter">
 
 <head>
-    {{-- {!! $sitting->google_tag !!} --}}
+    {!! $sitting->google_tag !!}
 
     <meta charset="utf-8" />
     <meta name="viewport"

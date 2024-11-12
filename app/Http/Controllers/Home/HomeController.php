@@ -2618,8 +2618,22 @@ public function addAccount (Request $request)
 
         // البحث عن المستخدم باستخدام البريد الإلكتروني أو رقم الهاتف
         $user = User::where('email', $email)->orWhere('phone', $phone)->first();
-
         if ($user) {
+            $city = '';
+            $account_name = '';
+            $account_type = '';
+
+            if ($user->is_office) {
+                $city = $user->UserOfficeData->CityData->name ?? null;
+                $account_type = 'office';
+            } elseif ($user->is_broker) {
+                $city = $user->UserBrokerData->CityData->name ?? null;
+                $account_type = 'broker';
+            } elseif ($user->is_owner) {
+                $city = $user->UserOwnerData->CityData->name ?? null;
+                $account_type = 'owner';
+            }
+
             return response()->json([
                 'success' => true,
                 'user' => [
@@ -2627,9 +2641,8 @@ public function addAccount (Request $request)
                     'email' => $user->email,
                     'phone' => $user->phone,
                     'id_number' => $user->id_number,
-                    'city' => $user->city ?? 'N/A', // Assuming you have a city field
-                    'account_name' => $user->account_name ?? 'N/A', // Assuming you have an account_name field
-                    'account_type' => $user->account_type ?? 'N/A', // Assuming you have an account_type field
+                    'city' => $city,
+                    'account_type' => $account_type,
                 ]
             ]);
         } else {
