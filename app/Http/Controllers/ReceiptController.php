@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Receipt;
 use App\Models\SubscriptionSection;
 use App\Models\User;
+use App\Notifications\Admin\ReceiptAcceptedNotification;
+use App\Notifications\Admin\ReceiptRejectedNotification;
 use App\Notifications\Admin\ReceiptStatusUpdatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -149,10 +151,18 @@ class ReceiptController extends Controller
         }
 
         // Send notification if a user is found
-        if ($user) {
-            // $user->notify(new ReceiptStatusUpdatedNotification($receipt, $newStatus));
-            Notification::send($user, new ReceiptStatusUpdatedNotification($receipt, $newStatus));
+        // if ($user) {
+        //     // $user->notify(new ReceiptStatusUpdatedNotification($receipt, $newStatus));
+        //     Notification::send($user, new ReceiptStatusUpdatedNotification($receipt, $newStatus));
 
+        // }
+        if ($user) {
+            if ($newStatus === 'accepted') {
+                Notification::send($user, new ReceiptAcceptedNotification($receipt, $newStatus));
+            } elseif ($newStatus === 'rejected') {
+                $comment = $receipt->comment; // Assuming the comment is saved in the receipt
+                Notification::send($user, new ReceiptRejectedNotification($receipt, $comment));
+            }
         }
     }
     protected function getUserIdFromReceipt($receipt)

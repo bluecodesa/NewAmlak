@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReceiptStatusUpdatedNotification extends Notification
+class ReceiptRejectedNotification extends Notification
 {
 
     use Queueable;
@@ -40,7 +40,7 @@ class ReceiptStatusUpdatedNotification extends Notification
         return [
             'msg' => __( ($this->receipt->receipt_id)),
             'url' => route('Office.ShowSubscription'),
-            'type_noty' => 'Your subscription is active now!',
+            'type_noty' => 'Your subscription is Rejected!',
             'service_name' => '',
             'created_at' => now(),
         ];
