@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Office;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
+use App\Models\BankAccount;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Gallery;
@@ -430,6 +431,7 @@ $receipts = Receipt::where('office_id',auth()->user()->UserOfficeData->id)->get(
     public function ShowInvoice($id)
     {
         $invoice = $this->systemInvoiceRepository->find($id);
+        $bankAccount = BankAccount::where('is_default','1')->where('status','1')->first();
 
         return view('Office.SubscriptionManagement.invoices.show', get_defined_vars());
     }

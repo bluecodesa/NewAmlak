@@ -233,7 +233,14 @@
             </ul>
         </li>
         @endif
-
+        @if (in_array(34, $sectionsIds))
+            <li class="menu-item">
+                <a href="{{ route('Broker.ShowSubscription') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <div data-i18n="@lang('Reports and advanced search')">@lang('Reports and advanced search')</div>
+                </a>
+            </li>
+        @endif
         @if (in_array(12, $sectionsIds))
             <li class="menu-item">
                 <a href="{{ route('Broker.ShowSubscription') }}" class="menu-link">

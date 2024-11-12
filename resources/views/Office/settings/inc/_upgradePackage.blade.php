@@ -132,6 +132,8 @@
 
                                                         <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
                                                         <input type="number" class="display-4 mb-0 text-primary"  name="amount" hidden value="{{ $discounted_price }}"></input>
+                                                        <input type="number" class="display-4 mb-0 text-primary"  name="total_discount" hidden value="{{ $total_discount }}"></input>
+
                                                         @else
                                                         <h1 class="display-4 mb-0 text-primary">{{ $type->price - $type->price * $type->upgrade_rate }}</h1>
                                                         <input type="number" class="display-4 mb-0 text-primary"  name='amount' hidden value="{{ $type->price - $type->price * $type->upgrade_rate }}"></input>

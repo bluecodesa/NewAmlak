@@ -345,6 +345,37 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-12 shadow-none bg-transparent border border-info p-1">
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <span class="bolder">
+                                            @lang('Bank Account Informations')
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span>
+                                           @lang('Name') : {{ $bankAccount->name }}
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>
+                                           @lang('Account Number') : {{ $bankAccount->account_number }}
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>
+                                         @lang('International Account Number') : {{ $bankAccount->international_account_number }}
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>
+                                        @lang('id number')  :  {{ $bankAccount->id_number }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
