@@ -101,7 +101,7 @@
         @endif
 
         @if (in_array(19, $sectionsIds) || in_array(16, $sectionsIds))
-        <li class="menu-item">
+            <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
                     <i class="menu-icon tf-icons ti ti-layout-kanban"></i>

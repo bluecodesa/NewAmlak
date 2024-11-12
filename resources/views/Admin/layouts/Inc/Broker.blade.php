@@ -218,12 +218,20 @@
         @endif
 
         @if (in_array(16, $sectionsIds))
-            <li class="menu-item">
-                <a href="{{ route('Broker.Owner.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-users"></i>
-                    <div data-i18n="@lang('Owners Management')">@lang('Owners Management')</div>
-                </a>
-            </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
+                <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                <div data-i18n="@lang('Customer Management')">@lang('Customer Management')</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('Broker.Owner.index') }}" class="menu-link">
+                        <div data-i18n="@lang('Owners Management')">@lang('Owners Management')</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         @endif
 
         @if (in_array(12, $sectionsIds))

@@ -255,19 +255,23 @@
         function generatePopupHtml(item) {
             const showRoute = getShowRoute(item);
             const rentPriceAndType = item.isGalleryUnit ? `${item.rentPrice} @lang('SAR') / ${item.rent_type_show}` : '';
+            const imageUrl = item.unit_images?.[0]?.image
+                        || item.project_images?.[0]?.image
+                        || item.property_image
+                        || '{{ asset("Offices/Projects/default.svg") }}';
             return `
-            <div class="w-500">
-                <a href="${showRoute}" target="_blank" class="card-popup">
-                    <div style="display: flex; gap: 1rem;">
-                        <img src="${item.unit_images?.[0]?.image || 'Offices/Projects/default.svg'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
-                        <div>
-                            <h6>${item.name || item.ad_name}</h6>
-                            <p>${item.property_type_data?.name || ''} / ${item.type || ''}</p>
-                            ${item.isGalleryUnit ? `<p>${rentPriceAndType}</p>` : ''}
-                            <p>${item.city_data?.name || ''}</p>
+                <div class="w-500">
+                    <a href="${showRoute}" target="_blank" class="card-popup">
+                        <div style="display: flex; gap: 1rem;">
+                            <img src="${imageUrl}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+                            <div>
+                                <h6>${item.name || item.ad_name}</h6>
+                                <p>${item.property_type_data?.name || ''} / ${item.type || ''}</p>
+                                ${item.isGalleryUnit ? `<p>${rentPriceAndType}</p>` : ''}
+                                <p>${item.city_data?.name || ''}</p>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
                 <button class="btn btn-success mt-2" onclick="toggleDecisionInputs(${item.id})">ساعدني في اتخاذ القرار</button>
                 <div id="decision-inputs-${item.id}" style="display:none;">
                     <div id="work-coordinates-${item.id}" class="form-control mt-1"></div>

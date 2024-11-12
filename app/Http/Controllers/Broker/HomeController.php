@@ -11,6 +11,7 @@ use App\Models\Gallery;
 use App\Models\Owner;
 use App\Models\Project;
 use App\Models\Property;
+use App\Models\Receipt;
 use App\Models\Renter;
 use App\Models\Role;
 use App\Models\Subscription;
@@ -392,23 +393,26 @@ class HomeController extends Controller
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
         $sections = $this->SectionService->getAll();
-             // اجلب عدد الإعلانات الصالحة المنشورة
-             $x = Project::where('office_id', $brokerId)
-             ->where('ad_license_status', 'Valid')->count()
-             + Property::where('office_id', $brokerId)
-             ->where('ad_license_status', 'Valid')->count()
-             + Unit::where('office_id', $brokerId)
-             ->where('ad_license_status', 'Valid')->count();
-         //             $x= Unit::where('office_id', $officeId)->where('ad_license_status', 'Valid')->count();
-         // dd($x);
-             // اجلب عدد المشاهدات لكل الإعلانات الخاصة بالمستخدم
-             $y = Visitor::where(function($query) use ($brokerId) {
-                 $query->whereIn('project_id', Project::where('office_id', $brokerId)->pluck('id'))
-                         ->orWhereIn('property_id', Property::where('office_id', $brokerId)->pluck('id'))
-                         ->orWhereIn('unit_id', Unit::where('office_id', $brokerId)->pluck('id'));
-             })
-             ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
-             ->count();
+           // اجلب عدد الإعلانات الصالحة المنشورة
+           $numOfAds = Project::where('broker_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count()
+           + Property::where('broker_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count()
+           + Unit::where('broker_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count();
+//             $x= Unit::where('office_id', $officeId)->where('ad_license_status', 'Valid')->count();
+// dd($numOfAds);
+           // اجلب عدد المشاهدات لكل الإعلانات الخاصة بالمستخدم
+           $numOfViews = Visitor::where(function($query) use ($brokerId) {
+               $query->whereIn('project_id', Project::where('broker_id', $brokerId)->where('ad_license_status', 'Valid')->pluck('id'))
+                     ->orWhereIn('property_id', Property::where('broker_id', $brokerId)->where('ad_license_status', 'Valid')->pluck('id'))
+                     ->orWhereIn('unit_id', Unit::where('broker_id', $brokerId)->where('ad_license_status', 'Valid')->pluck('id'));
+           })
+           ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
+           ->count();
+// dd($numOfViews);
+            $receipts = Receipt::where('broker_id',auth()->user()->UserBrokerData->id)->get();
+
 
         return view('Broker.Subscription.show', get_defined_vars());
     }
@@ -501,5 +505,60 @@ class HomeController extends Controller
         }
 
     }
+
+
+    public function updateReceipt(Request $request, $id)
+    {
+        $receipt = Receipt::findOrFail($id);
+
+        if ($receipt->status !== 'Under review') {
+            return redirect()->back()->with('error', __('You can only update receipts that are under review.'));
+        }
+
+        $validatedData = $request->validate([
+            'receipt' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'comment' => 'nullable|string',
+        ]);
+        if ($request->hasFile('receipt')) {
+            $file = $request->file('receipt');
+            $ext = $file->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $ext;
+
+            $file->move(public_path('Admin/Receipt'), $filename);
+
+            $receipt->receipt = 'Admin/Receipt/' . $filename;
+        }
+
+        $receipt->comment = $validatedData['comment'] ?? $receipt->comment;
+
+        $receipt->save();
+
+        return redirect()->back()->with('success', __('Receipt updated successfully.'));
+    }
+    public function showReceipt($id){
+        $receipt = Receipt::findOrFail($id);
+        return view('Broker.SubscriptionManagement.receipts.show' , get_defined_vars());
+    }
+
+    public function deleteReceipt($id)
+    {
+        $receipt = Receipt::findOrFail($id);
+
+        if (!in_array($receipt->status, ['Under review', 'rejected'])) {
+            return redirect()->back()->with('error', __('This receipt cannot be deleted as it has already been processed.'));
+        }
+
+        $user = Auth::user();
+        $officeData = $user->UserOfficeData;
+
+        if (!$officeData || $receipt->OfficeData->user_id !== $user->id) {
+            return redirect()->back()->with('error', __('You do not have permission to delete this receipt.'));
+        }
+
+        $receipt->delete();
+
+        return redirect()->back()->with('success', __('Receipt deleted successfully.'));
+    }
+
 
 }

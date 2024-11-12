@@ -127,6 +127,11 @@ Route::group(
             Route::get('GetPropertyDetails/{propertyId}', [UnitController::class, 'getPropertyDetails'])->name('GetPropertyDetails');
 
 
+            //receipts
+
+            Route::get('/receipt/{id}', [BrokerHomeController::class, 'showReceipt'])->name('Receipt.show');
+            Route::put('/broker/receipt/{id}', [BrokerHomeController::class, 'updateReceipt'])->name('Receipt.update');
+            Route::delete('/broker/receipt/{id}', [BrokerHomeController::class, 'deleteReceipt'])->name('Receipt.delete');
         });
     }
 );

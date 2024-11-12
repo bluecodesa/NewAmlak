@@ -91,25 +91,53 @@
                             @if ($type->id != Auth::user()->UserBrokerData->UserSubscription->subscription_type_id)
                                 <div class="col-xl-3 col-md-3 mb-md-0 mb-4">
                                     <label class="form-check custom-option custom-option-icon h-100">
-                                        <div
-                                            class="card border-primary border shadow-none h-100 @if ($type->id == Auth::user()->UserBrokerData->UserSubscription->subscription_type_id) border-primary @else border-secondary @endif">
+                                        <div class="card border-primary border shadow-none h-100 @if ($type->id == Auth::user()->UserBrokerData->UserSubscription->subscription_type_id) border-primary @else border-secondary @endif">
                                             <div class="card-body position-relative">
                                                 <div class="position-absolute end-0 me-4 top-0 mt-4"></div>
-                                                <h3 class="card-title text-center text-capitalize mb-1">
-                                                    {{ $type->name }}</h3>
+                                                <h3 class="card-title text-center text-capitalize mb-1">{{ $type->name }}</h3>
                                                 <div class="text-center h-px-100 mb-2">
                                                     <div class="d-flex justify-content-center">
-                                                        <sup
-                                                            class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
-                                                        <h1 class="display-4 mb-0 text-primary">
-                                                            {{ $type->price - $type->price * $type->upgrade_rate }}</h1>
-                                                        <sub
-                                                            class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">/{{ $type->period }}
-                                                            {{ __($type->period_type) }}</sub>
+                                                        <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                                                        @if ($type->discount_type == 'incentive')
+                                                        {{-- @php
+                                                        $publish_discount = ($numOfAds / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                        //1/3 * 3%
+                                                        $views_discount = ($numOfViews / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                        //1/5 * 5%
+                                                        $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
+                                                        // x + y
+                                                        $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                        // 100 -(100*2%)
+                                                        $discounted_price = $discounted_price < 0 ? 0 : $discounted_price;
+
+                                                        @endphp --}}
+
+                                                        @php
+                                                            $publish_discount = 0;
+                                                            $views_discount = 0;
+
+                                                            if ($type->ads_count != 0) {
+                                                                $publish_discount = ($numOfAds / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                            }
+
+                                                            if ($type->views_count != 0) {
+                                                                $views_discount = ($numOfViews / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                            }
+
+                                                            $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
+                                                            $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                        @endphp
+
+
+                                                        <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
+                                                        <input type="number" class="display-4 mb-0 text-primary"  name="amount" hidden value="{{ $discounted_price }}"></input>
+                                                        @else
+                                                        <h1 class="display-4 mb-0 text-primary">{{ $type->price - $type->price * $type->upgrade_rate }}</h1>
+                                                        <input type="number" class="display-4 mb-0 text-primary"  name='amount' hidden value="{{ $type->price - $type->price * $type->upgrade_rate }}"></input>
+                                                        @endif
+                                                        <sub class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">/{{ $type->period }} {{ __($type->period_type) }}</sub>
                                                     </div>
-                                                    <del><small
-                                                            class="price-yearly price-yearly-toggle text-muted">@lang('SAR')
-                                                            {{ $type->price }}</small></del>
+                                                    <del><small class="price-yearly price-yearly-toggle text-muted">@lang('SAR') {{ $type->price }}</small></del>
                                                 </div>
                                                 <ul class="list-group ps-3 my-4">
                                                     @foreach ($type->sections as $section)
@@ -118,9 +146,7 @@
                                                 </ul>
                                             </div>
                                             <div class="modal-footer justify-content-center">
-                                                <input type="radio" class="subscription_type form-check-input"
-                                                    name="subscription_type" value="{{ $type->id }}"
-                                                    id="subscription{{ $type->id }}" required>
+                                                <input type="radio" class="subscription_type form-check-input" name="subscription_type" value="{{ $type->id }}" id="subscription{{ $type->id }}" required>
                                             </div>
                                         </div>
                                     </label>
@@ -132,8 +158,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">@lang('close')</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('close')</button>
                         <button type="submit" class="btn btn-primary">@lang('Subscription upgrade')</button>
                     </div>
                 </div>
