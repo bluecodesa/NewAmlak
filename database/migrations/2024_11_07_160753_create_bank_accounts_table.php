@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('account_number');  // Account Number
             $table->string('international_account_number')->nullable();  // International Account Number
-            $table->string('id_number', 10);  // ID Number with 9 characters
+            $table->bigInteger('id_number')->nullable();  // ID Number with 9 characters
             $table->string('image')->nullable();  // Path to the Image file
             $table->tinyInteger('status')->default(0); // Status with default value of 0
             $table->timestamps();
