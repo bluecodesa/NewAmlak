@@ -42,6 +42,10 @@
 
                         }
                     @endphp
+                      @php
+                      $gallery_name = $GalleryData->gallery_name;
+                      $url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $unit->id]);
+                    @endphp
                     <div class="card-body p-0">
                         <div class="tab-content p-0 pt-4">
                             <div class="tab-pane fade active show" id="navs-within-card-active_{{ $unit->id }}" role="tabpanel">
@@ -49,13 +53,9 @@
                                     @lang('Download the code so that you can share it with your friends so that they can access this property’s data via mobile phone')
                                 </div>
                                 <div class="col-12">
-                                    {{ \QrCode::size(150)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate(route($routeName, ['gallery_name' => $GalleryData->gallery_name, 'id' => $unit->id])) }}
+                                    {{ \QrCode::size(150)->style('dot')->eye('circle')->color(40, 199, 111)->margin(1)->generate($url) }}
                                 </div>
                                 <div class="col-12" style="">
-                                    @php
-                                        $gallery_name = $GalleryData->gallery_name;
-                                        $url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $unit->id]);
-                                    @endphp
                                     <br>
                                     <a href="{{ route('download.qrcode', ['link' => $url]) }}" class="btn-sm btn btn-success">
                                         @lang('Download') @lang('Qr Code')
