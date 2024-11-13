@@ -21,44 +21,45 @@
                 <div class="card">
                     @include('Admin.layouts.Inc._errors')
                 <div class="nav-align-top nav-tabs-shadow mb-4">
-                  <ul class="nav nav-tabs nav-fill" role="tablist">
-                    <li class="nav-item">
-                      <button
-                        type="button"
-                        class="nav-link active link"
-                        role="tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#navs-justified-home"
-                        aria-controls="navs-justified-home"
-                        aria-selected="true">
-                        <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
-                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">9</span>
-                      </button>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="nav-link link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                    <ul class="nav nav-tabs nav-fill" role="tablist">
+                        <li class="nav-item">
+                          <button
+                            type="button"
+                            class="nav-link active"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-home"
+                            aria-controls="navs-justified-home"
+                            aria-selected="true">
+                            <i class="tf-icons ti ti-home ti-xs me-1"></i> @lang('Description')
+                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">7</span>
+                          </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                                aria-selected="false">
+                                <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
+                                <span
+                                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
+                            </button>
+                        </li>
+                   
+                        <li class="nav-item">
+                          <button
+                            type="button"
+                            class="nav-link"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-profile"
+                            aria-controls="navs-justified-profile"
                             aria-selected="false">
-                            <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
-                            <span
-                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">1</span>
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                      <button
-                        type="button"
-                        class="nav-link link"
-                        role="tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#navs-justified-profile"
-                        aria-controls="navs-justified-profile"
-                        aria-selected="false">
-                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Attachments')
-                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
-                      </button>
-                    </li>
+                            <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('Attachments')
+                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">0</span>
+                          </button>
+                        </li>
 
-                  </ul>
+                      </ul>
                         <form action="{{ route('Office.Property.store') }}" method="POST" class="row"
                             enctype="multipart/form-data">
                             @csrf
@@ -428,44 +429,44 @@
 
 
             $(document).ready(function() {
-        $('#textarea').summernote({
-            height: 100, // set editor height
-            minHeight: null, // set minimum height of editor
-            maxHeight: null, // set maximum height of editor
-            focus: true, // set focus to editable area after initializing summernote
-            toolbar: [
-                // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
-                ['style', ['bold', 'underline']],
-                ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
-                ['para', ['ul', 'ol']],
-                ['misc', ['fullscreen', 'undo', 'redo']],
-                // Any other toolbar groups and options you want to include...
-            ],
-            // Explicitly remove table and font name options by not including them in the toolbar
-        });
-        $('.card-body .badge').click(function() {
-            var variableValue = $(this).attr('data-variable');
-            var $textarea = $('#textarea');
-            var summernoteEditor = $textarea.summernote('code');
+            $('#textarea').summernote({
+                height: 100, // set editor height
+                minHeight: null, // set minimum height of editor
+                maxHeight: null, // set maximum height of editor
+                focus: true, // set focus to editable area after initializing summernote
+                toolbar: [
+                    // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                    ['style', ['bold', 'underline']],
+                    ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                    ['para', ['ul', 'ol']],
+                    ['misc', ['fullscreen', 'undo', 'redo']],
+                    // Any other toolbar groups and options you want to include...
+                ],
+                // Explicitly remove table and font name options by not including them in the toolbar
+            });
+            $('.card-body .badge').click(function() {
+                var variableValue = $(this).attr('data-variable');
+                var $textarea = $('#textarea');
+                var summernoteEditor = $textarea.summernote('code');
 
-            // Check if Summernote editor is focused
-            if ($('.note-editable').is(':focus')) {
-                var node = document.createElement("span");
-                node.innerHTML = variableValue;
-                $('.note-editable').append(
-                    node); // This line appends the variable as a new node to the editor
-                var range = document.createRange();
-                var sel = window.getSelection();
-                range.setStartAfter(node);
-                range.collapse(true);
-                sel.removeAllRanges();
-                sel.addRange(range);
-            } else {
-                var currentContent = $textarea.summernote('code');
-                $textarea.summernote('code', currentContent + variableValue);
-            }
-        });
-    });
+                // Check if Summernote editor is focused
+                if ($('.note-editable').is(':focus')) {
+                    var node = document.createElement("span");
+                    node.innerHTML = variableValue;
+                    $('.note-editable').append(
+                        node); // This line appends the variable as a new node to the editor
+                    var range = document.createRange();
+                    var sel = window.getSelection();
+                    range.setStartAfter(node);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                } else {
+                    var currentContent = $textarea.summernote('code');
+                    $textarea.summernote('code', currentContent + variableValue);
+                }
+            });
+             });
 
 
         </script>
@@ -612,54 +613,41 @@
 
 <script>
     $(document).ready(function() {
-        // Initialize Google Places Autocomplete for the address input once
         var input = document.getElementById("myAddressBar");
         var autocomplete = new google.maps.places.Autocomplete(input);
 
-        // To track if a place was selected from Google Places
         var placeSelected = false;
 
-        // Listen for the place_changed event when a place is selected
         google.maps.event.addListener(autocomplete, "place_changed", function() {
-            // Get the selected place
             var place = autocomplete.getPlace();
 
-            // Check if the place contains geometry (lat, lng)
             if (place.geometry) {
                 var lat = place.geometry.location.lat();
                 var long = place.geometry.location.lng();
 
-                // Set the lat, long values into the hidden input field
                 $("#location_tag").val(lat + "," + long);
 
-                // Mark that a valid place was selected
                 placeSelected = true;
 
-                // Clear any previous error messages
                 $("#addressError").text('');
                 $("#myAddressBar").removeClass("is-invalid");
             }
         });
 
-        // When user types manually, reset placeSelected flag
         $("#myAddressBar").on("input", function() {
-            placeSelected = false; // Reset place selection
-            $("#location_tag").val(''); // Clear hidden input
-            $("#addressError").text(''); // Clear any previous error
+            placeSelected = false;
+            $("#location_tag").val('');
+            $("#addressError").text('');
             $("#myAddressBar").removeClass("is-invalid");
         });
 
-        // On blur, check if a valid place was selected from Google Places
         $("#myAddressBar").on("blur", function() {
-            var addressValue = $("#myAddressBar").val().trim(); // Get the input value
+            var addressValue = $("#myAddressBar").val().trim();
 
-            // If no place was selected from Google Places
             if (!placeSelected) {
-                // Show an error message indicating that the address must be selected from the suggestions
                 $("#addressError").text("Please select a valid address from the suggestions.");
                 $("#myAddressBar").addClass("is-invalid");
             } else {
-                // If a valid place was selected, clear the error message
                 $("#addressError").text('');
                 $("#myAddressBar").removeClass("is-invalid");
             }
@@ -673,36 +661,40 @@
         const navButtons = document.querySelectorAll('.link');
 
         function validateAndProceed(nextTabId) {
-            // Get the current tab content
             const currentTab = document.querySelector('.tab-pane.active');
-            // Get all required fields in the current tab
             const requiredFields = currentTab.querySelectorAll('[required]');
             let allFilled = true;
 
-            // Reset red border styles
             requiredFields.forEach(field => {
                 field.classList.remove('is-invalid');
             });
 
-            // Check if all required fields are filled
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     allFilled = false;
-                    field.classList.add('is-invalid'); // Add red border
+                    field.classList.add('is-invalid');
                 }
             });
 
-            // If all required fields are filled, proceed to the next tab
             if (allFilled) {
-                // Hide current tab
                 currentTab.classList.remove('show', 'active');
-                // Show next tab
+
                 const nextTab = document.querySelector(nextTabId);
                 nextTab.classList.add('show', 'active');
+
+                const currentNavButton = document.querySelector('.nav-link.active');
+                const nextNavButton = document.querySelector(`button[data-bs-target="${nextTabId}"]`);
+
+                if (currentNavButton) {
+                    currentNavButton.classList.remove('active');
+                }
+
+                if (nextNavButton) {
+                    nextNavButton.classList.add('active');
+                }
             }
         }
 
-        // Event listener for next buttons (validate and proceed)
         nextButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const nextTabId = button.getAttribute('data-next');
@@ -710,20 +702,13 @@
             });
         });
 
-        // Event listener for nav buttons (directly switch tabs)
         navButtons.forEach(navButton => {
             navButton.addEventListener('click', function() {
-                const targetTabId = navButton.getAttribute('data-bs-target');
-
-                // Remove 'show active' from the current tab
-                document.querySelector('.tab-pane.active').classList.remove('show', 'active');
-
-                // Show the target tab
-                document.querySelector(targetTabId).classList.add('show', 'active');
+                const nextTabId = navButton.getAttribute('data-bs-target');
+                validateAndProceed(nextTabId);
             });
         });
     });
 </script>
-
     @endpush
 @endsection

@@ -504,212 +504,212 @@
     @push('scripts')
     <script>
 
-$(document).ready(function() {
-        // Intercept form submission
-        $('#OwnerForm').submit(function(event) {
-            event.preventDefault();
-            var formData = $(this).serialize();
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'), // Form action URL
-                data: formData, // Form data
-                success: function(data) {
-                    $('#OwnersDiv').empty();
-                    $('#OwnersDiv').append(data);
-                    $('#addNewCCModal').modal('hide');
-                    alertify.success(@json(__('added successfully')));
-                },
-                error: function(xhr, status, error) {
-                    // Handle error response here
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-    });
-
-
-    </script>
-        <script>
-            $('#Region_id').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    beforeSend: function() {
-                        $('#CityDiv').fadeOut('fast');
-                    },
-                    success: function(data) {
-                        $('#CityDiv').fadeOut('fast', function() {
-                            $(this).empty().append(data);
-                            $(this).fadeIn('fast');
-                        });
-                    },
+        $(document).ready(function() {
+                // Intercept form submission
+                $('#OwnerForm').submit(function(event) {
+                    event.preventDefault();
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: $(this).attr('action'), // Form action URL
+                        data: formData, // Form data
+                        success: function(data) {
+                            $('#OwnersDiv').empty();
+                            $('#OwnersDiv').append(data);
+                            $('#addNewCCModal').modal('hide');
+                            alertify.success(@json(__('added successfully')));
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error response here
+                            console.error(xhr.responseText);
+                        }
+                    });
                 });
             });
 
-            //
-            $('#CityDiv').on('change', function() {
-                var selectedOption = $(this).find(':selected');
-                var url = selectedOption.data('url');
-                $.ajax({
-                    type: "get",
-                    url: url,
-                    beforeSend: function() {
-                        $('#DistrictDiv').fadeOut('fast');
-                    },
-                    success: function(data) {
-                        $('#DistrictDiv').fadeOut('fast', function() {
-                            $(this).empty().append(data);
-                            $(this).fadeIn('fast');
-                        });
-                    },
-                });
-            });
-            //
-            // $("#myAddressBar").on("keyup", function() {
-            //     // This function will be called every time a key is pressed in the input field
-            //     var input = document.getElementById("myAddressBar");
-            //     var autocomplete = new google.maps.places.Autocomplete(input);
-            //     var place = autocomplete.getPlace();
 
-            //     // Listen for the place_changed event
-            //     google.maps.event.addListener(autocomplete, "place_changed", function() {
-            //         // Get the selected place
-            //         var place = autocomplete.getPlace();
-
-            //         // Get the details of the selected place
-            //         var address = place.formatted_address;
-            //         var lat = place.geometry.location.lat();
-            //         var long = place.geometry.location.lng();
-            //         // $("#address").val(address);
-            //         $("#location_tag").val(lat + "," + long);
-            //         // Log the details to the console (or do something else with them)
-            //     });
-            // });
-
-            var path = "{{ route('Office.Project.autocompleteProject') }}";
-
-            $(document).on("focus", ".search", function() {
-                $(this).autocomplete({
-                    source: function(request, response) {
+            </script>
+                <script>
+                    $('#Region_id').on('change', function() {
+                        var selectedOption = $(this).find(':selected');
+                        var url = selectedOption.data('url');
                         $.ajax({
-                            url: path,
-                            type: 'GET',
-                            dataType: "json",
-                            data: {
-                                search: request.term
+                            type: "get",
+                            url: url,
+                            beforeSend: function() {
+                                $('#CityDiv').fadeOut('fast');
                             },
                             success: function(data) {
-                                response(data);
+                                $('#CityDiv').fadeOut('fast', function() {
+                                    $(this).empty().append(data);
+                                    $(this).fadeIn('fast');
+                                });
+                            },
+                        });
+                    });
+
+                    //
+                    $('#CityDiv').on('change', function() {
+                        var selectedOption = $(this).find(':selected');
+                        var url = selectedOption.data('url');
+                        $.ajax({
+                            type: "get",
+                            url: url,
+                            beforeSend: function() {
+                                $('#DistrictDiv').fadeOut('fast');
+                            },
+                            success: function(data) {
+                                $('#DistrictDiv').fadeOut('fast', function() {
+                                    $(this).empty().append(data);
+                                    $(this).fadeIn('fast');
+                                });
+                            },
+                        });
+                    });
+                    //
+                    // $("#myAddressBar").on("keyup", function() {
+                    //     // This function will be called every time a key is pressed in the input field
+                    //     var input = document.getElementById("myAddressBar");
+                    //     var autocomplete = new google.maps.places.Autocomplete(input);
+                    //     var place = autocomplete.getPlace();
+
+                    //     // Listen for the place_changed event
+                    //     google.maps.event.addListener(autocomplete, "place_changed", function() {
+                    //         // Get the selected place
+                    //         var place = autocomplete.getPlace();
+
+                    //         // Get the details of the selected place
+                    //         var address = place.formatted_address;
+                    //         var lat = place.geometry.location.lat();
+                    //         var long = place.geometry.location.lng();
+                    //         // $("#address").val(address);
+                    //         $("#location_tag").val(lat + "," + long);
+                    //         // Log the details to the console (or do something else with them)
+                    //     });
+                    // });
+
+                    var path = "{{ route('Office.Project.autocompleteProject') }}";
+
+                    $(document).on("focus", ".search", function() {
+                        $(this).autocomplete({
+                            source: function(request, response) {
+                                $.ajax({
+                                    url: path,
+                                    type: 'GET',
+                                    dataType: "json",
+                                    data: {
+                                        search: request.term
+                                    },
+                                    success: function(data) {
+                                        response(data);
+                                    }
+                                });
+                            },
+                            select: function(event, ui) {
+                                $(this).val(ui.item.label);
+                                console.log(ui.item);
+                                return false;
                             }
                         });
-                    },
-                    select: function(event, ui) {
-                        $(this).val(ui.item.label);
-                        console.log(ui.item);
-                        return false;
+                    });
+
+                    function addFeature() {
+                        const featuresContainer = document.getElementById('features');
+                        const newRow = document.createElement('div');
+                        newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
+
+                        // Use the exact same class names and structure as your existing rows
+                        newRow.innerHTML = `
+                            <div class="col-4">
+                                <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
+                            </div>
+                            <div class="col-4">
+                                <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
+                            </div>
+                        `;
+
+                        featuresContainer.appendChild(newRow);
                     }
-                });
-            });
 
-            function addFeature() {
-                const featuresContainer = document.getElementById('features');
-                const newRow = document.createElement('div');
-                newRow.classList.add('row', 'mb-3'); // Add any additional classes that your grid system requires
-
-                // Use the exact same class names and structure as your existing rows
-                newRow.innerHTML = `
-                    <div class="col-4">
-                        <input type="text" required name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-                    </div>
-                    <div class="col-4">
-                        <input type="text" required name="qty[]" class="form-control" placeholder="@lang('value')" value="" />
-                    </div>
-                    <div class="col-4">
-                        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-                    </div>
-                `;
-
-                featuresContainer.appendChild(newRow);
-            }
-
-            function removeFeature(button) {
-                const rowToRemove = button.parentNode.parentNode;
-                rowToRemove.remove();
-            }
-
-
-            $(document).ready(function() {
-                $('#textarea').summernote({
-                    height: 100, // set editor height
-                    minHeight: null, // set minimum height of editor
-                    maxHeight: null, // set maximum height of editor
-                    focus: true, // set focus to editable area after initializing summernote
-                    toolbar: [
-                        // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
-                        ['style', ['bold', 'underline']],
-                        ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
-                        ['para', ['ul', 'ol']],
-                        ['misc', ['fullscreen', 'undo', 'redo']],
-                        // Any other toolbar groups and options you want to include...
-                    ],
-                    // Explicitly remove table and font name options by not including them in the toolbar
-                });
-                $('.card-body .badge').click(function() {
-                    var variableValue = $(this).attr('data-variable');
-                    var $textarea = $('#textarea');
-                    var summernoteEditor = $textarea.summernote('code');
-
-                    // Check if Summernote editor is focused
-                    if ($('.note-editable').is(':focus')) {
-                        var node = document.createElement("span");
-                        node.innerHTML = variableValue;
-                        $('.note-editable').append(
-                            node); // This line appends the variable as a new node to the editor
-                        var range = document.createRange();
-                        var sel = window.getSelection();
-                        range.setStartAfter(node);
-                        range.collapse(true);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                    } else {
-                        var currentContent = $textarea.summernote('code');
-                        $textarea.summernote('code', currentContent + variableValue);
+                    function removeFeature(button) {
+                        const rowToRemove = button.parentNode.parentNode;
+                        rowToRemove.remove();
                     }
+
+
+                    $(document).ready(function() {
+                        $('#textarea').summernote({
+                            height: 100, // set editor height
+                            minHeight: null, // set minimum height of editor
+                            maxHeight: null, // set maximum height of editor
+                            focus: true, // set focus to editable area after initializing summernote
+                            toolbar: [
+                                // Include only the options you want in the toolbar, excluding 'fontname', 'video', and 'table'
+                                ['style', ['bold', 'underline']],
+                                ['insert', ['link', 'picture', 'hr']], // 'video' is deliberately excluded
+                                ['para', ['ul', 'ol']],
+                                ['misc', ['fullscreen', 'undo', 'redo']],
+                                // Any other toolbar groups and options you want to include...
+                            ],
+                            // Explicitly remove table and font name options by not including them in the toolbar
+                        });
+                        $('.card-body .badge').click(function() {
+                            var variableValue = $(this).attr('data-variable');
+                            var $textarea = $('#textarea');
+                            var summernoteEditor = $textarea.summernote('code');
+
+                            // Check if Summernote editor is focused
+                            if ($('.note-editable').is(':focus')) {
+                                var node = document.createElement("span");
+                                node.innerHTML = variableValue;
+                                $('.note-editable').append(
+                                    node); // This line appends the variable as a new node to the editor
+                                var range = document.createRange();
+                                var sel = window.getSelection();
+                                range.setStartAfter(node);
+                                range.collapse(true);
+                                sel.removeAllRanges();
+                                sel.addRange(range);
+                            } else {
+                                var currentContent = $textarea.summernote('code');
+                                $textarea.summernote('code', currentContent + variableValue);
+                            }
+                        });
+                    });
+
+
+
+
+                </script>
+                <script>
+                    $('#button-addon1').click(function() {
+                        $('#upload').val('');
+
+                    });
+                </script>
+                <script>
+                    $('#button-addon2').click(function() {
+                        $('#uploadVideo').val('');
+                    });
+                </script>
+                <script>
+                    $('#button-addon3').click(function() {
+                        $('#projectMasterplan').val('');
+                    });
+                </script>
+
+        {{-- <script>
+            document.querySelectorAll('.next-tab').forEach(button => {
+                button.addEventListener('click', function() {
+                    const nextTab = this.getAttribute('data-next');
+                    const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
+                    nextTabButton.click();
                 });
             });
-
-
-
-
-        </script>
-        <script>
-            $('#button-addon1').click(function() {
-                $('#upload').val('');
-
-            });
-        </script>
-         <script>
-            $('#button-addon2').click(function() {
-                $('#uploadVideo').val('');
-            });
-        </script>
-          <script>
-            $('#button-addon3').click(function() {
-                $('#projectMasterplan').val('');
-            });
-        </script>
-
-{{-- <script>
-    document.querySelectorAll('.next-tab').forEach(button => {
-        button.addEventListener('click', function() {
-            const nextTab = this.getAttribute('data-next');
-            const nextTabButton = document.querySelector(`[data-bs-target="${nextTab}"]`);
-            nextTabButton.click();
-        });
-    });
-</script> --}}
+        </script> --}}
 
 
 <script>
