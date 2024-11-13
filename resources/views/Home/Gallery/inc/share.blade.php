@@ -37,9 +37,10 @@
                     @php
                             if( $unit->BrokerData){
                             $GalleryData= $unit->BrokerData->GalleryData;
+                            dd($GalleryData);
                         }elseif( $unit->OfficeData){
                             $GalleryData= $unit->OfficeData->GalleryData;
-
+                            dd($GalleryData);
                         }
                     @endphp
                       @php
