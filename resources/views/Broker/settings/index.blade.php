@@ -89,9 +89,10 @@
                                             </div>
                                             <div class="card-body">
                                                 <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
+                                                <a href="{{ route('Broker.ShowSubscription') }}" type="submit" class="btn btn-primary">@lang('Upgrade subscription')</a>
 
-                                                <button type="button" data-toggle="modal" data-target="#UpgradePackage"
-                                                    class="btn btn-primary">@lang('Subscription upgrade')</button>
+                                                {{-- <button type="button" data-toggle="modal" data-target="#UpgradePackage"
+                                                    class="btn btn-primary">@lang('Subscription upgrade')</button> --}}
                                                 @include('Broker.settings.inc._upgradePackage')
                                             </div>
                                         </div>
