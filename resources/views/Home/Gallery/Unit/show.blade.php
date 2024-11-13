@@ -1048,7 +1048,7 @@
                             </div>
                         </div>
                     </div>
-                    @include('Home.Gallery.inc.share')
+                    {{-- @include('Home.Gallery.inc.share') --}}
                     @include('Home.Gallery.inc.unitInterest')
 
                 @endif
