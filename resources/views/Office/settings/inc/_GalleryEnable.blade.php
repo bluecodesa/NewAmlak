@@ -17,8 +17,8 @@ $sectionsIds = Auth::user()
             <div class="col-lg-10">
                 <div class="card timeline shadow">
                     <div class="card-header">
-                        <h5 class="card-title">@lang('التفعيل')</h5>
-                        <label for="editGalleryName">@lang('تفعيل المعرض')</label>
+                        <h5 class="card-title">@lang('Activation')</h5>
+                        <label for="editGalleryName">@lang('Activate the gallery')</label>
                         <input type="checkbox" class="toggleHomePage gallery_status" name="gallery_status"
                             value="0" data-toggle="toggle" data-onstyle="primary">
                     </div>
@@ -54,10 +54,12 @@ $sectionsIds = Auth::user()
                     </div>
                     <div class="card-body">
                         <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
-                        <form action="{{ route('Broker.Gallery.create') }}" method="post">
+                        {{-- <form action="{{ route('Broker.Gallery.create') }}" method="post">
                             @csrf
                             <button type="submit" class="btn btn-primary">@lang(' ترقيه الاشتراك')</button>
-                        </form>
+                        </form> --}}
+                        <a href="{{ route('Office.ShowSubscription') }}" type="submit" class="btn btn-primary">@lang(' ترقيه الاشتراك')</a>
+
                     </div>
                 </div>
             </div>

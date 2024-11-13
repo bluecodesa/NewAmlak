@@ -4,6 +4,15 @@
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="col-6 py-3">
+                <h4 class=""><a href="{{ route('Admin.home') }}" class="text-muted fw-light">@lang('dashboard') /</a>
+                    <a href="{{ route('Admin.Receipt.index') }}" class="text-muted fw-light">@lang('Subscriber Receipts') /</a>
+                    @lang('Receipt'): {{ __($receipt->receipt_id) }}</h4>
+            </div>
+
+        </div>
+        <!-- DataTable with Buttons -->
             <div class="card">
                 <div class="card-body">
                     @if ($receipt->status === 'Under review')

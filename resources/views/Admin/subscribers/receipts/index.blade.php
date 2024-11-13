@@ -75,7 +75,10 @@
                                     <td>
                                         {{ $receipt->receipt_id }}
                                     </td>
-                                    <td>{{ __($receipt->status) }}</td>
+                                    <td><span class="badge bg-primary" style="font-size: 0.75rem; padding: 0.25em 0.5em;">
+                                        {{ __($receipt->status) }}
+                                    </span>
+                                    </td>
 
                                     <td>{{ $receipt->created_at->format('M j, Y, g:i A') }}</td>
                                     <td>{!! ($receipt->comment) !!}</td>

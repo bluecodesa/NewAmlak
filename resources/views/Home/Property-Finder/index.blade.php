@@ -707,6 +707,27 @@ $('#Region_id').on('change', function() {
             });
  });
 
+ function handleDelete(id) {
+            Swal.fire({
+                title: "@lang('Are you sure')",
+                text: "@lang('You can not be able to revert this!')",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: "@lang('Yes, delete it!')",
+                cancelButtonText: "@lang('No, keep it')",
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                    cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+
+
 </script>
 
     @endpush

@@ -136,17 +136,19 @@
                                     $activeRole = session('active_role') ?? 'Switch Account';
 
                                     // Define specific roles
-                                    $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker', 'Property-Finder','Renter']);
+                                    // $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker', 'Property-Finder','Renter']);
+                                    $specificRoles = collect(['Owner', 'Office-Admin', 'RS-Broker', 'Property-Finder']);
+
 
                                     // Filter available roles based on current user roles
                                     $availableRoles = $specificRoles->diff($userRoles->pluck('name'));
 
                                     // Check the current role to exclude conflicting roles
-                                    if ($user->hasRole('Renter')) {
-                                        $availableRoles = $availableRoles->filter(function ($role) {
-                                            return $role !== 'Property-Finder';
-                                        });
-                                    }
+                                    // if ($user->hasRole('Renter')) {
+                                    //     $availableRoles = $availableRoles->filter(function ($role) {
+                                    //         return $role !== 'Property-Finder';
+                                    //     });
+                                    // }
                                     if ($user->hasRole('Owner')) {
                                         $availableRoles = $availableRoles->filter(function ($role) {
                                             return $role !== 'Property-Finder';

@@ -119,7 +119,7 @@
     </div> --}}
 
     <div class="col-12 mb-3 col-md-4">
-        <label for="color" class="form-label">@lang('phone')</label>
+        <label for="phone" class="form-label">@lang('phone')</label>
         <div class="input-group">
             <input type="text" name="phone" placeholder="123456789" value="{{ $settings->phone }}"
                 class="form-control" maxlength="9" pattern="\d{1,9}"

@@ -54,6 +54,7 @@
                 $(this).addClass('active');
             });
         });
+
     </script>
     <script>
         // $('.dropify').dropify();

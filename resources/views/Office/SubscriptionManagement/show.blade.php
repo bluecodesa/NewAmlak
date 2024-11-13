@@ -20,7 +20,7 @@
                 <div class="col-4">
                 <h5 class="card-header">@lang('current subscription') </h5>
                 </div>
-                <div class="col-8">
+                {{-- <div class="col-8">
 
                     @php
                     // Assuming you have stored user roles in the session
@@ -51,7 +51,7 @@
                         </ul>
                     </div>
                 @endif
-          </div>
+                </div> --}}
 
             </div>
 
@@ -195,11 +195,9 @@
                         <thead class="table-dark">
                             <tr>
 
-                                <th>@lang('Subscriber Name')</th>
                                 <th>@lang('Receipt Number')</th>
                                 <th>@lang('Receipt Status')</th>
                                 <th>@lang('Created Date')</th>
-                                <th>@lang('comment')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -208,15 +206,14 @@
                             @foreach ($receipts->unique('created_at') as $index => $receipt)
                                 <tr>
 
-                                    <td>{{ $receipt->OfficeData->UserData->name ?? ($receipt->BrokerData->UserData->name ?? '') }}
-                                    </td>
                                     <td>
                                         {{ $receipt->receipt_id }}
                                     </td>
-                                    <td>{{ __($receipt->status) }}</td>
+                                    <td><span class="badge bg-primary" style="font-size: 0.75rem; padding: 0.25em 0.5em;">
+                                        {{ __($receipt->status) }}
+                                    </span></td>
 
                                     <td>{{ $receipt->created_at->format('M j, Y, g:i A') }}</td>
-                                    <td>{!! ($receipt->comment)   !!}</td>
                                     <td>
 
                                         <div class="dropdown">

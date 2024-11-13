@@ -272,10 +272,10 @@
                             </div>
                         </div>
                     </a>
-                <button class="btn btn-success mt-2" onclick="toggleDecisionInputs(${item.id})">ساعدني في اتخاذ القرار</button>
+                <button class="btn btn-success mt-2 mb-2" onclick="toggleDecisionInputs(${item.id})">ساعدني في اتخاذ القرار</button>
                 <div id="decision-inputs-${item.id}" style="display:none;">
-                    <div id="work-coordinates-${item.id}" class="form-control mt-1"></div>
-                    <div id="home-coordinates-${item.id}" class="form-control mt-1"></div>
+                    <div id="work-coordinates-${item.id}" class="form-control m-2 mb-2"></div>
+                    <div id="home-coordinates-${item.id}" class="form-control m-2 mb-2"></div>
                     <button class="btn btn-info mt-2" onclick="calculateDistance(${item.id}, '${item.lat_long}')">احسب المسافة</button>
                     <div id="distance-output-${item.id}"></div>
                 </div>
