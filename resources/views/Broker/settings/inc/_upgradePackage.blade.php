@@ -44,6 +44,8 @@
 
                                                             $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
                                                             $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                            $discounted_price = $discounted_price < 0 ? 0 : $discounted_price;
+
                                                         @endphp
 
 
