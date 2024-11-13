@@ -123,8 +123,8 @@
                         @endif
                     </div>
                 </div>
-            </div>
-            <hr> --}}
+            </div>--}}
+            <hr>
             <div class="row">
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
