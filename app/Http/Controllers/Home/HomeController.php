@@ -122,7 +122,8 @@ class HomeController extends Controller
 
     public function sendOtp(Request $request)
     {
-        $otp = 555555;
+        // $otp = 555555;
+        $otp = mt_rand(100000, 999999);
         session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
 
         session(['otp' => $otp]);
@@ -142,7 +143,8 @@ class HomeController extends Controller
 
             // Send WhatsApp Message
             $this->WhatsappSendCode([
-                'phone' => 201119978333,
+                // 'phone' => 201119978333,
+                'phone' => $fullPhone,
                 'otp' => $otp,
             ]);
         }
