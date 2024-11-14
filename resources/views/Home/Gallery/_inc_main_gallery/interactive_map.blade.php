@@ -225,35 +225,6 @@
 }
 
 
-.mapboxgl-popup {
-    max-width: 300px; /* Sets a max width for the popup */
-    position: absolute; /* Makes sure it is positioned relative to its container */
-    background-color: #fff; /* White background for better visibility */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-    overflow: hidden; /* Prevents overflow content */
-    z-index: 9999; /* Ensures the popup is on top of other elements */
-}
-
-.mapboxgl-popup-anchor-bottom {
-    transform: translate(-50%, -100%); /* Centers the popup horizontally and shifts it upwards */
-    padding-bottom: 10px; /* Space for the popup tip if any */
-}
-
-/* Adjusts the popup's tip (arrow) */
-.mapboxgl-popup-tip {
-    width: 20px;
-    height: 10px;
-    background-color: #fff; /* Matches the popup background */
-    position: absolute;
-    top: 100%; /* Positions below the popup */
-    left: 50%;
-    transform: translateX(-50%);
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Creates a downward pointing triangle */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Adds a soft shadow */
-}
-
-
 </style>
     <div id="map" style="height: 100vh;"></div>
     <script>
