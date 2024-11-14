@@ -298,7 +298,7 @@
     @include('Home.layouts.inc.__addSubscriberModal')
 
     <script>
- 
+
 
         $('#city_filter').on('change', function() {
             var selectedOption = $(this).find(':selected');
@@ -450,12 +450,40 @@
         });
     </script>
     <script>
+    // function sortItems() {
+    //     const sortOrder = document.getElementById('sortDropdown').value;
+    //     const url = new URL(window.location.href);
+    //     url.searchParams.set('sort_order', sortOrder);
+    //     window.location.href = url;
+    // }
+        // This function sets the selected option based on the query parameter
+        function setSortOrder() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const sortOrder = urlParams.get('sort_order');
+
+        const sortDropdown = document.getElementById('sortDropdown');
+
+        if (sortOrder) {
+            // Set the dropdown value to the selected sort_order from the URL
+            sortDropdown.value = sortOrder;
+
+            // Update the placeholder option text based on the selected value
+            const selectedOption = sortDropdown.options[sortDropdown.selectedIndex];
+            const placeholderOption = sortDropdown.querySelector('option[value=""]');
+            placeholderOption.textContent = selectedOption.textContent;
+        }
+    }
+
+    // This function updates the URL when the dropdown value is changed
     function sortItems() {
         const sortOrder = document.getElementById('sortDropdown').value;
         const url = new URL(window.location.href);
         url.searchParams.set('sort_order', sortOrder);
         window.location.href = url;
     }
+
+    // Run this on page load to set the correct selected option
+    window.onload = setSortOrder;
 </script>
 
 @endpush

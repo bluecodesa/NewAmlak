@@ -338,22 +338,22 @@
         }
 
         // دالة لتحديد سعر الإيجار بناءً على `rent_type_show`
-function getRentPriceByType(item) {
-    switch (item.rent_type_show) {
-        case 'daily':
-            return item.unit_rent_price?.daily || 0;
-        case 'monthly':
-            return item.unit_rent_price?.monthly || 0;
-        case 'quarterly':
-            return item.unit_rent_price?.quarterly || 0;
-        case 'midterm':
-            return item.unit_rent_price?.midterm || 0;
-        case 'yearly':
-            return item.unit_rent_price?.yearly || 0;
-        default:
-            return null;
-    }
-}
+        function getRentPriceByType(item) {
+            switch (item.rent_type_show) {
+                case 'daily':
+                    return item.unit_rent_price?.daily || 0;
+                case 'monthly':
+                    return item.unit_rent_price?.monthly || 0;
+                case 'quarterly':
+                    return item.unit_rent_price?.quarterly || 0;
+                case 'midterm':
+                    return item.unit_rent_price?.midterm || 0;
+                case 'yearly':
+                    return item.unit_rent_price?.yearly || 0;
+                default:
+                    return null;
+            }
+        }
 
 
         function getShowRoute(item) {
@@ -435,8 +435,10 @@ function getRentPriceByType(item) {
         function displayDistance(id, start, end, type, distance, duration) {
             const distanceKm = (distance / 1000).toFixed(2);
             const durationMinutes = (duration / 60).toFixed(2);
+            const textColor = type === 'work' ? '#FF5733' : '#33FF57'; // Work color is #FF5733, Home color is #33FF57
+
             document.getElementById(`distance-output-${id}`).innerHTML += `
-                <p>المسافة من ${type === 'work' ? 'مكان العمل' : 'المنزل'}: ${distanceKm} كم</p>
+                <p style="color: ${textColor};">المسافة الي ${type === 'work' ? ' العمل' : 'المنزل'}: ${distanceKm} كم</p>
             `;
             // <p>الزمن المتوقع: ${durationMinutes} دقيقة</p>
 
