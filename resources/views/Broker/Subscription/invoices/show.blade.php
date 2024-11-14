@@ -350,6 +350,8 @@
                                     </div>
                                 </div>
                             </div>
+                            @if($bankAccount)
+
                             <div class="col-12 shadow-none bg-transparent border border-info p-1">
                                 <div class="row mb-2">
                                     <div class="col-6">
@@ -381,7 +383,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            @endif
                         </div>
                     </div>
                 </div> <!-- end col -->
