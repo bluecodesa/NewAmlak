@@ -488,7 +488,7 @@
                 </div>
 
 
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                {{-- <div class="col-xl-3 col-md-4 col-6 mb-4">
                     <div class="card">
                         <h5 class="card-header">@lang('Unit indicators')</h5>
                         <div class="card-body">
@@ -497,15 +497,8 @@
                             @else
                             <canvas id="doughnutChart"></canvas>
                             @endif
-                        {{-- <canvas id="doughnutChart" class="chartjs mb-4" data-height="350"></canvas> --}}
                         <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
-                            {{-- <li class="ct-series-0 d-flex flex-column">
-                            <h5 class="mb-0">@lang('Number units')</h5>
-                            <span
-                                class="badge badge-dot my-2 cursor-pointer rounded-pill"
-                                style="background-color: rgb(102, 110, 232); width: 35px; height: 6px"></span>
-                            <div class="text-muted">{{ $numberOfUnits }}</div>
-                            </li> --}}
+
                             <li class="ct-series-1 d-flex flex-column">
                             <h5 class="mb-0">@lang('vacant')</h5>
                             <span
@@ -534,7 +527,7 @@
                         </div>
                     </div>
                 </div>
-
+ --}}
 
 
 
