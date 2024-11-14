@@ -32,14 +32,13 @@
                                 </div>
                                 @else
                                 @foreach ($property->PropertyImages as $media)
-                                    <div class="carousel-item @if ($i == 0) active @endif">
-                                        @if (Str::startsWith($media->image, '/Brokers/Projects'))
-                                            <!-- Image -->
-                                            <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
-                                                src="{{ asset($media->image) }}"
-                                                alt="Slide {{ $i + 1 }}"
-                                                style="height: 350px; object-fit: contain"
-                                            >
+                                <div class="carousel-item @if ($i == 0) active @endif">
+                                    <!-- Image -->
+                                    <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
+                                         src="{{ asset($media->image) }}"
+                                         alt="Slide {{ $i + 1 }}"
+                                         style="height: 350px; object-fit: contain">
+                                        </div>
                                         @else
                                             <!-- Video -->
                                             <video controls class="d-block w-100" controls style="height: 350px; object-fit: contain">
