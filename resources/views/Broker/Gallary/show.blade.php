@@ -158,7 +158,7 @@
                                                     <div class="col-md-3">
                                                         <h6> @lang('Show in Gallery') :
                                                             <span class="badge font-13 badge-primary">
-                                                                {{ $Unit->show_gallery == 1 ? __('Show') : __('hide') }}
+                                                                {{ $Unit->show_in_gallery == 1 ? __('Show') : __('hide') }}
                                                             </span>
                                                         </h6>
                                                     </div>

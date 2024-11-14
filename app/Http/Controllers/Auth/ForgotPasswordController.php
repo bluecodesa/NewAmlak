@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Email\MailForgotPassword;
+use App\Http\Traits\WhatsApp\WhatsappForgotPassword;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -33,6 +34,8 @@ class ForgotPasswordController extends Controller
 
     use SendsPasswordResetEmails;
     use MailForgotPassword;
+    use WhatsappForgotPassword;
+
 
 
 
@@ -93,6 +96,15 @@ class ForgotPasswordController extends Controller
 
 
             $this->MailForgotPassword($request->email, $code);
+            $user_email=$request->email;
+            $user=User::where('email',$user_email)->first();
+            if($user){
+                // $this->WhatsappForgotPassword($user->full_phone, $code);
+                // $phone =201205693178;
+                $this->WhatsappForgotPassword($user->full_phone, $code,$user);
+
+            }
+
 
 
             return view('auth.reset_password.confirm')->with([
@@ -219,6 +231,15 @@ class ForgotPasswordController extends Controller
 
         // Send email notification with the new code
         $this->MailForgotPassword($email, $code);
+        $user_email=$request->email;
+        $user=User::where('email',$request->email)->get();
+        if($user){
+            // $this->WhatsappForgotPassword($user->full_phone, $code);
+            // $phone =201205693178;
+            // $phone =201119978333;
+            $this->WhatsappForgotPassword($user->full_phone, $code,$user);
+
+        }
 
         return view('auth.reset_password.confirm')->with([
             'message' => 'New code has been sent successfully!',

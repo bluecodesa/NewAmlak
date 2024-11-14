@@ -18,7 +18,7 @@ class RealEstateRequest extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class ,'user_id');
     }
 
 
@@ -41,5 +41,5 @@ class RealEstateRequest extends Model
         return $this->hasMany(RequestStatus::class, 'request_id');
     }
 
-  
+
 }

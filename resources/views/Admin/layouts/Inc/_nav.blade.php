@@ -155,7 +155,7 @@
                     <i class="ti ti-bell ti-md"></i>
                     {{-- <i class="fa-solid fa-bell"></i> --}}
                     <span
-                        class="badge bg-danger rounded-pill badge-notifications">{{ Auth::user()->unreadNotifications->count() }}</span>
+                        class="badge bg-danger rounded-pill badge-notifications text-with-numbers">{{ Auth::user()->unreadNotifications->count() }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end py-0">
                     <li class="dropdown-menu-header border-bottom">
@@ -212,12 +212,17 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        @if (Auth::user()->is_employee)
+                        @if (Auth::user()->is_broker)
+                        <img src="{{ Auth::user()->UserBrokerData->broker_logo != null ? url(Auth::user()->UserBrokerData->broker_logo) : asset('HOME_PAGE/img/avatars/14.png') }}"
+                        alt class="h-auto rounded-circle" />
+                        @elseif(Auth::user()->is_office)
+                        <img src="{{ auth()->user()->UserOfficeData->company_logo != null ? url(Auth::user()->UserOfficeData->company_logo) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                        alt class="h-auto rounded-circle" />
+                        @elseif (Auth::user()->is_employee)
                             @php
                                 $employee = Auth::user()->UserEmployeeData;
                                 $office_avatar = $employee->OfficeData->company_logo;
                             @endphp
-
                             <img src="{{ $office_avatar != null ? url($office_avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
                                 alt class="h-auto rounded-circle" />
                         @else
@@ -233,7 +238,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : asset('HOME_PAGE/img/avatars/14.png') }}"
+                                            <img src="{{ Auth::user()->UserBrokerData->broker_logo != null ? url(Auth::user()->UserBrokerData->broker_logo) : asset('HOME_PAGE/img/avatars/14.png') }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
@@ -263,12 +268,12 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="{{ Auth::user()->avatar != null ? url(Auth::user()->avatar) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
+                                            <img src="{{ auth()->user()->UserOfficeData->company_logo != null ? url(Auth::user()->UserOfficeData->company_logo) : 'https://www.svgrepo.com/show/29852/user.svg' }}"
                                                 alt class="h-auto rounded-circle" />
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <span class="fw-medium d-block">{{ Auth::user()->name }}</span>
+                                        <span class="fw-medium d-block">{{ Auth::user()->UserOfficeData->company_name }}</span>
                                         <small class="text-muted">{{ Auth::user()->roles[0]->name_ar ?? '' }}</small>
                                     </div>
                                 </div>
@@ -329,8 +334,13 @@
                         $availableRoles = $roles->filter(function ($role) use ($user, $activeRole) {
                             return $user->hasRole($role->name) && $role->name !== $activeRole;
                         });
+                        if(auth()->user()->is_office){
+                            $specificRoles = collect(['Owner','Renter']);
 
-                        $specificRoles = collect(['Owner']);
+                        }else{
+                            $specificRoles = collect(['Owner']);
+
+                        }
                         // Get the roles that the user does not have yet
                         $Roles = $specificRoles->diff($availableRoles->pluck('name'));
                         $accountRoute = ($activeRole == 'Office-Admin' || $activeRole == 'RS-Broker')
@@ -466,16 +476,16 @@
                 <div class="row justify-content-center">
                     <form id="roleForm" action="{{ route('Home.addAccount') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="key_phone" id="key_phone" value="{{ auth()->user()->key_phone }}">
-                        <input type="hidden" name="phone" id="phone" value="{{ auth()->user()->phone }}">
-                        <input type="hidden" name="full_phone" id="full_phone" value="{{ auth()->user()->full_phone }}">
-                    
+                        <input type="hidden" name="key_phone"  value="{{ auth()->user()->key_phone }}">
+                        <input type="hidden" name="phone" value="{{ auth()->user()->phone }}">
+                        <input type="hidden" name="full_phone" value="{{ auth()->user()->full_phone }}">
+
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10" id="id_number" name="id_number" value="{{ auth()->user()->id_number }}"  required>
-                    
+
                             <input type="text" hidden class="form-control" id="email" name="email" required value="{{ auth()->user()->email }}" placeholder="@lang('Email')" autofocus>
-                    
+
                             <input type="text" hidden class="form-control" id="name" name="name" value="{{ auth()->user()->name }}" required placeholder="@lang('Name')" autofocus>
-                            <input type="text" hidden name="account_type" value="owner">
+                            <input type="text" hidden name="account_type" id='account_type'>
                             <input type="text" hidden class="form-control" minlength="1" maxlength="10"
                             id="subscription_type_id" name="subscription_type_id" value="{{ $subscriptionType->id ?? '' }}">
 
@@ -497,17 +507,28 @@
                             </div>
                         @endforeach
                     </form>
-                    
-                    <script>
-                        function submitRoleForm(roleId) {
-                            document.querySelector('input[name="role_id"][value="' + roleId + '"]').checked = true;
-                            document.getElementById('roleForm').submit();
-                        }
-                    </script>
-                    
+
+                       <script>
+                            function submitRoleForm(roleId) {
+                                const roleToAccountTypeMap = {
+                                    'RS-Broker': 'broker',
+                                    'Office-Admin': 'office',
+                                    'Owner': 'owner',
+                                    'Renter':'renter'
+                                };
+
+                                const accountType = roleToAccountTypeMap[roleId] || 'owner';
+                                document.querySelector('input[name="role_id"][value="' + roleId + '"]').checked = true;
+                                document.getElementById('account_type').value = accountType;
+
+                                // Submit the form
+                                document.getElementById('roleForm').submit();
+                            }
+                        </script>
 
 
-                  
+
+
                 </div>
             </div>
         </div>

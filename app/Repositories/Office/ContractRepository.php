@@ -26,8 +26,15 @@ class ContractRepository implements ContractRepositoryInterface
     }
 
 
+    public function getContractByRenterId($id)
+    {
+
+        return Contract::where('renter_id', $id)->get();
+    }
     public function create($data)
     {
+
+        // dd($data);
         $rules = [
             'project_id' => 'nullable|exists:projects,id',
             'property_id' => 'nullable|exists:properties,id',
@@ -48,7 +55,7 @@ class ContractRepository implements ContractRepositoryInterface
             'duration_unit' => 'required|string',
             'payment_cycle' => 'required|string',
             'auto_renew' => 'required|string',
-            'name.*' => 'nullable|string',
+            // 'name.*' => 'nullable|string',
             'attachment.*' => 'nullable|file',
         ];
         $messages = [
@@ -98,6 +105,29 @@ class ContractRepository implements ContractRepositoryInterface
         $totalcommission = $data['price'] * ($data['commissions_rate'] / 100);
 
 
+        $office_id = auth()->user()->UserOfficeData->id;
+
+        // إنشاء رقم العقد
+        $customer_id = auth()->user()->customer_id;
+
+        // استرجاع آخر رقم عقد للمكتب
+        $lastContract = Contract::where('office_id', $office_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($lastContract) {
+            // تقسيم رقم العقد الأخير وزيادة الجزء الأخير
+            $lastContractNumber = $lastContract->contract_number;
+            $parts = explode('-', $lastContractNumber);
+            $lastPart = (int)$parts[2]; // الجزء الأخير
+            $newPart = $lastPart + 1; // زيادة الجزء الأخير
+            $contractNumber = "{$parts[0]}-{$parts[1]}-{$newPart}"; // رقم العقد الجديد
+        } else {
+            // إذا لم يوجد أي عقود، نبدأ من قيمة افتراضية
+            $contractNumber = "{$customer_id}-1"; // تخصيص هذا حسب الحاجة
+        }
+
+
         $contractData = [
             'office_id' => auth()->user()->UserOfficeData->id,
             'project_id' => $data['project_id'] ?? null,
@@ -118,6 +148,8 @@ class ContractRepository implements ContractRepositoryInterface
             'auto_renew' => $data['auto_renew'],
             'date_concluding_contract' => $data['date_concluding_contract'],
             'calendarTypeSelect' => $data['calendarTypeSelect'],
+            'contract_number' => $contractNumber, // إضافة رقم العقد
+
 
 
         ];
@@ -140,41 +172,69 @@ class ContractRepository implements ContractRepositoryInterface
         }
 
         $contractData['end_contract_date'] = $endDate;
-
         $contract = Contract::create($contractData);
-        // // Update renter balance
-        // $renter = Renter::find($data['renter_id']);
-        // $renter->balance -= $data['price'];
-        // $renter->save();
 
-        if (isset($data['name']) && isset($data['attachment'])) {
-            foreach ($data['name'] as $index => $attachment_name) {
-                $attachment = Attachment::where('name', $attachment_name)->first();
-                if (!$attachment) {
+        // if (isset($data['name']) && isset($data['attachment'])) {
+        //     foreach ($data['name'] as $index => $attachment_name) {
+        //         $attachment = Attachment::where('name', $attachment_name)->first();
+        //         if (!$attachment) {
+        //             $attachment = Attachment::create([
+        //                 'name' => $attachment_name,
+        //                 'created_by' => Auth::id()
+        //             ]);
+        //         }
+
+        //         $attachmentFile = $data['attachment'][$index];
+        //         $ext = $attachmentFile->getClientOriginalExtension();
+        //         $fileName = uniqid() . '.' . $ext;
+
+        //         $attachmentFile->move(public_path('/Offices/Contracts/' . $attachment->name), $fileName);
+
+        //         ContractAttachment::create([
+        //             'attachment_id' => $attachment->id,
+        //             'contract_id' => $contract->id,
+        //             'attachment' => '/Offices/Contracts/' . $attachment->name . '/' . $fileName
+        //         ]);
+        //     }
+        // }
+
+
+        if (isset($data['attachment'])) {
+            foreach ($data['attachment'] as $attachmentFile) {
+                // الحصول على الاسم الأصلي للملف
+                $originalFileNameWithExt = $attachmentFile->getClientOriginalName();
+
+                // إزالة الامتداد من الاسم الأصلي للملف
+                $originalFileName = pathinfo($originalFileNameWithExt, PATHINFO_FILENAME);
+
+                // تحقق مما إذا كان الاسم مسجلاً بالفعل
+                $existingAttachment = Attachment::where('name', $originalFileName)->first();
+
+                // إذا لم يكن الاسم مسجلاً، قم بإضافته إلى قاعدة البيانات
+                if (!$existingAttachment) {
+                    // إنشاء سجل جديد في جدول Attachment
                     $attachment = Attachment::create([
-                        'name' => $attachment_name,
+                        'name' => $originalFileName,
                         'created_by' => Auth::id()
                     ]);
+
+                    // الحصول على الامتداد وإنشاء اسم فريد للملف للتخزين
+                    $ext = $attachmentFile->getClientOriginalExtension();
+                    $fileName = uniqid() . '.' . $ext;
+
+                    // نقل الملف إلى المسار المحدد
+                    $attachmentFile->move(public_path('/Offices/Contracts/' . $originalFileName), $fileName);
+
+                    // إنشاء سجل في جدول ContractAttachment وربط الملف بالعقد
+                    ContractAttachment::create([
+                        'attachment_id' => $attachment->id,
+                        'contract_id' => $contract->id,
+                        'attachment' => '/Offices/Contracts/' . $originalFileName . '/' . $fileName,
+                    ]);
                 }
-
-                $attachmentFile = $data['attachment'][$index];
-                $ext = $attachmentFile->getClientOriginalExtension();
-                $fileName = uniqid() . '.' . $ext;
-
-                $attachmentFile->move(public_path('/Offices/Contracts/' . $attachment->name), $fileName);
-
-                ContractAttachment::create([
-                    'attachment_id' => $attachment->id,
-                    'contract_id' => $contract->id,
-                    'attachment' => '/Offices/Contracts/' . $attachment->name . '/' . $fileName
-                ]);
             }
         }
 
-        $customer_id = auth()->user()->customer_id;
-        $contractNumber = $customer_id .'-'. $contract->id;
-
-        $contract->update(['contract_number' => $contractNumber]);
 
         $this->createInstallments($contract, $data);
 
@@ -186,43 +246,70 @@ class ContractRepository implements ContractRepositoryInterface
         $numberOfContracts = 1;
         $installments = [];
 
-        if ($data['duration_unit'] === 'year' && $data['payment_cycle'] === 'annual') {
-            $numberOfContracts = $data['contract_duration'];
-        } else if ($data['duration_unit'] === 'month' && $data['payment_cycle'] === 'monthly') {
-            $numberOfContracts = $data['contract_duration'];
-        } else if ($data['duration_unit'] === 'year' && $data['payment_cycle'] === 'monthly') {
-            $numberOfContracts = $data['contract_duration'] * 12;
+        // Calculate monthly price based on the contract duration and payment cycle
+        $pricePerMonth = $data['price'] / 12;  // Assuming price is annual, so dividing by 12
+
+        // تحديد عدد الأقساط بناءً على مدة العقد ودورة الدفع
+        if ($data['duration_unit'] === 'year') {
+            if ($data['payment_cycle'] === 'annual') {
+                $numberOfContracts = $data['contract_duration'];
+                $pricePerContract = $pricePerMonth * 12; // For annual, price is the full year's price
+            } else if ($data['payment_cycle'] === 'semi-annual') {
+                $numberOfContracts = $data['contract_duration'] * 2;
+                $pricePerContract = $pricePerMonth * 6; // For semi-annual, price is 6 months
+            } else if ($data['payment_cycle'] === 'quarterly') {
+                $numberOfContracts = $data['contract_duration'] * 4;
+                $pricePerContract = $pricePerMonth * 3; // For quarterly, price is 3 months
+            } else if ($data['payment_cycle'] === 'monthly') {
+                $numberOfContracts = $data['contract_duration'] * 12;
+                $pricePerContract = $pricePerMonth; // For monthly, price is the monthly price
+            }
+        } else if ($data['duration_unit'] === 'month') {
+            if ($data['payment_cycle'] === 'monthly') {
+                $numberOfContracts = $data['contract_duration'];
+                $pricePerContract = $pricePerMonth; // For monthly, price is the monthly price
+            } else if ($data['payment_cycle'] === 'quarterly') {
+                $numberOfContracts = ceil($data['contract_duration'] / 3);
+                $pricePerContract = $pricePerMonth * 3; // For quarterly, price is 3 months
+            }
         }
 
-        // $startDate = new \DateTime($data['contract_date']);
-        if ($data['gregorian_contract_date']) {
+        // تحديد تاريخ بداية العقد
+        if (!empty($data['gregorian_contract_date'])) {
             $startDate = new \DateTime($data['gregorian_contract_date']);
-        } elseif ($data['hijri_contract_date']) {
-            $hijriDate = $data['hijri_contract_date'];
-            $startDate = new \DateTime($hijriDate);
+        } elseif (!empty($data['hijri_contract_date'])) {
+            $startDate = new \DateTime($data['hijri_contract_date']);
         } else {
             throw new \InvalidArgumentException('Invalid calendar type provided.');
         }
-        $pricePerContract = $data['price'] / $numberOfContracts;
+
+        // حساب العمولة لكل قسط إذا كانت مطلوبة
         $commissionPerContract = 0;
 
         if ($data['service_type_id'] == 3) {
-            if ($data['collection_type'] == 'once with frist installment') {
+            if ($data['collection_type'] === 'once with frist installment') {
                 $commissionPerContract = ($data['commissions_rate'] / 100) * $data['price'];
-            } else if ($data['collection_type'] == 'divided with all installments') {
-                $commissionPerContract = ($data['commissions_rate'] / 100) * ($data['price'] / $numberOfContracts);
+            } else if ($data['collection_type'] === 'divided with all installments') {
+                $commissionPerContract = ($data['commissions_rate'] / 100) * $pricePerContract;
             }
         }
 
+        // إنشاء الأقساط
         for ($i = 0; $i < $numberOfContracts; $i++) {
             $endDate = clone $startDate;
-            if ($data['duration_unit'] === 'month') {
+
+            // تحديث تاريخ النهاية بناءً على دورة الدفع
+            if ($data['payment_cycle'] === 'monthly') {
                 $endDate->modify('+1 month');
-            } else if ($data['duration_unit'] === 'year') {
+            } else if ($data['payment_cycle'] === 'quarterly') {
+                $endDate->modify('+3 months');
+            } else if ($data['payment_cycle'] === 'semi-annual') {
+                $endDate->modify('+6 months');
+            } else if ($data['payment_cycle'] === 'annual') {
                 $endDate->modify('+1 year');
             }
-            $price = $pricePerContract;
 
+            // حساب السعر النهائي لكل قسط مع تضمين العمولة إذا كانت مطلوبة
             $finalPrice = $pricePerContract;
             if ($commissionPerContract !== 0) {
                 if ($data['collection_type'] === 'once with frist installment') {
@@ -236,21 +323,22 @@ class ContractRepository implements ContractRepositoryInterface
 
             $installments[] = [
                 'contract_id' => $contract->id,
-                'price' => $price,
+                'price' => $pricePerContract,
                 'final_price' => $finalPrice,
                 'start_date' => $startDate->format('Y-m-d'),
                 'end_date' => $endDate->format('Y-m-d'),
                 'Installment_number' => $contract->contract_number . '-' . ($i + 1),
-                'commission' => ($data['collection_type'] === 'once with frist installment' && $i === 0) ? $commissionPerContract : ($data['collection_type'] === 'divided with all installments' ? $commissionPerContract  : 0),
-
-
+                'commission' => ($data['collection_type'] === 'once with frist installment' && $i === 0) ? $commissionPerContract : ($data['collection_type'] === 'divided with all installments' ? $commissionPerContract : 0),
             ];
 
-            $startDate = clone $endDate;
+            // Update start date for next installment
+            $startDate = $endDate;
         }
 
+        // Save installments to database
         Installment::insert($installments);
     }
+
 
     function getContractById($id)
     {

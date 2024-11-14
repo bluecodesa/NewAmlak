@@ -1,14 +1,14 @@
 <div class="col-xl-12">
     <div class="card m-b-30 shadow-none bg-transparent">
         <div class="card-body">
-            <form action="{{ route('Broker.Gallery.index') }}" method="GET" id="subscriptionsForm">
+            <form action="{{ route('Office.Gallery.index') }}" method="GET" id="subscriptionsForm">
                 <div class="row">
                     <div class="col-md-4 col-12 mb-3">
                         <label class="form-label">@lang('Ad type')</label>
                         <select class="form-select form-control-sm" id="ad_type_filter" name="ad_type_filter">
                             <option value="all" {{ $adTypeFilter == 'all' ? 'selected' : '' }}>@lang('All')
                             </option>
-                            @foreach (['rent', 'sale', 'rent and sale'] as $type)
+                            @foreach (['rent', 'sale'] as $type)
                                 <option value="{{ $type }}" {{ $adTypeFilter == $type ? 'selected' : '' }}>
                                     {{ __($type) }}
                                 </option>
@@ -52,7 +52,7 @@
                             </option>
                             @foreach ($uniqueIds as $index => $id)
                                 <option value="{{ $id }}"
-                                    data-url="{{ route('Broker.Gallary.GetDistrictByCity', $id) }}"
+                                    data-url="{{ route('Office.Gallary.GetDistrictByCity', $id) }}"
                                     {{ $cityFilter == $id ? 'selected' : '' }}>
                                     {{ $uniqueNames[$index] }}
                                 </option>
@@ -98,7 +98,7 @@
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary mt-2 btn-sm">@lang('Filter')</button>
-                        <a href="{{ route('Broker.Gallery.index') }}"
+                        <a href="{{ route('Office.Gallery.index') }}"
                             class="btn btn-danger mt-2 btn-sm">@lang('Cancel')</a>
                     </div>
                 </div>

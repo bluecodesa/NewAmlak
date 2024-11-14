@@ -51,6 +51,10 @@ class SubscriptionTypeService
     {
         return $this->subscriptionTypeRepository->getUserSubscriptionTypes();
     }
+    public function getOfficeSubscriptionTypes()
+    {
+        return $this->subscriptionTypeRepository->getOfficeSubscriptionTypes();
+    }
 
     public function getGallerySubscriptionTypes()
     {

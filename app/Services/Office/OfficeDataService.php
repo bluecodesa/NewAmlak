@@ -25,7 +25,11 @@ class OfficeDataService
 
     public function getOwners()
     {
-        return Owner::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        // return Owner::where('office_id', Auth::user()->UserOfficeData->id)->get();
+        $office = Auth::user()->UserOfficeData;
+
+        // Retrieve owners associated with the broker
+        return $office->owners;
     }
 
     public function getEmployees()

@@ -31,6 +31,43 @@
                 @lang('الرجاء ادخال رخصة هيئه العقار الخاصة بكم لكي تتمكن من تفعيل المعرض واضافة العقارات')
             </div>
             @endif
+
+            <div class="card">
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal5">
+                        @lang('استعلام')
+                    </button>
+                    <div class="modal fade" id="basicModal5" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel1"> @lang('برجاء ادخال رقم الهوية')
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                @include('Admin.layouts.Inc._errors')
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <input type="text" name="id_number" id="idNumberInput" minlength="1" maxlength="10" class="form-control" placeholder="Enter ID Number" />
+                                            <div class="invalid-feedback" id="idNumberError"></div>
+                                        </div>
+                                    </div>
+                                    <div id="searchResults"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                        @lang('Cancel')
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="searchBtn">@lang('Search')</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             {{-- <div class="card">
                 <div class="card-body">
                     <h4 class="mt-0 header-title">
@@ -86,8 +123,8 @@
                         @endif
                     </div>
                 </div>
-            </div>
-            <hr> --}}
+            </div>--}}
+            <hr>
             <div class="row">
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
@@ -313,113 +350,114 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <a href="{{ route('Broker.Gallary.showInterests') }}" class="card h-100">
-                        <div class="card-header pb-3">
-                            <div class="d-flex align-items-center mb-2 pb-1">
-                                <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-primary"><i
-                                            class="ti ti-users ti-md"></i></span>
+                @if ($gallery)
+                    <div class="col-xl-3 col-md-4 col-6 mb-4">
+                        <a href="{{ route('Broker.Gallary.showInterests') }}" class="card h-100">
+                            <div class="card-header pb-3">
+                                <div class="d-flex align-items-center mb-2 pb-1">
+                                    <div class="avatar me-2">
+                                        <span class="avatar-initial rounded bg-label-primary"><i
+                                                class="ti ti-users ti-md"></i></span>
+                                    </div>
+                                    <h4 class="ms-1 mb-0">@lang('Requests for interest')</h4>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Requests for interest')</h4>
+                                <small class="text-muted"></small>
                             </div>
-                            <small class="text-muted"></small>
-                        </div>
-                        <div class="card-body">
-                            <div id="ordersLastWeek"></div>
-                            <div class="d-flex justify-content-between align-items-center gap-3">
-                                <h4 class="mb-0">{{ $numberOfInterests }}</h4>
-                                <span class="text-success"></span>
+                            <div class="card-body">
+                                <div id="ordersLastWeek"></div>
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                    <h4 class="mb-0">{{ $numberOfInterests }}</h4>
+                                    <span class="text-success"></span>
+                                </div>
+                                <div class="d-flex align-items-center mt-1">
+                                    {{-- <div class="progress w-100" style="height: 8px">
+                                <div
+                                    class="progress-bar bg-primary"
+                                    style="width: 85%"
+                                    role="progressbar"
+                                    aria-valuenow="85"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                                </div> --}}
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center mt-1">
-                                {{-- <div class="progress w-100" style="height: 8px">
-                              <div
-                                class="progress-bar bg-primary"
-                                style="width: 85%"
-                                role="progressbar"
-                                aria-valuenow="85"
-                                aria-valuemin="0"
-                                aria-valuemax="100"></div>
-                            </div> --}}
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
 
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <a href="{{ route('Broker.Gallery.index') }}" class="card h-100">
-                        <div class="card-header pb-3">
-                            <div class="d-flex align-items-center mb-2 pb-1">
-                                <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-primary"><i
-                                            class="ti ti-users ti-md"></i></span>
+                    <div class="col-xl-3 col-md-4 col-6 mb-4">
+                        <a href="{{ route('Broker.Gallery.index') }}" class="card h-100">
+                            <div class="card-header pb-3">
+                                <div class="d-flex align-items-center mb-2 pb-1">
+                                    <div class="avatar me-2">
+                                        <span class="avatar-initial rounded bg-label-primary"><i
+                                                class="ti ti-users ti-md"></i></span>
+                                    </div>
+                                    <h4 class="ms-1 mb-0">@lang('Gallery visitors')</h4>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Gallery visitors')</h4>
+                                <small class="text-muted"></small>
                             </div>
-                            <small class="text-muted"></small>
-                        </div>
-                        <div class="card-body">
-                            <div id="ordersLastWeek"></div>
-                            <div class="d-flex justify-content-between align-items-center gap-3">
-                                <h4 class="mb-0">{{ $visitorCount }}</h4>
-                                <span class="text-success"></span>
+                            <div class="card-body">
+                                <div id="ordersLastWeek"></div>
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                    <h4 class="mb-0">{{ $visitorCount }}</h4>
+                                    <span class="text-success"></span>
+                                </div>
+                                <div class="d-flex align-items-center mt-1">
+                                    {{-- <div class="progress w-100" style="height: 8px">
+                                <div
+                                    class="progress-bar bg-primary"
+                                    style="width: 85%"
+                                    role="progressbar"
+                                    aria-valuenow="85"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                                </div> --}}
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center mt-1">
-                                {{-- <div class="progress w-100" style="height: 8px">
-                              <div
-                                class="progress-bar bg-primary"
-                                style="width: 85%"
-                                role="progressbar"
-                                aria-valuenow="85"
-                                aria-valuemin="0"
-                                aria-valuemax="100"></div>
-                            </div> --}}
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
 
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
-                    <a href="{{ route('PropertyFinder.RealEstateRequest.index') }}" class="card h-100">
-                        <div class="card-header pb-3">
-                            <div class="d-flex align-items-center mb-2 pb-1">
-                                <div class="avatar me-2">
-                                    <span class="avatar-initial rounded bg-label-primary"><i
-                                            class="ti ti-ticket ti-md"></i></span>
+                    <div class="col-xl-3 col-md-4 col-6 mb-4">
+                        <a href="{{ route('PropertyFinder.RealEstateRequest.index') }}" class="card h-100">
+                            <div class="card-header pb-3">
+                                <div class="d-flex align-items-center mb-2 pb-1">
+                                    <div class="avatar me-2">
+                                        <span class="avatar-initial rounded bg-label-primary"><i
+                                                class="ti ti-ticket ti-md"></i></span>
+                                    </div>
+                                    <h4 class="ms-1 mb-0">@lang('Real Estate Requests')</h4>
                                 </div>
-                                <h4 class="ms-1 mb-0">@lang('Real Estate Requests')</h4>
+                                <small class="text-muted"></small>
                             </div>
-                            <small class="text-muted"></small>
-                        </div>
-                        <div class="card-body">
-                            <div id="ordersLastWeek"></div>
-                            <div class="d-flex justify-content-between align-items-center gap-3">
-                                    @php
-                                        $count = 0;
-                                    @endphp
-                                    @if(!$requests)
-                                    @foreach($requests as $request)
-                                        @foreach($request->requestStatuses as $status)
-                                            @if ($status->interestType && $status->interestType->default === 1)
-                                                @php
-                                                    $count++;
-                                                    break;
-                                                @endphp
-                                            @endif
+                            <div class="card-body">
+                                <div id="ordersLastWeek"></div>
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                        @php
+                                            $count = 0;
+                                        @endphp
+                                        @if(!$requests)
+                                        @foreach($requests as $request)
+                                            @foreach($request->requestStatuses as $status)
+                                                @if ($status->interestType && $status->interestType->default === 1)
+                                                    @php
+                                                        $count++;
+                                                        break;
+                                                    @endphp
+                                                @endif
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
-                                    @endif
+                                        @endif
 
-                                <h4 class="mb-0">{{ $count }}</h4>
-                                <span class="text-success"></span>
+                                    <h4 class="mb-0">{{ $count }}</h4>
+                                    <span class="text-success"></span>
+                                </div>
+                                <div class="d-flex align-items-center mt-1">
+
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center mt-1">
-
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
+                        </a>
+                    </div>
+                @endif
 
                 <div class="col-xl-3 col-md-4 col-6 mb-4">
                     <a href="{{ route('Broker.Tickets.index') }}" class="card h-100">
@@ -447,65 +485,70 @@
                 </div>
 
 
+                    {{-- <div class="col-xl-3 col-md-4 col-6 mb-4">
+                        <div class="card">
+                            <h5 class="card-header">@lang('Unit indicators')</h5>
+                            <div class="card-body">
+                                @if ($numberOfUnits)
+                                    <canvas id="doughnutChart" height="100"></canvas>
+                                @else
+                                    <canvas id="doughnutChart" height="100"></canvas>
+                                @endif
+                                <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
+
+                                    <li class="ct-series-1 d-flex flex-column">
+                                        <h5 class="mb-0">@lang('vacant')</h5>
+                                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                                            style="background-color: rgb(40, 208, 148); width: 35px; height: 6px"></span>
+                                        @if ($numberOfUnits)
+                                            <div class="text-muted">
+                                                {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%</div>
+                                        @else
+                                            <div class="text-muted"> 0%</div>
+                                        @endif
+                                    </li>
+                                    <li class="ct-series-2 d-flex flex-column">
+                                        <h5 class="mb-0">@lang('rented')</h5>
+                                        <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
+                                            style="background-color: rgb(253, 172, 52); width: 35px; height: 6px"></span>
+                                        @if ($numberOfUnits)
+                                            <div class="text-muted">
+                                                {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%</div>
+                                        @else
+                                            <div class="text-muted"> 0%</div>
+                                        @endif
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+
+
+                    </div> --}}
             </div>
             {{-- analytics --}}
 
             <div class="row">
+                {{-- <h4 class="ms-1 mb-0">@lang('Interactive Map') -  {{ $allItems->count() }} </h4> --}}
 
-                <div class="col-xl-3 col-md-4 col-6 mb-4">
+                <div class="nav-align-top nav-tabs-shadow mb-4">
+
                     <div class="card">
-                        <h5 class="card-header">@lang('Unit indicators')</h5>
-                        <div class="card-body">
-                            @if ($numberOfUnits)
-                                <canvas id="doughnutChart" height="100"></canvas>
-                            @else
-                                <canvas id="doughnutChart" height="100"></canvas>
-                            @endif
-                            {{-- <canvas id="doughnutChart" class="chartjs mb-4" data-height="350"></canvas> --}}
-                            <ul class="doughnut-legend d-flex justify-content-around ps-0 mb-2 pt-1">
-                                {{-- <li class="ct-series-0 d-flex flex-column">
-                        <h5 class="mb-0">@lang('Number units')</h5>
-                        <span
-                            class="badge badge-dot my-2 cursor-pointer rounded-pill"
-                            style="background-color: rgb(102, 110, 232); width: 35px; height: 6px"></span>
-                        <div class="text-muted">{{ $numberOfUnits }}</div>
-                        </li> --}}
-                                <li class="ct-series-1 d-flex flex-column">
-                                    <h5 class="mb-0">@lang('vacant')</h5>
-                                    <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
-                                        style="background-color: rgb(40, 208, 148); width: 35px; height: 6px"></span>
-                                    @if ($numberOfUnits)
-                                        <div class="text-muted">
-                                            {{ round(($numberOfVacantUnits / $numberOfUnits) * 100) }}%</div>
-                                    @else
-                                        <div class="text-muted"> 0%</div>
-                                    @endif
-                                </li>
-                                <li class="ct-series-2 d-flex flex-column">
-                                    <h5 class="mb-0">@lang('rented')</h5>
-                                    <span class="badge badge-dot my-2 cursor-pointer rounded-pill"
-                                        style="background-color: rgb(253, 172, 52); width: 35px; height: 6px"></span>
-                                    @if ($numberOfUnits)
-                                        <div class="text-muted">
-                                            {{ round(($numberOfRentedUnits / $numberOfUnits) * 100) }}%</div>
-                                    @else
-                                        <div class="text-muted"> 0%</div>
-                                    @endif
-                                </li>
-                            </ul>
 
+                        <div class="card-body">
+                            @include('Admin.layouts.Inc._errors')
+                            <div id="map" style="width: 100%; height: 70vh;"></div>
                         </div>
                     </div>
-
-
-
                 </div>
+
             </div>
 
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
-            @include('Broker.settings.inc._upgradePackage')
+            {{-- @include('Broker.settings.inc._upgradePackage') --}}
 
 
             <div class="content-backdrop fade"></div>
@@ -519,8 +562,7 @@
 
     @push('scripts')
         @if (
-            (Auth::user()->UserBrokerData->UserSubscriptionSuspend ?? null) &&
-                (Auth::user()->UserBrokerData->UserSubscriptionPending ?? null))
+            (Auth::user()->UserBrokerData->UserSubscriptionSuspend ?? null))
             <script>
                 $(document).ready(function() {
                     $('.bs-example-modal-center').modal('show');
@@ -614,5 +656,173 @@
             });
         </script>
 
+        <script>
+            $(document).ready(function () {
+            $('#searchBtn').click(function (e) {
+                e.preventDefault();
+                var idNumber = $('#idNumberInput').val();
+
+                $.ajax({
+                    url: '{{ route('Broker.searchByIdNumber') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id_number: idNumber
+                    },
+                    success: function (response) {
+                        $('#idNumberInput').removeClass('is-invalid');
+                        $('#idNumberError').text('');
+                        $('#searchResults').html(response.html); // Inject the result content into the modal
+                    },
+                    error: function (xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        if (errors.id_number) {
+                            $('#idNumberInput').addClass('is-invalid');
+                            $('#idNumberError').text(errors.id_number[0]);
+                        } else {
+                            $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                        }
+                    }
+                });
+            });
+        });
+
+        </script>
+        {{-- mapbox --}}
+
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+
+        <!-- Include Mapbox JS -->
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiYmx1ZWNvZGVrc2EiLCJhIjoiY2x6djJiaGZhMDNvdzJoc2djN2k4eHM0MiJ9.eOLXc1f7RLgcsbeIS4Us0Q'; // Replace with your Mapbox access token
+
+            // Initialize Mapbox
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [45.0, 23.8859],
+                zoom: 5
+            });
+
+            // Initial items (My Properties)
+            var items = @json($allItems);
+            var allItemsProperties = @json($allItemsProperties);
+
+            function addMarkers(filteredItems) {
+                filteredItems.forEach(function(item) {
+                    if (item.lat_long) {
+                        var coordinates = item.lat_long.split(',');
+                        var showRoute = '#';
+                        var rentPriceAndType = '';
+
+                        if (item.isGalleryUnit) {
+                            showRoute = `{{ route('Office.Unit.show', ':id') }}`.replace(':id', item.id);
+                            rentPriceAndType = `${item.rentPrice} @lang('SAR') / ${item.rent_type_show }`;
+                        } else if (item.isGalleryProject) {
+                            showRoute = `{{ route('Office.Project.show', ':id') }}`.replace(':id', item.id);
+                        } else if (item.isGalleryProperty) {
+                            showRoute = `{{ route('Office.Property.show', ':id') }}`.replace(':id', item.id);
+                        }
+                        new mapboxgl.Marker()
+                            .setLngLat([parseFloat(coordinates[1]), parseFloat(coordinates[0])])
+                            .setPopup(new mapboxgl.Popup({ offset: 25 })
+                                .setHTML(`
+                                <div id="popup-${item.id}" style="width: 200px; cursor: pointer; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                    <h6>${item.name || item.ad_name}</h6>
+                                    ${!item.isGalleryProject ? `
+                                        <p>
+                                            <i class="ti ti-building-arch"></i> ${item.property_type_data ? item.property_type_data.name : ''} / ${item.type ? item.type : ''}
+                                        </p>
+                                    ` : ''}
+
+                                    ${item.isGalleryUnit ? `
+                                    <p>
+                                        <i class="ti ti-bell-dollar"></i>${rentPriceAndType ? `<span class="pb-1">${rentPriceAndType}</span>` : ''}
+                                    </p>
+                                     ` : ''}
+
+                                    <p>
+                                        ${item.isGalleryUnit ?
+                                            (item.ProjectData ? `<span class="badge bg-label-secondary mt-1">${item.ProjectData.name}</span>` : '') +
+                                            " " +
+                                            (item.PropertyData ? `<span class="badge bg-label-secondary mt-1">${item.PropertyData.name}</span>` : '') +
+                                            ` <span class="badge bg-label-secondary mt-1">@lang('Unit')</span>`
+                                        : item.isGalleryProperty ?
+                                            (item.ProjectData ? `<span class="badge bg-label-secondary mt-1">${item.ProjectData.name}</span>` : '') +
+                                            ` <span class="badge bg-label-secondary mt-1">@lang('Property')</span>`
+                                        : item.isGalleryProject ?
+                                            `<span class="badge bg-label-secondary mt-1">@lang('Project')</span>`
+                                        : ''}
+                                    </p>
+                                    <p>
+                                        <i class="ti ti-map-pin"></i> ${item.city_data ? item.city_data.name : ''} / ${item.district_data ? item.district_data.name : ''}
+                                    </p>
+                                    <a href="${showRoute}" target="_blank" class="btn btn-primary mt-2">@lang('Show')</a>
+                                </div>
+
+                                `))
+                            .addTo(map);
+                    }
+                });
+            }
+
+            // Initial markers for My Properties
+            addMarkers(items);
+
+            function filterItems() {
+                        var adType = $('#adTypeFilter').val();
+                        var propertyType = $('#propertyTypeFilter').val();
+                        var typeUse = $('#typeUseFilter').val();
+                        var city = $('#cityFilter').val();
+                        var district = $('#districtFilter').val();
+                        var project = $('#projectFilter').val();
+
+                        var filteredItems = items.filter(function(item) {
+                            return (!adType || item.type == adType) &&
+                                   (!propertyType || item.property_type_id == propertyType) &&
+                                   (!typeUse || item.property_usage_id == typeUse) &&
+                                   (!city || item.city_id == city) &&
+                                   (!district || item.district_id == district) &&
+                                   (!project || item.project_id == project);
+                        });
+
+                        // Remove existing markers
+                        $('.mapboxgl-marker').remove();
+
+                        // Add filtered markers to the first map
+                        addMarkers(filteredItems);
+
+                    }
+
+                    // Attach filter event handlers for the first map
+                    $('#adTypeFilter, #propertyTypeFilter, #typeUseFilter, #cityFilter, #districtFilter, #projectFilter').change(function() {
+                        filterItems();
+                    });
+
+            // Toggle functionality
+            document.getElementById('myPropertiesBtn').addEventListener('click', function() {
+                $('#myPropertiesBtn').addClass('btn-primary').removeClass('btn-secondary');
+                $('#allPropertiesBtn').addClass('btn-secondary').removeClass('btn-primary');
+
+                // Remove existing markers
+                $('.mapboxgl-marker').remove();
+
+                // Add markers for My Properties
+                addMarkers(items);
+            });
+
+            document.getElementById('allPropertiesBtn').addEventListener('click', function() {
+                $('#myPropertiesBtn').addClass('btn-secondary').removeClass('btn-primary');
+                $('#allPropertiesBtn').addClass('btn-primary').removeClass('btn-secondary');
+
+                // Remove existing markers
+                $('.mapboxgl-marker').remove();
+
+                // Add markers for All Properties
+                addMarkers(allItemsProperties);
+            });
+        </script>
     @endpush
 @endsection

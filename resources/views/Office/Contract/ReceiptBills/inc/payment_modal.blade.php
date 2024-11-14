@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header" id="receiptModalHeader{{$receipt->id }}">
                 <h5 class="modal-title" id="receiptModalLabel">@lang('Payment Voucher')</h5>
-                <img src="{{ url($setting->icon) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
+                <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' && $setting->icon_ar ? $setting->icon_ar : ($setting->icon_en ? $setting->icon_en : '')) }}" alt="Logo" style="max-width: 100px; margin-bottom: 20px;">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             @if(!empty($receipt))

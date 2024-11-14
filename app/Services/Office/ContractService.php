@@ -25,6 +25,10 @@ class ContractService
     {
         return $this->ContractRepository->getContractById($id);
     }
+    public function getContractByRenterId($id)
+    {
+        return $this->ContractRepository->getContractByRenterId($id);
+    }
 
     public function createContract($data)
     {

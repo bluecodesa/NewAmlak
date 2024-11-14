@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('space')->nullable();
             $table->integer('rooms')->nullable();
             $table->integer('bathrooms')->nullable();
-            $table->boolean('show_gallery')->default(1)->nullable();
+            $table->boolean('show_in_gallery')->default(1)->nullable();
             $table->integer('price')->default(1)->nullable();
             $table->string('type')->default('rent')->nullable();
             $table->integer('property_id')->unsigned()->nullable();

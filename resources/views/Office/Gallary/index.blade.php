@@ -2,6 +2,31 @@
 
 @section('title', __('Gallary'))
 
+<style>
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .animate-alarm {
+        color: red; /* Change the color to red */
+        animation: pulse 1s infinite; /* Add pulse animation */
+    }
+
+    .icon {
+        font-size: 2rem !important; /* Adjust the size of the icon here */
+        transition: transform 0.2s; /* Smooth scale effect on hover */
+    }
+
+    </style>
+
 @section('content')
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -105,16 +130,17 @@
 
 
     @push('scripts')
-        <script>
-            function copyToClipboard(element) {
-                var url = $(element).data('url');
-                var $temp = $("<input>");
-                $("body").append($temp);
-                $temp.val(url).select();
-                document.execCommand("copy");
-                $temp.remove();
-                alertify.success(@json(__('copy done')));
-            }
+    <script>
+        function copyToClipboardAll(element) {
+            var url = $(element).data('url'); // Retrieve the data-url attribute
+            var $temp = $("<input>"); // Create a temporary input element
+            $("body").append($temp); // Append the input to the body
+            $temp.val(url).select(); // Set the input's value to the URL and select it
+            document.execCommand("copy"); // Copy the selected value
+            $temp.remove(); // Remove the temporary input
+            alertify.success(@json(__('copy done'))); // Show success message
+        }
+
 
             function exportToExcel() {
                 // Get the table by ID
@@ -142,6 +168,17 @@
                     text: @json(__('copy done')),
                     timer: 1000,
                 });
+            }
+        </script>
+
+        <script>
+            function copyToClipboard(elementId) {
+                var copyText = document.getElementById(elementId);
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); // For mobile devices
+                document.execCommand("copy");
+
+                alertify.success(@json(__('copy done')));
             }
         </script>
     @endpush

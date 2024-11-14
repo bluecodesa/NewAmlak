@@ -101,7 +101,7 @@
                                         <div class="info-container">
                                             <ul class="list-unstyled">
                                                 <li class="mb-2">
-                                                    <span class="fw-medium me-1">@lang('Renter Name'):</span>
+                                                    <span class="fw-medium me-1">@lang('Name'):</span>
                                                     <span>
                                                         {{ $renter->UserData->name ?? '' }}
                                                     </span>
@@ -347,53 +347,74 @@
                             <table class="table" id="table">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th scope="col">@lang('Name')</th>
-                                        <th scope="col">@lang('Email')</th>
-                                        <th scope="col">@lang('phone')</th>
-                                        <th scope="col">@lang('Office')</th>
-                                        <th scope="col">@lang('Action')</th>
+                                        <th scope="col">@lang('Contract Number')</th>
+                                        <th scope="col">@lang('Unit')</th>
+                                        <th scope="col">@lang('Renter')</th>
+                                        <th scope="col">@lang('Total Commission')</th>
+                                        <th scope="col">@lang('status')</th>
+                                        <th scope="col">@lang('Contract validity')</th>
+                                        <th scope="col">@lang('Contract Start Date')</th>
+                                        <th scope="col">@lang('Contract End Date')</th>
+                                <th scope="col">@lang('Action')</th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
+                                    @forelse ($contracts as $contract)
                                     <tr>
-                                        @if ($contracts)
 
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ti ti-dots-vertical"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" style="">
-                                                        @if (Auth::user()->hasPermission('update-owner'))
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('Office.Renter.show', $renter->id) }}">@lang('Show')</a>
-                                                        @endif
-                                                        @if (Auth::user()->hasPermission('update-owner'))
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('Office.Renter.edit', $renter->id) }}">@lang('Edit')</a>
-                                                        @endif
-                                                        @if (Auth::user()->hasPermission('delete-owner'))
-                                                            <a href="javascript:void(0);"
-                                                                onclick="handleDelete('{{ $renter->id }}')"
-                                                                class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                            <form id="delete-form-{{ $renter->id }}"
-                                                                action="{{ route('Office.Renter.destroy', $renter->id) }}"
-                                                                method="POST" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                            </form>
-                                                        @endif
-                                                    </div>
-                                                </div>
+                                        <td>{{ $contract->contract_number }}</td>
+                                        <td>{{ $contract->unit->number_unit }}</td>
+                                        <td>{{ $contract->renter->UserData->name }}</td>
+                                        <td>{{ $contract->total_commission }}</td>
+                                        <td>{{ __($contract->status) }}</td>
+                                        {{-- <td>{{ __($contract->contract_validity) }}</td> --}}
+                                        <td>
+                                            <span
+                                                        class="badge badge-pill bg-{{ $contract->contract_validity == 'active' ? 'success' : 'warning' }}"
+                                                        style="font-size: 13px;">
+                                                        {{ __($contract->contract_validity) ?? __('nothing') }}
+                                                    </span>
                                             </td>
+                                        <td>{{ $contract->start_contract_date }}</td>
+                                        <td>{{ $contract->end_contract_date }}</td>
+
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ti ti-dots-vertical"></i>
+                                                </button>
+                                                <div class="dropdown-menu" style="">
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
+                                                    @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
+                                                    @endif
+
+
+                                                    @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
+                                                        <a href="javascript:void(0);"
+                                                            onclick="handleDelete('{{ $contract->id }}')"
+                                                            class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                        <form id="delete-form-{{ $contract->id }}"
+                                                            action="{{ route('Office.Contract.destroy', $contract->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </td>
                                     </tr>
-                                @else
-                                    <td colspan="6">
+                                @empty
+                                    <td colspan="8">
                                         <div class="alert alert-danger d-flex align-items-center" role="alert">
                                             <span class="alert-icon text-danger me-2">
                                                 <i class="ti ti-ban ti-xs"></i>
@@ -401,8 +422,7 @@
                                             @lang('No Data Found!')
                                         </div>
                                     </td>
-                                    @endif
-
+                                @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -455,53 +475,32 @@
                             <table class="table" id="table">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th scope="col">@lang('Name')</th>
-                                        <th scope="col">@lang('Email')</th>
-                                        <th scope="col">@lang('phone')</th>
-                                        <th scope="col">@lang('Office')</th>
-                                        <th scope="col">@lang('Action')</th>
+                                        <th>@lang('Installment Number')</th>
+                                        <th>@lang('price')</th>
+                                        <th>@lang('Commission')</th>
+                                        <th>@lang('total')</th>
+                                        <th>@lang('status')</th>
+                                        <th>@lang('Installment Start Date')</th>
+                                        <th>@lang('Installment End Date')</th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
+                                    @forelse ($installmentsPerRenter as $index => $installment)
                                     <tr>
-                                        @if ($contracts)
 
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="ti ti-dots-vertical"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" style="">
-                                                        @if (Auth::user()->hasPermission('update-owner'))
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('Office.Renter.show', $renter->id) }}">@lang('Show')</a>
-                                                        @endif
-                                                        @if (Auth::user()->hasPermission('update-owner'))
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('Office.Renter.edit', $renter->id) }}">@lang('Edit')</a>
-                                                        @endif
-                                                        @if (Auth::user()->hasPermission('delete-owner'))
-                                                            <a href="javascript:void(0);"
-                                                                onclick="handleDelete('{{ $renter->id }}')"
-                                                                class="dropdown-item delete-btn">@lang('Delete')</a>
-                                                            <form id="delete-form-{{ $renter->id }}"
-                                                                action="{{ route('Office.Renter.destroy', $renter->id) }}"
-                                                                method="POST" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                            </form>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </td>
+                                        <td>{{ $installment->Installment_number }}</td>
+                                        <td>{{ $installment->price }}</td>
+                                        <td>{{ $installment->commission }}</td>
+                                        <td>{{ $installment->final_price }}</td>
+                                        <td>{{ __($installment->status) }}</td>
+                                        <td>{{ $installment->start_date }}</td>
+                                        <td>{{ $installment->end_date }}</td>
+
+
                                     </tr>
-                                @else
-                                    <td colspan="6">
+                                @empty
+                                    <td colspan="8">
                                         <div class="alert alert-danger d-flex align-items-center" role="alert">
                                             <span class="alert-icon text-danger me-2">
                                                 <i class="ti ti-ban ti-xs"></i>
@@ -509,8 +508,7 @@
                                             @lang('No Data Found!')
                                         </div>
                                     </td>
-                                    @endif
-
+                                @endforelse
                                 </tbody>
                             </table>
                         </div>

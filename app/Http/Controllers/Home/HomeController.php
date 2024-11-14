@@ -41,8 +41,11 @@ use App\Services\CityService;
 use App\Services\PropertyTypeService;
 use App\Services\Admin\DistrictService;
 use App\Http\Traits\Email\MailSendCode;
+use App\Http\Traits\WhatsApp\WhatsappSendCode;
+use App\Http\Traits\WhatsApp\WhatsappWelcomeUser;
 use App\Models\Advertising;
 use App\Models\Owner;
+use App\Models\Renter;
 use App\Models\Ticket;
 use App\Services\NafathService;
 
@@ -52,6 +55,10 @@ class HomeController extends Controller
     use MailWelcomeBroker;
 
     use MailSendCode;
+    use WhatsappSendCode;
+    use WhatsappWelcomeUser;
+
+
 
 
     protected $subscriptionTypeService;
@@ -113,32 +120,63 @@ class HomeController extends Controller
         }
     }
 
-
-
     public function sendOtp(Request $request)
     {
-
-        // $otp = mt_rand(100000, 999999);
-        $otp=555555;
+        // $otp = 555555;
+        $otp = mt_rand(100000, 999999);
         session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
 
         session(['otp' => $otp]);
 
         if ($request->input('otp_type') === 'email') {
+            // Send OTP via Email
             $email = $request->input('user_name');
             session(['email' => $email]);
             $this->MailSendCode($email, $otp);
         } else if ($request->input('otp_type') === 'phone') {
+            // Send OTP via WhatsApp
             $fullPhone = $request->input('full_phone');
             $phone = $request->input('mobile');
             $keyPhone = $request->input('key_phone');
 
             session(['phone' => $fullPhone, 'mobile' => $phone, 'key_phone' => $keyPhone]);
-            // $this->SmsSendCode($fullPhone, $otp);
+
+            // Send WhatsApp Message
+            $this->WhatsappSendCode([
+                'phone' => 201119978333,
+                // 'phone' => $fullPhone,
+                'otp' => $otp,
+            ]);
         }
 
         return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
     }
+
+
+    // public function sendOtp(Request $request)
+    // {
+
+    //     // $otp = mt_rand(100000, 999999);
+    //     $otp=555555;
+    //     session()->forget(['otp', 'email', 'phone', 'mobile', 'key_phone']);
+
+    //     session(['otp' => $otp]);
+
+    //     if ($request->input('otp_type') === 'email') {
+    //         $email = $request->input('user_name');
+    //         session(['email' => $email]);
+    //         $this->MailSendCode($email, $otp);
+    //     } else if ($request->input('otp_type') === 'phone') {
+    //         $fullPhone = $request->input('full_phone');
+    //         $phone = $request->input('mobile');
+    //         $keyPhone = $request->input('key_phone');
+
+    //         session(['phone' => $fullPhone, 'mobile' => $phone, 'key_phone' => $keyPhone]);
+    //         // $this->SmsSendCode($fullPhone, $otp);
+    //     }
+
+    //     return redirect()->route('Home.auth.verifyLogin')->with('success', __('OTP sent successfully'));
+    // }
 
 
     public function loginByPassword()
@@ -445,6 +483,8 @@ class HomeController extends Controller
         $this->notifyAdminsForOffice($office);
 
         $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+        $this->WhatsappWelcomeUser($user, $subscription, $subscriptionType, $Invoice);
+
         auth()->loginUsingId($user->id);
 
         return redirect()->route('login')->with('success', __('registerd successfully'));
@@ -1147,7 +1187,7 @@ class HomeController extends Controller
             if ($falLicenseUser) {
                 $falLicenseUser->update(['ad_license_status' => 'invalid']);
                 // Check for galleries associated with the broker
-                $check_gallery = Gallery::where('broker_id', $user->UserBrokerData->id)->first(); // Assuming 'broker_id' relates to 'user_id'
+                $check_gallery = Gallery::where('broker_id', $user->UserBrokerData->id)->orwhere('office_id', $user->UserOfficeData->id)->first(); // Assuming 'broker_id' relates to 'user_id'
                 if ($check_gallery) {
                     $check_gallery->update(['gallery_status' => '0']);
                 }
@@ -1660,35 +1700,35 @@ class HomeController extends Controller
 
     }
     protected function notifyAllBrokers(RealEstateRequest $realEstateRequest)
-{
-    $cityId = $realEstateRequest->city_id;
+    {
+        $cityId = $realEstateRequest->city_id;
 
-    // Find users who are brokers or belong to an office in the same city as the request
-    $users = User::where(function($query) use ($cityId) {
-        $query->whereHas('UserBrokerData', function ($q) use ($cityId) {
-            $q->where('city_id', $cityId);
-        })->orWhereHas('UserOfficeData', function ($q) use ($cityId) {
-            $q->where('city_id', $cityId);
-        });
-    })->get();
+        // Find users who are brokers or belong to an office in the same city as the request
+        $users = User::where(function ($query) use ($cityId) {
+            $query->whereHas('UserBrokerData', function ($q) use ($cityId) {
+                $q->where('city_id', $cityId);
+            })->orWhereHas('UserOfficeData', function ($q) use ($cityId) {
+                $q->where('city_id', $cityId);
+            });
+        })->get();
 
-    // Notify each user
-    foreach ($users as $user) {
-        Notification::send($user, new NewRealEstateRequestNotification($realEstateRequest));
+        // Notify each user
+        foreach ($users as $user) {
+            Notification::send($user, new NewRealEstateRequestNotification($realEstateRequest, $user));
 
-        $defaultInterestType = InterestType::where('default', 1)->first();
+            $defaultInterestType = InterestType::where('default', 1)->first();
 
-        if ($defaultInterestType) {
-            RequestStatus::create([
-                'user_id' => $user->id,
-                'request_id' => $realEstateRequest->id,
-                'request_status_id' => $defaultInterestType->id
-            ]);
-        } else {
-            return redirect()->back()->withErrors(['default' => __('No default interest type found.')]);
+            if ($defaultInterestType) {
+                RequestStatus::create([
+                    'user_id' => $user->id,
+                    'request_id' => $realEstateRequest->id,
+                    'request_status_id' => $defaultInterestType->id
+                ]);
+            } else {
+                return redirect()->back()->withErrors(['default' => __('No default interest type found.')]);
+            }
         }
     }
-}
 
 
     public function GetDistrictsByCity($id)
@@ -1959,10 +1999,18 @@ class HomeController extends Controller
             $newUser->assignRole('Property-Finder');
 
             session(['active_role' => 'Property-Finder']);
+
             $this->notifyAdmins2($newUser);
+            $subscription=null;
+            $subscriptionType=null;
+            $Invoice=null;
+            $this->MailWelcomeBroker($newUser, $subscription, $subscriptionType, $Invoice);
+            $this->WhatsappWelcomeUser($newUser, $subscription, $subscriptionType, $Invoice);
+
         }
 
         // Log the user in
+
         auth()->login($newUser);
 
         // Redirect the user after successful registration
@@ -2065,6 +2113,8 @@ private function handleBroker($request, $user)
 
     $this->notifyAdmins($broker);
     $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+    $this->WhatsappWelcomeUser($user, $subscription, $subscriptionType, $Invoice);
+
 }
 
 private function handleOffice($request, $user)
@@ -2073,9 +2123,12 @@ private function handleOffice($request, $user)
         'user_id' => $user->id,
         'CRN' => $request->CRN ?? null,
         // 'phone' => $request->phone,
-        // 'key_phone' => $request->key_phone,
-        // 'full_phone' => $request->full_phone,
-        'company_name' => $user->name,
+        // 'company_name' => $user->name,
+        'company_email' => $request->email,
+        'company_name' => $user->customer_id .' Office',
+        'company_number' => $request->phone,
+        'key_phone' => $request->key_phone,
+        'full_phone' => $request->full_phone,
         'created_by' => $user->id,
         'company_logo' => $request->company_logo ?? null,
     ]);
@@ -2097,6 +2150,13 @@ private function handleOffice($request, $user)
         'end_date' => $endDate,
         'total' => '200'
     ]);
+
+    foreach ($subscriptionType->sections as $section) {
+        SubscriptionSection::create([
+            'section_id' => $section->id,
+            'subscription_id' => $subscription->id,
+        ]);
+    }
 
     $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
     $delimiter = '-';
@@ -2141,6 +2201,7 @@ private function handleOffice($request, $user)
     $this->notifyAdminsForOffice($office);
 
     $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+    $this->WhatsappWelcomeUser($user, $subscription, $subscriptionType, $Invoice);
 
 
 }
@@ -2207,13 +2268,15 @@ private function handleOwner($request, $user)
 
     session(['active_role' => 'Owner']);
     $this->notifyAdmins2($user);
+    $this->MailWelcomeBroker($user, $subscription, $subscriptionType, $Invoice);
+    $this->WhatsappWelcomeUser($user, $subscription, $subscriptionType, $Invoice);
+
 
 
 }
 
 public function addAccount (Request $request)
 {
-
         $currentUser = auth()->user();
 
         if ($request->account_type == 'broker') {
@@ -2222,6 +2285,8 @@ public function addAccount (Request $request)
             $newUser =  $this->handleNewOffice($request, $currentUser);
         } elseif ($request->account_type == 'owner') {
             $newUser = $this->handleNewOwner($request, $currentUser);
+        }elseif ($request->account_type == 'renter') {
+            $newUser = $this->handleNewRenter($request, $currentUser);
         }
 
         auth()->login($newUser);
@@ -2308,6 +2373,24 @@ public function addAccount (Request $request)
         $user->assignRole('Owner');
 
         session(['active_role' => 'Owner']);
+        $this->notifyAdmins2($user);
+
+        return $user;
+
+    }
+
+    private function handleNewRenter($request, $user)
+    {
+        $user->update(['is_renter' => 1]);
+
+        $role = Role::firstOrCreate(['name' => 'Renter']);
+        $user->assignRole($role);
+
+        $renter = Renter::create([
+            'user_id' => $user->id,
+        ]);
+
+        session(['active_role' => 'Renter']);
         $this->notifyAdmins2($user);
 
         return $user;
@@ -2441,12 +2524,22 @@ public function addAccount (Request $request)
         $subscription_type_id = $subscriptionType->id;
 
         $office = Office::create([
+            // 'user_id' => $user->id,
+            // 'CRN' => $request->CRN ?? null,
+            // 'phone' => $request->phone,
+            // 'key_phone' => $request->key_phone,
+            // 'full_phone' => $request->full_phone,
+            // 'company_name' => $user->name,
+            // 'created_by' => $user->id,
+            // 'company_logo' => $request->company_logo ?? null,
+
             'user_id' => $user->id,
             'CRN' => $request->CRN ?? null,
-            'phone' => $request->phone,
+            'company_email' => $request->email,
+            'company_name' => $user->customer_id .' Office',
+            'company_number' => $request->phone,
             'key_phone' => $request->key_phone,
             'full_phone' => $request->full_phone,
-            'company_name' => $user->name,
             'created_by' => $user->id,
             'company_logo' => $request->company_logo ?? null,
         ]);
@@ -2520,7 +2613,44 @@ public function addAccount (Request $request)
 
     }
 
+    public function getUserDetails(Request $request)
+    {
+        $email = $request->query('email');
+        $phone = $request->query('phone');
 
+        // البحث عن المستخدم باستخدام البريد الإلكتروني أو رقم الهاتف
+        $user = User::where('email', $email)->orWhere('phone', $phone)->first();
+        if ($user) {
+            $city = '';
+            $account_name = '';
+            $account_type = '';
+
+            if ($user->is_office) {
+                $city = $user->UserOfficeData->CityData->name ?? null;
+                $account_type = 'office';
+            } elseif ($user->is_broker) {
+                $city = $user->UserBrokerData->CityData->name ?? null;
+                $account_type = 'broker';
+            } elseif ($user->is_owner) {
+                $city = $user->UserOwnerData->CityData->name ?? null;
+                $account_type = 'owner';
+            }
+
+            return response()->json([
+                'success' => true,
+                'user' => [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'id_number' => $user->id_number,
+                    'city' => $city,
+                    'account_type' => $account_type,
+                ]
+            ]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'User not found']);
+        }
+    }
 
 
 }

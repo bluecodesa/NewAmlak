@@ -19,11 +19,13 @@
                 @include('Admin.layouts.Inc._errors')
                 <div class="card-body">
                     <form action="{{ route('Office.Owner.store') }}" method="POST" class="row">
-                        <input type="text" name="key_phone" hidden value="966" id="key_phone">
-                        <input type="text" name="full_phone" hidden id="full_phone" value="966">
+                        <input type="text" name="key_phone" hidden value="966" id="key_phone1">
+                        <input type="text" name="full_phone" hidden id="full_phone1" >
                         @csrf
                         @method('post')
+
                         <div class="col-md-6 col-12 mb-3">
+                            <input type="hidden" name="id_number" value="{{ session('id_number') }}">
 
                             <label class="form-label">
                                 {{ __('Name') }} <span class="required-color">*</span></label>
@@ -38,11 +40,16 @@
                                 placeholder="@lang('Email')">
                         </div>
 
-                        <div class="col-12 mb-3 col-md-4">
+                        <div class="col-md-6 col-12 mb-3">
+                            <label for="id_number" class="form-label">@lang('id number')<span class="text-danger">*</span></label>
+                            <input type="text" readonly class="form-control" id="id_number" name="id_number" value="{{ session('id_number') ?? '' }}" required>
+                        </div>
+
+                        <div class="col-12 mb-3 col-md-6">
                             <label for="color" class="form-label">@lang('phone') <span
                                     class="required-color">*</span></label>
                             <div class="input-group">
-                                <input type="text" placeholder="123456789" name="phone" id="phone" value=""
+                                <input type="text" placeholder="123456789" name="phone" id="phone1" value=""
                                     class="form-control" maxlength="9" pattern="\d{1,9}" oninput="updateFullPhone(this)"
                                     aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
@@ -58,7 +65,7 @@
 
 
 
-                        <div class="col-md-4 col-12 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">@lang('Region') </label>
                             <select class="form-select" id="Region_id" required>
                                 <option disabled selected value="">@lang('Region')</option>
@@ -70,7 +77,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4 col-12 mb-3">
+                        <div class="col-md-6 col-12 mb-3">
                             <label class="form-label">@lang('city') </label>
                             <select class="form-select" name="city_id" id="CityDiv" required>
 
@@ -99,21 +106,23 @@
     </div>
     @push('scripts')
         <script>
-            function updateFullPhone(input) {
-                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
-                var key_phone = $('#key_phone').val();
-                var fullPhone = key_phone + input.value;
-                document.getElementById('full_phone').value = fullPhone;
-            }
-            $(document).ready(function() {
-                $('.dropdown-item').on('click', function() {
-                    var key = $(this).data('key');
-                    var phone = $('#phone').val();
-                    $('#key_phone').val(key);
-                    $('#full_phone').val(key + phone);
-                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                });
+     function updateFullPhone(input) {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+            var key_phone = $('#key_phone1').val();
+            var fullPhone = key_phone + input.value;
+            document.getElementById('full_phone1').value = fullPhone;
+        }
+
+        $(document).ready(function() {
+            $('.dropdown-item').on('click', function() {
+                var key = $(this).data('key');
+                var phone = $('#phone1').val();
+                $('#key_phone1').val(key);
+                $('#full_phone1').val(key + phone);
+                $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
             });
+        });
+
 
             $('#Region_id').on('change', function() {
                 var selectedOption = $(this).find(':selected');
@@ -133,6 +142,8 @@
                 });
             });
         </script>
-    @endpush
+
+@endpush
+
 
 @endsection

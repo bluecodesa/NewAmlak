@@ -143,10 +143,16 @@
     {{-- @include('Admin.settings.Payments.create-modal') --}}
 
     @include('Admin.settings.Payments.create-modal')
+    @include('Admin.settings.Payments.BankAccount.create-modal')
+
 
     <!-- Modal structure update the payment  -->
     @foreach ($paymentGateways as $paymentGateway)
         @include('Admin.settings.Payments.edit-modal')
+    @endforeach
+
+    @foreach ($bankAccounts as $bankAccount)
+    @include('Admin.settings.Payments.BankAccount.edit-modal')
     @endforeach
 
     <script>
@@ -282,7 +288,7 @@
                 var variableValue = $(this).attr('data-variable');
                 var $textarea = $('#textarea');
                 var summernoteEditor = $textarea.summernote('code');
-    
+
                 // Check if Summernote editor is focused
                 if ($('.note-editable').is(':focus')) {
                     var node = document.createElement("span");
@@ -322,7 +328,7 @@
                 var variableValue = $(this).attr('data-variable');
                 var $textarea = $('#textarea2');
                 var summernoteEditor = $textarea.summernote('code');
-    
+
                 // Check if Summernote editor is focused
                 if ($('.note-editable').is(':focus')) {
                     var node = document.createElement("span");

@@ -10,7 +10,7 @@
                             <a href="index.html" class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo">
                                     <a href="{{ route('welcome') }}" class="logo logo-admin"><img
-                                            src="{{ url($sitting->icon) }}" alt="" height="100"></a>
+                                            src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" alt="" height="100"></a>
                                 </span>
                                 {{-- <span class="app-brand-text demo text-body fw-bold ms-1">تاون</span> --}}
                             </a>
@@ -91,5 +91,66 @@
         </div>
     </div>
 
+    {{-- <script>
+        document.getElementById("formAuthentication").addEventListener("submit", function (e) {
+            // Prevent default form submission to process visitor data first
+            e.preventDefault();
 
+            // Capture form values
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+
+            // Fetch user details from the server
+            fetch(`/get-user-details?email=${email}&phone=${phone}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        var user = data.user;
+                        console.log(user);
+                        // Log values for debugging
+                        console.log("Name:", user.name);
+                        console.log("Email:", user.email);
+                        console.log("Phone:", user.phone);
+                        console.log("ID Number:", user.id_number);
+                        console.log("City:", user.city);
+                        console.log("Account Name:", user.account_name);
+                        console.log("Account Type:", user.account_type);
+
+                        // Check if Zoho SalesIQ is loaded
+                        if (window.$zoho && $zoho.salesiq) {
+                            // Set visitor name and email
+                            $zoho.salesiq.visitor.name(user.name);
+                            $zoho.salesiq.visitor.email(user.email);
+
+                            // Set other custom fields
+                            $zoho.salesiq.visitor.phone(user.phone); // Add phone number
+                            $zoho.salesiq.visitor.customfield("ID Number", user.id_number); // Custom field for ID Number
+                            $zoho.salesiq.visitor.customfield("City", user.city); // Custom field for City
+                            $zoho.salesiq.visitor.customfield("Account Name", user.account_name); // Custom field for Account Name
+                            $zoho.salesiq.visitor.customfield("Account Type", user.account_type); // Custom field for Account Type
+
+                            // Track multiple fields
+                            $zoho.salesiq.visitor.info({
+                                "Name": user.name,
+                                "Email": user.email,
+                                "Phone": user.phone,
+                                "ID Number": user.id_number,
+                                "City": user.city,
+                                "Account Name": user.account_name,
+                                "Account Type": user.account_type
+                            });
+                        }
+
+                        // Submit the form after processing visitor information
+                        document.getElementById("formAuthentication").submit();
+                    } else {
+                        alert("User not found");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user details:', error);
+                    alert("Error fetching user details");
+                });
+        });
+    </script> --}}
 @endsection

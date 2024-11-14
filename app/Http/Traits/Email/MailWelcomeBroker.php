@@ -30,16 +30,20 @@ trait MailWelcomeBroker
             $data['variable_payment_amount'] = $Invoice->amount ?? null;
             $data['variable_broker_name'] = $user->name != null ? $user->name : "";
             $data['variable_subscriber_name'] = $user->name != null ? $user->name : "";
-            $data['variable_current_subscription'] = $subscriptionType->name != null ? $subscriptionType->name : "";
-            $data['variable_subscription_invoice_number'] = $Invoice->invoice_ID ?? null;
-            // $data['variable_subscription_invoice_download_link'] = env('APP_URL');
-            $data['variable_subscription_invoice_download_link'] = '<a href="' . route('Broker.ShowInvoice', $Invoice->id) . '" class="btn btn-dark btn-sm waves-effect waves-light">تحميل الفاتوره</a>';
-            $email = $user->email;
+            if($user->is_property_finder){
+            }else{
+                $data['variable_current_subscription'] = $subscriptionType->name != null ? $subscriptionType->name : "";
+                $data['variable_subscription_invoice_number'] = $Invoice->invoice_ID ?? null;
+                // $data['variable_subscription_invoice_download_link'] = env('APP_URL');
+                $data['variable_subscription_invoice_download_link'] = '<a href="' . route('Broker.ShowInvoice', $Invoice->id) . '" class="btn btn-dark btn-sm waves-effect waves-light">تحميل الفاتوره</a>';
+            }
+          $email = $user->email;
             $content = $EmailTemplate->content;
             foreach ($data as $key => $value) {
                 $placeholder = '$data[' . $key . ']';
                 $content = str_replace($placeholder, $value, $content);
             }
+            // Mail::to($email)->send(new WelcomeBroker($data, $content, $subject, $EmailTemplate));
             try {
                 Mail::to($email)->send(new WelcomeBroker($data, $content, $subject, $EmailTemplate));
             } catch (\Throwable $th) {

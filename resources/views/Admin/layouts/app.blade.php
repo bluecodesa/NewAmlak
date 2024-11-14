@@ -7,14 +7,15 @@
 
 
 <head>
-    {!! $sitting->google_tag !!}
+    {{-- {!! $sitting->google_tag !!} --}}
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <title> {{ $sitting->title }} - @yield ('title')</title>
     <meta content="{{ $sitting->title }}" name="description" />
     <meta content="Themesdesign" name="author" />
-    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
+    <link rel="shortcut icon"
+    href="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' && $sitting->icon_ar ? $sitting->icon_ar : ($sitting->icon_en ? $sitting->icon_en : '')) }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -51,7 +52,8 @@
             strong,
             label,
             * {
-                font-family: "NewArabic", sans-serif !important;
+                /* font-family: "NewArabic", sans-serif !important; */
+                font-family: 'Tajawal' !important
             }
         </style>
     @else
@@ -318,6 +320,50 @@
 
 
     @stack('scripts')
+    <script>
+
+$(document).ready(function() {
+    // Function to replace Arabic-Indic numerals with Western numerals
+    function replaceArabicNumerals(text) {
+        const arabicToWestern = {
+            '١': '1',
+            '٢': '2',
+            '٣': '3',
+            '٤': '4',
+            '٥': '5',
+            '٦': '6',
+            '٧': '7',
+            '٨': '8',
+            '٩': '9',
+            '٠': '0'
+        };
+
+        return text.replace(/[١٢٣٤٥٦٧٨٩٠]/g, function(match) {
+            return arabicToWestern[match];
+        });
+    }
+
+    // Select the elements containing the text and replace the numbers
+    $('body',
+            'h4',
+            'h1',
+            'h2',
+            'h5',
+            'h6',
+            'h3',
+            'span',
+            '.dropify-clear',
+            'small',
+            'b',
+            'strong',
+            'label').each(function() {
+        const originalText = $(this).text();
+        const newText = replaceArabicNumerals(originalText);
+        $(this).text(newText);
+    });
+});
+
+    </script>
 
     <script>
         function handleDelete(id) {
@@ -396,14 +442,15 @@
             });
         }
     </script>
-    {!! $sitting->zoho_salesiq !!}
+
+    {{-- {!! $sitting->zoho_salesiq !!} --}}
 
     {{-- <script>
         window.$zoho = window.$zoho || {};
         $zoho.salesiq = $zoho.salesiq || { ready: function(){} };
     </script>
-    <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq1d83b8cbfb60b3119713dd68fd1635735f23b20cfb5907da94a25b9d4e5c6911" defer></script> --}}
-
+    <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq1d83b8cbfb60b3119713dd68fd1635735f23b20cfb5907da94a25b9d4e5c6911" defer></script>
+ --}}
 
 </body>
 

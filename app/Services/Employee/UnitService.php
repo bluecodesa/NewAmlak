@@ -62,7 +62,7 @@ class UnitService
             ],
             'price' => 'digits_between:0,10',
             'service_type_id' => 'required',
-            "show_gallery" => 'sometimes',
+            "show_in_gallery" => 'sometimes',
             'type' => ['required', Rule::in(['sale', 'rent', 'rent and sale'])],
             // 'name' => 'required|array',
             // 'qty' => 'required|array',

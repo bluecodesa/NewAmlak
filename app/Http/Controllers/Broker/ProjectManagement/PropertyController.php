@@ -8,6 +8,7 @@ use App\Models\FalLicenseUser;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\TicketType;
+use App\Models\Visitor;
 use App\Services\AllServiceService;
 use App\Services\CityService;
 use App\Services\Broker\BrokerDataService;
@@ -20,7 +21,7 @@ use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\Admin\FalLicenseService;
-
+use Carbon\Carbon;
 
 class PropertyController extends Controller
 {
@@ -266,6 +267,11 @@ class PropertyController extends Controller
         if(!empty($property) && $falLicense->ad_license_status == 'valid' && $property->BrokerData->GalleryData->gallery_status != 0 ){
             $ticketTypes =  TicketType::paginate(100);
 
+            $sevenDaysAgo = Carbon::now()->subDays(7);
+            $propertyVisitorsCount = Visitor::where('property_id', $property->id)
+            ->whereBetween('visited_at', [$sevenDaysAgo, Carbon::now()])
+            ->distinct('ip_address')
+            ->count('ip_address');
 
             $cityId = $property->city_id;
             $propertyTypeId = $property->property_type_id;

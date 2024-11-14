@@ -52,8 +52,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
-                            <form action="{{ route('Office.Contract.store') }}" method="POST" class="row"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('Office.Contract.store') }}" method="POST" class="row" enctype="multipart/form-data">
                                 @csrf
                                 @method('post')
                                 @if ($errors->any())
@@ -112,7 +111,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="owner_id" id="hiddenOwnerId" />
-                             
+
                                 <div class="col-md-4 mb-3">
                                     <label for="price" class="form-label">@lang('yearly rental price') <span
                                             class="required-color">*</span></label>
@@ -253,7 +252,7 @@
                                         <label class="form-label">@lang('Commissions Rate') <span
                                                 class="required-color">*</span></label>
                                             <div class="input-group">
-                                                <input type="number" name="commissions_rate" class="form-control"
+                                                <input type="number" name="commissions_rate" step="0.01" class="form-control"
                                                 placeholder="@lang('Commissions Rate')">
                                                 <button class="btn btn-outline-primary waves-effect" type="button"
                                                     id="button-addon2">@lang('%')</button>
@@ -272,9 +271,9 @@
                                         </select>
                                     </div>
                                 </div>
-                     
 
-                          
+
+
                                 <div style="text-align: left;">
                                     <button type="button" class="btn btn-primary me-1 next-tab" data-next="#navs-justified-profile">
                                         {{ __('Next') }}
@@ -298,37 +297,41 @@
                                             {{ __('Next') }}
                                         </button>
                                     </div>
-                                
+
 
                                 </div>
                                 <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
                                     <div class="col-12 mb-3">
                                         <label class="form-label">@lang('Attachments')</label>
                                         <div id="features" class="row">
-                                            <div class="mb-3 col-4">
-                                                <input type="text" name="name[]" class="form-control search"
-                                                    placeholder="@lang('Field name')" value="{{ old('name*') }}" />
-
+                                            <!-- حقل المرفق الأول -->
+                                            {{-- <div class="mb-3 col-4">
+                                                <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" />
                                             </div>
                                             <div class="mb-3 col-4">
+                                                <input class="form-control" type="file" name="attachment[]" accept="image/*,application/pdf" />
+                                            </div>
+                                            <div class="col-4">
+                                                <button type="button" class="btn btn-primary w-100" onclick="addFeatures()">
+                                                    <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                    <span class="d-none d-sm-inline-block">@lang('Add Attachment')</span>
+                                                </button>
+                                            </div> --}}
+                                            <div class=" col-6 mb-3">
+                                                <label for="formFileMultiple" class="form-label">@lang('Unit Masterplan')</label>
+                                                <div class="input-group">
                                                 <input class="form-control" type="file" name="attachment[]"
-                                                    id="projectMasterplan" accept="image/*,application/pdf">
-                                            </div>
-                                            <div class="col">
-                                                <button type="button" class="btn btn-primary w-100"
-                                                    onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                        class="d-none d-sm-inline-block">@lang('Add Attachment')</span></button>
+                                                    id="projectMasterplan" accept="image/*,application/pdf" multiple>
+                                                    <button class="btn btn-outline-primary waves-effect" type="button" id="button-addon3"><i class="ti ti-refresh"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="text-align: left;">
-                                        <button type="submit" class="btn btn-primary me-1">
-            
-                                            {{ __('save') }}
-                                        </button>
-            
+                                        <button type="submit" class="btn btn-primary me-1">{{ __('save') }}</button>
                                     </div>
                                 </div>
+
                         </form>
                     </div>
 
@@ -339,7 +342,6 @@
 
         <div class="content-backdrop fade"></div>
     </div>
-
 
 
 @push('scripts')
@@ -454,32 +456,35 @@
             fetchAllUnits();
         }
 
-                function addFeature() {
-                const featuresContainer = document.getElementById('features');
-                const newRow = document.createElement('div');
-                newRow.classList.add('row', 'mb-3');
 
-                newRow.innerHTML = `
-                    <div class="mb-3 col-4">
-                        <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" value="" />
-                    </div>
-                    <div class="mb-3 col-4">
-                        <input type="file" name="attachment[]" class="form-control" placeholder="@lang('value')" />
-                    </div>
-                    <div class="col-4">
-                        <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">@lang('Remove')</button>
-                    </div>
-                `;
+    </script>
 
-                featuresContainer.appendChild(newRow);
-            }
+    <script>
+        function addFeatures() {
+            const featuresContainer = document.getElementById('features');
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3');
 
+            newRow.innerHTML = `
+                <div class="mb-3 col-4">
+                    <input type="text" name="name[]" class="form-control search" placeholder="@lang('Field name')" />
+                </div>
+                <div class="mb-3 col-4">
+                    <input class="form-control" type="file" name="attachment[]" accept="image/*,application/pdf" />
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-danger w-100" onclick="removeFeature(this)">
+                        @lang('Remove')
+                    </button>
+                </div>
+            `;
+            featuresContainer.appendChild(newRow);
+        }
 
-            function removeFeature(button) {
-                const rowToRemove = button.parentNode.parentNode;
-                rowToRemove.remove();
-            }
-
+        function removeFeature(button) {
+            const rowToRemove = button.parentNode.parentNode;
+            rowToRemove.remove();
+        }
     </script>
 
     <script>
@@ -570,202 +575,167 @@
     </script>
 
     <script>
+        $(document).ready(function() {
+            // Handle payment cycle options based on selected duration unit
+            $('select[name="duration_unit"]').change(function() {
+                var durationUnit = $(this).val();
+                var paymentCycleSelect = $('select[name="payment_cycle"]');
+                paymentCycleSelect.empty(); // Clear existing options
 
-            $(document).ready(function() {
-                $('select[name="duration_unit"]').change(function() {
-                    var durationUnit = $(this).val();
-                    var paymentCycleSelect = $('select[name="payment_cycle"]');
-                    paymentCycleSelect.empty(); // Clear existing options
+                var options = {
+                    'annual': '@lang('annual')',
+                    'semi-annual': '@lang('semi-annual')',
+                    'quarterly': '@lang('quarterly')',
+                    'monthly': '@lang('monthly')'
+                };
 
-                    var options = {
-                        'annual': '@lang('annual')',
-                        'semi-annual': '@lang('semi-annual')',
-                        'quarterly': '@lang('quarterly')',
-                        'monthly': '@lang('monthly')'
-                    };
+                var filteredOptions = ['monthly', 'quarterly', 'semi-annual', 'annual'];
+                if (durationUnit === 'month') {
+                    filteredOptions = ['monthly', 'quarterly'];
+                }
 
-                    var filteredOptions = ['monthly','quarterly', 'semi-annual','annual'];
-                    if (durationUnit === 'month') {
-                        filteredOptions = ['monthly','quarterly'];
-                    }
-
-                    filteredOptions.forEach(function(option) {
-                        paymentCycleSelect.append('<option value="' + option + '">' + options[option] + '</option>');
-                    });
-                });
-
-                $('select[name="duration_unit"]').trigger('change');
-            });
-
-
-
-            $(document).ready(function() {
-                $('#calculateButton').on('click', function() {
-                    var formData = {
-                        price: parseFloat($('input[name="price"]').val()), // Convert price to float
-                        contract_type: $('select[name="contract_type"]').val(),
-                        contract_date_gregorian: null,
-                        contract_date_hijri: null,
-                        contract_date_hijri: new Date($('input[name="hijri_contract_date"]')
-                            .val()), // Convert to Date object
-                        contract_duration: parseInt($('input[name="contract_duration"]')
-                            .val()), // Convert duration to integer
-                        duration_unit: $('select[name="duration_unit"]').val(),
-                        payment_cycle: $('select[name="payment_cycle"]').val(),
-                        service_type_id: parseInt($('select[name="service_type_id"]')
-                            .val()), // Convert service type to integer
-                        commissions_rate: parseFloat($('input[name="commissions_rate"]')
-                            .val()), // Convert commissions rate to float
-                        collection_type: $('select[name="collection_type"]').val(),
-                    };
-
-                    if ($('#calendarTypeSelect').val() === 'gregorian') {
-                        formData.contract_date_gregorian = new Date($('input[name="gregorian_contract_date"]').val());
-                        // Set contract_date_hijri to null when using Gregorian calendar
-                        formData.contract_date_hijri = null;
-                        var startDate = formData.contract_date_gregorian;
-
-                    } else if ($('#calendarTypeSelect').val() === 'hijri') {
-                        formData.contract_date_hijri = new Date($('input[name="hijri_contract_date"]').val());
-                        formData.contract_date_gregorian = null;
-                        var startDate = formData.contract_date_hijri;
-
-
-                    }
-
-                    var numberOfContracts = 1;
-                    var contracts = [];
-
-                    if (formData.duration_unit === 'year' && formData.payment_cycle === 'annual') {
-                        numberOfContracts = formData.contract_duration; // One contract per year
-                    } else if (formData.duration_unit === 'month' && formData.payment_cycle === 'monthly') {
-                        numberOfContracts = formData.contract_duration; // One contract per month
-                    }else if (formData.duration_unit === 'month' && formData.payment_cycle === 'quarterly') {
-                        numberOfContracts = formData.contract_duration / 3; // Three contracts per quarter
-                    }else if (formData.duration_unit === 'year' && formData.payment_cycle === 'monthly') {
-                        numberOfContracts = formData.contract_duration * 12; // Convert years to months
-                    }
-                    else if (formData.duration_unit === 'year' && formData.payment_cycle === 'semi-annual') {
-                        numberOfContracts = formData.contract_duration * 2; // Two contracts per year (semi-annual)
-                    } else if (formData.duration_unit === 'year' && formData.payment_cycle === 'quarterly') {
-                        numberOfContracts = formData.contract_duration * 4; // Four contracts per year (quarterly)
-                    }
-
-                    var endDate = new Date(startDate);
-
-                    var commissionPerContract = 0;
-                    if (formData.service_type_id == 3) {
-                        if (formData.collection_type == 'once with frist installment') {
-
-                            commissionPerContract = (formData.commissions_rate / 100) * formData
-                                .price;
-                        } else if (formData.collection_type == 'divided with all installments') {
-
-                            commissionPerContract = (formData.commissions_rate / 100) * (formData.price /
-                                numberOfContracts);
-                        }
-                    }
-
-
-                    for (var i = 0; i < numberOfContracts; i++) {
-
-                        if (formData.duration_unit === 'month') {
-                            endDate.setMonth(startDate.getMonth() + 1);
-                        } else if (formData.duration_unit === 'year') {
-                            endDate.setFullYear(startDate.getFullYear() +
-                                1);
-                        }
-
-                        var pricePerContract = formData.price / numberOfContracts;
-
-
-                        var finalPrice = pricePerContract;
-                        if (commissionPerContract !== 0) {
-                            if (formData.collection_type === 'once with frist installment') {
-
-                                if (i === 0) {
-                                    finalPrice += commissionPerContract;
-                                }
-                            } else if (formData.collection_type === 'divided with all installments') {
-
-                                finalPrice += commissionPerContract;
-                            }
-                        }
-
-                        var contract = {
-                            contractNumber: i + 1,
-                            startDate: startDate.toLocaleDateString('en-US'),
-                            endDate: endDate.toLocaleDateString('en-US'),
-                            price: finalPrice.toFixed(2),
-                        };
-
-                        contracts.push(contract);
-
-                        if (formData.duration_unit === 'month') {
-                            startDate.setMonth(startDate.getMonth() + 1);
-                        } else if (formData.duration_unit === 'year') {
-                            startDate.setFullYear(startDate.getFullYear() + 1);
-                        }
-                    }
-
-                    var contractsHTML = '<h4>@lang('Number of Installments'): ' + numberOfContracts + '</h4>';
-                    contractsHTML += '<div class="row">';
-
-                    contracts.forEach(function(contract) {
-                        contractsHTML += '<div class="col-md-12">';
-                        contractsHTML += '<div class="card mb-3">';
-                        contractsHTML += '<div class="card-body">';
-
-                        // contractsHTML += '<h5 class="card-title">@lang('Installment') ' + contract
-                        //     .contractNumber + '</h5>';
-
-                        contractsHTML += '<div class="row">';
-                            contractsHTML += '<div class="col-md-2">';
-                        contractsHTML += '<label class="form-label">@lang('Installment'):</label>';
-                        contractsHTML += '<input type="text" class="form-control" value="' + contract
-                            .contractNumber + '" disabled>';
-                        contractsHTML += '</div>';
-                        contractsHTML += '<div class="col-md-3">';
-                        contractsHTML += '<label class="form-label">@lang('Start Date'):</label>';
-                        contractsHTML += '<input type="text" required class="form-control" value="' + contract
-                            .startDate + '" disabled>';
-                        contractsHTML += '</div>';
-                        contractsHTML += '<div class="col-md-3">';
-                        contractsHTML += '<label class="form-label">@lang('End Date'):</label>';
-                        contractsHTML += '<input type="text" required class="form-control" value="' + contract
-                            .endDate + '" disabled>';
-                        contractsHTML += '</div>';
-
-                        contractsHTML += '<div class="col-md-3">';
-                        contractsHTML += '<label class="form-label">@lang('Price'):</label>';
-                        contractsHTML += '<input type="text" required class="form-control" value="' + contract
-                            .price + '" disabled>';
-                        contractsHTML += '</div>';
-                        contractsHTML += '</div>';
-
-                        // contractsHTML += '<div class="row">';
-                        // contractsHTML += '<div class="col-md-4">';
-                        // contractsHTML += '<label class="form-label">@lang('Price'):</label>';
-                        // contractsHTML += '<input type="text" class="form-control" value="' + contract.price + '" disabled>';
-                        // contractsHTML += '</div>';
-                        // contractsHTML += '</div>';
-
-                        contractsHTML += '</div>'; // end card-body
-                        contractsHTML += '</div>'; // end card
-                        contractsHTML += '</div>'; // end col-md-6
-                    });
-
-                    contractsHTML += '</div>'; // end row
-
-                    // Display contract details on the page
-                    $('#contractDetails').html(contractsHTML);
-
-
-                    // Optionally, you can hide or show this section based on your needs
-                    $('#contractDetails').show();
+                filteredOptions.forEach(function(option) {
+                    paymentCycleSelect.append('<option value="' + option + '">' + options[option] + '</option>');
                 });
             });
+
+            $('select[name="duration_unit"]').trigger('change');
+
+            // Handle the calculation button click event
+            $('#calculateButton').on('click', function() {
+                var formData = {
+                    price: parseFloat($('input[name="price"]').val()), // Convert price to float
+                    contract_type: $('select[name="contract_type"]').val(),
+                    contract_duration: parseInt($('input[name="contract_duration"]').val()), // Convert duration to integer
+                    duration_unit: $('select[name="duration_unit"]').val(),
+                    payment_cycle: $('select[name="payment_cycle"]').val(),
+                    service_type_id: parseInt($('select[name="service_type_id"]').val()), // Convert service type to integer
+                    commissions_rate: parseFloat($('input[name="commissions_rate"]').val()), // Convert commissions rate to float
+                    collection_type: $('select[name="collection_type"]').val(),
+                };
+
+                // Calculate monthly rental price from annual price
+                var monthlyRate = formData.price / 12;
+
+                // Calculate the number of contracts/installments based on duration
+                var numberOfContracts = 1;
+                if (formData.duration_unit === 'year') {
+                    if (formData.payment_cycle === 'annual') {
+                        numberOfContracts = formData.contract_duration;
+                    } else if (formData.payment_cycle === 'semi-annual') {
+                        numberOfContracts = formData.contract_duration * 2;
+                    } else if (formData.payment_cycle === 'quarterly') {
+                        numberOfContracts = formData.contract_duration * 4;
+                    } else if (formData.payment_cycle === 'monthly') {
+                        numberOfContracts = formData.contract_duration * 12;
+                    }
+                } else if (formData.duration_unit === 'month') {
+                    if (formData.payment_cycle === 'monthly') {
+                        numberOfContracts = formData.contract_duration;
+                    } else if (formData.payment_cycle === 'quarterly') {
+                        numberOfContracts = Math.ceil(formData.contract_duration / 3);
+                    }
+                }
+
+                // Calculate commission per contract
+                var commissionPerContract = 0;
+                if (formData.service_type_id === 3) {
+                    if (formData.collection_type === 'once with frist installment') {
+                        commissionPerContract = (formData.commissions_rate / 100) * formData.price;
+                    } else if (formData.collection_type === 'divided with all installments') {
+                        commissionPerContract = (formData.commissions_rate / 100) * (formData.price / numberOfContracts);
+                    }
+                }
+
+                // Initialize array to store installment details
+                var contracts = [];
+                var startDate = new Date();
+
+                // Generate each installment based on payment cycle
+                for (var i = 0; i < numberOfContracts; i++) {
+                    var pricePerContract = 0;
+
+                    // Calculate price per contract based on the payment cycle
+                    if (formData.payment_cycle === 'annual') {
+                        pricePerContract = monthlyRate * 12;
+                    } else if (formData.payment_cycle === 'semi-annual') {
+                        pricePerContract = monthlyRate * 6;
+                    } else if (formData.payment_cycle === 'quarterly') {
+                        pricePerContract = monthlyRate * 3;
+                    } else if (formData.payment_cycle === 'monthly') {
+                        pricePerContract = monthlyRate;
+                    }
+
+                    // Add commission if applicable
+                    var finalPrice = pricePerContract;
+                    if (commissionPerContract !== 0) {
+                        if (formData.collection_type === 'once with frist installment' && i === 0) {
+                            finalPrice += commissionPerContract;
+                        } else if (formData.collection_type === 'divided with all installments') {
+                            finalPrice += commissionPerContract;
+                        }
+                    }
+
+                    // Set installment start and end dates based on payment cycle
+                    var installmentEndDate = new Date(startDate);
+                    if (formData.payment_cycle === 'annual') {
+                        installmentEndDate.setFullYear(installmentEndDate.getFullYear() + 1);
+                    } else if (formData.payment_cycle === 'semi-annual') {
+                        installmentEndDate.setMonth(installmentEndDate.getMonth() + 6);
+                    } else if (formData.payment_cycle === 'quarterly') {
+                        installmentEndDate.setMonth(installmentEndDate.getMonth() + 3);
+                    } else if (formData.payment_cycle === 'monthly') {
+                        installmentEndDate.setMonth(installmentEndDate.getMonth() + 1);
+                    }
+
+                    // Add installment to contracts array
+                    contracts.push({
+                        contractNumber: i + 1,
+                        startDate: startDate.toLocaleDateString('en-US'),
+                        endDate: installmentEndDate.toLocaleDateString('en-US'),
+                        price: finalPrice.toFixed(2)
+                    });
+
+                    // Set start date for next installment
+                    startDate = new Date(installmentEndDate);
+                }
+
+                // Display the calculated contracts
+                var contractsHTML = '<h4>@lang('Number of Installments'): ' + numberOfContracts + '</h4><div class="row">';
+                contracts.forEach(function(contract) {
+                    contractsHTML += `
+                        <div class="col-md-12">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label class="form-label">@lang('Installment'):</label>
+                                            <input type="text" class="form-control" value="${contract.contractNumber}" disabled>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">@lang('Start Date'):</label>
+                                            <input type="text" class="form-control" value="${contract.startDate}" disabled>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">@lang('End Date'):</label>
+                                            <input type="text" class="form-control" value="${contract.endDate}" disabled>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">@lang('Price'):</label>
+                                            <input type="text" class="form-control" value="${contract.price}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+
+                contractsHTML += '</div>';
+                $('#contractDetails').html(contractsHTML).show();
+            });
+        });
     </script>
+
 
     <script>
         $(document).ready(function() {
@@ -776,10 +746,10 @@
 
             if (serviceTypeId) {
                 $('#serviceTypeSelect').val(serviceTypeId);
-                $('#serviceTypeSelect').prop('disabled', true); 
+                $('#serviceTypeSelect').prop('disabled', true);
             } else {
                 $('#serviceTypeSelect').val('');
-                $('#serviceTypeSelect').prop('disabled', false); 
+                $('#serviceTypeSelect').prop('disabled', false);
             }
 
             if (serviceTypeId == 3) {
@@ -788,7 +758,7 @@
                 $('#propertyManagementFields').hide();
             }
 
-            $('#hiddenServiceTypeId').val(serviceTypeId); 
+            $('#hiddenServiceTypeId').val(serviceTypeId);
 
         });
 
@@ -826,7 +796,6 @@
                     success: function(data) {
                         $('#OwnersDiv').val(data.owner_id);
                         $('#OwnersDiv').prop('disabled', true);
-
                         var yearlySalary = data.unit_rental_price.yearly;
                         $('#unitSalary').val(yearlySalary);
 
@@ -883,13 +852,16 @@
         document.getElementById('unitSelect').addEventListener('change', function() {
             var unitId = this.value;
             var unitStatusSpan = document.getElementById('unitStatus');
-    
+            var messages = @json(__('This unit is rented. Start date:'));
+            var undefinedMessage = @json(__('null')); // ترجمة "غير محدد"
             if (unitId) {
                 fetch(`/units/${unitId}/status`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'rented') {
-                            unitStatusSpan.innerHTML = `This unit is rented. Start date: ${data.start_date}`;
+                            // unitStatusSpan.innerHTML = `${messages} ${data.start_date}`;
+                            var startDate = data.start_date ? data.start_date : undefinedMessage;
+                            unitStatusSpan.innerHTML = `${messages} ${startDate}`;
                         } else {
                             unitStatusSpan.innerHTML = '';
                         }

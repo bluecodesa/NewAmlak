@@ -234,7 +234,7 @@
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                     <label class="switch switch-lg">
-                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_gallery"
+                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
                                             @if($falLicense->ad_license_status != 'valid') disabled @endif
                                             @if($falLicense->ad_license_status == 'valid') checked @endif />
                                         <span class="switch-toggle-slider">
@@ -264,7 +264,7 @@
                                 <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                     <label class="switch switch-lg">
-                                        <input type="checkbox" name="show_gallery" class="switch-input" id="show_gallery" disabled />
+                                        <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" disabled />
                                         <span class="switch-toggle-slider">
                                             <span class="switch-off"><i class="ti ti-x"></i></span>
                                         </span>
@@ -541,35 +541,9 @@
 
 
 
-//     $(document).ready(function() {
-//     // Add Stage Button Click Event
-//     $('.add-stage').click(function() {
-//         var newRow = $('.stage-row').first().clone(); // Clone the first row
-//         newRow.find('select').val(''); // Clear select value
-//         newRow.find('input').val(''); // Clear input value
-//         $('#features').append(newRow); // Append cloned row to the container
-//     });
-
-//     // Submit Button Click Event
-//     $('#submit-btn').click(function() {
-//         var data = {
-//             time_line: [],
-//             date: []
-//         };
-//         $('.stage-row').each(function() {
-//             var status = $(this).find('select').val();
-//             var date = $(this).find('input').val();
-//             data.time_line.push(status);
-//             data.date.push(date);
-//         });
-//         // Now 'data' contains the array of stage data, you can send it via AJAX or any other method
-//         console.log(data);
-//     });
-// });
-
 
 </script>
-<script>
+{{-- <script>
     document.querySelectorAll('.next-tab').forEach(button => {
         button.addEventListener('click', function() {
             const nextTab = this.getAttribute('data-next');
@@ -577,7 +551,7 @@
             nextTabButton.click();
         });
     });
-</script>
+</script> --}}
 <script>
     document.getElementById('show_in_gallery').addEventListener('change', function () {
         var galleryFields = document.getElementById('gallery-fields');
@@ -650,6 +624,132 @@
                 // Allow form submission if the date is valid
                 errorMessage.style.display = 'none';
             }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Initialize Google Places Autocomplete for the address input once
+        var input = document.getElementById("myAddressBar");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // To track if a place was selected from Google Places
+        var placeSelected = false;
+
+        // Listen for the place_changed event when a place is selected
+        google.maps.event.addListener(autocomplete, "place_changed", function() {
+            // Get the selected place
+            var place = autocomplete.getPlace();
+
+            // Check if the place contains geometry (lat, lng)
+            if (place.geometry) {
+                var lat = place.geometry.location.lat();
+                var long = place.geometry.location.lng();
+
+                // Set the lat, long values into the hidden input field
+                $("#location_tag").val(lat + "," + long);
+
+                // Mark that a valid place was selected
+                placeSelected = true;
+
+                // Clear any previous error messages
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+
+        // When user types manually, reset placeSelected flag
+        $("#myAddressBar").on("input", function() {
+            placeSelected = false; // Reset place selection
+            $("#location_tag").val(''); // Clear hidden input
+            $("#addressError").text(''); // Clear any previous error
+            $("#myAddressBar").removeClass("is-invalid");
+        });
+
+        // On blur, check if a valid place was selected from Google Places
+        $("#myAddressBar").on("blur", function() {
+            var addressValue = $("#myAddressBar").val().trim(); // Get the input value
+
+            // If no place was selected from Google Places
+            if (!placeSelected) {
+                // Show an error message indicating that the address must be selected from the suggestions
+                $("#addressError").text("Please select a valid address from the suggestions.");
+                $("#myAddressBar").addClass("is-invalid");
+            } else {
+                // If a valid place was selected, clear the error message
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nextButtons = document.querySelectorAll('.next-tab');
+        const navButtons = document.querySelectorAll('.link');
+
+        function validateAndProceed(nextTabId) {
+            // Get the current tab content
+            const currentTab = document.querySelector('.tab-pane.active');
+            // Get all required fields in the current tab
+            const requiredFields = currentTab.querySelectorAll('[required]');
+            let allFilled = true;
+
+            // Reset red border styles
+            requiredFields.forEach(field => {
+                field.classList.remove('is-invalid');
+            });
+
+            // Check if all required fields are filled
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allFilled = false;
+                    field.classList.add('is-invalid'); // Add red border
+                }
+            });
+
+            // If all required fields are filled, proceed to the next tab
+            if (allFilled) {
+                // Hide current tab
+                currentTab.classList.remove('show', 'active');
+
+                // Show next tab
+                const nextTab = document.querySelector(nextTabId);
+                nextTab.classList.add('show', 'active');
+
+                // Update the active tab button in the navigation
+                const currentNavButton = document.querySelector('.nav-link.active');
+                const nextNavButton = document.querySelector(`button[data-bs-target="${nextTabId}"]`);
+
+                // Remove active class from current tab button
+                if (currentNavButton) {
+                    currentNavButton.classList.remove('active');
+                }
+
+                // Add active class to next tab button
+                if (nextNavButton) {
+                    nextNavButton.classList.add('active');
+                }
+            }
+        }
+
+        // Event listener for next buttons
+        nextButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTabId = button.getAttribute('data-next');
+                validateAndProceed(nextTabId);
+            });
+        });
+
+        // Event listener for nav buttons
+        navButtons.forEach(navButton => {
+            navButton.addEventListener('click', function() {
+                const nextTabId = navButton.getAttribute('data-bs-target');
+                // Call validateAndProceed with the target tab
+                validateAndProceed(nextTabId);
+            });
         });
     });
 </script>

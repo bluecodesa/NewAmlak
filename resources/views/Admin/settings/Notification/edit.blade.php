@@ -56,6 +56,13 @@
                         <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_subscriber_name')"
                             data-variable="$data[variable_subscriber_name]">@lang('variable_subscriber_name')</span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('variable_subscriber_email')"
+                            data-variable="$data[variable_subscriber_email]">@lang('variable_subscriber_email')</span>
+
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('variable_subscriber_password')"
+                            data-variable="$data[variable_subscriber_password]">@lang('variable_subscriber_password')</span>
 
                         <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_current_subscription')"
@@ -68,13 +75,40 @@
                         <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
                             data-original-title="@lang('Click to add it') : @lang('variable_subscription_invoice_download_link')"
                             data-variable="$data[variable_subscription_invoice_download_link]">@lang('variable_subscription_invoice_download_link')</span>
+
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('unit_name')"
+                            data-variable="$data[unit_name]">@lang('unit name')
+                             </span>
+
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('city')"
+                            data-variable="$data[city]">@lang('city')
+                            </span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('district')"
+                            data-variable="$data[district]">@lang('district')
+                            </span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('property_type_data_name')"
+                            data-variable="$data[property_type_data_name]">@lang('property_type_data_name')
+                            </span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('variable_home')"
+                            data-variable="$data[variable_home]">@lang('variable_home')
+                            </span>
+                            <span class="badge bg-success mt-1" data-toggle="tooltip" data-placement="top"
+                            data-original-title="@lang('Click to add it') : @lang('variable_login')"
+                            data-variable="$data[variable_login]">@lang('variable_login')
+                            </span>
+
                     </div>
 
                     <form action="{{ route('Admin.update.StoreEmailTemplate', $notification->id) }}" method="post"
                         class="row">
                         @csrf
                         <div class="col-12 mb-3 mt-2">
-                            <label>@lang('topic')</label>
+                            <label>@lang('Email topic')</label>
                             <input type="text" name="subject" class="form-control" value="{{ $template->subject ?? '' }}"
                                 placeholder="@lang('topic')">
                         </div>

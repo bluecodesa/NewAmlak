@@ -64,6 +64,11 @@ class Office extends Model
     {
         return $this->hasOne(SystemInvoice::class, 'office_id')->latest();
     }
+    public function UserSubscriptionSuspend()
+    {
+        return $this->hasOne(Subscription::class, 'office_id')->where('is_suspend', 1);
+    }
+
 
     public function wallets()
     {
@@ -76,12 +81,25 @@ class Office extends Model
         return $this->hasMany(Unit::class, 'office_id');
     }
 
+    public function OfficeHasProjects()
+    {
+
+        return $this->hasMany(Project::class, 'office_id');
+    }
+
+    public function OfficeHasProperties()
+    {
+
+        return $this->hasMany(Property::class, 'office_id');
+    }
+
     public function owners()
     {
         return $this->belongsToMany(Owner::class, 'owner_office_broker')
                     ->withPivot('broker_id', 'balance')
                     ->withTimestamps();
     }
+
 
     public function ownerOffices()
     {

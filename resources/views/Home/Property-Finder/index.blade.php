@@ -19,13 +19,36 @@
             ->toArray();
     @endphp
 @endif
+
     <section class="section-py bg-body first-section-pt">
         <div class="container mt-2">
             <h4 class="py-3 mb-4"><span class="text-muted fw-light"><a href="{{ route('welcome') }}">الرئيسيه</a>/ </span>حسابي
             </h4>
+            <div class="modal fade" id="basicModal7" tabindex="-1" aria-hidden="false">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body ">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title mt-0"> @lang('Hello and welcome') : {{ Auth::user()->name }} </h5>
+                            </div>
+                            <div class="modal-body text-center">
+                                <h5>@lang('Your account is suspended')</h5>
+                                @lang('Sorry, your account has been suspended. Please contact technical support')
+                                <br>
+                                <div class="text-center my-4">
+                                    <button class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addTicketModal">
+                                        @lang('technical support')
+                                    </button>
+                                </div>
 
-
-
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+            </div>
             {{-- <h4 class="py-3 mb-4"><span class="text-muted fw-light">User Profile /</span> Profile</h4> --}}
 
             <!-- Header -->
@@ -116,9 +139,6 @@
             </div>
             <!--/ Header -->
 
-
-
-
             <ul class="nav nav-tabs nav-fill" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
@@ -144,6 +164,33 @@
                         data-bs-target="#navs-justified-requests" aria-controls="navs-justified-requests"
                         aria-selected="false" tabindex="-1">
                         <i class="tf-icons ti ti-heart ti-xs me-1"></i>الطلبات العقارية
+                    </button>
+                </li>
+                @endif
+                @if (session('active_role') === 'Renter')
+
+                <li class="nav-item">
+                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-contract" aria-controls="navs-justified-contract"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('العقود التابعة')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-installment" aria-controls="navs-justified-installment"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-bell-dollar ti-xs me-1"></i> @lang('الأقساط')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        data-bs-target="#navs-justified-payments" aria-controls="navs-justified-payments"
+                        aria-selected="false">
+                        <i class="tf-icons ti ti-file ti-xs me-1"></i> @lang('المدفوعات')
+                        <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1"></span>
                     </button>
                 </li>
                 @endif
@@ -230,15 +277,285 @@
                     @include('Home.Property-Finder.inc._security')
 
                 </div>
+                @if (session('active_role') === 'Renter')
+
+                <div class="tab-pane fade show " id="navs-justified-contract" role="tabpanel">
+
+                    <div class="row p-1 mb-1">
+                        <div class="col-12">
+                            <h5 class="card-header">@lang('العقود')</h5>
+                        </div>
+                        <div class="col-12">
+                            <hr>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                            <input id="SearchInput" class="form-control"
+                                                placeholder="@lang('search...')"
+                                                aria-controls="DataTables_Table_0"></label></div>
+                                </div>
+                                <div class="col-8">
+                                    <div
+                                        class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                        <div
+                                            class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                            <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                <div class="btn-group">
+                                                    <button onclick="exportToExcel()"
+                                                        class="btn btn-success buttons-collection btn-label-secondary me-3 waves-effect waves-light"
+                                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                                        type="button" aria-haspopup="dialog"
+                                                        aria-expanded="false"><span>
+                                                            <i
+                                                                class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                </div>
+                                                {{-- @if (Auth::user()->hasPermission('create-owner'))
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                                                @lang('Add New Renter')
+                                            </button>
+                                            @endif --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">@lang('Contract Number')</th>
+                                    <th scope="col">@lang('Unit')</th>
+                                    <th scope="col">@lang('Renter')</th>
+                                    <th scope="col">@lang('price')</th>
+                                    <th scope="col">@lang('status')</th>
+                                    <th scope="col">@lang('Contract validity')</th>
+                                    <th scope="col">@lang('Contract Start Date')</th>
+                                    <th scope="col">@lang('Contract End Date')</th>
+                            <th scope="col">@lang('Action')</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @forelse ($contracts as $contract)
+                                <tr>
+
+                                    <td>{{ $contract->contract_number }}</td>
+                                    <td>{{ $contract->unit->number_unit }}</td>
+                                    <td>{{ $contract->renter->UserData->name }}</td>
+                                    {{-- <td>{{ $contract->total_commission }}</td> --}}
+                                    <td>{{ $contract->price }}</td>
+                                    <td>{{ __($contract->status) }}</td>
+                                    {{-- <td>{{ __($contract->contract_validity) }}</td> --}}
+                                    <td>
+                                        <span
+                                                    class="badge badge-pill bg-{{ $contract->contract_validity == 'active' ? 'success' : 'warning' }}"
+                                                    style="font-size: 13px;">
+                                                    {{ __($contract->contract_validity) ?? __('nothing') }}
+                                                </span>
+                                        </td>
+                                    <td>{{ $contract->start_contract_date }}</td>
+                                    <td>{{ $contract->end_contract_date }}</td>
+
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ti ti-dots-vertical"></i>
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('Office.Contract.show', $contract->id) }}">@lang('Show')</a>
+                                                @if (Auth::user()->hasPermission('edit-contract') && $contract->status != 'Executed')
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('Office.Contract.edit', $contract->id) }}">@lang('Edit')</a>
+                                                @endif
+
+
+                                                @if (Auth::user()->hasPermission('delete-contract') && $contract->status != 'Executed' )
+                                                    <a href="javascript:void(0);"
+                                                        onclick="handleDelete('{{ $contract->id }}')"
+                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                    <form id="delete-form-{{ $contract->id }}"
+                                                        action="{{ route('Office.Contract.destroy', $contract->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                @endif
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </td>
+                                </tr>
+                            @empty
+                                <td colspan="8">
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <span class="alert-icon text-danger me-2">
+                                            <i class="ti ti-ban ti-xs"></i>
+                                        </span>
+                                        @lang('No Data Found!')
+                                    </div>
+                                </td>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade show " id="navs-justified-installment" role="tabpanel">
+
+                    <div class="row p-1 mb-1">
+                        <div class="col-12">
+                            <h5 class="card-header">@lang('الاقساط')</h5>
+                        </div>
+                        <div class="col-12">
+                            <hr>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                            <input id="SearchInput" class="form-control"
+                                                placeholder="@lang('search...')"
+                                                aria-controls="DataTables_Table_0"></label></div>
+                                </div>
+                                <div class="col-8">
+                                    <div
+                                        class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                        <div
+                                            class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                            <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                <div class="btn-group">
+                                                    <button onclick="exportToExcel()"
+                                                        class="btn btn-success buttons-collection btn-label-secondary me-3 waves-effect waves-light"
+                                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                                        type="button" aria-haspopup="dialog"
+                                                        aria-expanded="false"><span>
+                                                            <i
+                                                                class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                </div>
+                                                {{-- @if (Auth::user()->hasPermission('create-owner'))
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                                                @lang('Add New Renter')
+                                            </button>
+                                            @endif --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>@lang('Installment Number')</th>
+                                    <th>@lang('price')</th>
+                                    <th>@lang('Commission')</th>
+                                    <th>@lang('total')</th>
+                                    <th>@lang('status')</th>
+                                    <th>@lang('Installment Start Date')</th>
+                                    <th>@lang('Installment End Date')</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @forelse ($installmentsPerRenter as $index => $installment)
+                                <tr>
+
+                                    <td>{{ $installment->Installment_number }}</td>
+                                    <td>{{ $installment->price }}</td>
+                                    <td>{{ $installment->commission }}</td>
+                                    <td>{{ $installment->final_price }}</td>
+                                    <td>{{ __($installment->status) }}</td>
+                                    <td>{{ $installment->start_date }}</td>
+                                    <td>{{ $installment->end_date }}</td>
+
+
+                                </tr>
+                            @empty
+                                <td colspan="8">
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <span class="alert-icon text-danger me-2">
+                                            <i class="ti ti-ban ti-xs"></i>
+                                        </span>
+                                        @lang('No Data Found!')
+                                    </div>
+                                </td>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade show " id="navs-justified-messages" role="tabpanel">
+
+                    <div class="row p-1 mb-1">
+                        <div class="col-12">
+                            <h5 class="card-header">@lang('المدفوعات')</h5>
+                        </div>
+                        <div class="col-12">
+                            <hr>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter"><label>
+                                            <input id="SearchInput" class="form-control"
+                                                placeholder="@lang('search...')"
+                                                aria-controls="DataTables_Table_0"></label></div>
+                                </div>
+                                <div class="col-8">
+                                    <div
+                                        class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                                        <div
+                                            class="dt-action-buttons d-flex flex-column align-items-start align-items-md-center justify-content-sm-center mb-3 mb-md-0 pt-0 gap-4 gap-sm-0 flex-sm-row">
+                                            <div class="dt-buttons btn-group flex-wrap d-flex">
+                                                <div class="btn-group">
+                                                    <button onclick="exportToExcel()"
+                                                        class="btn btn-success buttons-collection btn-label-secondary me-3 waves-effect waves-light"
+                                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                                        type="button" aria-haspopup="dialog"
+                                                        aria-expanded="false"><span>
+                                                            <i
+                                                                class="ti ti-download me-1 ti-xs"></i>Export</span></button>
+                                                </div>
+                                                {{-- @if (Auth::user()->hasPermission('create-owner'))
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                                                @lang('Add New Renter')
+                                            </button>
+                                            @endif --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                @endif
             </div>
-
-
 
             <!--/ Navbar pills -->
         </div>
     </section>
 
+    {{-- @include('Home.Payments.pending_payment')
+    @include('Home.Payments._view_inv') --}}
+
     @push('scripts')
+    @if ((Auth::user()->UserOwnerData->UserSubscriptionSuspend ?? null))
+    <script>
+        $(document).ready(function() {
+            $('#basicModal7').modal('show');
+        });
+    </script>
+    @endif
         <script>
             function readURL(input) {
                 if (input.files && input.files[0]) {
@@ -328,54 +645,7 @@
 </script>
 
 <script>
-//     function handleRoleRedirect(role) {
-//         if (role === 'Office') {
-//             redirectToCreateOffice();
-//         } else if (role === 'RS-Broker') {
-//             redirectToCreateBroker();
-//         } else if (role === 'Owner' || role === 'Property-Finder') {
-//             redirectToCreatePropertyFinder();
-//         } else {
-//             alert('No redirection available for this role.');
-//         }
-//     }
 
-//     function redirectToCreateBroker() {
-//         let formData = {
-//         name: document.getElementById('name').value,
-//         id_number: document.getElementById('id_number').value,
-//         email: document.getElementById('email').value,
-//         phone: document.getElementById('phone').value,
-//         key_phone: document.getElementById('key_phone').value,
-//         avatar: document.querySelector('input[name="avatar"]').files[0]
-//     };
-
-//     // Store form data and role in session storage
-//     sessionStorage.setItem('formData', JSON.stringify(formData));
-//     sessionStorage.setItem('role', role);
-
-//     window.location.href = "{{ route('Home.Broker.CreateNewBroker') }}";
-//     }
-
-//     function redirectToCreatePropertyFinder() {
-//         window.location.href = "{{ route('Home.PropertyFinders.CreatePropertyFinder') }}";
-//     }
-
-//     function redirectToCreateOffice() {
-//         window.location.href = "{{ route('Home.Offices.CreateOffice') }}";
-//     }
-
-//     function handleRoleRedirect(role) {
-//     if (role === 'Office') {
-//         redirectToCreateOffice();
-//     } else if (role === 'RS-Broker') {
-//         redirectToCreateBroker();
-//     } else if (role === 'Owner' || role === 'Property-Finder') {
-//         redirectToCreatePropertyFinder();
-//     } else {
-//         alert('No redirection available for this role.');
-//     }
-// }
 
 function handleRoleRedirect(role) {
     if (role === 'Office-Admin') {
@@ -436,6 +706,27 @@ $('#Region_id').on('change', function() {
                 },
             });
  });
+
+ function handleDelete(id) {
+            Swal.fire({
+                title: "@lang('Are you sure')",
+                text: "@lang('You can not be able to revert this!')",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: "@lang('Yes, delete it!')",
+                cancelButtonText: "@lang('No, keep it')",
+                customClass: {
+                    confirmButton: 'btn btn-primary me-3 waves-effect waves-light',
+                    cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+                },
+                buttonsStyling: false
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+
 
 </script>
 

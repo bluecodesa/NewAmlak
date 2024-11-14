@@ -29,33 +29,27 @@
             $isGalleryProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
             $isGalleryProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
             $shareLabel = $isGalleryUnit ? 'Unit' : ($isGalleryProject ? 'Project' : ($isGalleryProperty ? 'Property' : 'Item'));
-            $routeName = $isGalleryUnit ? 'gallery.showUnitPublic' : ($isGalleryProject ? 'Home.showPublicProject' : 'Home.showPublicProperty');
+            // $routeName = $isGalleryUnit ? 'gallery.showUnitPublic' : ($isGalleryProject ? 'Home.showPublicProject' : 'Home.showPublicProperty');
+            $routeName ='gallery.showUnitPublic';
 
-            $gallery_name = $Unit->BrokerData->GalleryData->gallery_name;
-            $unit_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $Unit->id]);
+            // $gallery_name = $Unit->BrokerData->GalleryData->gallery_name;
+            if( $Unit->BrokerData){
+                    $gallery_name= $Unit->BrokerData->GalleryData->gallery_name;
+                }elseif( $Unit->OfficeData){
+                    $gallery_name= $Unit->OfficeData->GalleryData->gallery_name;
+
+                }
+
+            $ad_url = route($routeName, ['gallery_name' => $gallery_name, 'id' => $Unit->id]);
             @endphp
-            <input type="hidden" name="ad_url" value="{{ $unit_url }}" class="form-control" required>
-
-            {{-- <div class="col-md-6 mb-3 col-12">
-
-                <label class="form-label">{{ __('Ticket Type') }} <span class="required-color">*</span></label>
-                <select class="form-select" name="type" required disabled>
-                    <option value="" disabled> @lang('Ticket Type') </option>
-                    @foreach ($ticketTypes as $ticketType)
-                        <option value="{{ $ticketType->id }}" {{ $ticketType->id == 39 ? 'selected' : '' }}>
-                            {{ $ticketType->name }}
-                        </option>
-                    @endforeach
-                </select>
-                <input type="hidden" name="type" value="39" required>
+            <input type="hidden" name="ad_url" value="{{ $ad_url }}" class="form-control" required>
 
 
-            </div> --}}
             <input type="hidden" name="type" value="39" required>
 
             <div class="col-md-6 mb-3 col-12">
                 <label class="form-label"> @lang('Ticket Address') <span class="required-color">*</span></label>
-                <input type="text" required name="subject" class="form-control" value="{{ $Unit->name }}"
+                <input type="text" required name="subject" class="form-control" value="{{ $Unit->name ?? $Unit->number_unit }}"
                     placeholder="@lang('Ticket Address')">
             </div>
             <div class="col-md-6 mb-3 col-12">

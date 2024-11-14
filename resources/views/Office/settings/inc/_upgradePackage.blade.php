@@ -68,6 +68,7 @@
 </div> --}}
 
 
+
 <div class="modal fade" id="basicModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-simple modal-pricing">
         <div class="modal-content p-2 p-md-5">
@@ -98,7 +99,47 @@
                                                 <div class="text-center h-px-100 mb-2">
                                                     <div class="d-flex justify-content-center">
                                                         <sup class="h6 pricing-currency mt-3 mb-0 me-1 text-primary">@lang('SAR')</sup>
+                                                        @if ($type->discount_type == 'incentive')
+                                                        {{-- @php
+                                                        $publish_discount = ($numOfAds / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                        //1/3 * 3%
+                                                        $views_discount = ($numOfViews / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                        //1/5 * 5%
+                                                        $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
+                                                        // x + y
+                                                        $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                        // 100 -(100*2%)
+                                                        $discounted_price = $discounted_price < 0 ? 0 : $discounted_price;
+
+                                                        @endphp --}}
+
+                                                        @php
+                                                            $publish_discount = 0;
+                                                            $views_discount = 0;
+
+                                                            if ($type->ads_count != 0) {
+                                                                $publish_discount = ($numOfAds / $type->ads_count) * $type->ads_discount; // خصم النشر
+                                                            }
+
+                                                            if ($type->views_count != 0) {
+                                                                $views_discount = ($numOfViews / $type->views_count) * $type->views_discount; // خصم المشاهدات
+                                                            }
+
+                                                            $total_discount = $publish_discount + $views_discount; // إجمالي الخصم
+                                                            $discounted_price = $type->price - ($type->price * $total_discount); // السعر بعد الخصم
+                                                            $discounted_price = $discounted_price < 0 ? 0 : $discounted_price;
+
+                                                        @endphp
+
+
+                                                        <h1 class="display-4 mb-0 text-primary">{{ $discounted_price }}</h1>
+                                                        <input type="number" class="display-4 mb-0 text-primary"  name="amount" hidden value="{{ $discounted_price }}"></input>
+                                                        <input type="number" class="display-4 mb-0 text-primary"  name="total_discount" hidden value="{{ $total_discount }}"></input>
+
+                                                        @else
                                                         <h1 class="display-4 mb-0 text-primary">{{ $type->price - $type->price * $type->upgrade_rate }}</h1>
+                                                        <input type="number" class="display-4 mb-0 text-primary"  name='amount' hidden value="{{ $type->price - $type->price * $type->upgrade_rate }}"></input>
+                                                        @endif
                                                         <sub class="h6 pricing-duration mt-auto mb-2 text-muted fw-normal">/{{ $type->period }} {{ __($type->period_type) }}</sub>
                                                     </div>
                                                     <del><small class="price-yearly price-yearly-toggle text-muted">@lang('SAR') {{ $type->price }}</small></del>

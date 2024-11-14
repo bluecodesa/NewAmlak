@@ -5,60 +5,71 @@
 
     @include('Admin.layouts.Inc._errors')
 
-    <input type="text" name="key_phone" hidden id="key_phone" value="{{ $office->key_phone ?? '966' }}">
-
-    <div class="col-md-6 col-12 mb-3">
+    <input type="text" name="key_phone" hidden id="key_phone1" value="{{ $office->key_phone ?? '966' }}">
+    <input type="text" hidden name="full_phone" id="full_phone1"
+    value="{{ $office->full_phone ?? ($office->key_phone ?? '966') }}">
+    <div class="col-md-4 col-12 mb-3">
         <label class="form-label" for="company_name"> @lang('Company Name')<span
             class="text-danger">*</span></label>
 
-        <input type="text" class="form-control" id="name" name="name" value="{{ $office->UserData->name }}"
+        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $office->company_name }}"
             required>
     </div>
 
-    <div class="col-md-3 col-12 mb-3">
-        <label class="form-label" for="name"> @lang('Commercial Registration No')<span
-            class="text-danger">*</span></label>
-                <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
-                 name="CRN"  value="{{ $office->CRN }}" required>
 
-    </div>
-    <div class="col-md-3 col-12 mb-3">
-        <label for="license_number">
-            @lang('license number')</label>
 
-        <input type="text" class="form-control" id="license_number" name="office_license"
-            value="{{ $office->office_license }}" required>
+    <div class="col-md-4 col-12 mb-3">
+        <label for="company_email">@lang('Email')<span class="text-danger">*</span></label>
+
+        <input type="email" class="form-control" id="company_email" name="company_email" value="{{ $office->company_email }}">
     </div>
 
 
-
-    <div class="col-md-6 col-12 mb-3">
-        <label for="email">@lang('Email')<span class="text-danger">*</span></label>
-
-        <input type="email" class="form-control" id="email" name="email" value="{{ $office->UserData->email }}">
-    </div>
-
-
-
-    <div class="col-12 mb-3 col-md-6">
-        <label for="color" class="form-label">@lang('Company Mobile') <span class="required-color">*</span></label>
+    <div class="col-12 mb-3 col-md-4">
+        <label for="color" class="form-label">@lang('Company Mobile')<span class="required-color">*</span></label>
         <div class="input-group">
-            <input type="text" placeholder="123456789" name="phone" value="{{ $office->UserData->phone }}"
-                class="form-control" maxlength="9" pattern="\d{1,9}"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                aria-label="Text input with dropdown button">
+            <input type="text" placeholder="123456789" name="company_number" id="company_number"
+            value="{{ $office->company_number }}" class="form-control" maxlength="9" pattern="\d{1,9}"
+                oninput="updateFullPhone1(this)" aria-label="Text input with dropdown button">
             <button class="btn btn-outline-primary dropdown-toggle waves-effect" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                {{ $office->UserData->key_phone ?? '966' }}
+                {{$office->key_phone ?? '966' }}
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" style="">
+            <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" data-key="971" href="javascript:void(0);">971</a></li>
                 <li><a class="dropdown-item" data-key="966" href="javascript:void(0);">966</a></li>
             </ul>
         </div>
     </div>
 
+    <div class="col-md-4 col-12 mb-3">
+        <label class="form-label" for="name"> @lang('Commercial Registration No')<span
+            class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="@lang('Commercial Registration No')" id="CR_number"
+                 name="CRN"  value="{{ $office->CRN }}" required>
 
+    </div>
+
+
+    <div class="col-md-4 col-12 mb-3">
+        <label>@lang('Region') <span class="text-danger">*</span></label>
+        <select type="package" class="form-select" id="Region_id" required>
+            <option selected value="{{ $region->id ?? '' }}">
+                {{ $region->name ?? '' }}</option>
+            @foreach ($Regions as $Region)
+                <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
+                    {{ $Region->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-4 col-12 mb-3">
+        <label>@lang('city') <span class="text-danger">*</span></label>
+        <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
+            <option selected value="{{ $city->id ?? '' }}">
+                {{ $city->name ?? '' }}</option>
+        </select>
+    </div>
 
     <div class="col-md-4 col-12 mb-3">
         <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -82,28 +93,10 @@
         </div>
     </div>
 
-    <div class="col-md-4 col-12 mb-3">
-        <label>@lang('Region') <span class="text-danger">*</span></label>
-        <select type="package" class="form-select" id="Region_id" required>
-            <option selected value="{{ $region->id ?? '' }}">
-                {{ $region->name ?? '' }}</option>
-            @foreach ($Regions as $Region)
-                <option value="{{ $Region->id }}" data-url="{{ route('Home.Region.show', $Region->id) }}">
-                    {{ $Region->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-md-4 col-12 mb-3">
-        <label>@lang('city') <span class="text-danger">*</span></label>
-        <select type="package" class="form-select" name="city_id" id="CityDiv" value="" required>
-            <option selected value="{{ $city->id ?? '' }}">
-                {{ $city->name ?? '' }}</option>
-        </select>
-    </div>
-
 
     <div class="col-md-12">
         <button type="submit" class="btn btn-primary">@lang('save')</button>
     </div>
 </form>
+
+

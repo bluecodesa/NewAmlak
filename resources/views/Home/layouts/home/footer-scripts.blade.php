@@ -2,6 +2,8 @@
     <!-- Core JS -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzFIgHaU5mzPcf16Qf3sdi0ioKqOKoy6E&libraries=places"
     defer></script>
+    <!-- Add this in the head of your layout or template -->
+
     <!-- build:js assets/vendor/js/core.js -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -35,6 +37,8 @@
     <script src="{{ url('HOME_PAGE/js/front-page-landing.js')}}"></script>
     <script src="{{ url('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+
 
     <script>
         $(document).ready(function() {
@@ -50,6 +54,7 @@
                 $(this).addClass('active');
             });
         });
+
     </script>
     <script>
         // $('.dropify').dropify();
@@ -99,7 +104,7 @@
         window.$zoho = window.$zoho || {};
         $zoho.salesiq = $zoho.salesiq || { ready: function(){} };
     </script>
-    <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq1d83b8cbfb60b3119713dd68fd1635735f23b20cfb5907da94a25b9d4e5c6911" defer></script> --}}
-
+    <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siq1d83b8cbfb60b3119713dd68fd1635735f23b20cfb5907da94a25b9d4e5c6911" defer></script>
+ --}}
 
     @stack('scripts')

@@ -175,7 +175,7 @@ class SubscriptionController extends Controller
             $numberOfUnits = $this->UnitService->getAll($entityId)->count();
             $numberOfProperties = $this->PropertyService->getAll($entityId)->count();
             $units = $this->UnitService->getAll($entityId)
-            ->where('show_gallery',1)->where('ad_license_status','Valid');
+            ->where('show_in_gallery',1)->where('ad_license_status','Valid');
             $properties = $this->PropertyService->getAll($entityId)
             ->where('show_in_gallery',1)->where('ad_license_status','Valid');
             $projects = $this->ProjectService->getAllProjectsByBrokerId($entityId)
@@ -197,7 +197,7 @@ class SubscriptionController extends Controller
             $numberOfProjects = $this->UnitService->getAllByOffice($entityId)->count();
             $numberOfProperties = $this->UnitService->getAll($entityId)->count();
             $units = $this->UnitService->getAllByOffice($entityId)
-            ->where('show_gallery',1)->where('ad_license_status','Valid');
+            ->where('show_in_gallery',1)->where('ad_license_status','Valid');
             $properties = $this->OfficePropertyService->getAll($entityId)
             ->where('show_in_gallery',1)->where('ad_license_status','Valid');
             $projects = $this->OfficeProjectService->getAllProjectsByOfficeId($entityId)

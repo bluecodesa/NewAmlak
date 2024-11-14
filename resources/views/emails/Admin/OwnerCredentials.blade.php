@@ -1,20 +1,20 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html>
 <head>
-    <title>Your New Owner Account Credentials</title>
+    <title>@lang('Your New Account Credentials')</title>
 </head>
 <body>
-    <h1>Hello {{ $user->name }},</h1>
-    <p>Your new owner account has been created successfully. Here are your login details:</p>
-    <p><strong>Email:</strong> {{ $user->email }}</p>
-    <p><strong>Password:</strong> {{ $password }}</p>
-    <p>Please log in and change your password as soon as possible.</p>
-    <p>Thank you!</p>
+    <h1>{{ $user->name }},</h1>
+    <p>@lang('Your new account has been created successfully. Here are your login details:')</p>
+    <p><strong>@lang('Email'):</strong> {{ $user->email }}</p>
+    <p><strong>@lang('password'):</strong> {{ $password }}</p>
+    <p>@lang('Please log in and change your password as soon as possible.')</p>
+    <a class="btn btn-primary" href="env('APP_URL')">@lang('login')</a>
 </body>
-</html>
+</html> --}}
 
 
-{{-- <!DOCTYPE html
+<!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
     style="font-family: system-ui, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"
@@ -126,5 +126,5 @@
     </table>
 </body>
 
-</html> --}}
+</html>
 

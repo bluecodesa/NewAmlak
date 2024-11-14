@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Broker;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Admin\SystemInvoiceRepositoryInterface;
+use App\Models\BankAccount;
 use App\Models\City;
 use App\Models\District;
 use App\Models\FalLicenseUser;
 use App\Models\Gallery;
 use App\Models\Owner;
+use App\Models\Project;
+use App\Models\Property;
+use App\Models\Receipt;
+use App\Models\Renter;
 use App\Models\Role;
 use App\Models\Subscription;
 use App\Models\SubscriptionSection;
@@ -20,6 +25,8 @@ use App\Services\Admin\DistrictService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Unit;
+use App\Models\User;
+use App\Models\Visitor;
 use App\Services\Admin\RegionService as AdminRegionService;
 use App\Services\Admin\SubscriptionService;
 use App\Services\Admin\SubscriptionTypeService;
@@ -31,6 +38,8 @@ use App\Services\Broker\GalleryService;
 use App\Services\Broker\UnitInterestService;
 use App\Services\PropertyUsageService;
 use App\Services\Admin\SectionService;
+use App\Services\Broker\ProjectService;
+use App\Services\Broker\PropertyService;
 use App\Services\Broker\TicketService;
 use App\Services\RealEstateRequestService;
 use Illuminate\Support\Facades\Notification;
@@ -55,6 +64,8 @@ class HomeController extends Controller
     protected $RealEstateRequestService;
 
     protected $ticketService;
+    protected $ProjectService;
+    protected $PropertyService;
 
 
     public function __construct(
@@ -73,6 +84,8 @@ class HomeController extends Controller
         UnitInterestService $unitInterestService,
         SectionService $SectionService,
         RealEstateRequestService $RealEstateRequestService,
+        ProjectService $ProjectService,
+        PropertyService $PropertyService
 
     ) {
         $this->subscriptionService = $subscriptionService;
@@ -90,6 +103,9 @@ class HomeController extends Controller
         $this->SectionService = $SectionService;
         $this->ticketService = $ticketService;
         $this->RealEstateRequestService = $RealEstateRequestService;
+
+        $this->ProjectService = $ProjectService;
+        $this->PropertyService = $PropertyService;
 
         $this->middleware('auth');
     }
@@ -190,6 +206,87 @@ class HomeController extends Controller
             }
         }
 
+           // اجلب عدد الإعلانات الصالحة المنشورة
+           $x = Project::where('office_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count()
+           + Property::where('office_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count()
+           + Unit::where('office_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count();
+       //             $x= Unit::where('office_id', $officeId)->where('ad_license_status', 'Valid')->count();
+       // dd($x);
+           // اجلب عدد المشاهدات لكل الإعلانات الخاصة بالمستخدم
+           $y = Visitor::where(function($query) use ($brokerId) {
+               $query->whereIn('project_id', Project::where('office_id', $brokerId)->pluck('id'))
+                       ->orWhereIn('property_id', Property::where('office_id', $brokerId)->pluck('id'))
+                       ->orWhereIn('unit_id', Unit::where('office_id', $brokerId)->pluck('id'));
+           })
+           ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
+           ->count();
+
+
+                   // mapbox
+
+        $allItems = collect();
+        $units = $this->UnitService->getAll(auth()->user()->UserBrokerData->id);
+        $projects = $this->ProjectService->getAllProjectsByBrokerId(auth()->user()->UserBrokerData->id);
+        $properties = $this->PropertyService->getAll(auth()->user()->UserBrokerData->id);
+
+        $units->each(function ($unit) {
+            $unit->isGalleryUnit = true;
+            $unit->rentPrice =$unit->getRentPriceByType() ?? '';
+            $unit->rent_type_show =  __($unit->rent_type_show) ?? null;
+            $unit->ProjectData =$unit->ProjectData ?? null;
+            $unit->PropertyData =$unit->PropertyData ?? null;
+
+
+        });
+        $projects->each(function ($project) {
+            $project->isGalleryProject = true;
+        });
+        $properties->each(function ($property) {
+            $property->isGalleryProperty = true;
+            $property->ProjectData =$property->ProjectData ?? null;
+        });
+
+        $galleryItems = $projects->merge($properties)->merge($units);
+        $allItems = $allItems->merge($galleryItems);
+
+        $propertyTypes = $allItems->pluck('PropertyTypeData')->filter()->unique();
+        $usages =  $this->propertyUsageService->getAllPropertyUsages();
+        $cities = $allItems->pluck('CityData')->unique();
+        $districts = $allItems->pluck('DistrictData')->unique();
+        $projects = Project::all();
+
+        $allItemsProperties = collect();
+
+        $galleries = Gallery::whereNotNull('broker_id')->where('gallery_status', 1)->get();
+
+        foreach ($galleries as $gallery) {
+            $projects = $this->ProjectService->getAllProjectsByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
+            $properties = $this->PropertyService->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
+            $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
+                ->where('show_in_gallery', 1)
+                ->get();
+
+            $galleryUnits->each(function ($unit) {
+                $unit->isGalleryUnit = true;
+            });
+            $projects->each(function ($project) {
+                $project->isGalleryProject = true;
+            });
+            $properties->each(function ($property) {
+                $property->isGalleryProperty = true;
+            });
+
+            $galleryItems = $projects->merge($properties)->merge($galleryUnits);
+            $allItemsProperties = $allItemsProperties->merge($galleryItems);
+            $propertyTypesAll = $allItemsProperties->pluck('PropertyTypeData')->filter()->unique();
+            $usagesAll =  $this->propertyUsageService->getAllPropertyUsages();
+            $citiesAll = $allItemsProperties->pluck('CityData')->unique();
+            $districtsAll = $allItemsProperties->pluck('DistrictData')->unique();
+        }
+
         return view('Broker.dashboard',  get_defined_vars());
     }
 
@@ -233,6 +330,9 @@ class HomeController extends Controller
         $subscription->update(['subscription_type_id' => $id, 'total' => $SubscriptionType->price, 'status' => 'pending']);
 
         $Invoice  =  auth()->user()->UserBrokerData->UserSystemInvoicePending;
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+        $delimiter = '-';
+        $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
 
         $data = [
             'broker_id' => $subscription->broker_id,
@@ -241,7 +341,7 @@ class HomeController extends Controller
             'subscription_name' => $SubscriptionType->name,
             'period' => $SubscriptionType->period,
             'period_type' => $SubscriptionType->period_type,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
             'status' => 'pending'
         ];
 
@@ -294,13 +394,173 @@ class HomeController extends Controller
             $invoices = $this->systemInvoiceRepository->findByBrokerId($brokerId);
         $UserSubscriptionTypes = $this->SubscriptionTypeService->getUserSubscriptionTypes()->where('is_deleted', 0)->where('status', 1);
         $sections = $this->SectionService->getAll();
+           // اجلب عدد الإعلانات الصالحة المنشورة
+           $numOfAds = Project::where('broker_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count()
+           + Property::where('broker_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count()
+           + Unit::where('broker_id', $brokerId)
+           ->where('ad_license_status', 'Valid')->count();
+//             $x= Unit::where('office_id', $officeId)->where('ad_license_status', 'Valid')->count();
+// dd($numOfAds);
+           // اجلب عدد المشاهدات لكل الإعلانات الخاصة بالمستخدم
+           $numOfViews = Visitor::where(function($query) use ($brokerId) {
+               $query->whereIn('project_id', Project::where('broker_id', $brokerId)->where('ad_license_status', 'Valid')->pluck('id'))
+                     ->orWhereIn('property_id', Property::where('broker_id', $brokerId)->where('ad_license_status', 'Valid')->pluck('id'))
+                     ->orWhereIn('unit_id', Unit::where('broker_id', $brokerId)->where('ad_license_status', 'Valid')->pluck('id'));
+           })
+           ->whereBetween('visited_at', [$start_date, $end_date]) // Filter by subscription dates
+           ->count();
+// dd($numOfViews);
+            $receipts = Receipt::where('broker_id',auth()->user()->UserBrokerData->id)->get();
+
+
         return view('Broker.Subscription.show', get_defined_vars());
     }
 
     public function ShowInvoice($id)
     {
         $invoice = $this->systemInvoiceRepository->find($id);
+        $bankAccount = BankAccount::where('is_default','1')->where('status','1')->first();
 
         return view('Broker.Subscription.invoices.show', get_defined_vars());
     }
+
+    public function searchByIdNumber(Request $request)
+    {
+
+        // $this->OwnerService->searchByIdNumber($request);
+        $validatedData = $request->validate([
+            'id_number' => [
+                'required',
+                'numeric',
+                'digits:10',
+                function ($attribute, $value, $fail) {
+                    if (!preg_match('/^[12]\d{9}$/', $value)) {
+                        $fail('The ID number must start with 1 or 2 and be exactly 10 digits long.');
+                    }
+                },
+            ],
+        ], [
+            'id_number.required' => 'The ID number field is required.',
+            'id_number.numeric' => 'The ID number must be a number.',
+            'id_number.digits' => 'The ID number must be exactly 10 digits long.',
+        ]);
+
+        $idNumber = $validatedData['id_number'];
+        $brokerId = auth()->user()->UserBrokerData->id;
+
+        $user = User::where('id_number', $idNumber)->first();
+        if ($user) {
+            if ($user->is_owner) {
+                $existingOwner = Owner::where('user_id', $user->id)
+                    ->whereHas('brokers', function ($query) use ($brokerId) {
+                        $query->where('broker_id', $brokerId);
+                    })
+                    ->first();
+
+                if ($existingOwner) {
+                    return response()->json([
+                        'html' => view('Broker.inc._result_search', [
+                            'message' => __('User is already a Owner in this office.'),
+                            'user' => $user,
+                        'id_number'=>$idNumber
+
+                        ])->render()
+                    ]);
+                } else {
+                    return response()->json([
+                        'html' => view('Broker.inc._no_data_search', [
+                            'message' => __('This id number is not registered in this account'),
+                            'user' => $user,
+                            'id_number'=>$idNumber
+                        ])->render()
+                    ]);
+                }
+            }elseif($user->is_renter) {
+                $existingRenter = Renter::where('user_id', $user->id)
+                    ->whereHas('BrokerData', callback: function ($query) use ($brokerId) {
+                        $query->where('broker_id', $brokerId);
+                    })
+                    ->first();
+                    if ($existingRenter) {
+                        return response()->json(['html' => view('Broker.inc._result_search', ['message' => __('User is already a renter in this office.'), 'user' => $user])->render()]);
+                    }
+                return response()->json(['html' => view('Broker.inc._no_data_search', ['message' => __('This id number is not registered in this account'), 'user' => $user])->render()]);
+            }
+             else {
+                return response()->json([
+                    'html' => view('Broker.inc._no_data_search', [
+                        'message' => __('This id number is not registered in this account'),
+                        'user' => $user,
+                        'id_number'=>$idNumber
+                    ])->render()
+                ]);
+            }
+        } else {
+            return response()->json([
+                'html' => view('Broker.inc._no_data_search', [
+                    'message' => __('This id number is not registered in this account'),
+                    session(['id_number' => $idNumber]),
+                    ])->render()
+            ]);
+        }
+
+    }
+
+
+    public function updateReceipt(Request $request, $id)
+    {
+        $receipt = Receipt::findOrFail($id);
+
+        if ($receipt->status !== 'Under review') {
+            return redirect()->back()->with('sorry', __('You can only update receipts that are under review.'));
+        }
+
+        $validatedData = $request->validate([
+            'receipt' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'comment' => 'nullable|string',
+        ]);
+        if ($request->hasFile('receipt')) {
+            $file = $request->file('receipt');
+            $ext = $file->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $ext;
+
+            $file->move(public_path('Admin/Receipt'), $filename);
+
+            $receipt->receipt = 'Admin/Receipt/' . $filename;
+        }
+
+        $receipt->comment = $validatedData['comment'] ?? $receipt->comment;
+
+        $receipt->save();
+
+        return redirect()->back()->with('success', __('Receipt updated successfully.'));
+    }
+    public function showReceipt($id){
+        $receipt = Receipt::findOrFail($id);
+        return view('Broker.SubscriptionManagement.receipts.show' , get_defined_vars());
+    }
+
+    public function deleteReceipt($id)
+    {
+        $receipt = Receipt::findOrFail($id);
+
+        if (!in_array($receipt->status, ['Under review', 'rejected'])) {
+            return redirect()->back()->with('error', __('This receipt cannot be deleted as it has already been processed.'));
+        }
+
+        $user = Auth::user();
+        $officeData = $user->UserOfficeData;
+
+        if (!$officeData || $receipt->OfficeData->user_id !== $user->id) {
+            return redirect()->back()->with('error', __('You do not have permission to delete this receipt.'));
+        }
+
+        $receipt->delete();
+
+        return redirect()->back()->with('success', __('Receipt deleted successfully.'));
+    }
+
+
 }

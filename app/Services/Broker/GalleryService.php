@@ -142,7 +142,7 @@ class GalleryService
             return get_defined_vars();
         } else {
 
-            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
             $Unit = $this->UnitRepository->findById($id);
 
             if (!$Unit) {
@@ -199,7 +199,7 @@ class GalleryService
             return get_defined_vars(); // Return data to be passed to the view
         } else {
 
-            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_gallery', 1);
+            $units = $this->UnitRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
             $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
             $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
 
@@ -288,7 +288,7 @@ class GalleryService
             $projects = $this->ProjectRepository->getAllByBrokerId($gallery['broker_id'])->where('show_in_gallery', 1);
             $properties = $this->PropertyRepository->getAll($gallery['broker_id'])->where('show_in_gallery', 1);
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                ->where('show_gallery', 1)
+                ->where('show_in_gallery', 1)
                 ->get();
             // $units = $units->merge($galleryUnits);
             $galleryUnits->each(function ($unit) {

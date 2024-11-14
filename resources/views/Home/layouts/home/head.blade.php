@@ -1,5 +1,5 @@
 <head>
-    {{-- {!! $sitting->google_tag !!} --}}
+    {!! $sitting->google_tag !!}
 
     <meta charset="utf-8" />
     <meta name="viewport"
@@ -9,15 +9,15 @@
     <title> {{ $sitting->title }} - @yield ('title')</title>
 
     <meta name="description" content="" />
-    <link rel="shortcut icon" href="{{ url($sitting->icon) }}">
+    <link rel="shortcut icon" href="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
         rel="stylesheet" />
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url($sitting->icon) }}" />
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+        <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -93,7 +93,14 @@
         strong,
         label,
         * {
-            font-family: "NewArabic", sans-serif !important;
+            /* font-family: "NewArabic", sans-serif !important; */
+            font-family: 'Tajawal' !important
+
+        }
+    </style>
+     <style>
+        .template-customizer-open-btn {
+            display: none !important;
         }
     </style>
 

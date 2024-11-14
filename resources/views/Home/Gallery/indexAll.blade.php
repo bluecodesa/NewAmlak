@@ -88,11 +88,24 @@
 
 
             <!--/ Header -->
-            <div class="" style="text-align: center;">
+            <div class="row" style="text-align: center;">
+                <div class="col-8">
                 <a class="btn btn-primary mb-2" data-bs-toggle="collapse" href="#collapseExample" role="button"
                     aria-expanded="false" aria-controls="collapseExample">
                     @lang('Filter')
                 </a>
+            </div>
+            <div class="col-4">
+
+                <select id="sortDropdown" class="form-control" onchange="sortItems()">
+                    <option value="">ترتيب حسب...</option>
+                    <option value="newest">الأحدث إلى الأقدم</option>
+                    <option value="highest_price">الأعلى سعر</option>
+                    <option value="lowest_price">الأقل سعر</option>
+                    <option value="largest_space">الأكبر مساحة</option>
+                    <option value="smallest_space">الأقل مساحة</option>
+                </select>
+            </div>
             </div>
             <!-- filter  -->
             <div class="row mb-3" style="text-align: center;">
@@ -134,10 +147,10 @@
                                     <select class="form-select" id="district_filter" name="district_filter">
                                         <option value="all" {{ $districtFilter == 'all' ? 'selected' : '' }}>
                                             @lang('All')</option>
-                                        @foreach ($districts->unique('district_id') as $index => $district)
-                                            <option value="{{ $district->district_id }}"
-                                                {{ $districtFilter == $district->district_id ? 'selected' : '' }}>
-                                                {{ $district->DistrictData->name }}
+                                            @foreach ($uniqueIdIistricts as $index => $id)
+                                            <option value="{{ $id }}"
+                                                {{ $districtFilter == $id ? 'selected' : '' }}>
+                                                {{ $uniqueDistrictNames[$index] }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -238,403 +251,43 @@
                     </div> --}}
 
             <!-- Connection Cards -->
-            <div class="row g-4">
-                @foreach ($allItems as $index => $unit)
+            <div class="nav-align-top nav-tabs-shadow mb-4">
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item">
+                        <button
+                            type="button"
+                            class="nav-link active"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-home"
+                            aria-controls="navs-justified-home"
+                            aria-selected="true">
+                            <i class="tf-icons ti ti-list ti-xs me-1"></i> @lang('List')
+                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">{{ $allItems->count() }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                            aria-selected="false">
+                            <i class="tf-icons ti ti-map ti-xs me-1"></i> @lang('Interactive Map')
+                            <span
+                                class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">{{ $allItems->count() }}</span>
+                        </button>
+                    </li>
+                </ul>
 
-                    @php
-                        $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
-                    @endphp
-                    @if (
-                        $falLicenseUser &&
-                            $falLicenseUser->ad_license_status == 'valid' &&
-                            $falLicenseUser->falData->for_gallery == 1 &&
-                            $unit->ad_license_status == 'Valid')
-                        {{-- @if ($falLicenseUser && $falLicenseUser->ad_license_status == 'valid' && $unit->ad_license_status == 'Valid') --}}
-
-                        {{-- @if ($unit->BrokerData->license_validity == 'valid' && $unit->ad_license_status == 'Valid') --}}
-                        <div class="col-xl-4 col-lg-6 col-md-6">
-                            <div class="card h-200">
-                                <div class="card-body text-center">
-                                    <div class="dropdown btn-pinned">
-                                        @if (isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
-                                            @if ($unit->type == 'rent')
-                                                @if ($unit->getRentPriceByType())
-                                                    <span class="pb-1">
-                                                        {{ $unit->getRentPriceByType() }} @lang('SAR') /
-                                                        {{ __($unit->rent_type_show) }}
-                                                    </span>
-                                                @endif
-                                            @elseif ($unit->type == 'sale')
-                                                @if ($unit->price)
-                                                    {{ $unit->price }} @lang('SAR')
-                                                @endif
-                                            @else
-                                                @if ($unit->getRentPriceByType())
-                                                    <span class="pb-1">
-                                                        {{ $unit->getRentPriceByType() }} @lang('SAR') /
-                                                        {{ __($unit->rent_type_show) }}
-                                                    </span>
-                                                @elseif ($unit->price)
-                                                    {{ $unit->price }} @lang('SAR')
-                                                @endif
-                                            @endif
-                                        @endif
-
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-start">
-                                        <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#onboardHorizontalImageModal{{ $unit->id }}"><i
-                                                class="ti ti-share ti-sm"></i></a>
-                                        @guest
-
-                                            {{-- <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-                                                        data-bs-toggle="modal" data-bs-target="#modalToggle">
-                                                        <i class="ti ti-heart ti-sm"></i>
-
-                                                    </a> --}}
-
-                                            <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-                                                href="{{ route('login') }}">
-                                                <i class="ti ti-heart ti-sm"></i>
-
-                                            </a>
-                                            {{--
-                                            <a class=" d-flex align-items-center me-3"
-                                            href="{{ route('login') }}">
-                                            <i class="ti ti-report ti-sm"></i>
-                                                @lang('الابلاغ عن الاعلان')
-                                            </a> --}}
-
-                                        @endguest
-                                        @php
-                                            $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
-                                            $isGalleryProject =
-                                                isset($unit->isGalleryProject) && $unit->isGalleryProject;
-                                            $isGalleryProperty =
-                                                isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
-                                        @endphp
-
-                                        @auth
-                                            @if (auth()->user())
-                                                @php
-                                                    $isFavorite = App\Models\FavoriteUnit::where(
-                                                        'finder_id',
-                                                        auth()->user()->id,
-                                                    )
-                                                        ->where(function ($query) use ($unit) {
-                                                            $query
-                                                                ->where('unit_id', $unit->id)
-                                                                ->orWhere('property_id', $unit->id)
-                                                                ->orWhere('project_id', $unit->id);
-                                                        })
-                                                        ->exists();
-
-                                                    // Determine the type (unit, property, or project)
-                                                    $type = $isGalleryUnit
-                                                        ? 'unit'
-                                                        : ($isGalleryProject
-                                                            ? 'project'
-                                                            : ($isGalleryProperty
-                                                                ? 'property'
-                                                                : ''));
-                                                @endphp
-
-                                                @if (Auth::user()->hasPermission('Add-property-as-favorite') ||
-                                                        Auth::user()->hasPermission('Add-property-as-favorite-admin'))
-                                                    @if ($isFavorite)
-                                                        <form method="POST" action="{{ route('remove-from-favorites') }}">
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="btn btn-label-danger btn-icon d-flex align-items-center me-3">
-                                                                <i class="ti ti-heart ti-sm"></i>
-                                                            </button>
-                                                            <input type="hidden" name="unit_id"
-                                                                value="{{ $unit->id }}">
-                                                            <!-- Send the type as hidden input -->
-                                                            <input type="hidden" name="type"
-                                                                value="{{ $type }}">
-                                                        </form>
-                                                    @else
-                                                        <form method="POST" action="{{ route('add-to-favorites') }}">
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="btn btn-label-secondary btn-icon d-flex align-items-center me-3">
-                                                                <i class="ti ti-heart ti-sm"></i>
-                                                            </button>
-                                                            <input type="hidden" name="unit_id"
-                                                                value="{{ $unit->id }}">
-                                                            <input type="hidden" name="owner_id"
-                                                                value="{{ $unit->BrokerData->user_id }}">
-
-                                                            <!-- Send type as hidden input -->
-                                                            <input type="hidden" name="type"
-                                                                value="{{ $type }}">
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                            @else
-                                                <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
-                                                    data-bs-toggle="modal" data-bs-target="#basicModal"
-                                                    data-unit-id="{{ $unit->id }}"
-                                                    data-user-id="{{ $unit->BrokerData->user_id }}">
-                                                    <i class="ti ti-heart ti-sm"></i>
-                                                </a>
-                                            @endif
-
-                                            {{-- <a class=" d-flex align-items-center me-3"
-                                            href="" data-bs-toggle="modal"
-                                            data-bs-target="#modalReport" >
-                                            <i class="ti ti-report ti-sm"></i>
-                                                @lang('الابلاغ عن الاعلان')
-                                            </a> --}}
-                                        @endauth
-
-                                    </div>
-                                    <div class="mx-auto my-3">
-                                        @php
-                                            $isGalleryUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
-                                            $isGalleryProject =
-                                                isset($unit->isGalleryProject) && $unit->isGalleryProject;
-                                            $isGalleryProperty =
-                                                isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
-                                        @endphp
-
-                                        @if ($isGalleryUnit)
-                                            <a href="{{ route('gallery.showUnitPublic', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
-                                                'id' => $unit->id,
-                                            ]) }}"
-                                                class="card-hover-border-default">
-                                            @elseif ($isGalleryProject)
-                                                <a href="{{ route('Home.showPublicProject', [
-                                                    'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
-                                                    'id' => $unit->id,
-                                                ]) }}"
-                                                    class="card-hover-border-default">
-                                                @elseif ($isGalleryProperty)
-                                                    <a href="{{ route('Home.showPublicProperty', [
-                                                        'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
-                                                        'id' => $unit->id,
-                                                    ]) }}"
-                                                        class="card-hover-border-default">
-                                        @endif
-
-                                        <div class="image-container"
-                                            style="position: relative; width: 100%; height: 200px;">
-                                            @if ($unit->UnitImages && $unit->UnitImages->isNotEmpty())
-                                                <img src="{{ url($unit->UnitImages->first()->image) }}"
-                                                    alt="Avatar Image" class="rounded-square"
-                                                    style="width: 100%; height: 100%;" />
-                                            @elseif ($unit->ProjectImages && $unit->ProjectImages->isNotEmpty())
-                                                <img src="{{ url($unit->ProjectImages->first()->image) }}"
-                                                    alt="Avatar Image" class="rounded-square"
-                                                    style="width: 100%; height: 100%;" />
-                                            @elseif ($unit->PropertyImages && $unit->PropertyImages->isNotEmpty())
-                                                <img src="{{ url($unit->PropertyImages->first()->image) }}"
-                                                    alt="Avatar Image" class="rounded-square"
-                                                    style="width: 100%; height: 100%;" />
-                                            @else
-                                                <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
-                                                    class="rounded-square" style="width: 100%; height: 100%;" />
-                                            @endif
-                                            <div class="lable bg-label-primary"
-                                                style="position: absolute; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.5); color: white; padding: 5px; border-radius: 5px;">
-                                                <small class="card-text text-uppercase">
-                                                    @lang('last update') {{ $unit->updated_at->diffForHumans() }}
-                                                </small>
-                                            </div>
-                                            <div class="lable bg-label-primary"
-                                                style="position: absolute; top: 10px; left: 10px; background: rgba(0, 0, 0, 0.5); color: white; padding: 5px; border-radius: 5px;">
-                                                @if ($isGalleryUnit)
-                                                    @lang('Unit')
-                                                @elseif ($isGalleryProject)
-                                                    @lang('Project')
-                                                @elseif ($isGalleryProperty)
-                                                    @lang('property')
-                                                @endif
-                                            </div>
-
-                                        </div>
-                                        </a>
-                                    </div>
-
-
-
-                                    <h4 class="mb-1 card-title">
-
-                                        @if ($isGalleryUnit)
-                                            <a href="{{ route('gallery.showUnitPublic', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
-                                                'id' => $unit->id,
-                                            ]) }}"
-                                                class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
-                                        @elseif ($isGalleryProject)
-                                            <a href="{{ route('Home.showPublicProject', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
-                                                'id' => $unit->id,
-                                            ]) }}"
-                                                class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
-                                        @elseif ($isGalleryProperty)
-                                            <a href="{{ route('Home.showPublicProperty', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
-                                                'id' => $unit->id,
-                                            ]) }}"
-                                                class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
-                                        @endif
-
-
-                                    </h4>
-                                    <div class="d-flex align-items-center justify-content-center my-3 gap-2">
-
-                                        <span class="pb-1"><i
-                                                class="ti ti-map-pin"></i>{{ $unit->CityData->name ?? '' }}</span>
-                                    </div>
-                                    @if (isset($unit->isGalleryUnit) && $unit->isGalleryUnit)
-                                        <div class="d-flex align-items-center justify-content-center my-3 gap-2">
-
-                                            <a href="javascript:;"><span class="badge bg-label-primary">
-                                                    {{ __($unit->PropertyTypeData->name) ?? '' }}</span></a>
-                                            @if ($unit->type == 'rent')
-                                                <a href="javascript:;"><span
-                                                        class="badge bg-label-warning">@lang('rent')</span></a>
-                                            @endif
-                                            @if ($unit->type == 'sale')
-                                                <a href="javascript:;"><span
-                                                        class="badge bg-label-success">@lang('sale')</span></a>
-                                            @endif
-
-                                            @if ($unit->type == 'rent and sale')
-                                                <a href="javascript:;"><span
-                                                        class="badge bg-label-info">@lang('sale')</span></a>
-
-                                                <a href="javascript:;"><span
-                                                        class="badge bg-label-warning">@lang('rent')</span></a>
-                                            @endif
-                                            @if ($unit->daily_rent)
-                                                <a href="javascript:;" class="me-1">
-                                                    <span class="badge bg-label-secondary">متاح
-                                                        @lang('Daily Rent')</span></a>
-                                            @endif
-
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-around my-3 py-1">
-                                            <div>
-                                                <h4 class="mb-0">{{ $unit->rooms ?? ' ' }}</h4>
-                                                <span>@lang('number rooms')</span>
-                                            </div>
-                                            <div>
-                                                <h4 class="mb-0">{{ $unit->bathrooms ?? ' ' }}</h4>
-                                                <span>@lang('Number bathrooms')</span>
-                                            </div>
-                                            <div>
-                                                <h4 class="mb-0">{{ $unit->space ?? ' ' }}</h4>
-                                                <span>@lang('Area (m²)')</span>
-                                            </div>
-                                            <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="عدد المشاهدات اخر 7 ايام">
-                                                <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
-                                                <span class="ti ti-eye"></span>
-                                            </div>
-
-                                        </div>
-                                    @endif
-
-                                    @if (isset($unit->isGalleryProject) && $unit->isGalleryProject)
-                                        <div class="d-flex align-items-center justify-content-center my-3 gap-2"
-                                            style="text-align: center;">
-                                            <a href="javascript:;"><span class="badge bg-label-primary">
-                                                    {{ __('Project') ?? '' }}</span></a>
-
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-around my-3 py-1">
-                                            <div>
-                                                <h4 class="mb-0">{{ $unit->PropertiesProject->count() ?? 0 }}</h4>
-                                                <span>@lang('Number Properties')</span>
-                                            </div>
-                                            <div>
-                                                <h4 class="mb-0">{{ $unit->UnitsProject->count() ?? 0 }}</h4>
-                                                <span>@lang('Number units')</span>
-                                            </div>
-
-                                            {{-- <div>
-                                            <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
-                                            <span class="ti ti-eye"></span>
-                                        </div> --}}
-                                            <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="عدد المشاهدات اخر 7 ايام">
-                                                <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
-                                                <span class="ti ti-eye"></span>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    @if (isset($unit->isGalleryProperty) && $unit->isGalleryProperty)
-                                        <div class="d-flex align-items-center justify-content-center my-3 gap-2"
-                                            style="text-align: center;">
-
-                                            <a href="javascript:;"><span class="badge bg-label-primary">
-                                                    {{ __('property') ?? '' }}</span></a>
-
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-around my-3 py-1">
-                                            <div>
-                                                <h4 class="mb-0">{{ $unit->UnitsProperty->count() ?? 0 }}</h4>
-                                                <span>@lang('Number units')</span>
-                                            </div>
-
-                                            {{-- <div>
-                                            <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
-                                            <span class="ti ti-eye"></span>
-                                        </div> --}}
-                                            <div data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="عدد المشاهدات اخر 7 ايام">
-                                                <h4 class="mb-0">{{ $unitVisitorsCount[$unit->id] ?? 0 }}</h4>
-                                                <span class="ti ti-eye"></span>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @auth
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                                                <a href="tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile }}"
-                                                    target="_blank" class="btn btn-primary d-flex align-items-center me-3"><i
-                                                        class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
-                                            @endif
-                                            @if (Auth::user()->hasPermission('Send-message-to-broker') ||
-                                                    Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                                                <a href="https://web.whatsapp.com/send?phone=tel:+{{ $unit->BrokerData->key_phone }} {{ $unit->BrokerData->mobile }}"
-                                                    target="_blank" class="btn btn-label-secondary btn-icon"><i
-                                                        class="ti ti-message ti-sm"></i></a>
-                                            @endif
-                                        </div>
-                                    @endauth
-                                    @guest
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            {{-- <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
-                                            style="color: white;" data-bs-toggle="modal" data-bs-target="#modalToggle"><i
-                                                class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
-                                        <a target="_blank" class="btn btn-label-secondary btn-icon" data-bs-toggle="modal"
-                                            data-bs-target="#modalToggle"><i class="ti ti-message ti-sm"></i></a> --}}
-                                            <a target="_blank" class="btn btn-primary d-flex align-items-center me-3"
-                                                style="color: white;" href="{{ route('login') }}"><i
-                                                    class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
-                                            <a target="_blank" class="btn btn-label-secondary btn-icon"
-                                                href="{{ route('login') }}"><i class="ti ti-message ti-sm"></i></a>
-                                        </div>
-                                    @endguest
-
-                                </div>
-                            </div>
-                        </div>
-                        @include('Home.Gallery.inc.share')
-                        @include('Home.Gallery.inc.unitInterest')
-
-                    @endif
-
-                @endforeach
-
+                <!-- Wrapping tab content -->
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                        @include('Home.Gallery._inc_main_gallery.list')
+                    </div>
+                    <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+                        @include('Home.Gallery._inc_main_gallery.interactive_map')
+                    </div>
+                </div>
             </div>
+
 
 
 
@@ -645,40 +298,7 @@
     @include('Home.layouts.inc.__addSubscriberModal')
 
     <script>
-        function reloadUnits() {
-            // Get selected filter values
-            var city = document.getElementById('city_filter').value;
-            var project = document.getElementById('project_filter').value;
-            var type = document.getElementById('ad_type_filter').value;
-            var price_from = document.getElementById('price_from').value;
-            var price_to = document.getElementById('price_to').value;
 
-            // Make AJAX request to fetch filtered units
-            $.ajax({
-                url: "{{ route('filtered.units') }}",
-                type: "GET",
-                data: {
-                    city_filter: city,
-                    prj_filter: project,
-                    type_filter: type,
-                    price_from: price_from,
-                    price_to: price_to
-                },
-                success: function(data) {
-                    // Handle the received data (update the view with filtered units)
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        }
-
-        Attach event listeners to select elements
-        $(document).ready(function() {
-            $('#city_filter, #project_filter, #ad_type_filter, #price_from, #price_to').change(function() {
-                reloadUnits();
-            });
-        });
 
         $('#city_filter').on('change', function() {
             var selectedOption = $(this).find(':selected');
@@ -805,5 +425,65 @@
 
             alertify.success(@json(__('copy done')));
         }
+
+
+        $('#city_filter').on('change', function() {
+            var selectedOption = $(this).find(':selected');
+            var url = selectedOption.data('url');
+            if (selectedOption.val() === 'all') {
+                $('#district_filter').val('all');
+            } else {
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    beforeSend: function() {
+                        $('#district_filter').fadeOut('fast');
+                    },
+                    success: function(data) {
+                        $('#district_filter').fadeOut('fast', function() {
+                            $(this).empty().append(data);
+                            $(this).fadeIn('fast');
+                        });
+                    },
+                });
+            }
+        });
     </script>
+    <script>
+    // function sortItems() {
+    //     const sortOrder = document.getElementById('sortDropdown').value;
+    //     const url = new URL(window.location.href);
+    //     url.searchParams.set('sort_order', sortOrder);
+    //     window.location.href = url;
+    // }
+        // This function sets the selected option based on the query parameter
+        function setSortOrder() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const sortOrder = urlParams.get('sort_order');
+
+        const sortDropdown = document.getElementById('sortDropdown');
+
+        if (sortOrder) {
+            // Set the dropdown value to the selected sort_order from the URL
+            sortDropdown.value = sortOrder;
+
+            // Update the placeholder option text based on the selected value
+            const selectedOption = sortDropdown.options[sortDropdown.selectedIndex];
+            const placeholderOption = sortDropdown.querySelector('option[value=""]');
+            placeholderOption.textContent = selectedOption.textContent;
+        }
+    }
+
+    // This function updates the URL when the dropdown value is changed
+    function sortItems() {
+        const sortOrder = document.getElementById('sortDropdown').value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_order', sortOrder);
+        window.location.href = url;
+    }
+
+    // Run this on page load to set the correct selected option
+    window.onload = setSortOrder;
+</script>
+
 @endpush

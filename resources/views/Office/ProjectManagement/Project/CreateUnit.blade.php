@@ -91,7 +91,7 @@
 
                                                 <label class="form-label">
                                                     {{ __('Residential number') }} <span class="required-color">*</span></label>
-                                                <input type="text" required id="modalRoleName" name="number_unit"
+                                                <input type="text" required id="modalRoleName" name="number_unit"  value="{{ old('number_unit') }}"
                                                     class="form-control" placeholder="{{ __('Residential number') }}">
 
                                             </div>
@@ -157,14 +157,13 @@
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-4 col-12 mb-3">
+                                            <div class="col-md-4 mb-3 col-12">
                                                 <label class="form-label">@lang('Type use') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select" name="property_usage_id" required>
-                                                    <option disabled selected value="">@lang('Type use')</option>
+                                                    <option disabled selected value="" {{ old('property_usage_id') == '' ? 'selected' : '' }}>@lang('Type use')</option>
                                                     @foreach ($usages as $usage)
-                                                        <option value="{{ $usage->id }}"
-                                                            {{ $Project->Project_usage_id == $usage->id ? 'selected' : '' }}>
+                                                        <option value="{{ $usage->id }}" {{ old('property_usage_id') == $usage->id ? 'selected' : '' }}>
                                                             {{ $usage->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -187,7 +186,7 @@
                                             <div class="col-md-4 col-12 mb-3">
                                                 <label class="form-label">@lang('Instrument number')</label>
                                                 <input type="number" name="instrument_number" class="form-control"
-                                                    placeholder="@lang('Instrument number')" value="{{ old('Instrument number') }}" />
+                                                    placeholder="@lang('Instrument number')" value="{{ old('instrument_number') }}" />
                                             </div>
 
 
@@ -209,14 +208,14 @@
                                                 <label class="form-label">@lang('Area (square metres)')
                                                 </label>
                                                 <input type="number" name="space" class="form-control"
-                                                    placeholder="@lang('Area (square metres)')" value="{{ old('Area (square metres)') }}" />
+                                                    placeholder="@lang('Area (square metres)')" value="{{ old('space') }}" />
                                             </div>
 
 
                                             <div class="col-md-4 col-12 mb-3">
                                                 <label class="form-label">@lang('number rooms')</label>
                                                 <input type="number" name="rooms" class="form-control"
-                                                    placeholder="@lang('number rooms')" value="{{ old('number rooms') }}" />
+                                                    placeholder="@lang('number rooms')" value="{{ old('rooms') }}" />
                                             </div>
 
 
@@ -224,16 +223,16 @@
                                             <div class="col-sm-12 col-md-4 mb-3">
                                                 <label class="form-label">@lang('Number bathrooms')</label>
                                                 <input type="number" name="bathrooms" class="form-control"
-                                                    placeholder="@lang('Number bathrooms')" value="{{ old('Number bathrooms') }}" />
+                                                    placeholder="@lang('Number bathrooms')" value="{{ old('bathrooms') }}" />
                                             </div>
 
                                             <div class="col-12 mb-2 col-md-4">
                                                 <label class="form-label">@lang('Status of Unit') <span class="required-color">*</span>
                                                 </label>
                                                 <select class="form-select" name="status" id="type" required>
-                                                    <option disabled value="">@lang('Status of Unit') </option>
+                                                    <option disabled value="" {{ old('status') == '' ? 'selected' : '' }}>@lang('Status of Unit') </option>
                                                     @foreach (['vacant', 'rented'] as $type)
-                                                        <option value="{{ $type }}">
+                                                        <option value="{{ $type }}" {{ old('status') == $type ? 'selected' : '' }}>
                                                             {{ __($type) }}</option>
                                                     @endforeach
                                                 </select>
@@ -245,18 +244,18 @@
                                                     name="service_id[]" multiple="multiple">
                                                     <option disabled value="">@lang('services')</option>
                                                     @foreach ($services as $service)
-                                                        <option value="{{ $service->id }}">
-                                                            {{ $service->name }}</option>
-                                                    @endforeach
+                                                    <option value="{{ $service->id }}" {{ (collect(old('service_id'))->contains($service->id)) ? 'selected' : '' }}>
+                                                        {{ $service->name }}</option>
+                                                @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-12 mb-2 col-md-4">
                                                 <label class="form-label">@lang('The Responsible Employee')
                                                 </label>
                                                 <select class="form-select" name="employee_id" id="type">
-                                                    <option disabled selected value="">@lang('The Responsible Employee') </option>
+                                                    <option disabled selected value="" {{ old('employee_id') == '' ? 'selected' : '' }}>@lang('The Responsible Employee') </option>
                                                     @foreach ($employees as $employee)
-                                                    <option value="{{ $employee->id }}">
+                                                    <option value="{{ $employee->id }}" {{ old('employee_id') == $employee ? 'selected' : '' }}>
                                                         {{ $employee->UserData->name }}</option>
                                                 @endforeach
                                                 </select>
@@ -273,21 +272,19 @@
                                                 <label class="form-label">@lang('Additional details')</label>
                                                 <div id="features" class="row">
                                                     <div class="mb-3 col-4">
-                                                        <input type="text" name="name[]" class="form-control search"
-                                                            placeholder="@lang('Field name')" value="{{ old('name*') }}" />
+                                                        <input type="text" name="name[0]" class="form-control search" placeholder="@lang('Field name')" value="{{ old('name.0') }}" />
                                                     </div>
                                                     <div class="mb-3 col-4">
-                                                        <input type="text" name="qty[]" class="form-control"
-                                                            placeholder="@lang('value')" value="{{ old('qty*') }}" />
+                                                        <input type="text" name="qty[0]" class="form-control" placeholder="@lang('value')" value="{{ old('qty.0') }}" />
                                                     </div>
                                                     <div class="col">
-                                                        <button type="button" class="btn btn-primary w-100"
-                                                            onclick="addFeature()"><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add details')</span></button>
+                                                        <button type="button" class="btn btn-primary w-100" onclick="addFeature()">
+                                                            <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                                            <span class="d-none d-sm-inline-block">@lang('Add details')</span>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                       
 
                                             <div class="col-12" style="text-align: center;">
                                                 <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-gallery">
@@ -299,12 +296,11 @@
                     <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                         <div class="row">
 
-
-                            <div class="col-md-4 col-12 mb-3">
+                            <div class="col-md-3 col-12 mb-3">
 
                                 <label class="form-label">
                                     {{ __('ad name') }} <span class="required-color">*</span></label>
-                                <input type="text" required name="ad_name" class="form-control"
+                                <input type="text" required name="ad_name" class="form-control" value="{{ old('ad_name') }}"
                                     placeholder="{{ __('ad name') }}">
 
                             </div>
@@ -316,42 +312,71 @@
                                         class="required-color">*</span>
                                 </label>
                                 <select class="form-select" name="type" id="type" required>
-                                    <option disabled value="">@lang('Ad type') </option>
+                                    <option disabled value="" {{ old('type') == '' ? 'selected' : '' }}>@lang('Ad type') </option>
                                     @foreach (['rent', 'sale', 'rent and sale'] as $type)
-                                        <option value="{{ $type }}">
+                                        <option value="{{ $type }}" {{ old('type') == $type ? 'selected' : '' }}>
                                             {{ __($type) }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
+                            @if($falLicense)
+                            <!-- Show the "Show in Gallery" switch if the user has a valid license -->
                             <div class="col-sm-12 col-md-4 mb-3">
-                                <label class="form-label"
-                                    style="display: block !important;">@lang('Show in Gallery')
-                                </label>
-
+                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="show_gallery" class="switch-input"
-                                        checked />
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery"
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif
+                                        @if($falLicense->ad_license_status == 'valid') checked @endif />
                                     <span class="switch-toggle-slider">
-                                        <span class="switch-on">
-                                            <i class="ti ti-check"></i>
-                                        </span>
-                                        <span class="switch-off">
-                                            <i class="ti ti-x"></i>
-                                        </span>
+                                        <span class="switch-on"><i class="ti ti-check"></i></span>
+                                        <span class="switch-off"><i class="ti ti-x"></i></span>
                                     </span>
                                 </label>
                             </div>
+
+                            <!-- Show gallery fields only if the license status is "valid" -->
+                            <div class="row" id="gallery-fields" style="@if($falLicense->ad_license_status != 'valid') display: none; @endif">
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Ad License Number')<span class="required-color">*</span></label>
+                                    <input type="number" name="ad_license_number" class="form-control" id="ad_license_number" value="{{ old('ad_license_number') }}"
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                </div>
+
+                                <div class="col-sm-12 col-md-4 mb-3">
+                                    <label class="form-label">@lang('Ad License Expiry')<span class="required-color">*</span></label>
+                                    <input type="date" name="ad_license_expiry" class="form-control" id="ad_license_expiry" value="{{ old('ad_license_expiry') }}"
+                                        @if($falLicense->ad_license_status != 'valid') disabled @endif required />
+                                    <div id="date_error_message" style="color: red; display: none;">@lang('Fal license  date can not be exceeded')</div>
+                                </div>
+                            </div>
+                        @else
+                            <!-- Display a message if the license is not valid or doesn't exist -->
+                            <div class="col-sm-12 col-md-4 mb-3">
+                                <label class="form-label" style="display: block !important;">@lang('Show in Gallery')</label>
+                                <label class="switch switch-lg">
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input" id="show_in_gallery" disabled />
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-off"><i class="ti ti-x"></i></span>
+                                    </span>
+                                </label>
+                                <!-- Add a message to indicate the license has expired -->
+                                <div class="alert alert-warning mt-2">
+                                    @lang('Show in Gallery is not available because your license has expired or is not valid.')
+                                </div>
+                            </div>
+                        @endif
+
                             <div class="col-12 mb-3">
                                 <label class="form-label mb-2">@lang('Description')</label>
                                 <div>
                                     {{-- <textarea name="note" class="form-control" rows="5"></textarea> --}}
                                     <textarea id="textarea" class="form-control" name="note" cols="30" rows="30" placeholder="">
-
-                                        </textarea>
+                                        {!! old('note') !!}
+                                    </textarea>
                                 </div>
                             </div>
-                     
+
                             <div class="col-sm-12 col-md-12 mb-3">
                                 <label class="form-label mb-2">@lang('Unit Images') </label>
                                 <div class="input-group">
@@ -371,7 +396,8 @@
 
                         </div>
                         <div class="col-12" style="text-align: center;">
-                            <button type="button" class="btn btn-primary col-4 me-1 next-tab" data-next="#navs-justified-profile">
+                            <button type="button" class="btn btn-primary col-4 me-1 next-tab"
+                                data-next="#navs-justified-profile">
                                 {{ __('Next') }}
                             </button>
                         </div>
@@ -384,7 +410,7 @@
                                 {{-- <input type="checkbox"  name="daily_rent" class="toggleHomePage"
                                         data-toggle="toggle" data-onstyle="primary"> --}}
                                 <label class="switch switch-lg">
-                                    <input type="checkbox" name="daily_rent" class="switch-input" />
+                                    <input type="checkbox" name="daily_rent" class="switch-input" value="{{ old('daily_rent') }}" />
                                     <span class="switch-toggle-slider">
                                         <span class="switch-on">
                                             <i class="ti ti-check"></i>
@@ -406,7 +432,7 @@
                         <div class="col-sm-12 col-md-4 mb-3">
                             <label class="form-label">@lang('Monthly rental price')</label>
                             <input type="number" name="monthly" class="form-control"
-                                placeholder="@lang('Monthly rental price')" value="{{ old('price') }}" />
+                                placeholder="@lang('Monthly rental price')" value="{{ old('monthly') }}" />
                         </div>
 
                         </div>
@@ -495,26 +521,26 @@
                 });
             });
             //
-            $("#myAddressBar").on("keyup", function() {
-                // This function will be called every time a key is pressed in the input field
-                var input = document.getElementById("myAddressBar");
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                var place = autocomplete.getPlace();
+            // $("#myAddressBar").on("keyup", function() {
+            //     // This function will be called every time a key is pressed in the input field
+            //     var input = document.getElementById("myAddressBar");
+            //     var autocomplete = new google.maps.places.Autocomplete(input);
+            //     var place = autocomplete.getPlace();
 
-                // Listen for the place_changed event
-                google.maps.event.addListener(autocomplete, "place_changed", function() {
-                    // Get the selected place
-                    var place = autocomplete.getPlace();
+            //     // Listen for the place_changed event
+            //     google.maps.event.addListener(autocomplete, "place_changed", function() {
+            //         // Get the selected place
+            //         var place = autocomplete.getPlace();
 
-                    // Get the details of the selected place
-                    var address = place.formatted_address;
-                    var lat = place.geometry.location.lat();
-                    var long = place.geometry.location.lng();
-                    // $("#address").val(address);
-                    $("#location_tag").val(lat + "," + long);
-                    // Log the details to the console (or do something else with them)
-                });
-            });
+            //         // Get the details of the selected place
+            //         var address = place.formatted_address;
+            //         var lat = place.geometry.location.lat();
+            //         var long = place.geometry.location.lng();
+            //         // $("#address").val(address);
+            //         $("#location_tag").val(lat + "," + long);
+            //         // Log the details to the console (or do something else with them)
+            //     });
+            // });
 
             var path = "{{ route('Office.Project.autocompleteProject') }}";
 
@@ -612,7 +638,7 @@
 
         </script>
 
-<script>
+{{-- <script>
     document.querySelectorAll('.next-tab').forEach(button => {
         button.addEventListener('click', function() {
             const nextTab = this.getAttribute('data-next');
@@ -620,7 +646,7 @@
             nextTabButton.click();
         });
     });
-</script>
+</script> --}}
 
 <script>
 $('#button-addon1').click(function() {
@@ -638,5 +664,209 @@ $('#button-addon3').click(function() {
     $('#projectMasterplan').val('');
 });
 </script>
+
+<script>
+    document.getElementById('show_in_gallery').addEventListener('change', function () {
+        var galleryFields = document.getElementById('gallery-fields');
+        if (this.checked) {
+            galleryFields.style.display = 'block';
+            document.getElementById('ad_license_number').disabled = false;
+            document.getElementById('ad_license_expiry').disabled = false;
+        } else {
+            galleryFields.style.display = 'none';
+            document.getElementById('ad_license_number').disabled = true;
+            document.getElementById('ad_license_expiry').disabled = true;
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        adLicenseExpiryInput.addEventListener('change', function() {
+            var selectedDate = new Date(this.value);
+            if (selectedDate > licenseDate) {
+                errorMessage.style.display = 'block';
+                adLicenseExpiryInput.setCustomValidity('');
+            } else {
+                errorMessage.style.display = 'none';
+                adLicenseExpiryInput.setCustomValidity(''); /
+            }
+        });
+
+        adLicenseExpiryInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+        });
+    });
+</script>
+
+<script>
+    var licenseDate = new Date("{{ $licenseDate }}");
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var adLicenseExpiryInput = document.getElementById('ad_license_expiry');
+        var errorMessage = document.getElementById('date_error_message');
+        var submitButton = document.getElementById('submit_button');
+        var form = document.getElementById('unit-form');
+
+        function validateDate() {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Show error message if the selected date is after the license date
+                errorMessage.style.display = 'block';
+                submitButton.disabled = true; // Disable submit button
+            } else {
+                // Hide error message if the date is valid
+                errorMessage.style.display = 'none';
+                submitButton.disabled = false; // Enable submit button
+            }
+        }
+
+        adLicenseExpiryInput.addEventListener('change', validateDate);
+
+        form.addEventListener('submit', function(event) {
+            var selectedDate = new Date(adLicenseExpiryInput.value);
+            if (selectedDate > licenseDate) {
+                // Prevent form submission if the selected date is invalid
+                event.preventDefault();
+                errorMessage.style.display = 'block';
+            } else {
+                // Allow form submission if the date is valid
+                errorMessage.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        // Initialize Google Places Autocomplete for the address input once
+        var input = document.getElementById("myAddressBar");
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // To track if a place was selected from Google Places
+        var placeSelected = false;
+
+        // Listen for the place_changed event when a place is selected
+        google.maps.event.addListener(autocomplete, "place_changed", function() {
+            // Get the selected place
+            var place = autocomplete.getPlace();
+
+            // Check if the place contains geometry (lat, lng)
+            if (place.geometry) {
+                var lat = place.geometry.location.lat();
+                var long = place.geometry.location.lng();
+
+                // Set the lat, long values into the hidden input field
+                $("#location_tag").val(lat + "," + long);
+
+                // Mark that a valid place was selected
+                placeSelected = true;
+
+                // Clear any previous error messages
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+
+        // When user types manually, reset placeSelected flag
+        $("#myAddressBar").on("input", function() {
+            placeSelected = false; // Reset place selection
+            $("#location_tag").val(''); // Clear hidden input
+            $("#addressError").text(''); // Clear any previous error
+            $("#myAddressBar").removeClass("is-invalid");
+        });
+
+        // On blur, check if a valid place was selected from Google Places
+        $("#myAddressBar").on("blur", function() {
+            var addressValue = $("#myAddressBar").val().trim(); // Get the input value
+
+            // If no place was selected from Google Places
+            if (!placeSelected) {
+                // Show an error message indicating that the address must be selected from the suggestions
+                $("#addressError").text("Please select a valid address from the suggestions.");
+                $("#myAddressBar").addClass("is-invalid");
+            } else {
+                // If a valid place was selected, clear the error message
+                $("#addressError").text('');
+                $("#myAddressBar").removeClass("is-invalid");
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nextButtons = document.querySelectorAll('.next-tab');
+        const navButtons = document.querySelectorAll('.link');
+
+        function validateAndProceed(nextTabId) {
+            // Get the current tab content
+            const currentTab = document.querySelector('.tab-pane.active');
+            // Get all required fields in the current tab
+            const requiredFields = currentTab.querySelectorAll('[required]');
+            let allFilled = true;
+
+            // Reset red border styles
+            requiredFields.forEach(field => {
+                field.classList.remove('is-invalid');
+            });
+
+            // Check if all required fields are filled
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allFilled = false;
+                    field.classList.add('is-invalid'); // Add red border
+                }
+            });
+
+            // If all required fields are filled, proceed to the next tab
+            if (allFilled) {
+                // Hide current tab
+                currentTab.classList.remove('show', 'active');
+
+                // Show next tab
+                const nextTab = document.querySelector(nextTabId);
+                nextTab.classList.add('show', 'active');
+
+                // Update the active tab button in the navigation
+                const currentNavButton = document.querySelector('.nav-link.active');
+                const nextNavButton = document.querySelector(`button[data-bs-target="${nextTabId}"]`);
+
+                // Remove active class from current tab button
+                if (currentNavButton) {
+                    currentNavButton.classList.remove('active');
+                }
+
+                // Add active class to next tab button
+                if (nextNavButton) {
+                    nextNavButton.classList.add('active');
+                }
+            }
+        }
+
+        // Event listener for next buttons
+        nextButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTabId = button.getAttribute('data-next');
+                validateAndProceed(nextTabId);
+            });
+        });
+
+        // Event listener for nav buttons
+        navButtons.forEach(navButton => {
+            navButton.addEventListener('click', function() {
+                const nextTabId = navButton.getAttribute('data-bs-target');
+                // Call validateAndProceed with the target tab
+                validateAndProceed(nextTabId);
+            });
+        });
+    });
+</script>
+
     @endpush
 @endsection

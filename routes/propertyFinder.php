@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'CheckSubscription', 'pendingPayment']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth', 'pendingPayment']
     ],
     function () {
         Route::prefix('PropertyFinder')->name('PropertyFinder.')->group(function () {
@@ -43,10 +43,11 @@ Route::group(
             ]);
             Route::put('/update-property-finder/{finder}', [HomeController::class, 'updatePropertyFinder'])->name('updatePropertyFinder');
             Route::put('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
+            Route::put('/create-password/{id}', [HomeController::class, 'createPassword'])->name('createPassword');
             Route::post('/PropertyFinder/verify-code-finder', [HomeController::class, 'verifyCode'])->name('verify-code-finder');
             Route::post('/PropertyFinder/complete-registration-finder', [HomeController::class, 'register'])->name('complete-registration-finder');
-            Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsCity')->name('GetDistrictsByCity')->middleware('CheckSubscription');
-            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('GetCitiesByRegion')->middleware('CheckSubscription');
+            Route::get('GetDistrictsByCity/{id}', 'HomeController@GetDistrictsCity')->name('GetDistrictsByCity');
+            Route::get('GetCitiesByRegion/{id}', 'HomeController@GetCitiesByRegion')->name('GetCitiesByRegion');
             Route::post('/update-request-status/{id}', [RealEstateRequestController::class, 'updateStatus'])->name('updateRequestStatus');
             Route::post('/update-interest-type/{requestId}', [RealEstateRequestController::class, 'updateInterestType'])->name('updateInterestType');
             Route::Post('create-ticket', [HomeController::class, 'createTicket'])->name('create-ticket');
@@ -62,15 +63,15 @@ Route::group(
     }
 
 );
-Route::get('create-unit', [HomeController::class, 'createUnit'])->name('Owner.create-unit');
-Route::Post('create-unit', [HomeController::class, 'storeUnit'])->name('Owner.store-unit');
-Route::get('edit-unit/{id}', [HomeController::class, 'editUnit'])->name('Owner.edit-unit');
-Route::put('update-unit/{id}', [HomeController::class, 'updateUnit'])->name('Owner.update-unit');
-Route::delete('delete-unit/{id}', [HomeController::class, 'deleteUnit'])->name('Owner.delete-unit');
+Route::get('create-unit', [HomeController::class, 'createUnit'])->name('Owner.create-unit')->middleware('CheckSubscription');
+Route::Post('create-unit', [HomeController::class, 'storeUnit'])->name('Owner.store-unit')->middleware('CheckSubscription');
+Route::get('edit-unit/{id}', [HomeController::class, 'editUnit'])->name('Owner.edit-unit')->middleware('CheckSubscription');
+Route::put('update-unit/{id}', [HomeController::class, 'updateUnit'])->name('Owner.update-unit')->middleware('CheckSubscription');
+Route::delete('delete-unit/{id}', [HomeController::class, 'deleteUnit'])->name('Owner.delete-unit')->middleware('CheckSubscription');
 
-Route::get('create-property', [HomeController::class, 'createProperty'])->name('Owner.create-Property');
-Route::Post('create-property', [HomeController::class, 'storeProperty'])->name('Owner.store-Property');
-Route::get('edit-property/{id}', [HomeController::class, 'editProperty'])->name('Owner.edit-property');
-Route::put('update-property/{id}', [HomeController::class, 'updateProperty'])->name('Owner.update-property');
-Route::delete('delete-property/{id}', [HomeController::class, 'deleteProperty'])->name('Owner.delete-property');
+Route::get('create-property', [HomeController::class, 'createProperty'])->name('Owner.create-Property')->middleware('CheckSubscription');
+Route::Post('create-property', [HomeController::class, 'storeProperty'])->name('Owner.store-Property')->middleware('CheckSubscription');
+Route::get('edit-property/{id}', [HomeController::class, 'editProperty'])->name('Owner.edit-property')->middleware('CheckSubscription');
+Route::put('update-property/{id}', [HomeController::class, 'updateProperty'])->name('Owner.update-property')->middleware('CheckSubscription');
+Route::delete('delete-property/{id}', [HomeController::class, 'deleteProperty'])->name('Owner.delete-property')->middleware('CheckSubscription');
 

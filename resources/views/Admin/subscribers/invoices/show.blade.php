@@ -13,7 +13,7 @@
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-4 text-left">
-                                            <img src="{{ url($sitting->icon) }}"
+                                            <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}"
                                                 style="border: 1px solid; border-radius: 10px;" width="190"
                                                 alt="">
                                         </div>
@@ -336,6 +336,40 @@
                                     </div>
                                 </div>
                             </div>
+                            @if($bankAccount)
+                            <div class="col-12 shadow-none bg-transparent border border-info p-1">
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <span class="bolder">
+                                            @lang('Bank Account Informations')
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span>
+                                           @lang('Name') : {{ $bankAccount->name }}
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>
+                                           @lang('Account Number') : {{ $bankAccount->account_number }}
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>
+                                         @lang('International Account Number') : {{ $bankAccount->international_account_number }}
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>
+                                        @lang('id number')  :  {{ $bankAccount->id_number }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @endif
 
                         </div>
                     </div>

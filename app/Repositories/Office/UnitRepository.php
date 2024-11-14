@@ -3,6 +3,8 @@
 
 namespace App\Repositories\Office;
 
+use App\Http\Traits\Email\MailUnitPublished;
+use App\Http\Traits\WhatsApp\WhatsappUnitPublished;
 use App\Interfaces\Office\UnitRepositoryInterface;
 use App\Models\Feature;
 use App\Models\Property;
@@ -13,11 +15,16 @@ use App\Models\UnitImage;
 use App\Models\UnitRentalPrice;
 use App\Models\UnitService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 
 class UnitRepository implements UnitRepositoryInterface
 {
+    use MailUnitPublished;
+    use WhatsappUnitPublished;
+
     public function getAll($officeId)
     {
         return Unit::where('office_id', $officeId)->get();
@@ -59,10 +66,50 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
         $unit_data['office_id'] = Auth::user()->UserOfficeData->id;
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => [
+                    'required',
+                    'numeric',
+                        function ($attribute, $value, $fail) {
+                            // Check in `properties` table
+                            if (DB::table('properties')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the properties table.");
+                            }
+                            // Check in `units` table
+                            if (DB::table('units')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the units table.");
+                            }
+                            // Check in `projects` table
+                            if (DB::table('projects')->where('ad_license_number', $value)->exists()) {
+                                return $fail("The $attribute has already been taken in the projects table.");
+                            }
+                        },
+                    ],
+                    'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.unique' => __('The license number has already been taken.'),
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $unit_data['ad_license_number'] = $data['ad_license_number'];
+                $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $unit_data['ad_license_status'] = 'Valid';
+
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
+            $unit_data['ad_license_status'] ='InValid';
+
         }
 
         if (isset($data['daily_rent'])) {
@@ -89,7 +136,7 @@ class UnitRepository implements UnitRepositoryInterface
 
 
         $unit = Unit::create($unit_data);
-        
+
         if (isset($data['service_id'])) {
             foreach ($data['service_id'] as  $service) {
                 UnitService::create(['unit_id' => $unit->id, 'service_id' => $service]);
@@ -125,10 +172,16 @@ class UnitRepository implements UnitRepositoryInterface
                 }
             }
         }
+        if ($unit->show_in_gallery == 1) {
+            $this->MailUnitPublished($unit);
+            $this->WhatsappUnitPublished($unit);
+        }
+
     }
 
     public function update($id, $data)
     {
+        $old_unit = Unit::findOrFail($id);
         $rules = [
             'monthly' => 'digits_between:0,8',
             'daily' => 'digits_between:0,8',
@@ -164,10 +217,49 @@ class UnitRepository implements UnitRepositoryInterface
 
 
         $unit_data['office_id'] = Auth::user()->UserOfficeData->id;
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
+
+            $rules = [
+                'ad_license_number' => [
+                    'required',
+                    'numeric',
+                function ($attribute, $value, $fail) use ($id) {
+                    // Check in `properties` table, ignore current property ID
+                    if (DB::table('properties')->where('ad_license_number', $value)->where('id', '<>', $id)->exists()) {
+                        return $fail("The $attribute has already been taken in the properties table.");
+                    }
+                    // Check in `units` table, ignore current property ID
+                    if (DB::table('units')->where('ad_license_number', $value)->where('id', '<>', $id)->exists()) {
+                        return $fail("The $attribute has already been taken in the units table.");
+                    }
+                    // Check in `projects` table, ignore current property ID
+                    if (DB::table('projects')->where('ad_license_number', $value)->where('id', '<>', $id)->exists()) {
+                        return $fail("The $attribute has already been taken in the projects table.");
+                    }
+                },
+            ],
+                'ad_license_expiry' => 'required|date|after_or_equal:today',
+            ];
+
+            $messages = [
+                'ad_license_number.required' => 'The license number is required.',
+                'ad_license_number.numeric' => 'The license number must be a number.',
+                'ad_license_expiry.required' => 'The license expiry date is required.',
+                'ad_license_expiry.date' => 'The license expiry date is not a valid date.',
+                'ad_license_expiry.after_or_equal' => 'The license expiry date must be less than license date or equal.',
+            ];
+
+            validator($data, $rules ,$messages)->validate();
+
+                $unit_data['ad_license_number'] = $data['ad_license_number'];
+                $unit_data['ad_license_expiry'] = $data['ad_license_expiry'];
+                $unit_data['ad_license_status'] = 'Valid';
+
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
+            // $unit_data['ad_license_status'] ='InValid';
+
         }
 
         if (isset($data['daily_rent'])) {
@@ -242,6 +334,15 @@ class UnitRepository implements UnitRepositoryInterface
                 }
             }
         }
+
+
+        if ($old_unit->show_in_gallery == 0 && $unit->show_in_gallery == 1) {
+            $this->MailUnitPublished($unit);
+            $this->WhatsappUnitPublished($unit);
+        }
+
+
+
     }
 
 

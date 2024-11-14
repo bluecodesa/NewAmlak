@@ -230,18 +230,18 @@ class PropertyRepository implements PropertyRepositoryInterface
         unset($unit_data['monthly']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
         $unit_data['property_id'] = $id;
-        // if (isset($data['show_gallery'])) {
-        //     if ($data['show_gallery'] == 'on') {
-        //         $unit_data['show_gallery'] = 1;
+        // if (isset($data['show_in_gallery'])) {
+        //     if ($data['show_in_gallery'] == 'on') {
+        //         $unit_data['show_in_gallery'] = 1;
         //     } else {
-        //         $unit_data['show_gallery'] = 0;
+        //         $unit_data['show_in_gallery'] = 0;
         //     }
         // } else {
-        //     $unit_data['show_gallery'] = 0;
+        //     $unit_data['show_in_gallery'] = 0;
         // }
 
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
                 'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
@@ -264,7 +264,7 @@ class PropertyRepository implements PropertyRepositoryInterface
                 $unit_data['ad_license_status'] = 'Valid';
 
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             $unit_data['ad_license_status'] ='InValid';
 
         }

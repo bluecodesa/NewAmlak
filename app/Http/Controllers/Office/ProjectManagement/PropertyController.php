@@ -4,6 +4,8 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
+use App\Models\FalLicenseUser;
 use App\Models\PropertyImage;
 use App\Services\AllServiceService;
 use App\Services\CityService;
@@ -16,6 +18,8 @@ use App\Services\RegionService;
 use App\Services\ServiceTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Services\Office\EmployeeService;
+
 
 class PropertyController extends Controller
 {
@@ -28,7 +32,13 @@ class PropertyController extends Controller
     protected $ServiceTypeService;
     protected $AllServiceService;
     protected $FeatureService;
-    public function __construct(PropertyService $PropertyService, AllServiceService $AllServiceService, FeatureService $FeatureService, RegionService $regionService, CityService $cityService, OfficeDataService $officeDataService, PropertyTypeService $propertyTypeService, ServiceTypeService $ServiceTypeService, PropertyUsageService $propertyUsageService)
+    protected $EmployeeService;
+
+    public function __construct(PropertyService $PropertyService, AllServiceService $AllServiceService, FeatureService $FeatureService, RegionService $regionService, CityService $cityService, OfficeDataService $officeDataService, PropertyTypeService $propertyTypeService,
+    ServiceTypeService $ServiceTypeService,
+    PropertyUsageService $propertyUsageService,
+    EmployeeService $EmployeeService
+    )
     {
         $this->regionService = $regionService;
         $this->cityService = $cityService;
@@ -39,6 +49,8 @@ class PropertyController extends Controller
         $this->ServiceTypeService = $ServiceTypeService;
         $this->AllServiceService = $AllServiceService;
         $this->FeatureService = $FeatureService;
+        $this->EmployeeService = $EmployeeService;
+
 
         $this->middleware(['role_or_permission:read-building'])->only(['index']);
         $this->middleware(['role_or_permission:create-building'])->only(['create', 'store']);
@@ -63,30 +75,39 @@ class PropertyController extends Controller
         $developers = $this->officeDataService->getDevelopers();
         $owners = $this->officeDataService->getOwners();
         $services = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.Property.create', get_defined_vars());
     }
 
     public function store(Request $request)
     {
 
-        $rules = [];
-        $rules = [
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'service_type_id' => 'required|exists:service_types,id',
-            // 'is_divided' => 'required|boolean',
-            'city_id' => 'required|exists:cities,id',
-            'owner_id' => 'required|exists:owners,id',
-            'instrument_number' => [
-                'nullable',
-                Rule::unique('properties'),
-                'max:25'
-            ],
-        ];
-        $messages = [
-            'instrument_number.unique' => 'The instrument number has already been taken.',
-        ];
-        $request->validate($rules, $messages);
+        // $rules = [];
+        // $rules = [
+        //     'name' => 'required|string|max:255',
+        //     'location' => 'required|string|max:255',
+        //     'service_type_id' => 'required|exists:service_types,id',
+        //     // 'is_divided' => 'required|boolean',
+        //     'city_id' => 'required|exists:cities,id',
+        //     'owner_id' => 'required|exists:owners,id',
+        //     'instrument_number' => [
+        //         'nullable',
+        //         Rule::unique('properties'),
+        //         'max:25'
+        //     ],
+        // ];
+        // $messages = [
+        //     'instrument_number.unique' => 'The instrument number has already been taken.',
+        // ];
+        // $request->validate($rules, $messages);
 
         $images = $request->file('images');
         $this->PropertyService->store($request->except('images'), $images);
@@ -96,6 +117,8 @@ class PropertyController extends Controller
     public function show($id)
     {
         $Property = $this->PropertyService->findById($id);
+        $contracts = Contract::where('property_id',$id)->get();
+
         return view('Office.ProjectManagement.Project.Property.show',  get_defined_vars());
     }
 
@@ -110,6 +133,14 @@ class PropertyController extends Controller
         $developers = $this->officeDataService->getDevelopers();
         $owners = $this->officeDataService->getOwners();
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.Property.edit', get_defined_vars());
     }
 
@@ -150,7 +181,12 @@ class PropertyController extends Controller
 
         $images = $request->images;
         $this->PropertyService->update($id, $request->except('images'), $images);
-        return redirect()->route('Office.Property.index')->with('success', __('Update successfully'));
+        $Property = $this->PropertyService->findById($id);
+        if ($Property->project_id != null) {
+            return redirect()->route('Office.Project.show', $Property->project_id)->with('success', __('Update successfully'));
+        } else {
+            return redirect()->route('Office.Property.index')->with('success', __('Update successfully'));
+        }
     }
 
     public function destroy(string $id)
@@ -174,6 +210,16 @@ class PropertyController extends Controller
         $servicesTypes = $this->ServiceTypeService->getAllServiceTypes();
         $services = $this->AllServiceService->getAllServices();
         $features = $this->FeatureService->getAllFeature();
+        $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.Property.CreateUnit', get_defined_vars());
     }
 

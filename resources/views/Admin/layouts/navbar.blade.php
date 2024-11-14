@@ -5,12 +5,12 @@
         <div class="topbar-left">
             <a href="{{ route('welcome') }}" class="logo">
                 <span class="logo-light">
-                    <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
+                    <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
                         style="border: 1px solid;
            border-radius: 50%;"> {{ $sitting->title }}
                 </span>
                 <span class="logo-sm">
-                    <img src="{{ url($sitting->icon) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
+                    <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80px" height="80px" alt="{{ $sitting->title }}"
                         style="border: 1px solid;
            border-radius: 50%;">
                 </span>
@@ -81,7 +81,13 @@
                     <div class="dropdown notification-list nav-pro-img">
                         <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#"
                             role="button" aria-haspopup="false" aria-expanded="false">
-                            @if (Auth::user()->avatar)
+                            @if(auth()->user()->is_office)
+                            <img src="{{ auth()->user()->UserOfficeData->company_logo != null ? url(Auth::user()->UserOfficeData->company_logo) : 'HOME_PAGE/img/avatars/14.png' }}"
+                            alt class="h-auto rounded-circle" />
+                            @elseif (auth()->user()->is_office)
+                            <img src="{{ auth()->user()->UserBrokerData->broker_logo != null ? url(Auth::user()->UserBrokerData->broker_logo) : 'HOME_PAGE/img/avatars/14.png' }}"
+                            alt class="h-auto rounded-circle" />
+                            @elseif (Auth::user()->avatar)
                                 <img src="{{ Auth::user()->avatar }}" alt="user" class="rounded-circle">
                             @else
                                 <img src="url('HOME_PAGE/img/avatars/14.png')" alt="user" class="rounded-circle">

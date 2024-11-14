@@ -36,6 +36,7 @@ class PropertyService
                 Rule::unique('properties'),
                 'max:25'
             ],
+
         ];
 
         // Validate data
@@ -56,6 +57,10 @@ class PropertyService
             'owner_id.exists' => __('The selected :attribute is invalid.', ['attribute' => __('owner')]),
             'instrument_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('instrument number')]),
             'instrument_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('instrument number'), 'max' => 25]),
+            'ad_license_number.required' => __('The :attribute field is required.', ['attribute' => __('ad license number')]),
+            'ad_license_number.unique' => __('The :attribute has already been taken.', ['attribute' => __('ad license number')]),
+            'ad_license_number.max' => __('The :attribute may not be greater than :max characters.', ['attribute' => __('ad license number'), 'max' => 25]),
+
         ];
 
         validator($data, $rules, $messages)->validate();
@@ -109,7 +114,7 @@ class PropertyService
                 'max:25'
             ],
             'service_type_id' => 'required',
-            "show_gallery" => 'sometimes',
+            "show_in_gallery" => 'sometimes',
             'type' => ['required', Rule::in(['sale', 'rent','rent and sale'])],
 
         ];

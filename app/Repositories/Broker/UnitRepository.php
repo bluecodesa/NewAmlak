@@ -63,14 +63,14 @@ class UnitRepository implements UnitRepositoryInterface
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
-        // if (isset($data['show_gallery'])) {
-        //     $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        // if (isset($data['show_in_gallery'])) {
+        //     $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
         // } else {
-        //     $unit_data['show_gallery'] = 0;
+        //     $unit_data['show_in_gallery'] = 0;
         // }
 
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
                 'ad_license_number' => ['required', 'numeric', Rule::unique('units')],
@@ -93,7 +93,7 @@ class UnitRepository implements UnitRepositoryInterface
                 $unit_data['ad_license_status'] = 'Valid';
 
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             $unit_data['ad_license_status'] ='InValid';
 
         }
@@ -214,8 +214,8 @@ class UnitRepository implements UnitRepositoryInterface
 
 
         $unit_data['broker_id'] = Auth::user()->UserBrokerData->id;
-        if (isset($data['show_gallery'])) {
-            $unit_data['show_gallery'] = $data['show_gallery'] == 'on' ? 1 : 0;
+        if (isset($data['show_in_gallery'])) {
+            $unit_data['show_in_gallery'] = $data['show_in_gallery'] == 'on' ? 1 : 0;
 
             $rules = [
                 'ad_license_number' => [
@@ -241,7 +241,7 @@ class UnitRepository implements UnitRepositoryInterface
                 $unit_data['ad_license_status'] = 'Valid';
 
         } else {
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             // $unit_data['ad_license_status'] ='InValid';
 
         }
@@ -352,7 +352,7 @@ class UnitRepository implements UnitRepositoryInterface
 
         foreach ($galleries as $gallery) {
             $galleryUnits = Unit::where('broker_id', $gallery->broker_id)
-                ->where('show_gallery', 1)
+                ->where('show_in_gallery', 1)
                 ->get();
 
             $units = $units->merge($galleryUnits);

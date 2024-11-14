@@ -29,14 +29,20 @@ class PaymentController extends Controller
     {
         $user =  Auth::user();
 
+        // if ($user->UserOfficeData) {
+        //     $Subscription =  $user->UserOfficeData->UserSubscriptionPending;
+        // } else {
+        //     $Subscription = $user->UserBrokerData->UserSubscriptionPending;
+        // }
+
+        // $amount = $Subscription->total;
         if ($user->UserOfficeData) {
-            $Subscription =  $user->UserOfficeData->UserSubscriptionPending;
+            $Subscription =  $user->UserOfficeData->UserSystemInvoicePending;
         } else {
-            $Subscription = $user->UserBrokerData->UserSubscriptionPending;
+            $Subscription = $user->UserBrokerData->UserSystemInvoicePending;
         }
 
-        $amount = $Subscription->total;
-
+        $amount = $Subscription->amount;
         $last_record = SystemInvoice::latest()->first();
         $pay = Paypage::sendPaymentCode('all')
             ->sendTransaction('Auth')
@@ -90,7 +96,6 @@ class PaymentController extends Controller
         } elseif ($brokerData && $brokerData->UserSystemInvoicePending) {
             $invoice = $brokerData->UserSystemInvoicePending;
         }
-
         if ($invoice) {
             $invoice->update(['status' => 'active']);
         }
@@ -123,8 +128,16 @@ class PaymentController extends Controller
         }
 
         $SubscriptionType =  SubscriptionType::find($request->subscription_type);
+        $total_discount=0;
+        if($SubscriptionType->discount_type == 'incentive'){
+                $total_discount=$request->total_discount;
+        }
+        $amount = $request->amount;
+        if($amount == 0){
+            return $this->callback_UpgradeSubscription($SubscriptionType->id . '&' . Auth::id());
+        }
 
-        $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
+        // $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
 
         $last_record = SystemInvoice::latest()->first();
 
@@ -133,7 +146,7 @@ class PaymentController extends Controller
             ->sendCart($last_record['id'] ?? '0' + 1, $amount, 'Add to Walet')
             ->sendCustomerDetails(Auth::user()->name, Auth::user()->email, Auth::user()->phone, 'Makka', 'Makka', 'Makka', 'SA', '1234', \Request::ip())
             ->sendShippingDetails(Auth::user()->name, Auth::user()->email, Auth::user()->phone, 'Makka', 'Makka', 'Makka', 'SA', '1234', \Request::ip())
-            ->sendURLs(route('callback_UpgradeSubscription', $SubscriptionType->id . '&' . Auth::id()), route('callback_UpgradeSubscription', $SubscriptionType->id . '&' . Auth::id()))
+            ->sendURLs(route('callback_UpgradeSubscription', $SubscriptionType->id . '&' . Auth::id() . '&' . $amount. '&' . $total_discount), route('callback_UpgradeSubscription', $SubscriptionType->id . '&' . Auth::id() . '&' . $amount. '&' . $total_discount))
             ->sendLanguage('ar')
             ->create_pay_page();
         return $pay;
@@ -141,37 +154,49 @@ class PaymentController extends Controller
 
     function callback_UpgradeSubscription($user)
     {
-        $data =  explode('&', $user);
+        $data = explode('&', $user);
         Auth::loginUsingId($data[1]);
 
         $officeData = Auth::user()->UserOfficeData;
         $brokerData = Auth::user()->UserBrokerData;
-        $SubscriptionType =  SubscriptionType::find($data[0]);
+        $SubscriptionType = SubscriptionType::find($data[0]);
+        $amount = $data[2];
+        $total_discount = $data[3];
+
 
         if ($officeData) {
             $subscription = $officeData->UserSubscription;
+            $galleryId = $officeData->id; // Use office ID
         } else {
             $subscription = $brokerData->UserSubscription;
+            $galleryId = $brokerData->id; // Use broker ID
         }
-
 
         $endDate = $SubscriptionType->calculateEndDate(Carbon::now())->format('Y-m-d H:i:s');
         $sections = $subscription->SubscriptionTypeData->sections()->get();
         $subscription->SubscriptionSectionData()->delete();
+
         foreach ($sections as $section_id) {
             SubscriptionSection::create([
                 'section_id' => $section_id->id,
                 'subscription_id' => $subscription->id,
             ]);
         }
+
         if ($subscription) {
-            $subscription->update(['subscription_type_id' => $SubscriptionType->id, 'status' => 'active', 'is_start' => 1, 'start_date' => now()->format('Y-m-d H:i:s'), 'end_date' => $endDate]);
-            // $this->updateSubscriptionHistory($subscription);
+            $subscription->update([
+                'subscription_type_id' => $SubscriptionType->id,
+                'status' => 'active',
+                'is_start' => 1,
+                'start_date' => now()->format('Y-m-d H:i:s'),
+                'end_date' => $endDate
+            ]);
+
             // Check if section 18 exists
             $hasSection18 = $sections->contains('id', 18);
 
-            // Check if a gallery exists
-            $hasGallery = Gallery::where('broker_id', $brokerData->id)->exists();
+            // Check if a gallery exists for the relevant ID
+            $hasGallery = Gallery::where('broker_id', $galleryId)->orWhere('office_id', $galleryId)->exists();
 
             if ($hasSection18 && !$hasGallery) {
                 // Create a new gallery if section 18 exists but there is no gallery
@@ -179,33 +204,46 @@ class PaymentController extends Controller
                 $defaultCoverImage = '/Gallery/cover/cover.png';
 
                 Gallery::create([
-                    'broker_id' => $brokerData->id,
+                    'broker_id' => $brokerData ? $brokerData->id : null, // Use broker ID if exists
+                    'office_id' => $officeData ? $officeData->id : null, // Use office ID if exists
                     'gallery_name' => $galleryName,
                     'gallery_status' => 1,
                     'gallery_cover' => $defaultCoverImage,
                 ]);
             } elseif (!$hasSection18 && $hasGallery) {
                 // Delete the gallery if section 18 does not exist but there is a gallery
-                Gallery::where('broker_id', $brokerData->id)->delete();
+                Gallery::where('broker_id', $brokerData->id)->orWhere('office_id', $officeData->id)->delete();
             }
         }
-        $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+        $delimiter = '-';
+        $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
+
+        // $amount = $SubscriptionType->price - $SubscriptionType->price * $SubscriptionType->upgrade_rate;
+       if($SubscriptionType->discount_type == 'incentive'){
+       $discount=$total_discount;
+        }else{
+            $discount =$SubscriptionType->upgrade_rate;
+        }
+
         SystemInvoice::create([
             'broker_id' => $subscription->broker_id,
             'office_id' => $subscription->office_id,
             'subscription_name' => $SubscriptionType->name,
             'amount' => $amount,
-            "discount" => $SubscriptionType->upgrade_rate,
+            // "discount" => $SubscriptionType->upgrade_rate,
+            "discount" => $discount,
             'subscription_type' => ($SubscriptionType->price > 0) ? 'paid' : 'free',
             'period' => $SubscriptionType->period,
             'period_type' => $SubscriptionType->period_type,
             'status' => 'active',
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
         ]);
 
         $redirectRoute = $officeData ? 'Office.home' : 'Broker.home';
-        $redirectMessage = $officeData ? 'The subscription has been Upgraded successfully' : 'The subscription has been Upgraded successfully';
-        Auth::loginUsingId($data[1]);
+        $redirectMessage = 'The subscription has been upgraded successfully';
+
         return redirect()->route($redirectRoute)->with('success', __($redirectMessage));
     }
+
 }

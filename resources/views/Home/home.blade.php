@@ -20,7 +20,7 @@
                     data-speed="1" />
                 <div class="container">
                     <div class="hero-text-box text-center">
-                        <h1 class="text-primary hero-title display-6 fw-bold">تاون خيارك الأول لإدارة التاون العقارية
+                        <h1 class="text-primary hero-title display-6 fw-bold">تاون خيارك الأول لإدارة الأملاك العقارية
                         </h1>
                         <h2 class="hero-sub-title h6 mb-4 pb-1">
                             منصة متكاملة تخدم مدراء العقارات، والملاك، والمستأجرين<br class="d-none d-lg-block" />
@@ -59,7 +59,7 @@
                     </span>
                 </div>
                 <h3 class="text-center mb-1">
-                    <span class="position-relative fw-bold z-1">تميز معنا في إدارة التاون والتسويق العقاري
+                    <span class="position-relative fw-bold z-1">تميز معنا في إدارة الأملاك والتسويق العقاري
 
                         <img src="{{ url('HOME_PAGE/img/front-pages/icons/section-title-icon.png') }}"
                             style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);"
@@ -810,8 +810,9 @@
       </section> --}}
         <!-- Fun facts: End -->
         <!-- CTA: Start -->
-        <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0"
-            style="position: relative; background: linear-gradient(to right, #e46a3d 0%, #e0c9c2 50%, #d97c5d 90%)">
+        <section id="landingCTA" class="section-py landing-cta position-relative p-lg-0 pb-0">
+            {{-- style="position: relative; background: linear-gradient(to right, #e46a3d 0%, #e0c9c2 50%, #d97c5d 90%)"> --}}
+
             <img src="{{ url('HOME_PAGE/img/front-pages/backgrounds/cta-bg-light.png') }}" style="opacity: 0;"
                 class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1" alt="cta image"
                 data-app-light-img="front-pages/backgrounds/cta-bg-light.png"
@@ -1138,10 +1139,10 @@
                 <div class="row gy-4">
                     <div class="col-lg-5">
                         <div class="contact-img-box position-relative border p-2 h-100">
-                            <img src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png') }}"
+                            {{-- <img src="{{ url('HOME_PAGE/img/front-pages/icons/contact-border.png') }}"
                                 alt="contact border"
                                 class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl"
-                                style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);" />
+                                style="filter: brightness(0) saturate(100%) invert(48%) sepia(100%) saturate(5105%) hue-rotate(347deg) brightness(95%) contrast(98%);" /> --}}
                             <img src="{{ url('HOME_PAGE/img/front-pages/4.png') }}" style="max-height: 420px;"
                                 alt="contact customer service" class="contact-img w-100" />
                             <div class="pt-3 px-4 pb-1">

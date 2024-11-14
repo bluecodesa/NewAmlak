@@ -26,7 +26,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link active"
+                        class="nav-link active link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-home"
@@ -37,7 +37,7 @@
                       </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                        <button type="button" class="nav-link link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
                             aria-selected="false">
                             <i class="tf-icons ti ti-camera ti-xs me-1"></i> @lang('Gallery')
@@ -48,7 +48,7 @@
                     <li class="nav-item">
                       <button
                         type="button"
-                        class="nav-link"
+                        class="nav-link link"
                         role="tab"
                         data-bs-toggle="tab"
                         data-bs-target="#navs-justified-profile"
@@ -75,7 +75,7 @@
                                 <div class="col-md-3 mb-3">
 
                                     <label class="form-label">
-                                        {{ __('property name') }} <span class="required-color">*</span></label>
+                                        {{ __('property name') }} <span class="text-danger">*</span></label>
                                     <input type="text" required id="modalRoleName" name="name" class="form-control"
                                         placeholder="{{ __('property name') }}">
 
@@ -83,7 +83,7 @@
 
 
                                 <div class="form-group col-12 col-md-3">
-                                    <label class="form-label">@lang('Region') <span class="required-color">*</span>
+                                    <label class="form-label">@lang('Region') <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" id="Region_id" required>
                                         <option disabled value="">@lang('Region') </option>
@@ -96,7 +96,7 @@
                                 </div>
 
                                 <div class="form-group col-12 col-md-3">
-                                    <label class="form-label">@lang('city') <span class="required-color">*</span>
+                                    <label class="form-label">@lang('city') <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" name="city_id" id="CityDiv" required>
                                         @foreach ($cities as $city)
@@ -110,7 +110,7 @@
 
 
                                 <div class="form-group col-12 col-md-3">
-                                    <label class="form-label">@lang('district') <span class="required-color">*</span>
+                                    <label class="form-label">@lang('district') <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" name="district_id" id="DistrictDiv" required>
 
@@ -119,14 +119,14 @@
 
                                 <div class="col-sm-12 col-md-4 col-12 mb-3">
                                     <label class="form-label">@lang('location') <span
-                                            class="required-color">*</span></label>
+                                            class="text-danger">*</span></label>
                                     <input type="text" required name="location" id="myAddressBar" class="form-control"
                                         placeholder="@lang('Address')" value="{{ old('location') }}" />
                                 </div>
 
 
                                 <div class="form-group col-12 col-md-4">
-                                    <label class="form-label">@lang('Property type') <span class="required-color">*</span>
+                                    <label class="form-label">@lang('Property type') <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" name="property_type_id" required>
                                         <option disabled selected value="">@lang('Property type')</option>
@@ -138,7 +138,7 @@
                                 </div>
 
                                 <div class="form-group col-12 col-md-4">
-                                    <label class="form-label">@lang('Type use') <span class="required-color">*</span>
+                                    <label class="form-label">@lang('Type use') <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" name="property_usage_id" required>
                                         <option disabled selected value="">@lang('Type use')</option>
@@ -151,7 +151,7 @@
 
                                 <div class="col-12 col-md-4 mb-3">
                                     <label class="col-md-6 form-label">@lang('owner name') <span
-                                            class="required-color">*</span>
+                                            class="text-danger">*</span>
                                     </label>
                                     {{-- <div class="input-group">
                                         <option selected selected value="{{ Auth::user()->UserOwnerData->id }}">{{ Auth::user()->UserOwnerData->name }}</option>
@@ -174,7 +174,7 @@
 
 
                                 <div class="form-group col-md-4 mb-3">
-                                    <label class="form-label">@lang('offered service') <span class="required-color">*</span>
+                                    <label class="form-label">@lang('offered service') <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" name="service_type_id" required>
                                         <option disabled selected value="">@lang('offered service')</option>
@@ -413,7 +413,7 @@
 
         </script>
 
-<script>
+{{-- <script>
     document.querySelectorAll('.next-tab').forEach(button => {
         button.addEventListener('click', function() {
             const nextTab = this.getAttribute('data-next');
@@ -421,7 +421,7 @@
             nextTabButton.click();
         });
     });
-</script>
+</script> --}}
 
 <script>
     document.getElementById('show_in_gallery').addEventListener('change', function () {
@@ -438,7 +438,61 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nextButtons = document.querySelectorAll('.next-tab');
+        const navButtons = document.querySelectorAll('.link');
 
+        function validateAndProceed(nextTabId) {
+            const currentTab = document.querySelector('.tab-pane.active');
+            const requiredFields = currentTab.querySelectorAll('[required]');
+            let allFilled = true;
+
+            requiredFields.forEach(field => {
+                field.classList.remove('is-invalid');
+            });
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allFilled = false;
+                    field.classList.add('is-invalid');
+                }
+            });
+
+            if (allFilled) {
+                currentTab.classList.remove('show', 'active');
+
+                const nextTab = document.querySelector(nextTabId);
+                nextTab.classList.add('show', 'active');
+
+                const currentNavButton = document.querySelector('.nav-link.active');
+                const nextNavButton = document.querySelector(`button[data-bs-target="${nextTabId}"]`);
+
+                if (currentNavButton) {
+                    currentNavButton.classList.remove('active');
+                }
+
+                if (nextNavButton) {
+                    nextNavButton.classList.add('active');
+                }
+            }
+        }
+
+        nextButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTabId = button.getAttribute('data-next');
+                validateAndProceed(nextTabId);
+            });
+        });
+
+        navButtons.forEach(navButton => {
+            navButton.addEventListener('click', function() {
+                const nextTabId = navButton.getAttribute('data-bs-target');
+                validateAndProceed(nextTabId);
+            });
+        });
+    });
+</script>
 
 
     @endpush

@@ -41,13 +41,9 @@
                                                             class="ti ti-download me-1 ti-xs"></i>Export</span></button>
                                             </div>
                                             @if (Auth::user()->hasPermission('create-owner'))
-                                                <div class="btn-group">
-                                                    <a href="{{ route('Office.Owner.create') }}" class="btn btn-primary">
-                                                        <span><i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span
-                                                                class="d-none d-sm-inline-block">@lang('Add New Owner')</span></span>
-                                                    </a>
-
-                                                </div>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                                                @lang('Add New Owner')
+                                            </button>
                                             @endif
                                         </div>
                                     </div>
@@ -67,8 +63,7 @@
                                 <th scope="col">@lang('Email')</th>
                                 <th scope="col">@lang('phone')</th>
                                 <th scope="col">@lang('city')</th>
-                                <th scope="col">@lang('Office')</th>
-                                <th scope="col">@lang('Financial Dues')</th>
+                                {{-- <th scope="col">@lang('Office')</th> --}}
                                 <th scope="col">@lang('Action')</th>
                             </tr>
                         </thead>
@@ -78,11 +73,9 @@
 
                                     <td>{{ $owner->name }}</td>
                                     <td>{{ $owner->email }}</td>
-                                    <td>{{ $owner->full_phone }}</td>
-                                    <td>{{ $owner->CityData->name }}</td>
-                                    <td>{{ $owner->OfficeData->UserData->name }}</td>
-                                    <td>{{ $owner->balance }}</td>
-
+                                    <td>{{ $owner->UserData->full_phone }}</td>
+                                    <td>{{ $owner->CityData->name ?? '-' }}</td>
+                                    {{-- <td>{{ $owner->OfficeData->name }}</td> --}}
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -92,7 +85,7 @@
                                             <div class="dropdown-menu" style="">
                                                 @if (Auth::user()->hasPermission('update-owner'))
                                                     <a class="dropdown-item"
-                                                        href="{{ route('Office.Owner.edit', $owner->id) }}">@lang('Edit')</a>
+                                                        href="{{ route('Office.Owner.show', $owner->id) }}">@lang('Show')</a>
                                                 @endif
 
 
@@ -133,6 +126,35 @@
             <!-- Modal to add new record -->
 
             <!--/ DataTable with Buttons -->
+            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1"> برجاء ادخال رقم هوية المالك
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        @include('Admin.layouts.Inc._errors')
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <input type="text" name="id_number" id="idNumberInput" minlength="1" maxlength="10" class="form-control" placeholder="Enter ID Number" />
+                                    <div class="invalid-feedback" id="idNumberError"></div>
+                                </div>
+                            </div>
+                            <div id="searchResults"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                @lang('Cancel')
+                            </button>
+                            <button type="button" class="btn btn-primary" id="searchBtn">@lang('Search')</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @include('Office.ProjectManagement.Owner.inc._serach')
 
 
         </div>
@@ -144,19 +166,49 @@
     @push('scripts')
         <script>
             function exportToExcel() {
-                // Get the table by ID
                 var table = document.getElementById('table');
 
 
-                // Convert the modified table to a workbook
                 var wb = XLSX.utils.table_to_book(table, {
                     sheet: "Sheet1"
                 });
 
-                // Save the workbook as an Excel file
                 XLSX.writeFile(wb, @json(__('owners')) + '.xlsx');
                 alertify.success(@json(__('Download done')));
             }
+        </script>
+
+        <script>
+                $(document).ready(function () {
+                $('#searchBtn').click(function (e) {
+                    e.preventDefault();
+                    var idNumber = $('#idNumberInput').val();
+
+                    $.ajax({
+                        url: '{{ route('Office.Owner.searchByIdNumber') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id_number: idNumber
+                        },
+                        success: function (response) {
+                            $('#idNumberInput').removeClass('is-invalid');
+                            $('#idNumberError').text('');
+                            $('#searchResults').html(response.html); // Inject the result content into the modal
+                        },
+                        error: function (xhr) {
+                            var errors = xhr.responseJSON.errors;
+                            if (errors.id_number) {
+                                $('#idNumberInput').addClass('is-invalid');
+                                $('#idNumberError').text(errors.id_number[0]);
+                            } else {
+                                $('#searchResults').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                            }
+                        }
+                    });
+                });
+            });
+
         </script>
     @endpush
 @endsection

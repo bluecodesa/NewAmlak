@@ -162,6 +162,7 @@
                                 <th>@lang('role name') </th>
                                 <th>@lang('price')</th>
                                 <th>@lang('status')</th>
+                                <th>@lang('New Subscription')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
@@ -202,6 +203,15 @@
                                     <td>{{ $sub->price }} <sup>@lang('SAR')</sup> </td>
 
                                     <td>{{ $sub->status == 1 ? __('active') : __('inactive') }}</td>
+
+                                    <td>
+                                        @if ($sub->new_subscriber == 1)
+                                        <span class="badge rounded-pill bg-success">@lang('Yes')</span>
+                                    @else
+                                        <span class="badge rounded-pill bg-danger">@lang('No')</span>
+                                    @endif
+                                    </td>
+
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

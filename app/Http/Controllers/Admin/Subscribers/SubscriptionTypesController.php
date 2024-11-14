@@ -74,6 +74,8 @@ class SubscriptionTypesController extends Controller
             'roles' => 'required|array|min:1',
             'sections' => 'required|array',
             'upgrade_rate' => 'nullable|numeric|min:0|max:100',
+            'views_discount' => 'nullable|numeric|min:0|max:100',
+            'ads_discount' => 'nullable|numeric|min:0|max:100',
             'price' => 'required|numeric|min:0',
             'new_subscriber' => [
                 'required',
@@ -97,7 +99,10 @@ class SubscriptionTypesController extends Controller
         $request->validate($rules, $messages);
 
         $subscriptionType = $this->subscriptionTypeService->createSubscriptionType($request->all());
-
+        
+        if ($subscriptionType instanceof \Illuminate\Http\RedirectResponse) {
+            return $subscriptionType;
+        }
         return redirect()->route('Admin.SubscriptionTypes.index')
             ->withSuccess(__('added successfully'));
     }

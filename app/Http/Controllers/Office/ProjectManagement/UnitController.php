@@ -4,6 +4,8 @@
 namespace App\Http\Controllers\Office\ProjectManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
+use App\Models\FalLicenseUser;
 use App\Models\Project;
 use App\Models\Property;
 use App\Models\PropertyUsage;
@@ -112,7 +114,7 @@ class UnitController extends Controller
             if ($request->usage) {
                 $units = $units->where('property_usage_id', $request->usage);
             }
-    
+
             $projects = $units->pluck('ProjectData')->filter()->unique();
             $properties = $units->pluck('PropertyData')->filter()->unique();
             $propertyTypes = $units->pluck('PropertyTypeData')->filter()->unique();
@@ -137,6 +139,17 @@ class UnitController extends Controller
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $projects = $this->officeDataService->getProjects();
         $properties = $this->officeDataService->getProperties();
+
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
+
+
         return view('Office.ProjectManagement.Project.Unit.create', get_defined_vars());
     }
 
@@ -150,39 +163,40 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         // return $request;
-        $rules = [];
-        $rules = [
-            'number_unit' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'city_id' => 'required|exists:cities,id',
-            'owner_id' => 'required|exists:owners,id',
-            'price' => 'digits_between:0,10',
-            'monthly' => 'digits_between:0,8',
-            'instrument_number' => [
-                'nullable',
-                Rule::unique('units'),
-                'max:25'
-            ],
-        ];
-        $messages = [
-            'number_unit.required' => 'The number unit field is required.',
-            'number_unit.string' => 'The number unit must be a string.',
-            'number_unit.max' => 'The number unit may not be greater than :max characters.',
-            'location.required' => 'The location field is required.',
-            'location.string' => 'The location must be a string.',
-            'location.max' => 'The location may not be greater than :max characters.',
-            'city_id.required' => 'The city ID field is required.',
-            'city_id.exists' => 'The selected city ID is invalid.',
-            'owner_id.required' => 'The owner ID field is required.',
-            'owner_id.exists' => 'The selected owner ID is invalid.',
-            'instrument_number.unique' => 'The instrument number has already been taken.',
-            'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
-            'price' => 'price must be smaller than or equal to 10 numbers.',
-            'monthly' => 'Monthly price must be smaller than or equal to 8.',
+        //   return $request;
+          $rules = [];
+          $rules = [
+              'number_unit' => 'required|string|max:255',
+              'location' => 'required|string|max:255',
+              'city_id' => 'required|exists:cities,id',
+              'owner_id' => 'required|exists:owners,id',
+              'price' => 'digits_between:0,10',
+              'monthly' => 'digits_between:0,8',
+              'instrument_number' => [
+                  'nullable',
+                  Rule::unique('units'),
+                  'max:25'
+              ],
+          ];
+          $messages = [
+              'number_unit.required' => 'The number unit field is required.',
+              'number_unit.string' => 'The number unit must be a string.',
+              'number_unit.max' => 'The number unit may not be greater than :max characters.',
+              'location.required' => 'The location field is required.',
+              'location.string' => 'The location must be a string.',
+              'location.max' => 'The location may not be greater than :max characters.',
+              'city_id.required' => 'The city ID field is required.',
+              'city_id.exists' => 'The selected city ID is invalid.',
+              'owner_id.required' => 'The owner ID field is required.',
+              'owner_id.exists' => 'The selected owner ID is invalid.',
+              'instrument_number.unique' => 'The instrument number has already been taken.',
+              'instrument_number.max' => 'The instrument number may not be greater than :max characters.',
+              'price' => 'price must be smaller than or equal to 10 numbers.',
+              'monthly' => 'Monthly price must be smaller than or equal to 8.',
 
 
-        ];
-        $request->validate($rules, $messages);
+          ];
+          $request->validate($rules, $messages);
 
         $this->UnitService->store($request->all());
         return redirect()->route('Office.Unit.index')->with('success', __('added successfully'));
@@ -193,16 +207,19 @@ class UnitController extends Controller
         $Unit = $this->UnitService->findById($id);
         $officeId = auth()->user()->UserOfficeData->id;
         $subscription = $this->subscriptionService->findSubscriptionByOfficeId($officeId);
+        $unitInterests = collect();
         if ($subscription) {
             $sectionsIds = auth()->user()
-                ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
-                ->toArray();
+            ->UserOfficeData->UserSubscription->SubscriptionSectionData->pluck('section_id')
+            ->toArray();
             if (in_array(18, $sectionsIds)) {
                 $unitInterests = $this->unitInterestService->getUnitInterestsByUnitId($id);
                 $interestsTypes = $this->settingService->getAllInterestTypes();
             }
         }
         if (auth()->user()->UserOfficeData->id === $Unit->office_id) {
+        $contracts = Contract::where('unit_id',$id)->get();
+
             return view('Office.ProjectManagement.Project.Unit.show', get_defined_vars());
         } else {
             abort(403, 'Unauthorized action.');
@@ -225,18 +242,32 @@ class UnitController extends Controller
         $employees = $this->EmployeeService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         $projects = $this->officeDataService->getProjects();
         $properties = $this->officeDataService->getProperties();
+        $falLicense = FalLicenseUser::where('user_id', auth()->id())
+        ->whereHas('falData', function ($query) {
+            $query->where('for_gallery', 1);
+
+        })
+        ->where('ad_license_status', 'valid')
+        ->first();
+        $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
         return view('Office.ProjectManagement.Project.Unit.edit', get_defined_vars());
     }
 
     public function update(Request $request, $id)
     {
+        //  return $request;
+
         $Unit = $this->UnitService->findById($id);
         $this->UnitService->update($id, $request->all());
         if ($Unit->property_id != null) {
             return redirect()->route('Office.Property.show', $Unit->property_id)->with('success', __('Update successfully'));
         }
+        if ($Unit->property_id != null && $Unit->project_id != null) {
+            return redirect()->route('Office.Project.show', $Unit->project_id)->with('success', __('Update successfully'));
+        }
         return redirect()->route('Office.Unit.show', $Unit->id)->with('success', __('Update successfully'));
     }
+
 
     public function destroy(string $id)
     {
@@ -314,7 +345,7 @@ class UnitController extends Controller
         }
         return response()->json(['error' => 'Image not found'], 404);
     }
-    
+
     public function destroyVideo($id)
     {
         $unit = Unit::find($id);

@@ -58,7 +58,7 @@ class CheckSubscriptionMiddleware
         }
 
         if (Auth::user()->is_broker) {
-            $subscription =      Auth::user()->UserBrokerData->UserSubscriptionPending;
+            $subscription =Auth::user()->UserBrokerData->UserSubscriptionPending;
             $Suspend = Auth::user()->UserBrokerData->UserSubscriptionSuspend;
             if ($subscription) {
                 return    redirect()->route('Broker.home');
@@ -69,13 +69,24 @@ class CheckSubscriptionMiddleware
         }
 
         if (Auth::user()->is_office) {
-            $subscription =      Auth::user()->UserOfficeData->UserSubscriptionPending;
+            $subscription =Auth::user()->UserOfficeData->UserSubscriptionPending;
             $Suspend = Auth::user()->UserOfficeData->UserSubscriptionSuspend;
             if ($subscription) {
                 return    redirect()->route('Office.home');
             }
             if ($Suspend) {
                 return    redirect()->route('Office.home');
+            }
+        }
+
+        if (Auth::user()->is_owner) {
+            $subscription =Auth::user()->UserOwnerData->UserSubscriptionPending;
+            $Suspend = Auth::user()->UserOwnerData->UserSubscriptionSuspend;
+            if ($subscription) {
+                return    redirect()->route('PropertyFinder.home');
+            }
+            if ($Suspend) {
+                return    redirect()->route('PropertyFinder.home');
             }
         }
 

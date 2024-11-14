@@ -53,20 +53,37 @@
                             @if ($unit->isGalleryUnit)
                                 <li><a class="dropdown-item" href="{{ route('Owner.edit-unit', $unit->id) }}">@lang('Edit')</a></li>
                                 <li>
-                                    <form action="{{ route('Owner.delete-unit', $unit->id) }}" method="POST">
+                                    {{-- <form action="{{ route('Owner.delete-unit', $unit->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="dropdown-item">@lang('Delete')</button>
-                                    </form>
+                                    </form> --}}
+                                    <a href="javascript:void(0);"
+                                                        onclick="handleDelete('{{ $unit->id }}')"
+                                                        class="dropdown-item delete-btn">@lang('Delete')</a>
+                                                    <form id="delete-form-{{ $unit->id }}"
+                                                        action="{{ route('Owner.delete-unit', $unit->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
                                 </li>
                             @elseif ($unit->isGalleryProperty)
                                 <li><a class="dropdown-item" href="{{ route('Owner.edit-property', $unit->id) }}">@lang('Edit')</a></li>
                                 <li>
-                                    <form action="{{ route('Owner.delete-property', $unit->id) }}" method="POST">
+                                    {{-- <form action="{{ route('Owner.delete-property', $unit->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="dropdown-item">@lang('Delete')</button>
+                                    </form> --}}
+                                    <a href="javascript:void(0);"
+                                    onclick="handleDelete('{{ $unit->id }}')"
+                                    class="dropdown-item delete-btn">@lang('Delete')</a>
+                                    <form id="delete-form-{{ $unit->id }}" action="{{ route('Owner.delete-property', $unit->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
                                     </form>
+
                                 </li>
                             @elseif ($unit->isGalleryProject)
 

@@ -342,8 +342,8 @@
                             <div class="col-sm-12 col-md-2 mb-3">
                                 <div class="small fw-medium mb-3">@lang('Show in Gallery')</div>
                                 <label class="switch switch-primary">
-                                    <input type="checkbox" name="show_gallery" class="switch-input toggleHomePage"
-                                        {{ $Unit->show_gallery == 1 ? 'checked' : '' }}>
+                                    <input type="checkbox" name="show_in_gallery" class="switch-input toggleHomePage"
+                                        {{ $Unit->show_in_gallery == 1 ? 'checked' : '' }}>
                                     <span class="switch-toggle-slider">
                                         <span class="switch-on">
                                             <i class="ti ti-check"></i>

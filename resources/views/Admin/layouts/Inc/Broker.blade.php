@@ -110,7 +110,7 @@
         {{-- </a> --}}
 
         <a href="{{ route('Broker.home') }}" class="app-brand-link">
-            <img src="{{ url($sitting->icon) }}" width="80" alt="">
+            <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80" alt="">
             {{-- <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">{{ $sitting->title }}</span> --}}
         </a>
 
@@ -218,14 +218,29 @@
         @endif
 
         @if (in_array(16, $sectionsIds))
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                {{-- <i class="menu-icon tf-icons ti ti-smart-home"></i> --}}
+                <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                <div data-i18n="@lang('Customer Management')">@lang('Customer Management')</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('Broker.Owner.index') }}" class="menu-link">
+                        <div data-i18n="@lang('Owners Management')">@lang('Owners Management')</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        @endif
+        @if (in_array(34, $sectionsIds))
             <li class="menu-item">
-                <a href="{{ route('Broker.Owner.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons ti ti-users"></i>
-                    <div data-i18n="@lang('Owners Management')">@lang('Owners Management')</div>
+                <a href="{{ route('Broker.ShowSubscription') }}" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-layout-kanban"></i>
+                    <div data-i18n="@lang('Reports and advanced search')">@lang('Reports and advanced search')</div>
                 </a>
             </li>
         @endif
-
         @if (in_array(12, $sectionsIds))
             <li class="menu-item">
                 <a href="{{ route('Broker.ShowSubscription') }}" class="menu-link">

@@ -128,12 +128,13 @@ class ContractController extends Controller
         $properties=Property::where('office_id',$office_id)->get();
         $units=Unit::where('office_id',$office_id)->get();
         $renters = $this->RenterService->getAllByOfficeId($office_id);
-        $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
+        // $owners = $this->OwnerService->getAllByOfficeId(auth()->user()->UserOfficeData->id);
         return view('Office.Contract.create', get_defined_vars());
     }
 
     public function store(Request $request)
     {
+        // dd($request);
         $contract = $this->ContractService->createContract($request->all());
         return redirect()->route('Office.Contract.show', $contract->id)->with('success', 'Contract created successfully.');
     }
@@ -465,7 +466,7 @@ class ContractController extends Controller
                 foreach ($contracts as $contract) {
                     $contract->contract_validity = 'active';
                     $contract->save();
-                
+
                     $contract->unit->status = 'rented';
                     $contract->unit->save();
                 }
@@ -559,7 +560,7 @@ class ContractController extends Controller
     public function getStatus($id)
     {
         $unit = Unit::with('contract')->find($id);
-        
+
         if ($unit->status == 'rented') {
             return response()->json([
                 'status' => 'rented',

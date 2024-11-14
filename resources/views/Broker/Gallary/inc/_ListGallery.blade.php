@@ -1,5 +1,5 @@
 @forelse ($allItems as $index => $unit)
-   
+
 
     <!-- Upcoming Webinar -->
     <div class="col-md-6 col-xl-4 mb-4">
@@ -29,14 +29,14 @@
                     @lang('property')
                     @endif
                 </div>
-                
+
                 </div>
                 <h5 class="mb-2 pb-1">{{ $unit->ad_name ?? $unit->name }}</h5>
                 <p class="card-text">{{ __('Occupancy') }}: {{ __($unit->status) }} </p>
                 <p class="card-text">{{ __('Ad type') }}: {{ __($unit->type) ?? '' }}</p>
                 <p class="card-text">{{ __('city') }}: {{ $unit->CityData->name ?? '' }}</p>
                 <p class="card-text">{{ __('Show in Gallery') }}:
-                    {{ $unit->show_gallery == 1 ? __('Show') : __('hide') }}</p>
+                    {{ $unit->show_in_gallery == 1 ? __('Show') : __('hide') }}</p>
 
                 <div class="row mb-3 g-3">
                     <div class="col-6">
@@ -68,7 +68,7 @@
                 $isUnit = isset($unit->isGalleryUnit) && $unit->isGalleryUnit;
                 $isProject = isset($unit->isGalleryProject) && $unit->isGalleryProject;
                 $isProperty = isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
-        
+
                 if ($isUnit) {
                     $showRoute = route('Broker.Unit.show', $unit->id);
                     $editRoute = route('Broker.Unit.edit', $unit->id);

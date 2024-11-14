@@ -14,9 +14,11 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Broker\ProjectManagement\ProjectController;
 use App\Http\Controllers\Broker\ProjectManagement\PropertyController;
+use App\Http\Controllers\Home\Gallary\GallaryController as HomeGallaryController;
 use App\Http\Controllers\Property_Finder\RealEstateRequestController;
 use App\Http\Controllers\Home\UnitInterestController;
 use App\Http\Controllers\Property_Finder\HomeController as Property_FinderHomeController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Middleware\PendingPaymentPopup;
 
 
@@ -72,8 +74,8 @@ Route::group(
             Route::get('/region/{id}',  [HomeController::class, 'showRegion'])->name('Region.show');
               //projects
             Route::get('gallery/projects', [ProjectController::class, 'showAllProjetcs'])->name('showAllProjects');
-            Route::get('gallery/{gallery_name}/project/{id}', [ProjectController::class, 'showPubllicProject'])->name('showPublicProject');
-            Route::get('gallery/{gallery_name}/property/{id}', [PropertyController::class, 'showPubllicProperty'])->name('showPublicProperty');
+            Route::get('gallery/{gallery_name}/project/{id}', [HomeGallaryController::class, 'showPubllicProject'])->name('showPublicProject');
+            Route::get('gallery/{gallery_name}/property/{id}', [HomeGallaryController::class, 'showPubllicProperty'])->name('showPublicProperty');
             route::resource('Real-Estate-Requests', RealEstateRequestController::class)->middleware('CheckSubscription');
             Route::post('/store-request', [HomeController::class, 'createRequest'])->name('createRequest');
             Route::post('send-otp', [HomeController::class, 'sendOtp'])->name('sendOtp');
@@ -101,9 +103,11 @@ Route::group(
         Route::get('/Terms&Conditions', 'Home\HomeController@Terms')->name('Terms');
         Auth::routes();
 
-        Route::get('/gallery/{name}', [GallaryController::class, 'showByName'])->name('gallery.showByName');
-        Route::get('/gallery', [GallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
-        Route::get('gallery/{gallery_name}/unit/{id}', [GallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
+        Route::get('/gallery/{name}', [HomeGallaryController::class, 'showByName'])->name('gallery.showByName');
+        // Route::get('/gallery', [GallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
+        Route::get('/gallery', [HomeGallaryController::class, 'showAllGalleries'])->name('gallery.showAllGalleries');
+
+        Route::get('gallery/{gallery_name}/unit/{id}', [HomeGallaryController::class, 'showUnitPublic'])->name('gallery.showUnitPublic');
         Route::post('/unit_interests',  [UnitInterestController::class, 'store'])->name('unit_interests.store');
         Route::get('/download-qrcode/{link}', [GallaryController::class, 'downloadQRCode'])->name('download.qrcode');
         Route::get('/filtered-units', [GallaryController::class, 'fetchFilteredUnits'])->name('filtered.units');
@@ -117,7 +121,9 @@ Route::group(
         Route::post('forget-password/send-new-code', [ForgotPasswordController::class, 'sendNewCode'])->name('forget.password.newcode');
 
         Route::get('/brokers',  [HomeController::class, 'showAllBrokers'])->name('brokers');
-        Route::get('Gallery/GetDistrictByCity/{id}', [GallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity');
+        Route::get('Gallery/GetDistrictByCity/{id}', [HomeGallaryController::class, 'GetDistrictByCity'])->name('Gallary.GetDistrictByCity');
+        Route::post('/save-home-work-details', [HomeGallaryController::class, 'saveHomeWorkDetails'])->name('saveHomeWorkDetails');
+        Route::get('/get-home-work-location', [HomeGallaryController::class, 'getHomeWorkLocation'])->name('getHomeWorkLocation');
 
         Route::post('StoreContactUs',  [HomeController::class, 'StoreContactUs'])->name('home.StoreContactUs');
 
@@ -176,6 +182,10 @@ Route::group(
         Route::post('callback_UpgradeSubscription/{id}', 'PaymentController@callback_UpgradeSubscription')->name('callback_UpgradeSubscription');
         Route::get('/switch-role/{role}', [AdminHomeController::class, 'switchRole'])->name('switch.role');
 
+
+        //receipt
+        Route::post('create-receipt', [ReceiptController::class, 'storeReceipt'])->name('Receipt.store');
+        Route::get('/get-user-details', [HomeController::class, 'getUserDetails']);
     }
 
 );

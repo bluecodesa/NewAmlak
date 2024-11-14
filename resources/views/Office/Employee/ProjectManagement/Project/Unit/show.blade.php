@@ -107,7 +107,7 @@
 
                                     <li class="mb-2 pt-1">
                                         <span class="fw-medium me-1">@lang('Show in Gallery') :</span>
-                                        <span> {{ $Unit->show_gallery == 1 ? __('Show') : __('hide') }}</span>
+                                        <span> {{ $Unit->show_in_gallery == 1 ? __('Show') : __('hide') }}</span>
                                     </li>
 
                                     <li class="mb-2 pt-1">

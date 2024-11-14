@@ -144,8 +144,8 @@
 
         <a href="{{ route('Admin.home') }}" class="app-brand-link">
             {{-- <span class="app-brand-logo demo"> --}}
-            <img src="{{ url($sitting->icon) }}" width="80" alt="">
-            {{-- </span> --}}
+                <img src="{{ url(LaravelLocalization::getCurrentLocale() === 'ar' ? $sitting->icon_ar : $sitting->icon_en) }}" width="80" alt="">
+                {{-- </span> --}}
             {{-- <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">{{ $sitting->title }}</span> --}}
         </a>
 
@@ -189,10 +189,17 @@
                         @if (Auth::user()->hasPermission('read-SystemInvoice'))
                             <li class="menu-item">
                                 <a href="{{ route('Admin.SystemInvoice.index') }}" class="menu-link">
-                                    <div data-i18n="@lang('Clients Bills')">@lang('Clients Bills')</div>
+                                    <div data-i18n="@lang('Subscribers Bills')">@lang('Subscribers Bills')</div>
                                 </a>
                             </li>
                         @endif
+                        @if (Auth::user()->hasPermission('read-SystemInvoice'))
+                        <li class="menu-item">
+                            <a href="{{ route('Admin.Receipt.index') }}" class="menu-link">
+                                <div data-i18n="@lang('Subscriber Receipts')">@lang('Subscriber Receipts')</div>
+                            </a>
+                        </li>
+                    @endif
                     @endif
                 </ul>
             </li>

@@ -35,7 +35,15 @@
                         <input name="client_key" class="form-control" type="text" id="client_key"
                             value="{{ old('client_key', $paymentGateway->client_key) }}">
                     </div>
-
+                    <div class="col-12 mb-3">
+                        <label for="status">@lang('Default')</label>
+                        <select name="is_default" type="package" class="form-select">
+                            <option value="1" {{ $paymentGateway->is_default == 1 ? 'selected' : '' }}>
+                                @lang('Enable')</option>
+                            <option value="0" {{ $paymentGateway->is_default == 0 ? 'selected' : '' }}>
+                                @lang('Disable')</option>
+                        </select>
+                    </div>
                     <div class="col-12 mb-3">
                         <label for="status">@lang('Status')</label>
                         <select name="status" type="package" class="form-select">

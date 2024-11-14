@@ -125,7 +125,7 @@
                                                     @endif
                                                 @endforeach
                                             </td>
-                                            
+
 
                                             <td>
                                                 <span style="font-size: smaller;" >
@@ -146,26 +146,40 @@
                                                         @endif
 
                                                         @if (Auth::user()->hasPermission('suspend-user-subscriber'))
-                                                            @if ($subscriber->is_suspend)
-                                                                <form
-                                                                    action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
-                                                                    method="post">
-                                                                    @csrf
-                                                                    <input type="text" hidden value="{{ 0 }}"
-                                                                        name="is_suspend">
-                                                                    <button class="dropdown-item">@lang('re active')</button>
-                                                                </form>
-                                                            @else
-                                                                <form
-                                                                    action="{{ route('Admin.Subscribers.SuspendSubscription', $subscriber->id) }}"
-                                                                    method="post">
-                                                                    @csrf
-                                                                    <input type="text" hidden value="{{ 1 }}"
-                                                                        name="is_suspend">
-                                                                    <button class="dropdown-item">@lang('suspend')</button>
-                                                                </form>
-                                                            @endif
-                                                        @endif
+                                                        @php
+                                                            // Determine subscription based on subscriber type
+                                                            $subscriptions = [];
+                                                            if ($subscriber->is_office) {
+                                                                $subscriptions[] = [
+                                                                    'subscription' => $subscriber->UserOfficeData->UserSubscription,
+                                                                    'label' => 'office account'
+                                                                ];
+                                                            }
+                                                            if ($subscriber->is_owner) {
+                                                                $subscriptions[] = [
+                                                                    'subscription' => $subscriber->UserOwnerData->UserSubscription,
+                                                                    'label' => 'owner account'
+                                                                ];
+                                                            }
+                                                            if ($subscriber->is_broker) {
+                                                                $subscriptions[] = [
+                                                                    'subscription' => $subscriber->UserBrokerData->UserSubscription,
+                                                                    'label' => 'broker account'
+                                                                ];
+                                                            }
+                                                        @endphp
+
+                                                        @foreach ($subscriptions as $data)
+                                                            <form action="{{ route('Admin.Subscribers.SuspendSubscription', $data['subscription']->id) }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="is_suspend" value="{{ $data['subscription']->is_suspend ? 0 : 1 }}">
+                                                                <button class="dropdown-item">
+                                                                    @lang($data['subscription']->is_suspend ? "re active {$data['label']}" : "suspend {$data['label']}")
+                                                                </button>
+                                                            </form>
+                                                        @endforeach
+                                                    @endif
+
 
 
                                                         @if (Auth::user()->hasPermission('read-subscriber-file'))

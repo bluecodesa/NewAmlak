@@ -137,6 +137,9 @@ class SystemInvoiceService
     {
         $subscriptionType = SubscriptionType::find($request->subscription_type_id);
         $status = $subscriptionType->price > 0 ? 'pending' : 'paid';
+        $Last_invoice_ID = SystemInvoice::where('invoice_ID', '!=', null)->latest()->value('invoice_ID');
+        $delimiter = '-';
+        $new_invoice_ID = !$Last_invoice_ID ? '00001' : str_pad((int)explode($delimiter, $Last_invoice_ID)[1] + 1, 5, '0', STR_PAD_LEFT);
 
         $data = [
             'office_id' => $office->id,
@@ -146,7 +149,7 @@ class SystemInvoiceService
             'period' => $subscriptionType->period,
             'period_type' => $subscriptionType->period_type,
             'status' => $status,
-            'invoice_ID' => 'INV_' . uniqid(),
+            'invoice_ID' => 'INV-' . $new_invoice_ID,
         ];
 
         return $this->systemInvoiceRepository->create($data);

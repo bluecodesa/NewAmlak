@@ -87,7 +87,6 @@ class Project extends Model
         return $this->belongsTo(Broker::class, 'broker_id');
     }
 
-
     public function OfficeData()
     {
         return $this->belongsTo(Office::class, 'office_id');

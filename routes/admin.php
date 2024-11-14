@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WalletTypeController;
 use App\Http\Controllers\Broker\TicketController;
+use App\Http\Controllers\ReceiptController;
 use App\Models\City;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,8 @@ Route::group(
             Route::get('/payment-gateways/{id}/edit', [SettingController::class, 'editPaymentGatewayForm'])->name('payment-gateways.edit');
             Route::put('/payment-gateways/{id}', [SettingController::class, 'updatePaymentGateway'])->name('update-payment-gateway');
             Route::post('/payment-gateways/create', [SettingController::class, 'createPaymentGateway'])->name('create-payment-gateway');
+            Route::post('/bank-accounts/create', [SettingController::class, 'createBankAccount'])->name('create-bank-account');
+            Route::put('/bank-accounts/{id}', [SettingController::class, 'updateBankAccount'])->name('update-bank-account');
             Route::get('/ChangeActiveHomePage', [SettingController::class, 'ChangeActiveHomePage'])->name('Setting.ChangeActiveHomePage');
             Route::get('/ChangeActiveGalleryPage', [SettingController::class, 'ChangeActiveGalleryPage'])->name('Setting.ChangeActiveGalleryPage');
             Route::get('/ChangeActiveRegisterUsers', [SettingController::class, 'ChangeActiveRegisterUsers'])->name('Setting.ChangeActiveRegisterUsers');
@@ -76,8 +79,13 @@ Route::group(
             Route::put('/taxs/{setting}', [SettingController::class, 'updateTax'])->name('update-tax');
             Route::get('NotificationSetting/{id}', [SettingController::class, 'NotificationSetting'])->name('update.NotificationSetting');
             Route::post('UpdateEmailSetting', [SettingController::class, 'UpdateEmailSetting'])->name('update.UpdateEmailSetting');
+            Route::post('UpdateWhatsAppSetting', [SettingController::class, 'UpdateWhatsAppSetting'])->name('update.UpdateWhatsAppSetting');
             Route::get('EditEmailTemplate/{id}', [SettingController::class, 'EditEmailTemplate'])->name('update.EditEmailTemplate');
+            Route::get('EditWhatsAppTemplate/{id}', [SettingController::class, 'EditWhatsAppTemplate'])->name('update.EditWhatsAppTemplate');
+
             Route::post('StoreEmailTemplate/{id}', [SettingController::class, 'StoreEmailTemplate'])->name('update.StoreEmailTemplate');
+            Route::post('StoreWhatsAppTemplate/{id}', [SettingController::class, 'StoreWhatsAppTemplate'])->name('update.StoreWhatsAppTemplate');
+
             Route::post('StoreNewNotification', [SettingController::class, 'StoreNewNotification'])->name('StoreNewNotification');
             Route::get('TestSendMail', [SettingController::class, 'TestSendMail'])->name('update.TestSendMail');
 
@@ -126,6 +134,18 @@ Route::group(
             Route::put('/project-DelviryCases/{id}/update', [ProjectController::class, 'updateDeliveryCase'])->name('ProjectSettings.updateDelivery-case');
             Route::delete('/project-DelviryCases/{id}/destroy', [ProjectController::class, 'deleteDeliveryCase'])->name('ProjectSettings.destroyDelivery-case');
 
+
+            //Receipts
+            Route::get('/receipts', [ReceiptController::class, 'indexReceipt'])->name('Receipt.index');
+            Route::get('/receipt/{id}', [ReceiptController::class, 'showReceipt'])->name('Receipt.show');
+            Route::put('/receipt/update-status/{id}', [ReceiptController::class, 'updateStatus'])->name('Receipt.updateStatus');
+            Route::post('/receipts/{id}/comment', [ReceiptController::class, 'addComment'])->name('Receipt.addComment');
+
+
+
+
+
+            //
             Route::resource('PartnerSuccess', PartnerSuccessController::class);
 
 

@@ -43,16 +43,16 @@
                                         {{-- <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">3</span> --}}
                                     </button>
                                 </li>
-                                <li class="nav-item" role="presentation">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                                        data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
-                                        aria-selected="false" tabindex="-1">
-                                        <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
-                                    </button>
-                                </li>
-                            @endif
+                               @endif
 
-
+                               <li class="nav-item">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-fal" aria-controls="navs-justified-fal"
+                                    aria-selected="false">
+                                    <i class="tf-icons ti ti-picture-in-picture ti-xs me-1"></i>
+                                    @lang('REGA License')
+                                </button>
+                            </li>
                             <li class="nav-item">
                                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                                     data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
@@ -61,6 +61,16 @@
                                     @lang('Gallary Mange')
                                 </button>
                             </li>
+
+                            @if (Auth::user()->hasPermission('update-user-profile'))
+                            <li class="nav-item" role="presentation">
+                                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-justified-security" aria-controls="navs-justified-security"
+                                    aria-selected="false" tabindex="-1">
+                                    <i class="tf-icons ti ti-lock ti-xs me-1 ti-xs me-1"></i> @lang('Securtiy')
+                                </button>
+                            </li>
+                            @endif
 
                         </ul>
 
@@ -77,6 +87,10 @@
                                 @include('Office.settings.inc._security')
                             </div>
                             {{-- @endif --}}
+                            <div class="tab-pane fade" id="navs-justified-fal" role="tabpanel">
+                                @include('Office.settings.inc.FalLicense.index')
+
+                            </div>
                             @if ($gallery)
                                 <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
                                     @include('Office.settings.inc._GalleryMange')
@@ -91,9 +105,10 @@
                                             </div>
                                             <div class="card-body">
                                                 <p>@lang(' الاشتراك الحالي لا يحتوي ع المعرض ')</p>
+                                                <a href="{{ route('Broker.ShowSubscription') }}" type="submit" class="btn btn-primary">@lang('Upgrade subscription')</a>
 
-                                                <button type="button" data-toggle="modal" data-target="#exampleModal"
-                                                    class="btn btn-primary">@lang('Subscription upgrade')</button>
+                                                {{-- <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                                    class="btn btn-primary">@lang('Subscription upgrade')</button> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -116,14 +131,6 @@
         </div>
         @push('scripts')
             <script>
-                $(document).ready(function() {
-                    $('.dropdown-item').on('click', function() {
-                        var key = $(this).data('key');
-                        $('#key_phone').val(key);
-                        $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
-                    });
-                });
-
 
                 $(document).ready(function() {
                     $('#Region_id').on('change', function() {
@@ -195,6 +202,45 @@
                     });
                 }
             </script>
+
+<script>
+    function updateFullPhone1(input) {
+                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+                var key_phone = $('#key_phone1').val();
+                var fullPhone = key_phone + input.value;
+                document.getElementById('full_phone1').value = fullPhone;
+            }
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    var phone = $('#company_number').val();
+                    $('#key_phone1').val(key);
+                    $('#full_phone1').val(key + phone);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
+            });
+
+
+</script>
+<script>
+    function updateRepresentativeFullPhone(input) {
+                input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
+                var key_phone = $('#representative_key_phone').val();
+                var fullPhone = key_phone + input.value;
+                document.getElementById('representative_full_phone').value = fullPhone;
+            }
+            $(document).ready(function() {
+                $('.dropdown-item').on('click', function() {
+                    var key = $(this).data('key');
+                    var phone = $('#representative_phone').val();
+                    $('#key_phone2').val(key);
+                    $('#full_phone2').val(key + phone);
+                    $(this).closest('.input-group').find('.btn.dropdown-toggle').text(key);
+                });
+            });
+
+
+</script>
         @endpush
 
     @endsection

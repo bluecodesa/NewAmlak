@@ -14,7 +14,7 @@
         </div>
     @endforeach
 
-    <div class="col-12 mb-3 col-md-6">
+    <div class="col-12 mb-3 col-md-4">
         <label for="url" class="form-label">@lang('Email')</label>
         <input name="email" class="form-control" type="email" value="{{ $settings->email ?? '' }}" id="url">
 
@@ -23,16 +23,16 @@
 
 
     {{--  --}}
-    <div class="col-12 mb-3 col-md-6">
-        <label for="logo" class="form-label">@lang('Logo')
+    <div class="col-12 mb-3 col-md-4">
+        <label for="logo" class="form-label">@lang('Logo AR')
         </label>
-        <input name="icon" class="form-control" type="file" id="logo"
+        <input name="icon_ar" class="form-control" type="file" id="logo"
             accept="image/png, image/jpg, image/jpeg">
         <div class="form-text">
-            @if (isset($settings) && $settings->icon)
+            @if (isset($settings) && $settings->icon_ar)
                 {{-- {{ $settings->icon }} --}}
                 <div class="avatar avatar-md me-2">
-                    <img src="{{ asset($settings->icon) }}" alt="Avatar" class="rounded-circle">
+                    <img src="{{ asset($settings->icon_ar) }}" alt="Avatar" class="rounded-circle">
                 </div>
             @else
                 @lang('No logo uploaded yet.')
@@ -40,6 +40,25 @@
         </div>
     </div>
     {{--  --}}
+        {{--  --}}
+        <div class="col-12 mb-3 col-md-4">
+            <label for="logo" class="form-label">@lang('Logo EN')
+            </label>
+            <input name="icon_en" class="form-control" type="file" id="logo"
+                accept="image/png, image/jpg, image/jpeg">
+            <div class="form-text">
+                @if (isset($settings) && $settings->icon_en)
+                    {{-- {{ $settings->icon }} --}}
+                    <div class="avatar avatar-md me-2">
+                        <img src="{{ asset($settings->icon_en) }}" alt="Avatar" class="rounded-circle">
+                    </div>
+                @else
+                    @lang('No logo uploaded yet.')
+                @endif
+            </div>
+        </div>
+        {{--  --}}
+
 
     <div class="col-12 mb-3 col-md-6">
         <label for="url" class="form-label">@lang('Facebook')</label>
@@ -100,7 +119,7 @@
     </div> --}}
 
     <div class="col-12 mb-3 col-md-4">
-        <label for="color" class="form-label">@lang('phone')</label>
+        <label for="phone" class="form-label">@lang('phone')</label>
         <div class="input-group">
             <input type="text" name="phone" placeholder="123456789" value="{{ $settings->phone }}"
                 class="form-control" maxlength="9" pattern="\d{1,9}"

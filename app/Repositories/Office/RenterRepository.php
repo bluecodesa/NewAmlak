@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Office;
 
+use App\Http\Traits\Email\MailOwnerCredentials;
+use App\Http\Traits\WhatsApp\WhatsAppAccountCredentials;
 use App\Interfaces\Office\RenterRepositoryInterface;
 use App\Models\Office;
 use App\Models\Renter;
@@ -9,11 +11,15 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Str;
 
 
 
 class RenterRepository implements RenterRepositoryInterface
 {
+    use MailOwnerCredentials;
+    use WhatsAppAccountCredentials;
+
     public function getAllByOfficeId($officeId)
     {
 
@@ -25,8 +31,11 @@ class RenterRepository implements RenterRepositoryInterface
         $rules =[
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|string|max:9|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'full_phone' => [
+                'required',
+                'max:25',
+                Rule::unique('users', 'full_phone')->ignore($data['id_number'], 'id_number'),
+            ],            // 'password' => 'required|string|min:8|confirmed',
             'id_number' => [
                 'required',
                 'numeric',
@@ -51,10 +60,9 @@ class RenterRepository implements RenterRepositoryInterface
             'email.max' => __('The email may not be greater than :max characters.'),
             'email.unique' => __('The email has already been taken.'),
 
-            'phone.required' => __('The phone field is required.'),
-            'phone.string' => __('The phone must be a string.'),
-            'phone.max' => __('The phone may not be greater than :max characters.'),
-            'phone.unique' => __('The phone has already been taken.'),
+            'full_phone.required' => __('The phone field is required.'),
+            'full_phone.unique' => __('The phone has already been taken.'),
+            'full_phone.max' => __('The phone may not be greater than :max characters.'),
 
             'password.required' => __('The password field is required.'),
             'password.string' => __('The password must be a string.'),
@@ -64,7 +72,7 @@ class RenterRepository implements RenterRepositoryInterface
             'id_number.numeric' => 'The ID number must be a number.',
             'id_number.digits' => 'The ID number must be exactly 10 digits long.',
             'id_number.unique' => 'The ID number has already been taken.', // Custom message for unique constraint
-        
+
 
         ];
         validator($data, $rules,$messages)->validate();
@@ -73,6 +81,24 @@ class RenterRepository implements RenterRepositoryInterface
         $officeId = auth()->user()->UserOfficeData->id;
         $office = Office::find($officeId);
 
+
+        $user = User::where('id_number', $data['id_number'])->first();
+
+        $password = Str::random(8);
+            $Last_customer_id = User::where('customer_id', '!=', null)->latest()->value('customer_id');
+            $delimiter = '-';
+            $prefixes = ['AMK1-', 'AMK2-', 'AMK3-', 'AMK4-', 'AMK5-', 'AMK6-'];
+
+            if (!$Last_customer_id) {
+                $new_customer_id = 'AMK1-0001';
+            } else {
+                $result = explode($delimiter, $Last_customer_id);
+                $number = (int)$result[1] + 1;
+                $tag_index = min(intval($number / 1000), count($prefixes) - 1);
+                $tag = $prefixes[$tag_index];
+                $new_customer_id = $tag . str_pad($number % 1000, 4, '0', STR_PAD_LEFT);
+            }
+
         $user = User::create([
             'is_renter' => 1,
             'name' => $data['name'],
@@ -80,7 +106,8 @@ class RenterRepository implements RenterRepositoryInterface
             'phone' => $data['phone'],
             'key_phone' => $data['key_phone'],
             'full_phone' => $data['full_phone'],
-            'password' => Hash::make($data['password']),
+            'customer_id' => $new_customer_id,
+            'password' => Hash::make($password),
             'id_number' => $data['id_number'],
 
         ]);
@@ -88,19 +115,16 @@ class RenterRepository implements RenterRepositoryInterface
         $role = Role::firstOrCreate(['name' => 'Renter']);
         $user->assignRole($role);
 
-
         $renter = Renter::create([
             'user_id' => $user->id,
         ]);
 
-        // $data['office_id'];
-        // $user = User::create($data);
-        // return Renter::create([
-        //     'office_id' => $data['office_id'],
-        //     'user_id'=> $user->id
-        // ]);
         $office = Office::find($officeId);
         $office->RenterData()->attach($renter->id);
+
+        $this->MailOwnerCredentials($user, $password);
+        $this->WhatsAppAccountCredentials($user, $password);
+
         return $renter;
 
     }
@@ -110,14 +134,9 @@ class RenterRepository implements RenterRepositoryInterface
         return Renter::find($id);
     }
 
-    // public function updateRenter($id, $data)
-    // {
-    //     $Renter = Renter::findOrFail($id);
-    //     $Renter->update($data);
-    //     return $Renter;
-    // }
+
     public function updateRenter($id, $data)
-{
+    {
     // Define validation rules
     $renter = Renter::findOrFail($id);
 

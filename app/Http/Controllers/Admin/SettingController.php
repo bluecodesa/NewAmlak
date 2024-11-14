@@ -10,10 +10,12 @@ use App\Models\EmailTemplate;
 use App\Models\InterestType;
 use App\Models\InterestTypeTranslation;
 use App\Models\NotificationSetting;
+use App\Models\WhatsappTemplate;
 use App\Services\Admin\SettingService;
 use App\Services\Admin\EmailSettingService;
 use Illuminate\Http\Request;
 use App\Models\Setting;
+use App\Models\WhatsAppSetting;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
@@ -50,8 +52,10 @@ class SettingController extends Controller
     {
         $settings = $this->settingRepo->getAllSetting();
         $EmailSettingService = $this->EmailSettingService->getAll();
+        $WhatsAppSettingService = $this->EmailSettingService->getAllWhatsApp();
         $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $paymentGateways = $settings->paymentGateways;
+        $bankAccounts = $settings->bankAccounts;
         $interests = $this->settingService->getAllInterestTypes();
         return view('Admin.settings.index', get_defined_vars());
     }
@@ -124,16 +128,49 @@ class SettingController extends Controller
     {
         // فين الفالديشن (amin)
         $this->paymentGateway->createPaymentGateway($request->all());
-        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
+        return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway created successfully.'));
     }
 
     public function updatePaymentGateway(Request $request, $id)
     {
         // فين الفالديشن (amin)
-        $this->paymentGateway->updatePaymentGateway($id, $request->all());
+
+        $response = $this->paymentGateway->updatePaymentGateway($id, $request->all());
+
+
+        // Check if the response is a redirect response
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            return $response;
+        }
+
 
         return redirect()->route('Admin.settings.index')->with('success', __('Payment gateway updated successfully.'));
     }
+
+    public function createBankAccount(Request $request)
+    {
+        // فين الفالديشن (amin)
+        $this->paymentGateway->createBankAccount($request->all());
+        return redirect()->route('Admin.settings.index')->with('success', __('Bank Account created successfully.'));
+    }
+
+
+
+    public function updateBankAccount(Request $request, $id)
+    {
+        // Perform validation here if needed
+
+        $response = $this->paymentGateway->updateBankAccount($id, $request->all());
+
+        // Check if the response is a redirect response
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            return $response;
+        }
+
+        return redirect()->route('Admin.settings.index')->with('success', __('Bank Account updated successfully.'));
+    }
+
+
 
     public function updateTax(Request $request, Setting $setting)
     {
@@ -160,12 +197,64 @@ class SettingController extends Controller
         $this->settingService->UpdateEmailSetting($request->all());
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
+
+    public function UpdateWhatsAppSetting(Request $request)
+    {
+
+        $request->validate([
+            'api_key' => 'required|string',
+            'session_uuid' => 'required|string',
+            'phone' => 'required|string',
+            'type' => 'required|string',
+            'url' => 'required|url',
+        ]);
+
+
+        $whatsappSetting = WhatsAppSetting::where('user_id', auth()->id())->first();
+
+        if ($whatsappSetting) {
+            $whatsappSetting->update([
+                'api_key' => $request->api_key,
+                'session_uuid' => $request->session_uuid,
+                'phone' => $request->phone,
+                'type' => $request->type,
+                'url' => $request->url,
+            ]);
+
+            $message = 'WhatsApp settings updated successfully.';
+        } else {
+
+            WhatsAppSetting::create([
+                'user_id' => auth()->id(),
+                'api_key' => $request->api_key,
+                'session_uuid' => $request->session_uuid,
+                'phone' => $request->phone,
+                'type' => $request->type,
+                'url' => $request->url,
+            ]);
+
+            $message = 'WhatsApp settings saved successfully.';
+        }
+
+        return back()->with('success', $message);
+    }
+
     function EditEmailTemplate($id)
     {
         $notification = NotificationSetting::find($id);
         $template = EmailTemplate::where('notification_setting_id', $notification->id)->first();
+        $WhatsappTemplate = WhatsappTemplate::where('notification_setting_id', $notification->id)->first();
         return view('Admin.settings.Notification.edit', get_defined_vars());
     }
+
+    function EditWhatsAppTemplate($id)
+    {
+        $notification = NotificationSetting::find($id);
+        $WhatsappTemplate = WhatsappTemplate::where('notification_setting_id', $notification->id)->first();
+        return view('Admin.settings.Notification.edit-whatsapp', get_defined_vars());
+    }
+
+
 
     function StoreEmailTemplate(Request $request, $id)
     {
@@ -175,6 +264,18 @@ class SettingController extends Controller
             $is_login = 0;
         }
         EmailTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content, 'is_login' => $is_login, 'subject' => $request->subject]);
+        return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
+    }
+
+    function StoreWhatsAppTemplate(Request $request, $id)
+    {
+
+        if ($request->is_login == 'on') {
+            $is_login = 1;
+        } else {
+            $is_login = 0;
+        }
+        WhatsappTemplate::updateOrCreate(['notification_setting_id' => $id], ['notification_setting_id' => $id, 'content' => $request->content, 'is_login' => $is_login, 'subject' => $request->subject]);
         return redirect()->route('Admin.settings.index')->with('success', __('Settings updated successfully.'));
     }
 
@@ -246,7 +347,7 @@ class SettingController extends Controller
             // Redirect back with an error message if deletion was not allowed
             return redirect()->back()->withSuccess(__('This interest type cannot be deleted as it is set as default.'));
         }
-    
+
         // Redirect to index with success message if deletion was successful
         return redirect()->route('Admin.settings.index')
             ->withSuccess(__('Deleted successfully'));
@@ -256,6 +357,7 @@ class SettingController extends Controller
     {
         $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $EmailSettingService = $this->EmailSettingService->getAll();
+
         return view('Admin.settings.Notifications.index', get_defined_vars());
     }
 
@@ -263,6 +365,7 @@ class SettingController extends Controller
     {
         $NotificationSetting = $this->settingRepo->getNotificationSetting();
         $EmailSettingService = $this->EmailSettingService->getAll();
+        $WhatsAppSettingService = $this->EmailSettingService->getAllWhatsApp();
         return view('Admin.settings.Notifications.edit', get_defined_vars());
     }
 

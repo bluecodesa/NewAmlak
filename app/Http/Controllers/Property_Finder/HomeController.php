@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Redis;
 use App\Http\Traits\Email\MailSendCode;
 use  App\Email\Admin\SendOtpMail;
 use App\Models\City;
+use App\Models\Contract;
 use App\Models\District;
 use App\Models\Feature;
+use App\Models\Installment;
 use App\Models\Owner;
 use App\Models\RealEstateRequest;
 use Illuminate\Support\Facades\Auth;
@@ -187,7 +189,6 @@ class HomeController extends Controller
             });
 
             $allFavorites = $units->merge($properties)->merge($projects);
-
             $user = auth()->user();
 
         //requests
@@ -208,6 +209,13 @@ class HomeController extends Controller
         });
 
         //
+    $contracts=collect();
+    $installmentsPerRenter =collect();
+        if($finder->is_renter == 1){
+            $contracts = Contract::where('renter_id',$finder->UserRenterData->id)->get();
+            $installmentsPerRenter = $finder->UserRenterData->installments;
+
+        }
 
         if($finder->is_owner == 1 ){
             $allItems = collect();
@@ -232,7 +240,6 @@ class HomeController extends Controller
             $allItems = $allItems->merge($Items);
             $city = $finder->UserOwnerData->CityData ?? null;
             $region = $city->RegionData ?? [];
-
 
         }
 
@@ -422,6 +429,33 @@ class HomeController extends Controller
         // Redirect with success message
         return redirect()->route('PropertyFinder.home')->withSuccess(__('Password updated successfully.'));
     }
+
+    public function createPassword(Request $request, $id)
+    {
+        $finder = User::findOrFail($id);
+
+
+        $rules = [
+            'password' => 'required|string|min:8|confirmed',
+        ];
+
+        $messages = [
+            'password.required' => __('The new password field is required.'),
+            'password.min' => __('The new password must be at least 8 characters.'),
+            'password.confirmed' => __('The new password confirmation does not match.'),
+        ];
+
+        $request->validate($rules, $messages);
+
+
+        $finder->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Redirect with success message
+        return redirect()->route('Office.Setting.index')->withSuccess(__('Password updated successfully.'));
+    }
+
 
     // public function updatePassword(Request $request, $id)
     // {
@@ -654,7 +688,7 @@ public function createUnit()
         unset($unit_data['service_id']);
         unset($unit_data['monthly']);
 
-            $unit_data['show_gallery'] = 0;
+            $unit_data['show_in_gallery'] = 0;
             $unit_data['ad_license_status'] ='InValid';
 
 
@@ -799,7 +833,7 @@ public function createUnit()
         unset($unit_data['midterm']);
         unset($unit_data['yearly']);
 
-        $unit_data['show_gallery'] = 0;
+        $unit_data['show_in_gallery'] = 0;
         $unit_data['ad_license_status'] = 'InValid';
 
         if (isset($unit_data['daily_rent'])) {

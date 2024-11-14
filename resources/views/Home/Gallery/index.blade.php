@@ -132,17 +132,32 @@
                                             @endif
                                             <li class="list-inline-item d-flex gap-1">
                                                 <i class="ti ti-color-swatch"></i>رقم رخصة فال:
-                                                {{ $broker->broker_license }}
+                                                {{ $broker->UserData->UserFalData->ad_license_number ?? $office->UserData->UserFalData->ad_license_number }}
                                             </li>
 
                                             <li class="list-inline-item d-flex gap-1">
                                                 @php
-                                                    $createdAt = new DateTime($broker->UserData->created_at);
+                                                    if($user->is_broker){
+                                                        $createdAt = new DateTime($broker->created_at);
 
-                                                    $monthName = $createdAt->format('F');
+                                                        // Get the month name
+                                                        $monthName = $createdAt->format('F');
 
-                                                    $numDay = $createdAt->format('d');
-                                                    $yearName = $createdAt->format('Y');
+                                                        // Get the number of days in the month
+                                                        $numDay = $createdAt->format('d');
+                                                        $yearName = $createdAt->format('Y');
+
+                                                    }elseif($user->is_office){
+                                                        $createdAt = new DateTime($office->created_at);
+
+                                                            // Get the month name
+                                                            $monthName = $createdAt->format('F');
+
+                                                            // Get the number of days in the month
+                                                            $numDay = $createdAt->format('d');
+                                                            $yearName = $createdAt->format('Y');
+
+                                                    }
 
                                                 @endphp
                                                 <i class="ti ti-calendar"></i> عضو منذ {{ $monthName }}
@@ -157,7 +172,7 @@
                                         </a>
                                     @endguest
                                     @auth
-                                        <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}" target="_blank"
+                                        <a href="tel:+{{ $user->key_phone }} {{ $user->phone }}" target="_blank"
                                             style="color: white;" class="btn btn-primary">
                                             <i class="ti ti-phone me-1"></i>تواصل
                                         </a>
@@ -326,7 +341,7 @@
             <!-- Connection Cards -->
 
             @php
-                $user_id = $broker->UserData->id;
+                $user_id = $user->id;
 
                 $falLicense = \App\Models\FalLicenseUser::where('user_id', $user_id)
                     ->whereHas('falData', function ($query) {
@@ -337,6 +352,37 @@
                 $licenseDate = $falLicense ? $falLicense->ad_license_expiry : null;
 
             @endphp
+
+<div class="nav-align-top nav-tabs-shadow mb-4">
+    <ul class="nav nav-tabs nav-fill" role="tablist">
+        <li class="nav-item">
+            <button
+                type="button"
+                class="nav-link active"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs-justified-home"
+                aria-controls="navs-justified-home"
+                aria-selected="true">
+                <i class="tf-icons ti ti-list ti-xs me-1"></i> @lang('List')
+                <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">{{ $allItems->count() }}</span>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                data-bs-target="#navs-justified-gallery" aria-controls="navs-justified-gallery"
+                aria-selected="false">
+                <i class="tf-icons ti ti-map ti-xs me-1"></i> @lang('Interactive Map')
+                <span
+                    class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger ms-1">{{ $allItems->count() }}</span>
+            </button>
+        </li>
+    </ul>
+
+    <!-- Wrapping tab content -->
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+
 
             <div class="row g-4">
                 @foreach ($allItems as $unit)
@@ -454,7 +500,7 @@
                                                             <input type="hidden" name="unit_id"
                                                                 value="{{ $unit->id }}">
                                                             <input type="hidden" name="owner_id"
-                                                                value="{{ $unit->BrokerData->user_id }}">
+                                                                value="{{ $unit->BrokerData->user_id ?? $unit->OfficeData->user_id }}">
 
                                                             <!-- Send type as hidden input -->
                                                             <input type="hidden" name="type"
@@ -466,7 +512,7 @@
                                                 <a class="btn btn-label-secondary btn-icon d-flex align-items-center me-3"
                                                     data-bs-toggle="modal" data-bs-target="#basicModal"
                                                     data-unit-id="{{ $unit->id }}"
-                                                    data-user-id="{{ $unit->BrokerData->user_id }}">
+                                                    data-user-id="{{ $unit->BrokerData->user_id ?? $unit->OfficeData->user_id }}">
                                                     <i class="ti ti-heart ti-sm"></i>
                                                 </a>
                                             @endif
@@ -487,23 +533,30 @@
                                                 isset($unit->isGalleryProject) && $unit->isGalleryProject;
                                             $isGalleryProperty =
                                                 isset($unit->isGalleryProperty) && $unit->isGalleryProperty;
+
+                                                if( $unit->BrokerData){
+                                               $GalleryData= $unit->BrokerData->GalleryData;
+                                                }elseif( $unit->OfficeData){
+                                                $GalleryData= $unit->OfficeData->GalleryData;
+
+                                                }
                                         @endphp
 
                                         @if ($isGalleryUnit)
                                             <a href="{{ route('gallery.showUnitPublic', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $unit->id,
                                             ]) }}"
                                                 class="card-hover-border-default">
                                             @elseif ($isGalleryProject)
                                                 <a href="{{ route('Home.showPublicProject', [
-                                                    'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                    'gallery_name' => optional($GalleryData)->gallery_name,
                                                     'id' => $unit->id,
                                                 ]) }}"
                                                     class="card-hover-border-default">
                                                 @elseif ($isGalleryProperty)
                                                     <a href="{{ route('Home.showPublicProperty', [
-                                                        'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                        'gallery_name' => optional($GalleryData)->gallery_name,
                                                         'id' => $unit->id,
                                                     ]) }}"
                                                         class="card-hover-border-default">
@@ -523,9 +576,18 @@
                                                 <img src="{{ url($unit->PropertyImages->first()->image) }}"
                                                     alt="Avatar Image" class="rounded-square"
                                                     style="width: 100%; height: 100%;" />
+
                                             @else
-                                                <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
+                                                @if ($isGalleryUnit)
+                                                    <img src="{{ url('Offices/Projects/Units/default.svg') }}" alt="Avatar Image"
+                                                        class="rounded-square" style="width: 100%; height: 100%;" />
+                                                @elseif ($isGalleryProject)
+                                                    <img src="{{ url('Offices/Projects/default.svg') }}" alt="Avatar Image"
                                                     class="rounded-square" style="width: 100%; height: 100%;" />
+                                                @elseif ($isGalleryProperty)
+                                                <img src="{{ url('Offices/Projects/Property/default.svg') }}" alt="Avatar Image"
+                                                class="rounded-square" style="width: 100%; height: 100%;" />
+                                                @endif
                                             @endif
                                             <div class="lable bg-label-primary"
                                                 style="position: absolute; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.5); color: white; padding: 5px; border-radius: 5px;">
@@ -550,19 +612,19 @@
 
                                         @if ($isGalleryUnit)
                                             <a href="{{ route('gallery.showUnitPublic', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $unit->id,
                                             ]) }}"
                                                 class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
                                         @elseif ($isGalleryProject)
                                             <a href="{{ route('Home.showPublicProject', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $unit->id,
                                             ]) }}"
                                                 class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
                                         @elseif ($isGalleryProperty)
                                             <a href="{{ route('Home.showPublicProperty', [
-                                                'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                'gallery_name' => optional($GalleryData)->gallery_name,
                                                 'id' => $unit->id,
                                             ]) }}"
                                                 class="card-hover-border-default">{{ $unit->ad_name ?? ($unit->name ?? '') }}</a>
@@ -682,7 +744,7 @@
                                     @auth
                                         <div class="d-flex align-items-center justify-content-center">
                                             @if (Auth::user()->hasPermission('Show-broker-phone') || Auth::user()->hasPermission('Show-broker-phone-admin'))
-                                                <a href="tel:+{{ $broker->key_phone }} {{ $broker->mobile }}"
+                                                <a href="tel:+{{ $user->key_phone }} {{ $user->mobile }}"
                                                     target="_blank" class="btn btn-primary d-flex align-items-center me-3"
                                                     style="color: white;"><i
                                                         class="ti-xs me-1 ti ti-phone me-1"></i>@lang('تواصل')</a>
@@ -694,7 +756,7 @@
                                             @endif
                                             @if (Auth::user()->hasPermission('Send-message-to-broker') ||
                                                     Auth::user()->hasPermission('Send-message-to-broker-admin'))
-                                                <a href="https://web.whatsapp.com/send?phone=tel:+{{ $broker->key_phone }} {{ $broker->mobile }}"
+                                                <a href="https://web.whatsapp.com/send?phone=tel:+{{ $user->key_phone }} {{ $user->phone }}"
                                                     target="_blank" class="btn btn-label-secondary btn-icon"><i
                                                         class="ti ti-message ti-sm"></i></a>
                                             @else
@@ -730,6 +792,15 @@
                     @endif
                 @endforeach
             </div>
+
+
+        </div>
+        <div class="tab-pane fade" id="navs-justified-gallery" role="tabpanel">
+            @include('Home.Gallery._inc_main_gallery.interactive_map')
+        </div>
+    </div>
+</div>
+
 
         </div>
 

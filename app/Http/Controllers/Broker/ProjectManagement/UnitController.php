@@ -244,6 +244,8 @@ class UnitController extends Controller
         $Unit = $this->UnitService->findById($id);
         $brokerId = auth()->user()->UserBrokerData->id;
         $subscription = $this->subscriptionService->findSubscriptionByBrokerId($brokerId);
+        $unitInterests = collect();
+
         if ($subscription) {
             $sectionsIds = auth()->user()
                 ->UserBrokerData->UserSubscription->SubscriptionSectionData->pluck('section_id')

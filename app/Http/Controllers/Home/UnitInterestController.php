@@ -107,6 +107,37 @@ class UnitInterestController extends Controller
         return view('Broker.Gallary.unit-interest', get_defined_vars());
     }
 
+    public function unitInterestOffice(Request $request)
+    {
+
+        $interestsTypes = $this->settingService->getAllInterestTypes();
+        $statusFilter = $request->input('status_filter', 'all');
+        $propFilter = $request->input('prop_filter', 'all');
+        $unitFilter = $request->input('unit_filter', 'all');
+        $projectFilter = $request->input('prj_filter', 'all');
+        $clientFilter = $request->input('client_filter', 'all');
+
+        $userId = auth()->user()->id;
+        // $unitInterests = UnitInterest::with('unit', 'user')
+        //     ->where('user_id', $userId)
+        //     ->get();
+        $unitInterests = UnitInterest::where('user_id', $userId)
+        ->get();
+
+
+        $unitInterests = $this->getFilteredUnitInterests(
+            $userId,
+            $statusFilter,
+            $propFilter,
+            $unitFilter,
+            $projectFilter,
+            $clientFilter
+        );
+
+
+        return view('Office.Gallary.unit-interest', get_defined_vars());
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -128,7 +159,7 @@ class UnitInterestController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $statusId = InterestTypeTranslation::where('name', 'new order')->value('id');
+        $statusId = InterestType::whereTranslation('name', 'New request')->value('id');
         $data = $request->all();
         $requestData = $request->all();
         unset($requestData['finder_id']);
@@ -144,9 +175,6 @@ class UnitInterestController extends Controller
 
         $favorite->save();
 
-
-
-
         $this->notifyUsers($intrestOrder);
 
 
@@ -156,16 +184,9 @@ class UnitInterestController extends Controller
 
     protected function notifyUsers(UnitInterest $intrestOrder)
     {
-        $unitId = $intrestOrder->unit_id;
-        // Find all brokers who have shown interest in this unit
-        $brokers = User::whereHas('unitInterests', function ($query) use ($unitId) {
-            $query->where('unit_id', $unitId);
-        })->where('is_broker', true)->get();
-
-        // Send notification to these brokers
-        foreach ($brokers as $broker) {
-            Notification::send($broker, new NewIntrestOrderNotification($intrestOrder));
-        }
+        $user_id= $intrestOrder->user_id;
+        $user=User::where('id',$user_id)->get();
+        Notification::send($user, new NewIntrestOrderNotification($intrestOrder));
     }
     /**
      * Display the specified resource.
@@ -258,7 +279,7 @@ class UnitInterestController extends Controller
     ]);
 
     $favorite = new FavoriteUnit();
-    
+
     $favorite->owner_id = $data['owner_id'];
     $favorite->finder_id = auth()->user()->id;
     $favorite->status = "1";
@@ -268,10 +289,10 @@ class UnitInterestController extends Controller
             $favorite->unit_id = $data['unit_id'];
             break;
         case 'project':
-            $favorite->project_id = $data['unit_id']; 
+            $favorite->project_id = $data['unit_id'];
             break;
         case 'property':
-            $favorite->property_id = $data['unit_id']; 
+            $favorite->property_id = $data['unit_id'];
             break;
         default:
             return redirect()->back()->with('error', __('Invalid favorite type'));

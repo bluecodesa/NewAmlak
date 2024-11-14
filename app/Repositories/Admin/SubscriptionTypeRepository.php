@@ -43,6 +43,25 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         $data = request();
         $Subscriptiondata = $data->except(['roles', 'sections']);
         $Subscriptiondata['upgrade_rate'] =  $data['upgrade_rate'] / 100;
+        $Subscriptiondata['ads_discount'] =  $data['ads_discount'] / 100;
+        $Subscriptiondata['views_discount'] =  $data['views_discount'] / 100;
+
+        if ($data['new_subscriber'] == '1') {
+            foreach ($data['roles'] as $role) {
+                $existingSubscription = SubscriptionType::where('new_subscriber', '1')
+                    ->whereHas('roles', function ($query) use ($role) {
+                        $query->where('role_id', $role);
+                    })
+                    ->first();
+
+
+                if ($existingSubscription) {
+                    return redirect()->route('Admin.SubscriptionTypes.create')
+                        ->withErrors(__('يوجد اشتراك بالفعل لهذا الدور للمشتركين الجدد. لا يمكن إضافة اشتراك جديد لهذا الدور.'));
+                }
+            }
+        }
+
         $subscriptionType = SubscriptionType::create($Subscriptiondata);
 
         foreach ($data['sections'] as $section) {
@@ -56,6 +75,7 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         return $subscriptionType;
     }
 
+
     public function findById($id)
     {
         return SubscriptionType::find($id);
@@ -67,12 +87,27 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         $data = request();
         $Subscriptiondata = $data->except(['roles', 'sections']);
         $Subscriptiondata['upgrade_rate'] =  $data['upgrade_rate'] / 100;
+        $Subscriptiondata['ads_discount'] =  $data['ads_discount'] / 100;
+        $Subscriptiondata['views_discount'] =  $data['views_discount'] / 100;
+
+        if (isset($data['new_subscriber']) && $data['new_subscriber'] == '1') {
+            foreach ($data['roles'] as $role) {
+                $existingSubscription = SubscriptionType::where('new_subscriber', '1')
+                    ->whereHas('roles', function ($query) use ($role) {
+                        $query->where('role_id', $role);
+                    })
+                    ->first();
+
+                if ($existingSubscription && $existingSubscription->id !== $subscriptionType->id) {
+                    $existingSubscription->update(['new_subscriber' => '0']);
+                }
+            }
+        }
+
         $subscriptionType->update($Subscriptiondata);
 
-        // Sync sections
         $subscriptionType->sections()->sync($data['sections']);
 
-        // Sync roles
         $subscriptionType->roles()->sync($data['roles']);
 
         return $subscriptionType;
@@ -89,6 +124,15 @@ class SubscriptionTypeRepository implements SubscriptionTypeRepositoryInterface
         return SubscriptionType::where('is_deleted', 0)
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'RS-Broker');
+            })
+            ->where('price', '>', 0)
+            ->get();
+    }
+    public function getOfficeSubscriptionTypes()
+    {
+        return SubscriptionType::where('is_deleted', 0)
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'Office-Admin');
             })
             ->where('price', '>', 0)
             ->get();

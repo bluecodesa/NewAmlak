@@ -232,9 +232,22 @@
                                         <a href="https://web.whatsapp.com/send?phone=+{{ $client->key_phone }}{{ $client->whatsapp }}"
                                             class="btn btn-outline-warning btn-sm waves-effect waves-light"
                                             target="_blank">@lang('محادثة(شات)')</a>
-
-
+                                            @if(
+                                                isset($client->interestsData) &&
+                                                isset($client->interestsData->UserRenterData) &&
+                                                isset($client->interestsData->UserRenterData->OfficeRenterData)
+                                            )
+                                          @else
+                                          <form action="{{ route('Office.Renter.addAsRenter', $client->interested_id ) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-primary btn-sm waves-effect waves-light">
+                                                @lang('Add as Renter')
+                                            </button>
+                                        </form>
+                                            @endif
                                     </td>
+
+
                                 </tr>
                             @empty
                                 <td colspan="6">

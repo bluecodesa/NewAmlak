@@ -72,12 +72,49 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        {{-- <div class="col-md-4 mb-3">
                             <label for="upgrade_rate" class="form-label">@lang('Discount applied')</label><br />
                             <div class="wrapper" style="position: relative; ">
                                 <input type="text" name="upgrade_rate" id="upgrade_rate" placeholder="20%"
                                     class="form-control" min="0" max="100" />
                             </div>
+                        </div> --}}
+
+
+                        <div class="col-md-4 col-12 mb-3">
+                            <label for="discountType" class="form-label">@lang('Discount Type')</label>
+                            <select id="discountType" name="discount_type" class="form-select">
+                                <option value="fixed">@lang('Fixed Discount')</option>
+                                <option value="incentive">@lang('Incentive Discount')</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+
+                            <div id="fixedDiscountSection" class="col-md-3 mb-3">
+                                <label for="fixedDiscount" class="form-label">@lang('Discount applied')</label>
+                                <input type="text" name="upgrade_rate" id="fixedDiscount" class="form-control" placeholder="20%" min="0" max="100">
+                            </div>
+
+                            <div id="incentiveDiscountSection" style="display: none;">
+                                <div class="col-md-2 m-1">
+                                    <label for="adsCount" class="form-label">@lang('Number of Ads')</label>
+                                    <input type="text" name="ads_count" id="adsCount" class="form-control" placeholder="Enter number of ads">
+                                </div>
+                                <div class="col-md-3 m-1">
+                                    <label for="adsDiscount" class="form-label">@lang('Discount of Ads (%)')</label>
+                                    <input type="text" name="ads_discount" id="adsDiscount" class="form-control" placeholder="e.g., 3%">
+                                </div>
+                                <div class="col-md-3 m-1">
+                                    <label for="viewsCount" class="form-label">@lang('Number of Views')</label>
+                                    <input type="text" name="views_count" id="viewsCount" class="form-control" placeholder="Enter number of views">
+                                </div>
+                                <div class="col-md-3 m-1">
+                                    <label for="viewsDiscount" class="form-label">@lang('Discount for Views (%)')</label>
+                                    <input type="text" name="views_discount" id="viewsDiscount" class="form-control" placeholder="e.g., 5%">
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="col-md-2 mb-3">
@@ -117,13 +154,13 @@
                             <div class="form-check form-check-primary mt-1">
                                 <input name="new_subscriber" class="form-check-input" type="radio"
                                     value="{{ 1 }}" id="show" checked="">
-                                <label class="form-check-label" for="show">{{ __('Yes') }}</label>
+                                <label class="form-check-label" for="Yes">{{ __('Yes') }}</label>
                             </div>
 
                             <div class="form-check form-check-primary mt-1">
                                 <input name="new_subscriber" class="form-check-input" type="radio"
                                     value="{{ 0 }}" id="hide" checked="">
-                                <label class="form-check-label" for="hide"> {{ __('No') }}</label>
+                                <label class="form-check-label" for="No"> {{ __('No') }}</label>
                             </div>
 
                         </div>
@@ -195,6 +232,28 @@
                     $('.btn-type-subscription').text(tarnslat);
                 });
             });
+        </script>
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const discountTypeSelect = document.getElementById('discountType');
+    const fixedDiscountSection = document.getElementById('fixedDiscountSection');
+    const incentiveDiscountSection = document.getElementById('incentiveDiscountSection');
+
+    // عرض القسم الافتراضي عند تحميل الصفحة
+    fixedDiscountSection.style.display = discountTypeSelect.value === 'fixed' ? 'block' : 'none';
+    incentiveDiscountSection.style.display = discountTypeSelect.value === 'incentive' ? 'block' : 'none';
+
+    discountTypeSelect.addEventListener('change', function() {
+        if (this.value === 'fixed') {
+            fixedDiscountSection.style.display = 'block';
+            incentiveDiscountSection.style.display = 'none';
+        } else if (this.value === 'incentive') {
+            fixedDiscountSection.style.display = 'none';
+            incentiveDiscountSection.style.display = 'block';
+        }
+    });
+});
+
         </script>
     @endpush
 
