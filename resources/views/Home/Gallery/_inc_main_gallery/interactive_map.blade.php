@@ -198,34 +198,43 @@
 
 
 
-
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css" rel="stylesheet" />
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js"></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' rel='stylesheet' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
-<style>
-
-.mapboxgl-popup-close-button {
-    color: red;
-    width: 30px;
-    height: 30px;
-    font-size: 22px;
-    background-color: transparent;
-    border: none;
-
-}
-
-.mapboxgl-popup-close-button:focus,
-.mapboxgl-popup-close-button:hover {
-    color: red;
-    background-color: rgba(0,0,0,0.1);
-    border-radius: 50%;
-}
+{{-- ${decisionButton}
+<div id="decision-inputs-${item.id}" style="display:none;">
+    <div id="work-coordinates-${item.id}" class="form-control m-2"></div>
+    <div id="home-coordinates-${item.id}" class="form-control m-2"></div>
+    <button class="btn btn-info m-2" onclick="calculateDistance(${item.id}, '${item.lat_long}')">احسب المسافة</button>
+    <div id="distance-output-${item.id}"></div>
+</div> --}}
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js"></script>
 
 
-</style>
+
+    <style>
+
+    .mapboxgl-popup-close-button {
+        color: red;
+        width: 30px;
+        height: 30px;
+        font-size: 22px;
+        background-color: transparent;
+        border: none;
+
+    }
+
+    .mapboxgl-popup-close-button:focus,
+    .mapboxgl-popup-close-button:hover {
+        color: red;
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 50%;
+    }
+
+
+    </style>
     <div id="map" style="height: 100vh;"></div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -252,7 +261,21 @@
                 zoom: 5
             });
             map.addControl(new mapboxgl.NavigationControl());
+            var geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            placeholder: 'Search for a place',
+            zoom: 12,
+            flyTo: true,
+            marker: true,
+        });
+        map.addControl(geocoder, 'top-left');
+
+        var directions = new MapboxDirections({
+            accessToken: mapboxgl.accessToken
+        });
+        map.addControl(directions, 'top-left');
         }
+
 
         function addMarkers(filteredItems) {
             filteredItems.forEach(function(item) {
@@ -328,13 +351,7 @@
                             </div>
                         </div>
                     </a>
-                ${decisionButton}
-                <div id="decision-inputs-${item.id}" style="display:none;">
-                    <div id="work-coordinates-${item.id}" class="form-control m-2"></div>
-                    <div id="home-coordinates-${item.id}" class="form-control m-2"></div>
-                    <button class="btn btn-info m-2" onclick="calculateDistance(${item.id}, '${item.lat_long}')">احسب المسافة</button>
-                    <div id="distance-output-${item.id}"></div>
-                </div>
+
             </div>
             `;
         }
@@ -464,8 +481,5 @@
             });
         }
     </script>
-
-
-
 
 
