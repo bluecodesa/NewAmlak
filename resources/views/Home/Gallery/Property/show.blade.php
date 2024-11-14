@@ -1363,7 +1363,7 @@
 
                                                 <div class="mx-auto my-3">
                                                     <a href="{{ route('gallery.showUnitPublic', [
-                                                        'gallery_name' => optional($unit->BrokerData->GalleryData)->gallery_name,
+                                                        'gallery_name' => optional($GalleryData)->gallery_name,
                                                         'id' => $unit->id
                                                     ]) }}" class="card-hover-border-default">
                                                         <div class="image-container" style="position: relative; width: 100%; height: 200px;">
