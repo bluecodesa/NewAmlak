@@ -348,6 +348,7 @@ class GalleryService
         switch ($sortOrder) {
             case 'highest_price':
                 $allItems = $allItems->sortByDesc('price');
+                // dd($allItems);
                 break;
             case 'lowest_price':
                 $allItems = $allItems->sortBy('price');
