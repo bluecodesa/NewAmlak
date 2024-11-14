@@ -26,33 +26,22 @@
                                 @php
                                     $i = 0;
                                 @endphp
-                                @if($property->PropertyImages->isEmpty())
-                                <div class="carousel-item active">
-                                    <img class="d-block w-100" src="{{ asset('Offices/Projects/Property/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
-                                </div>
-                                @else
-                                @foreach ($property->PropertyImages as $media)
-                                <div class="carousel-item @if ($i == 0) active @endif">
-                                    <!-- Image -->
-                                    <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
-                                         src="{{ asset($media->image) }}"
-                                         alt="Slide {{ $i + 1 }}"
-                                         style="height: 350px; object-fit: contain">
-                                        </div>
-                                        @else
-                                            <!-- Video -->
-                                            <video controls class="d-block w-100" controls style="height: 350px; object-fit: contain">
-                                                <source src="{{ asset($media->image) }}" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        @endif
-                                    </div>
-                                    @php
-                                        $i++;
-                                    @endphp
-                                @endforeach
-
-                                @endif
+                               @if($property->PropertyImages->isEmpty() && !$property->video)
+                               <div class="carousel-item active">
+                                   <img class="d-block w-100" src="{{ asset('Offices/Projects/default.svg') }}" alt="Default slide" style="height: 350px; object-fit: contain">
+                               </div>
+                           @else
+                               @foreach ($property->PropertyImages as $media)
+                                   <div class="carousel-item @if ($i == 0) active @endif">
+                                       <!-- Image -->
+                                       <img class="d-block w-100" data-bs-toggle="modal" data-bs-target="#mediaModal"
+                                            src="{{ asset($media->image) }}"
+                                            alt="Slide {{ $i + 1 }}"
+                                            style="height: 350px; object-fit: contain">
+                                   </div>
+                                   @php $i++; @endphp
+                               @endforeach
+                           @endif
                             </div>
                             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
