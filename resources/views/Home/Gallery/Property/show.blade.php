@@ -1342,12 +1342,21 @@
                                 <div class="row g-4">
                                     @foreach ($all5kiloProperties as $unit)
                                 @php
-                                    $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
+                                    if ($unit->BrokerData) {
+                                        $falLicenseUser = $unit->BrokerData->UserData->UserFalData;
+                                        $GalleryData= $unit->BrokerData->GalleryData;
+
+                                    } elseif ($unit->OfficeData) {
+                                        $falLicenseUser = $unit->OfficeData->UserData->UserFalData;
+                                        $GalleryData= $unit->OfficeData->GalleryData;
+
+                                    }
                                 @endphp
                                 @if ($falLicenseUser &&
                                     $falLicenseUser->ad_license_status == 'valid' &&
                                     $falLicenseUser->falData->for_gallery == 1 &&
-                                    $unit->ad_license_status == 'Valid')
+                                    $unit->ad_license_status == 'Valid'
+                                    && $GalleryData)
                                     <div class="col-xl-4 col-lg-6 col-md-6">
                                         <div class="card h-200">
                                             <div class="card-body text-center">
