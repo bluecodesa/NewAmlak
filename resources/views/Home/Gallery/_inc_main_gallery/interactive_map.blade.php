@@ -205,9 +205,26 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js"></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' rel='stylesheet' />
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+<style>
 
+.mapboxgl-popup-close-button {
+    width: 30px;
+    height: 30px;
+    font-size: 22px;
+    background-color: transparent;
+    border: none;
+
+}
+
+.mapboxgl-popup-close-button:focus,
+.mapboxgl-popup-close-button:hover {
+    color: red;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 50%;
+}
+
+</style>
     <div id="map" style="height: 100vh;"></div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mapboxAccessToken = 'pk.eyJ1IjoiYmx1ZWNvZGVrc2EiLCJhIjoiY20yZGRnYjdtMTFzYjJtcjF2bWZzYXI1MyJ9.S9E63v7J_e7I5iCuEiLZSw';
@@ -216,7 +233,6 @@
             let mapInitialized = false;
             let map;
             var items = @json($mapItems);
-
             document.querySelector('button[data-bs-target="#navs-justified-gallery"]').addEventListener('click', function() {
                 if (!mapInitialized) {
                     initializeMap();
@@ -251,28 +267,66 @@
                 }
             });
         }
+        const typeTranslations = {
+            rent: "@lang('rent')",
+            sale: "@lang('sale')",
+            'rent and sale': "@lang('rent and sale')"
+        };
+
+        const rentTypeTranslations = {
+            daily: "@lang('daily')",
+            monthly: "@lang('monthly')",
+            quarterly: "@lang('quarterly')",
+            midterm: "@lang('midterm')",
+            yearly: "@lang('yearly')"
+        };
+        const isAuthenticated = @json(auth()->check());
 
         function generatePopupHtml(item) {
             const showRoute = getShowRoute(item);
-            const rentPriceAndType = item.isGalleryUnit ? `${item.rentPrice} @lang('SAR') / ${item.rent_type_show}` : '';
+            const translatedType = typeTranslations[item.type] || item.type;
+                // تحديد السعر بناءً على نوع الإيجار
+            const rentPrice = getRentPriceByType(item);
+            const translatedRentType = rentTypeTranslations[item.rent_type_show] || item.rent_type_show;
+
+            const rentPriceAndType = item.isGalleryUnit
+                ? `${rentPrice} @lang('SAR') / ${translatedRentType}`
+                : '';
+
             const imageUrl = item.unit_images?.[0]?.image
                         || item.project_images?.[0]?.image
                         || item.property_image
                         || '{{ asset("Offices/Projects/default.svg") }}';
+            let typeLabel = '';
+            if (item.isGalleryUnit) {
+                typeLabel = `<p class='badge bg-label-secondary mt-1'>@lang('Unit')</p>`; // If it's a gallery unit
+            } else if (item.isGalleryProperty) {
+                typeLabel = `<p class='badge bg-label-secondary mt-1'>@lang('property')</p>`; // If it's a gallery property
+            } else if (item.isGalleryProject) {
+                typeLabel = `<p class='badge bg-label-secondary mt-1'>@lang('Project')</p>`; // If it's a gallery project
+            }
+            let decisionButton = '';
+            if (isAuthenticated) {
+                decisionButton = `<button class="btn btn-success mt-2" onclick="toggleDecisionInputs(${item.id})">ساعدني في اتخاذ القرار</button>`;
+            } else {
+                decisionButton = `<button class="btn btn-primary mt-2" onclick="window.location.href='{{ route('login') }}'">ساعدني في الاختيار</button>`;
+            }
+
             return `
-                <div class="w-500">
+                <div class="w-500 d-flex flex-column align-items-center justify-content-center">
                     <a href="${showRoute}" target="_blank" class="card-popup">
                         <div style="display: flex; gap: 1rem;">
                             <img src="${imageUrl}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
-                            <div>
+                            <div class="d-flex flex-column align-items-center text-center">
                                 <h6>${item.name || item.ad_name}</h6>
-                                <p>${item.property_type_data?.name || ''} / ${item.type || ''}</p>
+                                ${typeLabel}
+                                ${!item.isGalleryProject ? `<p>${item.property_type_data?.name || ''} / ${translatedType}</p>` : ''}
                                 ${item.isGalleryUnit ? `<p>${rentPriceAndType}</p>` : ''}
                                 <p>${item.city_data?.name || ''}</p>
                             </div>
                         </div>
                     </a>
-                <button class="btn btn-success mt-2" onclick="toggleDecisionInputs(${item.id})">ساعدني في اتخاذ القرار</button>
+                ${decisionButton}
                 <div id="decision-inputs-${item.id}" style="display:none;">
                     <div id="work-coordinates-${item.id}" class="form-control mt-1"></div>
                     <div id="home-coordinates-${item.id}" class="form-control mt-1"></div>
@@ -282,6 +336,25 @@
             </div>
             `;
         }
+
+        // دالة لتحديد سعر الإيجار بناءً على `rent_type_show`
+function getRentPriceByType(item) {
+    switch (item.rent_type_show) {
+        case 'daily':
+            return item.unit_rent_price?.daily || 0;
+        case 'monthly':
+            return item.unit_rent_price?.monthly || 0;
+        case 'quarterly':
+            return item.unit_rent_price?.quarterly || 0;
+        case 'midterm':
+            return item.unit_rent_price?.midterm || 0;
+        case 'yearly':
+            return item.unit_rent_price?.yearly || 0;
+        default:
+            return null;
+    }
+}
+
 
         function getShowRoute(item) {
             const galleryName = item.broker_data?.gallery_data?.gallery_name || item.office_data?.gallery_data?.gallery_name || '';
